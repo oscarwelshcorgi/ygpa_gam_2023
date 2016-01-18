@@ -12,6 +12,8 @@
 
 	<bean id="gridHtldFeeView" class="egovframework.rte.cmmn.excel.FlexiGridHtldFeeExcelView" />
 
+	<bean id="gridFcltyMaintView" class="egovframework.rte.cmmn.excel.FlexGridFcltyMaintExcelView" />
+
 <!-- 	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
 		<property name="order" value="0" />
 	</bean>

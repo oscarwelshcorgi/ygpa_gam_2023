@@ -93,8 +93,7 @@
 						</isNotEmpty>
 
 						ORDER BY
-							M.WRT_DT DESC NULLS LAST,
-							M.MNTN_RPR_CNST_NM ASC
+							MNTN_FCLTS_CNST_INFO ASC
                 ) S
              ) A
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>

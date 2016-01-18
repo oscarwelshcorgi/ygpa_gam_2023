@@ -397,7 +397,7 @@ public class GamFcltyMaintMngController {
     	if(!isAuthenticated) {
 	        map.put("resultCode", 1);
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-    		return new ModelAndView("gridExcelView", "gridResultMap", map);
+    		return new ModelAndView("gridFcltyMaintView", "gridResultMap", map);
     	}
 
     	// 환경설정
@@ -422,8 +422,7 @@ public class GamFcltyMaintMngController {
 
     	map.put("resultList", fcltyMaintMngList);
     	map.put("header", header);
-
-    	return new ModelAndView("gridExcelView", "gridResultMap", map);
+    	return new ModelAndView("gridFcltyMaintView", "gridResultMap", map);
     }
 
 
