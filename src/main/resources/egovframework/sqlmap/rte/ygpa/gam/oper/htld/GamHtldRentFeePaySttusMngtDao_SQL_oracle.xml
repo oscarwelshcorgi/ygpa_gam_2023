@@ -133,7 +133,7 @@
                                AND A.MNG_CNT = L.MNG_CNT
 							   AND A.QUAY_GROUP_CD='H'
 							   AND L.NHT_ISUE_YN='Y'
-							   AND L.NHT_PRINT_YN  ='Y'
+							   <!--AND L.NHT_PRINT_YN  ='Y'-->
 							   <isNotEmpty property="sPrtAtCode">
 							       AND L.PRT_AT_CODE = #sPrtAtCode#
 							   </isNotEmpty>
