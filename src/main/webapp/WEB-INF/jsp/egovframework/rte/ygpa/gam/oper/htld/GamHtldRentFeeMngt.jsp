@@ -68,8 +68,17 @@ GamHtldRentFeeMngtModule.prototype.loadComplete = function(params) {
         rowHeight: 50,
         groupBy: "rentArea",
         preProcess: function(module,data) {
+        	var sum = {
+        			sumCnt:0,
+        			sumFee:0,
+        			sumVat:0,
+        			sumNticAmt:0,
+        			sumIntrAmt:0
+        		};
         	$.each(data.resultList, function() {
         		module.makeRowData(this);
+        		sum.sumCnt += 1;
+        		sum.sumFee += this.fee;
         	});
         	module.makeDivValues('#summaryTable', data.resultSum);
             return data;
