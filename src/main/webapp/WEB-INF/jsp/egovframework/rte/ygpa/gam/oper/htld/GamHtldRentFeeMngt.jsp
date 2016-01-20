@@ -68,19 +68,12 @@ GamHtldRentFeeMngtModule.prototype.loadComplete = function(params) {
         rowHeight: 50,
         groupBy: "rentArea",
         preProcess: function(module,data) {
-        	var sum = {
-        			sumCnt:0,
-        			sumFee:0,
-        			sumVat:0,
-        			sumNticAmt:0,
-        			sumIntrAmt:0
-        		};
+        	var sum = { sumCnt:0, sumFee:0, sumVat:0, sumNticAmt:0, sumIntrAmt:0 };
         	$.each(data.resultList, function() {
         		module.makeRowData(this);
-        		sum.sumCnt += 1;
-        		sum.sumFee += this.fee;
+        		sum.sumCnt += 1; sum.sumFee += this.fee; sum.sumVat += this.vat; sum.sumIntrAmt += this.intrAmnt; sum.sumNticAmt += this.nticAmt;
         	});
-        	module.makeDivValues('#summaryTable', data.resultSum);
+        	module.makeDivValues('#summaryTable', sum);
             return data;
         }
     });
@@ -637,6 +630,12 @@ var module_instance = new GamHtldRentFeeMngtModule();
                             	<span data-column-id="sumFee" class="ygpaNumber"></span>
                            	</td>
                      	    <th>
+                        		이자 합계
+                        	</th>
+                            <td style="text-align: right;">
+                            	<span data-column-id="sumIntrAmt" class="ygpaNumber"></span>
+                           	</td>
+                     	    <th>
                         		부가세합계
                         	</th>
                             <td style="text-align: right;">
@@ -647,12 +646,6 @@ var module_instance = new GamHtldRentFeeMngtModule();
                         	</th>
                             <td style="text-align: right;">
                             	<span data-column-id="sumNticAmt" class="ygpaNumber"></span>
-                           	</td>
-                     	    <th>
-                        		이자 합계
-                        	</th>
-                            <td style="text-align: right;">
-                            	<span data-column-id="sumIntrAmt" class="ygpaNumber"></span>
                            	</td>
                         </tr>
                     </table>

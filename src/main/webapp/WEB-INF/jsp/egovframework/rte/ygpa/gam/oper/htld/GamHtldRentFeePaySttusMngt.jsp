@@ -61,13 +61,16 @@ GamHtldRentFeePaySttusMngtModule.prototype.loadComplete = function(params) {
         showTableToggleBtn: false,
         height: 'auto',
         preProcess: function(module,data) {
-        	module.makeFormValues('#summaryForm', data);
+        	var sum = {sumCnt:0, sumNhtIsueAmt:0,  sumVat:0, sumPayAmt:0};
         	module.makeDivValues('#htldRentFeePaySttusMngtListSum', data);
         	$.each(data.resultList, function() {
         		this.assessSeNm = (this.assessSe == '1') ? '실적': ((this.assessSe == '2') ? '면적' : '일반');
         		this.nticPdPeriod = this.nticPdFrom+" ~ "+this.nticPdTo;
+        		sum.sumCnt += 1; sum.sumNhtIsueAmt += this.nticAmt; sum.sumVat += this.vat;
+        		if(this.rcivSe=='3') sum.sumPayAmt += this.nticAmt;
         	});
-            return data;
+        	module.makeFormValues('#summaryForm', sum);
+        	return data;
         }
     });
 	

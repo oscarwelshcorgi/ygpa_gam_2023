@@ -686,10 +686,10 @@
         	NTIC_DT=TO_DATE(#dlyBillDt#, 'YYYY-MM-DD'),
         	PAY_TMLMT=TO_DATE(#dlyDueDt#, 'YYYY-MM-DD'),
       		ARRRG_NO=#dlySerNo#,
-      		ARRRG_AMT=TRUNC(TO_NUMBER(#dlyBillAmnt#), -1),
+      		ARRRG_AMT=TRUNC(TO_NUMBER(#dlyBillAmnt#), 0),
       		ARRRG_TARIFF=TO_NUMBER(#arrrgTariff#),
       		ARRRG_PAY_DATES=#applyPayDates#,
-      		NTIC_AMT=TRUNC(FEE+INTR_AMNT+NVL(VAT,0)+NVL(REIM_FEE,0)+TO_NUMBER(#dbillAmnt#), -1),
+      		NTIC_AMT=TRUNC(FEE+INTR_AMNT+NVL(VAT,0)+NVL(REIM_FEE,0)+TO_NUMBER(#dbillAmnt#), 0),
       		<isNotNull property="rcivSe">
       		RCIV_SE=#rcivSe#,
       		</isNotNull>
