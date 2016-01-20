@@ -751,7 +751,7 @@ div.notice {
 						전라남도 광양시 항만대로 465 월드마린센터 1층
 					</div>
 					<div id="senderPostcode">
-						545-030
+						57771
 					</div>
 				</div>
 				<div class="letterMsg">고 지 서  재 중</div>
@@ -850,7 +850,7 @@ div.notice {
 						전라남도 광양시 항만대로 465 월드마린센터 1층
 					</div>
 					<div id="senderPostcode">
-						545-030
+						57771
 					</div>
 				</div>
 				<div class="letterMsg">고 지 서  재 중</div>

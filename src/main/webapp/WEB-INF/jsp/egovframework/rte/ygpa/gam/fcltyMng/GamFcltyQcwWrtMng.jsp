@@ -242,7 +242,6 @@ GamFcltyQcwWrtMngModule.prototype.loadComplete = function(params) {
 
 	if (EMD.userinfo.mngFcltyCd != null && EMD.userinfo.mngFcltyCd != "*") {
 		this.$('#sFcltsJobSe').val(EMD.userinfo.mngFcltyCd);
-		this.$('#sFcltsJobSe').disable();
 	}
 
 	this.getMapInfoList(params);

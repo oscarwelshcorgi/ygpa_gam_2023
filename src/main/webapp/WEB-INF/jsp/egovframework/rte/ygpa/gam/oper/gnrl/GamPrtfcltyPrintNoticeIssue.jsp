@@ -750,7 +750,7 @@ div.notice {
 						전라남도 여수시 봉계4길 10 (여수사업소 1층)
 					</div>
 					<div id="senderPostcode">
-						545-030
+						59631
 					</div>
 				</div>
 				<div class="letterMsg">고 지 서  재 중</div>
@@ -849,7 +849,7 @@ div.notice {
 						전라남도 여수시 봉계4길 10 (여수사업소 1층)
 					</div>
 					<div id="senderPostcode">
-						545-030
+						59631
 					</div>
 				</div>
 				<div class="letterMsg">고 지 서  재 중</div>
