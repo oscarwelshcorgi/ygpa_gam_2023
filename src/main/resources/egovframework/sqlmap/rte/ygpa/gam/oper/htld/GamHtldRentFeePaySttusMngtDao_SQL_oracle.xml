@@ -133,7 +133,7 @@
                                AND A.MNG_CNT = L.MNG_CNT
 							   AND A.QUAY_GROUP_CD='H'
 							   AND L.NHT_ISUE_YN='Y'
-							   <!--AND L.NHT_PRINT_YN  ='Y'-->
+							   <!-- AND L.NHT_PRINT_YN  ='Y' -->
 							   <isNotEmpty property="sPrtAtCode">
 							       AND L.PRT_AT_CODE = #sPrtAtCode#
 							   </isNotEmpty>
@@ -544,8 +544,7 @@
 			          A.ORIGIN_BILL_NO
 			        FROM REV_COLL_F A, LEV_REQEST_F L
 			        WHERE 
-			          A.BILL_PRT_YN='Y'
-			          AND A.PRT_AT_CODE   = L.PRT_AT_CODE
+						A.PRT_AT_CODE = L.PRT_AT_CODE
 			          AND A.FEE_TP        = GAM_GET_FEE_TP(L.CHRGE_KND)
 			          AND A.WORK_CODE = L.CHRGE_KND
 			          AND A.FISCAL_YR     = L.ACCNUT_YEAR
