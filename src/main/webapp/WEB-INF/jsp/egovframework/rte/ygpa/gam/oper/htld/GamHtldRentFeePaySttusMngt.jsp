@@ -67,7 +67,7 @@ GamHtldRentFeePaySttusMngtModule.prototype.loadComplete = function(params) {
         		this.assessSeNm = (this.assessSe == '1') ? '실적': ((this.assessSe == '2') ? '면적' : '일반');
         		this.nticPdPeriod = this.nticPdFrom+" ~ "+this.nticPdTo;
         		sum.sumCnt += 1; sum.sumNhtIsueAmt += this.nticAmt; sum.sumVat += this.vat;
-        		if(this.rcivSe=='3') sum.sumPayAmt += this.nticAmt;
+        		if((this.rcivSe=='2') || (this.rcivSe=='3')) sum.sumPayAmt += this.nticAmt;
         	});
         	module.makeFormValues('#summaryForm', sum);
         	return data;
