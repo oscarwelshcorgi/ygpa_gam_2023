@@ -22,7 +22,7 @@
 							, R.FLAW_RPR_AMT
 							, R.FLAW_RPR_CONTENTS
 							, R.REG_USR
-							, TO_CHAR(R.REGIST_DT,'YYYY-MM-DD') REGIST_DT
+							, TO_CHAR(R.REGIST_DT, 'YYYY-MM-DD HH24:MI') REGIST_DT
 							, R.UPD_USR
 							, TO_CHAR(R.UPDT_DT,'YYYY-MM-DD') UPDT_DT
 							, R.FLAW_RPR_ENTRPS_NM
@@ -78,7 +78,7 @@
 	           			</isNotEmpty>
 
 						ORDER BY
-							R.FLAW_EXAM_DT DESC
+							R.REGIST_DT ASC
                 ) S
              ) A
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>

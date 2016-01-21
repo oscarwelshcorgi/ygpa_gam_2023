@@ -80,7 +80,6 @@ GamFcltyMaintMngModule.prototype.loadComplete = function(params) {
 			module.$('#sumMntnRprCnstAmt').val($.number(data.sumMntnRprCnstAmt));
 			module.$('#sumMntnRprBdgt').val($.number(data.sumMntnRprBdgt));
 			return data;
-
 		}
 	});
 
@@ -158,7 +157,6 @@ GamFcltyMaintMngModule.prototype.loadComplete = function(params) {
 	this.$("#fileGrid").on('onLoadDataComplete', function(event, module, data) {
 		module.selectFileData();
 		module.enableFileButtonItem();
-
 	});
 
 	this.$("#fileGrid").on('onItemSelected', function(event, module, row, grid, param) {
@@ -253,7 +251,6 @@ GamFcltyMaintMngModule.prototype.loadComplete = function(params) {
 	this.getMapInfoList(params);
 
 	console.log('debug');
-
 
 };
 
@@ -1656,7 +1653,8 @@ GamFcltyMaintMngModule.prototype.fillDetailBasicData = function(value) {
 
 		// 검색조건시설물관리그룹
 		case "sSearchFcltsMngGroupNo":
-			this.doExecuteDialog("sSelectFcltsMngGroup", "시설물 관리 그룹 번호 검색", '/popup/showFcltsMngGroup.do', {});
+			this.popupSearchFcltsMngGroup();
+			//this.doExecuteDialog("sSelectFcltsMngGroup", "시설물 관리 그룹 번호 검색", '/popup/showFcltsMngGroup.do', {});
 		break;
 
 		// 검색조건계약번호
@@ -1822,6 +1820,31 @@ GamFcltyMaintMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 	}
 };
 
+GamFcltyMaintMngModule.prototype.popupSearchFcltsMngGroup= function() {
+	var sFcltsJobSe = this.$('#sFcltsJobSe').val();
+	console.log(sFcltsJobSe);
+	switch(sFcltsJobSe){
+	case 'A':
+		this.doExecuteDialog('sSelectFcltsMngGroup', "관리그룹 선택", '/popup/showArchFcltsMngGroup.do', null);
+		break;
+	case 'C':
+		this.doExecuteDialog('sSelectFcltsMngGroup', "관리그룹 선택", '/popup/showCvlFcltsMngGroup.do', null);
+		break;
+	case 'E':
+		this.doExecuteDialog('sSelectFcltsMngGroup', "관리그룹 선택", '/popup/showElectyFcltsMngGroup.do', null);
+		break;
+	case 'I':
+		this.doExecuteDialog('sSelectFcltsMngGroup', "관리그룹 선택", '/popup/showInfoCommFcltsMngGroup.do', null);
+		break;
+	case 'M':
+		this.doExecuteDialog('sSelectFcltsMngGroup', "관리그룹 선택", '/popup/showMachFcltsMngGroup.do', null);
+		break;
+	default :
+		this.doExecuteDialog('sSelectFcltsMngGroup', '관리그룹 선택', '/popup/showFcltsMngGroup.do', {});
+		break;
+	}
+};
+
 // 다음 변수는 고정 적으로 정의 해야 함
 var module_instance = new GamFcltyMaintMngModule();
 
@@ -1859,7 +1882,7 @@ var module_instance = new GamFcltyMaintMngModule();
 									<option value="E">전기시설물</option>
 									<option value="M">기계시설물</option>
 									<option value="C">토목시설물</option>
-									<option value="G">건축시설물</option>
+									<option value="A">건축시설물</option>
 									<option value="I">정보통신시설물</option>
 								</select>
 							</td>

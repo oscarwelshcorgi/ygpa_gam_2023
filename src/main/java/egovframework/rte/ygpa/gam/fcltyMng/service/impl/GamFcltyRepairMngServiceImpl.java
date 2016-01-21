@@ -962,7 +962,7 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 	
 				for(int i=0; i<loopEnd; i++) {
 					String leftFileName = "", rightFileName = "";
-					String leftFileSj = "", rightFileSj = "";
+					String leftFileSj = null, rightFileSj = null;
 					int leftImageId = 0, rightImageId = 0;
 					EgovMap record = (EgovMap) fileList.get(listIndex);
 					leftFileName = (String) record.get("atchFileNmPhysicl");
@@ -996,7 +996,7 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 					sb.append("<CELL BorderFill=\"" + leftBorderFillId + "\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"1948\" Protect=\"false\" RowAddr=\"" + rowAddr + "\" RowSpan=\"1\" Width=\"22512\">\n");
 					sb.append("<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
 					if(leftFileSj != null) {
-						sb.append("<P ParaShape=\"5\" Style=\"0\"><TEXT CharShape=\"2\"><CHAR>" + leftFileSj + "</CHAR></TEXT></P>\n");
+						sb.append("<P ParaShape=\"5\" Style=\"0\"><TEXT CharShape=\"2\"><CHAR> 내 용 : " + leftFileSj + "</CHAR></TEXT></P>\n");
 					} else {
 						sb.append("<P ParaShape=\"5\" Style=\"0\"><TEXT CharShape=\"2\"><CHAR/></TEXT></P>\n");				
 					}
@@ -1005,7 +1005,7 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 					sb.append("<CELL BorderFill=\"" + rightBorderFillId + "\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"1948\" Protect=\"false\" RowAddr=\"" + rowAddr + "\" RowSpan=\"1\" Width=\"22512\">\n");
 					sb.append("<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
 					if(rightFileSj != null) {
-						sb.append("<P ParaShape=\"5\" Style=\"0\"><TEXT CharShape=\"2\"><CHAR>" + rightFileSj + "</CHAR></TEXT></P>\n");
+						sb.append("<P ParaShape=\"5\" Style=\"0\"><TEXT CharShape=\"2\"><CHAR> 내 용 : " + rightFileSj + "</CHAR></TEXT></P>\n");
 					} else {
 						sb.append("<P ParaShape=\"5\" Style=\"0\"><TEXT CharShape=\"2\"><CHAR/></TEXT></P>\n");				
 					}

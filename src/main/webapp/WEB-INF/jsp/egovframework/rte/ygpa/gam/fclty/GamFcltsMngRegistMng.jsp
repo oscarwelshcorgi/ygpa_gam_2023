@@ -177,7 +177,6 @@ GamFcltsMngRegistMngModule.prototype.loadComplete = function() {
 					{display:'점검진단구분',		name:'qcInspSeNm',			width:90,		sortable:false,		align:'center'},
 					{display:'점검진단책임기술자',	name:'responEngineerNm',	width:125,		sortable:false,		align:'left'},
 					{display:'상태등급',			name:'sttusEvlLvlNm',		width:70,		sortable:false,		align:'center'},
-					{display:'점검진단결과',	name:'qcInspResult',		width:250,		sortable:false,		align:'left'},
 					{display:'점검내용',	name:'actionCn',			width:250,		sortable:false,		align:'left'},
 					{display:'작성일',				name:'wrtDt',				width:80,		sortable:false,		align:'center'},
 					{display:'작성자',				name:'wrtUsr',				width:120,		sortable:false,		align:'left'}

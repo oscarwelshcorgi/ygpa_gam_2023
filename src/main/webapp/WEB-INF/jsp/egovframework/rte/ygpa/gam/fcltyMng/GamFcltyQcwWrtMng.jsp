@@ -1772,12 +1772,7 @@ GamFcltyQcwWrtMngModule.prototype.onButtonClick = function(buttonId) {
 			break;
 
 		case 'popupSearchFcltsMngGroup':
-			this.doExecuteDialog(
-									'selectSearchFcltsMngGroup'
-									, '관리그룹 선택'
-									, '/popup/showFcltsMngGroup.do'
-									, {}
-								);
+			this.popupSearchFcltsMngGroup();
 			break;
 
 		case 'btnAllSelect' :
@@ -1956,6 +1951,32 @@ GamFcltyQcwWrtMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 
 };
 
+
+GamFcltyQcwWrtMngModule.prototype.popupSearchFcltsMngGroup= function() {
+	var sFcltsJobSe = this.$('#sFcltsJobSe').val();
+	console.log(sFcltsJobSe);
+	switch(sFcltsJobSe){
+	case 'A':
+		this.doExecuteDialog('selectSearchFcltsMngGroup', "관리그룹 선택", '/popup/showArchFcltsMngGroup.do', null);
+		break;
+	case 'C':
+		this.doExecuteDialog('selectSearchFcltsMngGroup', "관리그룹 선택", '/popup/showCvlFcltsMngGroup.do', null);
+		break;
+	case 'E':
+		this.doExecuteDialog('selectSearchFcltsMngGroup', "관리그룹 선택", '/popup/showElectyFcltsMngGroup.do', null);
+		break;
+	case 'I':
+		this.doExecuteDialog('selectSearchFcltsMngGroup', "관리그룹 선택", '/popup/showInfoCommFcltsMngGroup.do', null);
+		break;
+	case 'M':
+		this.doExecuteDialog('selectSearchFcltsMngGroup', "관리그룹 선택", '/popup/showMachFcltsMngGroup.do', null);
+		break;
+	default :
+		this.doExecuteDialog('selectSearchFcltsMngGroup', '관리그룹 선택', '/popup/showFcltsMngGroup.do', {});
+		break;
+	}
+};
+
 var module_instance = new GamFcltyQcwWrtMngModule();
 
 </script>
@@ -1978,7 +1999,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 				<table style="width:100%;" class="searchPanel">
 					<tbody>
 						<tr>
-							<th>관리그룹</th>
+							<th>시설물관리그룹</th>
 							<td>
 								<input type="text" size="15" id="sFcltsMngGroupNo"/>-
 								<input type="text" size="17" id="sFcltsMngGroupNm" disabled="disabled"/>
@@ -2243,7 +2264,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 											<option value="3">건축기계설비</option>
 										</select>
 										<button id="popupEditQcResultItem">점검결과항목선택</button>
-										<button id="QcItemMng">점검항목관리</button>
+										<!-- <button id="QcItemMng">점검항목관리</button> -->
 									</td>
 								</tr>
 								<tr>
