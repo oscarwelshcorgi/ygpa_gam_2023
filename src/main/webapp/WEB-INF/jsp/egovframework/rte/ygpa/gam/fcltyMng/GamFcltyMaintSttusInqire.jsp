@@ -64,12 +64,11 @@ GamFcltyMaintSttusInqireModule.prototype.loadComplete = function(params) {
 					{display:"시작일자",			name:"mntnRprCnstStartDt",		width:80, 		sortable:false,		align:"center"},
 					{display:"종료일자",			name:"mntnRprCnstEndDt",		width:80, 		sortable:false,		align:"center"},
 					{display:"공사금액", 			name:"mntnRprCnstAmt",			width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
-					{display:"유지보수예산", 		name:"mntnRprBdgt",				width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
-					//{display:"유지보수부위", 		name:"mntnRprPart",				width:250, 		sortable:false,		align:"center"},
-					{display:"시공자", 			name:"cnstrtr",					width:150, 		sortable:false,		align:"center"},
-					{display:"계약명", 			name:"ctrtNm",					width:250, 		sortable:false,		align:"left"},
+					/* {display:"직접공사비", 			name:"mntnRprBdgt",				width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'}, */
+					{display:"유지보수내용", 		name:"mntnRprCn",				width:250, 		sortable:false,		align:"left"},
+					{display:"시공자", 				name:"cnstrtr",					width:150, 		sortable:false,		align:"center"},
+					{display:"계약명", 				name:"ctrtNm",					width:250, 		sortable:false,		align:"left"},
 					{display:"유지보수정보", 		name:"mntnFcltsCnstInfo",		width:200, 		sortable:false,		align:"center"}
-
 
 			],
 		height: "auto",
@@ -151,6 +150,9 @@ GamFcltyMaintSttusInqireModule.prototype.loadComplete = function(params) {
 		}
 	});
 
+	this.$("#fcltyMaintMngList").on('onLoadDataComplete', function(event, module, data) {
+		module.collapseAllGroups();
+	});
 	this.$("#fileGrid").on('onLoadDataComplete', function(event, module, data) {
 		module.selectFileData();
 		module.enableFileButtonItem();
@@ -256,6 +258,18 @@ GamFcltyMaintSttusInqireModule.prototype.loadComplete = function(params) {
 
 
 
+<%
+/**
+ * @FUNCTION NAME : collapseAllGroups
+ * @DESCRIPTION   : COLLAPSE GRID GROUPS
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyMaintSttusInqireModule.prototype.collapseAllGroups = function() {
+
+	this.$("#fcltyMaintMngList")[0].dgrid.collapseAllGroups();
+
+};
 
 /* 파일첨부 관련 function */
 <%

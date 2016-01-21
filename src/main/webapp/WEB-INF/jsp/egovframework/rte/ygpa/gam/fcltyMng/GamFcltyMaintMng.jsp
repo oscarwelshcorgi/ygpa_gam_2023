@@ -65,7 +65,7 @@ GamFcltyMaintMngModule.prototype.loadComplete = function(params) {
 					{display:"시작일자",			name:"mntnRprCnstStartDt",		width:80, 		sortable:false,		align:"center"},
 					{display:"종료일자",			name:"mntnRprCnstEndDt",		width:80, 		sortable:false,		align:"center"},
 					{display:"공사금액", 			name:"mntnRprCnstAmt",			width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
-					{display:"직접공사비", 			name:"mntnRprBdgt",				width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
+					/* {display:"직접공사비", 			name:"mntnRprBdgt",				width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'}, */
 					{display:"유지보수내용", 		name:"mntnRprCn",				width:250, 		sortable:false,		align:"left"},
 					{display:"시공자", 				name:"cnstrtr",					width:150, 		sortable:false,		align:"center"},
 					{display:"계약명", 				name:"ctrtNm",					width:250, 		sortable:false,		align:"left"},
@@ -80,6 +80,7 @@ GamFcltyMaintMngModule.prototype.loadComplete = function(params) {
 			module.$('#sumMntnRprCnstAmt').val($.number(data.sumMntnRprCnstAmt));
 			module.$('#sumMntnRprBdgt').val($.number(data.sumMntnRprBdgt));
 			return data;
+
 		}
 	});
 
@@ -151,10 +152,13 @@ GamFcltyMaintMngModule.prototype.loadComplete = function(params) {
 			return data;
 		}
 	});
-
+	this.$("#fcltyMaintMngList").on('onLoadDataComplete', function(event, module, data) {
+		module.collapseAllGroups();
+	});
 	this.$("#fileGrid").on('onLoadDataComplete', function(event, module, data) {
 		module.selectFileData();
 		module.enableFileButtonItem();
+
 	});
 
 	this.$("#fileGrid").on('onItemSelected', function(event, module, row, grid, param) {
@@ -250,12 +254,21 @@ GamFcltyMaintMngModule.prototype.loadComplete = function(params) {
 
 	console.log('debug');
 
+
 };
 
+<%
+/**
+ * @FUNCTION NAME : collapseAllGroups
+ * @DESCRIPTION   : COLLAPSE GRID GROUPS
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyMaintMngModule.prototype.collapseAllGroups = function() {
 
+	this.$("#fcltyMaintMngList")[0].dgrid.collapseAllGroups();
 
-
-
+};
 
 /* 파일첨부 관련 function */
 <%

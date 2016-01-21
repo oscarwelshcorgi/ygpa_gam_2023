@@ -1987,9 +1987,9 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 								<select id="sQcSe" class="searchEditItem">
                                     <option value="">선택</option>
                                     <option value="1">해빙기대비</option>
-                                    <option value="2">풍수해대비</option>
+                                    <option value="2">우기(풍수해)대비</option>
                                     <option value="3">동절기대비</option>
-                                    <option value="4">우기대비</option>
+                                    <!-- <option value="4">우기대비</option> -->
                                 </select>
                                 <input id="sQcSeNm" type="hidden" />
 							</td>

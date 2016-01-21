@@ -1664,7 +1664,7 @@ GamFcltyQcwWrtMngModule.prototype.downloadSelectedResultList = function() {
 		alert('다운로드할 항목을 선택 하십시요');
 		return;
 	}
-	
+
 	var fcltsJobSe = downList[0].fcltsJobSe;
 	var i = 0;
 	for(i=0; i<=downList.length-1; i++) {
@@ -1673,7 +1673,7 @@ GamFcltyQcwWrtMngModule.prototype.downloadSelectedResultList = function() {
 			return;
 		}
 	}
-	
+
 	if(fcltsJobSe == 'M') {
 		var mechFcltsSe = dataList[0].mechFcltsSe;
 		for(i=0; i<=downList.length-1; i++) {
@@ -1681,15 +1681,15 @@ GamFcltyQcwWrtMngModule.prototype.downloadSelectedResultList = function() {
 				alert('기계시설의 구분(하역장비, 건설설비)이 다릅니다.');
 				return;
 			}
-		}		
+		}
 	}
-	
+
 	var url = '/fcltyMng/downloadSelectedResultList.do';
 	var param = {};
 	param['downList'] = JSON.stringify(downList);
 	param['filename'] = '시설물점검표리스트.hwp';
 
-	$.fileDownload(EMD.context_root+url, {data:param, httpMethod:"POST"});	
+	$.fileDownload(EMD.context_root+url, {data:param, httpMethod:"POST"});
 };
 
 <%
@@ -2031,9 +2031,9 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 								<select id="sQcSe" class="searchEditItem">
                                     <option value="">선택</option>
                                     <option value="1">해빙기대비</option>
-                                    <option value="2">풍수해대비</option>
+                                    <option value="2">우기(풍수해)대비</option>
                                     <option value="3">동절기대비</option>
-                                    <option value="4">우기대비</option>
+                                    <!-- <option value="4">우기대비</option> -->
                                 </select>
                                 <input id="sQcSeNm" type="hidden" />
 							</td>
