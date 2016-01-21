@@ -840,9 +840,14 @@ public class GamHtldRentFeeMngtController {
      	   GamHtldRentFeeMngtVO gamHtldRentFeeMngtVO,
      	  ModelMap model)
             throws Exception {
-
-		Map master = gamHtldRentFeeMngtService.selectAssetLevReqestNticPk(gamHtldRentFeeMngtVO);
-
+    	
+    	Map master = gamHtldRentFeeMngtService.selectAssetLevReqestNticPk(gamHtldRentFeeMngtVO);
+    	master.put("fee", gamHtldRentFeeMngtVO.getFee());
+    	master.put("intrAmnt", gamHtldRentFeeMngtVO.getIntrAmnt());
+    	master.put("vat", gamHtldRentFeeMngtVO.getVat());
+    	master.put("nticAmt", gamHtldRentFeeMngtVO.getNticAmt());
+    	master.put("intrAmt", gamHtldRentFeeMngtVO.getIntrRate());
+    	
 		model.addAttribute("levReqestMaster", master);
 
     	return "/ygpa/gam/oper/htld/GamPopupHtldRentFeeNticIssue";
