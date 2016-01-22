@@ -168,6 +168,18 @@ GamFcltyRepairMngModule.prototype.loadComplete = function(params) {
 		module.$("#fcltyRepairMngListTab").tabs("option", {active: 1});
 	});
 
+	//메인그리드에서 선택 해더를 누를 때 발생하는 이벤트 처리 2016.01.22 김종민 추가
+	this.$('#fcltyRepairMngList')[0].dgrid.attachEvent('onHeaderClick', function(index, object) {
+		var module = this.p.module;
+		if(index == 0) {
+			if(module._allMainListSelected == void(0)) {
+				module._allMainListSelected = false;
+			}
+			module._allMainListSelected = (module._allMainListSelected) ? false : true;
+			module.setSelectStatusAllMainList(module._allMainListSelected);
+		}
+	});
+ 	
  	this.$("#flawRprObjFcltsF").on('onItemSelected', function(event, module, row, grid, param) {
  		module.applyObjDataChanged();
 	});
@@ -286,6 +298,27 @@ GamFcltyRepairMngModule.prototype.getMapInfoList = function(params){
 
 };
 
+<%
+/**
+ * @FUNCTION NAME : setSelectStatusAllMainList
+ * @DESCRIPTION   : ALL MAIN LIST SELECT STATUS 설정
+ * @PARAMETER     :
+ *   1. argStatusFlag - SELECT STATUS FLAG
+**/
+%>
+GamFcltyRepairMngModule.prototype.setSelectStatusAllMainList = function(argStatusFlag) {
+	var rows = this.$('#fcltyRepairMngList').flexGetData();
+	var atchFileDataCount = rows.length;
+	if (atchFileDataCount > 0) {
+		for (var i=0; i<atchFileDataCount; i++) {
+			var row = rows[i];
+			row["chkRole"] = argStatusFlag;
+			var rowid = this.$('#fcltyRepairMngList')[0].dgrid.getRowId(i);
+			this.$('#fcltyRepairMngList').flexUpdateRow(rowid, row);
+		}
+	}
+
+};
 
 <%
 /**

@@ -187,6 +187,20 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 	public void deleteFcltyRepairMngList(GamFcltyRepairMngVO deleteFileVO) throws Exception{
 		//gamFcltyRepairMngDao.deleteFcltyRepairFile(deleteFileVO);
 	}
+
+	/**
+	 * 선택된 하자보수내역 삭제
+	 * @param map
+	 * @return 
+	 * @throws Exception
+	 */
+	public void deleteSelectedFcltyRepairMng(List<Map<String,String>> deleteList) throws Exception{
+		for(int i=0; i<deleteList.size(); i++) {
+			Map<?, ?> deleteItem = deleteList.get(i);
+			deleteFcltyRepairMng(deleteItem);
+		}
+	}
+	
 	/**
 	 * 하자보수내역 삭제
 	 * @param map

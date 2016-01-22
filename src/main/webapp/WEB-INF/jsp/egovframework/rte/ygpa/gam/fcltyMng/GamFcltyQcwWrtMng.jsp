@@ -92,6 +92,18 @@ GamFcltyQcwWrtMngModule.prototype.loadComplete = function(params) {
 		module.setControlStatus();
 	});
 
+	//메인그리드에서 선택 해더를 누를 때 발생하는 이벤트 처리 2016.01.22 김종민 추가
+	this.$('#mainGrid')[0].dgrid.attachEvent('onHeaderClick', function(index, object) {
+		var module = this.p.module;
+		if(index == 0) {
+			if(module._allMainListSelected == void(0)) {
+				module._allMainListSelected = false;
+			}
+			module._allMainListSelected = (module._allMainListSelected) ? false : true;
+			module.setSelectStatusAllMainList(module._allMainListSelected);
+		}
+	});
+	
 	this.$('#mainGrid').on('onItemDoubleClick', function(event, module, row, grid, param) {
 		module._mainmode = 'modify';
 		module._mainFcltsMngGroupNo = row.fcltsMngGroupNo;
@@ -269,6 +281,29 @@ GamFcltyQcwWrtMngModule.prototype.getMapInfoList = function(params){
 					this.loadData();
 				break;
 			}
+		}
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : setSelectStatusAllMainList
+ * @DESCRIPTION   : ALL MAIN LIST SELECT STATUS 설정
+ * @PARAMETER     :
+ *   1. argStatusFlag - SELECT STATUS FLAG
+**/
+%>
+GamFcltyQcwWrtMngModule.prototype.setSelectStatusAllMainList = function(argStatusFlag) {
+
+	var rows = this.$('#mainGrid').flexGetData();
+	var atchFileDataCount = rows.length;
+	if (atchFileDataCount > 0) {
+		for (var i=0; i<atchFileDataCount; i++) {
+			var row = rows[i];
+			row["chkRole"] = argStatusFlag;
+			var rowid = this.$('#mainGrid')[0].dgrid.getRowId(i);
+			this.$('#mainGrid').flexUpdateRow(rowid, row);
 		}
 	}
 
@@ -668,7 +703,8 @@ GamFcltyQcwWrtMngModule.prototype.setControlStatus = function() {
 		this.$('#popupDetailFcltsMngGroup').removeClass('ui-state-disabled');
 		this.$('#btnAdd').disable({disableClass:'ui-state-disabled'});
 		this.$('#btnDetailAdd').disable({disableClass:'ui-state-disabled'});
-		this.$('#btnDelete').disable({disableClass:'ui-state-disabled'});
+		//this.$('#btnDelete').disable({disableClass:'ui-state-disabled'});
+		this.$('#btnDelete').enable();
 		this.$('#btnDetailDelete').disable({disableClass:'ui-state-disabled'});
 		this.$('#btnSave').enable();
 		this.$('#btnSave').removeClass('ui-state-disabled');
@@ -696,7 +732,7 @@ GamFcltyQcwWrtMngModule.prototype.setControlStatus = function() {
 		this.$('#btnDetailAdd').enable();
 		this.$('#btnDetailAdd').removeClass('ui-state-disabled');
 		this.$('#btnDelete').enable();
-		this.$('#btnDelete').removeClass('ui-state-disabled');
+		//this.$('#btnDelete').removeClass('ui-state-disabled');
 		this.$('#btnDetailDelete').enable();
 		this.$('#btnDetailDelete').removeClass('ui-state-disabled');
 		this.$('#btnSave').enable();
@@ -727,7 +763,8 @@ GamFcltyQcwWrtMngModule.prototype.setControlStatus = function() {
 		this.$('#btnAdd').removeClass('ui-state-disabled');
 		this.$('#btnDetailAdd').enable();
 		this.$('#btnDetailAdd').removeClass('ui-state-disabled');
-		this.$('#btnDelete').disable({disableClass:'ui-state-disabled'});
+		//this.$('#btnDelete').disable({disableClass:'ui-state-disabled'});
+		this.$('#btnDelete').enable();
 		this.$('#btnDetailDelete').disable({disableClass:'ui-state-disabled'});
 		this.$('#btnSave').disable({disableClass:'ui-state-disabled'});
 		this.$('#btnPrint').disable({disableClass:'ui-state-disabled'});
@@ -745,7 +782,8 @@ GamFcltyQcwWrtMngModule.prototype.setControlStatus = function() {
 		this.$('#popupDetailFcltsMngGroup').disable({disableClass:'ui-state-disabled'});
 		this.$('#btnAdd').disable({disableClass:'ui-state-disabled'});
 		this.$('#btnDetailAdd').disable({disableClass:'ui-state-disabled'});
-		this.$('#btnDelete').disable({disableClass:'ui-state-disabled'});
+		//this.$('#btnDelete').disable({disableClass:'ui-state-disabled'});
+		this.$('#btnDelete').enable();
 		this.$('#btnDetailDelete').disable({disableClass:'ui-state-disabled'});
 		this.$('#btnSave').disable({disableClass:'ui-state-disabled'});
 		this.$('#btnPrint').disable({disableClass:'ui-state-disabled'});
@@ -1002,14 +1040,47 @@ GamFcltyQcwWrtMngModule.prototype.saveData = function() {
 	}
 };
 
+
 <%
 /**
  * @FUNCTION NAME : deleteData
- * @DESCRIPTION   : 점검 데이터 삭제
+ * @DESCRIPTION   : 선택된 점검 데이터 삭제
  * @PARAMETER     : NONE
 **/
 %>
 GamFcltyQcwWrtMngModule.prototype.deleteData = function() {
+	var filter = [{ 'col': 'chkRole', 'filter': true}];
+	var deleteList = this.$("#mainGrid").selectFilterData(filter);
+
+	if (deleteList.length <= 0) {
+		alert('삭제할 항목을 선택 하십시요');
+		return;
+	}
+	
+	if(confirm('삭제하시겠습니까?')) {
+		var param = {};
+		param['deleteList'] = JSON.stringify(deleteList);
+	 	this.doAction('/fcltyMng/deleteSelectedQcMngDtls.do', param, function(module, result) {
+	 		if(result.resultCode == '0') {
+	 			module._mainmode = "query";
+	 			module._mainFcltsMngGroupNo = "";
+	 			module._mainFcltsJobSe = "";
+	 			module._mainQcMngSeq = "";
+	 			module.loadData();
+	 		}
+	 		alert(result.resultMsg);
+	 	});
+	}
+};
+
+<%
+/**
+ * @FUNCTION NAME : deleteDetailData
+ * @DESCRIPTION   : 점검 데이터 삭제
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyQcwWrtMngModule.prototype.deleteDetailData = function() {
 	var rows = this.$('#mainGrid').selectedRows();
 	if(rows.length==0) {
 		alert('선택된 항목이 없습니다.');
@@ -1734,8 +1805,10 @@ GamFcltyQcwWrtMngModule.prototype.onButtonClick = function(buttonId) {
 			break;
 
 		case 'btnDelete' :
-		case 'btnDetailDelete' :
 			this.deleteData();
+			break;
+		case 'btnDetailDelete' :
+			this.deleteDetailData();
 			break;
 
 		case 'btnSave' :

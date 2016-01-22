@@ -104,6 +104,14 @@ public interface GamFcltyRepairMngService {
 	
 	
 	/**
+	 * 선택된 하자보수내역 삭제
+	 * @param map
+	 * @return 
+	 * @throws Exception
+	 */
+	void deleteSelectedFcltyRepairMng(List<Map<String, String>> vo) throws Exception;
+
+	/**
 	 * 하자보수내역 삭제
 	 * @param map
 	 * @return 
