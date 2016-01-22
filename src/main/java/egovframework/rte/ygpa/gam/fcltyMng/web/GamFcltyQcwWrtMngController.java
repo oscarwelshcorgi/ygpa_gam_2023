@@ -369,6 +369,41 @@ public class GamFcltyQcwWrtMngController {
 	 * @throws Exception
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/fcltyMng/deleteSelectedQcMngDtls.do")
+    @ResponseBody Map<String, Object> deleteSelectedQcMngDtls(@RequestParam Map<String, Object> deleteOpt) throws Exception {
+    	Map map = new HashMap();
+		ObjectMapper mapper = new ObjectMapper();
+		List<HashMap<String,String>> deleteList = null;
+		   	
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+		deleteList = mapper.readValue((String)deleteOpt.get("deleteList"),
+    		    new TypeReference<List<HashMap<String,String>>>(){});
+    	
+    	try {
+    		gamFcltyQcwWrtMngService.deleteSelectedQcMngDtls(deleteList);
+
+    		map.put("resultCode", 0);			// return ok
+            map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
+		} catch (Exception e) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
+		}
+      	return map;
+	}
+
+	/**
+	 * 점검관리내역 삭제
+	 * @param searchVO
+	 * @return map
+	 * @throws Exception
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fcltyMng/deleteQcMngDtls.do")
     @ResponseBody Map<String, Object> deleteQcMngDtls(@RequestParam Map deleteMap) throws Exception {
     	Map map = new HashMap();

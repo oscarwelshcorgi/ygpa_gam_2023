@@ -68,6 +68,14 @@ public interface GamFcltyQcwWrtMngService {
 	void updateQcMngDtls(Map<String, String> detailForm, List<HashMap<String, String>> qcObjList,  List<HashMap<String, String>> qcResultList) throws Exception;
 
 	/**
+	 * 선택된 점검관리내역 데이터 삭제
+	 * @param vo
+	 * @return
+	 * @throws Exception
+	 */
+	void deleteSelectedQcMngDtls(List<HashMap<String,String>> deleteList) throws Exception;
+	
+	/**
 	 * 점검관리내역 데이터 삭제
 	 * @param vo
 	 * @return

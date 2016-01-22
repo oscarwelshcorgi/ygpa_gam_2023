@@ -132,6 +132,19 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 	}
 
 	/**
+	 * 선택된 점검관리내역 데이터 삭제
+	 * @param vo
+	 * @return
+	 * @throws Exception
+	 */
+	public void deleteSelectedQcMngDtls(List<HashMap<String,String>> deleteList) throws Exception {
+		for(int i=0; i<deleteList.size(); i++) {
+			Map<?, ?> deleteItem = deleteList.get(i);
+			deleteQcMngDtls(deleteItem);
+		}
+	}
+	
+	/**
 	 * 점검관리내역 데이터 삭제
 	 * @param vo
 	 * @return
