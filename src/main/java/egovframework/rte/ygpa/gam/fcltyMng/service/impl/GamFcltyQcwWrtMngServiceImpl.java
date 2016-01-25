@@ -565,7 +565,7 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 	
 				for(int i=0; i<loopEnd; i++) {
 					String leftFileName = "", rightFileName = "";
-					String leftFileSj = "", rightFileSj = "";
+					String leftFileSj = null, rightFileSj = null;
 					int leftImageId = 0, rightImageId = 0;
 					EgovMap record = (EgovMap) fileList.get(listIndex);
 					leftFileName = (String) record.get("atchFileNmPhysicl");

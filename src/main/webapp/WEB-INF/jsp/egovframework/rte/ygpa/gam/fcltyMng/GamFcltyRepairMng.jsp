@@ -1698,9 +1698,9 @@ GamFcltyRepairMngModule.prototype.onClosePopup = function(popupId, msg, value){
 		break;
 
 		case 'popupFcltsAtchFileView':
+/*******************************************************************************
 			if (msg == 'ok') {
 				this.loadDetail();
-/*******************************************************************************
 				var atchFileNo = this.$('#atchFileNo').val();
 				if (atchFileNo == value.atchFileNo) {
 					this.$('#atchFileSe').val(value.atchFileSe);
@@ -1718,8 +1718,8 @@ GamFcltyRepairMngModule.prototype.onClosePopup = function(popupId, msg, value){
 						this.$('#fcltyRepairFileList').flexUpdateRow(rowid, row);
 					}
 				}
-*******************************************************************************/
 			}
+*******************************************************************************/
 			break;
 
 		default:

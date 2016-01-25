@@ -2161,8 +2161,8 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 									<button id="btnAdd" class="buttonAdd">　　추　가　　</button>
 									<button id="btnDelete" class="buttonDelete">　　삭　제　　</button>
 	                                <button id="btnExcelDownload" class="buttonExcel">엑셀　다운로드</button>
+									<button id="btnSelectedResultListHwp" >선택 점검표 다운로드</button>
 									<button id="btnSelectedSafetyQcResultHwp" >선택 안전점검결과 다운로드</button>
-									<button id="btnSelectedResultListHwp" >선택 시설물점검표 다운로드</button>
 								</td>
 							</tr>
 						</table>
