@@ -35,7 +35,7 @@
 %>
 function GamFcltsMngRegistMngModule() {}
 
-GamFcltsMngRegistMngModule.prototype = new EmdModule(1000, 600);
+GamFcltsMngRegistMngModule.prototype = new EmdModule(1000, 705);
 
 GamFcltsMngRegistMngModule.prototype.loadComplete = function() {
 
@@ -182,7 +182,7 @@ GamFcltsMngRegistMngModule.prototype.loadComplete = function() {
 					{display:'작성자',				name:'wrtUsr',				width:120,		sortable:false,		align:'left'}
 					],
 		showTableToggleBtn : false,
-		height : '420'
+		height : '520'
 	});
 
 <%---
@@ -218,7 +218,7 @@ GamFcltsMngRegistMngModule.prototype.loadComplete = function() {
 					{display:'작성자',			name:'wrtUsr',					width:90,		sortable:false,		align:'center'}
 					],
 		showTableToggleBtn : false,
-		height : '420'
+		height : '520'
 	});
 
 	this._mainmode = '';

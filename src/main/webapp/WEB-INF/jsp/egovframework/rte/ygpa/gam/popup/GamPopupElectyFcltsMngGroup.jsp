@@ -25,7 +25,7 @@
  */
 function GamPopupFcltsMngGroupModule() {}
 
-GamPopupFcltsMngGroupModule.prototype = new EmdPopupModule(600, 480);
+GamPopupFcltsMngGroupModule.prototype = new EmdPopupModule(600, 450);
 
 // 팝업이 호출 되었을때 호출 되는 함수
 GamPopupFcltsMngGroupModule.prototype.loadComplete = function() {
