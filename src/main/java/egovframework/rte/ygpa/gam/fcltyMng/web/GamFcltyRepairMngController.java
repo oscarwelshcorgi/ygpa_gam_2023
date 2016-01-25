@@ -486,6 +486,45 @@ public class GamFcltyRepairMngController {
 
 
 	/**
+	 * 선택된 하자보수내역 삭제
+	 * @param Map
+	 * @return map
+	 * @throws Exception
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/fcltyMng/deleteSelectedFcltyRepairMng.do")
+    public @ResponseBody Map deleteSelectedFcltyRepairMng(@RequestParam Map deleteOpt) throws Exception {
+    	Map map = new HashMap();
+		ObjectMapper mapper = new ObjectMapper();
+		List<HashMap<String,String>> deleteList = null;
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+		deleteList = mapper.readValue((String)deleteOpt.get("deleteList"),
+    		    new TypeReference<List<HashMap<String,String>>>(){});
+
+    	try {
+
+    		// 하자보수내역 삭제
+    		gamFcltyRepairMngService.deleteSelectedFcltyRepairMng(deleteList);
+
+    		map.put("resultCode", 0);
+            map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
+
+		} catch (Exception e) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
+		}
+
+      	return map;
+    }
+	
+	/**
 	 * 하자보수내역 삭제
 	 * @param Map
 	 * @return map
@@ -493,8 +532,7 @@ public class GamFcltyRepairMngController {
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fcltyMng/deleteFcltyRepairMng.do")
-    public @ResponseBody Map deleteFcltyRepairMng(@RequestParam Map fcltyRepairItem) throws Exception {
-
+    public @ResponseBody Map deleteFcltyRepairMng(@RequestParam Map<String, Object> deleteOpt) throws Exception {
     	Map map = new HashMap();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -504,11 +542,10 @@ public class GamFcltyRepairMngController {
         	return map;
     	}
 
-
     	try {
 
     		// 하자보수내역 삭제
-    		gamFcltyRepairMngService.deleteFcltyRepairMng(fcltyRepairItem);
+    		gamFcltyRepairMngService.deleteFcltyRepairMng(deleteOpt);
 
     		map.put("resultCode", 0);
             map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));

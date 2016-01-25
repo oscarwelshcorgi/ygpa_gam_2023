@@ -194,7 +194,7 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 	 * @return 
 	 * @throws Exception
 	 */
-	public void deleteSelectedFcltyRepairMng(List<Map<String,String>> deleteList) throws Exception{
+	public void deleteSelectedFcltyRepairMng(List<HashMap<String,String>> deleteList) throws Exception{
 		for(int i=0; i<deleteList.size(); i++) {
 			Map<?, ?> deleteItem = deleteList.get(i);
 			deleteFcltyRepairMng(deleteItem);
@@ -208,9 +208,9 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 	 * @throws Exception
 	 */
 	public void deleteFcltyRepairMng(Map<?,?> vo) throws Exception{
-		gamFcltyRepairMngDao.deleteFcltyRepairMng(vo);
-		gamFcltyRepairMngDao.deleteFlawRprObjFcltsF(vo);
 		gamFcltyRepairMngDao.deleteFcltyRepairFile(vo);
+		gamFcltyRepairMngDao.deleteFlawRprObjFcltsF(vo);
+		gamFcltyRepairMngDao.deleteFcltyRepairMng(vo);
 	}
 
 	

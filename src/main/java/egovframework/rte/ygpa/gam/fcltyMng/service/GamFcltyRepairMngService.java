@@ -109,7 +109,7 @@ public interface GamFcltyRepairMngService {
 	 * @return 
 	 * @throws Exception
 	 */
-	void deleteSelectedFcltyRepairMng(List<Map<String, String>> vo) throws Exception;
+	void deleteSelectedFcltyRepairMng(List<HashMap<String, String>> deleteList) throws Exception;
 
 	/**
 	 * 하자보수내역 삭제

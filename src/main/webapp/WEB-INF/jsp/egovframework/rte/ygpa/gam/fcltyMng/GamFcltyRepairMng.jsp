@@ -51,7 +51,7 @@ GamFcltyRepairMngModule.prototype.loadComplete = function(params) {
 	this._deleteDataRepairList=[];
 	this._deleteDataFileList=[];
 
-	//console.log('GamFcltyRepairMngModule');
+	console.log('GamFcltyRepairMngModule');
 
 	this.$("#fcltyRepairMngList").flexigrid({
 		module: this,
@@ -759,7 +759,7 @@ GamFcltyRepairMngModule.prototype.imgPreview = function(){
 			var imgURL = this.getUrl("/fcltyMng/fdown/getRepairAttachFile.do?physicalFileNm=")+selImg;
 			this.$("#previewImage").attr("src", imgURL);
 
-			this.$("#previewImage").bind('load', {module: this}, function(event){
+			this.$("#previewImage").bind('load', {module: this}, function(event) {
 				event.data.module.$('#previewDialog').dialog({
 					modal: true,
 					maxWidth: 800,
@@ -768,7 +768,7 @@ GamFcltyRepairMngModule.prototype.imgPreview = function(){
 					draggable: true,
 					width: 'auto',
 					title: '이미지미리보기',
-					buttons:[{text:"close", click: function() { $(this).dialog('close'); }}]
+					buttons: [ { text:"close", click: function() { $(this).dialog('close'); } } ]
 				});
 			});
 
@@ -809,10 +809,8 @@ GamFcltyRepairMngModule.prototype.addData = function() {
 	// tabs3 초기화
 	this.$("#flawRprObjFcltsF").flexEmptyData();
 
-	this.$("#fcltyRepairMngListTab").tabs("option", {active: 1});
-
+	this.$("#fcltyRepairMngListTab").tabs("option", {active : 1});
 };
-
 
 <%
 /**
@@ -822,6 +820,40 @@ GamFcltyRepairMngModule.prototype.addData = function() {
 **/
 %>
 GamFcltyRepairMngModule.prototype.deleteData = function() {
+	var filter = [ { 'col' : 'chkRole', 'filter' : true } ];
+	var deleteList = this.$("#fcltyRepairMngList").selectFilterData(filter);
+
+	if (deleteList.length <= 0) {
+		alert('삭제할 항목을 선택 하십시요');
+		return;
+	}
+
+	if(confirm("삭제하시겠습니까?")){
+		var param = {};
+		param['deleteList'] = JSON.stringify(deleteList);
+	 	this.doAction('/fcltyMng/deleteSelectedFcltyRepairMng.do', param, function(module, result) {
+	 		if(result.resultCode == "0"){
+	 			module._mainmode = "query";
+	 			module._mainFcltsMngGroupNo = "";
+	 			module._mainFcltsJobSe = "";
+	 			module._mainFlawRprSeq = "";
+	 			module.loadData();
+	 		}
+	 		alert(result.resultMsg);
+	 	});
+	};
+
+};
+
+
+<%
+/**
+ * @FUNCTION NAME : deleteDetailData
+ * @DESCRIPTION   : 선택 DATA 삭제
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyRepairMngModule.prototype.deleteDetailData = function() {
 
 	var row = this.$('#fcltyRepairMngList').selectedRows();
 	if(row.length==0) {
@@ -1479,6 +1511,11 @@ GamFcltyRepairMngModule.prototype.onButtonClick = function(buttonId) {
 			this.deleteData();
 		break;
 
+		// 삭제
+		case "deleteDetailBtn":
+			this.deleteDetailData();
+		break;
+
 		// 이미지미리보기
 		case "btnPreviewFile":
 			this.imgPreview();
@@ -1986,7 +2023,7 @@ var module_instance = new GamFcltyRepairMngModule();
 						<!-- <button id="mngPrint"  data-search-option="fcltyRepairMngListVO">하자검사관리대장 출력</button>
 						<button id="expPrint"  data-search-option="fcltyRepairMngListVO">하자만료검사조서 출력</button> -->
 						<button id="addBtn" class="buttonAdd">　　추　가　　</button>
-						<button id="deleteBtn" class="buttonDelete">　　삭　제　　</button>
+						<button id="deleteDetailBtn" class="buttonDelete">　　삭　제　　</button>
 						<button id="saveBtn" class="buttonSave">  저 장  </button>
 				</div>
 			</div>
@@ -2111,7 +2148,7 @@ var module_instance = new GamFcltyRepairMngModule();
 						</table>
 					</form>
 					<button id="addBtn" class="buttonAdd">　　추　가　　</button>
-					<button id="deleteBtn" class="buttonDelete">　　삭 제　　</button>
+					<button id="deleteDetailBtn" class="buttonDelete">　　삭 제　　</button>
 					<button id="saveBtn" class="buttonSave">  저 장  </button>
 				</div>
 			</div>
