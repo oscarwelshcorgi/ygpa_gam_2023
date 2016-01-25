@@ -26,7 +26,7 @@
  */
 function GamPopupEntrpsModule() {}
 
-GamPopupEntrpsModule.prototype = new EmdPopupModule(700, 480);
+GamPopupEntrpsModule.prototype = new EmdPopupModule(700, 450);
 
 // 팝업이 호출 되었을때 호출 되는 함수
 GamPopupEntrpsModule.prototype.loadComplete = function() {
