@@ -56,6 +56,12 @@ public class GamFcltsMngGroupMngVo  extends ComDefaultVO {
 	private	String registDt;				//등록일시
 	private	String updUsr;					//수정자
 	private	String updtDt;					//수정일시
+	
+	private String flawEndDt; //하자만료일
+	private String fcltsStateCls; //상태등급
+	private String fcltsSummary; //시설개요
+	private String fcltsScale; //시설규모
+	
 	/** 조회조건 **/
 	private String sFcltsMngGroupNo;		//시설물 관리 그룹 번호
 	private String sFcltsMngGroupNm;		//시설물 관리 그룹 명
@@ -422,6 +428,54 @@ public class GamFcltsMngGroupMngVo  extends ComDefaultVO {
 	 */
 	public void setSumCnstrctAmt(String sumCnstrctAmt) {
 		this.sumCnstrctAmt = sumCnstrctAmt;
+	}
+	/**
+	 * @return the flawEndDt
+	 */
+	public String getFlawEndDt() {
+		return flawEndDt;
+	}
+	/**
+	 * @param flawEndDt the flawEndDt to set
+	 */
+	public void setFlawEndDt(String flawEndDt) {
+		this.flawEndDt = flawEndDt;
+	}
+	/**
+	 * @return the fcltsStateCls
+	 */
+	public String getFcltsStateCls() {
+		return fcltsStateCls;
+	}
+	/**
+	 * @param fcltsStateCls the fcltsStateCls to set
+	 */
+	public void setFcltsStateCls(String fcltsStateCls) {
+		this.fcltsStateCls = fcltsStateCls;
+	}
+	/**
+	 * @return the fcltsSummary
+	 */
+	public String getFcltsSummary() {
+		return fcltsSummary;
+	}
+	/**
+	 * @param fcltsSummary the fcltsSummary to set
+	 */
+	public void setFcltsSummary(String fcltsSummary) {
+		this.fcltsSummary = fcltsSummary;
+	}
+	/**
+	 * @return the fcltsScale
+	 */
+	public String getFcltsScale() {
+		return fcltsScale;
+	}
+	/**
+	 * @param fcltsScale the fcltsScale to set
+	 */
+	public void setFcltsScale(String fcltsScale) {
+		this.fcltsScale = fcltsScale;
 	}
 
 }

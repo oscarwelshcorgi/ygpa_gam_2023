@@ -946,6 +946,11 @@ GamFcltsMngGroupMngModule.prototype.enableDetailInputItem = function() {
 		this.$('#mechFcltyUseYn').enable();
 		this.$('#elctyFcltyUseYn').enable();
 		this.$('#infoCommFcltyUseYn').enable();
+		this.$('#flawEndDt').enable();
+		this.$('#fcltsStateCls').enable();
+		this.$('#fcltsSummary').enable();
+		this.$('#fcltsScale').enable();
+		this.$('#archFcltyUseYn').enable();
 		this.$('#btnInsert').disable({disableClass:"ui-state-disabled"});
 		this.$('#btnSave').enable();
 		this.$('#btnSave').removeClass('ui-state-disabled');
@@ -969,6 +974,10 @@ GamFcltsMngGroupMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#cvlEngFcltyUseYn').enable();
 			this.$('#mechFcltyUseYn').enable();
 			this.$('#elctyFcltyUseYn').enable();
+			this.$('#flawEndDt').enable();
+			this.$('#fcltsStateCls').enable();
+			this.$('#fcltsSummary').enable();
+			this.$('#fcltsScale').enable();
 			this.$('#infoCommFcltyUseYn').enable();
 			this.$('#btnInsert').enable();
 			this.$('#btnInsert').removeClass('ui-state-disabled');
@@ -998,6 +1007,10 @@ GamFcltsMngGroupMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#cvlEngFcltyUseYn').disable();
 			this.$('#mechFcltyUseYn').disable();
 			this.$('#elctyFcltyUseYn').disable();
+			this.$('#flawEndDt').disable();
+			this.$('#fcltsStateCls').disable();
+			this.$('#fcltsSummary').disable();
+			this.$('#fcltsScale').disable();
 			this.$('#infoCommFcltyUseYn').disable();
 			this.$('#btnInsert').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnSave').disable({disableClass:"ui-state-disabled"});
@@ -1034,6 +1047,10 @@ GamFcltsMngGroupMngModule.prototype.disableDetailInputItem = function() {
 	this.$('#mechFcltyUseYn').disable();
 	this.$('#elctyFcltyUseYn').disable();
 	this.$('#infoCommFcltyUseYn').disable();
+	this.$('#flawEndDt').disable();
+	this.$('#fcltsStateCls').disable();
+	this.$('#fcltsSummary').disable();
+	this.$('#fcltsScale').disable();
 	this.$('#btnInsert').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnSave').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnRemove').disable({disableClass:"ui-state-disabled"});
@@ -1156,7 +1173,7 @@ var module_instance = new GamFcltsMngGroupMngModule();
 						<table class="detailPanel" style="width:100%;">
 							<tr>
 								<th style="width:20%; height:18px;">시설물 관리 그룹 번호</th>
-								<td>
+								<td colspan="3">
 									<input id="prtAtCodeNm" type="hidden"/>
 									<input id="prtAtCode" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM019" />
 									<input type="text" id="fcltsMngGroupNo" size="92" maxlength="14" disabled/>
@@ -1164,19 +1181,25 @@ var module_instance = new GamFcltsMngGroupMngModule();
 							</tr>
 							<tr>
 								<th style="width:20%; height:18px;">시설물　관리 그룹　명</th>
-								<td>
+								<td  colspan="3">
 									<input type="text" id="fcltsMngGroupNm" size="105" maxlength="80"/>
 								</td>
 							</tr>
 							<tr>
 								<th style="width:20%; height:18px;">위　　　　　　　　치</th>
-								<td>
+								<td  colspan="3">
 									<input type="text" id="loc" size="105" maxlength="150"/>
 								</td>
 							</tr>
 							<tr>
+								<th style="width:20%; height:18px;">시　　설　　개　　요</th>
+								<td  colspan="3">
+									<input type="text" id="fcltsSummary" size="105" maxlength="150"/>
+								</td>
+							</tr>
+							<tr>
 								<th style="width:20%; height:18px;">시　설　물　　종　별</th>
-								<td>
+								<td style="width:30%; height:18px;">
 									<select id="fcltsGbn">
 										<option value="" selected>선택</option>
 										<option value="1">1종</option>
@@ -1185,10 +1208,14 @@ var module_instance = new GamFcltsMngGroupMngModule();
 										<option value="9">기타</option>
 									</select>
 								</td>
+								<th style="width:20%; height:18px;">상　태　등　급</th>
+								<td>
+									<input type="text" id="fcltsStateCls" size="47" maxlength="80"/>
+								</td>
 							</tr>
 							<tr>
 								<th style="width:20%; height:18px;">시　설　물　　종　류</th>
-								<td>
+								<td  colspan="3">
 									<input id="fcltsKnd" type="hidden"/>
 									<select id="fcltsSe">
 										<option value="" selected>선택</option>
@@ -1210,30 +1237,40 @@ var module_instance = new GamFcltsMngGroupMngModule();
 							<tr>
 								<th style="width:20%; height:18px;">준　　공　　일　　자</th>
 								<td>
-									<input type="text" id="bldDt" size="15" class="emdcal"/>
+									<input type="text" id="bldDt" size="18" class="emdcal"/>
+								</td>
+								<th style="width:20%; height:18px;">하　자　　만　료　일</th>
+								<td>
+									<input type="text" id="flawEndDt" size="18" class="emdcal"/>
+								</td>
+							</tr>
+							<tr>
+								<th style="width:20%; height:18px;">시　　설　　규　　모</th>
+								<td  colspan="3">
+									<input type="text" id="fcltsScale" size="105" maxlength="150"/>
 								</td>
 							</tr>
 							<tr>
 								<th style="width:20%; height:18px;">운　　　　영　　　사</th>
-								<td>
+								<td  colspan="3">
 									<input type="text" id="owner" size="105" maxlength="60"/>
 								</td>
 							</tr>
 							<tr>
 								<th style="width:20%; height:18px;">시　　　　공　　　자</th>
-								<td>
+								<td colspan="3">
 									<input type="text" id="cnstrtr" size="105" maxlength="60"/>
 								</td>
 							</tr>
 							<tr>
 								<th style="width:20%; height:18px;">시　　공　　금　　액</th>
-								<td>
+								<td colspan="3">
 									<input type="text" class="ygpaNumber" id="cnstrctAmt" size="102" maxlength="20"/> 원
 								</td>
 							</tr>
 							<tr>
 								<th style="width:20%; height:18px;">공　　사　　기　　간</th>
-								<td>
+								<td colspan="3">
 									<input type="text" size="18" id="cnstBeginDt" class="emdcal"/>
 									&nbsp; ~ &nbsp;
 									<input type="text" size="18" id="cnstEndDt" class="emdcal"/>
@@ -1241,7 +1278,7 @@ var module_instance = new GamFcltsMngGroupMngModule();
 							</tr>
 							<tr>
 								<th style="width:20%; height:18px;">건축시설　사용　유무</th>
-								<td>
+								<td colspan="3">
 									<select id="archFcltyUseYn">
 										<option value="Y">예</option>
 										<option value="N">아니오</option>
@@ -1256,8 +1293,6 @@ var module_instance = new GamFcltsMngGroupMngModule();
 										<option value="N">아니오</option>
 									</select>
 								</td>
-							</tr>
-							<tr>
 								<th style="width:20%; height:18px;">기계시설　사용　유무</th>
 								<td>
 									<select id="mechFcltyUseYn">
@@ -1274,8 +1309,6 @@ var module_instance = new GamFcltsMngGroupMngModule();
 										<option value="N">아니오</option>
 									</select>
 								</td>
-							</tr>
-							<tr>
 								<th style="width:20%; height:18px;">통신시설　사용　유무</th>
 								<td>
 									<select id="infoCommFcltyUseYn">

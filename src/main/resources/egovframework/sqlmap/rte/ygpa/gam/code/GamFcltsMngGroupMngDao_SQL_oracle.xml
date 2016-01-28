@@ -44,6 +44,10 @@
 								,TO_CHAR(REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
 								,UPD_USR
 								,TO_CHAR(UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+								,TO_CHAR(FLAW_END_DT,'YYYY-MM-DD') AS FLAW_END_DT
+								,FCLTS_STATE_CLS 
+								,FCLTS_SUMMARY
+								,FCLTS_SCALE
 							FROM FCLTS_MNG_GROUP_F
 						WHERE 1 = 1
 
@@ -108,6 +112,10 @@
 				,TO_CHAR(REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
 				,UPD_USR
 				,TO_CHAR(UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+				,TO_CHAR(FLAW_END_DT,'YYYY-MM-DD') AS FLAW_END_DT
+				,FCLTS_STATE_CLS 
+				,FCLTS_SUMMARY
+				,FCLTS_SCALE
 			FROM FCLTS_MNG_GROUP_F
 		WHERE FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
 	</select>
@@ -141,6 +149,10 @@
 			,INFO_COMM_FCLTY_USE_YN
 			,REG_USR
 			,REGIST_DT
+			,FLAW_END_DT
+			,FCLTS_STATE_CLS 
+			,FCLTS_SUMMARY
+			,FCLTS_SCALE
 		)
 		VALUES
 		(
@@ -164,6 +176,10 @@
 			,#infoCommFcltyUseYn#
 			,#regUsr#
 			,SYSDATE
+			,TO_DATE(#flawEndDt#,'YYYY-MM-DD')
+			,#fcltsStateCls#
+			,#fcltsSummary#
+			,#fcltsScale#
 		)
 	</insert>
 
@@ -188,6 +204,10 @@
 			,INFO_COMM_FCLTY_USE_YN = #infoCommFcltyUseYn#
 			,UPD_USR = #regUsr#
 			,UPDT_DT = SYSDATE
+			,FLAW_END_DT = TO_DATE(#flawEndDt#,'YYYY-MM-DD')
+			,FCLTS_STATE_CLS = #fcltsStateCls# 
+			,FCLTS_SUMMARY = #fcltsSummary# 
+			,FCLTS_SCALE = #fcltsScale# 
 		WHERE FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
 	</update>
 
