@@ -2577,7 +2577,7 @@ var module_instance = new GamFcltsMngRegistMngModule();
 								<button id="btnInsert" class="buttonAdd">　　추　가　　</button>
 								<button id="btnSave" class="buttonSave">　　저　장　　</button>
 								<button id="btnRemove" class="buttonDelete">　　삭　제　　</button>
-								<button id="btnDetailPrint" data-role="printPage" data-search-option="detailForm" data-url='/fclty/selectFcltReportMngPrint.do'>시설물관리대장인쇄</button>
+								<!-- <button id="btnDetailPrint" data-role="printPage" data-search-option="detailForm" data-url='/fclty/selectFcltReportMngPrint.do'>시설물관리대장인쇄</button> -->
 							</td>
 						</tr>
 					</table>

@@ -1055,15 +1055,15 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 			String pageBreak = (bodyIndex == 0) ? "false" : "true";
 			
 			//String prtAtCodeNm = (mngGroupInfo.get("prtAtCodeNm") != null) ? (String)mngGroupInfo.get("prtAtCodeNm") + "항" : "      ";
-			String fcltsMngGroupNm = (mngGroupInfo.get("fcltsMngGroupNm") != null) ? (String) mngGroupInfo.get("fcltsMngGroupNm") : "";
-			String loc = (mngGroupInfo.get("loc") != null) ? (String) mngGroupInfo.get("loc") : "";
+			String fcltsMngGroupNm = (mngGroupInfo.get("fcltsMngGroupNm") != null) ? (String) mngGroupInfo.get("fcltsMngGroupNm") : "-";
+			String loc = (mngGroupInfo.get("loc") != null) ? (String) mngGroupInfo.get("loc") : "-";
 			String fcltsGbnNm = ((mngGroupInfo.get("fcltsGbnNm") != null) ? (String)mngGroupInfo.get("fcltsGbnNm") : "-");
-			String bldYear = (mngGroupInfo.get("bldYear") != null) ? (String) mngGroupInfo.get("bldYear") : "";
-			String cnstrtr = (mngGroupInfo.get("cnstrtr") != null) ? (String) mngGroupInfo.get("cnstrtr") : "";
-			String flawEndDt = (mngGroupInfo.get("flawEndDt") != null) ? (String) mngGroupInfo.get("flawEndDtYear") + "년" + (String) mngGroupInfo.get("flawEndDtMonth") + "월" + (String) mngGroupInfo.get("flawEndDtDay") + "일"  : "";
-			String fcltsStateCls = (mngGroupInfo.get("fcltsStateCls") != null) ? (String) mngGroupInfo.get("fcltsStateCls") : "";
-			String fcltsSummary = (mngGroupInfo.get("fcltsSummary") != null) ? (String) mngGroupInfo.get("fcltsSummary") : "";
-			String fcltsScale = (mngGroupInfo.get("fcltsScale") != null) ? (String) mngGroupInfo.get("fcltsScale") : "";
+			String bldYear = (mngGroupInfo.get("bldYear") != null) ? (String) mngGroupInfo.get("bldYear") : "-";
+			String cnstrtr = (mngGroupInfo.get("cnstrtr") != null) ? (String) mngGroupInfo.get("cnstrtr") : "-";
+			String flawEndDt = (mngGroupInfo.get("flawEndDt") != null) ? (String) mngGroupInfo.get("flawEndDtYear") + "년" + (String) mngGroupInfo.get("flawEndDtMonth") + "월" + (String) mngGroupInfo.get("flawEndDtDay") + "일"  : "-";
+			String fcltsStateCls = (mngGroupInfo.get("fcltsStateCls") != null) ? (String) mngGroupInfo.get("fcltsStateCls") : "-";
+			String fcltsSummary = (mngGroupInfo.get("fcltsSummary") != null) ? (String) mngGroupInfo.get("fcltsSummary") : "-";
+			String fcltsScale = (mngGroupInfo.get("fcltsScale") != null) ? (String) mngGroupInfo.get("fcltsScale") : "-";
 			
 			fcltsGbnNm += " / " + (fcltsStateCls.equals("") ? "-" :  fcltsStateCls) ; 
 			int rowCount = getCivilRowCount(resultInfo);
