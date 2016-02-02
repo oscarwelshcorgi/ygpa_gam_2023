@@ -916,12 +916,26 @@ div.notice {
 		      			<br>
 	      			<h2>산출근거</h2>
 		      			<p>사용기간 : <c:out value="${master.nticPdFrom}"/> ~ <c:out value="${master.nticPdTo}"/></p>
-		      			<p>임대료 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${master.fee}" /> 원 <c:if test="${master.assessSe==null}">(단가 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${detailItem.applcPrice}" /> 원 &nbsp;면적 :  <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${detailItem.usageAr}" /> m<sup>2</sup>)</c:if></p>
-		 			    <p>
-					    <c:if test="${master.intrAmnt>0}">
-			      			분납이자 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${master.intrAmnt}" /> 원 (이자율 : <fmt:formatNumber type="number" maxIntegerDigits="5" maxFractionDigits="2" value="${master.intrRate}" />% Cofix수신금리)
-		      			</c:if>
-	      				</p>
+		      			<p>임대료 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${master.fee}" /> 원 
+			      			<c:if test="${master.assessSe==null}">
+			      				(단가 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${detailItem.applcPrice}" /> 원 &nbsp;
+			      				면적 :  <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${detailItem.usageAr}" /> m<sup>2</sup>
+			      				<c:if test="${master.bizAssessAmnt>0}">
+			      					&nbsp; 실적평가금액 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${master.bizAssessAmnt}" /> 원 &nbsp;
+			      				</c:if>
+			   					)
+			      			</c:if>
+		      			</p>
+						    <c:if test="${master.intrAmnt>0}">
+		 			    		<p>
+				      				분납이자 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${master.intrAmnt}" /> 원 (이자율 : <fmt:formatNumber type="number" maxIntegerDigits="5" maxFractionDigits="2" value="${master.intrRate}" />% Cofix수신금리)
+	      						</p>
+			      			</c:if>
+						    <c:if test="${master.areaAssessAmnt>0}">
+		 			    		<p>
+				      				지적측정금액 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${master.areaAssessAmnt}" /> 원
+	      						</p>
+			      			</c:if>
 	      				<p><c:if test="${master.rm!=null}">비고 : <c:out value="${master.rm}"/></c:if></p>
 	  			    </c:forEach>
 	      		</div>

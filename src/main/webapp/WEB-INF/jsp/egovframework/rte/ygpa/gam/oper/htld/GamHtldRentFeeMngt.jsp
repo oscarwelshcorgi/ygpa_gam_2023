@@ -54,9 +54,11 @@ GamHtldRentFeeMngtModule.prototype.loadComplete = function(params) {
 				{display:'고지방법', name:'nticMthNm',width:70, sortable:false,align:'center'},
 				{display:'고지', name:'nhtIsueYnNm',width:50, sortable:false,align:'center'},
 				{display:'출력', name:'nhtPrintYnNm',width:50, sortable:false,align:'center'},
+				{display:'실적평가금액', name:'bizAssessAmnt',width:100, sortable:false,align:'right', displayFormat: 'input-number'},
 				{display:'사용료', name:'fee',width:80, sortable:false,align:'right', displayFormat: 'input-number'},
 				{display:'이자', name:'intrAmnt',width:80, sortable:false,align:'right', displayFormat: 'input-number'},
 				{display:'이자율(%)', name:'intrRate',width:60, sortable:false,align:'right', displayFormat: 'input-number', displayOption: "0.00"},
+				{display:'지적측정금액', name:'areaAssessAmnt',width:100, sortable:false,align:'right', displayFormat: 'input-number'},
 				{display:'소계', name:'feeAmnt',width:80, sortable:false,align:'right', displayFormat: 'number'},
 				{display:'부가세', name:'vat',width:100, sortable:false,align:'right', displayFormat: 'input-number'},
 				{display:'고지금액', name:'nticAmt',width:100, sortable:false,align:'right', displayFormat: 'input-number'},
@@ -280,6 +282,9 @@ GamHtldRentFeeMngtModule.prototype.makeRowData = function(item) {
 	
 	item.assessSeNm = (item.assessSe == '1') ? '실적': ((item.assessSe == '2') ? '면적' : '일반');
 	
+	item.oldBizAssessAmnt = item.bizAssessAmnt;
+	item.oldAreaAssessAmnt = item.areaAssessAmnt;
+	
 	if(item.nticMth!='4') { //분기납이 아닐 경우 이자율은 0
 		item.intrRate = 0;
 		item.intrAmnt = 0;
@@ -289,7 +294,7 @@ GamHtldRentFeeMngtModule.prototype.makeRowData = function(item) {
 		item.intrAmnt = this.getIntrAmount(item.fee, item.intrRate, item.nticMth, item.nticPdFrom, item.nticPdTo, item.grUsagePdFrom, item.grUsagePdTo);
 	}
 	if(item.feeAmnt==void(0)) {
-		item.feeAmnt=item.fee+(item.intrAmnt == void(0) ? 0 : item.intrAmnt) ;
+		item.feeAmnt=Number(item.fee) + Number(item.areaAssessAmnt) + Number((item.intrAmnt == void(0) ? 0 : item.intrAmnt)) ;
 	}
 	var vatRate = (item.vatYn=='2') ? 0.1 : 0;
 	
@@ -312,9 +317,9 @@ GamHtldRentFeeMngtModule.prototype.onCalcSummary = function() {
 	this.$('#assetRentFeeList')[0].dgrid.forEachRow(function(id) {
 		sum.sumCnt++;
 		sum.sumFee+=Number(this.cells(id,10).getValue());
-		sum.sumVat+=Number(this.cells(id,11).getValue());
-		sum.sumIntrAmt+=Number(this.cells(id,8).getValue());
-		sum.sumNticAmt+=Number(this.cells(id,12).getValue());
+		sum.sumVat+=Number(this.cells(id,15).getValue());
+		sum.sumIntrAmt+=Number(this.cells(id,11).getValue());
+		sum.sumNticAmt+=Number(this.cells(id,16).getValue());
 	});
 	this.makeDivValues('#summaryTable', sum);
 };
@@ -332,17 +337,22 @@ GamHtldRentFeeMngtModule.prototype.onCalcFeeListCellEdited = function(row, rid, 
     	row.state="*";
     }
     switch(cid) {
+    	case 'bizAssessAmnt' :
     	case 'fee' :
     	case 'intrRate' :
+    		row.fee = Number(row.fee) + Number(row.bizAssessAmnt) - Number(row.oldBizAssessAmnt);
     		row.intrAmnt = this.getIntrAmount(row.fee, row.intrRate, row.nticMth, row.nticPdFrom, row.nticPdTo, row.grUsagePdFrom, row.grUsagePdTo);
-    		row.feeAmnt = Number(row.fee) + Number(row.intrAmnt);
+    		row.feeAmnt = Number(row.fee) + Number(row.intrAmnt) + Number(row.areaAssessAmnt) - Number(row.oldAreaAssessAmnt);
     		row.vat = (row.vatYn=='2' || row.vatYn=='Y') ? Math.floor(Number(row.feeAmnt) * 0.1) : 0;
     		row.nticAmt = Number(row.feeAmnt) + Number(row.vat);
+    		row.oldBizAssessAmnt = row.bizAssessAmnt;
     		break;
     	case 'intrAmnt' :
-    		row.feeAmnt = Number(row.fee) + Number(row.intrAmnt);
+    	case 'areaAssessAmnt' :
+    		row.feeAmnt = Number(row.fee) + Number(row.intrAmnt) + Number(row.areaAssessAmnt) - Number(row.oldAreaAssessAmnt);
     		row.vat = (row.vatYn=='2' || row.vatYn=='Y') ? Math.floor(Number(row.feeAmnt) * 0.1) : 0;
     		row.nticAmt = Number(row.feeAmnt) + Number(row.vat);
+    		row.oldAreaAssessAmnt = row.areaAssessAmnt;
     		break;
     	case 'vat' :
     		row.nticAmt = Number(row.feeAmnt) + Number(row.vat);

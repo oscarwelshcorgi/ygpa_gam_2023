@@ -842,11 +842,14 @@ public class GamHtldRentFeeMngtController {
             throws Exception {
     	
     	Map master = gamHtldRentFeeMngtService.selectAssetLevReqestNticPk(gamHtldRentFeeMngtVO);
+    	
     	master.put("fee", gamHtldRentFeeMngtVO.getFee());
     	master.put("intrAmnt", gamHtldRentFeeMngtVO.getIntrAmnt());
     	master.put("vat", gamHtldRentFeeMngtVO.getVat());
     	master.put("nticAmt", gamHtldRentFeeMngtVO.getNticAmt());
     	master.put("intrAmt", gamHtldRentFeeMngtVO.getIntrRate());
+    	master.put("bizAssessAmnt", gamHtldRentFeeMngtVO.getBizAssessAmnt());
+    	master.put("areaAssessAmnt", gamHtldRentFeeMngtVO.getAreaAssessAmnt());
     	
 		model.addAttribute("levReqestMaster", master);
 

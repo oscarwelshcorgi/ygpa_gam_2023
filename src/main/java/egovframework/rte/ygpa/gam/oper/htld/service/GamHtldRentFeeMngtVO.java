@@ -71,7 +71,13 @@ public class GamHtldRentFeeMngtVO extends ComDefaultVO {
 
     /** 분납 이자 */
     private String intrAmnt;
-
+    
+    /** 실적평가금 **/
+    private String bizAssessAmnt;
+    
+    /** 지적측정금 **/
+    private String areaAssessAmnt;
+    
     /** 분납 이자 */
     private String intrChrgeKnd;
 
@@ -937,6 +943,34 @@ public class GamHtldRentFeeMngtVO extends ComDefaultVO {
 	 */
 	public void setGrUsagePdTo(String grUsagePdTo) {
 		this.grUsagePdTo = grUsagePdTo;
+	}
+
+	/**
+	 * @return the bizAssessAmnt
+	 */
+	public String getBizAssessAmnt() {
+		return bizAssessAmnt;
+	}
+
+	/**
+	 * @param bizAssessAmnt the bizAssessAmnt to set
+	 */
+	public void setBizAssessAmnt(String bizAssessAmnt) {
+		this.bizAssessAmnt = bizAssessAmnt;
+	}
+
+	/**
+	 * @return the areaAssessAmnt
+	 */
+	public String getAreaAssessAmnt() {
+		return areaAssessAmnt;
+	}
+
+	/**
+	 * @param areaAssessAmnt the areaAssessAmnt to set
+	 */
+	public void setAreaAssessAmnt(String areaAssessAmnt) {
+		this.areaAssessAmnt = areaAssessAmnt;
 	}
 
 }
