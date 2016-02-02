@@ -59,19 +59,16 @@ GamFcltyMaintMngModule.prototype.loadComplete = function(params) {
 		url: '/fcltyMng/selectFcltyMaintMngList.do',
 		dataType: "json",
 		colModel : [
+					{display:"순서", 				name:"mntnFcltsCnstInfo",		width:30, 		sortable:false,		align:"center"},
 					{display:"시설물관리그룹", 		name:"fcltsMngGroupNm",			width:130, 		sortable:false,		align:"center"},
 					{display:"유지보수공사명",		name:"mntnRprCnstNm",			width:250, 		sortable:false,		align:"left"},
 					{display:"유지보수구분",		name:"mntnRprSeNm",				width:80, 		sortable:false,		align:"center"},
 					{display:"시작일자",			name:"mntnRprCnstStartDt",		width:80, 		sortable:false,		align:"center"},
 					{display:"종료일자",			name:"mntnRprCnstEndDt",		width:80, 		sortable:false,		align:"center"},
 					{display:"공사금액", 			name:"mntnRprCnstAmt",			width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
-					/* {display:"직접공사비", 			name:"mntnRprBdgt",				width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'}, */
 					{display:"유지보수내용", 		name:"mntnRprCn",				width:250, 		sortable:false,		align:"left"},
 					{display:"시공자", 				name:"cnstrtr",					width:150, 		sortable:false,		align:"center"},
-					{display:"계약명", 				name:"ctrtNm",					width:250, 		sortable:false,		align:"left"},
-					{display:"유지보수정보", 		name:"mntnFcltsCnstInfo",		width:200, 		sortable:false,		align:"center"}
-
-
+					{display:"계약명", 				name:"ctrtNm",					width:250, 		sortable:false,		align:"left"}
 			],
 		height: "auto",
 		groupBy: "mntnFcltsCnstInfo",
