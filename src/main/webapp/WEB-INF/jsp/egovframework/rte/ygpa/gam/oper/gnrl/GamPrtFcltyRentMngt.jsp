@@ -385,7 +385,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function(param) {
 				var today = new Date();
 				today.setMonth(today.getMonth()-3);	// 최근 3개월 조회
 				this._sGrUsagePdFrom = EMD.util.getDate(today);
-		 		this.$('#searchCondition').val('usageDt');
+		 		this.$('#searchCondition').val('reqestDt');
 		 		this.$('#sGrUsagePdFrom').val(EMD.util.getDate());
 				this.$("#sGrUsagePdTo").val(EMD.util.getDate());
 				this.$('#searchCondition').trigger('change');
