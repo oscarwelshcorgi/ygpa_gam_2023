@@ -672,7 +672,7 @@
       			GAM_GETENTRPSNM(L.ENTRPSCD, '2'),
       			#dlyBillRsn#, #regUsr#, SYSDATE,
       			L.ENTRPSCD, '194', 'N', 'N', TO_DATE(#nticPdFrom#, 'YYYY-MM-DD'), TO_DATE(#nticPdTo#, 'YYYY-MM-DD'),
-      			#deptCd#, #emplNo#, TO_DATE(#prvDueDt#, 'YYYY-MM-DD'), NVL(L.FEE,0) + NVL(L.INTR_AMNT,0) + NVL(L.VAT,0) +#dlyBillAmnt#, #userName#, TO_DATE(#prvBillDt#, 'YYYY-MM-DD')
+      			#deptCd#, #emplNo#, TO_DATE(#prvDueDt#, 'YYYY-MM-DD'), NVL(L.FEE,0) + NVL(L.INTR_AMNT,0) + NVL(L.AREA_ASSESS_AMNT,0) + NVL(L.VAT,0) +#dlyBillAmnt#, #userName#, TO_DATE(#prvBillDt#, 'YYYY-MM-DD')
      		FROM LEV_REQEST_F L
       		WHERE PRT_AT_CODE=#prtAtCode#
       			AND MNG_YEAR=#mngYear#
@@ -691,7 +691,7 @@
       		ARRRG_AMT=TRUNC(TO_NUMBER(#dlyBillAmnt#), 0),
       		ARRRG_TARIFF=TO_NUMBER(#arrrgTariff#),
       		ARRRG_PAY_DATES=#applyPayDates#,
-      		NTIC_AMT=TRUNC(FEE+INTR_AMNT+NVL(VAT,0)+NVL(REIM_FEE,0)+TO_NUMBER(#dbillAmnt#), 0),
+      		NTIC_AMT=TRUNC(NVL(FEE,0)+NVL(INTR_AMNT,0)+NVL(AREA_ASSESS_AMNT,0)+NVL(VAT,0)+NVL(REIM_FEE,0)+TO_NUMBER(#dbillAmnt#), 0),
       		<isNotNull property="rcivSe">
       		RCIV_SE=#rcivSe#,
       		</isNotNull>
