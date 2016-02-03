@@ -355,7 +355,7 @@ GamHtldRentFeeMngtModule.prototype.onCalcFeeListCellEdited = function(row, rid, 
     	case 'intrRate' :
     		row.fee = Number(row.fee) + Number(row.bizAssessAmnt) - Number(row.oldBizAssessAmnt);
     		row.intrAmnt = this.getIntrAmount(row.fee, row.intrRate, row.nticMth, row.nticPdFrom, row.nticPdTo, row.grUsagePdFrom, row.grUsagePdTo);
-    		row.feeAmnt = Number(row.fee) + Number(row.intrAmnt) + Number(row.areaAssessAmnt) - Number(row.oldAreaAssessAmnt);
+    		row.feeAmnt = Number(row.fee) + Number(row.intrAmnt) + Number(row.areaAssessAmnt);
     		row.vat = (row.vatYn=='2' || row.vatYn=='Y') ? Math.floor(Number(row.feeAmnt) * 0.1) : 0;
     		row.nticAmt = Number(row.feeAmnt) + Number(row.vat);
     		break;
