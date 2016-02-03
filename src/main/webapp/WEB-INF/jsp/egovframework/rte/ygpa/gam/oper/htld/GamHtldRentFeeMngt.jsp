@@ -282,14 +282,6 @@ GamHtldRentFeeMngtModule.prototype.makeRowData = function(item) {
 	
 	item.assessSeNm = (item.assessSe == '1') ? '실적': ((item.assessSe == '2') ? '면적' : '일반');
 	
-	item.oldBizAssessAmnt = item.bizAssessAmnt;
-	item.oldAreaAssessAmnt = item.areaAssessAmnt;
-	item.oldFee = item.fee;
-	item.oldIntrAmnt = item.intrAmnt;
-	item.oldIntrRate = item.intrRate;
-	item.oldVat = item.vat;
-	item.oldNticAmt = item.nticAmt;
-	
 	if(item.nticMth!='4') { //분기납이 아닐 경우 이자율은 0
 		item.intrRate = 0;
 		item.intrAmnt = 0;
@@ -305,6 +297,14 @@ GamHtldRentFeeMngtModule.prototype.makeRowData = function(item) {
 	
 	item.vat=Math.floor(item.feeAmnt*vatRate);
 	item.nticAmt=item.feeAmnt+item.vat;
+
+	item.oldBizAssessAmnt = item.bizAssessAmnt;
+	item.oldAreaAssessAmnt = item.areaAssessAmnt;
+	item.oldFee = item.fee;
+	item.oldIntrAmnt = item.intrAmnt;
+	item.oldIntrRate = item.intrRate;
+	item.oldVat = item.vat;
+	item.oldNticAmt = item.nticAmt;
 };
 
 <%--
