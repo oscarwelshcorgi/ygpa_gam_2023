@@ -80,7 +80,6 @@ GamFcltyMaintMngModule.prototype.loadComplete = function(params) {
 		}
 	});
 
-
 	this.$("#mntnRprObjFcltsF").flexigrid({
 		module: this,
 		url: '/fcltyMng/selectMntnRprObjFcltsFList.do',
@@ -1278,7 +1277,6 @@ GamFcltyMaintMngModule.prototype.loadData = function(){
 	var searchOpt=this.makeFormArgs('#searchFcltyMaintMngForm');
 	this.$('#fcltyMaintMngList').flexOptions({params:searchOpt}).flexReload();
 	this.$('#sMapFcltsMngNo').val("");
-
 };
 
 
@@ -1549,6 +1547,31 @@ GamFcltyMaintMngModule.prototype.downloadFileData = function() {
 	}
 };
 
+GamFcltyMaintMngModule.prototype.tableToExcel = function() {
+	var clone =	this.$('#fcltyMaintMngList').clone();
+	$(clone).find('th,td').each(function() {
+		if($(this).css('display')=='none') {
+			$(this).remove();
+		}
+		else {
+			$(this).css('border-left', '1px solid black');
+			$(this).css('border-top', '1px solid black');
+			$(this).css('border-right', '1px solid black');
+			$(this).css('border-bottom', '1px solid black');
+		}
+	});
+	clone.find("img").remove();
+	clone.find(".odd_dhx_skyblue").find("td:eq(0)").text("");
+	clone.find(".odd_dhx_skyblue").find("td:eq(0)").css("width","100");
+	clone.find(".odd_dhx_skyblue").find("td:eq(2)").css("width","500");
+	clone.find(".odd_dhx_skyblue").find("td:eq(3)").css("width","100");
+	clone.find(".odd_dhx_skyblue").find("td:eq(9)").css("width","500");
+	clone.table2excel({
+		filename: "유지보수내역 목록",
+	});
+
+	//console.log(this.$('#fcltyMaintMngList').find("tr"));
+};
 <%
 /**
  * @FUNCTION NAME : downloadExcel
@@ -1556,12 +1579,14 @@ GamFcltyMaintMngModule.prototype.downloadFileData = function() {
  * @PARAMETER     : NONE
 **/
 %>
+
 GamFcltyMaintMngModule.prototype.downloadExcel = function() {
 	var rowCount = this.$('#fcltyMaintMngList').flexRowCount();
 	if (rowCount <= 0) {
 		alert('조회된 자료가 없습니다.');
 		return;
 	}
+
 	this.$('#fcltyMaintMngList').flexExcelDown('/fcltyMng/selectFcltyMaintMngListExcel.do');
 };
 
@@ -1635,7 +1660,8 @@ GamFcltyMaintMngModule.prototype.fillDetailBasicData = function(value) {
 
 		// 엑셀다운로드
 		case "btnExcelDownload":
-			this.downloadExcel();
+			//this.downloadExcel();
+			this.tableToExcel();
 		break;
 
 		// 시설물관리그룹
