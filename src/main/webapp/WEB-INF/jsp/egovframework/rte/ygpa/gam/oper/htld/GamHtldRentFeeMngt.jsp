@@ -330,6 +330,9 @@ GamHtldRentFeeMngtModule.prototype.onCalcSummary = function() {
 GamHtldRentFeeMngtModule.prototype.onCalcFeeListCellEdited = function(row, rid, cid) {
 	if(row.nhtIsueYn=='Y') {
 		alert('고지된 자료는 수정 되지 않습니다.');
+		row.bizAssessAmnt = row.oldBizAssessAmnt;
+		row.areaAssessAmnt = row.oldAreaAssessAmnt;
+		this.$("#assetRentFeeList").flexUpdateRow(rid, row);
 		return;
 	}
     if(row._updtId!="I") {
