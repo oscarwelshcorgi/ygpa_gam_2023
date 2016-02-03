@@ -284,6 +284,11 @@ GamHtldRentFeeMngtModule.prototype.makeRowData = function(item) {
 	
 	item.oldBizAssessAmnt = item.bizAssessAmnt;
 	item.oldAreaAssessAmnt = item.areaAssessAmnt;
+	item.oldFee = item.fee;
+	item.oldIntrAmnt = item.intrAmnt;
+	item.oldIntrRate = item.intrRate;
+	item.oldVat = item.vat;
+	item.oldNticAmt = item.nticAmt;
 	
 	if(item.nticMth!='4') { //분기납이 아닐 경우 이자율은 0
 		item.intrRate = 0;
@@ -332,6 +337,11 @@ GamHtldRentFeeMngtModule.prototype.onCalcFeeListCellEdited = function(row, rid, 
 		alert('고지된 자료는 수정 되지 않습니다.');
 		row.bizAssessAmnt = row.oldBizAssessAmnt;
 		row.areaAssessAmnt = row.oldAreaAssessAmnt;
+		row.fee = row.oldFee;
+		row.intrAmnt = row.oldIntrAmnt;
+		row.intrRate = row.oldIntrRate;
+		row.vat = row.oldVat;
+		row.nticAmt = row.oldNticAmt;
 		this.$("#assetRentFeeList").flexUpdateRow(rid, row);
 		return;
 	}
@@ -348,19 +358,25 @@ GamHtldRentFeeMngtModule.prototype.onCalcFeeListCellEdited = function(row, rid, 
     		row.feeAmnt = Number(row.fee) + Number(row.intrAmnt) + Number(row.areaAssessAmnt) - Number(row.oldAreaAssessAmnt);
     		row.vat = (row.vatYn=='2' || row.vatYn=='Y') ? Math.floor(Number(row.feeAmnt) * 0.1) : 0;
     		row.nticAmt = Number(row.feeAmnt) + Number(row.vat);
-    		row.oldBizAssessAmnt = row.bizAssessAmnt;
     		break;
     	case 'intrAmnt' :
     	case 'areaAssessAmnt' :
     		row.feeAmnt = Number(row.fee) + Number(row.intrAmnt) + Number(row.areaAssessAmnt) - Number(row.oldAreaAssessAmnt);
     		row.vat = (row.vatYn=='2' || row.vatYn=='Y') ? Math.floor(Number(row.feeAmnt) * 0.1) : 0;
     		row.nticAmt = Number(row.feeAmnt) + Number(row.vat);
-    		row.oldAreaAssessAmnt = row.areaAssessAmnt;
     		break;
     	case 'vat' :
     		row.nticAmt = Number(row.feeAmnt) + Number(row.vat);
     		break;
     }
+    
+    row.oldBizAssessAmnt = row.bizAssessAmnt;
+	row.oldAreaAssessAmnt = row.areaAssessAmnt;
+	row.oldFee = row.fee;
+	row.oldIntrAmnt = row.intrAmnt;
+	row.oldIntrRate = row.intrRate;
+	row.oldVat = row.vat;
+	row.oldNticAmt = row.nticAmt;
     this.$("#assetRentFeeList").flexUpdateRow(rid, row);
     this.onCalcSummary();	
 };
