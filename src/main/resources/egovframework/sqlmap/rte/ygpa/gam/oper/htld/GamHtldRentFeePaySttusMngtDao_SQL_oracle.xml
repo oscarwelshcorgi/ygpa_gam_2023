@@ -691,7 +691,7 @@
       		ARRRG_AMT=TRUNC(TO_NUMBER(#dlyBillAmnt#), 0),
       		ARRRG_TARIFF=TO_NUMBER(#arrrgTariff#),
       		ARRRG_PAY_DATES=#applyPayDates#,
-      		NTIC_AMT=TRUNC(NVL(FEE,0)+NVL(INTR_AMNT,0)+NVL(AREA_ASSESS_AMNT,0)+NVL(VAT,0)+NVL(REIM_FEE,0)+TO_NUMBER(#dbillAmnt#), 0),
+      		NTIC_AMT=TRUNC(NVL(FEE,0)+NVL(INTR_AMNT,0)+NVL(AREA_ASSESS_AMNT,0)+NVL(VAT,0)+TO_NUMBER(#dbillAmnt#), 0),
       		<isNotNull property="rcivSe">
       		RCIV_SE=#rcivSe#,
       		</isNotNull>
@@ -1242,7 +1242,7 @@
       		ARRRG_TARIFF=NULL,
       		ARRRG_PAY_DATES=NULL,
       		<!-- NTIC_DT=#prvBillDt#, -->
-      		NTIC_AMT=NVL(FEE, 0)+NVL(INTR_AMNT,0)+NVL(VAT,0),
+      		NTIC_AMT=NVL(FEE,0)+NVL(INTR_AMNT,0)+NVL(AREA_ASSESS_AMNT,0)+NVL(VAT,0),
       		PAY_TMLMT=TO_DATE(#dlyDueDt#, 'YYYY-MM-DD'),
       		UPD_USR=#updUsr#,
       		UPDT_DT=SYSDATE
@@ -1264,7 +1264,7 @@
       		ARRRG_AMT=TO_NUMBER(#dbillAmnt#),
       		ARRRG_TARIFF=TO_NUMBER(#arrrgTariff#),
       		ARRRG_PAY_DATES=TO_NUMBER(#applyPayDates#),
-      		NTIC_AMT=TO_NUMBER(#dlyBillAmnt#),
+      		NTIC_AMT=NVL(FEE,0)+NVL(INTR_AMNT,0)+NVL(AREA_ASSESS_AMNT,0)+NVL(VAT,0)+TO_NUMBER(#dlyBillAmnt#),
       		<isNotNull property="rcivSe">
 	      		RCIV_SE=#rcivSe#,
       		</isNotNull>

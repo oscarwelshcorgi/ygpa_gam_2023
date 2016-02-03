@@ -213,9 +213,9 @@ public class GamHtldRentFeePaySttusMngtServiceImpl  extends AbstractServiceImpl 
 		} else {
 			//최초연체가 아니라면
 			if(dlyInfoList.size() > 1) {
-				EgovMap prevDlyInfo = (EgovMap) dlyInfoList.get(1); 
-				vo.put("dlyBillAmnt", prevDlyInfo.get("dlyBillAmnt")); //연체고지금액
-				vo.put("dbillAmnt", prevDlyInfo.get("dbillAmnt")); //연체료
+				EgovMap prevDlyInfo = (EgovMap) dlyInfoList.get(dlyInfoList.size()-1); 
+				vo.put("dlyBillAmnt", prevDlyInfo.get("dlyBillAmnt"));
+				vo.put("dbillAmnt", prevDlyInfo.get("dbillAmnt"));
 				vo.put("dlySerNo", prevDlyInfo.get("dlySerNo"));
 				vo.put("arrrgTariff", prevDlyInfo.get("arrrgTariff"));
 				vo.put("arrrgPayDates", prevDlyInfo.get("arrrgPayDates"));
