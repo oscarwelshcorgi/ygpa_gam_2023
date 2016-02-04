@@ -923,7 +923,7 @@
 		    WHERE 1=1
 		      AND L.PRT_AT_CODE=R.PRT_AT_CODE
 		      AND L.ACCNUT_YEAR=R.FISCAL_YR
-		      AND ((L.NTICNO=R.BILL_NO AND GAM_GET_FEE_TP(L.CHRGE_KND)=R.FEE_TP) OR (L.INTR_FEE_NTICNO=R.BILL_NO AND GAM_GET_FEE_TP(L.INTR_CHRGE_KND)=R.FEE_TP))
+		      AND ((L.NTICNO=R.BILL_NO AND GAM_GET_HTLD_FEE_TP(L.CHRGE_KND)=R.FEE_TP) OR (L.INTR_FEE_NTICNO=R.BILL_NO AND GAM_GET_HTLD_FEE_TP(L.INTR_CHRGE_KND)=R.FEE_TP))
 					      AND L.PRT_AT_CODE   = #prtAtCode#
 					      AND L.MNG_YEAR      = #mngYear#
 					      AND L.MNG_NO        = #mngNo#
@@ -1001,7 +1001,7 @@
 			      || NVL(A.ARRRG_NO, '00')
 			    FROM P2MGR.FEE_TP_F@YGPA_P2MGR
 			    WHERE PRT_AT_CODE = A.PRT_AT_CODE
-			    AND FEE_TP        = GAM_GET_FEE_TP(A.CHRGE_KND)
+			    AND FEE_TP        = GAM_GET_HTLD_FEE_TP(A.CHRGE_KND)
 			    ) ELEC_PAY_NO,
 			    DECODE(A.PRT_AT_CODE, '622', '6374594', '6374604') GIRO_NO,
 			    P2MGR.sf_makedigit@YGPA_P2MGR(A.NTIC_AMT, 'AMT') ELEC_NTIC_AMT,
@@ -1019,7 +1019,7 @@
 			      S.NTIC_CNT,
 			      S.ACCNUT_YEAR,
 			      S.NTICNO,
-			      GAM_GET_FEE_TP(S.CHRGE_KND ) FEE_TP,
+			      GAM_GET_HTLD_FEE_TP(S.CHRGE_KND ) FEE_TP,
 			      GAM_GET_FEE_TP_NM(S.PRT_AT_CODE, 'H', S.CHRGE_KND) CHRGE_KND_NM,
 			      S.ENTRPSCD,
 			      S.ENTRPS_NM,
@@ -1195,7 +1195,7 @@
 			      || '00'
 			    FROM P2MGR.FEE_TP_F@YGPA_P2MGR
 			    WHERE PRT_AT_CODE = A.PRT_AT_CODE
-			    AND FEE_TP        = GAM_GET_FEE_TP(A.CHRGE_KND)
+			    AND FEE_TP        = GAM_GET_HTLD_FEE_TP(A.CHRGE_KND)
 			    ) ELEC_PAY_NO,
 			    DECODE(A.PRT_AT_CODE, '622', '6374594', '6374604') GIRO_NO,
 			    P2MGR.sf_makedigit@YGPA_P2MGR(A.NTIC_AMT, 'AMT') ELEC_NTIC_AMT,
@@ -1213,7 +1213,7 @@
 			      S.NTIC_CNT,
 			      S.ACCNUT_YEAR,
 			      S.NTICNO,
-			      GAM_GET_FEE_TP(S.CHRGE_KND ) FEE_TP,
+			      GAM_GET_HTLD_FEE_TP(S.CHRGE_KND ) FEE_TP,
 			      GAM_GET_FEE_TP_NM(S.PRT_AT_CODE, 'H', S.CHRGE_KND) CHRGE_KND_NM,
 			      S.ENTRPSCD,
 			      S.ENTRPS_NM,
@@ -1736,14 +1736,14 @@
 		SELECT LPAD(NVL(MAX(BILL_NO), 0) + 1, 6, '0') NTICNO,
 		       TO_CHAR(SYSDATE, 'YYYY') ACCNUT_YEAR
 		FROM REV_COLL_F
-		WHERE PRT_AT_CODE = #prtAtCode# AND FEE_TP = GAM_GET_FEE_TP(#chrgeKnd#) AND FISCAL_YR = TO_CHAR(SYSDATE, 'YYYY')
+		WHERE PRT_AT_CODE = #prtAtCode# AND FEE_TP = GAM_GET_HTLD_FEE_TP(#chrgeKnd#) AND FISCAL_YR = TO_CHAR(SYSDATE, 'YYYY')
 	</select>
 
       <select id="gamHtldRentFeeMngtDao.selectIntrNticNoAccnutYear_S" parameterClass="egovMap" resultClass="egovMap">
 		SELECT LPAD(NVL(MAX(BILL_NO), 0) + 1, 6, '0') NTICNO,
 		       TO_CHAR(SYSDATE, 'YYYY') ACCNUT_YEAR
 		FROM REV_COLL_F
-		WHERE PRT_AT_CODE = #prtAtCode# AND FEE_TP = GAM_GET_FEE_TP(#intrChrgeKnd#) AND FISCAL_YR = TO_CHAR(SYSDATE, 'YYYY')
+		WHERE PRT_AT_CODE = #prtAtCode# AND FEE_TP = GAM_GET_HTLD_FEE_TP(#intrChrgeKnd#) AND FISCAL_YR = TO_CHAR(SYSDATE, 'YYYY')
 	</select>
 
       <select id="gamHtldRentFeeMngtDao.selectNticRequestRcvdTp_S" parameterClass="egovMap" resultClass="egovMap">
@@ -1775,7 +1775,7 @@
 				) L
 		WHERE P.PRT_AT_CODE = L.PRT_AT_CODE
 			AND P.FISCAL_YR=L.ACCNUT_YEAR
-			AND P.FEE_TP = GAM_GET_FEE_TP(L.CHRGE_KND)
+			AND P.FEE_TP = GAM_GET_HTLD_FEE_TP(L.CHRGE_KND)
 			AND BILL_NO=L.NTICNO
 	</select>
 
@@ -1833,7 +1833,7 @@
       )
       values (
       	#prtAtCode#,
-      	GAM_GET_FEE_TP(#chrgeKnd#),
+      	GAM_GET_HTLD_FEE_TP(#chrgeKnd#),
       	#chrgeKnd#,
       	#accnutYear#,
       	#nticno#,
@@ -1867,7 +1867,7 @@
       )
         SELECT
       L.PRT_AT_CODE,
-      GAM_GET_FEE_TP(#intrChrgeKnd#) FEE_TP,
+      GAM_GET_HTLD_FEE_TP(#intrChrgeKnd#) FEE_TP,
       GAM_GET_WORK_CODE(L.PRT_AT_CODE, L.MNG_YEAR, L.MNG_NO, L.MNG_CNT, L.NTIC_CNT, #intrChrgeKnd#)  WORK_CODE,
       #accnutYear# FISCAL_YR, #intrFeeNticno# BILL_NO,
       L.ENTRPSCD,
@@ -1895,7 +1895,7 @@
           WHERE (PRT_AT_CODE, FISCAL_YR, FEE_TP, WORK_CODE, BILL_NO) IN (
           	SELECT L.PRT_AT_CODE,
           		L.ACCNUT_YEAR,
-          		GAM_GET_FEE_TP(L.CHRGE_KND),
+          		GAM_GET_HTLD_FEE_TP(L.CHRGE_KND),
           		L.CHRGE_KND,
           		L.NTICNO
           	FROM LEV_REQEST_F L
@@ -1912,7 +1912,7 @@
           WHERE (PRT_AT_CODE, FISCAL_YR, FEE_TP, WORK_CODE, BILL_NO) IN (
           	SELECT L.PRT_AT_CODE,
           		L.ACCNUT_YEAR,
-          		GAM_GET_FEE_TP(L.INTR_CHRGE_KND),
+          		GAM_GET_HTLD_FEE_TP(L.INTR_CHRGE_KND),
           		GAM_GET_WORK_CODE(L.PRT_AT_CODE, L.MNG_YEAR, L.MNG_NO, L.MNG_CNT, L.NTIC_CNT, L.INTR_CHRGE_KND),
           		L.INTR_FEE_NTICNO
           	FROM LEV_REQEST_F L
@@ -2065,7 +2065,7 @@
       			(PRT_AT_CODE, FISCAL_YR, FEE_TP, WORK_CODE, BILL_NO) IN (
           	SELECT L.PRT_AT_CODE,
           		L.ACCNUT_YEAR,
-          		GAM_GET_FEE_TP(L.CHRGE_KND),
+          		GAM_GET_HTLD_FEE_TP(L.CHRGE_KND),
           		<!-- GAM_GET_WORK_CODE(L.PRT_AT_CODE, L.MNG_YEAR, L.MNG_NO, L.MNG_CNT, L.NTIC_CNT, L.INTR_CHRGE_KND), -->
           		L.CHRGE_KND, <!-- WORK_CODE 수정 2015.12.04 김종민 -->
           		L.NTICNO
@@ -2085,7 +2085,7 @@
 	      		(PRT_AT_CODE, FISCAL_YR, FEE_TP, WORK_CODE, BILL_NO) IN (
           	SELECT L.PRT_AT_CODE,
           		L.ACCNUT_YEAR,
-          		GAM_GET_FEE_TP(L.INTR_CHRGE_KND),
+          		GAM_GET_HTLD_FEE_TP(L.INTR_CHRGE_KND),
           		GAM_GET_WORK_CODE(L.PRT_AT_CODE, L.MNG_YEAR, L.MNG_NO, L.MNG_CNT, L.NTIC_CNT, L.INTR_CHRGE_KND),
           		L.INTR_FEE_NTICNO
           	FROM LEV_REQEST_F L
@@ -2227,7 +2227,7 @@
           AND L.NTIC_CNT=#nticCnt#
           AND L.CHRGE_KND=#chrgeKnd#
                     AND R.PRT_AT_CODE = L.PRT_AT_CODE
-          AND R.FEE_TP = GAM_GET_FEE_TP(L.CHRGE_KND)
+          AND R.FEE_TP = GAM_GET_HTLD_FEE_TP(L.CHRGE_KND)
           AND R.FISCAL_YR = L.ACCNUT_YEAR
           AND R.BILL_NO = L.NTICNO
     </select>

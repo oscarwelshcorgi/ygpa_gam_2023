@@ -234,7 +234,7 @@
 			REV_COLL_F R
 		WHERE R.PRT_AT_CODE=L.PRT_AT_CODE
 			AND R.FISCAL_YR = L.ACCNUT_YEAR
-			AND R.FEE_TP = GAM_GET_FEE_TP(L.CHRGE_KND)
+			AND R.FEE_TP = GAM_GET_HTLD_FEE_TP(L.CHRGE_KND)
 			AND R.WORK_CODE = L.CHRGE_KND
 			AND R.BILL_NO = L.NTICNO
 			AND L.PRT_AT_CODE=#prtAtCode#
@@ -601,8 +601,8 @@
 				SELECT lpad(nvl(MAX(DLY_SER_NO), 0)+1, 2, '0') FROM UNPAID_F 
 					WHERE PRT_AT_CODE=L.PRT_AT_CODE
 					AND FISCAL_YR=L.ACCNUT_YEAR
-					AND WORK_CODE=L.CHRGE_KND
-					AND FEE_TP=GAM_GET_FEE_TP(L.CHRGE_KND)
+					AND WORK_CODE=GAM_GET_HTLD_ARRRG_CHRGE_KND(L.CHRGE_KND)
+					AND FEE_TP=GAM_GET_HTLD_FEE_TP(GAM_GET_HTLD_ARRRG_CHRGE_KND(L.CHRGE_KND))
 					AND BILL_NO=L.NTICNO
 			) DLY_SER_NO,
 			TO_CHAR(
@@ -611,8 +611,8 @@
 					SELECT U.PRV_DUE_DT FROM UNPAID_F U
 						WHERE U.PRT_AT_CODE=L.PRT_AT_CODE
 						AND U.FISCAL_YR=L.ACCNUT_YEAR
-						AND U.WORK_CODE=L.CHRGE_KND
-						AND U.FEE_TP=GAM_GET_FEE_TP(L.CHRGE_KND)
+						AND U.WORK_CODE=GAM_GET_HTLD_ARRRG_CHRGE_KND(L.CHRGE_KND)
+						AND U.FEE_TP=GAM_GET_HTLD_FEE_TP(GAM_GET_HTLD_ARRRG_CHRGE_KND(L.CHRGE_KND))
 						AND U.BILL_NO=L.NTICNO
 						AND U.DLY_SER_NO = DLY_SER_NO
 						AND ROWNUM = 1
@@ -624,8 +624,8 @@
 					SELECT U.PRV_BILL_DT FROM UNPAID_F U 
 						WHERE U.PRT_AT_CODE=L.PRT_AT_CODE
 						AND U.FISCAL_YR=L.ACCNUT_YEAR
-						AND U.WORK_CODE=L.CHRGE_KND
-						AND U.FEE_TP=GAM_GET_FEE_TP(L.CHRGE_KND)
+						AND U.WORK_CODE=GAM_GET_HTLD_ARRRG_CHRGE_KND(L.CHRGE_KND)
+						AND U.FEE_TP=GAM_GET_FEE_TP(GAM_GET_HTLD_ARRRG_CHRGE_KND(L.CHRGE_KND))
 						AND U.BILL_NO=L.NTICNO
 						AND U.DLY_SER_NO = DLY_SER_NO
 						AND ROWNUM = 1
@@ -666,7 +666,7 @@
      		DEPT, EMPL, PRV_DUE_DT, DJIRO_AMNT, USER_NAME, PRV_BILL_DT
       	)
       		SELECT
-        		L.PRT_AT_CODE, GAM_GET_FEE_TP(L.CHRGE_KND), L.CHRGE_KND, L.ACCNUT_YEAR, L.NTICNO,
+        		L.PRT_AT_CODE, GAM_GET_HTLD_FEE_TP(GAM_GET_HTLD_ARRRG_CHRGE_KND(L.CHRGE_KND)), GAM_GET_HTLD_ARRRG_CHRGE_KND(L.CHRGE_KND), L.ACCNUT_YEAR, L.NTICNO,
         		#dlySerNo#, TO_NUMBER(#dlyBillAmnt#), TO_DATE(#dlyBillDt#, 'YYYY-MM-DD'), TO_DATE(#dlyDueDt#, 'YYYY-MM-DD'), 'N', '1',
       			TO_DATE(#nticDt#, 'YYYY-MM-DD'), TO_NUMBER(#dbillAmnt#),
       			GAM_GETENTRPSNM(L.ENTRPSCD, '2'),
@@ -738,14 +738,14 @@
 			WHERE 1=1
 	           AND L.PRT_AT_CODE=U.PRT_AT_CODE
 	           AND L.ACCNUT_YEAR=U.FISCAL_YR
-	           AND L.CHRGE_KND=U.WORK_CODE
+	           AND GAM_GET_HTLD_ARRRG_CHRGE_KND(L.CHRGE_KND)=U.WORK_CODE
 	           AND L.NTICNO=U.BILL_NO
 				<isNotEmpty property="prtAtCode">
                     AND U.PRT_AT_CODE = #prtAtCode#
                 </isNotEmpty>
                 <isNotEmpty property="chrgeKnd">
-                    AND U.FEE_TP = GAM_GET_FEE_TP(#chrgeKnd#)
-                				AND U.WORK_CODE = #chrgeKnd#
+                    AND U.FEE_TP = GAM_GET_HTLD_FEE_TP(GAM_GET_HTLD_ARRRG_CHRGE_KND(#chrgeKnd#))
+                				AND U.WORK_CODE = GAM_GET_HTLD_ARRRG_CHRGE_KND(#chrgeKnd#)
                 </isNotEmpty>
                 <isNotEmpty property="accnutYear">
                     AND U.FISCAL_YR = #accnutYear#
@@ -767,8 +767,8 @@
                     AND U.PRT_AT_CODE = #prtAtCode#
                 </isNotEmpty>
                 <isNotEmpty property="chrgeKnd">
-                    AND U.FEE_TP = GAM_GET_FEE_TP(#chrgeKnd#)
-                				AND U.WORK_CODE = #chrgeKnd#
+                    AND U.FEE_TP = GAM_GET_HTLD_FEE_TP(GAM_GET_HTLD_ARRRG_CHRGE_KND(#chrgeKnd#))
+                				AND U.WORK_CODE = GAM_GET_HTLD_ARRRG_CHRGE_KND(#chrgeKnd#)
                 </isNotEmpty>
                 <isNotEmpty property="accnutYear">
                     AND U.FISCAL_YR = #accnutYear#
@@ -792,8 +792,8 @@
                     AND U.PRT_AT_CODE = #prtAtCode#
                 </isNotEmpty>
                 <isNotEmpty property="chrgeKnd">
-                    AND U.FEE_TP = GAM_GET_FEE_TP(#chrgeKnd#)
-                				AND U.WORK_CODE = #chrgeKnd#
+                    AND U.FEE_TP = GAM_GET_HTLD_FEE_TP(GAM_GET_HTLD_ARRRG_CHRGE_KND(#chrgeKnd#))
+                				AND U.WORK_CODE = GAM_GET_HTLD_ARRRG_CHRGE_KND(#chrgeKnd#)
                 </isNotEmpty>
                 <isNotEmpty property="accnutYear">
                     AND U.FISCAL_YR = #accnutYear#
@@ -836,14 +836,14 @@
 			WHERE 1=1
 	           AND L.PRT_AT_CODE=U.PRT_AT_CODE
 	           AND L.ACCNUT_YEAR=U.FISCAL_YR
-	           AND L.CHRGE_KND=U.WORK_CODE
+	           AND GAM_GET_HTLD_ARRRG_CHRGE_KND(L.CHRGE_KND)=U.WORK_CODE
 	           AND L.NTICNO=U.BILL_NO
 				<isNotEmpty property="prtAtCode">
                     AND U.PRT_AT_CODE = #prtAtCode#
                 </isNotEmpty>
                 <isNotEmpty property="chrgeKnd">
-                    AND U.FEE_TP = GAM_GET_FEE_TP(#chrgeKnd#)
-                				AND U.WORK_CODE = #chrgeKnd#
+                    AND U.FEE_TP = GAM_GET_HTLD_FEE_TP(GAM_GET_HTLD_ARRRG_CHRGE_KND(#chrgeKnd#))
+                				AND U.WORK_CODE = GAM_GET_HTLD_ARRRG_CHRGE_KND(#chrgeKnd#)
                 </isNotEmpty>
                 <isNotEmpty property="accnutYear">
                     AND U.FISCAL_YR = #accnutYear#
@@ -943,7 +943,7 @@
       LEV_REQEST_F L
     WHERE A.PRT_AT_CODE = #prtAtCode#
     AND A.PRT_AT_CODE   = L.PRT_AT_CODE
-    AND A.FEE_TP        = GAM_GET_FEE_TP(L.CHRGE_KND)
+    AND A.FEE_TP        = GAM_GET_HTLD_FEE_TP(L.CHRGE_KND)
     AND A.WORK_CODE = L.CHRGE_KND
     AND A.FISCAL_YR     = L.ACCNUT_YEAR
     AND A.BILL_NO       = L.NTICNO
@@ -973,7 +973,7 @@
           AND A.AGENT_CODE    = #entrpscd#
         </isNotEmpty>
         <isNotEmpty property="chrgeKnd">
-          AND A.FEE_TP        = GAM_GET_FEE_TP(#chrgeKnd#)
+          AND A.FEE_TP        = GAM_GET_HTLD_FEE_TP(#chrgeKnd#)
           AND A.WORK_CODE = #chrgeKnd#
     	</isNotEmpty>
         ORDER BY A.FEE_TP ASC, A.BILL_NO ASC
@@ -989,7 +989,7 @@
 				FROM   REV_COLL_F A, ASSETS_RENT_F AR, LEV_REQEST_F L
         WHERE A.PRT_AT_CODE   = #prtAtCode#
           AND A.PRT_AT_CODE = L.PRT_AT_CODE
-          AND A.FEE_TP = GAM_GET_FEE_TP(L.CHRGE_KND)
+          AND A.FEE_TP = GAM_GET_HTLD_FEE_TP(L.CHRGE_KND)
           AND A.WORK_CODE = L.CHRGE_KND
           AND A.FISCAL_YR = L.ACCNUT_YEAR
           AND A.BILL_NO = L.NTICNO
@@ -1019,7 +1019,7 @@
           AND A.AGENT_CODE    = #entrpscd#
         </isNotEmpty>
         <isNotEmpty property="chrgeKnd">
-          AND A.FEE_TP        = GAM_GET_FEE_TP(#chrgeKnd#)
+          AND A.FEE_TP        = GAM_GET_HTLD_FEE_TP(#chrgeKnd#)
           AND A.WORK_CODE        = #chrgeKnd#
     	</isNotEmpty>
     </select>
@@ -1178,7 +1178,7 @@
 		AND R.FISCAL_YR=L.ACCNUT_YEAR
 		AND R.bill_no   =L.nticno
 		AND R.work_code     =L.chrge_knd
-		AND R.fee_tp    = GAM_GET_FEE_TP(l.chrge_knd)
+		AND R.fee_tp    = GAM_GET_HTLD_FEE_TP(l.chrge_knd)
 		AND R.OCR_DT IS NULL
 	</select>
 
@@ -1216,7 +1216,7 @@
                AND L.NTIC_CNT = #nticCnt#
 	           AND L.PRT_AT_CODE=U.PRT_AT_CODE
 	           AND L.ACCNUT_YEAR=U.FISCAL_YR
-	           AND U.WORK_CODE=L.CHRGE_KND
+	           AND U.WORK_CODE=GAM_GET_HTLD_ARRRG_CHRGE_KND(L.CHRGE_KND)
 	           AND L.NTICNO=U.BILL_NO
              ORDER BY U.DLY_SER_NO DESC
     </select>
@@ -1284,7 +1284,7 @@
             DELETE FROM UNPAID_F WHERE (PRT_AT_CODE, FEE_TP, WORK_CODE, FISCAL_YR, BILL_NO) IN
      (
      	SELECT
-              PRT_AT_CODE, GAM_GET_FEE_TP(CHRGE_KND), CHRGE_KND, ACCNUT_YEAR, NTICNO
+              PRT_AT_CODE, GAM_GET_HTLD_FEE_TP(GAM_GET_HTLD_ARRRG_CHRGE_KND(CHRGE_KND)), GAM_GET_HTLD_ARRRG_CHRGE_KND(CHRGE_KND), ACCNUT_YEAR, NTICNO
 		FROM LEV_REQEST_F
       	WHERE PRT_AT_CODE=#prtAtCode#
 	      	AND MNG_YEAR=#mngYear#
@@ -1360,10 +1360,10 @@
 		    WHERE 1=1
 	           AND L.PRT_AT_CODE=U.PRT_AT_CODE
 	           AND L.ACCNUT_YEAR=U.FISCAL_YR
-	           AND L.CHRGE_KND=U.WORK_CODE
+	           AND GAM_GET_HTLD_ARRRG_CHRGE_KND(L.CHRGE_KND)=U.WORK_CODE
 	           AND L.NTICNO=U.BILL_NO
                AND U.PRT_AT_CODE = #prtAtCode#
-               AND U.FEE_TP = GAM_GET_FEE_TP(#workCode#)
+               AND U.FEE_TP = GAM_GET_HTLD_FEE_TP(#workCode#)
                AND U.WORK_CODE = #workCode#
                AND U.FISCAL_YR = #fiscalYr#
                AND U.BILL_NO = #billNo#
@@ -1431,7 +1431,7 @@
       		UPDT_DATE=SYSDATE
      	WHERE
             PRT_AT_CODE = #prtAtCode#
-            AND FEE_TP = GAM_GET_FEE_TP(#workCode#)
+            AND FEE_TP = GAM_GET_HTLD_FEE_TP(#workCode#)
             AND WORK_CODE = #workCode#
             AND FISCAL_YR = #fiscalYr#
             AND BILL_NO = #billNo#
