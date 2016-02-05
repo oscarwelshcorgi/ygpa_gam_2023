@@ -93,12 +93,13 @@
                 e.ctx["table" + i] = table[i];
             }
             delete e.ctx.table;
-
-            if (typeof msie !== "undefined" && msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./))      // If Internet Explorer
+            var agt = navigator.userAgent.toLowerCase();
+    		var msie = agt.indexOf("msie");
+    	if (typeof msie !== "undefined" && msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./) ||!!navigator.userAgent.match(/Trident.*6/))      // If Internet Explorer
             {
                 if (typeof Blob !== "undefined") {
                     //use blobs if we can
-                    fullTemplate = [fullTemplate];
+                    fullTemplate = [e.format(fullTemplate, e.ctx)];
                     //convert to array
                     var blob1 = new Blob(fullTemplate, { type: "text/html" });
                     window.navigator.msSaveBlob(blob1, getFileName(e.settings) );
