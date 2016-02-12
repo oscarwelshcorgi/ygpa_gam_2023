@@ -921,7 +921,7 @@ div.notice {
 			      				(단가 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${detailItem.applcPrice}" /> 원 &nbsp;
 			      				면적 :  <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${detailItem.usageAr}" /> m<sup>2</sup>
 			      				<c:if test="${master.bizAssessAmnt>0}">
-			      					&nbsp; 실적평가금액 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${master.bizAssessAmnt}" /> 원 &nbsp;
+			      					&nbsp; 추가금액1 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${master.bizAssessAmnt}" /> 원 &nbsp;
 			      				</c:if>
 			   					)
 			      			</c:if>
@@ -933,7 +933,7 @@ div.notice {
 			      			</c:if>
 						    <c:if test="${master.areaAssessAmnt>0}">
 		 			    		<p>
-				      				지적측정금액 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${master.areaAssessAmnt}" /> 원
+				      				추가금액2 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${master.areaAssessAmnt}" /> 원
 	      						</p>
 			      			</c:if>
 	      				<p><c:if test="${master.rm!=null}">비고 : <c:out value="${master.rm}"/></c:if></p>
