@@ -240,8 +240,6 @@ GamFcltyMaintMngModule.prototype.loadComplete = function(params) {
 			event.data.module.$('#mntnRprExpRate').val(rate);
 		}
 	});
-	
-	
 
 	// 기본값 셋팅
 	this.setDefaultParam();
