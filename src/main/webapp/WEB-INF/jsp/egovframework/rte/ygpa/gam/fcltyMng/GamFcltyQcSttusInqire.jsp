@@ -551,6 +551,45 @@ GamFcltyQcwWrtMngModule.prototype.downloadExcel = function() {
 
 };
 
+GamFcltyQcwWrtMngModule.prototype.tableToExcel = function() {
+	var clone =	this.$('#mainGrid').clone();
+	$(clone).find('th,td').each(function() {
+		if($(this).css('display')=='none') {
+			$(this).remove();
+		}
+		else {
+			$(this).css('border-left', '1px solid black');
+			$(this).css('border-top', '1px solid black');
+			$(this).css('border-right', '1px solid black');
+			$(this).css('border-bottom', '1px solid black');
+		}
+	});
+	clone.find("img").remove();
+	clone.find("tr:eq(0)").remove();
+	clone.find("tr:eq(1)").remove();
+	clone.find("td:eq(0)").remove();
+	clone.find(".ev_dhx_skyblue").find("td:eq(0)").remove();
+	clone.find(".odd_dhx_skyblue").find("td:eq(0)").remove();
+	clone.find("td:eq(0)").css("width","200");
+	clone.find("td:eq(1)").css("width","100");
+	clone.find("td:eq(2)").css("width","300");
+	clone.find("td:eq(3)").css("width","100");
+	clone.find("td:eq(4)").css("width","100");
+	clone.find("td:eq(5)").css("width","100");
+	clone.find("td:eq(6)").css("width","100");
+	clone.find("td:eq(7)").css("width","100");
+	clone.find("td:eq(8)").css("width","100");
+	clone.find("td:eq(9)").css("width","150");
+	clone.find("td:eq(10)").css("width","100");
+	clone.find("td:eq(11)").css("width","100");
+	clone.find("td:eq(12)").css("width","150");
+	clone.find("td:eq(13)").css("width","100");
+	clone.find("td:eq(14)").css("width","180");
+	clone.table2excel({
+		filename: "점검내역 목록",
+	});
+};
+
 <%
 /**
  * @FUNCTION NAME : loadDetail
@@ -1686,7 +1725,8 @@ GamFcltyQcwWrtMngModule.prototype.onButtonClick = function(buttonId) {
 			break;
 
 		case 'btnExcelDownload':
-			this.downloadExcel();
+			//this.downloadExcel();
+			this.tableToExcel();
 			break;
 
 		case 'btnAdd' :

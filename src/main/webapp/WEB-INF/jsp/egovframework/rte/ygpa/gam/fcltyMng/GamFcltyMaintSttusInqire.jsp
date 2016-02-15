@@ -1573,6 +1573,33 @@ GamFcltyMaintSttusInqireModule.prototype.downloadExcel = function() {
 	this.$('#fcltyMaintMngList').flexExcelDown('/fcltyMng/selectFcltyMaintMngListExcel.do');
 };
 
+GamFcltyMaintSttusInqireModule.prototype.tableToExcel = function() {
+	var clone =	this.$('#fcltyMaintMngList').clone();
+	$(clone).find('th,td').each(function() {
+		if($(this).css('display')=='none') {
+			$(this).remove();
+		}
+		else {
+			$(this).css('border-left', '1px solid black');
+			$(this).css('border-top', '1px solid black');
+			$(this).css('border-right', '1px solid black');
+			$(this).css('border-bottom', '1px solid black');
+		}
+	});
+	clone.find("img").remove();
+	clone.find("tr:eq(0)").remove();
+	clone.find("tr:eq(1)").remove();
+	clone.find(".ev_dhx_skyblue").find("td:eq(0)").text("");
+	clone.find(".odd_dhx_skyblue").find("td:eq(0)").text("");
+	clone.find("td:eq(0)").css("width","100");
+	clone.find("td:eq(2)").css("width","500");
+	clone.find("td:eq(3)").css("width","100");
+	clone.find("td:eq(9)").css("width","500");
+	clone.table2excel({
+		filename: "유지보수내역 목록",
+	});
+};
+
 <%
 /**
  * @FUNCTION NAME : fillDetailBasicData
@@ -1643,7 +1670,8 @@ GamFcltyMaintSttusInqireModule.prototype.fillDetailBasicData = function(value) {
 
 		// 엑셀다운로드
 		case "btnExcelDownload":
-			this.downloadExcel();
+			//this.downloadExcel();
+			this.tableToExcel();
 		break;
 
 		// 시설물관리그룹
