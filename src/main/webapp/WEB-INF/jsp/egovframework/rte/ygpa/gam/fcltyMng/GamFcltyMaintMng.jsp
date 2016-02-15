@@ -224,22 +224,24 @@ GamFcltyMaintMngModule.prototype.loadComplete = function(params) {
 	if (EMD.userinfo.mngFcltyCd != null && EMD.userinfo.mngFcltyCd != "*") {
 		this.$('#sFcltsJobSe').val(EMD.userinfo.mngFcltyCd);
 	}
-	this.$('#mntnRprExpRate').bind("keyup", {module: this}, function(event) {
-		var bdgt = event.data.module.$('#mntnRprBdgt').val();
-		var rate = event.data.module.$('#mntnRprExpRate').val();
-		if(bdgt !=""){
-			var cnstAmt = bdgt * rate;
-			event.data.module.$('#mntnRprCnstAmt').val(cnstAmt);
-		}
-	});
 	this.$('#mntnRprBdgt').bind("keyup", {module: this}, function(event) {
 		var bdgt = event.data.module.$('#mntnRprBdgt').val();
-		var rate = event.data.module.$('#mntnRprExpRate').val();
-		if(rate !=""){
-			var cnstAmt = bdgt * rate;
-			event.data.module.$('#mntnRprCnstAmt').val(cnstAmt);
+		var cnstAmt = event.data.module.$('#mntnRprCnstAmt').val();
+		if(bdgt !=""){
+			var rate = cnstAmt / bdgt;
+			event.data.module.$('#mntnRprExpRate').val(rate);
 		}
 	});
+	this.$('#mntnRprCnstAmt').bind("keyup", {module: this}, function(event) {
+		var bdgt = event.data.module.$('#mntnRprBdgt').val();
+		var cnstAmt = event.data.module.$('#mntnRprCnstAmt').val();
+		if(cnstAmt !=""){
+			var rate = cnstAmt / bdgt;
+			event.data.module.$('#mntnRprExpRate').val(rate);
+		}
+	});
+	
+	
 
 	// 기본값 셋팅
 	this.setDefaultParam();
