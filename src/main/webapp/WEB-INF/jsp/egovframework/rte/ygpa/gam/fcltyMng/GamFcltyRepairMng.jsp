@@ -1450,6 +1450,45 @@ GamFcltyRepairMngModule.prototype.downloadExcel = function() {
 
 };
 
+GamFcltyRepairMngModule.prototype.tableToExcel = function() {
+	var clone =	this.$('#fcltyRepairMngList').clone();
+	$(clone).find('th,td').each(function() {
+		if($(this).css('display')=='none') {
+			$(this).remove();
+		}
+		else {
+			$(this).css('border-left', '1px solid black');
+			$(this).css('border-top', '1px solid black');
+			$(this).css('border-right', '1px solid black');
+			$(this).css('border-bottom', '1px solid black');
+		}
+	});
+	clone.find("img").remove();
+	clone.find("tr:eq(0)").remove();
+	clone.find("tr:eq(1)").remove();
+	clone.find("td:eq(0)").remove();
+	clone.find(".ev_dhx_skyblue").find("td:eq(0)").remove();
+	clone.find(".odd_dhx_skyblue").find("td:eq(0)").remove();
+	clone.find("td:eq(0)").css("width","200");
+	clone.find("td:eq(1)").css("width","80");
+	clone.find("td:eq(2)").css("width","300");
+	clone.find("td:eq(3)").css("width","150");
+	clone.find("td:eq(4)").css("width","150");
+	clone.find("td:eq(5)").css("width","80");
+	clone.find("td:eq(6)").css("width","80");
+	clone.find("td:eq(7)").css("width","100");
+	clone.find("td:eq(8)").css("width","100");
+	clone.find("td:eq(9)").css("width","100");
+	clone.find("td:eq(10)").css("width","100");
+	clone.find("td:eq(11)").css("width","180");
+	clone.find("td:eq(12)").css("width","150");
+	clone.find("td:eq(13)").css("width","120");
+	clone.find("td:eq(14)").css("width","150");
+	clone.table2excel({
+		filename: "하자관리내역 목록",
+	});
+};
+
 <%
 /**
  * @FUNCTION NAME : selectedHwpDownload
@@ -1538,7 +1577,8 @@ GamFcltyRepairMngModule.prototype.onButtonClick = function(buttonId) {
 
 		// 엑셀다운로드
 		case "btnExcelDownload":
-			this.downloadExcel();
+			//this.downloadExcel();
+			this.tableToExcel();
 		break;
 
 		// 대상시설물

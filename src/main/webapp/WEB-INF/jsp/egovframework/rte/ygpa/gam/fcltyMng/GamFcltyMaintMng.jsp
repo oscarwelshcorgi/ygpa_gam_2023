@@ -1561,17 +1561,19 @@ GamFcltyMaintMngModule.prototype.tableToExcel = function() {
 		}
 	});
 	clone.find("img").remove();
+	clone.find("tr:eq(0)").remove();
+	clone.find("tr:eq(1)").remove();
+	clone.find(".ev_dhx_skyblue").find("td:eq(0)").text("");
 	clone.find(".odd_dhx_skyblue").find("td:eq(0)").text("");
-	clone.find(".odd_dhx_skyblue").find("td:eq(0)").css("width","100");
-	clone.find(".odd_dhx_skyblue").find("td:eq(2)").css("width","500");
-	clone.find(".odd_dhx_skyblue").find("td:eq(3)").css("width","100");
-	clone.find(".odd_dhx_skyblue").find("td:eq(9)").css("width","500");
+	clone.find("td:eq(0)").css("width","100");
+	clone.find("td:eq(2)").css("width","500");
+	clone.find("td:eq(3)").css("width","100");
+	clone.find("td:eq(9)").css("width","500");
 	clone.table2excel({
 		filename: "유지보수내역 목록",
 	});
-
-	//console.log(this.$('#fcltyMaintMngList').find("tr"));
 };
+
 <%
 /**
  * @FUNCTION NAME : downloadExcel
