@@ -201,7 +201,7 @@
 				                 ]]>
 				             </isNotEmpty>
 
-                             ORDER BY A.RENT_AREA_CD ASC, ENTRPS_NM, GR_AR DESC
+                             ORDER BY A.RENT_AREA_CD ASC, ENTRPS_NM ASC, GR_USAGE_PD_FROM ASC
                 ) S
              ) A
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>

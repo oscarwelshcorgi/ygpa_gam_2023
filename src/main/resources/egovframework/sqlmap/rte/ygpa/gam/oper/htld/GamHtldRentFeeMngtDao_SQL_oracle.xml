@@ -142,7 +142,7 @@
 		</isNotEmpty>
 		<isNotEmpty property="nticPdTo" prepend="AND">
 		<![CDATA[
-			L.NTIC_PD_FROM < TO_DATE(#nticPdTo#, 'YYYY-MM-DD')
+			L.NTIC_PD_FROM < TO_DATE(#nticPdTo#, 'YYYY-MM-DD')+1
 			]]>
 		</isNotEmpty>
 		<isNotEmpty property="sPrtAtCode" prepend="AND">
@@ -180,7 +180,7 @@
 			(L.NHT_ISUE_YN IS NOT NULL AND L.NHT_ISUE_YN='Y')
 			]]>
 		</isEqual>
-		ORDER BY L.NTIC_CNT ASC
+		ORDER BY A.RENT_AREA_CD ASC, A.ENTRPS_NM ASC, L.NTIC_CNT ASC
     </select>
 
     <select id="gamHtldRentFeeMngtDao.selectHtldRentFeeMngtListTotCnt_S" parameterClass="gamHtldRentFeeDefaultVO" resultClass="int">
