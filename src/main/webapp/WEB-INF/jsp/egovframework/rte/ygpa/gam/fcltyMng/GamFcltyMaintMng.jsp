@@ -2061,14 +2061,14 @@ var module_instance = new GamFcltyMaintMngModule();
 									<td><input id="cnstrtr" type="text" title="시공자" maxlength="20" style="width:102px;" /></td>
 								</tr>
 								<tr>
+									<th height="18" class="required_text">공사금액</th>
+									<td><input id="mntnRprCnstAmt" type="text" title="공사금액" class="ygpaNumber" maxlength="16" style="width:120px;" /> 원</td>
 									<th height="18" class="required_text">직접공사비</th>
-									<td><input id="mntnRprBdgt" type="text" title="직접공사비" class="ygpaNumber" maxlength="16" style="width:120px;" /> 원</td>
-									<th height="18" class="required_text">제·경비율</th>
-									<td><input id="mntnRprExpRate" type="text" title="제경비율" class="ygpaNumber" data-decimal-point="2" maxlength="16" style="width:102px;" /> %</td>
+									<td><input id="mntnRprBdgt" type="text" title="직접공사비" class="ygpaNumber" maxlength="16" style="width:102px;" /> 원</td>
 								</tr>
 								<tr>
-									<th height="18" class="required_text">공사금액</th>
-									<td colspan="2"><input id="mntnRprCnstAmt" type="text" title="공사금액" class="ygpaNumber" maxlength="16" style="width:120px;" /> 원(직접공사비 * 제·경비율)</td>
+									<th height="18" class="required_text">제·경비율</th>
+									<td colspan="2"><input id="mntnRprExpRate" type="text" title="제경비율" class="ygpaNumber" data-decimal-point="2" maxlength="16" style="width:120px;" /> %  (공사금액 ÷ 직접공사비)</td>
 								</tr>
 								<tr>
 									<th height="18" class="required_text">작성자</th>

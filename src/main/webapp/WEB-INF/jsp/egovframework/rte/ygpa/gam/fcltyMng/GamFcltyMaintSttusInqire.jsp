@@ -55,21 +55,19 @@ GamFcltyMaintSttusInqireModule.prototype.loadComplete = function(params) {
 	// 테이블 설정
 	this.$("#fcltyMaintMngList").flexigrid({
 		module: this,
-		url: '/fcltyMng/selectFcltyMaintMngList.do',
+		url: '/fcltyMng/selectFcltyMaintSttusInqireList.do',
 		dataType: "json",
 		colModel : [
+					{display:"순서", 				name:"mntnFcltsCnstInfo",		width:30, 		sortable:false,		align:"center"},
 					{display:"시설물관리그룹", 		name:"fcltsMngGroupNm",			width:130, 		sortable:false,		align:"center"},
 					{display:"유지보수공사명",		name:"mntnRprCnstNm",			width:250, 		sortable:false,		align:"left"},
 					{display:"유지보수구분",		name:"mntnRprSeNm",				width:80, 		sortable:false,		align:"center"},
 					{display:"시작일자",			name:"mntnRprCnstStartDt",		width:80, 		sortable:false,		align:"center"},
 					{display:"종료일자",			name:"mntnRprCnstEndDt",		width:80, 		sortable:false,		align:"center"},
 					{display:"공사금액", 			name:"mntnRprCnstAmt",			width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
-					/* {display:"직접공사비", 			name:"mntnRprBdgt",				width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'}, */
 					{display:"유지보수내용", 		name:"mntnRprCn",				width:250, 		sortable:false,		align:"left"},
 					{display:"시공자", 				name:"cnstrtr",					width:150, 		sortable:false,		align:"center"},
-					{display:"계약명", 				name:"ctrtNm",					width:250, 		sortable:false,		align:"left"},
-					{display:"유지보수정보", 		name:"mntnFcltsCnstInfo",		width:200, 		sortable:false,		align:"center"}
-
+					{display:"계약명", 				name:"ctrtNm",					width:250, 		sortable:false,		align:"left"}
 			],
 		height: "auto",
 		groupBy: "mntnFcltsCnstInfo",
@@ -84,7 +82,7 @@ GamFcltyMaintSttusInqireModule.prototype.loadComplete = function(params) {
 
 	this.$("#mntnRprObjFcltsF").flexigrid({
 		module: this,
-		url: '/fcltyMng/selectMntnRprObjFcltsFList.do',
+		url: '/fcltyMng/selectMntnSttusRprObjFcltsFList.do',
 		dataType: "json",
 		colModel : [
 					{display:"선택", 				name:"chkRole",				width:40, 		sortable:false,		align:"center", 	displayFormat:"checkbox"},
@@ -1313,7 +1311,7 @@ GamFcltyMaintSttusInqireModule.prototype.loadDetail = function(){
 	                { name: 'mntnRprSeq', value: row['mntnRprSeq'] }
 	               ];
 
-	this.doAction('/fcltyMng/selectFcltyMaintMngDetail.do', searchVO, function(module, result) {
+	this.doAction('/fcltyMng/selectFcltyMaintSttusInqireDetail.do', searchVO, function(module, result) {
 		if(result.resultCode == "0"){
 			module.makeFormValues('#fcltyMaintMngListVO', result.result);
 
@@ -2044,14 +2042,14 @@ var module_instance = new GamFcltyMaintSttusInqireModule();
 									<td><input id="cnstrtr" type="text" title="계약자" maxlength="20" style="width:102px;" disabled="disabled"/></td>
 								</tr>
 								<tr>
+									<th height="18" class="required_text">공사금액</th>
+									<td><input id="mntnRprCnstAmt" type="text" title="공사금액" class="ygpaNumber" maxlength="16" style="width:120px;" disabled="disabled"/> 원</td>
 									<th height="18" class="required_text">직접공사비</th>
-									<td><input id="mntnRprBdgt" type="text" title="직접공사비" class="ygpaNumber" maxlength="16" style="width:120px;" /> 원</td>
-									<th height="18" class="required_text">제·경비율</th>
-									<td><input id="mntnRprExpRate" type="text" title="제경비율" class="ygpaNumber" data-decimal-point="2" maxlength="16" style="width:102px;" /> %</td>
+									<td><input id="mntnRprBdgt" type="text" title="직접공사비" class="ygpaNumber" maxlength="16" style="width:102px;" disabled="disabled"/> 원</td>
 								</tr>
 								<tr>
-									<th height="18" class="required_text">공사금액</th>
-									<td colspan="2"><input id="mntnRprCnstAmt" type="text" title="공사금액" class="ygpaNumber" maxlength="16" style="width:120px;" /> 원(직접공사비 * 제·경비율)</td>
+									<th height="18" class="required_text">제·경비율</th>
+									<td colspan="2"><input id="mntnRprExpRate" type="text" title="제경비율" class="ygpaNumber" data-decimal-point="2" maxlength="16" style="width:120px;" disabled="disabled"/> % (공사금액 ÷ 직접공사비)</td>
 								</tr>
 								<tr>
 									<th height="18" class="required_text">작성자</th>

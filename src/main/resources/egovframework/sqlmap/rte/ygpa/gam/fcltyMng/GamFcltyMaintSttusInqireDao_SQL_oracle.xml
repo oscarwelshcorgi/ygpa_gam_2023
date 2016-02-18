@@ -156,14 +156,11 @@
 			, M.CTRT_NO
 			, (SELECT I.CTRT_NM FROM CTRT_INFO_F I WHERE I.CTRT_NO = M.CTRT_NO) CTRT_NM
 			, M.FCLTS_JOB_SE
-			, GAM_GET_FCLTS_JOB_SE_NM(M.FCLTS_JOB_SE) FCLTS_JOB_SE_NM
 			, M.FCLTS_MNG_GROUP_NO
 			, (SELECT G.FCLTS_MNG_GROUP_NM FROM FCLTS_MNG_GROUP_F G WHERE G.FCLTS_MNG_GROUP_NO = M.FCLTS_MNG_GROUP_NO) FCLTS_MNG_GROUP_NO_NM
 			, M.MNTN_RPR_SEQ
 			, M.MNTN_RPR_SE
 			, M.MNTN_SUB_RPR_SE
-			, GAM_GET_MNTN_RPR_SE_NM(M.MNTN_RPR_SE) MNTN_RPR_SE_NM
-			, GAM_GET_MNTN_RPR_SE_NM(M.MNTN_SUB_RPR_SE) MNTN_SUB_RPR_SE_NM
 			, M.MNTN_RPR_PART
 			, M.MNTN_RPR_CN
 			, M.MNTN_RPR_BDGT
@@ -172,7 +169,8 @@
 			, M.ENFORCE_YEAR
 			, TO_CHAR(M.WRT_DT,'YYYY-MM-DD') WRT_DT
 			, M.WRT_USR
-			, GAM_GET_PLAN_HIST_SE_NM(M.PLAN_HIST_SE) PLAN_HIST_SE_NM
+			, M.PLAN_HIST_SE
+			, M.MNTN_RPR_EXP_RATE
 		FROM
 			MNTN_RPR_DTLS_F M 
 		WHERE 
@@ -184,23 +182,35 @@
 	
 	<!-- 유지보수대상시설물내역 -->
 	<select id="gamFcltyMaintSttusInqireDao.selectMntnSttusRprObjFcltsFList_D" parameterClass="gamFcltyMaintSttusInqireVO" resultClass="egovMap">
-        SELECT  
+        SELECT
 			G.FCLTS_MNG_NO
 			, G.PRT_FCLTY_NM
+			, G.PRT_FCLTY_SE
 			, GAM_GETCODENAME(#codeId#,G.GIS_PRT_FCLTY_CD) GIS_PRT_FCLTY_NM
+			, DECODE(O.FCLTS_MNG_NO,NULL,'','TRUE') CHK_ROLE
 		FROM
-			GIS_PRT_FCLTY_CD_F G 
-        LEFT OUTER JOIN 
-			MNTN_RPR_OBJ_FCLTS_F O 
-        ON 
-			O.FCLTS_MNG_GROUP_NO = G.FCLTS_MNG_GROUP_NO 
-			AND O.FCLTS_MNG_NO = G.FCLTS_MNG_NO 
-			AND O.MNTN_RPR_SEQ = TO_NUMBER(#mntnRprSeq#)  
-		WHERE 
-			G.PRT_FCLTY_SE = #fcltsJobSe#
-			AND G.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo# 
+			GIS_PRT_FCLTY_CD_F G
+        JOIN
+			MNTN_RPR_OBJ_FCLTS_F O
+        ON
+			O.FCLTS_MNG_GROUP_NO = G.FCLTS_MNG_GROUP_NO
+			AND O.FCLTS_MNG_NO = G.FCLTS_MNG_NO
+			AND O.MNTN_RPR_SEQ = TO_NUMBER(#mntnRprSeq#)
+		WHERE
+			<![CDATA[ 1<>1 ]]>
 
-        ORDER BY 
+		OR (
+		<isNotEmpty property="fcltsJobSe">
+			G.PRT_FCLTY_SE = #fcltsJobSe#
+			<isNotEmpty property="fcltsMngGroupNo">
+				AND
+			</isNotEmpty>
+		</isNotEmpty>
+		<isNotEmpty property="fcltsMngGroupNo">
+			G.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+		</isNotEmpty>
+			)
+        ORDER BY
           	G.PRT_FCLTY_SE, G.FCLTS_MNG_NO ASC
 	</select>
 	
