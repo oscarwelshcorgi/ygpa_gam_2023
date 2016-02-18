@@ -23,7 +23,7 @@
 
     <logger name="java.sql" additivity="false">
     	<level value="DEBUG"/>
-        <appender-ref ref="console"/>
+        <appender-ref ref="rollingFile"/>
     </logger>
 <!--
     <logger name="java.sql.PreparedStatement" additivity="false">
@@ -43,28 +43,28 @@
  -->
     <logger name="java.sql.ResultSet" additivity="false">
     	<level value="DEBUG"/>
-        <appender-ref ref="console"/>
+        <appender-ref ref="rollingFile"/>
     </logger>
 
     <logger name="egovframework" additivity="false">
         <level value="DEBUG"/>
-        <appender-ref ref="console"/>
+        <appender-ref ref="rollingFile"/>
     </logger>
 
 	<!-- log SQL with timing DEBUGrmation, post execution -->
 	<logger name="jdbc.sqltiming" additivity="false">
 		<level value="DEBUG" />
-		<appender-ref ref="console" />
+		<appender-ref ref="rollingFile" />
 	</logger>
 
 	<logger name="DEBUG" additivity="false">
 		<level value="DEBUG" />
-		<appender-ref ref="console" />
+		<appender-ref ref="rollingFile" />
 	</logger>
 
 	<root>
 		<level value="DEBUG" />
-		<appender-ref ref="console" />
+		<appender-ref ref="rollingFile" />
 	</root>
 
 </log4j:configuration>
