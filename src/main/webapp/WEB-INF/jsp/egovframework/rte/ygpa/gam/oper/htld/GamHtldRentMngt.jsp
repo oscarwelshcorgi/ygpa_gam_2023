@@ -1642,8 +1642,10 @@ var module_instance = new GamHtldRentMngtModule();
             <ul>
                 <li><a href="#tabs1" class="emdTab">배후단지임대 목록</a></li>
                 <li><a href="#tabs2" class="emdTab">배후단지임대 내역</a></li>
+                <!-- 
                 <li><a href="#tabs3" class="emdTab">실적평가</a></li>
                 <li><a href="#tabs4" class="emdTab">면적평가</a></li>
+                -->
                 <li><a href="#tabs5" class="emdTab">고지내역</a></li>
             </ul>
 
@@ -1793,7 +1795,7 @@ var module_instance = new GamHtldRentMngtModule();
 	                 </table>
                  </div>
             </div>
-            <!-- 실적평가 -->
+           	<!-- 
             <div id="tabs3" class="emdTabPage fillHeight" style="overflow: hidden;">
                 <div class="emdControlPanel">
                 	<table id="bizAssessGrid" style="display:none" class="fillHeight"></table>
@@ -1811,7 +1813,6 @@ var module_instance = new GamHtldRentMngtModule();
                         	</th>
                             <td width="40%" style="text-align: left;">
                             	<input type="text" size="20" id="sumBizAssessAmt" class="ygpaNumber"/>원
-                            	<!-- <span data-column-id="sumBizAssessAmt" class="ygpaNumber"></span> -->
                            	</td>
                         </tr>
                     </table>
@@ -1822,7 +1823,6 @@ var module_instance = new GamHtldRentMngtModule();
 	                <button data-role="gridXlsDown" data-flexi-grid="bizAssessGrid" data-xls-name="배후단지실적평가.xls" data-xls-title="배후단지 실적평가">엑셀</button>
                	</div>
             </div>
-            <!-- 면적평가 -->
             <div id="tabs4" class="emdTabPage fillHeight" style="overflow: hidden;">
                 <div class="emdControlPanel">
        	        	<table id="areaAssessGrid" style="display:none" class="fillHeight"></table>
@@ -1862,6 +1862,7 @@ var module_instance = new GamHtldRentMngtModule();
                 	<button data-role="gridXlsDown" data-flexi-grid="areaAssessGrid" data-xls-name="배후단지면적평가.xls" data-xls-title="배후단지 면적평가">엑셀</button>
                	</div>
             </div>
+            -->
             <div id="tabs5" class="emdTabPage fillHeight" style="overflow: hidden;">
                 <div class="emdControlPanel">
                 <table id="nticListGrid" style="display:none" class="fillHeight"></table>
