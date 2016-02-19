@@ -857,6 +857,20 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 			return result;
 		}
 		
+		// 결과항목코드로 점검결과이름 얻기
+		protected String getResultItemName(List<EgovMap> qcResultItemList, String itemCd) {
+			String result = "";
+			if(qcResultItemList != null) {
+				for(EgovMap qcResultItem : qcResultItemList) {
+					if(itemCd.equals(qcResultItem.get("qcItemCd"))){
+						result = (qcResultItem.get("qcItemNm") != null) ? (String) qcResultItem.get("qcItemNm") : "";
+						break;
+					};
+				}
+			}
+			return result;
+		}
+
 		// 결과항목코드로 점검결과내용 얻기(토목일 경우에만 사용)
 		protected String getResultItemContent(List<EgovMap> qcResultItemList, String itemCd) {
 			String result = "";
@@ -1241,16 +1255,16 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 				sb.append("				<CELL BorderFill=\"2\" ColAddr=\"1\" ColSpan=\"2\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"8952\" Protect=\"false\" RowAddr=\"" + rowAddr + "\" RowSpan=\"1\" Width=\"20349\">\n");
 				sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
 				if(isValidResultItemContent(qcResultItemList, "C01010000")) {
-					sb.append("						<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>ㅇ 시설물 용도 변경여부</CHAR></TEXT></P>\n");
+					sb.append("						<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>ㅇ " + getResultItemName(qcResultItemList, "C01010000") + "</CHAR></TEXT></P>\n");
 				}
 				if(isValidResultItemContent(qcResultItemList, "C01020000")) {
-					sb.append("						<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>ㅇ 부두의 법선 변위여부</CHAR></TEXT></P>\n");
+					sb.append("						<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>ㅇ " + getResultItemName(qcResultItemList, "C01020000") + "</CHAR></TEXT></P>\n");
 				}
 				if(isValidResultItemContent(qcResultItemList, "C01030000")) {
-					sb.append("						<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>ㅇ 안벽법면의 수직도</CHAR></TEXT></P>\n");
+					sb.append("						<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>ㅇ " + getResultItemName(qcResultItemList, "C01030000") + "</CHAR></TEXT></P>\n");
 				}
 				if(isValidResultItemContent(qcResultItemList, "C01040000")) {
-					sb.append("						<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>ㅇ 교량 변위여부</CHAR></TEXT></P>\n");
+					sb.append("						<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>ㅇ " + getResultItemName(qcResultItemList, "C01040000") + "</CHAR></TEXT></P>\n");
 				}
 				sb.append("					</PARALIST>\n");
 				sb.append("				</CELL>\n");
@@ -1285,22 +1299,22 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 				sb.append("				<CELL BorderFill=\"2\" ColAddr=\"1\" ColSpan=\"2\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"13112\" Protect=\"false\" RowAddr=\"" + rowAddr + "\" RowSpan=\"1\" Width=\"20349\">\n");
 				sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
 				if(isValidResultItemContent(qcResultItemList, "C02010000")) {
-					sb.append("						<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>ㅇ 방충재 파손, 마모상태</CHAR></TEXT></P>\n");
+					sb.append("						<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>ㅇ " + getResultItemName(qcResultItemList, "C02010000") + "</CHAR></TEXT></P>\n");
 				}
 				if(isValidResultItemContent(qcResultItemList, "C02020000")) {
-					sb.append("						<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>ㅇ 계선주, 차막이 등 상태</CHAR></TEXT></P>\n");
+					sb.append("						<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>ㅇ " + getResultItemName(qcResultItemList, "C02020000") + "</CHAR></TEXT></P>\n");
 				}
 				if(isValidResultItemContent(qcResultItemList, "C02030000")) {
-					sb.append("						<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>ㅇ 타이다운 등 관리상태</CHAR></TEXT></P>\n");
+					sb.append("						<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>ㅇ " + getResultItemName(qcResultItemList, "C02030000") + "</CHAR></TEXT></P>\n");
 				}
 				if(isValidResultItemContent(qcResultItemList, "C02040000")) {
-					sb.append("						<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>ㅇ 기타 여건번화</CHAR></TEXT></P>\n");
+					sb.append("						<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>ㅇ " + getResultItemName(qcResultItemList, "C02040000") + "</CHAR></TEXT></P>\n");
 				}
 				if(isValidResultItemContent(qcResultItemList, "C02050000")) {
-					sb.append("						<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>ㅇ 난간 및 보도상태</CHAR></TEXT></P>\n");
+					sb.append("						<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>ㅇ " + getResultItemName(qcResultItemList, "C02050000") + "</CHAR></TEXT></P>\n");
 				}
 				if(isValidResultItemContent(qcResultItemList, "C02060000")) {
-					sb.append("						<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>ㅇ 교좌장치 상태</CHAR></TEXT></P>\n");
+					sb.append("						<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>ㅇ " + getResultItemName(qcResultItemList, "C02060000") + "</CHAR></TEXT></P>\n");
 				}
 				sb.append("					</PARALIST>\n");
 				sb.append("				</CELL>\n");
@@ -1341,19 +1355,19 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 				sb.append("				<CELL BorderFill=\"2\" ColAddr=\"1\" ColSpan=\"2\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"13112\" Protect=\"false\" RowAddr=\"" + rowAddr + "\" RowSpan=\"1\" Width=\"20349\">\n");
 				sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
 				if(isValidResultItemContent(qcResultItemList, "C03010000")) {
-					sb.append("						<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>ㅇ 시설물의 상태(균열, 침하, 활동, 융기, 함몰, 전도 등)</CHAR></TEXT></P>\n");
+					sb.append("						<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>ㅇ " + getResultItemName(qcResultItemList, "C03010000") + "</CHAR></TEXT></P>\n");
 				}
 				if(isValidResultItemContent(qcResultItemList, "C03020000")) {
-					sb.append("						<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>ㅇ 야적장 포장의 파손여부</CHAR></TEXT></P>\n");
+					sb.append("						<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>ㅇ " + getResultItemName(qcResultItemList, "C03020000") + "</CHAR></TEXT></P>\n");
 				}
 				if(isValidResultItemContent(qcResultItemList, "C03030000")) {
-					sb.append("						<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>ㅇ 에프런 상태 및 기타사항</CHAR></TEXT></P>\n");
+					sb.append("						<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>ㅇ " + getResultItemName(qcResultItemList, "C03030000") + "</CHAR></TEXT></P>\n");
 				}
 				if(isValidResultItemContent(qcResultItemList, "C03040000")) {
-					sb.append("						<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>ㅇ 포장의 파손여부</CHAR></TEXT></P>\n");
+					sb.append("						<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>ㅇ " + getResultItemName(qcResultItemList, "C03040000") + "</CHAR></TEXT></P>\n");
 				}
 				if(isValidResultItemContent(qcResultItemList, "C03050000")) {
-					sb.append("						<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>ㅇ 균열, 백태 및 철근노출, 부식</CHAR></TEXT></P>\n");
+					sb.append("						<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>ㅇ " + getResultItemName(qcResultItemList, "C03050000") + "</CHAR></TEXT></P>\n");
 				}
 				sb.append("					</PARALIST>\n");
 				sb.append("				</CELL>\n");
@@ -1392,10 +1406,10 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 				sb.append("				<CELL BorderFill=\"2\" ColAddr=\"1\" ColSpan=\"2\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"4792\" Protect=\"false\" RowAddr=\"" + rowAddr + "\" RowSpan=\"1\" Width=\"20349\">\n");
 				sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
 				if(isValidResultItemContent(qcResultItemList, "C04010000")) {
-					sb.append("						<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"8\"><CHAR>ㅇ 야적화물의 과적여부</CHAR></TEXT></P>\n");
+					sb.append("						<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"8\"><CHAR>ㅇ " + getResultItemName(qcResultItemList, "C04010000") + "</CHAR></TEXT></P>\n");
 				}
 				if(isValidResultItemContent(qcResultItemList, "C04020000")) {
-					sb.append("						<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"8\"><CHAR>ㅇ 사용장비의 적정성 여부등</CHAR></TEXT></P>\n");
+					sb.append("						<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"8\"><CHAR>ㅇ " + getResultItemName(qcResultItemList, "C04020000") + "</CHAR></TEXT></P>\n");
 				}
 				sb.append("					</PARALIST>\n");
 				sb.append("				</CELL>\n");
@@ -1423,7 +1437,7 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 				sb.append("				<CELL BorderFill=\"2\" ColAddr=\"1\" ColSpan=\"2\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"2712\" Protect=\"false\" RowAddr=\"" + rowAddr + "\" RowSpan=\"1\" Width=\"20349\">\n");
 				sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
 				if(isValidResultItemContent(qcResultItemList, "C05010000")) {
-					sb.append("						<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>ㅇ 배수시설 상태 등 </CHAR></TEXT></P>\n");
+					sb.append("						<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>ㅇ " + getResultItemName(qcResultItemList, "C05010000") + "</CHAR></TEXT></P>\n");
 				}
 				sb.append("					</PARALIST>\n");
 				sb.append("				</CELL>\n");
