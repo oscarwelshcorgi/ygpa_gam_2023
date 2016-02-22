@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
