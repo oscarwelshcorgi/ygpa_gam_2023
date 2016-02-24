@@ -50,7 +50,7 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
                     {display:'구역', name:'rentArea',width:82, sortable:false,align:'center'},
                     {display:'입주기업', name:'entrpsNm',width:190, sortable:false,align:'left'},
                     {display:'입주면적(㎡)', name:'usageAr',width:88, sortable:false,align:'right', displayFormat: 'number',  displayOption:"0,000.00"},
-                    {display:'적용단가(원)', name:'applcPrice',width:80, sortable:false,align:'right', displayFormat: 'number',  displayOption:"0,000.0"},
+                    {display:'적용단가(원)', name:'applcPrice',width:80, sortable:false,align:'right', displayFormat: 'number',  displayOption:"0,000.00"},
                     {display:'영업개시일', name:'operYrMt',width:80, sortable:false,align:'center'},
                     {display:'계약기간', name:'grUsagePdPeriod',width:175, sortable:false,align:'center'},
                     /* {display:'실적평가기간', name:'bizAssessPdPeriod',width:175, sortable:false,align:'center'}, */
@@ -99,7 +99,7 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
            {display:'자산명', name:'gisAssetsNm',width:180, sortable:false,align:'left'},
            {display:'소재지', name:'gisAssetsLocplcAll',width:220, sortable:false,align:'center'},
            {display:'자산면적', name:'gisAssetsAr',width:80, sortable:false,align:'right', displayFormat: 'number', displayOption:"0,000.00"},
-           {display:'적용단가', name:'applcPrice',width:100, sortable:false,align:'right', displayFormat: 'input-number', displayOption:"0,000.0"},
+           {display:'적용단가', name:'applcPrice',width:100, sortable:false,align:'left', displayFormat: 'input-number', displayOption:"0,000.00"},
            {display:'단가구분', name:'priceSe',width:100, sortable:false,align:'center', displayFormat:'select', displayOption:priceSeOption},
            {display:'사용면적', name:'usageAr',width:80, sortable:false,align:'right', displayFormat: 'input-number', displayOption:"0,000.00"}
         ],
@@ -927,11 +927,13 @@ GamHtldRentMngtModule.prototype.loadEntrpsChargerList = function() {
 	임대 상세 추가
 --%>
 GamHtldRentMngtModule.prototype.addRentDetailItem = function() {
+	/* 
 	var list = this.$('#assetRentDetailList').flexGetData();
 	if(list.length >= 1) {
 		alert('임대상세자료가 존재하여 추가할 수 없습니다.');
 		return;
 	}
+	 */
 	this.doExecuteDialog('selectAssetsCdRentPopup', '시설 선택', '/popup/showAssetsCd.do', {}, {"gisAssetsPrprtySeCd":"L"});
 };
 
