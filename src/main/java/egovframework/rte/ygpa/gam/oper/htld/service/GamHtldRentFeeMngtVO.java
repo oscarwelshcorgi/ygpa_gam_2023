@@ -78,6 +78,12 @@ public class GamHtldRentFeeMngtVO extends ComDefaultVO {
     /** 지적측정금 **/
     private String areaAssessAmnt;
     
+    /**추가금액**/
+    private String addAmnt;
+    
+    /**추가금액산출금액**/
+    private String addAmntRm;
+    
     /** 분납 이자 */
     private String intrChrgeKnd;
 
@@ -971,6 +977,34 @@ public class GamHtldRentFeeMngtVO extends ComDefaultVO {
 	 */
 	public void setAreaAssessAmnt(String areaAssessAmnt) {
 		this.areaAssessAmnt = areaAssessAmnt;
+	}
+
+	/**
+	 * @return the addAmnt
+	 */
+	public String getAddAmnt() {
+		return addAmnt;
+	}
+
+	/**
+	 * @param addAmnt the addAmnt to set
+	 */
+	public void setAddAmnt(String addAmnt) {
+		this.addAmnt = addAmnt;
+	}
+
+	/**
+	 * @return the addAmntRm
+	 */
+	public String getAddAmntRm() {
+		return addAmntRm;
+	}
+
+	/**
+	 * @param addAmntRm the addAmntRm to set
+	 */
+	public void setAddAmntRm(String addAmntRm) {
+		this.addAmntRm = addAmntRm;
 	}
 
 }

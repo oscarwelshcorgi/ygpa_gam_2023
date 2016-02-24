@@ -848,8 +848,8 @@ public class GamHtldRentFeeMngtController {
     	master.put("vat", gamHtldRentFeeMngtVO.getVat());
     	master.put("nticAmt", gamHtldRentFeeMngtVO.getNticAmt());
     	master.put("intrAmt", gamHtldRentFeeMngtVO.getIntrRate());
-    	master.put("bizAssessAmnt", gamHtldRentFeeMngtVO.getBizAssessAmnt());
-    	master.put("areaAssessAmnt", gamHtldRentFeeMngtVO.getAreaAssessAmnt());
+    	master.put("addAmnt", gamHtldRentFeeMngtVO.getAddAmnt());
+    	master.put("addAmntRm", gamHtldRentFeeMngtVO.getAddAmntRm());
     	
 		model.addAttribute("levReqestMaster", master);
 

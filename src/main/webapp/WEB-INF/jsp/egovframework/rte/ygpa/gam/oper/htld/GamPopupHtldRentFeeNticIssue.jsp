@@ -90,8 +90,8 @@ var popup_instance = new GamPopupNticIssueModule();
 		    <input type="hidden" id="intrRate" value="<c:out value="${levReqestMaster.intrRate }"/>"/>
 			<input type="hidden" id="nticAmt" value="<c:out value="${levReqestMaster.nticAmt }"/>"/>
 			<input type="hidden" id="vat" value="<c:out value="${levReqestMaster.vat }"/>"/>
-			<input type="hidden" id="bizAssessAmnt" value="<c:out value="${levReqestMaster.bizAssessAmnt }"/>"/>
-			<input type="hidden" id="areaAssessAmnt" value="<c:out value="${levReqestMaster.areaAssessAmnt }"/>"/>
+			<input type="hidden" id="addAmnt" value="<c:out value="${levReqestMaster.addAmnt }"/>"/>
+			<input type="hidden" id="addAmntRm" value="<c:out value="${levReqestMaster.addAmntRm }"/>"/>
 
 			<table class="detailPanel">
 				<tbody>

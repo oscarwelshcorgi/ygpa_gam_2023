@@ -54,11 +54,11 @@ GamHtldRentFeeMngtModule.prototype.loadComplete = function(params) {
 				{display:'고지방법', name:'nticMthNm',width:70, sortable:false,align:'center'},
 				{display:'고지', name:'nhtIsueYnNm',width:50, sortable:false,align:'center'},
 				{display:'출력', name:'nhtPrintYnNm',width:50, sortable:false,align:'center'},
-				{display:'추가금액1', name:'bizAssessAmnt',width:100, sortable:false,align:'right', displayFormat: 'input-number'},
 				{display:'사용료', name:'fee',width:80, sortable:false,align:'right', displayFormat: 'input-number'},
 				{display:'이자', name:'intrAmnt',width:80, sortable:false,align:'right', displayFormat: 'input-number'},
 				{display:'이자율(%)', name:'intrRate',width:60, sortable:false,align:'right', displayFormat: 'input-number', displayOption: "0.00"},
-				{display:'추가금액2', name:'areaAssessAmnt',width:100, sortable:false,align:'right', displayFormat: 'input-number'},
+				{display:'추가금액', name:'addAmnt',width:100, sortable:false,align:'right', displayFormat: 'input-number'},
+				{display:'추가금액산출근거', name:'addAmntRm',width:200, sortable:false,align:'right', displayFormat: 'input'},
 				{display:'소계', name:'feeAmnt',width:80, sortable:false,align:'right', displayFormat: 'number'},
 				{display:'부가세', name:'vat',width:100, sortable:false,align:'right', displayFormat: 'input-number'},
 				{display:'고지금액', name:'nticAmt',width:100, sortable:false,align:'right', displayFormat: 'input-number'},
@@ -293,7 +293,7 @@ GamHtldRentFeeMngtModule.prototype.makeRowData = function(item) {
 		item.intrAmnt = this.getIntrAmount(item.fee, item.intrRate, item.nticMth, item.nticPdFrom, item.nticPdTo, item.grUsagePdFrom, item.grUsagePdTo);
 	}
 	if(item.feeAmnt==void(0)) {
-		var feeAmnt=Number(item.fee) + Number(item.areaAssessAmnt) + Number((item.intrAmnt == void(0) ? 0 : item.intrAmnt)) ;
+		var feeAmnt=Number(item.fee) + Number(item.addAmnt) + Number((item.intrAmnt == void(0) ? 0 : item.intrAmnt)) ;
 		item.feeAmnt = Math.floor(feeAmnt*0.1) * 10; //공급가액에서 1원단위는 절사한다.
 	}
 	var vatRate = (item.vatYn=='2') ? 0.1 : 0;
@@ -301,8 +301,7 @@ GamHtldRentFeeMngtModule.prototype.makeRowData = function(item) {
 	item.vat=Math.floor(item.feeAmnt*vatRate);
 	item.nticAmt=item.feeAmnt+item.vat;
 
-	item.oldBizAssessAmnt = item.bizAssessAmnt;
-	item.oldAreaAssessAmnt = item.areaAssessAmnt;
+	item.oldAddAmnt = item.addAmnt;
 	item.oldFee = item.fee;
 	item.oldIntrAmnt = item.intrAmnt;
 	item.oldIntrRate = item.intrRate;
@@ -338,8 +337,7 @@ GamHtldRentFeeMngtModule.prototype.onCalcSummary = function() {
 GamHtldRentFeeMngtModule.prototype.onCalcFeeListCellEdited = function(row, rid, cid) {
 	if(row.nhtIsueYn=='Y') {
 		alert('고지된 자료는 수정 되지 않습니다.');
-		row.bizAssessAmnt = row.oldBizAssessAmnt;
-		row.areaAssessAmnt = row.oldAreaAssessAmnt;
+		row.addAmnt = row.oldAddAmnt;
 		row.fee = row.oldFee;
 		row.intrAmnt = row.oldIntrAmnt;
 		row.intrRate = row.oldIntrRate;
@@ -354,19 +352,17 @@ GamHtldRentFeeMngtModule.prototype.onCalcFeeListCellEdited = function(row, rid, 
     }
     var feeAmnt = 0;
     switch(cid) {
-    	case 'bizAssessAmnt' :
     	case 'fee' :
     	case 'intrRate' :
-    		row.fee = Number(row.fee) + Number(row.bizAssessAmnt) - Number(row.oldBizAssessAmnt);
     		row.intrAmnt = this.getIntrAmount(row.fee, row.intrRate, row.nticMth, row.nticPdFrom, row.nticPdTo, row.grUsagePdFrom, row.grUsagePdTo);
-    		feeAmnt = Number(row.fee) + Number(row.intrAmnt) + Number(row.areaAssessAmnt);
+    		feeAmnt = Number(row.fee) + Number(row.intrAmnt) + Number(row.addAmnt);
     		row.feeAmnt = Math.floor(feeAmnt*0.1) * 10; //공급가액에서 1원단위는 절사한다.
     		row.vat = (row.vatYn=='2' || row.vatYn=='Y') ? Math.floor(Number(row.feeAmnt) * 0.1) : 0;
     		row.nticAmt = Number(row.feeAmnt) + Number(row.vat);
     		break;
     	case 'intrAmnt' :
-    	case 'areaAssessAmnt' :
-    		feeAmnt = Number(row.fee) + Number(row.intrAmnt) + Number(row.areaAssessAmnt);
+    	case 'addAmnt' :
+    		feeAmnt = Number(row.fee) + Number(row.intrAmnt) + Number(row.addAmnt);
     		row.feeAmnt = Math.floor(feeAmnt*0.1) * 10; //공급가액에서 1원단위는 절사한다.
     		row.vat = (row.vatYn=='2' || row.vatYn=='Y') ? Math.floor(Number(row.feeAmnt) * 0.1) : 0;
     		row.nticAmt = Number(row.feeAmnt) + Number(row.vat);
@@ -376,8 +372,7 @@ GamHtldRentFeeMngtModule.prototype.onCalcFeeListCellEdited = function(row, rid, 
     		break;
     }
     
-    row.oldBizAssessAmnt = row.bizAssessAmnt;
-	row.oldAreaAssessAmnt = row.areaAssessAmnt;
+	row.oldAddAmnt = row.addAmnt;
 	row.oldFee = row.fee;
 	row.oldIntrAmnt = row.intrAmnt;
 	row.oldIntrRate = row.intrRate;

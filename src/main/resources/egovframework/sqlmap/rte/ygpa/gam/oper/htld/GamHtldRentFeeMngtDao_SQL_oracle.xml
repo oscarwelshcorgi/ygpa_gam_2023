@@ -81,8 +81,8 @@
 		  NVL(L.VAT,0) VAT,
 		  NVL(L.NTIC_AMT,0) NTIC_AMT ,
 		  NVL(L.INTR_AMNT, 0) INTR_AMNT,
-		  NVL(L.BIZ_ASSESS_AMNT, 0) BIZ_ASSESS_AMNT,
-		  NVL(L.AREA_ASSESS_AMNT, 0) AREA_ASSESS_AMNT,
+		  NVL(L.ADD_AMNT, 0) ADD_AMNT,
+		  L.ADD_AMNT_RM,
 		  NVL(L.INTR_RATE, GAM_GET_COFIX_INTRRATE(L.NTIC_PD_FROM))*100 INTR_RATE,
 		  NVL(L.cofix_obj_yrmt, GAM_GET_COFIX_OBJ_YRMT(L.NTIC_PD_FROM)) cofix_obj_yrmt,
 		  L.RM ,
@@ -892,10 +892,10 @@
 		      R.BILL_AMNT,
 		      NVL(L.FEE, 0) FEE,
 	          L.INTR_AMNT,
-	          L.AREA_ASSESS_AMNT,
-	          L.BIZ_ASSESS_AMNT,
-	          (NVL(L.FEE, 0) + NVL(L.INTR_AMNT, 0) + NVL(L.AREA_ASSESS_AMNT, 0)) AS SUPPLY_AMNT,
-	          (NVL(L.FEE, 0) - NVL(L.BIZ_ASSESS_AMNT, 0)) AS PURE_FEE, 
+	          L.ADD_AMNT,
+	          L.ADD_AMNT_RM,
+	          (NVL(L.FEE, 0) + NVL(L.INTR_AMNT, 0) + NVL(L.ADD_AMNT, 0)) AS SUPPLY_AMNT,
+	          (NVL(L.FEE, 0)) AS PURE_FEE, 
 		      L.NTIC_CNT,
               L.INTR_RATE*100 INTR_RATE,
               L.NTIC_AMT,
@@ -2278,8 +2278,8 @@
 			VAT = #vat#,
 			INTR_RATE = #intrRate#,
 			NTIC_AMT = #nticAmt#,
-			BIZ_ASSESS_AMNT = #bizAssessAmnt#,
-			AREA_ASSESS_AMNT = #areaAssessAmnt#
+			ADD_AMNT = #addAmnt#,
+			ADD_AMNT_RM = #addAmntRm#
 		WHERE
 			PRT_AT_CODE = #prtAtCode#
 			AND MNG_YEAR = #mngYear#

@@ -254,7 +254,7 @@ div.notice {
 	/* top: 11.3cm; */
 	width: 7.85cm;
 	height: 8cm;
-	font-size: 0.30cm;
+	font-size: 0.28cm;
 	font-family: 돋움;
 	margin-top: 0.85cm;
 	margin-left: 12.2cm;
@@ -271,7 +271,7 @@ div.notice {
  div.rmk > p {
 	position: relative;
 	text-align: left;
-	padding: 0.1cm 0.1cm;
+	padding: 0.05cm 0.05cm;
  }
 
  .summary {
@@ -920,11 +920,11 @@ div.notice {
 		      					&nbsp; (외 <c:out value="${lnmCnt}"/>건)
 		      				</c:if>		      			
 		      			</p>
-		      			<p>공급가액 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${master.supplyAmnt}" /> 원 (임대료<c:if test="${master.intrAmnt>0}">&nbsp;+&nbsp;분납이자</c:if>)</p>
+		      			<p>공급가액 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${master.supplyAmnt}" /> 원 (임대료<c:if test="${master.intrAmnt>0}">&nbsp;+&nbsp;분납이자</c:if><c:if test="${master.addAmnt>0}">&nbsp;+&nbsp;추가금액</c:if>)</p>
 		      			<p>부가세(매출과세(일반)) : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${master.vat}" /> 원</p>
-		      			<p>연체료 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${master.dlyBillAmnt}" /> 원</p>
+		      			<p>연체료 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${master.dlyBillAmnt}" /> 원
+		      			&nbsp;&nbsp;합계 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${master.nticAmt}" /> 원</p>
 		      			<p>국세징수법에 따라 연체료 3%, 중가산금 1.2%/매월 적용</p>
-		      			<p>합계 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${master.nticAmt}" /> 원</p>
 	      			<h2>산출근거</h2>
 		      			<p>사용기간 : <c:out value="${master.nticPdFrom}"/> ~ <c:out value="${master.nticPdTo}"/></p>
 		      			<p>임대료 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${master.fee}" /> 원 
@@ -942,13 +942,17 @@ div.notice {
 					      			</c:if>	
 			   					</c:forEach>
 		      				</c:if></p>
-		 			    <p>
 					    <c:if test="${master.intrAmnt>0}">
+		 			    <p>
 			      			분납이자 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${master.intrAmnt}" /> 원 (이자율 : <fmt:formatNumber type="number" maxIntegerDigits="5" maxFractionDigits="2" value="${master.intrRate}" />% Cofix수신금리)
-		      			</c:if>
 	      				</p>
-	      				<p>연체료 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${master.dlyBillAmnt}" /> 원</p>
-	      				<P>(산출근거 : <c:out value="${master.dlyBillRsn}"/>)</P>
+		      			</c:if>
+					    <c:if test="${master.addAmnt>0}">
+		 			    <p>
+			      			추가금액 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${master.addAmnt}" /> 원 <c:if test="${master.addAmntRm!=null}">(<c:out value="${master.addAmntRm}"/>)</c:if>
+	      				</p>
+		      			</c:if>
+	      				<p>연체료 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${master.dlyBillAmnt}" /> 원 (산출근거 : <c:out value="${master.dlyBillRsn}"/>)</P>
 	      				<p><c:if test="${master.rm!=null}">비고 : <c:out value="${master.rm}"/></c:if></p>
 	      		</div>
         	</div>

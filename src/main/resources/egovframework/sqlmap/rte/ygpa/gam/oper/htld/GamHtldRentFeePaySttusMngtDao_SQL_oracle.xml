@@ -498,7 +498,8 @@
 			    A.NEXT_ARRRG_NO,
 			    A.FEE,
 			    A.INTR_AMNT,
-			    A.AREA_ASSESS_AMNT,
+			    A.ADD_AMNT,
+			    A.ADD_AMNT_RM,
 			    A.VAT,
 			    U.DLY_BILL_AMNT ARRRG_AMT,
 			    U.DLY_BILL_RSN,
@@ -534,7 +535,8 @@
 			          NVL(L.ARRRG_NO, 0)+1 AS NEXT_ARRRG_NO,
 			          L.FEE,
 			          L.INTR_AMNT,
-			          L.AREA_ASSESS_AMNT,
+			          L.ADD_AMNT,
+			          L.ADD_AMNT_RM,
 			          L.VAT,
 			          A.ICHE_STATUS,
 			          '' ICHE_STATUS_NM,
@@ -672,7 +674,7 @@
       			GAM_GETENTRPSNM(L.ENTRPSCD, '2'),
       			#dlyBillRsn#, #regUsr#, SYSDATE,
       			L.ENTRPSCD, '194', 'N', 'N', TO_DATE(#nticPdFrom#, 'YYYY-MM-DD'), TO_DATE(#nticPdTo#, 'YYYY-MM-DD'),
-      			#deptCd#, #emplNo#, TO_DATE(#prvDueDt#, 'YYYY-MM-DD'), NVL(L.FEE,0) + NVL(L.INTR_AMNT,0) + NVL(L.AREA_ASSESS_AMNT,0) + NVL(L.VAT,0) +#dlyBillAmnt#, #userName#, TO_DATE(#prvBillDt#, 'YYYY-MM-DD')
+      			#deptCd#, #emplNo#, TO_DATE(#prvDueDt#, 'YYYY-MM-DD'), NVL(L.FEE,0) + NVL(L.INTR_AMNT,0) + NVL(L.ADD_AMNT,0) + NVL(L.VAT,0) +#dlyBillAmnt#, #userName#, TO_DATE(#prvBillDt#, 'YYYY-MM-DD')
      		FROM LEV_REQEST_F L
       		WHERE PRT_AT_CODE=#prtAtCode#
       			AND MNG_YEAR=#mngYear#
@@ -691,7 +693,7 @@
       		ARRRG_AMT=TRUNC(TO_NUMBER(#dlyBillAmnt#), 0),
       		ARRRG_TARIFF=TO_NUMBER(#arrrgTariff#),
       		ARRRG_PAY_DATES=#applyPayDates#,
-      		NTIC_AMT=TRUNC(NVL(FEE,0)+NVL(INTR_AMNT,0)+NVL(AREA_ASSESS_AMNT,0)+NVL(VAT,0)+TO_NUMBER(#dbillAmnt#), 0),
+      		NTIC_AMT=TRUNC(NVL(FEE,0)+NVL(INTR_AMNT,0)+NVL(ADD_AMNT,0)+NVL(VAT,0)+TO_NUMBER(#dbillAmnt#), 0),
       		<isNotNull property="rcivSe">
       		RCIV_SE=#rcivSe#,
       		</isNotNull>
@@ -815,7 +817,7 @@
 				,U.DLY_SER_NO
 				,U.AGENT_CODE
 				,U.BZ_RGST_ID
-				,(NVL(L.FEE,0) + NVL(L.INTR_AMNT, 0) + NVL(AREA_ASSESS_AMNT, 0)) AS SUPPLY_AMNT
+				,(NVL(L.FEE,0) + NVL(L.INTR_AMNT, 0) + NVL(ADD_AMNT, 0)) AS SUPPLY_AMNT
 				,L.VAT
 				,U.DLY_BILL_AMNT
 				,TO_CHAR(U.DLY_BILL_DT, 'YYYY-MM-DD') AS DLY_BILL_DT
@@ -1243,7 +1245,7 @@
       		ARRRG_TARIFF=NULL,
       		ARRRG_PAY_DATES=NULL,
       		<!-- NTIC_DT=#prvBillDt#, -->
-      		NTIC_AMT=NVL(FEE,0)+NVL(INTR_AMNT,0)+NVL(AREA_ASSESS_AMNT,0)+NVL(VAT,0),
+      		NTIC_AMT=NVL(FEE,0)+NVL(INTR_AMNT,0)+NVL(ADD_AMNT,0)+NVL(VAT,0),
       		PAY_TMLMT=TO_DATE(#dlyDueDt#, 'YYYY-MM-DD'),
       		UPD_USR=#updUsr#,
       		UPDT_DT=SYSDATE
@@ -1265,7 +1267,7 @@
       		ARRRG_AMT=TO_NUMBER(#dbillAmnt#),
       		ARRRG_TARIFF=TO_NUMBER(#arrrgTariff#),
       		ARRRG_PAY_DATES=TO_NUMBER(#applyPayDates#),
-      		NTIC_AMT=NVL(FEE,0)+NVL(INTR_AMNT,0)+NVL(AREA_ASSESS_AMNT,0)+NVL(VAT,0)+TO_NUMBER(#dlyBillAmnt#),
+      		NTIC_AMT=NVL(FEE,0)+NVL(INTR_AMNT,0)+NVL(ADD_AMNT,0)+NVL(VAT,0)+TO_NUMBER(#dlyBillAmnt#),
       		<isNotNull property="rcivSe">
 	      		RCIV_SE=#rcivSe#,
       		</isNotNull>
@@ -1331,7 +1333,9 @@
 		      U.DLY_BILL_RSN,
 		      L.FEE,
 	          L.INTR_AMNT,
-	          (NVL(L.FEE, 0) + NVL(L.INTR_AMNT, 0)) AS SUPPLY_AMNT, 
+	          (NVL(L.FEE, 0) + NVL(L.INTR_AMNT, 0) + NVL(L.ADD_AMNT, 0)) AS SUPPLY_AMNT,
+	          L.ADD_AMNT,
+	          L.ADD_AMNT_RM, 
 		      L.NTIC_CNT,
               L.INTR_RATE*100 INTR_RATE,
               L.NTIC_AMT,
