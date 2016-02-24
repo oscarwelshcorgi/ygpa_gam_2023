@@ -53,14 +53,14 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
                     {display:'적용단가(원)', name:'applcPrice',width:80, sortable:false,align:'right', displayFormat: 'number',  displayOption:"0,000.0"},
                     {display:'영업개시일', name:'operYrMt',width:80, sortable:false,align:'center'},
                     {display:'계약기간', name:'grUsagePdPeriod',width:175, sortable:false,align:'center'},
-                    {display:'실적평가기간', name:'bizAssessPdPeriod',width:175, sortable:false,align:'center'},
+                    /* {display:'실적평가기간', name:'bizAssessPdPeriod',width:175, sortable:false,align:'center'}, */
                     {display:'소재지', name:'gisAssetsLocplc',width:170, sortable:false,align:'left'},
                     {display:'고지방법', name:'payMthNm',width:60, sortable:false,align:'center'},
                     {display:'납부방법', name:'nticMthNm',width:60, sortable:false,align:'left'},
                     {display:'과세구분', name:'taxtSeNm',width:120, sortable:false,align:'left'},
                     {display:'요금종류', name:'chrgeKndNm',width:160, sortable:false,align:'left'},
-                    {display:'업종', name:'compTp',width:110, sortable:false,align:'right'},
-                    {display:'취급화종', name:'frghtTp',width:120, sortable:false,align:'center'},
+                    /* {display:'업종', name:'compTp',width:110, sortable:false,align:'right'},
+                    {display:'취급화종', name:'frghtTp',width:120, sortable:false,align:'center'}, */
                     {display:'해지/변경', name:'termnKndNm',width:60, sortable:false,align:'center'},
                     {display:'해지/변경일자', name:'termnDt',width:80, sortable:false,align:'center'}
                     ],
@@ -927,13 +927,11 @@ GamHtldRentMngtModule.prototype.loadEntrpsChargerList = function() {
 	임대 상세 추가
 --%>
 GamHtldRentMngtModule.prototype.addRentDetailItem = function() {
-	/* 
 	var list = this.$('#assetRentDetailList').flexGetData();
 	if(list.length >= 1) {
 		alert('임대상세자료가 존재하여 추가할 수 없습니다.');
 		return;
 	}
-	 */
 	this.doExecuteDialog('selectAssetsCdRentPopup', '시설 선택', '/popup/showAssetsCd.do', {}, {"gisAssetsPrprtySeCd":"L"});
 };
 
