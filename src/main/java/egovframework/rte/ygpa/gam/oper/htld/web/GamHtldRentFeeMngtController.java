@@ -133,12 +133,12 @@ public class GamHtldRentFeeMngtController {
 		//자산임대목록
     	totalCnt = gamHtldRentFeeMngtService.selectHtldRentFeeMngtListTotCnt(searchVO);
     	List resultList = gamHtldRentFeeMngtService.selectHtldRentFeeMngtList(searchVO);
-
+    	
     	paginationInfo.setTotalRecordCount(totalCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
 
     	//자료수, 사용료, 연체, 부가세, 고지액
-    	Map resultSum = gamHtldRentFeeMngtService.selectHtldRentFeeMngtSum(searchVO);
+    	//Map resultSum = gamHtldRentFeeMngtService.selectHtldRentFeeMngtSum(searchVO);
 
     	Map resultCofix = gamHtldRentFeeMngtService.selectHtldCofixPk(searchVO);
 
@@ -146,7 +146,7 @@ public class GamHtldRentFeeMngtController {
     	map.put("totalCount", totalCnt);
     	map.put("resultList", resultList);
     	map.put("searchOption", searchVO);
-    	map.put("resultSum", resultSum);
+    	//map.put("resultSum", resultSum);
     	map.put("cofixIntr", resultCofix.get("intrRate"));
 
     	return map;
@@ -1005,6 +1005,10 @@ public class GamHtldRentFeeMngtController {
 
     	List detail = gamHtldRentFeeMngtService.selectNticPrintDetail(approvalOpt);
 
+    	//임대상세내역 각각의 임대료 구하기
+    	detail = gamHtldRentFeeMngtService.getRentDetailNticAmnt(master, detail);
+    	
+    	System.out.println("test : " + (String)((EgovMap)detail.get(0)).get("fee"));
     	model.addAttribute("resultCode", 0);
     	model.addAttribute("resultList", master);
     	model.addAttribute("detail", detail);

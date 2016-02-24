@@ -160,7 +160,11 @@ public class GamHtldRentMngtServiceImpl extends AbstractServiceImpl implements G
 
 		for(int i=0; i<rentDetail.size(); i++) {
 			GamHtldRentMngtDetailVO detail=rentDetail.get(i);
-			monthFee = monthFee.add(new BigDecimal(detail.getApplcPrice()).multiply(new BigDecimal(detail.getUsageAr())));
+			if("1".equals(detail.getPriceSe())) { //적용임대료일 경우
+				monthFee = monthFee.add(new BigDecimal(detail.getApplcPrice()).multiply(new BigDecimal(detail.getUsageAr())));
+			} else if("2".equals(detail.getPriceSe())) { //월사용료일 경우
+				monthFee = monthFee.add(new BigDecimal(detail.getApplcPrice()));
+			}
 		}
 
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -524,7 +528,8 @@ public class GamHtldRentMngtServiceImpl extends AbstractServiceImpl implements G
 			BigDecimal div = new BigDecimal(endOfMonth.getDayOfMonth());
 			bd = bd.divide(div, 5, RoundingMode.CEILING);
 			bd = bd.multiply(monthFee);
-			totalFee = totalFee.add(bd.setScale(-1, RoundingMode.CEILING));
+			//totalFee = totalFee.add(bd.setScale(-1, RoundingMode.CEILING));
+			totalFee = totalFee.add(bd);
 		}
 		int toDay=toDate.getDayOfMonth();
 		if(toDay>1) {
@@ -534,10 +539,11 @@ public class GamHtldRentMngtServiceImpl extends AbstractServiceImpl implements G
 			BigDecimal div = new BigDecimal(endOfMonth.getDayOfMonth());
 			bd = bd.divide(div, 5, RoundingMode.CEILING);
 			bd = bd.multiply(monthFee);
-			totalFee = totalFee.add(bd.setScale(-1, RoundingMode.CEILING));
+			//totalFee = totalFee.add(bd.setScale(-1, RoundingMode.CEILING));
+			totalFee = totalFee.add(bd);
 		}
 		//totalFee = totalFee.setScale(-1, RoundingMode.CEILING);
-		totalFee = totalFee.setScale(-1, RoundingMode.DOWN); //2015-11-20 김종민 수정
+		totalFee = totalFee.setScale(0, RoundingMode.DOWN); //2015-11-20 김종민 수정
 
 		return totalFee;
 	}

@@ -938,6 +938,7 @@
     		A.RM,
     		D.USAGE_AR,
 			  D.APPLC_PRICE,
+			  D.PRICE_SE, 
     		TRUNC(D.USAGE_AR*D.APPLC_PRICE, -1) D_PRICE,
     		D.COMPUT_DTLS ,
 	        (SELECT GIS_ASSETS_NM

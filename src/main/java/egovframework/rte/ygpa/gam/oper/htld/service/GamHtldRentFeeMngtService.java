@@ -160,4 +160,11 @@ public interface GamHtldRentFeeMngtService {
 
 	/** 고지하는 부분 서비스로 이전하면서 버그 수정 작업  2015.12.10 김종민 수정 **/
 	void insertAssetRentFeeNticSingle(LoginVO loginVo, GamHtldRentFeeMngtVO gamHtldRentFeeMngtVO) throws Exception;
+
+	/**
+	 * @param master
+	 * @param detail
+	 * @return
+	 */
+	List getRentDetailNticAmnt(List master, List detail) throws Exception;
 }

@@ -84,17 +84,23 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
             return data;
         }
     });
-	
+
+	var priceSeOption = [
+	                       	{value:'1', name:'적용임대료'},
+	                       	{value:'2', name:'월사용료'}
+	                      ];
+    
     // 임대상세목록
     this.$("#assetRentDetailList").flexigrid({
         module: this,
         dataType: 'json',
         colModel : [
            {display:'자산코드', name:'gisAssetsCode',width:80, sortable:false,align:'center'},
-           {display:'자산명', name:'gisAssetsNm',width:240, sortable:false,align:'left'},
-           {display:'소재지', name:'gisAssetsLocplcAll',width:260, sortable:false,align:'center'},
+           {display:'자산명', name:'gisAssetsNm',width:180, sortable:false,align:'left'},
+           {display:'소재지', name:'gisAssetsLocplcAll',width:220, sortable:false,align:'center'},
            {display:'자산면적', name:'gisAssetsAr',width:80, sortable:false,align:'right', displayFormat: 'number', displayOption:"0,000.00"},
            {display:'적용단가', name:'applcPrice',width:100, sortable:false,align:'right', displayFormat: 'input-number', displayOption:"0,000.0"},
+           {display:'단가구분', name:'priceSe',width:100, sortable:false,align:'center', displayFormat:'select', displayOption:priceSeOption},
            {display:'사용면적', name:'usageAr',width:80, sortable:false,align:'right', displayFormat: 'input-number', displayOption:"0,000.00"}
         ],
         showTableToggleBtn: true,
@@ -322,6 +328,7 @@ GamHtldRentMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
 	case 'selectAssetsCdRentPopup':
 		if (msg != 'cancel') {
 			value._updtId="I";
+			value.priceSe = '1';
 			this.$('#assetRentDetailList').flexAddRow(value);
 			this.onCalc();
 		}
@@ -955,7 +962,7 @@ GamHtldRentMngtModule.prototype.deleteRentDetailItem = function() {
 GamHtldRentMngtModule.prototype.onCalcGrAr = function() {
 	var usageAr=0;
 	this.$('#assetRentDetailList')[0].dgrid.forEachRow(function(id) {
-    	usageAr+=Number(this.cells(id,5).getValue());
+    	usageAr+=Number(this.cells(id,6).getValue());
     });
 	this.$('#grAr').val(usageAr);
 };

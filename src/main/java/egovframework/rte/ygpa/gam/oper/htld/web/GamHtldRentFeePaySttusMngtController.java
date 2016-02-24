@@ -599,6 +599,8 @@ public class GamHtldRentFeePaySttusMngtController {
     			approvalOpt.put("mngNo", masterRec.get("mngNo"));
     			approvalOpt.put("mngCnt", masterRec.get("mngCnt"));
     			detail = gamHtldRentFeePaySttusMngtService.selectNticPrintDetail(approvalOpt);
+    			//임대상세내역 각각의 임대료 구하기
+    			detail = gamHtldRentFeePaySttusMngtService.getRentDetailNticAmnt(master, detail);
     		}
     		
     		model.addAttribute("searchOpt", approvalOpt);

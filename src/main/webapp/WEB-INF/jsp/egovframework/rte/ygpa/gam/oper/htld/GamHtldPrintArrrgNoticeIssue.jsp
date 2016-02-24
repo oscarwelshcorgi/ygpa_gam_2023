@@ -906,9 +906,20 @@ div.notice {
 		      		</div>
 	       		</div>
 	      		<div class="rmk">
-	  			    <c:forEach var="detailItem" items="${detail }">
+	  			    <c:set var="detailItem" value="${detail[0]}"/>
+	  			    <c:set var="lnmCnt" value="0" />
+	  			    <c:forEach var="dItem" items="${detail }">
+	  			    	<c:if test="${ not ((detailItem.gisAssetsLocplc eq dItem.gisAssetsLocplc) and (detailItem.gisAssetsLnm eq dItem.gisAssetsLnm) and (detailItem.gisAssetsLnmSub eq dItem.gisAssetsLnmSub))  }">
+	  			    		<c:set var="lnmCnt" value="${lnmCnt+1}" />
+	  			    	</c:if>
+	  			    </c:forEach>
 	      			<h2>부과내역</h2>
-		      			<p>소재지 : <c:out value="${detailItem.gisAssetsLocplc}"/>&nbsp;<c:out value="${detailItem.gisAssetsLnm}"/><c:if test="${detailItem.gisAssetsLnmSub!=null}">-<c:out value="${detailItem.gisAssetsLnmSub}"/></c:if></p>
+		      			<p>소재지 : 
+		      				<c:out value="${detailItem.gisAssetsLocplc}"/>&nbsp;<c:out value="${detailItem.gisAssetsLnm}"/><c:if test="${detailItem.gisAssetsLnmSub!=null}">-<c:out value="${detailItem.gisAssetsLnmSub}"/></c:if>
+		      				<c:if test="${lnmCnt > 0}">
+		      					&nbsp; (외 <c:out value="${lnmCnt}"/>건)
+		      				</c:if>		      			
+		      			</p>
 		      			<p>공급가액 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${master.supplyAmnt}" /> 원 (임대료<c:if test="${master.intrAmnt>0}">&nbsp;+&nbsp;분납이자</c:if>)</p>
 		      			<p>부가세(매출과세(일반)) : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${master.vat}" /> 원</p>
 		      			<p>연체료 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${master.dlyBillAmnt}" /> 원</p>
@@ -916,7 +927,21 @@ div.notice {
 		      			<p>합계 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${master.nticAmt}" /> 원</p>
 	      			<h2>산출근거</h2>
 		      			<p>사용기간 : <c:out value="${master.nticPdFrom}"/> ~ <c:out value="${master.nticPdTo}"/></p>
-		      			<p>임대료 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${master.fee}" /> 원 <c:if test="${master.assessSe==null}">(단가 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${detailItem.applcPrice}" /> 원 &nbsp;면적 :  <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${detailItem.usageAr}" /> m<sup>2</sup>)</c:if></p>
+		      			<p>임대료 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${master.fee}" /> 원 
+		      				<c:if test="${master.assessSe==null}">
+			      				<c:forEach var="rentDetail" items="${detail }">
+			      					<c:if test="${rentDetail.priceSe eq 1}">
+					      				&nbsp; (단가 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${rentDetail.applcPrice}" /> 원 &nbsp;
+					      				면적 :  <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${rentDetail.usageAr}" /> m<sup>2</sup> &nbsp;
+					      				임대료 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${rentDetail.fee}" /> 원 )
+					      			</c:if>
+			      					<c:if test="${rentDetail.priceSe eq 2}">
+					      				&nbsp; (단가 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${rentDetail.applcPrice}" /> 원/월 &nbsp;
+					      				면적 :  <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${rentDetail.usageAr}" /> m<sup>2</sup>
+					      				임대료 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${rentDetail.fee}" /> 원 )
+					      			</c:if>	
+			   					</c:forEach>
+		      				</c:if></p>
 		 			    <p>
 					    <c:if test="${master.intrAmnt>0}">
 			      			분납이자 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${master.intrAmnt}" /> 원 (이자율 : <fmt:formatNumber type="number" maxIntegerDigits="5" maxFractionDigits="2" value="${master.intrRate}" />% Cofix수신금리)
@@ -925,7 +950,6 @@ div.notice {
 	      				<p>연체료 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${master.dlyBillAmnt}" /> 원</p>
 	      				<P>(산출근거 : <c:out value="${master.dlyBillRsn}"/>)</P>
 	      				<p><c:if test="${master.rm!=null}">비고 : <c:out value="${master.rm}"/></c:if></p>
-	  			    </c:forEach>
 	      		</div>
         	</div>
 

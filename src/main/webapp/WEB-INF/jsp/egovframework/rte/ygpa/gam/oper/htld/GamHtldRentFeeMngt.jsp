@@ -102,6 +102,8 @@ GamHtldRentFeeMngtModule.prototype.loadComplete = function(params) {
 	
  	// 버튼 상태 설정
 	this.setButtonStatus();
+ 	
+ 	console.log('1');
 };
 
 <%--
@@ -291,7 +293,8 @@ GamHtldRentFeeMngtModule.prototype.makeRowData = function(item) {
 		item.intrAmnt = this.getIntrAmount(item.fee, item.intrRate, item.nticMth, item.nticPdFrom, item.nticPdTo, item.grUsagePdFrom, item.grUsagePdTo);
 	}
 	if(item.feeAmnt==void(0)) {
-		item.feeAmnt=Number(item.fee) + Number(item.areaAssessAmnt) + Number((item.intrAmnt == void(0) ? 0 : item.intrAmnt)) ;
+		var feeAmnt=Number(item.fee) + Number(item.areaAssessAmnt) + Number((item.intrAmnt == void(0) ? 0 : item.intrAmnt)) ;
+		item.feeAmnt = Math.floor(feeAmnt*0.1) * 10; //공급가액에서 1원단위는 절사한다.
 	}
 	var vatRate = (item.vatYn=='2') ? 0.1 : 0;
 	
@@ -349,19 +352,22 @@ GamHtldRentFeeMngtModule.prototype.onCalcFeeListCellEdited = function(row, rid, 
     	row._updtId="U";
     	row.state="*";
     }
+    var feeAmnt = 0;
     switch(cid) {
     	case 'bizAssessAmnt' :
     	case 'fee' :
     	case 'intrRate' :
     		row.fee = Number(row.fee) + Number(row.bizAssessAmnt) - Number(row.oldBizAssessAmnt);
     		row.intrAmnt = this.getIntrAmount(row.fee, row.intrRate, row.nticMth, row.nticPdFrom, row.nticPdTo, row.grUsagePdFrom, row.grUsagePdTo);
-    		row.feeAmnt = Number(row.fee) + Number(row.intrAmnt) + Number(row.areaAssessAmnt);
+    		feeAmnt = Number(row.fee) + Number(row.intrAmnt) + Number(row.areaAssessAmnt);
+    		row.feeAmnt = Math.floor(feeAmnt*0.1) * 10; //공급가액에서 1원단위는 절사한다.
     		row.vat = (row.vatYn=='2' || row.vatYn=='Y') ? Math.floor(Number(row.feeAmnt) * 0.1) : 0;
     		row.nticAmt = Number(row.feeAmnt) + Number(row.vat);
     		break;
     	case 'intrAmnt' :
     	case 'areaAssessAmnt' :
-    		row.feeAmnt = Number(row.fee) + Number(row.intrAmnt) + Number(row.areaAssessAmnt);
+    		feeAmnt = Number(row.fee) + Number(row.intrAmnt) + Number(row.areaAssessAmnt);
+    		row.feeAmnt = Math.floor(feeAmnt*0.1) * 10; //공급가액에서 1원단위는 절사한다.
     		row.vat = (row.vatYn=='2' || row.vatYn=='Y') ? Math.floor(Number(row.feeAmnt) * 0.1) : 0;
     		row.nticAmt = Number(row.feeAmnt) + Number(row.vat);
     		break;

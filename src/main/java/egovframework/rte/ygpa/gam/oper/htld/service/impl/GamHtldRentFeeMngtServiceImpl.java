@@ -1,5 +1,8 @@
 package egovframework.rte.ygpa.gam.oper.htld.service.impl;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +11,8 @@ import javax.annotation.Resource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.joda.time.LocalDate;
+import org.joda.time.Months;
 import org.springframework.stereotype.Service;
 
 import egovframework.com.cmm.LoginVO;
@@ -350,4 +355,65 @@ public class GamHtldRentFeeMngtServiceImpl extends AbstractServiceImpl implement
 		
 		sendLevReqestRevCollF(nticParam);
 	}
+	
+	/** 고지서 출력시 임대상세내역 각각의 임대료 구하기 */
+	@SuppressWarnings("rawtypes")
+	public List getRentDetailNticAmnt(List master, List detail) {
+		EgovMap masterRec = (EgovMap) master.get(0);
+		String nticPdFrom = (String) masterRec.get("nticPdFrom");
+		String nticPdTo = (String) masterRec.get("nticPdTo");
+		LocalDate fromDate = new LocalDate(nticPdFrom), toDate = new LocalDate(nticPdTo);
+		for(int i=0; i<detail.size(); i++) {
+			EgovMap detailRec = (EgovMap) detail.get(i);
+			BigDecimal monthFee = new BigDecimal(0);
+			BigDecimal applcPrice = (BigDecimal) detailRec.get("applcPrice");
+			BigDecimal usageAr = (BigDecimal) detailRec.get("usageAr");
+			if("1".equals((String)detailRec.get("priceSe"))) { //적용임대료일 경우
+				monthFee = monthFee.add(applcPrice.multiply(usageAr));
+			} else if("2".equals((String)detailRec.get("priceSe"))) { //월사용료일 경우
+				monthFee = monthFee.add(applcPrice);
+			}
+			BigDecimal totalFee = getTotalFee(fromDate, toDate, monthFee);
+			detailRec.put("fee", totalFee.toString());
+		}
+		return detail;
+	}
+	
+	protected BigDecimal getTotalFee(LocalDate fromDate, LocalDate toDate, BigDecimal monthFee) {
+		BigDecimal totalFee;
+
+		toDate=toDate.plusDays(1);
+
+		Months months = Months.monthsBetween(fromDate, toDate);
+
+		totalFee = monthFee.multiply(new BigDecimal(months.getMonths()));
+
+		int startDay=fromDate.getDayOfMonth();
+		if(startDay!=1) {
+			LocalDate endOfMonth = fromDate.dayOfMonth().withMaximumValue();
+
+			BigDecimal bd = new BigDecimal(endOfMonth.getDayOfMonth()-startDay+1);
+			BigDecimal div = new BigDecimal(endOfMonth.getDayOfMonth());
+			bd = bd.divide(div, 5, RoundingMode.CEILING);
+			bd = bd.multiply(monthFee);
+			//totalFee = totalFee.add(bd.setScale(-1, RoundingMode.CEILING));
+			totalFee = totalFee.add(bd);
+		}
+		int toDay=toDate.getDayOfMonth();
+		if(toDay>1) {
+			LocalDate endOfMonth = fromDate.dayOfMonth().withMaximumValue();
+
+			BigDecimal bd = new BigDecimal(toDay-1);
+			BigDecimal div = new BigDecimal(endOfMonth.getDayOfMonth());
+			bd = bd.divide(div, 5, RoundingMode.CEILING);
+			bd = bd.multiply(monthFee);
+			//totalFee = totalFee.add(bd.setScale(-1, RoundingMode.CEILING));
+			totalFee = totalFee.add(bd);
+		}
+		//totalFee = totalFee.setScale(-1, RoundingMode.CEILING);
+		totalFee = totalFee.setScale(0, RoundingMode.DOWN); //2015-11-20 김종민 수정
+
+		return totalFee;
+	}
+
 }

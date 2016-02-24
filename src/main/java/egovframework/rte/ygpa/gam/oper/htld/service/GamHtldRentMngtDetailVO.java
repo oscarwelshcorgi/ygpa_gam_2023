@@ -137,6 +137,9 @@ public class GamHtldRentMngtDetailVO extends ComDefaultVO {
 	/** 수정일시 */
 	private String updtDt;
 
+	/** 적용단가구분 */
+	private String priceSe;
+	
 	public String getAssetsUsageSeq() {
 		return assetsUsageSeq;
 	}
@@ -447,6 +450,20 @@ public class GamHtldRentMngtDetailVO extends ComDefaultVO {
 
 	public void setUpdtDt(String updtDt) {
 		this.updtDt = updtDt;
+	}
+
+	/**
+	 * @return the priceSe
+	 */
+	public String getPriceSe() {
+		return priceSe;
+	}
+
+	/**
+	 * @param priceSe the priceSe to set
+	 */
+	public void setPriceSe(String priceSe) {
+		this.priceSe = priceSe;
 	}
 
 }

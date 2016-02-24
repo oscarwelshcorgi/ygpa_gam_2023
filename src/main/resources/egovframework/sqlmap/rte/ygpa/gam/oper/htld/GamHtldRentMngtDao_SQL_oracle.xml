@@ -460,6 +460,7 @@
 			, SYSDATE REGIST_DT
 			, '' UPD_USR
 			, '' UPDT_DT
+			, A.PRICE_SE
 		FROM ASSETS_RENT_DETAIL_F A
 		WHERE 1=1
 			AND A.PRT_AT_CODE = #prtAtCode#
@@ -707,6 +708,7 @@
 			, TO_CHAR(A.REGIST_DT,'YYYY-MM-DD') REGIST_DT
 			, A.UPD_USR
 			, TO_CHAR(A.UPDT_DT,'YYYY-MM-DD') UPDT_DT
+			, A.PRICE_SE
 		FROM ASSETS_RENT_DETAIL_F A
 		LEFT OUTER JOIN GIS_ASSETS_CD_F F ON
 			F.GIS_ASSETS_PRT_AT_CODE = A.GIS_ASSETS_PRT_AT_CODE AND F.GIS_ASSETS_CD = A.GIS_ASSETS_CD AND F.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD
@@ -753,6 +755,7 @@
 		    GIS_ASSETS_CD ,
 		    GIS_ASSETS_SUB_CD ,
 		    USAGE_AR,
+		    PRICE_SE,
 		    QUAY_GROUP_CD
 		  )
 		  VALUES
@@ -793,6 +796,7 @@
 		    #gisAssetsCd# ,
 		    #gisAssetsSubCd# ,
 		    REPLACE(#usageAr#,',',''),
+		    #priceSe#,
 		    #quayGroupCd#
 		  )
     </insert>
@@ -821,6 +825,7 @@
 		       , UPD_USR                = #updUsr#
 		       , UPDT_DT                = SYSDATE
 		       , GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
+		       , PRICE_SE 				= #priceSe#
 		       , QUAY_CD                = #quayCd#
 		  WHERE  ASSETS_USAGE_SEQ       = #assetsUsageSeq#
 		    AND  MNG_YEAR               = #mngYear#
@@ -1049,6 +1054,7 @@
                                            , GIS_ASSETS_CD
                                            , GIS_ASSETS_SUB_CD
                                            , GIS_ASSETS_PRT_AT_CODE
+                                           , PRICE_SE
                                            , USAGE_AR
 		                                 )
                          SELECT
@@ -1081,6 +1087,7 @@
                                            , A.GIS_ASSETS_CD
                                            , A.GIS_ASSETS_SUB_CD
                                            , A.GIS_ASSETS_PRT_AT_CODE
+                                           , A.PRICE_SE
                                            , A.USAGE_AR
 				           FROM ASSETS_RENT_DETAIL_F A
 				          WHERE A.PRT_AT_CODE = #prtAtCode#
