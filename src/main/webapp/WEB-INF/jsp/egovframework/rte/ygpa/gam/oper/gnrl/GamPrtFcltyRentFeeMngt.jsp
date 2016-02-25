@@ -105,6 +105,10 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
     this.$('#fee').on("keyup change", {module: this}, function(event) {
 		event.data.module.changeFee();
     });
+    
+    this.$('#vat').on("keyup change", {module: this}, function(event) {
+		event.data.module.changeVat();
+    });
 
     this.$('#roundVat').on("change", {module: this}, function(event) {
 		event.data.module.changeFee();
@@ -156,7 +160,11 @@ GamAssetRentFeeMngtModule.prototype.changeFee = function() {
 		this.$('#vat').val(Math.floor(fee/100)*10);
 	}
 	this._modifyFee=true;
-}
+};
+
+GamAssetRentFeeMngtModule.prototype.changeVat = function() {
+	this._modifyFee=true;
+};
 
 <%--
 	투자비보전 상계처리 2015.12.17 김종민
