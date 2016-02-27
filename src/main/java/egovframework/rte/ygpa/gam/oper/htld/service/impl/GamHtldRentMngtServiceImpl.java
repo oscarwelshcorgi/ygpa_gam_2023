@@ -580,7 +580,7 @@ public class GamHtldRentMngtServiceImpl extends AbstractServiceImpl implements G
 	 * @param vo GamHtldRentMngtVO
 	 * @exception Exception
 	 */
-	public void updateHtldRentMngt(GamHtldRentMngtVO rentVo, List<GamHtldRentMngtDetailVO> createList,  List<GamHtldRentMngtDetailVO> updateList,  List<GamHtldRentMngtDetailVO> deleteList) throws Exception {
+	public void updateHtldRentMngt(GamHtldRentMngtVO rentVo, List<GamHtldRentMngtDetailVO> assetRentDetailList) throws Exception {
 		int i=0;
 		String updtId=rentVo.getUpdUsr();
 		List<EgovMap> list;
@@ -594,6 +594,7 @@ public class GamHtldRentMngtServiceImpl extends AbstractServiceImpl implements G
 			throw processException("fail.rent.updateNtic.msg");
 		}
 
+		/*
 		list = gamHtldRentMngtDao.selectHtldRentMngtDetailList(rentVo);
     	List<GamHtldRentMngtDetailVO> detailList=new ArrayList();
     	for(i=0; i<list.size(); i++) {
@@ -636,9 +637,30 @@ public class GamHtldRentMngtServiceImpl extends AbstractServiceImpl implements G
 			gamHtldRentMngtDao.insertHtldRentMngtDetail(d);
 			detailList.add(d);
 		}
+		*/
+		
+		gamHtldRentMngtDao.deleteHtldRentMngtDetailList(rentVo);
+		
+		for(i=0; i<assetRentDetailList.size(); i++) {
+			GamHtldRentMngtDetailVO d= assetRentDetailList.get(i);
+			d.setRegUsr(updtId);
+			d.setPrtAtCode(rentVo.getPrtAtCode());
+			d.setMngYear(rentVo.getMngYear());
+			d.setMngNo(rentVo.getMngNo());
+			d.setMngCnt(rentVo.getMngCnt());
+			d.setQuayGroupCd(rentVo.getQuayGroupCd());
+			gamHtldRentMngtDao.insertHtldRentMngtDetail(d);
+		}
 
 		gamHtldRentMngtDao.updateHtldRentMngt(rentVo);
 
+		list = gamHtldRentMngtDao.selectHtldRentMngtDetailList(rentVo);
+    	List<GamHtldRentMngtDetailVO> detailList=new ArrayList();
+    	for(i=0; i<list.size(); i++) {
+    		GamHtldRentMngtDetailVO vo = mapper.convertValue(list.get(i), GamHtldRentMngtDetailVO.class);
+    		detailList.add(vo);
+    	}
+		
 		insertHtldRentLevReqest(rentVo, detailList);
 	}
 

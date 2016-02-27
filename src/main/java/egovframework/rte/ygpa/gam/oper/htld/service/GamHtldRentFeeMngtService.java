@@ -1,5 +1,6 @@
 package egovframework.rte.ygpa.gam.oper.htld.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,6 +37,14 @@ public interface GamHtldRentFeeMngtService {
 	 */
     int selectHtldRentFeeMngtListTotCnt(GamHtldRentFeeDefaultVO searchVO) throws Exception;
 
+	/**
+	 * 배후단지임대상세내역 목록을 조회한다.
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return 배후단지임대상세내역 목록
+	 * @exception Exception
+	 */
+    List selectHtldAssetsDetailList(GamHtldRentFeeDefaultVO searchVO) throws Exception;
+    
     /**
      * Cofix 이자율을 조회 한다.
      * @return
@@ -158,8 +167,9 @@ public interface GamHtldRentFeeMngtService {
 	 */
 	void deleteHtldRentFeeMngtList(GamHtldRentFeeDefaultVO vo) throws Exception;
 
-	/** 고지하는 부분 서비스로 이전하면서 버그 수정 작업  2015.12.10 김종민 수정 **/
-	void insertAssetRentFeeNticSingle(LoginVO loginVo, GamHtldRentFeeMngtVO gamHtldRentFeeMngtVO) throws Exception;
+	/** 고지하는 부분 서비스로 이전하면서 버그 수정 작업  2015.12.10 김종민 수정 
+	 * @param rentDetailList **/
+	void insertAssetRentFeeNticSingle(LoginVO loginVo, GamHtldRentFeeMngtVO gamHtldRentFeeMngtVO, List<HashMap<String, String>> nticDetailList) throws Exception;
 
 	/**
 	 * @param master

@@ -277,7 +277,7 @@ public class GamHtldRentAssessMngtController {
 	    	deleteList = mapper.readValue((String)assetRent.get("_dList"), TypeFactory.defaultInstance().constructCollectionType(List.class,
 	    			GamHtldRentMngtDetailVO.class));
 
-        gamHtldRentMngtService.updateHtldRentMngt(gamHtldRentMngtVO, createList, updateList, deleteList);
+        gamHtldRentMngtService.updateHtldRentMngt(gamHtldRentMngtVO, createList);
 
         resultCode = 0; // return ok
         resultMsg  = egovMessageSource.getMessage("success.common.update");

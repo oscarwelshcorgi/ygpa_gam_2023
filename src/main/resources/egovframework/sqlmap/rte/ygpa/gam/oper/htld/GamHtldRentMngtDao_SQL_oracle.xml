@@ -112,6 +112,7 @@
 		<result property="registDt" column="REGIST_DT" columnIndex="37"/>
 		<result property="updUsr" column="UPD_USR" columnIndex="38"/>
 		<result property="updtDt" column="UPDT_DT" columnIndex="39"/>
+		<result property="priceSe" column="PRICE_SE" columnIndex="40"/>
 	</resultMap>
 
     <select id="gamHtldRentMngtDao.selectHtldRentMngtList_D" parameterClass="gamHtldRentMngtVO" resultClass="egovMap">
@@ -460,7 +461,7 @@
 			, SYSDATE REGIST_DT
 			, '' UPD_USR
 			, '' UPDT_DT
-			, A.PRICE_SE
+			, NVL(A.PRICE_SE, '1') PRICE_SE
 		FROM ASSETS_RENT_DETAIL_F A
 		WHERE 1=1
 			AND A.PRT_AT_CODE = #prtAtCode#
@@ -708,7 +709,7 @@
 			, TO_CHAR(A.REGIST_DT,'YYYY-MM-DD') REGIST_DT
 			, A.UPD_USR
 			, TO_CHAR(A.UPDT_DT,'YYYY-MM-DD') UPDT_DT
-			, A.PRICE_SE
+			, NVL(A.PRICE_SE, '1') PRICE_SE
 		FROM ASSETS_RENT_DETAIL_F A
 		LEFT OUTER JOIN GIS_ASSETS_CD_F F ON
 			F.GIS_ASSETS_PRT_AT_CODE = A.GIS_ASSETS_PRT_AT_CODE AND F.GIS_ASSETS_CD = A.GIS_ASSETS_CD AND F.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD
@@ -720,6 +721,15 @@
 			ORDER BY ASSETS_USAGE_SEQ
     </select>
 
+	<!-- 임대상세리스트 삭제 -->
+    <delete id="gamHtldRentMngtDao.deleteHtldRentMngtDetailList_D">
+    	DELETE FROM ASSETS_RENT_DETAIL_F A
+		WHERE A.PRT_AT_CODE = #prtAtCode#
+			AND A.MNG_YEAR = #mngYear#
+			AND A.MNG_NO = #mngNo#
+			AND A.MNG_CNT = #mngCnt#
+	</delete>
+	
 	<!-- 계약세부정보 등록 -->
     <insert id="gamHtldRentMngtDao.insertHtldRentMngtDetail_S">
 		INSERT

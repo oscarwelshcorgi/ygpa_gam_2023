@@ -78,7 +78,7 @@ public interface GamHtldRentMngtService {
 	 * @param dataList GamHtldRentMngtVO
 	 * @exception Exception
 	 */
-	void updateHtldRentMngt(GamHtldRentMngtVO rentVo, List<GamHtldRentMngtDetailVO> createList,  List<GamHtldRentMngtDetailVO> updateList,  List<GamHtldRentMngtDetailVO> deleteList) throws Exception;
+	void updateHtldRentMngt(GamHtldRentMngtVO rentVo, List<GamHtldRentMngtDetailVO> assetRentDetailList) throws Exception;
 
     /**
 	 * 배후단지임대 연장 신청을 등록한다.

@@ -27,32 +27,11 @@
 --%>
 function GamPopupNticIssueModule() {}
 
-GamPopupNticIssueModule.prototype = new EmdPopupModule(500, 300);
+GamPopupNticIssueModule.prototype = new EmdPopupModule(500, 350);
 
 // 팝업이 호출 되었을때 호출 되는 함수
 GamPopupNticIssueModule.prototype.loadComplete = function() {
 	this.resizable(true);
-
-	/*
-	this.$('#chkInCofix').on("click", {module: this}, function(event) {
-		var module=event.data.module;
-		if($(this).attr("checked")=="checked") {
-			module.$("#cofix").show();
-			module.$('#blceStdrIntrrate').on("change", {module:this}, function(event) {
-				var module=event.data.module;
-				module.calcInterest();
-			});
-		}
-		else module.$("#cofix").hide();
-	});
-
-	this.$('#intrRate').on("change", {module:this}, function(event) {
-		event.data.module.calcInterest();
-	});
-
-	*/
-
-//	console.log('debug');
 };
 
 // 사용자 설정 함수 추가
@@ -85,13 +64,13 @@ var popup_instance = new GamPopupNticIssueModule();
 		    <input type="hidden" id="mngNo" value="<c:out value="${levReqestMaster.mngNo }"/>"/>
 		    <input type="hidden" id="mngCnt" value="<c:out value="${levReqestMaster.mngCnt }"/>"/>
 		    <input type="hidden" id="nticCnt" value="<c:out value="${levReqestMaster.nticCnt }"/>"/>
+		    <input type="hidden" id="chrgeKnd" value="<c:out value="${levReqestMaster.chrgeKnd }"/>"/>
 		    <input type="hidden" id="fee" value="<c:out value="${levReqestMaster.fee }"/>"/>
 		    <input type="hidden" id="intrAmnt" value="<c:out value="${levReqestMaster.intrAmnt }"/>"/>
 		    <input type="hidden" id="intrRate" value="<c:out value="${levReqestMaster.intrRate }"/>"/>
 			<input type="hidden" id="nticAmt" value="<c:out value="${levReqestMaster.nticAmt }"/>"/>
 			<input type="hidden" id="vat" value="<c:out value="${levReqestMaster.vat }"/>"/>
 			<input type="hidden" id="addAmnt" value="<c:out value="${levReqestMaster.addAmnt }"/>"/>
-			<input type="hidden" id="addAmntRm" value="<c:out value="${levReqestMaster.addAmntRm }"/>"/>
 
 			<table class="detailPanel">
 				<tbody>
@@ -129,6 +108,21 @@ var popup_instance = new GamPopupNticIssueModule();
                         <th style="width:100px; text-align: center;">이자</th>
                         <td style="width:100px; text-align:right;">
                         <fmt:formatNumber type="number" value="${levReqestMaster.intrAmnt }" /> 원
+                        </td>
+                    </tr>
+					<tr>
+                        <th style="width:100px; text-align: center;">추가금액</th>
+                        <td style="width:100px; text-align:right;">
+                            <fmt:formatNumber type="number" value="${levReqestMaster.addAmnt }" /> 원
+                        </td>
+                        <th style="width:100px; text-align: center;"></th>
+                        <td style="width:100px; text-align: left;">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th style="width:100px; text-align: center;">추가금액산출근거</th>
+                        <td colspan="3" style="text-align:left;">
+                        	<input id="addAmntRm"  value="<c:out value="${levReqestMaster.addAmntRm }" />"  size="40" />
                         </td>
                     </tr>
 <%--                     <tr>

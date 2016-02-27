@@ -158,6 +158,16 @@ public class GamHtldRentMngtDao extends YGPAAbstractDAO {
 
 	
 	/**
+	 * 배후단지임대관리 상세목록을 삭제한다.
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return 배후단지임대관리 목록
+	 * @exception Exception
+	 */
+    public void deleteHtldRentMngtDetailList(GamHtldRentMngtVO vo) throws Exception {
+        delete("gamHtldRentMngtDao.deleteHtldRentMngtDetailList_D", vo);
+    }
+
+    /**
 	 * 배후단지임대관리 상세목록을 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
 	 * @return 배후단지임대관리 목록

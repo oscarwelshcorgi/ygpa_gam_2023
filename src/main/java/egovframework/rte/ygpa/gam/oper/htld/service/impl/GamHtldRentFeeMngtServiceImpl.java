@@ -78,6 +78,16 @@ public class GamHtldRentFeeMngtServiceImpl extends AbstractServiceImpl implement
     }
 
 	/**
+	 * 배후단지임대상세내역 목록을 조회한다.
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return 배후단지임대상세내역 목록
+	 * @exception Exception
+	 */
+    public List selectHtldAssetsDetailList(GamHtldRentFeeDefaultVO searchVO) throws Exception {
+    	return gamHtldRentFeeMngtDao.selectHtldAssetsDetailList(searchVO);
+    }
+    
+	/**
 	 * 배후단지구역 목록을 조회한다.
 	 * @return list
 	 * @exception Exception
@@ -282,6 +292,9 @@ public class GamHtldRentFeeMngtServiceImpl extends AbstractServiceImpl implement
 		vo.put("nticno", "");
 		vo.put("nhtIsueYn", "N");
 		gamHtldRentFeeMngtDao.updateLevReqestIssueYn(vo);	// 고지를 취소한다.
+		
+		//임대상세요금이력테이블에서 삭제한다.
+		gamHtldRentFeeMngtDao.deleteHtldRentDetailFeeHist(vo);
 	}
 
 	/* (non-Javadoc)
@@ -335,7 +348,7 @@ public class GamHtldRentFeeMngtServiceImpl extends AbstractServiceImpl implement
 	
 	/** 고지하는 부분 서비스로 이전하면서 버그 수정 작업  2015.12.10 김종민 수정 **/
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public void insertAssetRentFeeNticSingle(LoginVO loginVo, GamHtldRentFeeMngtVO gamHtldRentFeeMngtVO) throws Exception {
+	public void insertAssetRentFeeNticSingle(LoginVO loginVo, GamHtldRentFeeMngtVO gamHtldRentFeeMngtVO, List<HashMap<String, String>> nticDetailList) throws Exception {
 		
 		gamHtldRentFeeMngtDao.updateLevReqestAmount(gamHtldRentFeeMngtVO); 
 
@@ -354,27 +367,46 @@ public class GamHtldRentFeeMngtServiceImpl extends AbstractServiceImpl implement
 		nticParam.put("rm", gamHtldRentFeeMngtVO.getRm());
 		
 		sendLevReqestRevCollF(nticParam);
+		
+		//임대상세요금이력테이블에 이력을 남기는 작업.
+		for(int i=0; i<nticDetailList.size(); i++) {
+			HashMap<String, String> rentDetail = nticDetailList.get(i);
+			rentDetail.put("regUsr", loginVo.getId());
+			gamHtldRentFeeMngtDao.insertHtldRentDetailFeeHist(rentDetail);
+		}
 	}
 	
 	/** 고지서 출력시 임대상세내역 각각의 임대료 구하기 */
 	@SuppressWarnings("rawtypes")
 	public List getRentDetailNticAmnt(List master, List detail) {
-		EgovMap masterRec = (EgovMap) master.get(0);
-		String nticPdFrom = (String) masterRec.get("nticPdFrom");
-		String nticPdTo = (String) masterRec.get("nticPdTo");
-		LocalDate fromDate = new LocalDate(nticPdFrom), toDate = new LocalDate(nticPdTo);
-		for(int i=0; i<detail.size(); i++) {
-			EgovMap detailRec = (EgovMap) detail.get(i);
-			BigDecimal monthFee = new BigDecimal(0);
-			BigDecimal applcPrice = (BigDecimal) detailRec.get("applcPrice");
-			BigDecimal usageAr = (BigDecimal) detailRec.get("usageAr");
-			if("1".equals((String)detailRec.get("priceSe"))) { //적용임대료일 경우
-				monthFee = monthFee.add(applcPrice.multiply(usageAr));
-			} else if("2".equals((String)detailRec.get("priceSe"))) { //월사용료일 경우
-				monthFee = monthFee.add(applcPrice);
+		for(int n=0; n<master.size(); n++) {
+			EgovMap masterRec = (EgovMap) master.get(n);
+			String prtAtCode = (String) masterRec.get("prtAtCode");
+			String mngYear = (String) masterRec.get("mngYear");
+			String mngNo = (String) masterRec.get("mngNo");
+			String mngCnt = (String) masterRec.get("mngCnt");
+			String nticPdFrom = (String) masterRec.get("nticPdFrom");
+			String nticPdTo = (String) masterRec.get("nticPdTo");
+			LocalDate fromDate = new LocalDate(nticPdFrom), toDate = new LocalDate(nticPdTo);
+			for(int i=0; i<detail.size(); i++) {
+				EgovMap detailRec = (EgovMap) detail.get(i);
+				String prtAtCodeDetail = (String) detailRec.get("prtAtCode");
+				String mngYearDetail = (String) detailRec.get("mngYear");
+				String mngNoDetail = (String) detailRec.get("mngNo");
+				String mngCntDetail = (String) detailRec.get("mngCnt");
+				if(prtAtCodeDetail.equals(prtAtCode) && mngYearDetail.equals(mngYear) && mngNoDetail.equals(mngNo) && mngCntDetail.equals(mngCnt)) {
+					BigDecimal monthFee = new BigDecimal(0);
+					BigDecimal applcPrice = (BigDecimal) detailRec.get("applcPrice");
+					BigDecimal usageAr = (BigDecimal) detailRec.get("usageAr");
+					if("1".equals((String)detailRec.get("priceSe"))) { //적용임대료일 경우
+						monthFee = monthFee.add(applcPrice.multiply(usageAr));
+					} else if("2".equals((String)detailRec.get("priceSe"))) { //월사용료일 경우
+						monthFee = monthFee.add(applcPrice);
+					}
+					BigDecimal totalFee = getTotalFee(fromDate, toDate, monthFee);
+					detailRec.put("fee", totalFee.toString());
+				}
 			}
-			BigDecimal totalFee = getTotalFee(fromDate, toDate, monthFee);
-			detailRec.put("fee", totalFee.toString());
 		}
 		return detail;
 	}

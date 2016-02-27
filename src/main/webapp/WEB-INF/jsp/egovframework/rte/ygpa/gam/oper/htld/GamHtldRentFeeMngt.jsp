@@ -54,11 +54,11 @@ GamHtldRentFeeMngtModule.prototype.loadComplete = function(params) {
 				{display:'고지방법', name:'nticMthNm',width:70, sortable:false,align:'center'},
 				{display:'고지', name:'nhtIsueYnNm',width:50, sortable:false,align:'center'},
 				{display:'출력', name:'nhtPrintYnNm',width:50, sortable:false,align:'center'},
-				{display:'사용료', name:'fee',width:80, sortable:false,align:'right', displayFormat: 'input-number'},
-				{display:'이자', name:'intrAmnt',width:80, sortable:false,align:'right', displayFormat: 'input-number'},
+				{display:'사용료', name:'fee',width:80, sortable:false,align:'right', displayFormat: 'number'},
+				{display:'이자', name:'intrAmnt',width:80, sortable:false,align:'right', displayFormat: 'number'},
 				{display:'이자율(%)', name:'intrRate',width:60, sortable:false,align:'right', displayFormat: 'input-number', displayOption: "0.00"},
 				{display:'추가금액', name:'addAmnt',width:100, sortable:false,align:'right', displayFormat: 'input-number'},
-				{display:'추가금액산출근거', name:'addAmntRm',width:200, sortable:false,align:'right', displayFormat: 'input'},
+				{display:'추가금액산출근거', name:'addAmntRm',width:200, sortable:false,align:'left', displayFormat: 'input'},
 				{display:'소계', name:'feeAmnt',width:80, sortable:false,align:'right', displayFormat: 'number'},
 				{display:'부가세', name:'vat',width:100, sortable:false,align:'right', displayFormat: 'input-number'},
 				{display:'고지금액', name:'nticAmt',width:100, sortable:false,align:'right', displayFormat: 'input-number'},
@@ -71,6 +71,8 @@ GamHtldRentFeeMngtModule.prototype.loadComplete = function(params) {
         groupBy: "rentArea",
         preProcess: function(module,data) {
         	var sum = { sumCnt:0, sumFee:0, sumVat:0, sumNticAmt:0, sumIntrAmt:0 };
+        	module._assetsDetailList = data.assetsDetailList;  //해당 고지의 임대상세내역 목록을 가져온다.
+        	module._nticDetailList = [];
         	$.each(data.resultList, function() {
         		module.makeRowData(this);
         		sum.sumCnt += 1; sum.sumFee += this.fee; sum.sumVat += this.vat; sum.sumIntrAmt += this.intrAmnt; sum.sumNticAmt += this.nticAmt;
@@ -289,9 +291,9 @@ GamHtldRentFeeMngtModule.prototype.makeRowData = function(item) {
 		item.intrAmnt = 0;
 	}	
 	
-	if((item.intrRate != void(0)) && (item.intrRate != 0)) {
-		item.intrAmnt = this.getIntrAmount(item.fee, item.intrRate, item.nticMth, item.nticPdFrom, item.nticPdTo, item.grUsagePdFrom, item.grUsagePdTo);
-	}
+	// 임대내역 고지 상세 초기화
+	item.intrAmnt = this.initNticDetailIntrAmnt(item);
+	
 	if(item.feeAmnt==void(0)) {
 		var feeAmnt=Number(item.fee) + Number(item.addAmnt) + Number((item.intrAmnt == void(0) ? 0 : item.intrAmnt)) ;
 		item.feeAmnt = Math.floor(feeAmnt*0.1) * 10; //공급가액에서 1원단위는 절사한다.
@@ -307,6 +309,39 @@ GamHtldRentFeeMngtModule.prototype.makeRowData = function(item) {
 	item.oldIntrRate = item.intrRate;
 	item.oldVat = item.vat;
 	item.oldNticAmt = item.nticAmt;
+};
+
+<%--
+	임대상세내역과 고지데이터를 병합하여 새로운 임대상세고지목록을 만들고 각각의 임대상세고지내역의 이자를 구한다음 이를 고지데이터의 이자에 합산하여 반환하는 모듈 
+--%>
+GamHtldRentFeeMngtModule.prototype.initNticDetailIntrAmnt = function(row) {
+	var result = 0;
+	if(this._assetsDetailList != void(0)) {
+		for(var i=0; i<this._assetsDetailList.length; i++) {
+			var assetsDetail = this._assetsDetailList[i];
+			if( (assetsDetail.prtAtCode == row.prtAtCode) && (assetsDetail.mngYear == row.mngYear) && (assetsDetail.mngNo == row.mngNo) && (assetsDetail.mngCnt == row.mngCnt) ) {
+				var nticDetail = {};
+				nticDetail.assetsUsageSeq = assetsDetail.assetsUsageSeq;
+				nticDetail.prtAtCode = assetsDetail.prtAtCode;
+				nticDetail.mngYear = assetsDetail.mngYear;
+				nticDetail.mngNo = assetsDetail.mngNo;
+				nticDetail.mngCnt = assetsDetail.mngCnt;
+				nticDetail.usageAr = assetsDetail.usageAr;
+				nticDetail.applcPrice = assetsDetail.applcPrice;
+				nticDetail.priceSe = assetsDetail.priceSe;
+				nticDetail.fee = assetsDetail.fee;				
+				nticDetail.nticCnt = row.nticCnt;
+				nticDetail.chrgeKnd = row.chrgeKnd;
+				nticDetail.nticPdFrom = row.nticPdFrom;
+				nticDetail.nticPdTo = row.nticPdTo;
+				nticDetail.intrRate = row.intrRate;
+				nticDetail.intrAmnt = this.getIntrAmount(nticDetail.fee, row.intrRate, row.nticMth, row.nticPdFrom, row.nticPdTo, row.grUsagePdFrom, row.grUsagePdTo);
+				result += nticDetail.intrAmnt; 
+				this._nticDetailList[this._nticDetailList.length] = nticDetail;
+			}
+		}
+	}
+	return result;
 };
 
 <%--
@@ -338,8 +373,6 @@ GamHtldRentFeeMngtModule.prototype.onCalcFeeListCellEdited = function(row, rid, 
 	if(row.nhtIsueYn=='Y') {
 		alert('고지된 자료는 수정 되지 않습니다.');
 		row.addAmnt = row.oldAddAmnt;
-		row.fee = row.oldFee;
-		row.intrAmnt = row.oldIntrAmnt;
 		row.intrRate = row.oldIntrRate;
 		row.vat = row.oldVat;
 		row.nticAmt = row.oldNticAmt;
@@ -352,15 +385,14 @@ GamHtldRentFeeMngtModule.prototype.onCalcFeeListCellEdited = function(row, rid, 
     }
     var feeAmnt = 0;
     switch(cid) {
-    	case 'fee' :
     	case 'intrRate' :
-    		row.intrAmnt = this.getIntrAmount(row.fee, row.intrRate, row.nticMth, row.nticPdFrom, row.nticPdTo, row.grUsagePdFrom, row.grUsagePdTo);
+    		// 고지데이터에 해당하는 임대상세고지목록의 내역 임대료 이자를 합산계산
+    		row.intrAmnt = this.onCalcNticDetailIntrAmnt(row);
     		feeAmnt = Number(row.fee) + Number(row.intrAmnt) + Number(row.addAmnt);
     		row.feeAmnt = Math.floor(feeAmnt*0.1) * 10; //공급가액에서 1원단위는 절사한다.
     		row.vat = (row.vatYn=='2' || row.vatYn=='Y') ? Math.floor(Number(row.feeAmnt) * 0.1) : 0;
     		row.nticAmt = Number(row.feeAmnt) + Number(row.vat);
     		break;
-    	case 'intrAmnt' :
     	case 'addAmnt' :
     		feeAmnt = Number(row.fee) + Number(row.intrAmnt) + Number(row.addAmnt);
     		row.feeAmnt = Math.floor(feeAmnt*0.1) * 10; //공급가액에서 1원단위는 절사한다.
@@ -373,13 +405,28 @@ GamHtldRentFeeMngtModule.prototype.onCalcFeeListCellEdited = function(row, rid, 
     }
     
 	row.oldAddAmnt = row.addAmnt;
-	row.oldFee = row.fee;
-	row.oldIntrAmnt = row.intrAmnt;
 	row.oldIntrRate = row.intrRate;
 	row.oldVat = row.vat;
 	row.oldNticAmt = row.nticAmt;
     this.$("#assetRentFeeList").flexUpdateRow(rid, row);
     this.onCalcSummary();	
+};
+
+<%--
+	이자율이 변경될 때 각각의 임대상세고지내역의 이자를 구하고 이를 합산하는 모듈
+--%>
+GamHtldRentFeeMngtModule.prototype.onCalcNticDetailIntrAmnt = function(row) {
+	var result = 0;
+	for(var i=0; i<this._nticDetailList.length; i++) {
+		var nticDetail = this._nticDetailList[i];
+		if( (nticDetail.prtAtCode == row.prtAtCode) && (nticDetail.mngYear == row.mngYear) && (nticDetail.mngNo == row.mngNo) 
+				&& (nticDetail.mngCnt == row.mngCnt) && (nticDetail.nticCnt == row.nticCnt) && (nticDetail.chrgeKnd == row.chrgeKnd) ) {
+			nticDetail.intrAmnt = this.getIntrAmount(nticDetail.fee, row.intrRate, row.nticMth, row.nticPdFrom, row.nticPdTo, row.grUsagePdFrom, row.grUsagePdTo);
+			nticDetail.intrRate = row.intrRate;
+			result += nticDetail.intrAmnt; 
+		}
+	}
+	return result;
 };
 
 <%--
@@ -399,11 +446,29 @@ GamHtldRentFeeMngtModule.prototype.openNticIssuePopup = function() {
 };
 
 <%--
+	고지내역에 해당 하는 임대상세고지내역데이터 뽑아오기 
+--%>
+GamHtldRentFeeMngtModule.prototype.getNticDetailList = function(ntic) {
+	var result = [];
+	for(var i=0; i<this._nticDetailList.length; i++) {
+		var nticDetail = this._nticDetailList[i];
+		if( (nticDetail.prtAtCode == ntic.prtAtCode) && (nticDetail.mngYear == ntic.mngYear) && (nticDetail.mngNo == ntic.mngNo) 
+				&& (nticDetail.mngCnt == ntic.mngCnt) && (nticDetail.nticCnt == ntic.nticCnt) && (nticDetail.chrgeKnd == ntic.chrgeKnd) ) {
+			result[result.length] = nticDetail;
+		}
+	}
+	return result;
+};
+
+<%--
 	고지처리
 --%>
 GamHtldRentFeeMngtModule.prototype.processNticIssue = function(value) {
-	var arg = EMD.util.objectToArray(value);
-	this.doAction('/oper/htld/insertHtldFeeNticSingle.do', arg, function(module, result) {
+	var nticInfo = {};
+	var nticDetailList = this.getNticDetailList(value);
+	nticInfo['nticData'] = JSON.stringify(value);
+	nticInfo['nticDetailList'] = JSON.stringify(nticDetailList);
+	this.doAction('/oper/htld/insertHtldFeeNticSingle.do', nticInfo, function(module, result) {
 		if(result.resultCode=='0') {
 			module.loadData();
 		}

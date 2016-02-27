@@ -381,7 +381,10 @@ public class GamHtldRentMngtController {
 
     	gamHtldRentMngtVO.setUpdUsr(loginVo.getId());
     	gamHtldRentMngtVO.setDeptcd(loginVo.getDeptCd());
-    	List<GamHtldRentMngtDetailVO> createList=null, updateList=null, deleteList=null;
+    	//List<GamHtldRentMngtDetailVO> createList=null, updateList=null, deleteList=null;
+    	List<GamHtldRentMngtDetailVO> assetRentDetailList = null;
+    	
+    	/* selectOption에 event가 안 먹기 때문에 이 부분을 처리할 수 없음. 2016-2-27 김종민
     	if(assetRent.containsKey("_cList"))
 	    	createList = mapper.readValue((String)assetRent.get("_cList"), TypeFactory.defaultInstance().constructCollectionType(List.class,
 	    			GamHtldRentMngtDetailVO.class));
@@ -391,9 +394,13 @@ public class GamHtldRentMngtController {
     	if(assetRent.containsKey("_dList"))
 	    	deleteList = mapper.readValue((String)assetRent.get("_dList"), TypeFactory.defaultInstance().constructCollectionType(List.class,
 	    			GamHtldRentMngtDetailVO.class));
+		*/
+    	if(assetRent.containsKey("assetRentDetailList"))
+	    	assetRentDetailList = mapper.readValue((String)assetRent.get("assetRentDetailList"), TypeFactory.defaultInstance().constructCollectionType(List.class,
+	    			GamHtldRentMngtDetailVO.class));
 
     	try {
-    		gamHtldRentMngtService.updateHtldRentMngt(gamHtldRentMngtVO, createList, updateList, deleteList);
+    		gamHtldRentMngtService.updateHtldRentMngt(gamHtldRentMngtVO, assetRentDetailList);
     	}
     	catch(Exception e) {
         	map.put("resultCode", -1);

@@ -180,6 +180,9 @@ public class GamHtldRentMngtVO extends ComDefaultVO {
     
     /** 계약변경사유 **/
     private String termnRm;
+
+    /** 적용단가 구분 */
+    private String priceSe;
     
 	public String getPrtAtCode() {
 		return prtAtCode;
@@ -529,5 +532,16 @@ public class GamHtldRentMngtVO extends ComDefaultVO {
 	public void setTermnUsr(String termnUsr) {
 		this.termnUsr = termnUsr;
 	}
-
+	/**
+	 * @return the priceSe
+	 */
+	public String getPriceSe() {
+		return priceSe;
+	}
+	/**
+	 * @param priceSe the priceSe to set
+	 */
+	public void setPriceSe(String priceSe) {
+		this.priceSe = priceSe;
+	}
 }

@@ -133,6 +133,10 @@ public class GamHtldRentFeeMngtController {
 		//자산임대목록
     	totalCnt = gamHtldRentFeeMngtService.selectHtldRentFeeMngtListTotCnt(searchVO);
     	List resultList = gamHtldRentFeeMngtService.selectHtldRentFeeMngtList(searchVO);
+    	List assetsDetailList = gamHtldRentFeeMngtService.selectHtldAssetsDetailList(searchVO);
+
+    	//임대상세내역 각각의 임대료 구하기
+    	assetsDetailList = gamHtldRentFeeMngtService.getRentDetailNticAmnt(resultList, assetsDetailList);
     	
     	paginationInfo.setTotalRecordCount(totalCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
@@ -148,6 +152,7 @@ public class GamHtldRentFeeMngtController {
     	map.put("searchOption", searchVO);
     	//map.put("resultSum", resultSum);
     	map.put("cofixIntr", resultCofix.get("intrRate"));
+    	map.put("assetsDetailList", assetsDetailList);
 
     	return map;
     }
@@ -847,7 +852,7 @@ public class GamHtldRentFeeMngtController {
     	master.put("intrAmnt", gamHtldRentFeeMngtVO.getIntrAmnt());
     	master.put("vat", gamHtldRentFeeMngtVO.getVat());
     	master.put("nticAmt", gamHtldRentFeeMngtVO.getNticAmt());
-    	master.put("intrAmt", gamHtldRentFeeMngtVO.getIntrRate());
+    	master.put("intrRate", gamHtldRentFeeMngtVO.getIntrRate());
     	master.put("addAmnt", gamHtldRentFeeMngtVO.getAddAmnt());
     	master.put("addAmntRm", gamHtldRentFeeMngtVO.getAddAmntRm());
     	
@@ -865,23 +870,24 @@ public class GamHtldRentFeeMngtController {
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value="/oper/htld/insertHtldFeeNticSingle.do")
-    public @ResponseBody Map insertAssetRentFeeNticSingle(
-     	   @ModelAttribute("gamHtldRentFeeMngtVO") GamHtldRentFeeMngtVO gamHtldRentFeeMngtVO,
-     	   BindingResult bindingResult)
-            throws Exception {
+    public @ResponseBody Map insertAssetRentFeeNticSingle(@RequestParam Map<String, Object> nticInfo) throws Exception {
      	Map map = new HashMap();
-
+     	ObjectMapper mapper = new ObjectMapper();
+     	
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
 	        map.put("resultCode", 1);
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
-
+    	
     	try {
     		LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
-    		gamHtldRentFeeMngtService.insertAssetRentFeeNticSingle(loginVo, gamHtldRentFeeMngtVO);
+    		GamHtldRentFeeMngtVO gamHtldRentFeeMngtVO = mapper.readValue((String)nticInfo.get("nticData"), GamHtldRentFeeMngtVO.class);
+    		List<HashMap<String, String>> nticDetailList = mapper.readValue((String)nticInfo.get("nticDetailList"), new TypeReference<List<HashMap<String,String>>>(){});
+
+    		gamHtldRentFeeMngtService.insertAssetRentFeeNticSingle(loginVo, gamHtldRentFeeMngtVO, nticDetailList);
     		
 	     	map.put("resultCode", 0);
 	        map.put("resultMsg", egovMessageSource.getMessage("gam.asset.proc"));
@@ -889,7 +895,6 @@ public class GamHtldRentFeeMngtController {
     	catch(Exception e) {
 	        map.put("resultCode", 1);
     		map.put("resultMsg", egovMessageSource.getMessage("fail.nticIssue.msg"));
-        	return map;
     	}
 
  		return map;
@@ -1004,11 +1009,7 @@ public class GamHtldRentFeeMngtController {
     	List master = gamHtldRentFeeMngtService.selectNticPrintMaster(approvalOpt);
 
     	List detail = gamHtldRentFeeMngtService.selectNticPrintDetail(approvalOpt);
-
-    	//임대상세내역 각각의 임대료 구하기
-    	detail = gamHtldRentFeeMngtService.getRentDetailNticAmnt(master, detail);
     	
-    	System.out.println("test : " + (String)((EgovMap)detail.get(0)).get("fee"));
     	model.addAttribute("resultCode", 0);
     	model.addAttribute("resultList", master);
     	model.addAttribute("detail", detail);

@@ -99,7 +99,7 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
            {display:'자산명', name:'gisAssetsNm',width:180, sortable:false,align:'left'},
            {display:'소재지', name:'gisAssetsLocplcAll',width:220, sortable:false,align:'center'},
            {display:'자산면적', name:'gisAssetsAr',width:80, sortable:false,align:'right', displayFormat: 'number', displayOption:"0,000.00"},
-           {display:'적용단가', name:'applcPrice',width:100, sortable:false,align:'left', displayFormat: 'input-number', displayOption:"0,000.00"},
+           {display:'적용단가', name:'applcPrice',width:100, sortable:false,align:'right', displayFormat: 'input-number', displayOption:"0,000.00"},
            {display:'단가구분', name:'priceSe',width:100, sortable:false,align:'center', displayFormat:'select', displayOption:priceSeOption},
            {display:'사용면적', name:'usageAr',width:80, sortable:false,align:'right', displayFormat: 'input-number', displayOption:"0,000.00"}
         ],
@@ -1057,11 +1057,14 @@ GamHtldRentMngtModule.prototype.storeRentData = function() {
     	if(this._detailMode=="") {	// update data
     		var assetRent = {};
     		assetRent['assetRentVo'] = JSON.stringify(this.getFormValues('#gamAssetRentForm'));
-
+			
+    		/* selectOption에 event가 안 먹기 때문에 이 부분을 처리할 수 없음. 2016-2-27 김종민
     		assetRent['_cList'] = JSON.stringify(this.$('#assetRentDetailList').selectFilterData([{col: '_updtId', filter: 'I'}]));
     		assetRent['_uList'] = JSON.stringify(this.$('#assetRentDetailList').selectFilterData([{col: '_updtId', filter: 'U'}]));
     		assetRent['_dList'] = JSON.stringify(this._deleteDataList);
-
+    		*/
+    		assetRent['assetRentDetailList'] =  JSON.stringify(this.$('#assetRentDetailList').flexGetData());
+    		
             this.doAction('/oper/htld/updateHtldRent.do', assetRent, function(module, result) {
                 if(result.resultCode == 0){
                 	module.loadDetail();

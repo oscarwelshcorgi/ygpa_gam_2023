@@ -60,6 +60,16 @@ public class GamHtldRentFeeMngtDao extends YGPAAbstractDAO {
 	}
 
 	/**
+	 * 배후단지임대상세내역 목록을 조회한다.
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return 배후단지임대상세내역 목록
+	 * @exception Exception
+	 */
+    public List selectHtldAssetsDetailList(GamHtldRentFeeDefaultVO searchVO) throws Exception {
+    	return list("gamHtldRentFeeMngtDao.selectHtldAssetsDetailList_D", searchVO);
+    }
+
+    /**
 	 * 배후단지구역 목록을 조회한다.
 	 * @return 배후단지구역 목록
 	 * @exception Exception
@@ -259,4 +269,11 @@ public class GamHtldRentFeeMngtDao extends YGPAAbstractDAO {
 	public void updateLevReqestAmount(GamHtldRentFeeMngtVO vo) {
 		update("gamHtldRentFeeMngtDao.updateLevReqestAmount_S", vo);
 	}
+
+	public void insertHtldRentDetailFeeHist(Map<String, String> vo) throws Exception {
+        insert("gamHtldRentFeeMngtDao.insertHtldRentDetailFeeHist_S", vo);
+    }
+	public void deleteHtldRentDetailFeeHist(Map<String, Object> vo) throws Exception {
+        delete("gamHtldRentFeeMngtDao.deleteHtldRentDetailFeeHist_D", vo);
+    }
 }
