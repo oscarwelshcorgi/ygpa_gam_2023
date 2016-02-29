@@ -592,21 +592,22 @@ public class GamHtldRentFeePaySttusMngtController {
     	}
     	else {
     		List master = gamHtldRentFeePaySttusMngtService.selectNticPrintMaster(approvalOpt);
-    		List detail = null;
+    		List detail = null, feeHist = null;
     		if(master.size() > 0) {
     			EgovMap masterRec = (EgovMap) master.get(0);
     			approvalOpt.put("mngYear", masterRec.get("mngYear"));
     			approvalOpt.put("mngNo", masterRec.get("mngNo"));
     			approvalOpt.put("mngCnt", masterRec.get("mngCnt"));
+    			approvalOpt.put("nticCnt", masterRec.get("nticCnt"));
     			detail = gamHtldRentFeePaySttusMngtService.selectNticPrintDetail(approvalOpt);
-    			//임대상세내역 각각의 임대료 구하기
-    			detail = gamHtldRentFeePaySttusMngtService.getRentDetailNticAmnt(master, detail);
+    			feeHist = gamHtldRentFeePaySttusMngtService.selectNticPrintDetailHist(approvalOpt);
     		}
     		
     		model.addAttribute("searchOpt", approvalOpt);
     		model.addAttribute("resultCode", 0);
     		model.addAttribute("resultList", master);
     		model.addAttribute("detail", detail);
+    		model.addAttribute("feeHist", feeHist);
     		model.addAttribute("resultMsg", "");
     	}
 

@@ -318,5 +318,8 @@ public class GamHtldRentFeePaySttusMngtDao extends YGPAAbstractDAO {
 	public void updateArrrgNticPrintState(Map<String, Object> vo) throws Exception {
 		this.update("gamHtldRentFeePaySttusMngtDao.updateArrrgNticPrintState_S", vo);
 	}
-	
+
+	public List selectNticPrintDetailHist(Map<String, Object> vo) throws Exception {
+        return list("gamHtldRentFeePaySttusMngtDao.selectNticPrintDetailHist_D", vo);
+    }	
 }

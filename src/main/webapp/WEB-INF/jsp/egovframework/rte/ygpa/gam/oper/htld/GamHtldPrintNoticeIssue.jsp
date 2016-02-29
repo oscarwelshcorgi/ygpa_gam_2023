@@ -934,11 +934,14 @@ div.notice {
 			      					<c:if test="${feeHistItem.priceSe eq 1}">
 					      				<br /> &nbsp;<fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${feeHistItem.applcPrice}" /> 원
 					      				&nbsp;X&nbsp; <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${feeHistItem.usageAr}" /> m<sup>2</sup>
-					      				&nbsp;X&nbsp; 기간(월) = <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${feeHistItem.fee}" /> 원
+					      				&nbsp;X&nbsp; 기간(월) ≒ <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${feeHistItem.fee}" /> 원
 					      			</c:if>
 			      					<c:if test="${feeHistItem.priceSe eq 2}">
 					      				<br /> &nbsp; <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${feeHistItem.applcPrice}" /> 원/월
-					      				&nbsp;X&nbsp; 기간(월) = <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${feeHistItem.fee}" /> 원
+					      				&nbsp;X&nbsp; 기간(월) ≒ <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${feeHistItem.fee}" /> 원
+					      				<c:if test="${feeHistItem.usageAr > 0}">
+					      					(<fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${feeHistItem.usageAr}" /> m<sup>2</sup>)
+					      				</c:if>
 					      			</c:if>	
 			   					</c:forEach>
 		      			</p>
@@ -946,9 +949,9 @@ div.notice {
 		 			    		<p>
 				      				분납이자 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${master.intrAmnt}" /> 원 (이자율 : <fmt:formatNumber type="number" maxIntegerDigits="5" maxFractionDigits="2" value="${master.intrRate}" />% Cofix수신금리)
 				      				<c:forEach var="feeHistItem" items="${feeHist }">
-				      					&nbsp;<fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${feeHistItem.fee}" /> 원
+				      					<br /> &nbsp;<fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${feeHistItem.fee}" /> 원
 				      					&nbsp;X&nbsp; 이자율(<fmt:formatNumber type="number" maxIntegerDigits="5" maxFractionDigits="2" value="${master.intrRate}" />%)
-				      					= <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${feeHistItem.intrAmnt}" /> 원 (1원 절사)
+				      					≒ <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${feeHistItem.intrAmnt}" /> 원
 				      				</c:forEach>
 	      						</p>
 			      			</c:if>
@@ -960,7 +963,9 @@ div.notice {
 				      				</c:if>
 	      						</p>
 			      			</c:if>
-	      				<p><c:if test="${master.rm!=null}">비고 : <c:out value="${master.rm}"/></c:if></p>
+			      		<c:if test="${master.rm!=null}">
+	      				<p>비고 : <c:out value="${master.rm}"/></p>
+	      				</c:if>
 	      		</div>
         	</div>
 

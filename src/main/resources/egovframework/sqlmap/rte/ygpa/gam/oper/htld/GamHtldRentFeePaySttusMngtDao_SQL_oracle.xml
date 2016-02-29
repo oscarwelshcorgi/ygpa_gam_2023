@@ -45,6 +45,7 @@
 							       , NVL(L.OLNLP,0) OLNLP
 							       , NVL(L.FEE,0) FEE
 							       , L.VAT_YN
+							       , L.ADD_AMNT
 							       , NVL(L.VAT,0) VAT
 							       , NVL(L.INTR_AMNT, 0) INTR_AMNT
 							       , NVL(L.NTIC_AMT,0) NTIC_AMT
@@ -674,7 +675,7 @@
       			GAM_GETENTRPSNM(L.ENTRPSCD, '2'),
       			#dlyBillRsn#, #regUsr#, SYSDATE,
       			L.ENTRPSCD, '194', 'N', 'N', TO_DATE(#nticPdFrom#, 'YYYY-MM-DD'), TO_DATE(#nticPdTo#, 'YYYY-MM-DD'),
-      			#deptCd#, #emplNo#, TO_DATE(#prvDueDt#, 'YYYY-MM-DD'), NVL(L.FEE,0) + NVL(L.INTR_AMNT,0) + NVL(L.ADD_AMNT,0) + NVL(L.VAT,0) +#dlyBillAmnt#, #userName#, TO_DATE(#prvBillDt#, 'YYYY-MM-DD')
+      			#deptCd#, #emplNo#, TO_DATE(#prvDueDt#, 'YYYY-MM-DD'), TRUNC(NVL(L.FEE,0) + NVL(L.INTR_AMNT,0) + NVL(L.ADD_AMNT,0),-1) + NVL(L.VAT,0) +#dlyBillAmnt#, #userName#, TO_DATE(#prvBillDt#, 'YYYY-MM-DD')
      		FROM LEV_REQEST_F L
       		WHERE PRT_AT_CODE=#prtAtCode#
       			AND MNG_YEAR=#mngYear#
@@ -693,7 +694,7 @@
       		ARRRG_AMT=TRUNC(TO_NUMBER(#dlyBillAmnt#), 0),
       		ARRRG_TARIFF=TO_NUMBER(#arrrgTariff#),
       		ARRRG_PAY_DATES=#applyPayDates#,
-      		NTIC_AMT=TRUNC(NVL(FEE,0)+NVL(INTR_AMNT,0)+NVL(ADD_AMNT,0)+NVL(VAT,0)+TO_NUMBER(#dbillAmnt#), 0),
+      		NTIC_AMT=TRUNC(NVL(FEE,0)+NVL(INTR_AMNT,0)+NVL(ADD_AMNT,0),-1)+NVL(VAT,0)+TO_NUMBER(#dbillAmnt#),
       		<isNotNull property="rcivSe">
       		RCIV_SE=#rcivSe#,
       		</isNotNull>
@@ -817,7 +818,7 @@
 				,U.DLY_SER_NO
 				,U.AGENT_CODE
 				,U.BZ_RGST_ID
-				,(NVL(L.FEE,0) + NVL(L.INTR_AMNT, 0) + NVL(ADD_AMNT, 0)) AS SUPPLY_AMNT
+				,TRUNC(NVL(L.FEE, 0) + NVL(L.INTR_AMNT, 0) + NVL(L.ADD_AMNT, 0), -1) AS SUPPLY_AMNT
 				,L.VAT
 				,U.DLY_BILL_AMNT
 				,TO_CHAR(U.DLY_BILL_DT, 'YYYY-MM-DD') AS DLY_BILL_DT
@@ -1245,7 +1246,7 @@
       		ARRRG_TARIFF=NULL,
       		ARRRG_PAY_DATES=NULL,
       		<!-- NTIC_DT=#prvBillDt#, -->
-      		NTIC_AMT=NVL(FEE,0)+NVL(INTR_AMNT,0)+NVL(ADD_AMNT,0)+NVL(VAT,0),
+      		NTIC_AMT=TRUNC(NVL(FEE,0)+NVL(INTR_AMNT,0)+NVL(ADD_AMNT,0),-1)+NVL(VAT,0),
       		PAY_TMLMT=TO_DATE(#dlyDueDt#, 'YYYY-MM-DD'),
       		UPD_USR=#updUsr#,
       		UPDT_DT=SYSDATE
@@ -1267,7 +1268,7 @@
       		ARRRG_AMT=TO_NUMBER(#dbillAmnt#),
       		ARRRG_TARIFF=TO_NUMBER(#arrrgTariff#),
       		ARRRG_PAY_DATES=TO_NUMBER(#applyPayDates#),
-      		NTIC_AMT=NVL(FEE,0)+NVL(INTR_AMNT,0)+NVL(ADD_AMNT,0)+NVL(VAT,0)+TO_NUMBER(#dlyBillAmnt#),
+      		NTIC_AMT=TRUNC(NVL(FEE,0)+NVL(INTR_AMNT,0)+NVL(ADD_AMNT,0),-1)+NVL(VAT,0)+TO_NUMBER(#dlyBillAmnt#),
       		<isNotNull property="rcivSe">
 	      		RCIV_SE=#rcivSe#,
       		</isNotNull>
@@ -1333,7 +1334,7 @@
 		      U.DLY_BILL_RSN,
 		      L.FEE,
 	          L.INTR_AMNT,
-	          (NVL(L.FEE, 0) + NVL(L.INTR_AMNT, 0) + NVL(L.ADD_AMNT, 0)) AS SUPPLY_AMNT,
+	          TRUNC(NVL(L.FEE, 0) + NVL(L.INTR_AMNT, 0) + NVL(L.ADD_AMNT, 0), -1) AS SUPPLY_AMNT,
 	          L.ADD_AMNT,
 	          L.ADD_AMNT_RM, 
 		      L.NTIC_CNT,
@@ -1443,5 +1444,32 @@
             AND BILL_NO = #billNo#
 			AND DLY_SER_NO = #dlySerNo#				
 	</update>
+
+    <select id="gamHtldRentFeePaySttusMngtDao.selectNticPrintDetailHist_D" parameterClass="hashMap" resultClass="egovMap">
+    	SELECT 
+          PRT_AT_CODE
+          , MNG_YEAR
+          , MNG_NO
+          , MNG_CNT
+          , ASSETS_USAGE_SEQ
+          , NTIC_CNT
+          , CHRGE_KND
+          , USAGE_AR
+          , APPLC_PRICE
+          , PRICE_SE
+          , FEE
+          , INTR_AMNT
+          , INTR_RATE
+          , NTIC_PD_FROM
+          , NTIC_PD_TO
+         FROM
+         	HTLD_RENT_DETAIL_FEE_HIST_F
+         WHERE
+				PRT_AT_CODE   = #prtAtCode#
+				AND MNG_YEAR      = #mngYear#
+				AND MNG_NO        = #mngNo#
+				AND MNG_CNT       = #mngCnt#
+				AND NTIC_CNT      = #nticCnt#         	
+    </select>
 
 </sqlMap>

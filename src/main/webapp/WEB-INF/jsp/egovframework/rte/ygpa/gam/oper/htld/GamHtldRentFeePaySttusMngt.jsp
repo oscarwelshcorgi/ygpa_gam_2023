@@ -51,7 +51,8 @@ GamHtldRentFeePaySttusMngtModule.prototype.loadComplete = function(params) {
     				{display:'고지대상기간', name:'nticPdPeriod',width:160, sortable:false,align:'center'},
     				{display:'고지일자', name:'nticDt',width:80, sortable:false,align:'center'},
     				{display:'사용료', name:'fee',width:78, sortable:false,align:'right', displayFormat: 'number'},
-    				{display:'이자', name:'intrAmnt',width:78, sortable:false,align:'right', displayFormat: 'number'},
+    				{display:'이자', name:'intrAmnt',width:80, sortable:false,align:'right', displayFormat: 'number'},
+    				{display:'추가금액', name:'addAmnt',width:80, sortable:false,align:'right', displayFormat: 'number'},
     				{display:'부가세', name:'vat',width:78, sortable:false,align:'right', displayFormat: 'number'},
     				{display:'고지금액', name:'nticAmt',width:80, sortable:false,align:'right', displayFormat: 'number'},
 					{display:'납부기한', name:'payTmlmt',width:80, sortable:false,align:'center'},
@@ -385,7 +386,7 @@ GamHtldRentFeePaySttusMngtModule.prototype.displayArrrgForm = function(fee, intr
 	var dlyBillRsn = '';
 	var arrrgAmnt = 0;
 	var arrrgRate = 0;
-	var supplyPrice = Number(fee) + Number(intrAmnt) + Number(addAmnt);
+	var supplyPrice = Math.floor((Number(fee) + Number(intrAmnt) + Number(addAmnt)) * 0.1) * 10;
 	
 	for(var i=1; i<=nextArrrgNo; i++) {
 		arrrgRate = (i==1) ? 0.03 : 0.012;
@@ -393,10 +394,10 @@ GamHtldRentFeePaySttusMngtModule.prototype.displayArrrgForm = function(fee, intr
 	}
 
 	if(nextArrrgNo == 1) {
-		dlyBillRsn = supplyPrice + ' * 0.03';
+		dlyBillRsn = supplyPrice.toLocaleString() + '원 X 3%';
 	} else {
-		dlyBillRsn = '(' + supplyPrice + ' * 0.03)+' + '(' + supplyPrice + ' * 0.012)';
-		if(nextArrrgNo > 2) dlyBillRsn += '*' + (nextArrrgNo - 1);  
+		dlyBillRsn = '(' + supplyPrice.toLocaleString() + '원 X 3%)+' + '(' + supplyPrice.toLocaleString() + '원 X 1.2%)';
+		if(nextArrrgNo > 2) dlyBillRsn += ' X ' + (nextArrrgNo - 1);  
 	}
 
 	this.detailArrrg.supplyPrice = supplyPrice;
