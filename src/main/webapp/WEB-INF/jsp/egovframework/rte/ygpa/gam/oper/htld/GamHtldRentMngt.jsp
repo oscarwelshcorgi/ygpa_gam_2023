@@ -31,7 +31,7 @@ function GamHtldRentMngtModule() {}
 <%--
 	EmdModule을 상속하여 모듈 클래스를 정의한다.
 --%>
-GamHtldRentMngtModule.prototype = new EmdModule(900, 645);
+GamHtldRentMngtModule.prototype = new EmdModule(1460, 685);
 
 <%--///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	EmdModule Override 및 이벤트 처리 정의 부분 시작	
@@ -49,12 +49,12 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
         colModel : [
                     {display:'구역', name:'rentArea',width:82, sortable:false,align:'center'},
                     {display:'입주기업', name:'entrpsNm',width:190, sortable:false,align:'left'},
+                    {display:'계약기간', name:'grUsagePdPeriod',width:175, sortable:false,align:'center'},
+                    {display:'소재지', name:'gisAssetsLocplc',width:170, sortable:false,align:'left'},
                     {display:'입주면적(㎡)', name:'usageAr',width:88, sortable:false,align:'right', displayFormat: 'number',  displayOption:"0,000.00"},
                     {display:'적용단가(원)', name:'applcPrice',width:80, sortable:false,align:'right', displayFormat: 'number',  displayOption:"0,000.00"},
                     {display:'영업개시일', name:'operYrMt',width:80, sortable:false,align:'center'},
-                    {display:'계약기간', name:'grUsagePdPeriod',width:175, sortable:false,align:'center'},
                     /* {display:'실적평가기간', name:'bizAssessPdPeriod',width:175, sortable:false,align:'center'}, */
-                    {display:'소재지', name:'gisAssetsLocplc',width:170, sortable:false,align:'left'},
                     {display:'고지방법', name:'payMthNm',width:60, sortable:false,align:'center'},
                     {display:'납부방법', name:'nticMthNm',width:60, sortable:false,align:'left'},
                     {display:'과세구분', name:'taxtSeNm',width:120, sortable:false,align:'left'},
@@ -67,6 +67,7 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
         showTableToggleBtn: false,
         height: 'auto',
         groupBy: "rentArea",
+        mergeRows: 'entrpsNm,grUsagePdPeriod,gisAssetsLocplc,payMthNm',
         preProcess: function(module,data) {
             module.$('#totalResultCnt').val(data.totalCount);
             module.$('#totalArea').val(data.sumGrAr);
