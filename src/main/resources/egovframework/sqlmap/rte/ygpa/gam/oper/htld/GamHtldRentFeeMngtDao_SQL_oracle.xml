@@ -920,7 +920,7 @@
 	          L.INTR_AMNT,
 	          L.ADD_AMNT,
 	          L.ADD_AMNT_RM,
-	          (NVL(L.FEE, 0) + NVL(L.INTR_AMNT, 0) + NVL(L.ADD_AMNT, 0)) AS SUPPLY_AMNT,
+	          TRUNC(NVL(L.FEE, 0) + NVL(L.INTR_AMNT, 0) + NVL(L.ADD_AMNT, 0), -1) AS SUPPLY_AMNT,
 	          (NVL(L.FEE, 0)) AS PURE_FEE, 
 		      L.NTIC_CNT,
               L.INTR_RATE*100 INTR_RATE,
@@ -1010,7 +1010,7 @@
       AND A.MNG_CNT       = #mngCnt#
     ORDER BY D.ASSETS_USAGE_SEQ ASC
     </select>
-
+    
     <select id="gamHtldRentFeeMngtDao.selectNticPrintFeeList_D" parameterClass="hashMap" resultClass="egovMap">
     	SELECT Z.*
 			FROM
@@ -2375,4 +2375,32 @@
 			AND NTIC_CNT = #nticCnt#
 			AND CHRGE_KND = #chrgeKnd#
 	</delete>	
+
+    <select id="gamHtldRentFeeMngtDao.selectNticPrintDetailHist_D" parameterClass="hashMap" resultClass="egovMap">
+    	SELECT 
+          PRT_AT_CODE
+          , MNG_YEAR
+          , MNG_NO
+          , MNG_CNT
+          , ASSETS_USAGE_SEQ
+          , NTIC_CNT
+          , CHRGE_KND
+          , USAGE_AR
+          , APPLC_PRICE
+          , PRICE_SE
+          , FEE
+          , INTR_AMNT
+          , INTR_RATE
+          , NTIC_PD_FROM
+          , NTIC_PD_TO
+         FROM
+         	HTLD_RENT_DETAIL_FEE_HIST_F
+         WHERE
+				PRT_AT_CODE   = #prtAtCode#
+				AND MNG_YEAR      = #mngYear#
+				AND MNG_NO        = #mngNo#
+				AND MNG_CNT       = #mngCnt#
+				AND NTIC_CNT      = #nticCnt#         	
+    </select>
+
 </sqlMap>

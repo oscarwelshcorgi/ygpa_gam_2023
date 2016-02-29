@@ -177,4 +177,6 @@ public interface GamHtldRentFeeMngtService {
 	 * @return
 	 */
 	List getRentDetailNticAmnt(List master, List detail) throws Exception;
+	
+	List selectNticPrintDetailHist(Map<String, Object> vo) throws Exception;
 }

@@ -276,4 +276,8 @@ public class GamHtldRentFeeMngtDao extends YGPAAbstractDAO {
 	public void deleteHtldRentDetailFeeHist(Map<String, Object> vo) throws Exception {
         delete("gamHtldRentFeeMngtDao.deleteHtldRentDetailFeeHist_D", vo);
     }
+	public List selectNticPrintDetailHist(Map<String, Object> vo) throws Exception {
+        return list("gamHtldRentFeeMngtDao.selectNticPrintDetailHist_D", vo);
+    }
+
 }

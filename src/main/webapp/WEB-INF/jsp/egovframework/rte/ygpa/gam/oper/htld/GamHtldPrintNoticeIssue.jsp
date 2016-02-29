@@ -50,7 +50,8 @@
 
 .page {
 	width: 21cm;
-	min-height: 28.7cm;
+	/* min-height: 28.7cm; */
+	min-height: 267mm;
 	/* padding: 1cm; */
 	margin: 0cm auto;
 	border: 1px #D3D3D3 solid;
@@ -429,7 +430,8 @@ div.notice {
 
 	.page {
 	    width: 21cm;
-	    min-height: 29.7cm;
+	    /*min-height: 29.7cm;*/
+	    min-height: 267mm;
 		/* padding: 1cm; */
 	    margin: 0cm auto;
 	    border: 1px #D3D3D3 solid;
@@ -628,7 +630,7 @@ div.notice {
 		/* top: 11.3cm; */
 		width: 7.85cm;
 		height: 8cm;
-		font-size: 0.30cm;
+		font-size: 0.28cm;
 		font-family: 돋움;
 		margin-top: 1cm;
 		margin-left: 12cm;
@@ -645,7 +647,7 @@ div.notice {
 	 div.rmk > p {
 		position: relative;
 		text-align: left;
-		padding: 0.1cm 0.1cm;
+		padding: 0.05cm 0.05cm;
 	 }
 
 	 .summary {
@@ -928,29 +930,34 @@ div.notice {
 	      			<h2>산출근거</h2>
 		      			<p>사용기간 : <c:out value="${master.nticPdFrom}"/> ~ <c:out value="${master.nticPdTo}"/></p>
 		      			<p>임대료 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${master.fee}" /> 원 
-			      			<c:if test="${master.assessSe==null}">
-			      				<c:forEach var="rentDetail" items="${detail }">
-			      					<c:if test="${rentDetail.priceSe eq 1}">
-					      				&nbsp; (단가 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${rentDetail.applcPrice}" /> 원 &nbsp;
-					      				면적 :  <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${rentDetail.usageAr}" /> m<sup>2</sup> &nbsp;
-					      				임대료 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${rentDetail.fee}" /> 원 )
+			      				<c:forEach var="feeHistItem" items="${feeHist }">
+			      					<c:if test="${feeHistItem.priceSe eq 1}">
+					      				<br /> &nbsp;<fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${feeHistItem.applcPrice}" /> 원
+					      				&nbsp;X&nbsp; <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${feeHistItem.usageAr}" /> m<sup>2</sup>
+					      				&nbsp;X&nbsp; 기간(월) = <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${feeHistItem.fee}" /> 원
 					      			</c:if>
-			      					<c:if test="${rentDetail.priceSe eq 2}">
-					      				&nbsp; (단가 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${rentDetail.applcPrice}" /> 원/월 &nbsp;
-					      				면적 :  <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${rentDetail.usageAr}" /> m<sup>2</sup>
-					      				임대료 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${rentDetail.fee}" /> 원 )
+			      					<c:if test="${feeHistItem.priceSe eq 2}">
+					      				<br /> &nbsp; <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${feeHistItem.applcPrice}" /> 원/월
+					      				&nbsp;X&nbsp; 기간(월) = <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${feeHistItem.fee}" /> 원
 					      			</c:if>	
 			   					</c:forEach>
-			      			</c:if>
 		      			</p>
 						    <c:if test="${master.intrAmnt>0}">
 		 			    		<p>
 				      				분납이자 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${master.intrAmnt}" /> 원 (이자율 : <fmt:formatNumber type="number" maxIntegerDigits="5" maxFractionDigits="2" value="${master.intrRate}" />% Cofix수신금리)
+				      				<c:forEach var="feeHistItem" items="${feeHist }">
+				      					&nbsp;<fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${feeHistItem.fee}" /> 원
+				      					&nbsp;X&nbsp; 이자율(<fmt:formatNumber type="number" maxIntegerDigits="5" maxFractionDigits="2" value="${master.intrRate}" />%)
+				      					= <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${feeHistItem.intrAmnt}" /> 원 (1원 절사)
+				      				</c:forEach>
 	      						</p>
 			      			</c:if>
 						    <c:if test="${master.addAmnt>0}">
 		 			    		<p>
-				      				추가금액 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${master.addAmnt}" /> 원 <c:if test="${master.addAmntRm!=null}">(<c:out value="${master.addAmntRm}"/>)</c:if>
+				      				추가금액 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${master.addAmnt}" /> 원 
+				      				<c:if test="${master.addAmntRm!=null}">
+				      					<br />&nbsp;<c:out value="${master.addAmntRm}"/>
+				      				</c:if>
 	      						</p>
 			      			</c:if>
 	      				<p><c:if test="${master.rm!=null}">비고 : <c:out value="${master.rm}"/></c:if></p>

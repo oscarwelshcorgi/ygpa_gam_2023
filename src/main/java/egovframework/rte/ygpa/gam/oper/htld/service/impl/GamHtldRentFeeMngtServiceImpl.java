@@ -448,4 +448,8 @@ public class GamHtldRentFeeMngtServiceImpl extends AbstractServiceImpl implement
 		return totalFee;
 	}
 
+	public List selectNticPrintDetailHist(Map<String, Object> vo) throws Exception {
+        return gamHtldRentFeeMngtDao.selectNticPrintDetailHist(vo);
+    }
+	
 }

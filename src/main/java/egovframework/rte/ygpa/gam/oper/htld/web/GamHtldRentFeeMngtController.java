@@ -1010,9 +1010,12 @@ public class GamHtldRentFeeMngtController {
 
     	List detail = gamHtldRentFeeMngtService.selectNticPrintDetail(approvalOpt);
     	
+    	List feeHist = gamHtldRentFeeMngtService.selectNticPrintDetailHist(approvalOpt);
+    	
     	model.addAttribute("resultCode", 0);
     	model.addAttribute("resultList", master);
     	model.addAttribute("detail", detail);
+    	model.addAttribute("feeHist", feeHist);
     	model.addAttribute("resultMsg", "");
     	return "ygpa/gam/oper/htld/GamHtldPrintNoticeIssue";
     	}
