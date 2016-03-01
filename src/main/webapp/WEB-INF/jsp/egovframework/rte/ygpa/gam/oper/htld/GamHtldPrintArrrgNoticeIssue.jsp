@@ -928,32 +928,17 @@ div.notice {
 		      			<p>합계 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${master.nticAmt}" /> 원</p>
 	      			<h2>산출근거</h2>
 		      			<p>사용기간 : <c:out value="${master.nticPdFrom}"/> ~ <c:out value="${master.nticPdTo}"/></p>
-		      			<p>임대료 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${master.fee}" /> 원 
-			      				<c:forEach var="feeHistItem" items="${feeHist }">
-			      					<c:if test="${feeHistItem.priceSe eq 1}">
-					      				<br /> &nbsp;<fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${feeHistItem.applcPrice}" /> 원
-					      				&nbsp;X&nbsp; <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${feeHistItem.usageAr}" /> m<sup>2</sup>
-					      				&nbsp;X&nbsp; 기간(월) ≒ <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${feeHistItem.fee}" /> 원
-					      			</c:if>
-			      					<c:if test="${feeHistItem.priceSe eq 2}">
-					      				<br /> &nbsp; <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${feeHistItem.applcPrice}" /> 원/월
-					      				&nbsp;X&nbsp; 기간(월) ≒ <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${feeHistItem.fee}" /> 원
-					      				<c:if test="${feeHistItem.usageAr > 0}">
-					      					(<fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${feeHistItem.usageAr}" /> m<sup>2</sup>)
-					      				</c:if>
-					      			</c:if>	
-			   					</c:forEach>
-						</p>
-					    <c:if test="${master.intrAmnt>0}">
-		 			    <p>
-			      			분납이자 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${master.intrAmnt}" /> 원 (이자율 : <fmt:formatNumber type="number" maxIntegerDigits="5" maxFractionDigits="2" value="${master.intrRate}" />% Cofix수신금리)
-				      				<c:forEach var="feeHistItem" items="${feeHist }">
-				      					<br /> &nbsp;<fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${feeHistItem.fee}" /> 원
-				      					&nbsp;X&nbsp; 이자율(<fmt:formatNumber type="number" maxIntegerDigits="5" maxFractionDigits="2" value="${master.intrRate}" />%)
-				      					≒ <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${feeHistItem.intrAmnt}" /> 원
-				      				</c:forEach>
-	      				</p>
-		      			</c:if>
+		      			<c:forEach var="feeHistItem" items="${feeHist }">
+		      			<p>
+		      				적용단가 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${feeHistItem.applcPrice}" /> 원<c:if test="${feeHistItem.priceSe eq 2}">/월</c:if>, &nbsp; 면적 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${feeHistItem.usageAr}" /> m<sup>2</sup>
+		      				<br/>임대료 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${feeHistItem.fee}" /> 원, 분납이자 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${feeHistItem.intrAmnt}" /> 원
+		      			</p>
+		      			</c:forEach>
+		      			<p>
+		      				합계&nbsp;&nbsp;임대료 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${master.fee}" /> 원
+		      				<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;분납이자 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${master.intrAmnt}" /> 원 
+		      				<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(이자율 : <fmt:formatNumber type="number" maxIntegerDigits="5" maxFractionDigits="2" value="${master.intrRate}" />% Cofix수신금리)
+		      			</p>
 					    <c:if test="${master.addAmnt>0}">
 		 			    <p>
 			      			추가금액 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${master.addAmnt}" /> 원 
