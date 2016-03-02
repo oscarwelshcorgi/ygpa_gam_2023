@@ -50,8 +50,8 @@
 
 .page {
 	width: 21cm;
-	/* min-height: 28.7cm; */
-	min-height: 267mm;
+	min-height: 28.7cm; 
+	/*min-height: 267mm;*/
 	/* padding: 1cm; */
 	margin: 0cm auto;
 	border: 1px #D3D3D3 solid;
