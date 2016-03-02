@@ -45,7 +45,7 @@
 							       , NVL(L.OLNLP,0) OLNLP
 							       , NVL(L.FEE,0) FEE
 							       , L.VAT_YN
-							       , L.ADD_AMNT
+							       , NVL(L.ADD_AMNT, 0) ADD_AMNT
 							       , NVL(L.VAT,0) VAT
 							       , NVL(L.INTR_AMNT, 0) INTR_AMNT
 							       , NVL(L.NTIC_AMT,0) NTIC_AMT

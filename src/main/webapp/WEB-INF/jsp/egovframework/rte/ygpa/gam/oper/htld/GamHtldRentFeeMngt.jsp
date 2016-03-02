@@ -29,7 +29,7 @@ function GamHtldRentFeeMngtModule() {}
 <%--
 	EmdModule을 상속하여 모듈 클래스를 정의한다.
 --%>
-GamHtldRentFeeMngtModule.prototype = new EmdModule(1070, 600);
+GamHtldRentFeeMngtModule.prototype = new EmdModule(1400, 600);
 
 <%--///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	EmdModule Override 및 이벤트 처리 정의 부분 시작	
@@ -45,23 +45,23 @@ GamHtldRentFeeMngtModule.prototype.loadComplete = function(params) {
         url: '/oper/htld/gamSelectHtldRentFeeMngtList.do',
         dataType: 'json',
         colModel : [
-				{display:'상태', name:'state',width:30, sortable:false,align:'center'},
+				/*{display:'상태', name:'state',width:30, sortable:false,align:'center'},*/
                 {display:'구역', name:'rentArea',width:82, sortable:false,align:'center'},
-                {display:'구분', name:'assessSeNm',width:50, sortable:false,align:'center'},                
+                /*{display:'구분', name:'assessSeNm',width:50, sortable:false,align:'center'},*/                
 				{display:'고지횟수', name:'nticCnt',width:50, sortable:false,align:'center'},
 				{display:'입주기업', name:'entrpsNm',width:140, sortable:false,align:'left'},
 				{display:'고지대상기간', name:'nticPdDate',width:160, sortable:false,align:'center'},
 				{display:'고지방법', name:'nticMthNm',width:70, sortable:false,align:'center'},
-				{display:'고지', name:'nhtIsueYnNm',width:50, sortable:false,align:'center'},
-				{display:'출력', name:'nhtPrintYnNm',width:50, sortable:false,align:'center'},
+				{display:'고지', name:'nhtIsueYnNm',width:40, sortable:false,align:'center'},
+				{display:'출력', name:'nhtPrintYnNm',width:40, sortable:false,align:'center'},
 				{display:'사용료', name:'fee',width:80, sortable:false,align:'right', displayFormat: 'number'},
 				{display:'이자', name:'intrAmnt',width:80, sortable:false,align:'right', displayFormat: 'number'},
 				{display:'이자율(%)', name:'intrRate',width:60, sortable:false,align:'right', displayFormat: 'input-number', displayOption: "0.00"},
-				{display:'추가금액', name:'addAmnt',width:100, sortable:false,align:'right', displayFormat: 'input-number'},
-				{display:'추가금액산출근거', name:'addAmntRm',width:200, sortable:false,align:'left', displayFormat: 'input'},
+				{display:'추가금액', name:'addAmnt',width:80, sortable:false,align:'right', displayFormat: 'input-number'},
+				{display:'추가금액산출근거', name:'addAmntRm',width:150, sortable:false,align:'left', displayFormat: 'input'},
 				{display:'소계', name:'feeAmnt',width:80, sortable:false,align:'right', displayFormat: 'number'},
-				{display:'부가세', name:'vat',width:100, sortable:false,align:'right', displayFormat: 'input-number'},
-				{display:'고지금액', name:'nticAmt',width:100, sortable:false,align:'right', displayFormat: 'input-number'},
+				{display:'부가세', name:'vat',width:60, sortable:false,align:'right', displayFormat: 'input-number'},
+				{display:'고지금액', name:'nticAmt',width:90, sortable:false,align:'right', displayFormat: 'input-number'},
 				{display:'고지일자', name:'nticDt',width:80, sortable:false,align:'center'},
 				{display:'비고', name:'rm',width:140, sortable:false,align:'left'}
                 ],

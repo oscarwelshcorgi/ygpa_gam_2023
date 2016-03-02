@@ -28,7 +28,7 @@ function GamHtldRentFeePaySttusMngtModule() {}
 <%--
 	EmdModule을 상속하여 모듈 클래스를 정의한다.
 --%>
-GamHtldRentFeePaySttusMngtModule.prototype = new EmdModule(1000, 600);
+GamHtldRentFeePaySttusMngtModule.prototype = new EmdModule(1400, 600);
 
 <%--///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	EmdModule Override 및 이벤트 처리 정의 부분 시작	
@@ -51,9 +51,10 @@ GamHtldRentFeePaySttusMngtModule.prototype.loadComplete = function(params) {
     				{display:'고지대상기간', name:'nticPdPeriod',width:160, sortable:false,align:'center'},
     				{display:'고지일자', name:'nticDt',width:80, sortable:false,align:'center'},
     				{display:'사용료', name:'fee',width:78, sortable:false,align:'right', displayFormat: 'number'},
-    				{display:'이자', name:'intrAmnt',width:80, sortable:false,align:'right', displayFormat: 'number'},
+    				{display:'이자', name:'intrAmnt',width:78, sortable:false,align:'right', displayFormat: 'number'},
     				{display:'추가금액', name:'addAmnt',width:80, sortable:false,align:'right', displayFormat: 'number'},
     				{display:'부가세', name:'vat',width:78, sortable:false,align:'right', displayFormat: 'number'},
+    				{display:'연체료', name:'arrrgAmt',width:78, sortable:false,align:'right', displayFormat: 'number'},
     				{display:'고지금액', name:'nticAmt',width:80, sortable:false,align:'right', displayFormat: 'number'},
 					{display:'납부기한', name:'payTmlmt',width:80, sortable:false,align:'center'},
 					{display:'수납구분', name:'rcivSeNm',width:80, sortable:false,align:'center'},
