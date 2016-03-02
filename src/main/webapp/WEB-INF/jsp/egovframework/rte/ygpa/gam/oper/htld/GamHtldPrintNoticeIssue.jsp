@@ -67,7 +67,7 @@
 .subpage {
 	padding: 0.27cm;
 	/* border: 5px red solid; */
-	height: 256mm;
+	height: 296mm;
 }
 
 div.postPage {
