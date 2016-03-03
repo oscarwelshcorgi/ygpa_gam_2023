@@ -31,7 +31,7 @@ function GamHtldRentMngtModule() {}
 <%--
 	EmdModule을 상속하여 모듈 클래스를 정의한다.
 --%>
-GamHtldRentMngtModule.prototype = new EmdModule(1460, 685);
+GamHtldRentMngtModule.prototype = new EmdModule(900, 645);
 
 <%--///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	EmdModule Override 및 이벤트 처리 정의 부분 시작	
