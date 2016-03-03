@@ -66,7 +66,7 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
                     ],
         showTableToggleBtn: false,
         height: 'auto',
-        mergeRows: 'rentArea,entrpsNm,entrpscd,grUsagePdPeriod,gisAssetsLocplc,payMthNm,nticMthNm,taxtSeNm,chrgeKndNm,termnKndNm,termnDt',
+        mergeRows: 'rentArea,entrpsNm,grUsagePdPeriod,gisAssetsLocplc,payMthNm,nticMthNm,taxtSeNm,chrgeKndNm,termnKndNm,termnDt',
         preProcess: function(module,data) {
             module.$('#totalResultCnt').val(data.totalCount);
             module.$('#totalArea').val(data.sumGrAr);
