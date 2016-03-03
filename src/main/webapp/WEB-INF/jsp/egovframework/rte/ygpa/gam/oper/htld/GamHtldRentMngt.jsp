@@ -53,11 +53,11 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
                     {display:'소재지', name:'gisAssetsLocplc',width:170, sortable:false,align:'left'},
                     {display:'입주면적(㎡)', name:'usageAr',width:88, sortable:false,align:'right', displayFormat: 'number',  displayOption:"0,000.00"},
                     {display:'적용단가(원)', name:'applcPrice',width:80, sortable:false,align:'right', displayFormat: 'number',  displayOption:"0,000.00"},
-                    {display:'영업개시일', name:'operYrMt',width:80, sortable:false,align:'center'},
+                    /* {display:'영업개시일', name:'operYrMt',width:80, sortable:false,align:'center'}, */
                     /* {display:'실적평가기간', name:'bizAssessPdPeriod',width:175, sortable:false,align:'center'}, */
                     {display:'고지방법', name:'payMthNm',width:60, sortable:false,align:'center'},
                     {display:'납부방법', name:'nticMthNm',width:60, sortable:false,align:'left'},
-                    {display:'과세구분', name:'taxtSeNm',width:120, sortable:false,align:'left'},
+                    {display:'과세구분', name:'taxtSeNm',width:120, sortable:false,align:'center'},
                     {display:'요금종류', name:'chrgeKndNm',width:160, sortable:false,align:'left'},
                     /* {display:'업종', name:'compTp',width:110, sortable:false,align:'right'},
                     {display:'취급화종', name:'frghtTp',width:120, sortable:false,align:'center'}, */
@@ -66,8 +66,7 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
                     ],
         showTableToggleBtn: false,
         height: 'auto',
-        groupBy: "rentArea",
-        mergeRows: 'entrpsNm,grUsagePdPeriod,gisAssetsLocplc,payMthNm',
+        mergeRows: 'rentArea,entrpsNm,entrpscd,grUsagePdPeriod,gisAssetsLocplc,payMthNm,nticMthNm,taxtSeNm,chrgeKndNm,termnKndNm,termnDt',
         preProcess: function(module,data) {
             module.$('#totalResultCnt').val(data.totalCount);
             module.$('#totalArea').val(data.sumGrAr);
@@ -294,6 +293,9 @@ GamHtldRentMngtModule.prototype.onSubmit = function() {
         	break;
         case 'btnRemoveAreaAssess': //면적평가 삭제
         	this.removeAreaAssess();
+        	break;
+        case 'btnExcelDownload': //엑셀다운로드
+        	this.tableToExcel();
         	break;
     }
 };
@@ -1587,6 +1589,36 @@ GamHtldRentMngtModule.prototype.getNumber = function(value) {
 	return rnum;
 };
 
+GamHtldRentMngtModule.prototype.tableToExcel = function() {
+	var clone =	this.$('#assetRentMngtList').clone();
+	$(clone).find('th,td').each(function() {
+		if($(this).css('display')=='none') {
+			$(this).remove();
+		}
+		else {
+			$(this).css('border-left', '1px solid black');
+			$(this).css('border-top', '1px solid black');
+			$(this).css('border-right', '1px solid black');
+			$(this).css('border-bottom', '1px solid black');
+		}
+	});
+	clone.find("td:eq(0)").css("width","100");
+	clone.find("td:eq(1)").css("width","220");
+	clone.find("td:eq(2)").css("width","100");
+	clone.find("td:eq(3)").css("width","230");
+	clone.find("td:eq(4)").css("width","100");
+	clone.find("td:eq(5)").css("width","100");
+	clone.find("td:eq(6)").css("width","80");
+	clone.find("td:eq(7)").css("width","80");
+	clone.find("td:eq(8)").css("width","100");
+	clone.find("td:eq(9)").css("width","200");
+	clone.find("td:eq(10)").css("width","80");
+	clone.find("td:eq(11)").css("width","90");
+	clone.table2excel({
+		filename: "배후단지임대목록",
+	});
+};
+
 <%--///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	지역적 모듈 함수 정의 종료
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////--%>
@@ -1688,7 +1720,8 @@ var module_instance = new GamHtldRentMngtModule();
 	                                <button id="btnTerminateItem" >계약해지</button>
 	                                <button id="btnRemoveItem">삭제</button>
 	                                <button id="btnEApproval">결재요청</button>
-	              					<button data-role="gridXlsDown" data-flexi-grid="assetRentMngtList" data-xls-name="배후단지임대목록.xls" data-xls-title="배후단지 임대목록">엑셀</button>
+	              					<!-- <button data-role="gridXlsDown" data-flexi-grid="assetRentMngtList" data-xls-name="배후단지임대목록.xls" data-xls-title="배후단지 임대목록">엑셀</button> -->
+	              					<button id="btnExcelDownload">엑셀</button>
                       	            <button id="btnRentFeeMngt">임대료 고지관리</button>
 	                            </td>
 	                        </tr>
