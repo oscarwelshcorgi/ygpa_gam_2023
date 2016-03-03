@@ -2309,8 +2309,9 @@ var fcltyCivilRuleSet = [
 				strokeColor : "#5432C9"
 			}
 		}
-	},
-	{
+	}
+/*
+	,{
 		title:"오수관로",
 		filter: new OpenLayers.Filter.Logical({
 			type: OpenLayers.Filter.Logical.AND,
@@ -2364,7 +2365,6 @@ var fcltyCivilRuleSet = [
 			}
 		}
 	}
-/*
 	,{
 		title:"배수관로",
 		filter: new OpenLayers.Filter.Logical({
