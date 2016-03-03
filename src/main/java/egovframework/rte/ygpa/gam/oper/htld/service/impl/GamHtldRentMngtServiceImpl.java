@@ -696,7 +696,9 @@ public class GamHtldRentMngtServiceImpl extends AbstractServiceImpl implements G
 		if(nticCnt!=0) {
 			throw processException("fail.rent.delete.notice");
 		}
-
+		
+		gamHtldRentMngtDao.deleteBillByRentMngtVO(vo); //고지목록 삭제
+		
 		gamHtldRentMngtDao.deleteHtldRentMngtPhoto(vo); //배후단지임대 사진정보 삭제
 
 		gamHtldRentMngtDao.deleteHtldRentMngtDetails(vo); //배후단지임대 상세정보 삭제

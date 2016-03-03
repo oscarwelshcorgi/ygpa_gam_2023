@@ -279,6 +279,9 @@ public class GamHtldRentFeeMngtServiceImpl extends AbstractServiceImpl implement
 		if("3".equals((String)map.get("rcvdTp"))) {	// 수납 여부 확인
 			throw processException("fail.cancelNticIssue.msg");	// 이미 수납 된 자료는 고지 취소 불가 함.
 		}
+		if(!"0".equals((String)map.get("rcivSe"))) {
+			throw processException("fail.cancelNticIssue.msg"); //미수납 상태가 아닌 경우 고지취소 불가함.
+		}
 		if("Y".equals((String)map.get("billPrtYn"))) {
 //			egiroPrintCancel(vo);    // 고지가 된 경우 고지 취소를 한다. 2014-08-13 eunsungj.
 			vo.put("nhtPrintYn", "N");
