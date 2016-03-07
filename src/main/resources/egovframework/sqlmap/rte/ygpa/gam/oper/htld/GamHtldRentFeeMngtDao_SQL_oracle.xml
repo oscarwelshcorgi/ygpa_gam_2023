@@ -2394,6 +2394,7 @@
           , INTR_RATE
           , NTIC_PD_FROM
           , NTIC_PD_TO
+          , (SELECT COUNT(*) FROM HTLD_RENT_DETAIL_FEE_HIST_F WHERE PRT_AT_CODE = #prtAtCode# AND MNG_YEAR = #mngYear# AND MNG_NO = #mngNo# AND MNG_CNT = #mngCnt# AND NTIC_CNT = #nticCnt#) CNT
          FROM
          	HTLD_RENT_DETAIL_FEE_HIST_F
          WHERE
@@ -2401,7 +2402,8 @@
 				AND MNG_YEAR      = #mngYear#
 				AND MNG_NO        = #mngNo#
 				AND MNG_CNT       = #mngCnt#
-				AND NTIC_CNT      = #nticCnt#         	
+				AND NTIC_CNT      = #nticCnt#      
+		ORDER BY ASSETS_USAGE_SEQ   	
     </select>
 
 </sqlMap>

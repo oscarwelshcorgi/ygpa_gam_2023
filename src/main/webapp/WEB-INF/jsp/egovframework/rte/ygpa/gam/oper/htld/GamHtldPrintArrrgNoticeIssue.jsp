@@ -255,7 +255,7 @@ div.notice {
 	/* top: 11.3cm; */
 	width: 7.85cm;
 	height: 8cm;
-	font-size: 0.20cm;
+	font-size: 0.27cm;
 	font-family: 돋움;
 	margin-top: 0.85cm;
 	margin-left: 12.2cm;
@@ -630,7 +630,7 @@ div.notice {
 		/* top: 11.3cm; */
 		width: 7.85cm;
 		height: 8cm;
-		font-size: 0.20cm;
+		font-size: 0.27cm;
 		font-family: 돋움;
 		margin-top: 1cm;
 		margin-left: 12cm;
@@ -928,11 +928,18 @@ div.notice {
 		      			<p>합계 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${master.nticAmt}" /> 원</p>
 	      			<h2>산출근거</h2>
 		      			<p>사용기간 : <c:out value="${master.nticPdFrom}"/> ~ <c:out value="${master.nticPdTo}"/></p>
-		      			<c:forEach var="feeHistItem" items="${feeHist }">
-		      			<p>
-		      				적용단가 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${feeHistItem.applcPrice}" /> 원<c:if test="${feeHistItem.priceSe eq 2}">/월</c:if>, &nbsp; 면적 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${feeHistItem.usageAr}" /> m<sup>2</sup>
-		      				<br/>임대료 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${feeHistItem.fee}" /> 원<c:if test="${feeHistItem.intrAmnt > 0}">, 분납이자 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${feeHistItem.intrAmnt}" /> 원</c:if>
-		      			</p>
+		      			<c:set var="nItemCount" value="0" />
+		      			<c:forEach var="feeHistItem" items="${feeHist }" varStatus="itemStatus">
+			      			<c:set var="nItemCount" value="${itemStatus.count}" />
+			      			<c:if test="${nItemCount lt 3 }">
+			      				<p>
+			      					적용단가 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${feeHistItem.applcPrice}" /> 원<c:if test="${feeHistItem.priceSe eq 2}">/월</c:if>, &nbsp; 면적 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${feeHistItem.usageAr}" /> m<sup>2</sup>
+			      					<br/>임대료 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${feeHistItem.fee}" /> 원<c:if test="${feeHistItem.intrAmnt > 0}">, 분납이자 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${feeHistItem.intrAmnt}" /> 원</c:if>
+			      					<c:if test="${(nItemCount eq 2) and  (feeHistItem.cnt gt 2) }">
+			      						&nbsp; (외 <c:out value="${ feeHistItem.cnt - 2 }"/>건)
+			      					</c:if>
+			      				</p>
+			      			</c:if>
 		      			</c:forEach>
 		      			<p>
 		      				합계&nbsp;&nbsp;임대료 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${master.fee}" /> 원<c:if test="${master.intrAmnt > 0}">, &nbsp;&nbsp;&nbsp;분납이자 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${master.intrAmnt}" /> 원 
