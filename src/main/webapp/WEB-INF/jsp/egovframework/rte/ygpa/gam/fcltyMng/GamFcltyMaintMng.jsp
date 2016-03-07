@@ -67,8 +67,7 @@ GamFcltyMaintMngModule.prototype.loadComplete = function(params) {
 					{display:"종료일자",			name:"mntnRprCnstEndDt",		width:80, 		sortable:false,		align:"center"},
 					{display:"직접공사비", 			name:"mntnRprBdgt",				width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
 					{display:"유지보수내용", 		name:"mntnRprCn",				width:250, 		sortable:false,		align:"left"},
-					{display:"시공자", 				name:"cnstrtr",					width:150, 		sortable:false,		align:"center"},
-					{display:"계약명", 				name:"ctrtNm",					width:250, 		sortable:false,		align:"left"}
+					{display:"시공자", 				name:"cnstrtr",					width:150, 		sortable:false,		align:"center"}
 			],
 		height: "auto",
 		groupBy: "mntnFcltsCnstInfo",
