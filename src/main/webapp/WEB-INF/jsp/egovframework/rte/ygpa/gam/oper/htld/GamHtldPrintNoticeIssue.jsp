@@ -255,7 +255,7 @@ div.notice {
 	/* top: 11.3cm; */
 	width: 7.85cm;
 	height: 8cm;
-	font-size: 0.28cm;
+	font-size: 0.20cm;
 	font-family: 돋움;
 	margin-top: 0.85cm;
 	margin-left: 12.2cm;
@@ -630,7 +630,7 @@ div.notice {
 		/* top: 11.3cm; */
 		width: 7.85cm;
 		height: 8cm;
-		font-size: 0.28cm;
+		font-size: 0.20cm;
 		font-family: 돋움;
 		margin-top: 1cm;
 		margin-left: 12cm;
@@ -932,12 +932,11 @@ div.notice {
 		      			<c:forEach var="feeHistItem" items="${feeHist }">
 		      			<p>
 		      				적용단가 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${feeHistItem.applcPrice}" /> 원<c:if test="${feeHistItem.priceSe eq 2}">/월</c:if>, &nbsp; 면적 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${feeHistItem.usageAr}" /> m<sup>2</sup>
-		      				<br/>임대료 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${feeHistItem.fee}" /> 원, 분납이자 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${feeHistItem.intrAmnt}" /> 원
+		      				<br/>임대료 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${feeHistItem.fee}" /> 원<c:if test="${feeHistItem.intrAmnt > 0}">, 분납이자 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${feeHistItem.intrAmnt}" /> 원</c:if>
 		      			</p>
 		      			</c:forEach>
 		      			<p>
-		      				합계&nbsp;&nbsp;임대료 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${master.fee}" /> 원
-		      				<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;분납이자 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${master.intrAmnt}" /> 원 
+		      				합계&nbsp;&nbsp;임대료 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${master.fee}" /> 원<c:if test="${master.intrAmnt > 0}">, &nbsp;&nbsp;&nbsp;분납이자 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${master.intrAmnt}" /> 원</c:if> 
 		      				<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(이자율 : <fmt:formatNumber type="number" maxIntegerDigits="5" maxFractionDigits="2" value="${master.intrRate}" />% Cofix수신금리)
 		      			</p>
 						    <c:if test="${master.addAmnt>0}">
