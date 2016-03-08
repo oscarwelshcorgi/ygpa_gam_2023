@@ -942,8 +942,10 @@ div.notice {
 			      			</c:if>
 		      			</c:forEach>
 		      			<p>
-		      				합계&nbsp;&nbsp;임대료 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${master.fee}" /> 원<c:if test="${master.intrAmnt > 0}">, &nbsp;&nbsp;&nbsp;분납이자 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${master.intrAmnt}" /> 원 
-		      				<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(이자율 : <fmt:formatNumber type="number" maxIntegerDigits="5" maxFractionDigits="2" value="${master.intrRate}" />% Cofix수신금리)</c:if>
+		      				<c:if test="${nItemCount gt 1}">
+		      					합계&nbsp;&nbsp;임대료 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${master.fee}" /> 원<c:if test="${master.intrAmnt > 0}">, &nbsp;&nbsp;&nbsp;분납이자 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${master.intrAmnt}" /> 원 </c:if><br/>
+		      				</c:if>
+		      				<c:if test="${master.intrAmnt gt 0}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(이자율 : <fmt:formatNumber type="number" maxIntegerDigits="5" maxFractionDigits="2" value="${master.intrRate}" />% Cofix수신금리)</c:if>
 		      			</p>
 					    <c:if test="${master.addAmnt>0}">
 		 			    <p>
