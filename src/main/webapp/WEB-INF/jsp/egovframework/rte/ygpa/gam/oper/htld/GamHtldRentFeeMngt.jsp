@@ -29,7 +29,7 @@ function GamHtldRentFeeMngtModule() {}
 <%--
 	EmdModule을 상속하여 모듈 클래스를 정의한다.
 --%>
-GamHtldRentFeeMngtModule.prototype = new EmdModule(1400, 600);
+GamHtldRentFeeMngtModule.prototype = new EmdModule(1440, 600);
 
 <%--///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	EmdModule Override 및 이벤트 처리 정의 부분 시작	
@@ -59,8 +59,8 @@ GamHtldRentFeeMngtModule.prototype.loadComplete = function(params) {
 				{display:'이자율(%)', name:'intrRate',width:60, sortable:false,align:'right', displayFormat: 'input-number', displayOption: "0.00"},
 				{display:'추가금액', name:'addAmnt',width:80, sortable:false,align:'right', displayFormat: 'input-number'},
 				{display:'추가금액산출근거', name:'addAmntRm',width:150, sortable:false,align:'left', displayFormat: 'input'},
-				{display:'소계', name:'feeAmnt',width:80, sortable:false,align:'right', displayFormat: 'number'},
-				{display:'부가세', name:'vat',width:60, sortable:false,align:'right', displayFormat: 'input-number'},
+				{display:'소계', name:'feeAmnt',width:90, sortable:false,align:'right', displayFormat: 'number'},
+				{display:'부가세', name:'vat',width:90, sortable:false,align:'right', displayFormat: 'input-number'},
 				{display:'고지금액', name:'nticAmt',width:90, sortable:false,align:'right', displayFormat: 'input-number'},
 				{display:'고지일자', name:'nticDt',width:80, sortable:false,align:'center'},
 				{display:'비고', name:'rm',width:140, sortable:false,align:'left'}
