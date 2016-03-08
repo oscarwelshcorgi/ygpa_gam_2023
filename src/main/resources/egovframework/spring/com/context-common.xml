@@ -59,13 +59,13 @@
     <!-- MULTIPART RESOLVERS -->
     <!-- regular spring resolver -->
     <bean id="spring.RegularCommonsMultipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-        <property name="maxUploadSize" value="100000000" />
+        <property name="maxUploadSize" value="744488960" />
         <property name="maxInMemorySize" value="100000000" />
     </bean>
 
     <!-- custom multi file resolver -->
     <bean id="local.MultiCommonsMultipartResolver" class="egovframework.com.cmm.web.EgovMultipartResolver">
-        <property name="maxUploadSize" value="100000000" />
+        <property name="maxUploadSize" value="744488960" />
         <property name="maxInMemorySize" value="100000000" />
     </bean>
 

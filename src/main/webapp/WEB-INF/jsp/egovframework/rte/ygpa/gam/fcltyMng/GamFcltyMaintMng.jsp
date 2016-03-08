@@ -1576,8 +1576,7 @@ GamFcltyMaintMngModule.prototype.tableToExcel = function() {
 	clone.find("td:eq(5)").css("width","120");
 	clone.find("td:eq(6)").css("width","120");
 	clone.find("td:eq(7)").css("width","300");
-	clone.find("td:eq(8)").css("width","80");
-	clone.find("td:eq(9)").css("width","450");
+	clone.find("td:eq(8)").css("width","150");
 	clone.find("img").remove();
 	clone.table2excel({
 		filename: "유지보수내역 목록",
