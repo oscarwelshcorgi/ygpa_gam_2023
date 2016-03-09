@@ -83,12 +83,12 @@ GamHtldRentFeePaySttusMngtModule.prototype.loadComplete = function(params) {
         dataType: 'json',
         colModel : [
 					{display:'연체횟수', name:'dlySerNo',width:70, sortable:false,align:'center'},
-					{display:'연체고지일자', name:'dlyBillDt',width:120, sortable:false,align:'center'},
-                    {display:'연체료', name:'dlyBillAmnt',width:110, sortable:false,align:'right', displayFormat: 'number'},
-                    {display:'고지금액', name:'djiroAmnt',width:110, sortable:false,align:'right', displayFormat: 'number'},
-					{display:'고지서발부여부', name:'dlyBillPrtYnNm',width:100, sortable:false,align:'center'},
-					{display:'연체납부기한', name:'dlyDueDt',width:120, sortable:false,align:'center'},
-					{display:'산출내역', name:'dlyBillRsn',width:320, sortable:false,align:'center'}
+					{display:'연체고지일자', name:'dlyBillDt',width:130, sortable:false,align:'center'},
+                    {display:'연체료', name:'dlyBillAmnt',width:130, sortable:false,align:'right', displayFormat: 'number'},
+                    {display:'고지금액', name:'djiroAmnt',width:130, sortable:false,align:'right', displayFormat: 'number'},
+					{display:'고지서발부여부', name:'dlyBillPrtYnNm',width:120, sortable:false,align:'center'},
+					{display:'연체납부기한', name:'dlyDueDt',width:150, sortable:false,align:'center'},
+					{display:'산출내역', name:'dlyBillRsn',width:615, sortable:false,align:'center'}
                     ],
         showTableToggleBtn: false,
         height: '200',
