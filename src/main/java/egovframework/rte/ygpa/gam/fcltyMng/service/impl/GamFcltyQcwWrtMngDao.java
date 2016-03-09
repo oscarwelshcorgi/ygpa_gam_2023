@@ -355,6 +355,16 @@ public class GamFcltyQcwWrtMngDao extends YGPAAbstractDAO {
 	public List<?> selectHwpQcMngResultItemList(Map<String, String> vo) throws Exception {
 		return list("gamFcltyQcwWrtMngDao.selectHwpQcMngResultItemList_D", vo);
 	}
+
+	/**
+	 * 점검관리결과항목 목록 조회(토목 점검표 Hwp 출력용)
+	 * @param vo
+	 * @return list
+	 * @throws Exception
+	 */
+	public List<?> selectHwpQcMngCivilResultItemList(Map<String, String> vo) throws Exception {
+		return list("gamFcltyQcwWrtMngDao.selectHwpQcMngCivilResultItemList_D", vo);
+	}
 	
 	/**
 	 * 관리그룹 데이터 조회(jHwp 출력용)

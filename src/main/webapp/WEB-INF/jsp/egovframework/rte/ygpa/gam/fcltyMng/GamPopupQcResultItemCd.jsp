@@ -84,7 +84,7 @@ GamPopupQcResultItemCdModule.prototype.loadComplete = function(params) {
 		url : '',
 		dataType : 'json',
 		colModel : gridHeaders,
-		mergeRows : 'qcItemUpperNm,qcItemUpperCd',
+		mergeRows : 'qcItemUpperNm',
 		height: '370'
 	});
 	

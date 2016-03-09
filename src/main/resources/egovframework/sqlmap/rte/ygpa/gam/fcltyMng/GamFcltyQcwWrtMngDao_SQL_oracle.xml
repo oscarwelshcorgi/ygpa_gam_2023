@@ -970,6 +970,61 @@
 		   	</isNotEmpty>
   	</select>
 
+	<!-- 점검관리결과항목목록(토목 점검표 Hwp출력용) -->
+	<select id="gamFcltyQcwWrtMngDao.selectHwpQcMngCivilResultItemList_D" resultClass="egovMap">
+		SELECT
+			A.QC_ITEM_UPPER_CD
+			, (SELECT QC_ITEM_NM FROM QC_ITEM_CD_F WHERE QC_ITEM_CD = A.QC_ITEM_UPPER_CD) QC_ITEM_UPPER_NM
+			, (SELECT COUNT(*) FROM QC_ITEM_CD_F WHERE QC_ITEM_CD LIKE SUBSTRB(A.QC_ITEM_UPPER_CD,1,3) || '%' AND QC_ITEM_CD > A.QC_ITEM_UPPER_CD) QC_ITEM_UPPER_CD_COUNT
+			, A.QC_ITEM_CD
+			, A.QC_ITEM_NM
+			, A.INSP_RESULT_CHK
+			, A.INSP_RESULT_CN
+			, A.DEPTH_SORT
+			, GAM_GET_QC_GROUP_INSP_RESULT(A.FCLTS_MNG_GROUP_NO, A.FCLTS_JOB_SE, A.QC_MNG_SEQ, QC_ITEM_GROUP) QC_GROUP_INSP_RESULT
+		FROM
+			(
+				SELECT
+					GAM_GET_LEVEL_2_QC_ITEM_CD(I.QC_ITEM_CD) AS QC_ITEM_UPPER_CD
+					, I.QC_ITEM_CD
+					, (CASE WHEN I.DEPTH_SORT > 2 THEN LPAD(' ',(I.DEPTH_SORT - 3)*4,' ') || I.QC_ITEM_NM END) AS QC_ITEM_NM
+					, I.DEPTH_SORT
+					, ROW_NUMBER() OVER (PARTITION BY SUBSTRB(I.QC_ITEM_CD,1,3) ORDER BY I.QC_ITEM_CD) AS QC_ITEM_NO
+					, M.FCLTS_MNG_GROUP_NO
+					, SUBSTRB(M.FCLTS_MNG_GROUP_NO,1,3) AS QC_ITEM_GROUP
+					, M.FCLTS_JOB_SE
+					, M.QC_MNG_SEQ
+					, DECODE(R.INSP_RESULT_CHK, NULL, 'N', R.INSP_RESULT_CHK) INSP_RESULT_CHK
+					, R.INSP_RESULT_CN
+				FROM
+					QC_ITEM_CD_F I
+				LEFT OUTER JOIN
+					QC_MNG_RESULT_ITEM_F R
+				ON
+					I.QC_ITEM_CD = R.QC_ITEM_CD
+					AND I.FCLTS_JOB_SE = R.FCLTS_JOB_SE
+			      	AND R.QC_MNG_SEQ = #qcMngSeq#
+				LEFT OUTER JOIN
+					QC_MNG_DTLS_F M
+				ON
+					R.FCLTS_MNG_GROUP_NO = M.FCLTS_MNG_GROUP_NO
+					AND R.FCLTS_JOB_SE = M.FCLTS_JOB_SE
+					AND R.QC_MNG_SEQ = M.QC_MNG_SEQ
+				WHERE
+					I.FCLTS_JOB_SE = #fcltsJobSe#
+					AND I.DEPTH_SORT >= 3
+				ORDER BY
+					I.QC_ITEM_CD
+			) A
+		WHERE
+			LENGTH(REPLACE(NVL(A.INSP_RESULT_CN, ''), ' ', '')) > 0
+		    <isNotEmpty property="fcltsMngGroupNo">
+		    	AND A.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+		   	</isNotEmpty>
+    	ORDER BY
+      		A.QC_ITEM_UPPER_CD, A.QC_ITEM_CD
+  	</select>
+
 	<!-- 관리그룹 데이터 조회(토목) (Hwp 출력용) -->
 	<select id="gamFcltyQcwWrtMngDao.selectHwpFcltsMngGroupInfo_S"  resultClass="egovMap">
 		SELECT

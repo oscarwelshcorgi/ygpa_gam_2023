@@ -92,38 +92,6 @@ public class GamFcltyQcHwpBaseReport {
 		return result;
 	}
 	
-	// 점검결과내용이 있는지 없는지 체크(토목일 경우에만 사용)
-	protected boolean isValidResultItemContent(List<EgovMap> qcResultItemList, String itemCd) {
-		String value = getResultItemContent(qcResultItemList, itemCd).replace(" ", "");
-		return !value.equals("");
-	}
-	
-	// 토목 하위항목 데이터유무를 체크하여 전체 rowCount 구하기
-	protected int getCivilRowCount(GamFcltyQcHwpMngResultInfo resultInfo) {
-		int result = 5;
-		if(isValidResultItemContent(resultInfo.getQcResultItemList(), "C01010000") || isValidResultItemContent(resultInfo.getQcResultItemList(), "C01020000") 
-				|| isValidResultItemContent(resultInfo.getQcResultItemList(), "C01030000") || isValidResultItemContent(resultInfo.getQcResultItemList(), "C01040000") ){
-			result++;
-		}
-		if(isValidResultItemContent(resultInfo.getQcResultItemList(), "C02010000") || isValidResultItemContent(resultInfo.getQcResultItemList(), "C02020000") 
-				|| isValidResultItemContent(resultInfo.getQcResultItemList(), "C02030000") || isValidResultItemContent(resultInfo.getQcResultItemList(), "C02040000") 
-				|| isValidResultItemContent(resultInfo.getQcResultItemList(), "C02050000") || isValidResultItemContent(resultInfo.getQcResultItemList(), "C02060000") ){
-			result++;
-		}
-		if(isValidResultItemContent(resultInfo.getQcResultItemList(), "C03010000") || isValidResultItemContent(resultInfo.getQcResultItemList(), "C03020000") 
-				|| isValidResultItemContent(resultInfo.getQcResultItemList(), "C03030000") || isValidResultItemContent(resultInfo.getQcResultItemList(), "C03040000") 
-				|| isValidResultItemContent(resultInfo.getQcResultItemList(), "C03050000") ){
-			result++;
-		}
-		if(isValidResultItemContent(resultInfo.getQcResultItemList(), "C04010000") || isValidResultItemContent(resultInfo.getQcResultItemList(), "C04020000") ){
-			result++;
-		}
-		if(isValidResultItemContent(resultInfo.getQcResultItemList(), "C05010000")){
-			result++;
-		}
-		return result;
-	}
-
 	// 파일명에 대한 index id 얻기
 	protected int getBinId(String fileName) {
 		int result = 0;
