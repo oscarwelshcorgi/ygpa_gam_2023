@@ -107,7 +107,7 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
     });
     
     this.$('#vat').on("keyup change", {module: this}, function(event) {
-		event.data.module.changeVat();
+		event.data.module._modifyFee=true;
     });
 
     this.$('#roundVat').on("change", {module: this}, function(event) {
@@ -159,10 +159,6 @@ GamAssetRentFeeMngtModule.prototype.changeFee = function() {
 	else {
 		this.$('#vat').val(Math.floor(fee/100)*10);
 	}
-	this._modifyFee=true;
-};
-
-GamAssetRentFeeMngtModule.prototype.changeVat = function() {
 	this._modifyFee=true;
 };
 
