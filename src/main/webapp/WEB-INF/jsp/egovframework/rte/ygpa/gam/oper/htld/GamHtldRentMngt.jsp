@@ -31,7 +31,7 @@ function GamHtldRentMngtModule() {}
 <%--
 	EmdModule을 상속하여 모듈 클래스를 정의한다.
 --%>
-GamHtldRentMngtModule.prototype = new EmdModule(900, 645);
+GamHtldRentMngtModule.prototype = new EmdModule(1380, 710);
 
 <%--///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	EmdModule Override 및 이벤트 처리 정의 부분 시작	
@@ -95,13 +95,13 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
         module: this,
         dataType: 'json',
         colModel : [
-           {display:'자산코드', name:'gisAssetsCode',width:80, sortable:false,align:'center'},
-           {display:'자산명', name:'gisAssetsNm',width:180, sortable:false,align:'left'},
-           {display:'소재지', name:'gisAssetsLocplcAll',width:220, sortable:false,align:'center'},
-           {display:'자산면적', name:'gisAssetsAr',width:80, sortable:false,align:'right', displayFormat: 'number', displayOption:"0,000.00"},
-           {display:'적용단가', name:'applcPrice',width:100, sortable:false,align:'right', displayFormat: 'input-number', displayOption:"0,000.00"},
-           {display:'단가구분', name:'priceSe',width:100, sortable:false,align:'center', displayFormat:'select', displayOption:priceSeOption},
-           {display:'사용면적', name:'usageAr',width:80, sortable:false,align:'right', displayFormat: 'input-number', displayOption:"0,000.00"}
+           {display:'자산코드', name:'gisAssetsCode',width:120, sortable:false,align:'center'},
+           {display:'자산명', name:'gisAssetsNm',width:250, sortable:false,align:'left'},
+           {display:'소재지', name:'gisAssetsLocplcAll',width:350, sortable:false,align:'center'},
+           {display:'자산면적', name:'gisAssetsAr',width:150, sortable:false,align:'right', displayFormat: 'number', displayOption:"0,000.00"},
+           {display:'단가구분', name:'priceSe',width:150, sortable:false,align:'center', displayFormat:'select', displayOption:priceSeOption},
+           {display:'적용단가', name:'applcPrice',width:150, sortable:false,align:'right', displayFormat: 'input-number', displayOption:"0,000.00"},
+           {display:'사용면적', name:'usageAr',width:150, sortable:false,align:'right', displayFormat: 'input-number', displayOption:"0,000.00"}
         ],
         showTableToggleBtn: true,
         height: '200',
