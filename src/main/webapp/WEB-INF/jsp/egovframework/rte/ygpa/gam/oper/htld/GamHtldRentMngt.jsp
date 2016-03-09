@@ -31,7 +31,7 @@ function GamHtldRentMngtModule() {}
 <%--
 	EmdModule을 상속하여 모듈 클래스를 정의한다.
 --%>
-GamHtldRentMngtModule.prototype = new EmdModule(1380, 710);
+GamHtldRentMngtModule.prototype = new EmdModule(1380, 610);
 
 <%--///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	EmdModule Override 및 이벤트 처리 정의 부분 시작	
@@ -104,7 +104,7 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
            {display:'사용면적', name:'usageAr',width:150, sortable:false,align:'right', displayFormat: 'input-number', displayOption:"0,000.00"}
         ],
         showTableToggleBtn: true,
-        height: '200',
+        height: '190',
         preProcess: function(module, data) {
         	$.each(data.resultList, function() {
         		this._updtId = '';
