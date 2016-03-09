@@ -31,7 +31,7 @@ function GamHtldRentMngtModule() {}
 <%--
 	EmdModule을 상속하여 모듈 클래스를 정의한다.
 --%>
-GamHtldRentMngtModule.prototype = new EmdModule(1380, 610);
+GamHtldRentMngtModule.prototype = new EmdModule(1420, 610);
 
 <%--///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	EmdModule Override 및 이벤트 처리 정의 부분 시작	
@@ -47,17 +47,17 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
         url: '/oper/htld/selectHtldRentList.do',
         dataType: 'json',
         colModel : [
-                    {display:'구역', name:'rentArea',width:82, sortable:false,align:'center'},
+                    {display:'구역', name:'rentArea',width:120, sortable:false,align:'center'},
                     {display:'입주기업', name:'entrpsNm',width:190, sortable:false,align:'left'},
                     {display:'계약기간', name:'grUsagePdPeriod',width:175, sortable:false,align:'center'},
-                    {display:'소재지', name:'gisAssetsLocplc',width:170, sortable:false,align:'left'},
-                    {display:'입주면적(㎡)', name:'usageAr',width:88, sortable:false,align:'right', displayFormat: 'number',  displayOption:"0,000.00"},
-                    {display:'적용단가(원)', name:'applcPrice',width:80, sortable:false,align:'right', displayFormat: 'number',  displayOption:"0,000.00"},
+                    {display:'소재지', name:'gisAssetsLocplc',width:180, sortable:false,align:'left'},
+                    {display:'입주면적(㎡)', name:'usageAr',width:90, sortable:false,align:'right', displayFormat: 'number',  displayOption:"0,000.00"},
+                    {display:'적용단가(원)', name:'applcPrice',width:90, sortable:false,align:'right', displayFormat: 'number',  displayOption:"0,000.00"},
                     /* {display:'영업개시일', name:'operYrMt',width:80, sortable:false,align:'center'}, */
                     /* {display:'실적평가기간', name:'bizAssessPdPeriod',width:175, sortable:false,align:'center'}, */
                     {display:'납부방법', name:'nticMthNm',width:60, sortable:false,align:'left'},
                     {display:'요금종류', name:'chrgeKndNm',width:160, sortable:false,align:'left'},
-                    {display:'과세구분', name:'taxtSeNm',width:120, sortable:false,align:'center'},
+                    {display:'과세구분', name:'taxtSeNm',width:100, sortable:false,align:'center'},
                     {display:'고지방법', name:'payMthNm',width:60, sortable:false,align:'center'},
                     /* {display:'업종', name:'compTp',width:110, sortable:false,align:'right'},
                     {display:'취급화종', name:'frghtTp',width:120, sortable:false,align:'center'}, */
@@ -95,9 +95,9 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
         module: this,
         dataType: 'json',
         colModel : [
-           {display:'자산코드', name:'gisAssetsCode',width:120, sortable:false,align:'center'},
-           {display:'자산명', name:'gisAssetsNm',width:250, sortable:false,align:'left'},
-           {display:'소재지', name:'gisAssetsLocplcAll',width:350, sortable:false,align:'center'},
+           {display:'자산코드', name:'gisAssetsCode',width:140, sortable:false,align:'center'},
+           {display:'자산명', name:'gisAssetsNm',width:260, sortable:false,align:'center'},
+           {display:'소재지', name:'gisAssetsLocplcAll',width:360, sortable:false,align:'center'},
            {display:'자산면적', name:'gisAssetsAr',width:150, sortable:false,align:'right', displayFormat: 'number', displayOption:"0,000.00"},
            {display:'단가구분', name:'priceSe',width:150, sortable:false,align:'center', displayFormat:'select', displayOption:priceSeOption},
            {display:'적용단가', name:'applcPrice',width:150, sortable:false,align:'right', displayFormat: 'input-number', displayOption:"0,000.00"},
