@@ -430,7 +430,7 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 				// 점검 결과 항목 리스트 조회
 				if(fcltsJobSe.equals("M")) {
 					//기계
-					mechFcltsSe = (String)qcDetailData.get("fcltsJobSe");
+					mechFcltsSe = (String)qcDetailData.get("mechFcltsSe");
 					String mechCdStartChar = (mechFcltsSe.equals("1")) ? "M02" : "M01";
 					qcDetailData.put("mechCdStartChar", mechCdStartChar);
 					qcResultItemList = (List<EgovMap>) gamFcltyQcwWrtMngDao.selectHwpMechQcMngResultItemList(qcDetailData);
