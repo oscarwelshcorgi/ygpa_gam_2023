@@ -1868,6 +1868,7 @@ GamFcltyQcwWrtMngModule.prototype.onButtonClick = function(buttonId) {
 										, 'fcltsMngGroupNm' : this.$('#fcltsMngGroupNm').val()
 										, 'qcResultList' : this._qcResultList
 										, 'popupMode' : 'edit'
+										, 'mechFcltsSe' : this.$('#mechFcltsSe').val()
 									}
 								);
 			break;

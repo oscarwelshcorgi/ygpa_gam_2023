@@ -968,6 +968,8 @@
 		    <isNotEmpty property="fcltsMngGroupNo">
 		    	AND A.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
 		   	</isNotEmpty>
+    	ORDER BY
+      		A.QC_ITEM_UPPER_CD, A.QC_ITEM_CD
   	</select>
 
 	<!-- 점검관리결과항목목록(토목 점검표 Hwp출력용) -->

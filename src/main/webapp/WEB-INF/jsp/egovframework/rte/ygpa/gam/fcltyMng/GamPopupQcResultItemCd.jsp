@@ -35,7 +35,7 @@
 %>
 function GamPopupQcResultItemCdModule() {}
 
-GamPopupQcResultItemCdModule.prototype = new EmdPopupModule(600, 490);
+GamPopupQcResultItemCdModule.prototype = new EmdPopupModule(750, 490);
 
 <%
 /**
@@ -50,7 +50,7 @@ GamPopupQcResultItemCdModule.prototype.loadComplete = function(params) {
 	this._fcltsJobSe = params['fcltsJobSe'];
 	this._fcltsMngGroupNm = params['fcltsMngGroupNm'];
 	this._popupMode = params['popupMode'];
-	
+	this._mechFcltsSe = params['mechFcltsSe'];
 	this.resizable(true);
 	
 	var resultChkOption = [
@@ -61,16 +61,20 @@ GamPopupQcResultItemCdModule.prototype.loadComplete = function(params) {
 
 	var gridHeaders = [];
 	
+	// 각 시설물별 점검항목 해더 필드 설정
 	if(this._fcltsJobSe == 'C') {
-		gridHeaders[gridHeaders.length] = {display:"점검 상위 항목명",	name:"qcItemUpperNm",	width:120,	sortable:true,	align:"left"};
-		gridHeaders[gridHeaders.length] = {display:"점검 항목 명",		name:"qcItemNm",		width:280,	sortable:true,	align:"left"};
+		//토목일 경우
+		gridHeaders[gridHeaders.length] = {display:"점검 상위 항목명",	name:"qcItemUpperNm",	width:160,	sortable:true,	align:"left"};
+		gridHeaders[gridHeaders.length] = {display:"점검 항목 명",		name:"qcItemNm",		width:320,	sortable:true,	align:"left"};
 		if(this._popupMode == 'edit') {
-			gridHeaders[gridHeaders.length] = {display:"점검 내용",	name:"inspResultCn",	width:130,	sortable:true,	align:"left", displayFormat:'input'};
+			gridHeaders[gridHeaders.length] = {display:"점검 내용",	name:"inspResultCn",	width:200,	sortable:true,	align:"left", displayFormat:'input'};
 		} else {
-			gridHeaders[gridHeaders.length] = {display:"점검 내용",	name:"inspResultCn",	width:130,	sortable:true,	align:"left"};
+			gridHeaders[gridHeaders.length] = {display:"점검 내용",	name:"inspResultCn",	width:200,	sortable:true,	align:"left"};
 		}
 	}
-	else {
+	else if((this._fcltsJobSe == 'M') && this._mechFcltsSe == '1')  {
+		//하역장비일 경우
+		gridHeaders[gridHeaders.length] = {display:"하역장비 구분",	name:"qcItemUpperUpperNm",	width:150,	sortable:true,	align:"left"};
 		gridHeaders[gridHeaders.length] = {display:"점검 상위 항목명",	name:"qcItemUpperNm",	width:150,	sortable:true,	align:"left"};
 		gridHeaders[gridHeaders.length] = {display:"점검 항목 명",		name:"qcItemNm",		width:300,	sortable:true,	align:"left"};
 		if(this._popupMode == 'edit') {
@@ -79,14 +83,39 @@ GamPopupQcResultItemCdModule.prototype.loadComplete = function(params) {
 			gridHeaders[gridHeaders.length] = {display:"점검 결과",	name:"inspResultChkNm",	width:80,	sortable:true,	align:"center"};
 		}
 	}
-	this.$('#mainGrid').flexigrid({
-		module : this,
-		url : '',
-		dataType : 'json',
-		colModel : gridHeaders,
-		mergeRows : 'qcItemUpperNm',
-		height: '370'
-	});
+	else {
+		gridHeaders[gridHeaders.length] = {display:"점검 상위 항목명",	name:"qcItemUpperNm",	width:200,	sortable:true,	align:"left"};
+		gridHeaders[gridHeaders.length] = {display:"점검 항목 명",		name:"qcItemNm",		width:350,	sortable:true,	align:"left"};
+		if(this._popupMode == 'edit') {
+			gridHeaders[gridHeaders.length] = {display:"점검 결과",	name:"inspResultChk",	width:100,	sortable:true,	align:"center", displayFormat:'select', displayOption:resultChkOption};
+		} else {
+			gridHeaders[gridHeaders.length] = {display:"점검 결과",	name:"inspResultChkNm",	width:100,	sortable:true,	align:"center"};
+		}
+	}
+	
+	var flexgridOpt = null;
+	
+	if((this._fcltsJobSe == 'M') && this._mechFcltsSe == '1')  {
+		flexgridOpt = {
+				module : this,
+				url : '',
+				dataType : 'json',
+				colModel : gridHeaders,
+				mergeRows : 'qcItemUpperUpperNm,qcItemUpperNm,qcItemNm',
+				height: '370'
+		}; 
+	} else {
+		flexgridOpt = {
+			module : this,
+			url : '',
+			dataType : 'json',
+			colModel : gridHeaders,
+			mergeRows : 'qcItemUpperNm',
+			height: '370'
+		};
+	}
+	
+	this.$('#mainGrid').flexigrid(flexgridOpt);
 	
 	this.loadData();
 };
