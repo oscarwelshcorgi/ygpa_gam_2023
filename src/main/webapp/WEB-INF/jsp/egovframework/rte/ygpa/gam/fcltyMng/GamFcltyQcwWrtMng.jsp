@@ -1786,7 +1786,7 @@ GamFcltyQcwWrtMngModule.prototype.downloadSelectedResultList = function() {
 	}
 
 	if(fcltsJobSe == 'M') {
-		var mechFcltsSe = dataList[0].mechFcltsSe;
+		var mechFcltsSe = downList[0].mechFcltsSe;
 		for(i=0; i<=downList.length-1; i++) {
 			if(mechFcltsSe != downList[i].mechFcltsSe) {
 				alert('기계시설의 구분(하역장비, 건설설비)이 다릅니다.');

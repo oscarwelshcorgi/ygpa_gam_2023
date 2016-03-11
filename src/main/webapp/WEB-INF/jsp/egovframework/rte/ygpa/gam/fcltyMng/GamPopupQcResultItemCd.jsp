@@ -101,7 +101,7 @@ GamPopupQcResultItemCdModule.prototype.loadComplete = function(params) {
 				url : '',
 				dataType : 'json',
 				colModel : gridHeaders,
-				mergeRows : 'qcItemUpperUpperNm,qcItemUpperNm,qcItemNm',
+				mergeRows : 'qcItemUpperUpperNm,qcItemUpperNm',
 				height: '370'
 		}; 
 	} else {
