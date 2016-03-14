@@ -1870,7 +1870,7 @@
       	(SELECT BIZRNO FROM ENTRPS_INFO_F WHERE ENTRPSCD=#entrpscd#),
       	#entrpsNm#,
       	(SELECT SSN FROM ENTRPS_INFO_F WHERE ENTRPSCD=#entrpscd#),
-      	SYSDATE,
+      	#nticDt#,
       	#payTmlmt#,
       	#nhtPrintYn#,
       	#nticAmt#, #rdcxptFee#, 0, 0,
