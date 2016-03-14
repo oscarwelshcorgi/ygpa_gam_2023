@@ -209,14 +209,14 @@ public class GamHtldRentFeePaySttusMngtServiceImpl  extends AbstractServiceImpl 
 		if("01".equals(dlySerNo) && dlyInfoList.size() == 1) {
 			//최초연체라면
 			vo.put("rcivSe", "0");	// 수납 상태를 미수납("0") 으로 세팅
-			//vo.put("prvBillDt", dlyInfo.get("frstBillDt"));  //삭제할 때 원고지 일자 지워짐.... 아마 firstBillDt에 데이터가 없어서 지워짐..
+			vo.put("prvBillDt", dlyInfo.get("firstBillDt"));
 			vo.put("billDt", dlyInfo.get("prvBillDt"));
 			vo.put("dlyDueDt", dlyInfo.get("prvDueDt"));
 			gamHtldRentFeePaySttusMngtDao.updateLevReqestUnarrrgAmt(vo);
 		} else {
 			//최초연체가 아니라면
 			if(dlyInfoList.size() > 1) {
-				EgovMap prevDlyInfo = (EgovMap) dlyInfoList.get(dlyInfoList.size()-1); 
+				EgovMap prevDlyInfo = (EgovMap) dlyInfoList.get(0); 
 				vo.put("dlyBillAmnt", prevDlyInfo.get("dlyBillAmnt"));
 				vo.put("dbillAmnt", prevDlyInfo.get("dbillAmnt"));
 				vo.put("dlySerNo", prevDlyInfo.get("dlySerNo"));
