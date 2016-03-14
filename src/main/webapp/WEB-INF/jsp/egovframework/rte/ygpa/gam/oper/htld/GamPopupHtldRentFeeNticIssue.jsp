@@ -43,7 +43,31 @@ GamPopupNticIssueModule.prototype.onButtonClick = function(buttonId) {
             alert("고지 할 요금종류를 선택하십시오.");
             return;
         }
-
+		
+		if( this.$('#nticDt').val() == '') {
+			alert('고지일자를 입력하세요.');
+			return;
+		}
+		if( this.$('#payTmlmt').val() == '') {
+			alert('납부기한을 입력하세요.');
+			return;
+		}
+		if(!EMD.util.isDate(this.$('#nticDt').val())) {
+			alert('고지일자가 날짜형식이 아닙니다.');
+			return;
+		}
+		if(!EMD.util.isDate(this.$('#payTmlmt').val())) {
+			alert('납부기한이 날짜형식이 아닙니다.');
+			return;
+		}
+		var nticDt = EMD.util.strToDate(this.$('#nticDt').val());
+		var payTmlmt = EMD.util.strToDate(this.$('#payTmlmt').val());
+		
+		if(payTmlmt.getTime() <= nticDt.getTime()) {
+			alert('납부기한이 고지일자보다 커야 합니다.');
+			return;
+		}
+		
 		var inputVO=this.makeFormArgs('#noticeForm', 'object');
 		this.closeDialog('ok', inputVO);
 
@@ -148,9 +172,13 @@ var popup_instance = new GamPopupNticIssueModule();
                         </td>
                     </tr>
                     <tr>
-                        <th style="width:100px; text-align: center;">납부기한</th>
-                        <td colspan="3">
-                        <input id="payTmlmt"  value="<c:out value="${levReqestMaster.payTmlmt }" />" class="emdcal" data-required="true"/>
+                        <th style="width:100px; text-align: center;">고지 일자</th>
+                        <td>
+                        <input id="nticDt"  size="12"  value="<c:out value="${levReqestMaster.nticDt }" />" class="emdcal" data-required="true"/>
+                        </td>
+                        <th style="width:100px; text-align: center;">납부 기한</th>
+                        <td>
+                        <input id="payTmlmt"  size="12" value="<c:out value="${levReqestMaster.payTmlmt }" />" class="emdcal" data-required="true"/>
                         </td>
                     </tr>
                     <tr>

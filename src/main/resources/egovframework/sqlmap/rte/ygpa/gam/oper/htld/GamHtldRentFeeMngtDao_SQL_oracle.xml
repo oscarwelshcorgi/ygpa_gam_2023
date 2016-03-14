@@ -1811,8 +1811,7 @@
         UPDATE LEV_REQEST_F SET
       		NHT_ISUE_YN=#nhtIsueYn#,
       		NTICNO=#nticno#,
-      		ACCNUT_YEAR=#accnutYear#,
-      		PAY_TMLMT=#payTmlmt#
+      		ACCNUT_YEAR=#accnutYear#
      		<isNotNull prepend="," property="nticAmt">
       			NTIC_AMT=#nticAmt#
      		</isNotNull>
@@ -1832,10 +1831,12 @@
      			RM=#rm#
      		</isNotNull>
        <isEqual prepend="," property="nhtIsueYn" compareValue="Y">
-       		NTIC_DT=SYSDATE
+       		NTIC_DT=TO_DATE(#nticDt#, 'YYYY-MM-DD'),
+       		PAY_TMLMT=TO_DATE(#payTmlmt#, 'YYYY-MM-DD')
      	</isEqual>
        <isNotEqual prepend="," property="nhtIsueYn" compareValue="Y">
-       		NTIC_DT=''
+       		NTIC_DT='',
+       		PAY_TMLMT=''
      	</isNotEqual>
      	WHERE
 			PRT_AT_CODE=#prtAtCode#
@@ -1965,6 +1966,7 @@
 		  #nticPdTo# NTIC_PD_TO,
 		  A.GR_AR,
 		  #rm# RM,
+		  TO_CHAR(SYSDATE, 'YYYY-MM-DD') NTIC_DT,
 		  TO_CHAR(p2mgr.sf_get_wrk_dt@ygpa_portmis(SYSDATE+14), 'YYYY-MM-DD') PAY_TMLMT,
 		  #intrRate# INTR_RATE,
 		  #intrAmnt# INTR_AMNT,

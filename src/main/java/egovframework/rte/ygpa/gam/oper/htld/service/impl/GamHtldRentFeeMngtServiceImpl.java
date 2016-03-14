@@ -368,6 +368,8 @@ public class GamHtldRentFeeMngtServiceImpl extends AbstractServiceImpl implement
 		nticParam.put("vat", gamHtldRentFeeMngtVO.getVat());
 		nticParam.put("nticAmt", gamHtldRentFeeMngtVO.getNticAmt());
 		nticParam.put("rm", gamHtldRentFeeMngtVO.getRm());
+		nticParam.put("nticDt", gamHtldRentFeeMngtVO.getNticDt());
+		nticParam.put("payTmlmt", gamHtldRentFeeMngtVO.getPayTmlmt());
 		
 		sendLevReqestRevCollF(nticParam);
 		
