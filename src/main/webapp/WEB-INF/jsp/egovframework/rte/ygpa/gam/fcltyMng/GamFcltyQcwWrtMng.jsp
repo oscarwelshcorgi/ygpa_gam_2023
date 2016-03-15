@@ -2380,7 +2380,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 											<option value="3">건축기계설비</option>
 										</select>
 										<button id="popupEditQcResultItem">점검결과항목선택</button>
-										<!-- <button id="QcItemMng">점검항목관리</button> -->
+										<button id="QcItemMng">점검항목관리</button>
 									</td>
 								</tr>
 								<tr>
