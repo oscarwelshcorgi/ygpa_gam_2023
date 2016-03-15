@@ -1875,7 +1875,7 @@
       	#nhtPrintYn#,
       	#nticAmt#, #rdcxptFee#, 0, 0,
       	'0',
-      	#updUsr#, SYSDATE, SYSDATE, #vatYn#, #vat#, #nticPdFrom#, #nticPdTo#,
+      	#updUsr#, SYSDATE, #nticDt#, #vatYn#, #vat#, #nticPdFrom#, #nticPdTo#,
 	      #deptCd#,
 	      #userName#
       )
