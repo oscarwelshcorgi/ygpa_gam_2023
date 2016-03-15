@@ -236,24 +236,19 @@ public class GamFcltyQcHwpReport  extends GamFcltyQcHwpBaseReport implements Gam
 			sb.append("		<CHAR>                                  점 검 자 :               (인)</CHAR>\n");
 		}
 		sb.append("	</TEXT></P>\n");
-		sb.append("	<P ParaShape=\"1\" Style=\"0\"><TEXT CharShape=\"5\">\n");
+
 		if(chargerInfo2 != null) {
+			sb.append("	<P ParaShape=\"1\" Style=\"0\"><TEXT CharShape=\"5\">\n");
 			if((Boolean)chargerInfo2.get("fileExists")) {		
 				sb.append("		<PICTURE Reverse=\"false\"><SHAPEOBJECT InstId=\"2055984737\" Lock=\"false\" NumberingType=\"Figure\" TextWrap=\"BehindText\" ZOrder=\"1\"><SIZE Height=\"4500\" HeightRelTo=\"Absolute\" Protect=\"false\" Width=\"3840\" WidthRelTo=\"Absolute\"/><POSITION AffectLSpacing=\"false\" AllowOverlap=\"true\" FlowWithText=\"true\" HoldAnchorAndSO=\"false\" HorzAlign=\"Left\" HorzOffset=\"38640\" HorzRelTo=\"Column\" TreatAsChar=\"false\" VertAlign=\"Top\" VertOffset=\"740\" VertRelTo=\"Para\"/><OUTSIDEMARGIN Bottom=\"0\" Left=\"0\" Right=\"0\" Top=\"0\"/></SHAPEOBJECT><SHAPECOMPONENT GroupLevel=\"0\" HorzFlip=\"false\" InstID=\"982242914\" OriHeight=\"4500\" OriWidth=\"3840\" VertFlip=\"false\" XPos=\"0\" YPos=\"0\"><ROTATIONINFO Angle=\"0\" CenterX=\"1920\" CenterY=\"2250\"/><RENDERINGINFO><TRANSMATRIX E1=\"1.00000\" E2=\"0.00000\" E3=\"0.00000\" E4=\"0.00000\" E5=\"1.00000\" E6=\"0.00000\"/><SCAMATRIX E1=\"1.00000\" E2=\"0.00000\" E3=\"0.00000\" E4=\"0.00000\" E5=\"1.00000\" E6=\"0.00000\"/><ROTMATRIX E1=\"1.00000\" E2=\"0.00000\" E3=\"0.00000\" E4=\"0.00000\" E5=\"1.00000\" E6=\"0.00000\"/><SCAMATRIX E1=\"1.00000\" E2=\"0.00000\" E3=\"0.00000\" E4=\"0.00000\" E5=\"1.00000\" E6=\"0.00000\"/><ROTMATRIX E1=\"1.00000\" E2=\"0.00000\" E3=\"0.00000\" E4=\"0.00000\" E5=\"1.00000\" E6=\"0.00000\"/></RENDERINGINFO></SHAPECOMPONENT><IMAGERECT X0=\"0\" X1=\"3840\" X2=\"3840\" X3=\"0\" Y0=\"0\" Y1=\"0\" Y2=\"4500\" Y3=\"4500\"/><IMAGECLIP Bottom=\"4500\" Left=\"0\" Right=\"3780\" Top=\"0\"/><INSIDEMARGIN Bottom=\"0\" Left=\"0\" Right=\"0\" Top=\"0\"/><IMAGE Alpha=\"0\" BinItem=\"" + getBinId((String)chargerInfo2.get("signFileNmPhysicl")) + "\" Bright=\"0\" Contrast=\"0\" Effect=\"RealPic\"/></PICTURE>\n");
 			}
-		};
-		sb.append("		<CHAR/>\n");
-		sb.append("	</TEXT></P>\n");
-		sb.append("	<P ParaShape=\"1\" Style=\"0\"><TEXT CharShape=\"5\">\n");
-		if(chargerInfo2 != null) {
+			sb.append("		<CHAR/>\n");
+			sb.append("	</TEXT></P>\n");
+			sb.append("	<P ParaShape=\"1\" Style=\"0\"><TEXT CharShape=\"5\">\n");
 			String chargerNm = (chargerInfo2.get("chargerNm") != null) ? (String)chargerInfo2.get("chargerNm") :  "      ";
 			sb.append("		<CHAR>                                              "+chargerNm+"     (인)</CHAR>\n");
-		} else {
-			sb.append("		<CHAR/>\n");
+			sb.append("	</TEXT></P>\n");
 		}
-		sb.append("	</TEXT></P>\n");
-		//sb.append("	<P ParaShape=\"1\" Style=\"0\"><TEXT CharShape=\"5\"/></P>\n");
-
 		return sb;
 	}
 
@@ -615,14 +610,12 @@ public class GamFcltyQcHwpReport  extends GamFcltyQcHwpBaseReport implements Gam
 			sb.append("		<CHAR>                                  점 검 자 :              (인)</CHAR>\n");
 		}
 		sb.append("	</TEXT></P>\n");
-		sb.append("	<P ParaShape=\"20\" Style=\"0\"><TEXT CharShape=\"5\">\n");
 		if(chargerInfo2 != null) {
+			sb.append("	<P ParaShape=\"20\" Style=\"0\"><TEXT CharShape=\"5\">\n");
 			String chargerNm = (chargerInfo2.get("chargerNm") != null) ? (String)chargerInfo2.get("chargerNm") :  "      ";
 			sb.append("		<CHAR>                                              "+chargerNm+"    (인)</CHAR>\n");
-		} else {
-			sb.append("		<CHAR/>\n");
+			sb.append("	</TEXT></P>\n");
 		}
-		sb.append("	</TEXT></P>\n");
 		return sb;
 	}
 
@@ -754,14 +747,12 @@ public class GamFcltyQcHwpReport  extends GamFcltyQcHwpBaseReport implements Gam
 			sb.append("		<CHAR>                                         점 검 자 :             (인)</CHAR>\n");
 		}
 		sb.append("	</TEXT></P>\n");
-		sb.append("	<P ParaShape=\"20\" Style=\"0\"><TEXT CharShape=\"5\">\n");
 		if(chargerInfo2 != null) {
+			sb.append("	<P ParaShape=\"20\" Style=\"0\"><TEXT CharShape=\"5\">\n");
 			String chargerNm = (chargerInfo2.get("chargerNm") != null) ? (String)chargerInfo2.get("chargerNm") :  "      ";
 			sb.append("		<CHAR>                                                    "+chargerNm+"    (인)</CHAR>\n");
-		} else {
-			sb.append("		<CHAR/>\n");
+			sb.append("	</TEXT></P>\n"); 
 		}
-		sb.append("	</TEXT></P>\n");
 		return sb;
 	}
 
@@ -892,15 +883,12 @@ public class GamFcltyQcHwpReport  extends GamFcltyQcHwpBaseReport implements Gam
 			sb.append("		<CHAR>                                         점 검 자 :             (인)</CHAR>\n");
 		}
 		sb.append("	</TEXT></P>\n");
-		sb.append("	<P ParaShape=\"20\" Style=\"0\"><TEXT CharShape=\"5\">\n");
 		if(chargerInfo2 != null) {
+			sb.append("	<P ParaShape=\"20\" Style=\"0\"><TEXT CharShape=\"5\">\n");
 			String chargerNm = (chargerInfo2.get("chargerNm") != null) ? (String)chargerInfo2.get("chargerNm") :  "      ";
 			sb.append("		<CHAR>                                                    " + chargerNm + "    (인)</CHAR>\n");
-		} else {
-			sb.append("		<CHAR/>\n");
+			sb.append("	</TEXT></P>\n");
 		}
-		sb.append("	</TEXT></P>\n");
-		//sb.append("	<P ParaShape=\"3\" Style=\"0\"><TEXT CharShape=\"1\"/></P>\n");
 		return sb;
 	}
 	
@@ -1338,14 +1326,12 @@ public class GamFcltyQcHwpReport  extends GamFcltyQcHwpBaseReport implements Gam
 			sb.append("		<CHAR>                                        점 검 자 :             (인)</CHAR>\n");
 		}
 		sb.append("	</TEXT></P>\n");
-		sb.append("	<P ParaShape=\"20\" Style=\"0\"><TEXT CharShape=\"5\">\n");
 		if(chargerInfo2 != null) {
+			sb.append("	<P ParaShape=\"20\" Style=\"0\"><TEXT CharShape=\"5\">\n");
 			String chargerNm = (chargerInfo2.get("chargerNm") != null) ? (String)chargerInfo2.get("chargerNm") :  "      ";		
 			sb.append("		<CHAR>                                                   "+chargerNm+"    (인) </CHAR>\n");
-		} else {
-			sb.append("		<CHAR/>\n");
+			sb.append("	</TEXT></P>\n");
 		}
-		sb.append("	</TEXT></P>\n");
 		return sb;
 	}
 }
