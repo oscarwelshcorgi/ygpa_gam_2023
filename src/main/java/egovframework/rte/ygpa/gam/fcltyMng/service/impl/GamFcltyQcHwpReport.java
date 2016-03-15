@@ -249,10 +249,10 @@ public class GamFcltyQcHwpReport  extends GamFcltyQcHwpBaseReport implements Gam
 			String chargerNm = (chargerInfo2.get("chargerNm") != null) ? (String)chargerInfo2.get("chargerNm") :  "      ";
 			sb.append("		<CHAR>                                              "+chargerNm+"     (인)</CHAR>\n");
 		} else {
-			sb.append("		<CHAR>                                                           (인)</CHAR>\n");
+			sb.append("		<CHAR/>\n");
 		}
 		sb.append("	</TEXT></P>\n");
-		sb.append("	<P ParaShape=\"1\" Style=\"0\"><TEXT CharShape=\"5\"/></P>\n");
+		//sb.append("	<P ParaShape=\"1\" Style=\"0\"><TEXT CharShape=\"5\"/></P>\n");
 
 		return sb;
 	}
@@ -481,7 +481,7 @@ public class GamFcltyQcHwpReport  extends GamFcltyQcHwpBaseReport implements Gam
 		}
 		sb.append("		</TABLE><CHAR/>\n");
 		sb.append("	</TEXT></P>\n");
-		sb.append("	<P ParaShape=\"0\" Style=\"14\"><TEXT CharShape=\"16\"/></P>\n");
+		//sb.append("	<P ParaShape=\"0\" Style=\"14\"><TEXT CharShape=\"16\"/></P>\n");
 		return sb;
 	}
 
@@ -618,7 +618,7 @@ public class GamFcltyQcHwpReport  extends GamFcltyQcHwpBaseReport implements Gam
 		sb.append("	<P ParaShape=\"20\" Style=\"0\"><TEXT CharShape=\"5\">\n");
 		if(chargerInfo2 != null) {
 			String chargerNm = (chargerInfo2.get("chargerNm") != null) ? (String)chargerInfo2.get("chargerNm") :  "      ";
-			sb.append("		<CHAR>                                              "+chargerNm+"     (인)</CHAR>\n");
+			sb.append("		<CHAR>                                              "+chargerNm+"    (인)</CHAR>\n");
 		} else {
 			sb.append("		<CHAR/>\n");
 		}
@@ -900,7 +900,7 @@ public class GamFcltyQcHwpReport  extends GamFcltyQcHwpBaseReport implements Gam
 			sb.append("		<CHAR/>\n");
 		}
 		sb.append("	</TEXT></P>\n");
-		sb.append("	<P ParaShape=\"3\" Style=\"0\"><TEXT CharShape=\"1\"/></P>\n");
+		//sb.append("	<P ParaShape=\"3\" Style=\"0\"><TEXT CharShape=\"1\"/></P>\n");
 		return sb;
 	}
 	
