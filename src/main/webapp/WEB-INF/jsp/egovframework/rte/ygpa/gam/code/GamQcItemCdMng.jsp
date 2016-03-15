@@ -113,6 +113,8 @@ GamQcItemCdMngModule.prototype.loadComplete = function() {
 		this.$('#sFcltsJobSe').val(EMD.userinfo.mngFcltyCd);
 		this.$('#sFcltsJobSe').disable();
 	}
+	
+	console.log('1');
 };
 
 <%
@@ -637,6 +639,45 @@ GamQcItemCdMngModule.prototype.addData = function() {
 
 <%
 /**
+ * @FUNCTION NAME : isValidDepthCheck
+ * @DESCRIPTION   : 업무구분별 입력할 수 있는 단계체크.
+ * @PARAMETER     : NONE
+**/
+%>
+GamQcItemCdMngModule.prototype.isValidDepthCheck = function(fcltsJobSe, qcItemUpperCd, depthSort) {
+	var result = true;
+	
+	if (fcltsJobSe == "A" || fcltsJobSe == "C" || fcltsJobSe == "E" || fcltsJobSe == "I") {
+		if(depthSort != 2 && depthSort != 3) {
+			alert('건축, 토목, 전력, 정보통신 항목은 2, 3단계만 추가 및 수정이 가능합니다.');
+			result = false;
+		}
+	} else {
+		var itemStartCode = qcItemUpperCd.substr(0,3);
+		if(itemStartCode == 'M01' ) {
+			if(depthSort != 3 && depthSort != 4) {
+				alert('기계설비항목은 3, 4단계만 추가 및 수정이 가능합니다.');
+				result = false;
+			}
+		} else if(itemStartCode == 'M02') {
+			if(depthSort != 4 &&  depthSort != 5) {
+				alert('하역장비항목은 4, 5단계만 추가 및 수정이 가능합니다.');
+				result = false;
+			}
+		} else if(itemStartCode == 'M00'){
+			alert('기계시설점검항목의 자식항목은 추가 및 수정이 불가능합니다..');
+			result = false;
+		} else {
+			alert('지원되지 않는 상위코드입니다.');
+			result = false;
+		}
+	}
+	
+	return result;
+};
+
+<%
+/**
  * @FUNCTION NAME : saveData
  * @DESCRIPTION   : 항목을 저장한다.
  * @PARAMETER     : NONE
@@ -696,6 +737,11 @@ GamQcItemCdMngModule.prototype.saveData = function() {
 		this.$("#useYn").focus();
 		return;
 	}
+	
+	if (!this.isValidDepthCheck(fcltsJobSe, qcItemUpperCd, depthSort)) {
+		return;
+	}
+	
 	if (this._mainmode == "insert") {
 		this._mainKeyValue = qcItemCd;
 		this.doAction('/code/gamInsertQcItemCdMng.do', inputVO, function(module, result) {
