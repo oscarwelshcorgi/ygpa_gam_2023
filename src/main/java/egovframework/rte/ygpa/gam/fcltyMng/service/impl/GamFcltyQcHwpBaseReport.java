@@ -4,6 +4,8 @@
 package egovframework.rte.ygpa.gam.fcltyMng.service.impl;
 
 import java.io.FileInputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -63,6 +65,21 @@ public class GamFcltyQcHwpBaseReport {
 		}
 		return result;
 	}
+
+	// 결과코드로 점검결과기호 얻기
+	protected String getResultItemSymbol(String resultChk) {
+		String result = "";
+		if(resultChk.equals("N")) {
+			result = "○";
+		} else if(resultChk.equals("W")) {
+			result = "△";
+		} else if(resultChk.equals("X")) {
+			result = "×";
+		} else {
+			result = "";
+		}
+		return result;
+	}
 	
 	// 결과항목코드로 점검결과이름 얻기
 	protected String getResultItemName(List<EgovMap> qcResultItemList, String itemCd) {
@@ -87,6 +104,39 @@ public class GamFcltyQcHwpBaseReport {
 					result = (qcResultItem.get("inspResultCn") != null) ? (String) qcResultItem.get("inspResultCn") : "";
 					break;
 				};
+			}
+		}
+		return result;
+	}
+	
+	//점검상위항목 리스트 구하기
+	protected List<HashMap<String, String>> getQcUpperItemList(List<EgovMap> qcResultItemList) {
+		List<HashMap<String, String>> result = new ArrayList<HashMap<String, String>>();
+		String qcItemUpperCd = "";
+		if(qcResultItemList != null) {
+			for(EgovMap qcResultItem : qcResultItemList) {
+				if(!qcItemUpperCd.equals((String)qcResultItem.get("qcItemUpperCd"))){
+					qcItemUpperCd = (String)qcResultItem.get("qcItemUpperCd");
+					String qcItemUpperNm = (String)qcResultItem.get("qcItemUpperNm");
+					HashMap<String, String> item = new HashMap<String, String>();
+					item.put("qcItemUpperCd", qcItemUpperCd);
+					item.put("qcItemUpperNm", qcItemUpperNm);
+					result.add(item);
+				};
+			}
+		}
+		return result;
+	}
+	
+	//기계점검상위항목 분류 리스트 구하기
+	protected List<HashMap<String, String>> getCraneMechQcUpperItemList(List<HashMap<String, String>> qcUpperItemList, String startCode) {
+		List<HashMap<String, String>> result = new ArrayList<HashMap<String, String>>();
+		if(qcUpperItemList != null) {
+			for(HashMap<String, String> qcUpperItem : qcUpperItemList) {
+				String qcItemUpperCd = (String)qcUpperItem.get("qcItemUpperCd");
+				if(qcItemUpperCd.startsWith(startCode)) {
+					result.add(qcUpperItem);
+				}
 			}
 		}
 		return result;

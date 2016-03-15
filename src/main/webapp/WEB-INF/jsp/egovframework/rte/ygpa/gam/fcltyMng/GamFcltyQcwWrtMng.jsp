@@ -1775,7 +1775,8 @@ GamFcltyQcwWrtMngModule.prototype.downloadSelectedResultList = function() {
 		alert('다운로드할 항목을 선택 하십시요');
 		return;
 	}
-
+	
+	/*
 	var fcltsJobSe = downList[0].fcltsJobSe;
 	var i = 0;
 	for(i=0; i<=downList.length-1; i++) {
@@ -1794,7 +1795,7 @@ GamFcltyQcwWrtMngModule.prototype.downloadSelectedResultList = function() {
 			}
 		}
 	}
-
+	*/
 	var url = '/fcltyMng/downloadSelectedResultList.do';
 	var param = {};
 	param['downList'] = JSON.stringify(downList);

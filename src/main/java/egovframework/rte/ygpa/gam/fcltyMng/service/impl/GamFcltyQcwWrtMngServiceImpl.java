@@ -489,6 +489,7 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 		
 		GamFcltyQcHwpBaseReportInterface report = null;
 		
+		/*
 		if(fcltsJobSe.equals("C")) { //토목
 			report = new GamFcltyQcHwpCivilListReport(qcMngResultInfoList, fileIndexInfo);
 		} else if(fcltsJobSe.equals("A")) { //건축
@@ -502,8 +503,12 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 				report = (mechFcltsSe.equals("1")) ? new GamFcltyQcHwpCraneMechListReport(qcMngResultInfoList, fileIndexInfo) : new GamFcltyQcHwpArchMechListReport(qcMngResultInfoList, fileIndexInfo);
 			} 
 		}
+		*/
+		
+		report = new GamFcltyQcHwpReport(qcMngResultInfoList, fileIndexInfo);
 		
 		String result = "";
+		
 		if(report != null)
 			result = report.getHwpReport();
 		
