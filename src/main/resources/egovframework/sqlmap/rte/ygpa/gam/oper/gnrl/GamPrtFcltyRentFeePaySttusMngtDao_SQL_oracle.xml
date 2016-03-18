@@ -1111,6 +1111,7 @@
 			        AND AR.MNG_YEAR   = ARD.MNG_YEAR
 			        AND AR.MNG_NO     = ARD.MNG_NO
 			        AND AR.MNG_CNT    = ARD.MNG_CNT
+			        ORDER BY ARD.ASSETS_USAGE_SEQ
 			        ) A,
 			        LEV_REQEST_F L
 			      WHERE 1		      = 1
