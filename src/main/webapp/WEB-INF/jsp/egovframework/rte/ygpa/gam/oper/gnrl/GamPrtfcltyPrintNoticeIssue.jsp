@@ -792,7 +792,7 @@ div.notice {
 	      		</div>
 	      		<div class="rmk">
 	      			<h2>부과내역</h2>
-	      			<p>시설명 : <c:out value="${result.gisAssetsNm}"/></p>
+	      			<p>시설명 : <c:out value="${result.gisAssetsNm}"/><c:if test="${ etcCnt > 0}">&nbsp;(외 <c:out value="${ etcCnt }" /> 건)</c:if></p>
 	      			<p>소재지 : <c:out value="${result.gisAssetsLocplc}"/>&nbsp;<c:out value="${result.gisAssetsLnm}"/><c:if test="${result.gisAssetsLnmSub!=null}">-<c:out value="${result.gisAssetsLnmSub}"/></c:if></p>
 	      			<p>업 체 : <c:out value="${result.entrpsNm}"/> (<c:out value="${result.entrpscd}"/>)</p>
 	      			<p>면 적 : <fmt:formatNumber type="number" maxIntegerDigits="10" value="${result.grAr}" /> m<sup>2</sup></p>
@@ -891,7 +891,7 @@ div.notice {
 	      		</div>
 	      		<div class="rmk">
 	      			<h2>부과내역</h2>
-	      			<p>시설명 : <c:out value="${arrrgItem.gisAssetsNm}"/></p>
+	      			<p>시설명 : <c:out value="${arrrgItem.gisAssetsNm}"/><c:if test=""></c:if></p>
 	      			<p>소재지 : <c:out value="${arrrgItem.gisAssetsLocplc}"/>&nbsp;<c:out value="${arrrgItem.gisAssetsLnm}"/><c:if test="${arrrgItem.gisAssetsLnmSub!=null}">-<c:out value="${arrrgItem.gisAssetsLnmSub}"/></c:if></p>
 	      			<p>업 체 : <c:out value="${arrrgItem.entrpsNm}"/> (<c:out value="${arrrgItem.entrpscd}"/>)</p>
 	      			<p>면 적 : <fmt:formatNumber type="number" maxIntegerDigits="10" value="${arrrgItem.grAr}" /> m<sup>2</sup></p>

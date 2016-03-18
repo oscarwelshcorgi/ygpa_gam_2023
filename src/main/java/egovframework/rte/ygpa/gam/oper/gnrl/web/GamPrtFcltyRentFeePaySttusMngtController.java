@@ -630,7 +630,13 @@ public class GamPrtFcltyRentFeePaySttusMngtController {
     	else {
     		LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
-    		Map nticItem = gamPrtFcltyRentFeePaySttusMngtService.selectArrrgNpticPrintInfo(approvalOpt);
+    		List nticItemList = gamPrtFcltyRentFeePaySttusMngtService.selectArrrgNpticPrintInfo(approvalOpt);
+    		Map nticItem = null;
+    		int etcCnt = 0;
+    		if(nticItemList.size() > 0) {
+    			nticItem = (Map) nticItemList.get(0);
+    			etcCnt = nticItemList.size() - 1;
+    		}
 
     		if("11076".equals(loginVo.getEmplNo()) || "14010".equals(loginVo.getEmplNo())) {
 //    			log.debug("new paper selected");
@@ -640,6 +646,7 @@ public class GamPrtFcltyRentFeePaySttusMngtController {
 
     		model.addAttribute("resultCode", 0);
     		model.addAttribute("result", nticItem);
+    		model.addAttribute("etcCnt", etcCnt);
     		model.addAttribute("resultMsg", "");
     	}
 

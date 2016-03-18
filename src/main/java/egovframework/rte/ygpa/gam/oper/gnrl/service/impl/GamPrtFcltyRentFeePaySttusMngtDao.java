@@ -146,8 +146,9 @@ public class GamPrtFcltyRentFeePaySttusMngtDao extends YGPAAbstractDAO {
 	 * @return
 	 * @throws Exception
 	 */
-	public EgovMap selectArrrgNpticPrintInfo(Map searchVO) throws Exception {
-        return (EgovMap) selectByPk("gamPrtFcltyRentFeePaySttusMngtDao.selectArrrgNpticPrintInfo_S", searchVO);
+	public List selectArrrgNpticPrintInfo(Map searchVO) throws Exception {
+        return list("gamPrtFcltyRentFeePaySttusMngtDao.selectArrrgNpticPrintInfo_S", searchVO);
+        //return (EgovMap) selectByPk("gamPrtFcltyRentFeePaySttusMngtDao.selectArrrgNpticPrintInfo_S", searchVO);
 	}
 
 	/**

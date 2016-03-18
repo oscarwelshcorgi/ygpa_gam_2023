@@ -155,7 +155,7 @@ public interface GamPrtFcltyRentFeePaySttusMngtService {
 	 * @return
 	 * @throws Exception
 	 */
-	EgovMap selectArrrgNpticPrintInfo(Map searchVO) throws Exception;
+	List selectArrrgNpticPrintInfo(Map searchVO) throws Exception;
 
 	/**
 	 * 연체금만 있는 고지서를 출력한다.

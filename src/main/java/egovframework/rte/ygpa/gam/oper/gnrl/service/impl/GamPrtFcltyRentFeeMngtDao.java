@@ -143,8 +143,9 @@ public class GamPrtFcltyRentFeeMngtDao extends YGPAAbstractDAO {
 	 * @return
 	 * @throws Exception
 	 */
-	public Map selectNpticPrintInfo(GamPrtFcltyRentFeeMngtVO searchVO) throws Exception {
-        return (Map) selectByPk("gamPrtFcltyRentFeeMngtDao.selectNticPrintFeeList_S", searchVO);
+	public List selectNpticPrintInfo(GamPrtFcltyRentFeeMngtVO searchVO) throws Exception {
+        //return (Map) selectByPk("gamPrtFcltyRentFeeMngtDao.selectNticPrintFeeList_S", searchVO);
+        return list("gamPrtFcltyRentFeeMngtDao.selectNticPrintFeeList_S", searchVO);
 	}
 
 	/**

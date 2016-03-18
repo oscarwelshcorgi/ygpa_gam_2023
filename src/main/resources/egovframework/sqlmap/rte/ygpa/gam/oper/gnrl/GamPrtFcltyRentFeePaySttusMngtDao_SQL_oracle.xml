@@ -938,8 +938,202 @@
 	                </isNotEmpty>
     </select>
 
+    <select id="gamPrtFcltyRentFeePaySttusMngtDao.selectArrrgNpticPrintInfo_S" resultClass="egovMap">
+    	SELECT Z.CSTMR_REF_CODE, Z.ELEC_PAY_NO, Z.GIRO_NO, Z.ELEC_NTIC_AMT, Z.PRT_AT_CODE, Z.MNG_YEAR, Z.MNG_NO, Z.MNG_CNT, Z.RENT_MNG_NO, Z.NTIC_CNT, Z.ACCNUT_YEAR, Z.NTICNO, Z.FEE_TP, Z.CHRGE_KND_NM, Z.ENTRPSCD, Z.ENTRPS_NM, Z.RPRSNTV_NM, Z.ADRES, Z.ADRES2, Z.ZIP, Z.NTIC_DT, Z.PAY_TMLMT, Z.BIZRNO, Z.GIS_ASSETS_NM, Z.GIS_ASSETS_LOCPLC, Z.GIS_ASSETS_LNM, Z.GIS_ASSETS_LNM_SUB, Z.GIS_ASSETS_CNT, Z.NTIC_PD_FROM, Z.NTIC_PD_TO, Z.CHRGE_KND, Z.FEE, Z.VAT, Z.NTIC_AMT, Z.VAT_YN, Z.TAXT_SE_NM, Z.SANCTN_STTUS_NM, Z.SANCTN_STTUS, Z.NHT_ISUE_YN, Z.ARRRG_NO, Z.ARRRG_AMT, Z.ARRRG_TARIFF, Z.ARRRG_PAY_DATES, Z.DEPTCD_NM, Z.GR_AR, Z.GR_USAGE_PD_FROM, Z.GR_USAGE_PD_TO, Z.PRMISN_DT, Z.REIM_FEE, Z.REIM_CHRGE_KND, Z.REIM_FEE_NTICNO
+			FROM
+			  (SELECT ROWNUM RNUM,
+			    P2MGR.sf_makedigit@YGPA_P2MGR(A.PRT_AT_CODE
+			    || ASCII(SUBSTR(A.FEE_TP,1,1))
+			    || SUBSTR(A.FEE_TP,2,1)
+			    || A.ACCNUT_YEAR
+			    || A.NTICNO
+			    || NVL(A.ARRRG_NO, '0'),'BILLNO') CSTMR_REF_CODE,
+			    (SELECT DECODE(A.PRT_AT_CODE, '620', '1', '621', '2', '3')
+			      || FEE_TP_MAP
+			      || SUBSTR(A.ACCNUT_YEAR, 3,2)
+			      || A.NTICNO
+			      || NVL(A.ARRRG_NO, '00')
+			    FROM P2MGR.FEE_TP_F@YGPA_P2MGR
+			    WHERE PRT_AT_CODE = A.PRT_AT_CODE
+			    AND FEE_TP        = GAM_GET_FEE_TP(A.CHRGE_KND)
+			    ) ELEC_PAY_NO,
+			    DECODE(A.PRT_AT_CODE, '622', '6374594', '6374604') GIRO_NO,
+			    P2MGR.sf_makedigit@YGPA_P2MGR(A.NTIC_AMT, 'AMT') ELEC_NTIC_AMT,
+			    A.*
+			  FROM
+			    (SELECT S.PRT_AT_CODE,
+			      S.MNG_YEAR,
+			      S.MNG_NO,
+			      S.MNG_CNT,
+			      S.MNG_YEAR
+			      || '-'
+			      || S.MNG_NO
+			      || '-'
+			      || S.MNG_CNT AS RENT_MNG_NO,
+			      S.NTIC_CNT,
+			      S.ACCNUT_YEAR,
+			      S.NTICNO,
+			      GAM_GET_FEE_TP(S.CHRGE_KND ) FEE_TP,
+    				GAM_GET_FEE_TP_NM(S.PRT_AT_CODE, 'G', S.CHRGE_KND) CHRGE_KND_NM,
+			      S.ENTRPSCD,
+			      S.ENTRPS_NM,
+			      (SELECT RPRSNTV_NM FROM ENTRPS_INFO_F WHERE ENTRPSCD=S.ENTRPSCD
+			      ) RPRSNTV_NM,
+			      (SELECT ADRES FROM ENTRPS_INFO_F WHERE ENTRPSCD=S.ENTRPSCD) ADRES,
+			      (SELECT ADRES2 FROM ENTRPS_INFO_F WHERE ENTRPSCD=S.ENTRPSCD) ADRES2,
+			      (SELECT ZIP FROM ENTRPS_INFO_F WHERE ENTRPSCD=S.ENTRPSCD) ZIP,
+			      S.NTIC_DT,
+			      S.PAY_TMLMT,
+			      (SELECT BIZRNO FROM ENTRPS_INFO_F WHERE ENTRPSCD=S.ENTRPSCD) BIZRNO,
+			      S.GIS_ASSETS_NM,
+			      S.GIS_ASSETS_LOCPLC,
+			      S.GIS_ASSETS_LNM,
+			      S.GIS_ASSETS_LNM_SUB,
+			      '1' GIS_ASSETS_CNT,
+			      S.COMPUT_DTLS,
+			      S.NTIC_PD_FROM,
+			      S.NTIC_PD_TO,
+			      S.CHRGE_KND,
+			      S.FEE,
+			      S.VAT,
+			      S.NTIC_AMT,
+			      S.VAT_YN,
+			      S.TAXT_SE_NM,
+			      S.SANCTN_STTUS_NM,
+			      S.SANCTN_STTUS,
+			      S.NHT_ISUE_YN,
+			      S.ARRRG_NO,
+			      S.ARRRG_AMT,
+					S.ARRRG_TARIFF ,
+			        S.ARRRG_PAY_DATES ,
+			      S.DEPTCD_NM,
+			      S.GR_AR,
+			      S.GR_USAGE_PD_FROM,
+			      S.GR_USAGE_PD_TO,
+			      S.PRMISN_DT,
+			      S.REIM_FEE,
+			      S.REIM_CHRGE_KND,
+			      S.REIM_FEE_NTICNO
+			    FROM
+			      (SELECT L.NTIC_CNT ,
+			        L.FCLTY_SE ,
+			        L.CHRGE_KND ,
+			        L.ENTRPSCD ,
+			        L.ENTRPS_NM ,
+			        L.REIM_FEE,
+			        L.REIM_CHRGE_KND,
+			        L.REIM_FEE_NTICNO,
+			        TO_CHAR(L.NTIC_PD_FROM, 'YYYY-MM-DD') NTIC_PD_FROM ,
+			        TO_CHAR(L.NTIC_PD_TO, 'YYYY-MM-DD') NTIC_PD_TO ,
+			        L.ACCNUT_YEAR ,
+			        L.NTICNO ,
+			        TO_CHAR(L.NTIC_DT, 'YYYY-MM-DD') NTIC_DT ,
+			        TO_CHAR(L.PAY_TMLMT, 'YYYY-MM-DD') PAY_TMLMT ,
+			        L.SANCTN_STTUS ,
+			        L.SANCTNER_EMPL_NO ,
+			        TO_CHAR(L.SANCTN_DT) SANCTN_DT ,
+			        GAM_GETCODENAME('GAM046', L.SANCTN_STTUS) SANCTN_STTUS_NM ,
+			        NVL(L.OLNLP,0) OLNLP ,
+			        NVL(L.FEE,0) FEE ,
+			        GAM_GETCODENAME('GAM016', A.TAXT_SE) TAXT_SE_NM ,
+			        L.VAT_YN ,
+			        NVL(L.VAT,0) VAT ,
+			        NVL(L.NTIC_AMT,0) NTIC_AMT ,
+			        L.RM ,
+			        L.RCIV_SE ,
+			        TO_CHAR(L.RCIV_DT, 'YYYY-MM-DD') RCIV_DT ,
+			        L.NHT_ISUE_YN ,
+			        L.ARRRG_NO ,
+			        NVL(L.ARRRG_AMT,0) ARRRG_AMT ,
+			        L.ARRRG_TARIFF ,
+			        L.ARRRG_PAY_DATES ,
+			        L.REQEST_SEQ ,
+			        L.DEPTCD ,
+			        L.NTIC_MTH ,
+			        L.REG_USR ,
+			        TO_CHAR(L.REGIST_DT, 'YYYY-MM-DD') REGIST_DT ,
+			        L.UPD_USR ,
+			        TO_CHAR(L.UPDT_DT, 'YYYY-MM-DD') UPDT_DT ,
+			        L.PRT_AT_CODE ,
+			        L.MNG_YEAR ,
+			        L.MNG_NO ,
+			        L.MNG_CNT ,
+			        (SELECT CD.CODE_NM
+			        FROM COMTCCMMNDETAILCODE CD
+			        WHERE CD.CODE_ID = 'GAM019'
+			        AND CD.CODE      = L.PRT_AT_CODE
+			        AND ROWNUM       = 1
+			        ) PRT_AT_CODE_NM ,
+			        GAM_GETDEPTNAME(L.DEPTCD) DEPTCD_NM ,
+			        NVL(A.GR_AR,0) GR_AR ,
+			        TO_CHAR(A.GR_USAGE_PD_FROM, 'YYYY-MM-DD') GR_USAGE_PD_FROM ,
+			        TO_CHAR(A.GR_USAGE_PD_TO, 'YYYY-MM-DD') GR_USAGE_PD_TO ,
+			        TO_CHAR(A.PRMISN_DT, 'YYYY-MM-DD') PRMISN_DT ,
+			        NVL(A.GR_RDCXPT_FEE,0) GR_RDCXPT_FEE ,
+			        A.COMPUT_DTLS ,
+			        (SELECT GIS_ASSETS_NM
+			        FROM GIS_ASSETS_CD_F
+			        WHERE ROWNUM              =1
+			        AND GIS_ASSETS_PRT_AT_CODE=A.GIS_ASSETS_PRT_AT_CODE
+			        AND GIS_ASSETS_CD         =A.GIS_ASSETS_CD
+			        AND GIS_ASSETS_SUB_CD     =A.GIS_ASSETS_SUB_CD
+			        ) GIS_ASSETS_NM ,
+			        (SELECT GIS_ASSETS_LOCPLC
+			        FROM GIS_ASSETS_CD_F
+			        WHERE ROWNUM              =1
+			        AND GIS_ASSETS_PRT_AT_CODE=A.GIS_ASSETS_PRT_AT_CODE
+			        AND GIS_ASSETS_CD         =A.GIS_ASSETS_CD
+			        AND GIS_ASSETS_SUB_CD     =A.GIS_ASSETS_SUB_CD
+			        ) GIS_ASSETS_LOCPLC ,
+			        (SELECT GIS_ASSETS_LNM
+			        FROM GIS_ASSETS_CD_F
+			        WHERE ROWNUM              =1
+			        AND GIS_ASSETS_PRT_AT_CODE=A.GIS_ASSETS_PRT_AT_CODE
+			        AND GIS_ASSETS_CD         =A.GIS_ASSETS_CD
+			        AND GIS_ASSETS_SUB_CD     =A.GIS_ASSETS_SUB_CD
+			        ) GIS_ASSETS_LNM ,
+			        (SELECT GIS_ASSETS_LNM_SUB
+			        FROM GIS_ASSETS_CD_F
+			        WHERE ROWNUM              =1
+			        AND GIS_ASSETS_PRT_AT_CODE=A.GIS_ASSETS_PRT_AT_CODE
+			        AND GIS_ASSETS_CD         =A.GIS_ASSETS_CD
+			        AND GIS_ASSETS_SUB_CD     =A.GIS_ASSETS_SUB_CD
+			        ) GIS_ASSETS_LNM_SUB
+			      FROM
+			        (SELECT AR.*,
+			          ARD.GIS_ASSETS_PRT_AT_CODE,
+			          ARD.GIS_ASSETS_CD,
+			          ARD.GIS_ASSETS_SUB_CD,
+			          ARD.COMPUT_DTLS
+			        FROM ASSETS_RENT_F AR
+			        LEFT JOIN ASSETS_RENT_DETAIL_F ARD
+			        ON AR.PRT_AT_CODE = ARD.PRT_AT_CODE
+			        AND AR.MNG_YEAR   = ARD.MNG_YEAR
+			        AND AR.MNG_NO     = ARD.MNG_NO
+			        AND AR.MNG_CNT    = ARD.MNG_CNT
+			        ) A,
+			        LEV_REQEST_F L
+			      WHERE 1		      = 1
+			      AND A.PRT_AT_CODE   = L.PRT_AT_CODE
+			      AND A.MNG_YEAR      = L.MNG_YEAR
+			      AND A.MNG_NO        = L.MNG_NO
+			      AND A.MNG_CNT       = L.MNG_CNT
+			      AND A.QUAY_GROUP_CD = 'G'
+			      AND L.PRT_AT_CODE   = #prtAtCode#
+			      AND L.MNG_YEAR      = #mngYear#
+			      AND L.MNG_NO        = #mngNo#
+			      AND L.MNG_CNT       = #mngCnt#
+			      AND L.NTIC_CNT      = #nticCnt#
+			      AND L.CHRGE_KND      = #chrgeKnd#
+			      ) S
+			    ORDER BY S.ENTRPS_NM ASC,
+			      S.NTIC_CNT ASC
+			    ) A
+			  ) Z
+			  GROUP BY Z.CSTMR_REF_CODE, Z.ELEC_PAY_NO, Z.GIRO_NO, Z.ELEC_NTIC_AMT, Z.PRT_AT_CODE, Z.MNG_YEAR, Z.MNG_NO, Z.MNG_CNT, Z.RENT_MNG_NO, Z.NTIC_CNT, Z.ACCNUT_YEAR, Z.NTICNO, Z.FEE_TP, Z.CHRGE_KND_NM, Z.ENTRPSCD, Z.ENTRPS_NM, Z.RPRSNTV_NM, Z.ADRES, Z.ADRES2, Z.ZIP, Z.NTIC_DT, Z.PAY_TMLMT, Z.BIZRNO, Z.GIS_ASSETS_NM, Z.GIS_ASSETS_LOCPLC, Z.GIS_ASSETS_LNM, Z.GIS_ASSETS_LNM_SUB, Z.GIS_ASSETS_CNT, Z.NTIC_PD_FROM, Z.NTIC_PD_TO, Z.CHRGE_KND, Z.FEE, Z.VAT, Z.NTIC_AMT, Z.VAT_YN, Z.TAXT_SE_NM, Z.SANCTN_STTUS_NM, Z.SANCTN_STTUS, Z.NHT_ISUE_YN, Z.ARRRG_NO, Z.ARRRG_AMT, Z.ARRRG_TARIFF, Z.ARRRG_PAY_DATES, Z.DEPTCD_NM, Z.GR_AR, Z.GR_USAGE_PD_FROM, Z.GR_USAGE_PD_TO, Z.PRMISN_DT, Z.REIM_FEE, Z.REIM_CHRGE_KND, Z.REIM_FEE_NTICNO
+    </select>
 
-        <select id="gamPrtFcltyRentFeePaySttusMngtDao.selectArrrgNpticPrintInfo_S" parameterClass="hashMap" resultClass="egovMap">
+        <select id="gamPrtFcltyRentFeePaySttusMngtDao.selectArrrgNpticPrintInfo_backup_S" parameterClass="hashMap" resultClass="egovMap">
     	SELECT Z.*
 			FROM
 			  (SELECT ROWNUM RNUM,

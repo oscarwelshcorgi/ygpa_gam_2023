@@ -1110,7 +1110,14 @@ public class GamPrtFcltyRentFeeMngtController {
 	    	else {
 	    		LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
-	    		Map printInfo = gamPrtFcltyRentFeeMngtService.selectNpticPrintInfo(approvalOpt);
+	    		//Map printInfo = gamPrtFcltyRentFeeMngtService.selectNpticPrintInfo(approvalOpt);
+	    		List printList = gamPrtFcltyRentFeeMngtService.selectNpticPrintInfo(approvalOpt);
+	    		Map printInfo = null;
+	    		int etcCnt = 0;
+	    		if(printList.size() > 0) {
+	    			printInfo = (Map) printList.get(0);
+	    			etcCnt = printList.size() - 1;
+	    		}
 	    		if("ORGNZT_0000000000007".equals(loginVo.getOrgnztId()) || "14010".equals(loginVo.getEmplNo())) {
 //	    			log.debug("new paper selected");
 	    			report = "ygpa/gam/oper/gnrl/GamPrtfcltyPrintNoticeIssue2";	// 신규 고지서
@@ -1119,6 +1126,7 @@ public class GamPrtFcltyRentFeeMngtController {
 
 	    		model.addAttribute("resultCode", 0);
 	    		model.addAttribute("result", printInfo);
+	    		model.addAttribute("etcCnt", etcCnt);
 	    		model.addAttribute("resultMsg", "");
 	    	}
 

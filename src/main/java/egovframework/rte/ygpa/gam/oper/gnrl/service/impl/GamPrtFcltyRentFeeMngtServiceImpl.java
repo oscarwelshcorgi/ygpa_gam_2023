@@ -157,7 +157,7 @@ public class GamPrtFcltyRentFeeMngtServiceImpl  extends AbstractServiceImpl impl
 	}
 
 	@Override
-	public Map selectNpticPrintInfo(GamPrtFcltyRentFeeMngtVO searchVO) throws Exception {
+	public List selectNpticPrintInfo(GamPrtFcltyRentFeeMngtVO searchVO) throws Exception {
 		return gamPrtFcltyRentFeeMngtDao.selectNpticPrintInfo(searchVO);
 	}
 
