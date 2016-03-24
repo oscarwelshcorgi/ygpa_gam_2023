@@ -289,7 +289,7 @@ div.notice {
 	width: 4.6cm;
 	height: 0.65cm;
 	font-size: 0.4cm;
-	font-family: OCR-B-10 BT;
+	font-family: OCR-B-1;
 	text-align: right;
 	padding: 0.1cm;
  }
@@ -301,7 +301,7 @@ div.notice {
 	width: 6.8cm;
 	height: 0.8cm;
 	font-size: 0.4cm;
-	font-family: OCR-B-10 BT;
+	font-family: OCR-B-1;
 	text-align: left;
 	padding: 0.15cm;
  }
@@ -313,7 +313,7 @@ div.notice {
 	width: 13.2cm;
 	height: 0.4cm;
 	font-size: 0.4cm;
-	font-family: OCR-B-10 BT;
+	font-family: OCR-B-1;
  }
 
  #girono {
@@ -665,7 +665,7 @@ div.notice {
 		width: 4.6cm;
 		height: 0.65cm;
 		font-size: 0.4cm;
-		font-family: OCR-B-10 BT;
+		font-family: OCR-B-1;
 		text-align: right;
 		padding: 0.1cm;
 	 }
@@ -677,7 +677,7 @@ div.notice {
 		width: 6.8cm;
 		height: 0.8cm;
 		font-size: 0.4cm;
-		font-family: OCR-B-10 BT;
+		font-family: OCR-B-1;
 		text-align: left;
 		padding: 0.15cm;
 	 }
@@ -689,7 +689,7 @@ div.notice {
 		width: 13.2cm;
 		height: 0.4cm;
 		font-size: 0.4cm;
-		font-family: OCR-B-10 BT;
+		font-family: OCR-B-1;
 	 }
 
 	 #girono {
