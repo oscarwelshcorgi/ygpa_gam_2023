@@ -5,6 +5,8 @@ package egovframework.rte.ygpa.gam.asset.rent.service;
 import java.util.List;
 import java.util.Map;
 
+import egovframework.rte.ygpa.gam.code.service.GamGisAssetCodeVO;
+
 
 
 /**
@@ -105,8 +107,8 @@ public interface GamAssetRentMngtService {
 	 * @return list
 	 * @exception Exception
 	 */
-    public List selectOlnlpInfo() throws Exception;
-
+    public List selectOlnlpInfo(GamGisAssetCodeVO searchVO) throws Exception;
+    
     /**
 	 * 징수의뢰 해당 갯수를 조회한다.
 	 * @param VO - 조회할 정보가 담긴 VO

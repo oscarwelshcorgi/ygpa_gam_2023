@@ -9,6 +9,7 @@ import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentDetailVO;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentLevReqestVO;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentMngtVO;
+import egovframework.rte.ygpa.gam.code.service.GamGisAssetCodeVO;
 
 /**
  * @Class Name : GamAssetRentMngtDao.java
@@ -259,8 +260,8 @@ public class GamAssetRentMngtDao extends YGPAAbstractDAO {
 	 * @return 공시지가 목록
 	 * @exception Exception
 	 */
-    public List selectOlnlpInfo() throws Exception {
-        return list("gamAssetRentMngtDao.selectOlnlpInfo_S", null);
+    public List selectOlnlpInfo(GamGisAssetCodeVO searchVO) throws Exception {
+        return list("gamAssetRentMngtDao.selectOlnlpInfo_S", searchVO);
     }
 
     /**

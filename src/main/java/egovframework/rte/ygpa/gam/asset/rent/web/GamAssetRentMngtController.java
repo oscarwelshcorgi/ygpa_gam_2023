@@ -42,6 +42,7 @@ import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentMngtVO;
 import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamAssetsUsePermMngtService;
 import egovframework.rte.ygpa.gam.cmmn.service.GamFileServiceVo;
 import egovframework.rte.ygpa.gam.cmmn.service.GamFileUploadUtil;
+import egovframework.rte.ygpa.gam.code.service.GamGisAssetCodeVO;
 
 /**
  * @Class Name : GamAssetRentMngtController.java
@@ -139,6 +140,31 @@ public class GamAssetRentMngtController {
     	return "/ygpa/gam/asset/rent/GamAssetRentMngt";
     }
 
+	//공시지가정보
+		@SuppressWarnings({ "rawtypes", "unchecked" })
+	    @RequestMapping(value="/asset/rent/selectOlnlpInfo.do", method=RequestMethod.POST)
+		@ResponseBody Map selectAssetRentList(GamGisAssetCodeVO searchVO) throws Exception {
+
+			int totalCnt, page, firstIndex;
+	    	Map map = new HashMap();
+
+
+	    	// 0. Spring Security 사용자권한 처리
+	    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+	    	if(!isAuthenticated) {
+		        map.put("resultCode", 1);
+	    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+	        	return map;
+	    	}
+
+	    	List olnlpList = gamAssetRentMngtService.selectOlnlpInfo(searchVO);
+
+	    	map.put("resultCode", 0);	// return ok
+	    	map.put("resultList", olnlpList);
+
+	    	return map;
+	    }
+		
 	/**
      * 항만시설사용목록을 조회한다.
      *

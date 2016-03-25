@@ -16,6 +16,7 @@ import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.com.utl.fcc.service.EgovDateUtil;
 import egovframework.com.utl.fcc.service.EgovStringUtil;
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
+import egovframework.rte.ygpa.gam.code.service.GamGisAssetCodeVO;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtDetailVO;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtLevReqestVO;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtService;
@@ -168,16 +169,6 @@ public class GamPrtFcltyRentMngtServiceImpl extends AbstractServiceImpl implemen
     public int selectPrtFcltyRentMngtDetailListTotCnt(GamPrtFcltyRentMngtVO vo) throws Exception {
 		return gamPrtFcltyRentMngtDao.selectPrtFcltyRentMngtDetailListTotCnt(vo);
 	}
-
-    /**
-   	 * 공시지가 목록을 조회한다.
-   	 * @param searchVO - 조회할 정보가 담긴 VO
-   	 * @return list
-   	 * @exception Exception
-   	 */
-       public List selectOlnlpInfo() throws Exception {
-           return gamPrtFcltyRentMngtDao.selectOlnlpInfo();
-       }
 
     /**
 	 * 징수의뢰 해당 갯수를 조회한다.

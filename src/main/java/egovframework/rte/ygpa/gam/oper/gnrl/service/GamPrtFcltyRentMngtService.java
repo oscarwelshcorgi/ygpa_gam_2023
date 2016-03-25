@@ -3,6 +3,7 @@ package egovframework.rte.ygpa.gam.oper.gnrl.service;
 import java.util.List;
 import java.util.Map;
 
+import egovframework.rte.ygpa.gam.code.service.GamGisAssetCodeVO;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtVO;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtDetailVO;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtLevReqestVO;
@@ -98,14 +99,6 @@ public interface GamPrtFcltyRentMngtService {
 	 * @exception
 	 */
     int selectPrtFcltyRentMngtDetailListTotCnt(GamPrtFcltyRentMngtVO vo) throws Exception;
-
-    /**
-	 * 공시지가 목록을 조회한다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return list
-	 * @exception Exception
-	 */
-    public List selectOlnlpInfo() throws Exception;
 
     /**
 	 * 징수의뢰 해당 갯수를 조회한다.

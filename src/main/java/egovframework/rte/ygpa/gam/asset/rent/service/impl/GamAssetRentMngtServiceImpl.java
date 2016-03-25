@@ -11,7 +11,6 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
 
 import egovframework.com.cmm.LoginVO;
-
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 
 
@@ -20,6 +19,7 @@ import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentDetailVO;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentLevReqestVO;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentMngtService;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentMngtVO;
+import egovframework.rte.ygpa.gam.code.service.GamGisAssetCodeVO;
 
 /**
  * @Class Name : GamAssetRentMngtServiceImpl.java
@@ -175,9 +175,9 @@ public class GamAssetRentMngtServiceImpl extends AbstractServiceImpl implements 
    	 * @return list
    	 * @exception Exception
    	 */
-       public List selectOlnlpInfo() throws Exception {
-           return gamAssetRentMngtDao.selectOlnlpInfo();
-       }
+    public List selectOlnlpInfo(GamGisAssetCodeVO searchVO) throws Exception {
+        return gamAssetRentMngtDao.selectOlnlpInfo(searchVO);
+    }
 
     /**
 	 * 징수의뢰 해당 갯수를 조회한다.
