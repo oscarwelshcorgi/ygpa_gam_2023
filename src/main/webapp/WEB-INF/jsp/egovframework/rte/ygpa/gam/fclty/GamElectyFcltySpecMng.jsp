@@ -1696,10 +1696,26 @@ GamElectyFcltySpecMngModule.prototype.downloadExcel = function(buttonId) {
 	}
 	switch (buttonId) {
 		case 'btnExcelDownload':
-			this.$('#mainGrid').flexExcelDown('/fclty/gamExcelDownloadElectyFcltySpecMng.do');
+			var clone =	this.$('#mainGrid').clone();
+			$(clone).find('th,td').each(function() {
+				if($(this).css('display')=='none') {
+					$(this).remove();
+				}
+				else {
+					$(this).css('border-left', '1px solid black');
+					$(this).css('border-top', '1px solid black');
+					$(this).css('border-right', '1px solid black');
+					$(this).css('border-bottom', '1px solid black');
+				}
+			});
+			clone.find("tr:eq(0)").remove();
+			clone.find("tr:eq(1)").remove();
+			clone.find("tr:eq(0) td").css({"font-size":"15px","font-weight":"bold","background-color":"#BDBDBD","height":"35px"});
+			clone.table2excel({
+				filename: "전기시설목록",
+			});
 			break;
 	}
-
 };
 
 <%

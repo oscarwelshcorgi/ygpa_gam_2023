@@ -748,14 +748,31 @@ GamMachFcltySpecInqireModule.prototype.downloadExcel = function(buttonId) {
 	}
 	switch (buttonId) {
 		case 'btnExcelDownload':
+			var clone;
 			if (this._mainGridDisplay == 'statusGrid') {
-				this.$('#statusGrid').flexiXlsDown("하역장비현황.xls","하역장비현황");
+				clone = this.$('#statusGrid').clone();
 			} else {
-				this.$('#mainGrid').flexExcelDown('/fclty/gamExcelDownloadMachFcltySpecInqire.do');
+				clone = this.$('#mainGrid').clone();
 			}
+			$(clone).find('th,td').each(function() {
+				if($(this).css('display')=='none') {
+					$(this).remove();
+				}
+				else {
+					$(this).css('border-left', '1px solid black');
+					$(this).css('border-top', '1px solid black');
+					$(this).css('border-right', '1px solid black');
+					$(this).css('border-bottom', '1px solid black');
+				}
+			});
+			clone.find("tr:eq(0)").remove();
+			clone.find("tr:eq(1)").remove();
+			clone.find("tr:eq(0) td").css({"font-size":"15px","font-weight":"bold","background-color":"#BDBDBD","height":"35px"});
+			clone.table2excel({
+				filename: "기계시설목록",
+			});
 			break;
 	}
-
 };
 
 <%
