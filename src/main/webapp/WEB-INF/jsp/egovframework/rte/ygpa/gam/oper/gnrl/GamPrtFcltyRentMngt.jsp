@@ -410,6 +410,13 @@ GamAssetRentMngtModule.prototype.loadComplete = function(param) {
 	        	var searchOpt=this.makeFormArgs('#gamAssetRentMngtSearchForm');
 				this.$('#assetRentMngtList').flexOptions({params:searchOpt}).flexReload();
 		 		break;
+		 	case "addAssetRentList":
+		 		this.$('#sPrtAtCode').val(param.nticVo.prtAtCode);
+		 		this.$('#sMngYear').val(param.nticVo.mngYear);
+		 		this.$('#sMngNo').val(param.nticVo.mngNo);
+		 		var searchOpt=this.makeFormArgs('#gamAssetRentMngtSearchForm');
+				this.$('#assetRentMngtList').flexOptions({params:searchOpt}).flexReload();
+		 		break;
 		 	default:
 		 		alert(param.action+" 은(는) 알수 없는 호출 입니다.");
 		 		break;

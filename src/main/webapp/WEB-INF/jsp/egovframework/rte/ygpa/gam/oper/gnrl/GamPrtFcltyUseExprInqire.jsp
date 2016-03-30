@@ -136,6 +136,24 @@ GamPrtFcltyUseExprInqireModule.prototype.loadDetailForm = function() {
 		case 'btnExcelDownload':	// 엑셀 다운로드
 			this.downloadExcel(buttonId);
 			break;
+			
+		case 'addAssetRentRenew':	// 연장신청
+			var row = this.$('#prtFcltyUseExprInqireList').selectedRows();
+			console.log(row[0].prtAtCode);
+	        if(row.length==0) {
+	        	alert('연장신청 자료를 먼저 선택해주세요.');
+				return false;
+	        }
+        	var opt = {
+        				action: "addAssetRentList",
+        				nticVo:{
+	              			prtAtCode: row[0].prtAtCode,
+	               			mngYear: row[0].mngYear,
+	               			mngNo: row[0].mngNo
+        				}
+        	};
+       	 	EMD.util.create_window('gamPrtFcltyRentMngt', '항만시설사용목록관리', '/oper/gnrl/gamPrtFcltyRentMngt.do', null, opt);
+        	break;
     }
 };
 
@@ -307,6 +325,7 @@ var module_instance = new GamPrtFcltyUseExprInqireModule();
 	                        <tr>
 	                            <td style="text-align: right">
 	                                <button id="btnExcelDownload">엑셀</button>
+	                                <button id="addAssetRentRenew">연장신청</button>
 	                            </td>
 	                        </tr>
 						</table>
