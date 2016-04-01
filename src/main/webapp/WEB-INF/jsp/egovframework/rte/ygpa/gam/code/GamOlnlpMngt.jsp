@@ -38,17 +38,25 @@ GamOlnlpMngtModule.prototype.loadComplete = function() {
 		url: '/code/gamOlnlpInsertList.do',
 		dataType: "json",
 		colModel : [
-				{display:"항코드",		name:"gisAssetsPrtAtCode",	width:50,	sortable:false,	align:"center"},
+				{display:"항코드",			name:"gisAssetsPrtAtCode",	width:50,	sortable:false,	align:"center"},
 				{display:"항코드명",		name:"gisAssetsPrtAtName",	width:60,	sortable:false,	align:"center"},
 				{display:"자산코드",		name:"gisAssetsTotCd",		width:60,	sortable:false,	align:"center"},
-				{display:"자산명",		name:"gisAssetsNm",			width:168,	sortable:false,	align:"left"},
-				{display:"소재지",		name:"gisAssetsLocplc",		width:200,	sortable:false,	align:"left"},
-				{display:"지번", 			name:"gisAssetsLnmDisplay",	width:60,	sortable:false,	align:"center"},
-				{display:"현재공시지가", 	name:"olnlp",				width:100,	sortable:false,	align:"right", displayFormat: "number"}
+				{display:"자산명",			name:"gisAssetsNm",			width:250,	sortable:false,	align:"left"},
+				{display:"소재지",			name:"gisAssetsLocplc",		width:200,	sortable:false,	align:"left"},
+				{display:"지번", 			name:"gisAssetsLnmDisplay",	width:80,	sortable:false,	align:"center"},
+				{display:"현재공시지가",	name:"olnlp",				width:100,	sortable:false,	align:"right", displayFormat: "number"}
 			],
-		height: "auto"
+		height: "auto",
+		preProcess : function(module,data) {
+			module.$('#totalCount').val($.number(data.totalCount));
+			return data;
+		}
 	});
 
+	this.$("#olnlpInsertList").on("onItemSelected", function(event, module, row, grid, param) {
+		module.$('#olnlpManageVO :input').val(''); // 폼의 값을 모두 지운다.
+	});
+	
 	this.$("#olnlpInsertList").on("onItemDoubleClick", function(event, module, row, grid, param) {
 		// 이벤트내에선 모듈에 대해 선택한다.
 		module.$("#olnlpMngtListTab").tabs("option", {active: 1});		// 탭을 전환 한다.
@@ -65,6 +73,9 @@ GamOlnlpMngtModule.prototype.loadComplete = function() {
 			module.$("#olnlpMngtList").flexOptions({params:searchOpt}).flexReload();
 			//if(result.totalCount == 0) alert("등록된 공시지가 목록이 없습니다.");
 	 	}); */
+	 	
+	 	
+	 	
 	});
 
 
@@ -79,7 +90,7 @@ GamOlnlpMngtModule.prototype.loadComplete = function() {
 				{display:"종료일자",	name:"endDt",		width:160,	sortable:false,	align:"center"},
 				{display:"공시지가",	name:"olnlp",		width:310,	sortable:false,	align:"right", displayFormat:"number"}
 			],
-		height: "auto",
+		height: "300",
 		preProcess: function(module, data) {
 			module._maxOlnlpSeq=0;
 			$.each(data.resultList, function() {
@@ -103,11 +114,13 @@ GamOlnlpMngtModule.prototype.loadComplete = function() {
  	this.$("#olnlpManageVO :input").bind("change keyup", {module: this}, function(event) {
 		var selectRowCnt = event.data.module.$('#olnlpMngtList').selectedRowCount();
 		if(selectRowCnt==1) event.data.module._edited=true;
+/* 		
 		if(event.data.module.$('#beginDt').is(event.target)) {
 			var bDt = EMD.util.strToDate(event.data.module.$('#beginDt').val());
-			var eDt = EMD.util.addMonths(bDt, 12);
+			var eDt = EMD.util.addMonths(bDt, 11);
 			event.data.module.$('#endDt').val(EMD.util.getDate(eDt));
 		}
+ */		
 	});
 
 
@@ -175,9 +188,12 @@ GamOlnlpMngtModule.prototype.onButtonClick = function(buttonId) {
 			this.$('#olnlpManageVO :input').val('');
 			this._maxOlnlpSeq+=1;
 			this._edited=false;
-			this._editData={_updtId: "I", gisAssetsPrtAtCode: this._selectRow.gisAssetsPrtAtCode
-					, gisAssetsCd: this._selectRow.gisAssetsCd
-					, gisAssetsSubCd: this._selectRow.gisAssetsSubCd, olnlp: 0, olnlpSeq: EMD.util.leftPad(this._maxOlnlpSeq, '0', 2)};
+			this._editData={	_updtId: "I", gisAssetsPrtAtCode: this._selectRow.gisAssetsPrtAtCode,
+								gisAssetsCd: this._selectRow.gisAssetsCd,
+								gisAssetsSubCd: this._selectRow.gisAssetsSubCd,
+								olnlp: 0,
+								olnlpSeq: EMD.util.leftPad(this._maxOlnlpSeq, '0', 2)
+							};
 
 			this._editRow=this.$("#olnlpMngtList").flexAddRow(this._editData);
 			this.$("#olnlpMngtList").selectRowId(this._editRow);
@@ -470,22 +486,22 @@ var module_instance = new GamOlnlpMngtModule();
 			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
 				<table id="olnlpInsertList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
-					<button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="olnlpInsertList" data-style="default">맵조회</button>
-					<button id="insertExcel" class="buttonExcel">엑셀등록</button>
+					<table style="width:100%;">
+						<tr>
+							<th style="width:8%; height:20; text-align:center;">자료수</th>
+							<td><input type="text" size="8" id="totalCount" class="ygpaNumber" disabled="disabled"/></td>
+							<td style="text-align:right;">
+								<button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="olnlpInsertList" data-style="default">맵조회</button>
+								<button id="insertExcel" class="buttonExcel">엑셀등록</button>
+							</td>
+						</tr>
+					</table>
 				</div>
 			</div>
 
 			<!-- 공시지가 목록 -->
 			<div id="tabs2" class="emdTabPage" style="overflow: hidden;">
-				<table class="detailForm">
-					<colgroup>
-						<col width="120"/>
-						<col width="147"/>
-						<col width="120"/>
-						<col width="147"/>
-						<col width="120"/>
-						<col width="147"/>
-					</colgroup>
+				<table class="detailForm" style="width:100%;">
 					<tbody>
 						<tr>
 							<th>항구분</th>
@@ -501,36 +517,30 @@ var module_instance = new GamOlnlpMngtModule();
 						</tr>
 					</tbody>
 				</table>
-				<table id="olnlpMngtList" style="display:none" class="fillHeight"></table>
-				<div class="emdControlPanel">
-					<button id="addBtn">추가</button>
-					<button id="deleteBtn">삭제</button>
-					<button id="saveBtn">저장</button>
-				</div>
 				<form id="olnlpManageVO">
-				<table class="editForm">
-					<colgroup>
-						<col width="120"/>
-						<col width="147"/>
-						<col width="120"/>
-						<col width="147"/>
-						<col width="120"/>
-						<col width="147"/>
-					</colgroup>
-					<tbody>
-						<tr>
-							<th>적용시작일자</th>
-							<td><input id="beginDt" type="text" size="12" maxlength="10" class="emdcal" title="시작일자" /></td>
-							<th>적용종료일자</th>
-							<td><input id="endDt" type="text" size="12" maxlength="10" class="emdcal" title="종료일자" /></td>
-							<th>공시지가</th>
-							<td>
-								<input id="olnlp" type="text" size="15" title="공시지가 금액" class="ygpaNumber" /> 원
-							</td>
-						</tr>
-					</tbody>
-				</table>
+					<table class="editForm" style="width:100%;">
+						<tbody>
+							<tr>
+								<th>적용시작일자</th>
+								<td><input id="beginDt" type="text" size="12" maxlength="10" class="emdcal" title="시작일자" /></td>
+								<th>적용종료일자</th>
+								<td><input id="endDt" type="text" size="12" maxlength="10" class="emdcal" title="종료일자" /></td>
+								<th>공시지가</th>
+								<td>
+									<input id="olnlp" type="text" size="15" title="공시지가 금액" class="ygpaNumber" /> 원
+								</td>
+							</tr>
+							<tr>
+								<td colspan="6" style="text-align:right;">
+									<button id="addBtn">추가</button>
+									<button id="deleteBtn">삭제</button>
+									<button id="saveBtn">저장</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
 				</form>
+				<table id="olnlpMngtList" style="display:none"></table>
 			</div>
 		</div>
 	</div>

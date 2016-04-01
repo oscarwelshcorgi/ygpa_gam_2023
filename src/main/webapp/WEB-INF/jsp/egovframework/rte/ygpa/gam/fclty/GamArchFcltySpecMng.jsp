@@ -701,6 +701,7 @@ GamArchFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 			this.deleteData();
 			break;
 		case 'popupSearchFcltsMngGroupNo':
+		case 'popupSpecFcltsMngGroupNo':
 			this.doExecuteDialog(buttonId, "시설물 관리 그룹 선택", '/popup/showArchFcltsMngGroup.do', null);
 			break;
 		case 'popupSpecGisAssetsCd':
@@ -708,9 +709,6 @@ GamArchFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 			break;
 		case 'popupSpecPrtFcltyMngEntrpsCd':
 			this.doExecuteDialog(buttonId, "관리 업체 선택", '/popup/showEntrpsInfo.do', null);
-			break;
-		case 'popupSpecFcltsMngGroupNo':
-			this.doExecuteDialog(buttonId, "시설물 관리 그룹 선택", '/popup/showFcltsMngGroup.do', null);
 			break;
 		case 'btnDirRefresh':
 			this.displayAtchFileDirectory("");

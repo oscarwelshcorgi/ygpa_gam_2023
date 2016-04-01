@@ -198,7 +198,7 @@
 		                             </isNotEmpty>
                              
                              <!-- ORDER BY REGIST_DT DESC -->
-                             ORDER BY A.REQST_DT
+                             ORDER BY A.GR_USAGE_PD_TO
                 ) S
              ) A
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>

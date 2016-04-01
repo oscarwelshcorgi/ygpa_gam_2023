@@ -34,10 +34,10 @@ GamPrtFcltyUseExprInqireModule.prototype.loadComplete = function(params) {
         url: '/oper/gnrl/gamSelectPrtFcltyUseExprInqireList.do',
         dataType: 'json',
         colModel : [
-					{display:'항코드', name:'prtAtCode',width:40, sortable:false,align:'center'},
+					//{display:'항코드', name:'prtAtCode',width:40, sortable:false,align:'center'},
                     {display:'항코드명', name:'prtAtCodeNm',width:55, sortable:false,align:'center'},
                     {display:'관리번호', name:'rentMngNo',width:80, sortable:false,align:'center'},
-                    {display:'신청업체', name:'entrpscd',width:80, sortable:false,align:'center'},
+                    //{display:'신청업체', name:'entrpscd',width:80, sortable:false,align:'center'},
                     {display:'신청업체명', name:'entrpsNm',width:100, sortable:false,align:'left'},
                     {display:'신청구분', name:'reqstSeCdNm',width:55, sortable:false,align:'center'},
                     {display:'고지방법', name:'nticMthNm',width:55, sortable:false,align:'center'},
@@ -45,11 +45,11 @@ GamPrtFcltyUseExprInqireModule.prototype.loadComplete = function(params) {
                     {display:'총사용료', name:'grFee',width:100, sortable:false,align:'right', displayFormat: 'number'},
                     {display:'신청일자', name:'reqstDt',width:80, sortable:false,align:'center'},
                     {display:'최초신청일자', name:'frstReqstDt',width:80, sortable:false,align:'center'},
-                    {display:'최초승낙일자', name:'frstPrmisnDt',width:80, sortable:false,align:'center'},
+                    //{display:'최초승낙일자', name:'frstPrmisnDt',width:80, sortable:false,align:'center'},
                     {display:'승낙일자', name:'prmisnDt',width:80, sortable:false,align:'center'},
                     {display:'총사용시작일', name:'grUsagePdFrom',width:80, sortable:false,align:'center'},
-                    {display:'총사용종료일', name:'grUsagePdTo',width:80, sortable:false,align:'center'},
-                    {display:'총감면사용료', name:'grRdcxptFee',width:100, sortable:false,align:'right', displayFormat: 'number'}
+                    {display:'총사용종료일', name:'grUsagePdTo',width:80, sortable:false,align:'center'}
+                    //{display:'총감면사용료', name:'grRdcxptFee',width:100, sortable:false,align:'right', displayFormat: 'number'}
                     ],
         showTableToggleBtn: false,
         height: 'auto',
@@ -81,6 +81,7 @@ GamPrtFcltyUseExprInqireModule.prototype.loadComplete = function(params) {
         this.$('#sGrUsagePdFrom').val(EMD.util.getDate());
         this.$('#sGrUsagePdTo').val(EMD.util.getDate(EMD.util.addMonths(1)));	// 현재 일자부터 1개월 이후 까지 조회 기본 값으로 입력 한다.
     }
+    this.loadUseList();
 };
 
 GamPrtFcltyUseExprInqireModule.prototype.loadUseList = function() {

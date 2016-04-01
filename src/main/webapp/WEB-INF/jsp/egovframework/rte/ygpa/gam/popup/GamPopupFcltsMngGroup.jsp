@@ -54,6 +54,10 @@ GamPopupFcltsMngGroupModule.prototype.onSubmit = function() {
 };
 
 GamPopupFcltsMngGroupModule.prototype.loadData = function() {
+	console.log(EMD.userinfo.mngFcltyCd);
+	if (EMD.userinfo.mngFcltyCd != null && EMD.userinfo.mngFcltyCd != "*") {
+		this.$("#sFcltsMngGroup").val(EMD.userinfo.mngFcltyCd);
+	}
 	var searchOpt=this.makeFormArgs("#gamPopupFcltsMngGroupForm");
  	this.$("#grdInfoList").flexOptions({params:searchOpt}).flexReload();
 };
@@ -92,7 +96,7 @@ var popup_instance = new GamPopupFcltsMngGroupModule();
 				<tbody>
 					<tr>
 						<th width="10%">시설물 관리 그룹명</th>
-                        <td><input id="sFcltsMngGroupNm" type="text" size="20" /></td>
+                        <td><input id="sFcltsMngGroupNm" type="text" size="20" /><input id="sFcltsMngGroup" type="hidden"/></td>
 						<td width="10%"><button id="btnSearch">조회</button></td>
 					</tr>
 				</tbody>
