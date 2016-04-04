@@ -1322,6 +1322,8 @@ GamFcltsMngRegistMngModule.prototype.downloadHwp = function() {
 	var url = '/fclty/gamHwpDownloadFcltsMngRegistMng.do';
 	var param = {};
 	param['fcltsNo'] = rows[0].fcltsNo;
+	param['fcltsMngGroupNo'] = rows[0].fcltsMngGroupNo;
+	param['fcltsJobSe'] =  this.$('#sFcltsJobSe').val();
 	param['filename'] = '시설물관리대장.hwp';
 	$.fileDownload(EMD.context_root+url, {data:param, httpMethod:"POST"});		
 };
@@ -2569,7 +2571,7 @@ var module_instance = new GamFcltsMngRegistMngModule();
 								</td>
 								<th width="10%" height="18">부　경간　형식</th>
 								<td>
-									<input type="text" size="33" id="subSpanFmt" maxlength="50"/>
+									<input type="text" size="33" id="sunSpanFmt" maxlength="50"/>
 								</td>
 							</tr>
 							<tr>

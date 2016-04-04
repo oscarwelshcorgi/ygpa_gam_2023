@@ -46,7 +46,7 @@ public class GamFcltsMngRegistMngHwpReport {
 			result.append(getDetailPresentConditionBodyElementH());
 		} else if(fcltsNoFirstChar.equals("A")) {
 			result.append(getDetailPresentConditionBodyElementA());
-		} else {
+		} else if(fcltsNoFirstChar.equals("B")) {
 			result.append(getDetailPresentConditionBodyElementB());
 		}
 		
@@ -252,6 +252,7 @@ public class GamFcltsMngRegistMngHwpReport {
 		String fcltsNo = (String) ((fcltsData.get("fcltsNo") != null) ? fcltsData.get("fcltsNo") : "");
 		String fcltsNm = (String) ((fcltsData.get("fcltsNm") != null) ? fcltsData.get("fcltsNm") : "");
 		String fcltsGbnNm = (String) ((fcltsData.get("fcltsGbnNm") != null) ? fcltsData.get("fcltsGbnNm") : "");
+		String route = (String) ((fcltsData.get("route") != null) ? fcltsData.get("route") : "");
 		String fcltsSeNm = (String) ((fcltsData.get("fcltsSeNm") != null) ? fcltsData.get("fcltsSeNm") : "");
 		String fcltsKndNm = (String) ((fcltsData.get("fcltsKndNm") != null) ? fcltsData.get("fcltsKndNm") : "");
 
@@ -273,6 +274,7 @@ public class GamFcltsMngRegistMngHwpReport {
 		qcHistYn = qcHistYn.equals("Y") ? "유" : "무" ;
 		mntnHistYn = mntnHistYn.equals("Y") ? "유" : "무" ;
 		
+		String erqProofPlanApplcEnnc = (String) ((fcltsData.get("erqProofPlanApplcEnnc") != null) ? fcltsData.get("erqProofPlanApplcEnnc") : "");
 		String planBeginDt = (String) ((fcltsData.get("planBeginDt") != null) ? fcltsData.get("planBeginDt") : "");
 		String planEndDt = (String) ((fcltsData.get("planEndDt") != null) ? fcltsData.get("planEndDt") : "");
 		String planner = (String) ((fcltsData.get("planner") != null) ? fcltsData.get("planner") : "");
@@ -280,6 +282,7 @@ public class GamFcltsMngRegistMngHwpReport {
 		String cnstEndDt = (String) ((fcltsData.get("cnstEndDt") != null) ? fcltsData.get("cnstEndDt") : "");
 		String cnstrtr = (String) ((fcltsData.get("cnstrtr") != null) ? fcltsData.get("cnstrtr") : "") ;
 		String cnstrctAmt = (String) ((fcltsData.get("cnstrctAmt") != null) ? fcltsData.get("cnstrctAmt") : "");
+		erqProofPlanApplcEnnc = erqProofPlanApplcEnnc.equals("Y") ? "예" : "아니오" ;
 		String planDuration = planBeginDt + " ~ " + planEndDt;
 		if(planDuration.equals(" ~ ")) planDuration = "";
 		String cnstDuration = cnstBeginDt + " ~ " + cnstEndDt;
@@ -361,7 +364,7 @@ public class GamFcltsMngRegistMngHwpReport {
 		sb.append("				</CELL>\n");
 		sb.append("				<CELL BorderFill=\"11\" ColAddr=\"16\" ColSpan=\"4\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"2548\" Protect=\"false\" RowAddr=\"1\" RowSpan=\"1\" Width=\"10944\">\n");
 		sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-		sb.append("						<P ParaShape=\"10\" Style=\"0\"/>\n");
+		sb.append("						<P ParaShape=\"10\" Style=\"0\"><TEXT CharShape=\"7\"><CHAR>" + route + "</CHAR></TEXT></P>\n");
 		sb.append("					</PARALIST>\n");
 		sb.append("				</CELL>\n");
 		sb.append("				<CELL BorderFill=\"11\" ColAddr=\"20\" ColSpan=\"2\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"2548\" Protect=\"false\" RowAddr=\"1\" RowSpan=\"1\" Width=\"7892\">\n");
@@ -628,7 +631,7 @@ public class GamFcltsMngRegistMngHwpReport {
 		sb.append("			<ROW>\n");
 		sb.append("				<CELL BorderFill=\"4\" ColAddr=\"0\" ColSpan=\"2\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"2872\" Protect=\"false\" RowAddr=\"9\" RowSpan=\"1\" Width=\"6312\">\n");
 		sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-		sb.append("						<P ParaShape=\"10\" Style=\"0\"><TEXT CharShape=\"7\"><CHAR></CHAR></TEXT></P>\n");
+		sb.append("						<P ParaShape=\"10\" Style=\"0\"><TEXT CharShape=\"7\"><CHAR>" + erqProofPlanApplcEnnc + "</CHAR></TEXT></P>\n");
 		sb.append("					</PARALIST>\n");
 		sb.append("				</CELL>\n");
 		sb.append("				<CELL BorderFill=\"11\" ColAddr=\"2\" ColSpan=\"7\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"2872\" Protect=\"false\" RowAddr=\"9\" RowSpan=\"1\" Width=\"14140\">\n");
@@ -1000,8 +1003,8 @@ public class GamFcltsMngRegistMngHwpReport {
 		String topFloorCn = (String) ((fcltsData.get("topFloorCn") != null) ? fcltsData.get("topFloorCn") : "");
 		String underFloorCn = (String) ((fcltsData.get("underFloorCn") != null) ? fcltsData.get("underFloorCn") : "");
 		String highHt = (String) ((fcltsData.get("highHt") != null) ? fcltsData.get("highHt") : "");
-		String highFloorHt = (String) ((fcltsData.get("highFloorHt") != null) ? fcltsData.get("highFloorHt") : "");
-		String highFloorHtPos = (String) ((fcltsData.get("highFloorHtPos") != null) ? fcltsData.get("highFloorHtPos") : "");
+		String highFllorHt = (String) ((fcltsData.get("highFllorHt") != null) ? fcltsData.get("highFllorHt") : "");
+		String highFllorHtPos = (String) ((fcltsData.get("highFllorHtPos") != null) ? fcltsData.get("highFllorHtPos") : "");
 
 		String strctFmt = (String) ((fcltsData.get("strctFmt") != null) ? fcltsData.get("strctFmt") : "");
 		String apptTp = (String) ((fcltsData.get("apptTp") != null) ? fcltsData.get("apptTp") : "");
@@ -1031,7 +1034,7 @@ public class GamFcltsMngRegistMngHwpReport {
 		String liftCntPsngr = (String) ((fcltsData.get("liftCntPsngr") != null) ? fcltsData.get("liftCntPsngr") : "");
 		String liftCntCargo = (String) ((fcltsData.get("liftCntCargo") != null) ? fcltsData.get("liftCntCargo") : "");
 		String liftCntEmgcy = (String) ((fcltsData.get("liftCntEmgcy") != null) ? fcltsData.get("liftCntEmgcy") : "");
-		exhaustDuctEnnc = exhaustDuctEnnc.equals("Y") ? "유" : "무" ;
+		exhaustDuctEnnc = exhaustDuctEnnc.equals("Y") ? "유" :  exhaustDuctEnnc.equals("N") ? "무" : "";
 		
 		String clngEnnc = (String) ((fcltsData.get("clngEnnc") != null) ? fcltsData.get("clngEnnc") : "");
 		String clngSrc = (String) ((fcltsData.get("clngSrc") != null) ? fcltsData.get("clngSrc") : "");
@@ -1042,10 +1045,10 @@ public class GamFcltsMngRegistMngHwpReport {
 		String bldMntnMngSysYn = (String) ((fcltsData.get("bldMntnMngSysYn") != null) ? fcltsData.get("bldMntnMngSysYn") : "");
 		String mntnMngAddFcltyYn = (String) ((fcltsData.get("mntnMngAddFcltyYn") != null) ? fcltsData.get("mntnMngAddFcltyYn") : "");
 		String liftOperMthd = (String) ((fcltsData.get("liftOperMthd") != null) ? fcltsData.get("liftOperMthd") : "");
-		clngEnnc = clngEnnc.equals("Y") ? "유" : "무" ;
-		htngEnnc = htngEnnc.equals("Y") ? "유" : "무" ;
-		bldMntnMngSysYn = bldMntnMngSysYn.equals("Y") ? "유" : "무" ;
-		mntnMngAddFcltyYn = mntnMngAddFcltyYn.equals("Y") ? "유" : "무" ;
+		clngEnnc = clngEnnc.equals("Y") ? "유" : clngEnnc.equals("N") ? "무" : "" ;
+		htngEnnc = htngEnnc.equals("Y") ? "유" : htngEnnc.equals("N") ? "무" : "" ;
+		bldMntnMngSysYn = bldMntnMngSysYn.equals("Y") ? "유" : bldMntnMngSysYn.equals("N") ? "무" : "" ;
+		mntnMngAddFcltyYn = mntnMngAddFcltyYn.equals("Y") ? "유" : mntnMngAddFcltyYn.equals("N") ? "무" : "";
 		
 		String etcDtlsSpec = (String) ((fcltsData.get("etcDtlsSpec") != null) ? fcltsData.get("etcDtlsSpec") : "");
 		
@@ -1141,12 +1144,12 @@ public class GamFcltsMngRegistMngHwpReport {
 		sb.append("				</CELL>\n");
 		sb.append("				<CELL BorderFill=\"11\" ColAddr=\"11\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"2780\" Protect=\"false\" RowAddr=\"2\" RowSpan=\"1\" Width=\"6616\">\n");
 		sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-		sb.append("						<P ParaShape=\"10\" Style=\"0\"><TEXT CharShape=\"7\"><CHAR>" + highFloorHt + "</CHAR></TEXT></P>\n");
+		sb.append("						<P ParaShape=\"10\" Style=\"0\"><TEXT CharShape=\"7\"><CHAR>" + highFllorHt + "</CHAR></TEXT></P>\n");
 		sb.append("					</PARALIST>\n");
 		sb.append("				</CELL>\n");
 		sb.append("				<CELL BorderFill=\"5\" ColAddr=\"12\" ColSpan=\"2\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"2780\" Protect=\"false\" RowAddr=\"2\" RowSpan=\"1\" Width=\"6724\">\n");
 		sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-		sb.append("						<P ParaShape=\"10\" Style=\"0\"><TEXT CharShape=\"7\"><CHAR>" + highFloorHtPos + "</CHAR></TEXT></P>\n");
+		sb.append("						<P ParaShape=\"10\" Style=\"0\"><TEXT CharShape=\"7\"><CHAR>" + highFllorHtPos + "</CHAR></TEXT></P>\n");
 		sb.append("					</PARALIST>\n");
 		sb.append("				</CELL>\n");
 		sb.append("			</ROW>\n");
@@ -1594,7 +1597,7 @@ public class GamFcltsMngRegistMngHwpReport {
 		String spanComp = (String) ((fcltsData.get("spanComp") != null) ? fcltsData.get("spanComp") : "");
 		
 		String mainSpanFmt = (String) ((fcltsData.get("mainSpanFmt") != null) ? fcltsData.get("mainSpanFmt") : "");
-		String subSpanFmt = (String) ((fcltsData.get("subSpanFmt") != null) ? fcltsData.get("subSpanFmt") : "");
+		String sunSpanFmt = (String) ((fcltsData.get("sunSpanFmt") != null) ? fcltsData.get("sunSpanFmt") : "");
 		String propSe = (String) ((fcltsData.get("propSe") != null) ? fcltsData.get("propSe") : "");
 		String buldConnSe = (String) ((fcltsData.get("buldConnSe") != null) ? fcltsData.get("buldConnSe") : "");
 		String subPassLmtHt = (String) ((fcltsData.get("subPassLmtHt") != null) ? fcltsData.get("subPassLmtHt") : "");
@@ -1849,7 +1852,7 @@ public class GamFcltsMngRegistMngHwpReport {
 		sb.append("				</CELL>\n");
 		sb.append("				<CELL BorderFill=\"11\" ColAddr=\"5\" ColSpan=\"3\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"2684\" Protect=\"false\" RowAddr=\"7\" RowSpan=\"1\" Width=\"12176\">\n");
 		sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-		sb.append("						<P ParaShape=\"10\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>" + subSpanFmt + "</CHAR></TEXT></P>\n");
+		sb.append("						<P ParaShape=\"10\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>" + sunSpanFmt + "</CHAR></TEXT></P>\n");
 		sb.append("					</PARALIST>\n");
 		sb.append("				</CELL>\n");
 		sb.append("				<CELL BorderFill=\"11\" ColAddr=\"8\" ColSpan=\"3\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"2684\" Protect=\"false\" RowAddr=\"7\" RowSpan=\"1\" Width=\"12180\">\n");
@@ -2028,12 +2031,12 @@ public class GamFcltsMngRegistMngHwpReport {
 		sb.append("				</CELL>\n");
 		sb.append("				<CELL BorderFill=\"30\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"true\" Height=\"2758\" Protect=\"false\" RowAddr=\"1\" RowSpan=\"1\" Width=\"9160\">\n");
 		sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-		sb.append("						<P ParaShape=\"15\" Style=\"0\"><TEXT CharShape=\"11\"><CHAR>점검?진단기간</CHAR></TEXT></P>\n");
+		sb.append("						<P ParaShape=\"15\" Style=\"0\"><TEXT CharShape=\"11\"><CHAR>점검․진단기간</CHAR></TEXT></P>\n");
 		sb.append("					</PARALIST>\n");
 		sb.append("				</CELL>\n");
 		sb.append("				<CELL BorderFill=\"10\" ColAddr=\"2\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"true\" Height=\"2758\" Protect=\"false\" RowAddr=\"1\" RowSpan=\"1\" Width=\"9324\">\n");
 		sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-		sb.append("						<P ParaShape=\"15\" Style=\"0\"><TEXT CharShape=\"11\"><CHAR>점검?진단기간명</CHAR></TEXT></P>\n");
+		sb.append("						<P ParaShape=\"15\" Style=\"0\"><TEXT CharShape=\"11\"><CHAR>점검․진단기간명</CHAR></TEXT></P>\n");
 		sb.append("					</PARALIST>\n");
 		sb.append("				</CELL>\n");
 		sb.append("				<CELL BorderFill=\"10\" ColAddr=\"3\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"true\" Height=\"2758\" Protect=\"false\" RowAddr=\"1\" RowSpan=\"1\" Width=\"7644\">\n");
@@ -2043,7 +2046,7 @@ public class GamFcltsMngRegistMngHwpReport {
 		sb.append("				</CELL>\n");
 		sb.append("				<CELL BorderFill=\"10\" ColAddr=\"4\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"true\" Height=\"2758\" Protect=\"false\" RowAddr=\"1\" RowSpan=\"1\" Width=\"32676\">\n");
 		sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-		sb.append("						<P ParaShape=\"15\" Style=\"0\"><TEXT CharShape=\"11\"><CHAR>주요<FWSPACE/>점검?진단결과</CHAR></TEXT></P>\n");
+		sb.append("						<P ParaShape=\"15\" Style=\"0\"><TEXT CharShape=\"11\"><CHAR>주요<FWSPACE/>점검․진단결과</CHAR></TEXT></P>\n");
 		sb.append("					</PARALIST>\n");
 		sb.append("				</CELL>\n");
 		sb.append("				<CELL BorderFill=\"3\" ColAddr=\"5\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"true\" Height=\"2758\" Protect=\"false\" RowAddr=\"1\" RowSpan=\"1\" Width=\"5544\">\n");
@@ -2055,12 +2058,12 @@ public class GamFcltsMngRegistMngHwpReport {
 		sb.append("			<ROW>\n");
 		sb.append("				<CELL BorderFill=\"31\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"true\" Height=\"2958\" Protect=\"false\" RowAddr=\"2\" RowSpan=\"1\" Width=\"9160\">\n");
 		sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-		sb.append("						<P ParaShape=\"15\" Style=\"0\"><TEXT CharShape=\"11\"><CHAR>점검?진단구분</CHAR></TEXT></P>\n");
+		sb.append("						<P ParaShape=\"15\" Style=\"0\"><TEXT CharShape=\"11\"><CHAR>점검․진단구분</CHAR></TEXT></P>\n");
 		sb.append("					</PARALIST>\n");
 		sb.append("				</CELL>\n");
 		sb.append("				<CELL BorderFill=\"26\" ColAddr=\"2\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"true\" Height=\"2958\" Protect=\"false\" RowAddr=\"2\" RowSpan=\"1\" Width=\"9324\">\n");
 		sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-		sb.append("						<P ParaShape=\"15\" Style=\"0\"><TEXT CharShape=\"11\"><CHAR>점검?진단</CHAR></TEXT></P>\n");
+		sb.append("						<P ParaShape=\"15\" Style=\"0\"><TEXT CharShape=\"11\"><CHAR>점검․진단</CHAR></TEXT></P>\n");
 		sb.append("						<P ParaShape=\"17\" Style=\"0\"><TEXT CharShape=\"11\"><CHAR>책임기술자</CHAR></TEXT></P>\n");
 		sb.append("					</PARALIST>\n");
 		sb.append("				</CELL>\n");
@@ -2338,15 +2341,15 @@ public class GamFcltsMngRegistMngHwpReport {
 		sb.append("			</ROW>\n");
 		sb.append("			<ROW>\n");
 		sb.append("				<CELL BorderFill=\"32\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"true\" Height=\"5716\" Protect=\"false\" RowAddr=\"1\" RowSpan=\"2\" Width=\"3692\"><PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\"><P ParaShape=\"15\" Style=\"0\"><TEXT CharShape=\"11\"><CHAR>번<FWSPACE/>호</CHAR></TEXT></P></PARALIST></CELL>\n");
-		sb.append("				<CELL BorderFill=\"30\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"true\" Height=\"2758\" Protect=\"false\" RowAddr=\"1\" RowSpan=\"1\" Width=\"9160\"><PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\"><P ParaShape=\"15\" Style=\"0\"><TEXT CharShape=\"11\"><CHAR>점검?진단기간</CHAR></TEXT></P></PARALIST></CELL>\n");
-		sb.append("				<CELL BorderFill=\"10\" ColAddr=\"2\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"true\" Height=\"2758\" Protect=\"false\" RowAddr=\"1\" RowSpan=\"1\" Width=\"9324\"><PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\"><P ParaShape=\"15\" Style=\"0\"><TEXT CharShape=\"11\"><CHAR>점검?진단기간명</CHAR></TEXT></P></PARALIST></CELL>\n");
+		sb.append("				<CELL BorderFill=\"30\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"true\" Height=\"2758\" Protect=\"false\" RowAddr=\"1\" RowSpan=\"1\" Width=\"9160\"><PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\"><P ParaShape=\"15\" Style=\"0\"><TEXT CharShape=\"11\"><CHAR>점검․진단기간</CHAR></TEXT></P></PARALIST></CELL>\n");
+		sb.append("				<CELL BorderFill=\"10\" ColAddr=\"2\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"true\" Height=\"2758\" Protect=\"false\" RowAddr=\"1\" RowSpan=\"1\" Width=\"9324\"><PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\"><P ParaShape=\"15\" Style=\"0\"><TEXT CharShape=\"11\"><CHAR>점검․진단기간명</CHAR></TEXT></P></PARALIST></CELL>\n");
 		sb.append("				<CELL BorderFill=\"10\" ColAddr=\"3\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"true\" Height=\"2758\" Protect=\"false\" RowAddr=\"1\" RowSpan=\"1\" Width=\"7644\"><PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\"><P ParaShape=\"15\" Style=\"0\"><TEXT CharShape=\"11\"><CHAR>비용(천원)</CHAR></TEXT></P></PARALIST></CELL>\n");
-		sb.append("				<CELL BorderFill=\"10\" ColAddr=\"4\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"true\" Height=\"2758\" Protect=\"false\" RowAddr=\"1\" RowSpan=\"1\" Width=\"32676\"><PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\"><P ParaShape=\"15\" Style=\"0\"><TEXT CharShape=\"11\"><CHAR>주요<FWSPACE/>점검?진단결과</CHAR></TEXT></P></PARALIST></CELL>\n");
+		sb.append("				<CELL BorderFill=\"10\" ColAddr=\"4\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"true\" Height=\"2758\" Protect=\"false\" RowAddr=\"1\" RowSpan=\"1\" Width=\"32676\"><PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\"><P ParaShape=\"15\" Style=\"0\"><TEXT CharShape=\"11\"><CHAR>주요<FWSPACE/>점검․진단결과</CHAR></TEXT></P></PARALIST></CELL>\n");
 		sb.append("				<CELL BorderFill=\"3\" ColAddr=\"5\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"true\" Height=\"2758\" Protect=\"false\" RowAddr=\"1\" RowSpan=\"1\" Width=\"5544\"><PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\"><P ParaShape=\"15\" Style=\"0\"><TEXT CharShape=\"11\"><CHAR>작성일</CHAR></TEXT></P></PARALIST></CELL>\n");
 		sb.append("			</ROW>\n");
 		sb.append("			<ROW>\n");
-		sb.append("				<CELL BorderFill=\"31\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"true\" Height=\"2958\" Protect=\"false\" RowAddr=\"2\" RowSpan=\"1\" Width=\"9160\"><PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\"><P ParaShape=\"15\" Style=\"0\"><TEXT CharShape=\"11\"><CHAR>점검?진단구분</CHAR></TEXT></P></PARALIST></CELL>\n");
-		sb.append("				<CELL BorderFill=\"26\" ColAddr=\"2\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"true\" Height=\"2958\" Protect=\"false\" RowAddr=\"2\" RowSpan=\"1\" Width=\"9324\"><PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\"><P ParaShape=\"15\" Style=\"0\"><TEXT CharShape=\"11\"><CHAR>점검?진단</CHAR></TEXT></P><P ParaShape=\"17\" Style=\"0\"><TEXT CharShape=\"11\"><CHAR>책임기술자</CHAR></TEXT></P></PARALIST></CELL>\n");
+		sb.append("				<CELL BorderFill=\"31\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"true\" Height=\"2958\" Protect=\"false\" RowAddr=\"2\" RowSpan=\"1\" Width=\"9160\"><PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\"><P ParaShape=\"15\" Style=\"0\"><TEXT CharShape=\"11\"><CHAR>점검․진단구분</CHAR></TEXT></P></PARALIST></CELL>\n");
+		sb.append("				<CELL BorderFill=\"26\" ColAddr=\"2\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"true\" Height=\"2958\" Protect=\"false\" RowAddr=\"2\" RowSpan=\"1\" Width=\"9324\"><PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\"><P ParaShape=\"15\" Style=\"0\"><TEXT CharShape=\"11\"><CHAR>점검․진단</CHAR></TEXT></P><P ParaShape=\"17\" Style=\"0\"><TEXT CharShape=\"11\"><CHAR>책임기술자</CHAR></TEXT></P></PARALIST></CELL>\n");
 		sb.append("				<CELL BorderFill=\"26\" ColAddr=\"3\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"true\" Height=\"2958\" Protect=\"false\" RowAddr=\"2\" RowSpan=\"1\" Width=\"7644\"><PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\"><P ParaShape=\"15\" Style=\"0\"><TEXT CharShape=\"11\"><CHAR>상태등급</CHAR></TEXT></P></PARALIST></CELL>\n");
 		sb.append("				<CELL BorderFill=\"26\" ColAddr=\"4\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"true\" Height=\"2958\" Protect=\"false\" RowAddr=\"2\" RowSpan=\"1\" Width=\"32676\"><PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\"><P ParaShape=\"15\" Style=\"0\"><TEXT CharShape=\"11\"><CHAR>주요<FWSPACE/>보수보강(안)</CHAR></TEXT></P></PARALIST></CELL>\n");
 		sb.append("				<CELL BorderFill=\"27\" ColAddr=\"5\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"true\" Height=\"2958\" Protect=\"false\" RowAddr=\"2\" RowSpan=\"1\" Width=\"5544\"><PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\"><P ParaShape=\"15\" Style=\"0\"><TEXT CharShape=\"11\"><CHAR>작성자(인)</CHAR></TEXT></P></PARALIST></CELL>\n");
@@ -2370,7 +2373,7 @@ public class GamFcltsMngRegistMngHwpReport {
 		sb.append("			<ROW>\n");
 		sb.append("				<CELL BorderFill=\"33\" ColAddr=\"0\" ColSpan=\"8\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"true\" Height=\"3098\" Protect=\"false\" RowAddr=\"0\" RowSpan=\"1\" Width=\"68460\">\n");
 		sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-		sb.append("						<P ParaShape=\"9\" Style=\"0\"><TEXT CharShape=\"5\"><CHAR>4.<FWSPACE/>보수?보강이력</CHAR></TEXT></P>\n");
+		sb.append("						<P ParaShape=\"9\" Style=\"0\"><TEXT CharShape=\"5\"><CHAR>4.<FWSPACE/>보수․보강이력</CHAR></TEXT></P>\n");
 		sb.append("					</PARALIST>\n");
 		sb.append("				</CELL>\n");
 		sb.append("			</ROW>\n");
@@ -2648,7 +2651,7 @@ public class GamFcltsMngRegistMngHwpReport {
 		sb.append("			<SHAPEOBJECT InstId=\"1115008265\" Lock=\"false\" NumberingType=\"Table\" TextWrap=\"BehindText\" ZOrder=\"11\"><SIZE Height=\"12139\" HeightRelTo=\"Absolute\" Protect=\"false\" Width=\"68460\" WidthRelTo=\"Absolute\"/><POSITION AffectLSpacing=\"false\" AllowOverlap=\"false\" FlowWithText=\"true\" HoldAnchorAndSO=\"false\" HorzAlign=\"Left\" HorzOffset=\"2188\" HorzRelTo=\"Para\" TreatAsChar=\"false\" VertAlign=\"Top\" VertOffset=\"225\" VertRelTo=\"Para\"/><OUTSIDEMARGIN Bottom=\"0\" Left=\"0\" Right=\"0\" Top=\"0\"/></SHAPEOBJECT>\n");
 		sb.append("			<INSIDEMARGIN Bottom=\"0\" Left=\"0\" Right=\"0\" Top=\"0\"/>\n");
 		sb.append("			<ROW>\n");
-		sb.append("				<CELL BorderFill=\"33\" ColAddr=\"0\" ColSpan=\"8\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"true\" Height=\"3098\" Protect=\"false\" RowAddr=\"0\" RowSpan=\"1\" Width=\"68460\"><PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\"><P ParaShape=\"9\" Style=\"0\"><TEXT CharShape=\"5\"><CHAR>4.<FWSPACE/>보수?보강이력</CHAR></TEXT></P></PARALIST></CELL>\n");
+		sb.append("				<CELL BorderFill=\"33\" ColAddr=\"0\" ColSpan=\"8\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"true\" Height=\"3098\" Protect=\"false\" RowAddr=\"0\" RowSpan=\"1\" Width=\"68460\"><PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\"><P ParaShape=\"9\" Style=\"0\"><TEXT CharShape=\"5\"><CHAR>4.<FWSPACE/>보수․보강이력</CHAR></TEXT></P></PARALIST></CELL>\n");
 		sb.append("			</ROW>\n");
 		sb.append("			<ROW>\n");
 		sb.append("				<CELL BorderFill=\"25\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"true\" Height=\"3665\" Protect=\"false\" RowAddr=\"1\" RowSpan=\"2\" Width=\"4960\"><PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\"><P ParaShape=\"15\" Style=\"0\"><TEXT CharShape=\"11\"><CHAR>번<FWSPACE/>호</CHAR></TEXT></P></PARALIST></CELL>\n");
