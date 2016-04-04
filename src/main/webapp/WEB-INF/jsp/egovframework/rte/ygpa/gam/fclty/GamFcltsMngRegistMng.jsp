@@ -229,6 +229,7 @@ GamFcltsMngRegistMngModule.prototype.loadComplete = function() {
 	this._mntnRprFcltsMngGroupNo = '';
 	this.$('#btnAdd').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnHwpDownload').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnPrint').disable({disableClass:"ui-state-disabled"});
 
 	if (EMD.userinfo.mngFcltyCd != null && EMD.userinfo.mngFcltyCd != "*") {
@@ -608,6 +609,10 @@ GamFcltsMngRegistMngModule.prototype.onButtonClick = function(buttonId) {
 			break;
 		case 'btnExcelDownload':
 			this.downloadExcel();
+			break;
+		case 'btnHwpDownload':
+		case 'btnHwpDownload2':
+			this.downloadHwp();
 			break;
 		case 'popupFcltsMngGroupNo':
 			this.doExecuteDialog(buttonId, "시설물 관리 그룹 선택", '/popup/showFcltsMngGroup.do', null);
@@ -1303,6 +1308,26 @@ GamFcltsMngRegistMngModule.prototype.downloadExcel = function() {
 
 <%
 /**
+ * @FUNCTION NAME : downloadHwp
+ * @DESCRIPTION   : 시설물관리대장 한긆파일을 다운로드한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltsMngRegistMngModule.prototype.downloadHwp = function() {
+	var rows = this.$('#mainGrid').selectedRows();
+	if(rows.length==0) {
+		alert('선택된 항목이 없습니다.');
+		return;
+	}
+	var url = '/fclty/gamHwpDownloadFcltsMngRegistMng.do';
+	var param = {};
+	param['fcltsNo'] = rows[0].fcltsNo;
+	param['filename'] = '시설물관리대장.hwp';
+	$.fileDownload(EMD.context_root+url, {data:param, httpMethod:"POST"});		
+};
+
+<%
+/**
  * @FUNCTION NAME : enableListButtonItem
  * @DESCRIPTION   : LIST 버튼항목을 ENABLE 한다.
  * @PARAMETER     : NONE
@@ -1313,6 +1338,7 @@ GamFcltsMngRegistMngModule.prototype.enableListButtonItem = function() {
 	if (this._mainmode == "insert") {
 		this.$('#btnAdd').disable({disableClass:"ui-state-disabled"});
 		this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnHwpDownload').disable({disableClass:"ui-state-disabled"});
 		this.$('#btnPrint').disable({disableClass:"ui-state-disabled"});
 	} else {
 		this.$('#btnAdd').enable();
@@ -1320,16 +1346,20 @@ GamFcltsMngRegistMngModule.prototype.enableListButtonItem = function() {
 		var row = this.$('#mainGrid').selectedRows()[0];
 		if (row == null) {
 			this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnHwpDownload').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnPrint').disable({disableClass:"ui-state-disabled"});
 			return;
 		}
 		if (this._mainKeyValue != "") {
 			this.$('#btnDelete').enable();
 			this.$('#btnDelete').removeClass('ui-state-disabled');
+			this.$('#btnHwpDownload').enable();
+			this.$('#btnHwpDownload').removeClass('ui-state-disabled');
 			this.$('#btnPrint').enable();
 			this.$('#btnPrint').removeClass('ui-state-disabled');
 		} else {
 			this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnHwpDownload').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnPrint').disable({disableClass:"ui-state-disabled"});
 		}
 	}
@@ -1485,6 +1515,7 @@ GamFcltsMngRegistMngModule.prototype.enableDetailInputItem = function() {
 		this.$('#btnPrevData').disable({disableClass:"ui-state-disabled"});
 		this.$('#btnNextData').disable({disableClass:"ui-state-disabled"});
 		this.$('#btnLastData').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnHwpDownload2').disable({disableClass:"ui-state-disabled"});
 	} else {
 		if (this._mainKeyValue != "") {
 			this.$('#fcltsNo').disable();
@@ -1633,6 +1664,8 @@ GamFcltsMngRegistMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#btnNextData').removeClass('ui-state-disabled');
 			this.$('#btnLastData').enable();
 			this.$('#btnLastData').removeClass('ui-state-disabled');
+			this.$('#btnHwpDownload2').enable();
+			this.$('#btnHwpDownload2').removeClass('ui-state-disabled');
 		} else {
 			this.$('#fcltsNo').disable();
 			this.$('#fcltsNm').disable();
@@ -1771,6 +1804,7 @@ GamFcltsMngRegistMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#btnPrevData').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnNextData').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnLastData').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnHwpDownload2').disable({disableClass:"ui-state-disabled"});
 		}
 	}
 
@@ -1922,7 +1956,7 @@ GamFcltsMngRegistMngModule.prototype.disableDetailInputItem = function() {
 	this.$('#btnPrevData').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnNextData').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnLastData').disable({disableClass:"ui-state-disabled"});
-
+	this.$('#btnHwpDownload2').disable({disableClass:"ui-state-disabled"});
 };
 
 <%
@@ -2074,6 +2108,7 @@ var module_instance = new GamFcltsMngRegistMngModule();
 									<button id="btnAdd" class="buttonAdd">추가</button>
 									<button id="btnDelete" class="buttonDelete">삭제</button>
 									<button id="btnExcelDownload" class="buttonExcel">엑셀 다운로드</button>
+									<button id="btnHwpDownload" class="buttonExcel">시설물관리대장 다운로드</button>
 								</td>
 						</table>
 					</form>
@@ -2568,11 +2603,11 @@ var module_instance = new GamFcltsMngRegistMngModule();
 							<tr>
 								<th style="width:10%; height:18px;">교　대　형　식</th>
 								<td>
-									<input type="text" size="33" id="bridgePropFmt" maxlength="50"/>
+									<input type="text" size="33" id="bridgePropFmt1" maxlength="50"/>
 								</td>
 								<th style="width:10%; height:18px;">교대　기초형식</th>
 								<td>
-									<input type="text" size="33" id="bridgePropBaseFmt" maxlength="50"/>
+									<input type="text" size="33" id="bridgePropBaseFmt1" maxlength="50"/>
 								</td>
 								<th style="width:10%; height:18px;">교차노선／수심</th>
 								<td>
@@ -2593,6 +2628,7 @@ var module_instance = new GamFcltsMngRegistMngModule();
 								<button id="btnInsert" class="buttonAdd">　　추　가　　</button>
 								<button id="btnSave" class="buttonSave">　　저　장　　</button>
 								<button id="btnRemove" class="buttonDelete">　　삭　제　　</button>
+								<button id="btnHwpDownload2" class="buttonExcel">시설물관리대장 다운로드</button>
 								<!-- <button id="btnDetailPrint" data-role="printPage" data-search-option="detailForm" data-url='/fclty/selectFcltReportMngPrint.do'>시설물관리대장인쇄</button> -->
 							</td>
 						</tr>

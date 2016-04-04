@@ -3,6 +3,7 @@
  */
 package egovframework.rte.ygpa.gam.fclty.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -95,4 +96,16 @@ public class GamFcltsMngRegistMngServiceImpl extends AbstractServiceImpl impleme
 		return gamFcltsMngRegistMngDao.selectFcltsMngRegistMngMntnRprDtlsHistList(searchVO);
 	}
 
+	/**
+	 * 시설물관리대장 한글 문서 다운로드 - 김종민 추가 작업 2016.03.31
+	 */
+	public String downloadHwpFcltsMngRegistMng(String fcltsNo) throws Exception {
+		String result = null;
+		GamFcltsMngRegistMngVO searchVO = new GamFcltsMngRegistMngVO();
+		searchVO.setFcltsNo(fcltsNo);
+		EgovMap fcltsData = gamFcltsMngRegistMngDao.selectFcltsMngRegistMngPkHwp(searchVO);
+		GamFcltsMngRegistMngHwpReport report = new GamFcltsMngRegistMngHwpReport(fcltsData);
+		result = report.getHwpReport();
+		return result;
+	}
 }

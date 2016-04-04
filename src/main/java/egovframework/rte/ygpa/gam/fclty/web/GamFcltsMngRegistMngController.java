@@ -258,6 +258,39 @@ public class GamFcltsMngRegistMngController {
 
 	}
 
+	/**
+	 * 시설물관리대장 한글문서 다운로드 - 김종민 추가 작업 2016.03.31
+	 * @param map
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/fclty/gamHwpDownloadFcltsMngRegistMng.do")
+	public String gamHwpDownloadFcltsMngRegistMng(@RequestParam Map<String, Object> qcPrintOpt, ModelMap model) throws Exception {
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+
+		if(!isAuthenticated) {
+			model.addAttribute("resultCode", 1);
+			model.addAttribute("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return "/ygpa/gam/fcltyMng/GamFcltyQcMngResultListReportHwp";
+		}
+		
+		String fcltsNo = (String) qcPrintOpt.get("fcltsNo");
+		
+		String hwpML = gamFcltsMngRegistMngService.downloadHwpFcltsMngRegistMng(fcltsNo);
+		
+		model.addAttribute("resultCode", 0);
+		model.addAttribute("resultMsg", "");
+		model.addAttribute("hwpML", hwpML);
+
+		//hwp선택시 파일명
+		if(qcPrintOpt.get("filename") != null){
+			model.addAttribute("isHwp", true);
+			model.addAttribute("filename", qcPrintOpt.get("filename"));
+		}
+
+		return "/ygpa/gam/fcltyMng/GamFcltyQcMngResultListReportHwp";
+	}
+	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fclty/gamSelectFcltsMngRegistMngFcltsMngGroupNm.do" , method=RequestMethod.POST)
 	@ResponseBody Map gamSelectFcltsMngRegistMngFcltsMngGroupNm(@RequestParam Map<String, Object> searchVO) throws Exception {

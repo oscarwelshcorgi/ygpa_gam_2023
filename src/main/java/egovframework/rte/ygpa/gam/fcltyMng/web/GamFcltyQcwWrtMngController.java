@@ -1085,7 +1085,7 @@ public class GamFcltyQcwWrtMngController {
 
 		reportList = mapper.readValue((String)reportOpt.get("downList"),
     		    new TypeReference<List<HashMap<String,String>>>(){});
-
+		
 		String hwpML = gamFcltyQcwWrtMngService.selectSafetyQcReportListHWPML(reportList);
 		
 		model.addAttribute("resultCode", 0);
