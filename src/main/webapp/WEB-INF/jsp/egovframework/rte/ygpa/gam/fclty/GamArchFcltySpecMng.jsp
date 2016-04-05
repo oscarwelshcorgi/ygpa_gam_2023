@@ -70,8 +70,6 @@ GamArchFcltySpecMngModule.prototype.loadComplete = function(params) {
 					{display:"시설 면적",	 		name:"prtFcltyAr",				width:80,		sortable:false,		align:"right"},
 					{display:"구분",	 			name:"prtFcltySeNm",			width:80,		sortable:false,		align:"left"},
 					{display:"설치 일자",	 		name:"prtFcltyInstlDt",			width:80,		sortable:false,		align:"center"},
-					{display:"변경 일자",	 		name:"prtFcltyChangeDt",		width:80,		sortable:false,		align:"center"},
-					{display:"만료 일자",	 		name:"prtFcltyExprDt",			width:80,		sortable:false,		align:"center"},
 					{display:"규격",				name:"prtFcltyStndrd",			width:80,		sortable:false,		align:"left"},
 					{display:"단위",	 			name:"prtFcltyUnit",			width:80,		sortable:false,		align:"left"},
 					{display:"수량",	 			name:"prtPrtFcltyCnt",			width:80,		sortable:false,		align:"left"},
@@ -1235,8 +1233,6 @@ GamArchFcltySpecMngModule.prototype.addData = function() {
 	this.$('#prtFcltyAr').val("0");
 	this.$('#prtPrtFcltyCnt').val("");
 	this.$('#prtFcltyInstlDt').val("");
-	this.$('#prtFcltyChangeDt').val("");
-	this.$('#prtFcltyExprDt').val("");
 	this.$('#prtPrtFcltyMnger').val("");
 	this.$('#prtFcltyMngEntrpsCd').val("");
 	this.$('#prtFcltyMngEntrpsNm').val("");
@@ -1313,8 +1309,6 @@ GamArchFcltySpecMngModule.prototype.saveData = function() {
 	var prtFcltyAr = Number(this.$('#prtFcltyAr').val().replace(/,/gi, ""));
 	var prtPrtFcltyCnt = Number(this.$('#prtPrtFcltyCnt').val().replace(/,/gi, ""));
 	var prtFcltyInstlDt = this.$('#prtFcltyInstlDt').val();
-	var prtFcltyChangeDt = this.$('#prtFcltyChangeDt').val();
-	var prtFcltyExprDt = this.$('#prtFcltyExprDt').val();
 	var fcltsMngGroupNo = this.$('#fcltsMngGroupNo').val();
 	var bldDt = this.$('#bldDt').val();
 	var ar = Number(this.$('#ar').val().replace(/,/gi, ""));
@@ -1381,26 +1375,6 @@ GamArchFcltySpecMngModule.prototype.saveData = function() {
 	if (this.isValidDate(prtFcltyInstlDt, false) == false) {
 		alert('항만 시설 설치 일자가 부정확합니다.');
 		this.$("#prtFcltyInstlDt").focus();
-		return;
-	}
-	if (this.isValidDate(prtFcltyChangeDt, false) == false) {
-		alert('항만 시설 변경 일자가 부정확합니다.');
-		this.$("#prtFcltyChangeDt").focus();
-		return;
-	}
-	if (this.isValidFirstDate(prtFcltyInstlDt, prtFcltyChangeDt, false) == false) {
-		alert('항만 시설 변경 일자가 항만 시설 설치 일자보다 큽니다.');
-		this.$("#prtFcltyChangeDt").focus();
-		return;
-	}
-	if (this.isValidDate(prtFcltyExprDt, false) == false) {
-		alert('항만 시설 만료 일자가 부정확합니다.');
-		this.$("#prtFcltyExprDt").focus();
-		return;
-	}
-	if (this.isValidFirstDate(prtFcltyChangeDt, prtFcltyExprDt, false) == false) {
-		alert('항만 시설 만료 일자가 항만 시설 변경 일자보다 큽니다.');
-		this.$("#prtFcltyExprDt").focus();
 		return;
 	}
 	if (fcltsMngGroupNo == "") {
@@ -2390,8 +2364,6 @@ GamArchFcltySpecMngModule.prototype.enableDetailInputItem = function() {
 		this.$('#prtFcltyAr').enable();
 		this.$('#prtPrtFcltyCnt').enable();
 		this.$('#prtFcltyInstlDt').enable();
-		this.$('#prtFcltyChangeDt').enable();
-		this.$('#prtFcltyExprDt').enable();
 		this.$('#prtPrtFcltyMnger').enable();
 		this.$('#prtFcltyMngEntrpsCd').enable();
 		this.$('#fcltsMngGroupNo').enable();
@@ -2465,8 +2437,6 @@ GamArchFcltySpecMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#prtFcltyAr').enable();
 			this.$('#prtPrtFcltyCnt').enable();
 			this.$('#prtFcltyInstlDt').enable();
-			this.$('#prtFcltyChangeDt').enable();
-			this.$('#prtFcltyExprDt').enable();
 			this.$('#prtPrtFcltyMnger').enable();
 			this.$('#prtFcltyMngEntrpsCd').enable();
 			this.$('#fcltsMngGroupNo').enable();
@@ -2545,8 +2515,6 @@ GamArchFcltySpecMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#prtFcltyAr').disable();
 			this.$('#prtPrtFcltyCnt').disable();
 			this.$('#prtFcltyInstlDt').disable();
-			this.$('#prtFcltyChangeDt').disable();
-			this.$('#prtFcltyExprDt').disable();
 			this.$('#prtPrtFcltyMnger').disable();
 			this.$('#prtFcltyMngEntrpsCd').disable();
 			this.$('#fcltsMngGroupNo').disable();
@@ -2628,8 +2596,6 @@ GamArchFcltySpecMngModule.prototype.disableDetailInputItem = function() {
 	this.$('#prtFcltyAr').disable();
 	this.$('#prtPrtFcltyCnt').disable();
 	this.$('#prtFcltyInstlDt').disable();
-	this.$('#prtFcltyChangeDt').disable();
-	this.$('#prtFcltyExprDt').disable();
 	this.$('#prtPrtFcltyMnger').disable();
 	this.$('#prtFcltyMngEntrpsCd').disable();
 	this.$('#fcltsMngGroupNo').disable();

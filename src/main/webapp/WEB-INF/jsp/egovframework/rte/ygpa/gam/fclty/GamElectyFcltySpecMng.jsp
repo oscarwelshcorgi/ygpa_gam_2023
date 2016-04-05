@@ -1342,8 +1342,6 @@ GamElectyFcltySpecMngModule.prototype.addData = function() {
 	this.$('#prtFcltyAr').val("0");
 	this.$('#prtPrtFcltyCnt').val("");
 	this.$('#prtFcltyInstlDt').val("");
-	this.$('#prtFcltyChangeDt').val("");
-	this.$('#prtFcltyExprDt').val("");
 	this.$('#prtPrtFcltyMnger').val("");
 	this.$('#prtFcltyMngEntrpsCd').val("");
 	this.$('#prtFcltyMngEntrpsNm').val("");
@@ -1422,8 +1420,6 @@ GamElectyFcltySpecMngModule.prototype.saveData = function() {
 	var prtFcltyAr = Number(this.$('#prtFcltyAr').val().replace(/,/gi, ""));
 	var prtPrtFcltyCnt = Number(this.$('#prtPrtFcltyCnt').val().replace(/,/gi, ""));
 	var prtFcltyInstlDt = this.$('#prtFcltyInstlDt').val();
-	var prtFcltyChangeDt = this.$('#prtFcltyChangeDt').val();
-	var prtFcltyExprDt = this.$('#prtFcltyExprDt').val();
 	var fcltsMngGroupNo = this.$('#fcltsMngGroupNo').val();
 	var instlDt = this.$('#instlDt').val();
 	var mfcDt = this.$('#mfcDt').val();
@@ -1484,26 +1480,6 @@ GamElectyFcltySpecMngModule.prototype.saveData = function() {
 	if (this.isValidDate(prtFcltyInstlDt, false) == false) {
 		alert('항만 시설 설치 일자가 부정확합니다.');
 		this.$("#prtFcltyInstlDt").focus();
-		return;
-	}
-	if (this.isValidDate(prtFcltyChangeDt, false) == false) {
-		alert('항만 시설 변경 일자가 부정확합니다.');
-		this.$("#prtFcltyChangeDt").focus();
-		return;
-	}
-	if (this.isValidFirstDate(prtFcltyInstlDt, prtFcltyChangeDt, false) == false) {
-		alert('항만 시설 변경 일자가 항만 시설 설치 일자보다 큽니다.');
-		this.$("#prtFcltyChangeDt").focus();
-		return;
-	}
-	if (this.isValidDate(prtFcltyExprDt, false) == false) {
-		alert('항만 시설 만료 일자가 부정확합니다.');
-		this.$("#prtFcltyExprDt").focus();
-		return;
-	}
-	if (this.isValidFirstDate(prtFcltyChangeDt, prtFcltyExprDt, false) == false) {
-		alert('항만 시설 만료 일자가 항만 시설 변경 일자보다 큽니다.');
-		this.$("#prtFcltyExprDt").focus();
 		return;
 	}
 	if (fcltsMngGroupNo == "") {
@@ -2438,8 +2414,6 @@ GamElectyFcltySpecMngModule.prototype.enableDetailInputItem = function() {
 		this.$('#prtFcltyAr').enable();
 		this.$('#prtPrtFcltyCnt').enable();
 		this.$('#prtFcltyInstlDt').enable();
-		this.$('#prtFcltyChangeDt').enable();
-		this.$('#prtFcltyExprDt').enable();
 		this.$('#prtPrtFcltyMnger').enable();
 		this.$('#prtFcltyMngEntrpsCd').enable();
 		this.$('#fcltsMngGroupNo').enable();
@@ -2516,8 +2490,6 @@ GamElectyFcltySpecMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#prtFcltyAr').enable();
 			this.$('#prtPrtFcltyCnt').enable();
 			this.$('#prtFcltyInstlDt').enable();
-			this.$('#prtFcltyChangeDt').enable();
-			this.$('#prtFcltyExprDt').enable();
 			this.$('#prtPrtFcltyMnger').enable();
 			this.$('#prtFcltyMngEntrpsCd').enable();
 			this.$('#fcltsMngGroupNo').enable();
@@ -2599,8 +2571,6 @@ GamElectyFcltySpecMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#prtFcltyAr').disable();
 			this.$('#prtPrtFcltyCnt').disable();
 			this.$('#prtFcltyInstlDt').disable();
-			this.$('#prtFcltyChangeDt').disable();
-			this.$('#prtFcltyExprDt').disable();
 			this.$('#prtPrtFcltyMnger').disable();
 			this.$('#prtFcltyMngEntrpsCd').disable();
 			this.$('#fcltsMngGroupNo').disable();
@@ -2684,8 +2654,6 @@ GamElectyFcltySpecMngModule.prototype.disableDetailInputItem = function() {
 	this.$('#prtFcltyAr').disable();
 	this.$('#prtPrtFcltyCnt').disable();
 	this.$('#prtFcltyInstlDt').disable();
-	this.$('#prtFcltyChangeDt').disable();
-	this.$('#prtFcltyExprDt').disable();
 	this.$('#prtPrtFcltyMnger').disable();
 	this.$('#prtFcltyMngEntrpsCd').disable();
 	this.$('#fcltsMngGroupNo').disable();
