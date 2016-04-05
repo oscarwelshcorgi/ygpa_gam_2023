@@ -105,22 +105,20 @@ GamOlnlpMngtModule.prototype.loadComplete = function() {
 	this.$("#olnlpMngtList").on("onItemSelected", function(event, module, row, grid, param) {
 		module.applyOlnlp();	// 편집 중인게 있으면 저장한다.
 		module.$('#olnlpManageVO :input').val(''); // 폼의 값을 모두 지운다.
-
 		module.makeFormValues('#olnlpManageVO', row);
 		module._editData=module.getFormValues('#olnlpManageVO', row);
 		module._editRow=module.$('#olnlpMngtList').selectedRowIds()[0];
+		
 	});
 
  	this.$("#olnlpManageVO :input").bind("change keyup", {module: this}, function(event) {
 		var selectRowCnt = event.data.module.$('#olnlpMngtList').selectedRowCount();
 		if(selectRowCnt==1) event.data.module._edited=true;
-/* 		
 		if(event.data.module.$('#beginDt').is(event.target)) {
 			var bDt = EMD.util.strToDate(event.data.module.$('#beginDt').val());
 			var eDt = EMD.util.addMonths(bDt, 11);
 			event.data.module.$('#endDt').val(EMD.util.getDate(eDt));
 		}
- */		
 	});
 
 
@@ -364,6 +362,7 @@ GamOlnlpMngtModule.prototype.saveOlnlp = function() {
 	        }
 	        alert(result.resultMsg);
 	        module._edited=false;
+	    	module.$('#olnlpManageVO :input').val(''); // 폼의 값을 모두 지운다.
 	    });
 	}
 };
@@ -517,6 +516,7 @@ var module_instance = new GamOlnlpMngtModule();
 						</tr>
 					</tbody>
 				</table>
+				<table id="olnlpMngtList" style="display:none"></table>
 				<form id="olnlpManageVO">
 					<table class="editForm" style="width:100%;">
 						<tbody>
@@ -540,7 +540,6 @@ var module_instance = new GamOlnlpMngtModule();
 						</tbody>
 					</table>
 				</form>
-				<table id="olnlpMngtList" style="display:none"></table>
 			</div>
 		</div>
 	</div>

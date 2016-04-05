@@ -2143,11 +2143,11 @@ GamAssetRentMngtModule.prototype.loadOlnlpList = function(prtFcltyCd) {
    			 event.data.module.$('#olnlp').val($.number($(this).children(':selected').val()));
    			event.data.module.onCalc();
    		 });
-   		olnlplist.find('option:eq(1)').attr("selected","selected");
-   		module.$('#olnlp').val(olnlplist.find('option:eq(1)').val());
+   		//olnlplist.find('option:eq(1)').attr("selected","selected");
+   		//module.$('#olnlp').val(olnlplist.find('option:eq(1)').val());
         }
     });
-}
+};
 
 <%
 /**

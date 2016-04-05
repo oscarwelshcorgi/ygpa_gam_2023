@@ -160,7 +160,12 @@
 		           #gisAssetsCd# ,
 		           #gisAssetsPrtAtCode# ,
 		           #gisAssetsSubCd# ,
-		           (SELECT LPAD(TO_CHAR(TO_NUMBER(NVL(MAX(OLNLP_SEQ),'00'))+1),2,'0') FROM OLNLP_F) ,
+		           (SELECT LPAD(TO_CHAR(TO_NUMBER(NVL(MAX(OLNLP_SEQ),'00'))+1),4,'0')
+					FROM OLNLP_F
+					WHERE 1=1
+					AND GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
+					AND GIS_ASSETS_CD = #gisAssetsCd#
+					AND GIS_ASSETS_SUB_CD = #gisAssetsSubCd#) ,
 		           #olnlp# ,
 		           #regUsr# ,
 		           SYSDATE ,
@@ -236,7 +241,12 @@
 		           #gisAssetsCd# ,
 		           #gisAssetsPrtAtCode# ,
 		           #gisAssetsSubCd# ,
-		           (SELECT LPAD(TO_CHAR(TO_NUMBER(NVL(MAX(OLNLP_SEQ),'00'))+1),2,'0') FROM OLNLP_F) ,
+		           (SELECT LPAD(TO_CHAR(TO_NUMBER(NVL(MAX(OLNLP_SEQ),'00'))+1),4,'0')
+					FROM OLNLP_F
+					WHERE 1=1
+					AND GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
+					AND GIS_ASSETS_CD = #gisAssetsCd#
+					AND GIS_ASSETS_SUB_CD = #gisAssetsSubCd#) ,
 		           #olnlp# ,
 		           #regUsr# ,
 		           SYSDATE ,

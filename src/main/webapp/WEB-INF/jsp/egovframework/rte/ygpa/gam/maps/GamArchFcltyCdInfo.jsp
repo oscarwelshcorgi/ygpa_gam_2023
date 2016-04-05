@@ -146,8 +146,8 @@ var popupInfoModule = new GamMapPopupModule();
 				<tr><th>시설명</th><td colspan="3"><c:out value="${fcltyCd.prtFcltyNm }" /></td></tr>
 				<tr><th>시설분류</th><td colspan="3"><c:out value="${fcltyCd.prtFcltyCdNm }" /></td></tr>
 				<tr><th>규격</th><td colspan="3"><c:out value="${fcltyCd.prtFcltyStndrd }" /></td></tr>
-				<tr><th>연면적</th><td><fmt:formatNumber value="${fcltyCd.archAr }" maxIntegerDigits="3" maxFractionDigits="2" /> m²</td>
-				<th>기초형식</th><td><c:out value="${fcltyCd.baseFmt }" /> m²</td></tr>
+				<tr><th>연면적</th><td><fmt:formatNumber value="${fcltyCd.ar }" maxIntegerDigits="5" maxFractionDigits="2" /> m²</td>
+				<th>기초형식</th><td><c:out value="${fcltyCd.baseFmt }" /></td></tr>
 				<tr><th>준공일자</th><td colspan="3"><c:out value="${fcltyCd.bldDt }" /></td></tr>
 				<c:if test="${fn:length(fileList)>0 }">
 					<tr><td id="imgPanel" colspan="3"><img id="imgPreview" src="<c:url value='/cmm/getPfImage.do?physicalFileNm=${fileList[0].atchFileNmPhysicl }' />" style='width:300px;' /></td></tr>
