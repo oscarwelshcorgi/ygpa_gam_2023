@@ -68,7 +68,7 @@ public class GamFcltsMngRegistMngHwpReport {
 			result.append(getMaintListNoDataBodyElement());
 		}
 		
-		result.append(getEtcBodyElement());
+		//result.append(getEtcBodyElement()); 전경사진은 일단 빼버림.
 		
 		result.append("</SECTION></BODY>\n");
 
