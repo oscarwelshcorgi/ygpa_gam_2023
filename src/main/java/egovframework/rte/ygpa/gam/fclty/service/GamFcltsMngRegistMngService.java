@@ -115,5 +115,5 @@ public interface GamFcltsMngRegistMngService {
 	 */
 	List selectFcltsMngRegistMngMntnRprDtlsHistList(GamFcltsMngRegistMngMntnRprDtlsVO searchVO) throws Exception;
 	
-	String downloadHwpFcltsMngRegistMng(String fcltsNo) throws Exception;
+	String downloadHwpFcltsMngRegistMng(String fcltsNo, String fcltsMngGroupNo, String fcltsJobSe) throws Exception;
 }

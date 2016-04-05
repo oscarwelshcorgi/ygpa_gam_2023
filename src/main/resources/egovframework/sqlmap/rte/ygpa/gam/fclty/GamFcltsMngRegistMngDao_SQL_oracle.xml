@@ -1120,4 +1120,51 @@
 		WHERE T1.FCLTS_NO = #fcltsNo#
 	</select>
 
+	<select id="gamFcltsMngRegistMngDao.selectFcltsMngRegistMngQcMngDtlsHistListHwp_D" parameterClass="GamFcltsMngRegistMngQcMngDtlsVO" resultClass="egovMap">
+			SELECT
+					TO_CHAR(T1.QC_BEGIN_DT,'YYYY-MM-DD') || ' ~ ' || TO_CHAR(T1.QC_END_DT,'YYYY-MM-DD') AS QC_INSP_DT_FROM_TO
+					,GAM_GET_QC_INSP_SE_NM(T1.QC_INSP_SE) AS QC_INSP_SE_NM
+					,T1.QC_INSP_INSTT_NM AS QC_INSP_INSTT_NM
+					,T1.RESPON_ENGINEER_NM AS RESPON_ENGINEER_NM
+					,LTRIM(TO_CHAR( TRUNC(NVL(T1.QC_INSP_AMT,0) / 1000, 0),'9,999,999,990')) AS QC_INSP_AMT
+					,GAM_GET_STTUS_EVL_LVL_NM(T1.STTUS_EVL_LVL) AS STTUS_EVL_LVL_NM
+					,T1.QC_INSP_RESULT AS QC_INSP_RESULT
+					,T1.ACTION_CN AS ACTION_CN
+					,TO_CHAR(T1.WRT_DT,'YYYY-MM-DD') AS WRT_DT
+					,T1.WRT_USR AS WRT_USR
+				FROM QC_MNG_DTLS_F T1
+			WHERE T1.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+
+			<isNotEmpty property="fcltsJobSe">
+			AND T1.FCLTS_JOB_SE = #fcltsJobSe#
+			</isNotEmpty>
+
+			AND T1.PLAN_HIST_SE = 'H'
+			ORDER BY T1.QC_INSP_DT ASC
+	</select>
+
+	<select id="gamFcltsMngRegistMngDao.selectFcltsMngRegistMngMntnRprDtlsHistListHwp_D" parameterClass="GamFcltsMngRegistMngMntnRprDtlsVO" resultClass="egovMap">
+			SELECT
+					TO_CHAR(T1.MNTN_RPR_CNST_START_DT,'YYYY-MM-DD') || ' ~ ' || TO_CHAR(T1.MNTN_RPR_CNST_END_DT,'YYYY-MM-DD') AS MNTN_RPR_CNST_DT_FROM_TO
+					, DECODE(T1.MNTN_RPR_SE, '1', '개량', '2', '보수', '3', '보강', '4', '변경-증설', '5', '변경-구조변경', '9', '기타', '') AS MNTN_RPR_SE
+					,T1.MNTN_RPR_PART AS MNTN_RPR_PART
+					,T1.MNTN_RPR_CN AS MNTN_RPR_CN
+					,T1.PLANNER_NM AS PLANNER_NM
+					,LTRIM(TO_CHAR( TRUNC(NVL(T1.MNTN_RPR_CNST_AMT,0) / 1000, 0),'9,999,999,990')) AS MNTN_RPR_CNST_AMT
+					,T1.CNSTRTR AS CNSTRTR
+					,T1.RESPON_ENGINEER AS RESPON_ENGINEER
+					,T1.CNST_CHARG_NM AS CNST_CHARG_NM
+					,TO_CHAR(T1.WRT_DT,'YYYY-MM-DD') AS WRT_DT
+					,T1.WRT_USR AS WRT_USR
+				FROM MNTN_RPR_DTLS_F T1
+			WHERE T1.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+
+			<isNotEmpty property="fcltsJobSe">
+			AND T1.FCLTS_JOB_SE = #fcltsJobSe#
+			</isNotEmpty>
+
+			AND T1.PLAN_HIST_SE = 'H'
+			ORDER BY T1.MNTN_RPR_CNST_START_DT ASC
+	</select>
+
 </sqlMap>

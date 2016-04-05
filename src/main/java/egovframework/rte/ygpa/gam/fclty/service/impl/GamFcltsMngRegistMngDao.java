@@ -141,5 +141,23 @@ public class GamFcltsMngRegistMngDao extends YGPAAbstractDAO {
 	public EgovMap selectFcltsMngRegistMngPkHwp(GamFcltsMngRegistMngVO gamFcltsMngRegistMngVO) {
 		return (EgovMap)selectByPk("gamFcltsMngRegistMngDao.selectFcltsMngRegistMngPkHwp_S", gamFcltsMngRegistMngVO);
 	}
+
+	/**
+	 * @name selectFcltsMngRegistMngQcMngDtlsHistListHwp
+	 * @param searchVO
+	 * @return List
+	 */
+	public List selectFcltsMngRegistMngQcMngDtlsHistListHwp(GamFcltsMngRegistMngQcMngDtlsVO searchVO) {
+		return list("gamFcltsMngRegistMngDao.selectFcltsMngRegistMngQcMngDtlsHistListHwp_D", searchVO);
+	}
+	
+	/**
+	 * @name selectFcltsMngRegistMngMntnRprDtlsHistListHwp
+	 * @param searchVO
+	 * @return List
+	 */
+	public List selectFcltsMngRegistMngMntnRprDtlsHistListHwp(GamFcltsMngRegistMngMntnRprDtlsVO searchVO) {
+		return list("gamFcltsMngRegistMngDao.selectFcltsMngRegistMngMntnRprDtlsHistListHwp_D", searchVO);
+	}
 	
 }

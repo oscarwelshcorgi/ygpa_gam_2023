@@ -99,12 +99,24 @@ public class GamFcltsMngRegistMngServiceImpl extends AbstractServiceImpl impleme
 	/**
 	 * 시설물관리대장 한글 문서 다운로드 - 김종민 추가 작업 2016.03.31
 	 */
-	public String downloadHwpFcltsMngRegistMng(String fcltsNo) throws Exception {
+	@SuppressWarnings("unchecked")
+	public String downloadHwpFcltsMngRegistMng(String fcltsNo, String fcltsMngGroupNo, String fcltsJobSe) throws Exception {
 		String result = null;
-		GamFcltsMngRegistMngVO searchVO = new GamFcltsMngRegistMngVO();
-		searchVO.setFcltsNo(fcltsNo);
-		EgovMap fcltsData = gamFcltsMngRegistMngDao.selectFcltsMngRegistMngPkHwp(searchVO);
-		GamFcltsMngRegistMngHwpReport report = new GamFcltsMngRegistMngHwpReport(fcltsData);
+		GamFcltsMngRegistMngVO mngRegistVO = new GamFcltsMngRegistMngVO();
+		mngRegistVO.setFcltsNo(fcltsNo);
+		EgovMap fcltsData = gamFcltsMngRegistMngDao.selectFcltsMngRegistMngPkHwp(mngRegistVO);
+		
+		GamFcltsMngRegistMngQcMngDtlsVO qcVO = new GamFcltsMngRegistMngQcMngDtlsVO();
+		qcVO.setFcltsMngGroupNo(fcltsMngGroupNo);
+		qcVO.setFcltsJobSe(fcltsJobSe);
+		List<EgovMap> qcHistList = gamFcltsMngRegistMngDao.selectFcltsMngRegistMngQcMngDtlsHistListHwp(qcVO);
+		
+		GamFcltsMngRegistMngMntnRprDtlsVO mntnVO = new GamFcltsMngRegistMngMntnRprDtlsVO();
+		mntnVO.setFcltsMngGroupNo(fcltsMngGroupNo);
+		mntnVO.setFcltsJobSe(fcltsJobSe);
+		List<EgovMap> mntnHistList = gamFcltsMngRegistMngDao.selectFcltsMngRegistMngMntnRprDtlsHistListHwp(mntnVO);
+		
+		GamFcltsMngRegistMngHwpReport report = new GamFcltsMngRegistMngHwpReport(fcltsData, qcHistList, mntnHistList);
 		result = report.getHwpReport();
 		return result;
 	}

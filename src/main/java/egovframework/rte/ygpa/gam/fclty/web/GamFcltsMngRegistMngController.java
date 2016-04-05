@@ -265,7 +265,7 @@ public class GamFcltsMngRegistMngController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/fclty/gamHwpDownloadFcltsMngRegistMng.do")
-	public String gamHwpDownloadFcltsMngRegistMng(@RequestParam Map<String, Object> qcPrintOpt, ModelMap model) throws Exception {
+	public String gamHwpDownloadFcltsMngRegistMng(@RequestParam Map<String, Object> printOpt, ModelMap model) throws Exception {
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
 
 		if(!isAuthenticated) {
@@ -274,18 +274,20 @@ public class GamFcltsMngRegistMngController {
 			return "/ygpa/gam/fcltyMng/GamFcltyQcMngResultListReportHwp";
 		}
 		
-		String fcltsNo = (String) qcPrintOpt.get("fcltsNo");
+		String fcltsNo = (String) printOpt.get("fcltsNo");
+		String fcltsMngGroupNo = (String) printOpt.get("fcltsMngGroupNo"); 
+		String fcltsJobSe = (String) printOpt.get("fcltsJobSe");
 		
-		String hwpML = gamFcltsMngRegistMngService.downloadHwpFcltsMngRegistMng(fcltsNo);
+		String hwpML = gamFcltsMngRegistMngService.downloadHwpFcltsMngRegistMng(fcltsNo, fcltsMngGroupNo, fcltsJobSe);
 		
 		model.addAttribute("resultCode", 0);
 		model.addAttribute("resultMsg", "");
 		model.addAttribute("hwpML", hwpML);
 
 		//hwp선택시 파일명
-		if(qcPrintOpt.get("filename") != null){
+		if(printOpt.get("filename") != null){
 			model.addAttribute("isHwp", true);
-			model.addAttribute("filename", qcPrintOpt.get("filename"));
+			model.addAttribute("filename", printOpt.get("filename"));
 		}
 
 		return "/ygpa/gam/fcltyMng/GamFcltyQcMngResultListReportHwp";
