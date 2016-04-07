@@ -110,16 +110,18 @@ public class GamFcltsMngRegistMngHwpReport {
 		StringBuilder sb = new StringBuilder();
 		
 		String fcltsNo = (String) ((fcltsData.get("fcltsNo") != null) ? fcltsData.get("fcltsNo") : "") ;
+		String mngNo = (String) ((fcltsData.get("mngNo") != null) ? fcltsData.get("mngNo") : "") ;
 		String fcltsNm = (String) ((fcltsData.get("fcltsNm") != null) ? fcltsData.get("fcltsNm") : "") ;
 		String mngMainbd = (String) ((fcltsData.get("mngMainbd") != null) ? fcltsData.get("mngMainbd") : "") ;
 		String owner = (String) ((fcltsData.get("owner") != null) ? fcltsData.get("owner") : "") ;
+		String ownerTel = (String) ((fcltsData.get("ownerTel") != null) ? fcltsData.get("ownerTel") : "") ;
+		String keeper = (String) ((fcltsData.get("keeper") != null) ? fcltsData.get("keeper") : "") ;
 		String fcltsSe = (String) ((fcltsData.get("fcltsSe") != null) ? fcltsData.get("fcltsSe") : "") ;
 		String fcltsKndNm = (String) ((fcltsData.get("fcltsKndNm") != null) ? fcltsData.get("fcltsKndNm") : "") ;
 		if(fcltsSe.equals("1")) {
 			fcltsKndNm = "교량";
 		}
 		
-		sb.append("	<!-- 0. 시설물관리대장 표지 -->\n");
 		sb.append("	<P ColumnBreak=\"false\" PageBreak=\"false\" ParaShape=\"32\" Style=\"0\"><TEXT CharShape=\"0\">\n");
 		sb.append("		<SECDEF CharGrid=\"0\" FirstBorder=\"false\" FirstFill=\"false\" LineGrid=\"0\" OutlineShape=\"1\" SpaceColumns=\"1134\" TabStop=\"8000\" TextDirection=\"0\" TextVerticalWidthHead=\"0\"><STARTNUMBER Equation=\"0\" Figure=\"0\" Page=\"0\" PageStartsOn=\"Both\" Table=\"0\"/><HIDE Border=\"false\" EmptyLine=\"false\" Fill=\"false\" Footer=\"false\" Header=\"false\" MasterPage=\"false\" PageNumPos=\"false\"/><PAGEDEF GutterType=\"LeftOnly\" Height=\"84188\" Landscape=\"1\" Width=\"59528\"><PAGEMARGIN Bottom=\"7682\" Footer=\"0\" Gutter=\"0\" Header=\"0\" Left=\"5669\" Right=\"5669\" Top=\"7342\"/></PAGEDEF><FOOTNOTESHAPE><AUTONUMFORMAT SuffixChar=\")\" Superscript=\"false\" Type=\"Digit\"/><NOTELINE Length=\"5cm\" Type=\"Solid\" Width=\"0.12mm\"/><NOTESPACING AboveLine=\"850\" BelowLine=\"567\" BetweenNotes=\"283\"/><NOTENUMBERING NewNumber=\"1\" Type=\"Continuous\"/><NOTEPLACEMENT BeneathText=\"false\" Place=\"EachColumn\"/></FOOTNOTESHAPE><ENDNOTESHAPE><AUTONUMFORMAT SuffixChar=\")\" Superscript=\"false\" Type=\"Digit\"/><NOTELINE Length=\"14692344\" Type=\"Solid\" Width=\"0.12mm\"/><NOTESPACING AboveLine=\"850\" BelowLine=\"567\" BetweenNotes=\"0\"/><NOTENUMBERING NewNumber=\"1\" Type=\"Continuous\"/><NOTEPLACEMENT BeneathText=\"false\" Place=\"EndOfDocument\"/></ENDNOTESHAPE><PAGEBORDERFILL FillArea=\"Paper\" FooterInside=\"false\" HeaderInside=\"false\" TextBorder=\"true\" Type=\"Both\"><PAGEOFFSET Bottom=\"1417\" Left=\"1417\" Right=\"1417\" Top=\"1417\"/></PAGEBORDERFILL><PAGEBORDERFILL FillArea=\"Paper\" FooterInside=\"false\" HeaderInside=\"false\" TextBorder=\"true\" Type=\"Even\"><PAGEOFFSET Bottom=\"1417\" Left=\"1417\" Right=\"1417\" Top=\"1417\"/></PAGEBORDERFILL><PAGEBORDERFILL FillArea=\"Paper\" FooterInside=\"false\" HeaderInside=\"false\" TextBorder=\"true\" Type=\"Odd\"><PAGEOFFSET Bottom=\"1417\" Left=\"1417\" Right=\"1417\" Top=\"1417\"/></PAGEBORDERFILL></SECDEF>\n");
 		sb.append("		<COLDEF Count=\"1\" Layout=\"Left\" SameGap=\"0\" SameSize=\"true\" Type=\"Newspaper\"/>\n");
@@ -146,7 +148,7 @@ public class GamFcltsMngRegistMngHwpReport {
 		sb.append("				</CELL>\n");
 		sb.append("				<CELL BorderFill=\"5\" ColAddr=\"2\" ColSpan=\"2\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"2540\" Protect=\"false\" RowAddr=\"1\" RowSpan=\"1\" Width=\"29612\">\n");
 		sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-		sb.append("						<P ParaShape=\"1\" Style=\"0\"><TEXT CharShape=\"2\"><CHAR><FWSPACE/></CHAR></TEXT></P>\n");
+		sb.append("						<P ParaShape=\"1\" Style=\"0\"><TEXT CharShape=\"2\"><CHAR><FWSPACE/>" + mngNo + "</CHAR></TEXT></P>\n");
 		sb.append("					</PARALIST>\n");
 		sb.append("				</CELL>\n");
 		sb.append("			</ROW>\n");
@@ -231,7 +233,7 @@ public class GamFcltsMngRegistMngHwpReport {
 		sb.append("				</CELL>\n");
 		sb.append("				<CELL BorderFill=\"36\" ColAddr=\"3\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"3009\" Protect=\"false\" RowAddr=\"10\" RowSpan=\"1\" Width=\"15956\">\n");
 		sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-		sb.append("						<P ParaShape=\"1\" Style=\"0\"><TEXT CharShape=\"1\"><CHAR>전화번호<FWSPACE/>:<FWSPACE/>061-797-4513</CHAR></TEXT></P>\n");
+		sb.append("						<P ParaShape=\"1\" Style=\"0\"><TEXT CharShape=\"1\"><CHAR>전화번호<FWSPACE/>:<FWSPACE/>" + ownerTel + "</CHAR></TEXT></P>\n");
 		sb.append("					</PARALIST>\n");
 		sb.append("				</CELL>\n");
 		sb.append("			</ROW>\n");
@@ -243,7 +245,7 @@ public class GamFcltsMngRegistMngHwpReport {
 		sb.append("				</CELL>\n");
 		sb.append("				<CELL BorderFill=\"35\" ColAddr=\"1\" ColSpan=\"3\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"2679\" Protect=\"false\" RowAddr=\"11\" RowSpan=\"1\" Width=\"32436\">\n");
 		sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-		sb.append("						<P ParaShape=\"1\" Style=\"0\"/>\n");
+		sb.append("						<P ParaShape=\"7\" Style=\"0\"><TEXT CharShape=\"3\"><CHAR>" + keeper + "</CHAR></TEXT></P>\n");
 		sb.append("					</PARALIST>\n");
 		sb.append("				</CELL>\n");
 		sb.append("			</ROW>\n");
@@ -264,6 +266,7 @@ public class GamFcltsMngRegistMngHwpReport {
 		StringBuilder sb = new StringBuilder();
 
 		String fcltsNo = (String) ((fcltsData.get("fcltsNo") != null) ? fcltsData.get("fcltsNo") : "");
+		String mngNo = (String) ((fcltsData.get("mngNo") != null) ? fcltsData.get("mngNo") : "");
 		String fcltsNm = (String) ((fcltsData.get("fcltsNm") != null) ? fcltsData.get("fcltsNm") : "");
 		String fcltsGbnNm = (String) ((fcltsData.get("fcltsGbnNm") != null) ? fcltsData.get("fcltsGbnNm") : "");
 		String route = (String) ((fcltsData.get("route") != null) ? fcltsData.get("route") : "");
@@ -284,6 +287,9 @@ public class GamFcltsMngRegistMngHwpReport {
 		String qcHistYn = (String) ((fcltsData.get("qcHistYn") != null) ? fcltsData.get("qcHistYn") : "");
 		String mntnHistYn = (String) ((fcltsData.get("mntnHistYn") != null) ? fcltsData.get("mntnHistYn") : "");
 		String planBookMnten = (String) ((fcltsData.get("planBookMnten") != null) ? fcltsData.get("planBookMnten") : "");
+		String planDupSubmit = (String) ((fcltsData.get("planDupSubmit") != null) ? fcltsData.get("planDupSubmit") : "");
+		String mngRpt = (String) ((fcltsData.get("mngRpt") != null) ? fcltsData.get("mngRpt") : "");
+		String qcTotRpt = (String) ((fcltsData.get("qcTotRpt") != null) ? fcltsData.get("qcTotRpt") : "");
 		dtlsSpecYn = dtlsSpecYn.equals("Y") ? "유" : "무" ;
 		qcHistYn = qcHistYn.equals("Y") ? "유" : "무" ;
 		mntnHistYn = mntnHistYn.equals("Y") ? "유" : "무" ;
@@ -318,7 +324,6 @@ public class GamFcltsMngRegistMngHwpReport {
 		
 		String basicRm = (String) ((fcltsData.get("basicRm") != null) ? fcltsData.get("basicRm") : "");
 		
-		sb.append("	<!-- 1. 기본현황 -->\n");
 		sb.append("	<P ColumnBreak=\"false\" PageBreak=\"true\" ParaShape=\"32\" Style=\"0\"><TEXT CharShape=\"0\">\n");
 		sb.append("		<TABLE BorderFill=\"1\" CellSpacing=\"0\" ColCount=\"28\" PageBreak=\"None\" RepeatHeader=\"true\" RowCount=\"14\">\n");
 		sb.append("			<SHAPEOBJECT InstId=\"1114101963\" Lock=\"false\" NumberingType=\"Table\" TextWrap=\"BehindText\" ZOrder=\"9\"><SIZE Height=\"37816\" HeightRelTo=\"Absolute\" Protect=\"false\" Width=\"71984\" WidthRelTo=\"Absolute\"/><POSITION AffectLSpacing=\"false\" AllowOverlap=\"false\" FlowWithText=\"true\" HoldAnchorAndSO=\"false\" HorzAlign=\"Left\" HorzOffset=\"485\" HorzRelTo=\"Para\" TreatAsChar=\"false\" VertAlign=\"Top\" VertOffset=\"372\" VertRelTo=\"Para\"/><OUTSIDEMARGIN Bottom=\"0\" Left=\"0\" Right=\"0\" Top=\"0\"/></SHAPEOBJECT>\n");
@@ -368,7 +373,7 @@ public class GamFcltsMngRegistMngHwpReport {
 		sb.append("				</CELL>\n");
 		sb.append("				<CELL BorderFill=\"11\" ColAddr=\"4\" ColSpan=\"5\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"2548\" Protect=\"false\" RowAddr=\"1\" RowSpan=\"1\" Width=\"6940\">\n");
 		sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-		sb.append("						<P ParaShape=\"10\" Style=\"0\"/>\n");
+		sb.append("						<P ParaShape=\"10\" Style=\"0\"><TEXT CharShape=\"7\"><CHAR>" + mngNo + "</CHAR></TEXT></P>\n");
 		sb.append("					</PARALIST>\n");
 		sb.append("				</CELL>\n");
 		sb.append("				<CELL BorderFill=\"11\" ColAddr=\"9\" ColSpan=\"7\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"2548\" Protect=\"false\" RowAddr=\"1\" RowSpan=\"1\" Width=\"18728\">\n");
@@ -540,17 +545,17 @@ public class GamFcltsMngRegistMngHwpReport {
 		sb.append("				</CELL>\n");
 		sb.append("				<CELL BorderFill=\"11\" ColAddr=\"20\" ColSpan=\"3\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"2600\" Protect=\"false\" RowAddr=\"5\" RowSpan=\"1\" Width=\"7908\">\n");
 		sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-		sb.append("						<P ParaShape=\"10\" Style=\"0\"><TEXT CharShape=\"7\"><CHAR></CHAR></TEXT></P>\n");
+		sb.append("						<P ParaShape=\"10\" Style=\"0\"><TEXT CharShape=\"7\"><CHAR>" + planDupSubmit + "</CHAR></TEXT></P>\n");
 		sb.append("					</PARALIST>\n");
 		sb.append("				</CELL>\n");
 		sb.append("				<CELL BorderFill=\"11\" ColAddr=\"23\" ColSpan=\"4\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"2600\" Protect=\"false\" RowAddr=\"5\" RowSpan=\"1\" Width=\"6940\">\n");
 		sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-		sb.append("						<P ParaShape=\"10\" Style=\"0\"><TEXT CharShape=\"7\"><CHAR></CHAR></TEXT></P>\n");
+		sb.append("						<P ParaShape=\"10\" Style=\"0\"><TEXT CharShape=\"7\"><CHAR>" + mngRpt + "</CHAR></TEXT></P>\n");
 		sb.append("					</PARALIST>\n");
 		sb.append("				</CELL>\n");
 		sb.append("				<CELL BorderFill=\"5\" ColAddr=\"27\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"2600\" Protect=\"false\" RowAddr=\"5\" RowSpan=\"1\" Width=\"6904\">\n");
 		sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-		sb.append("						<P ParaShape=\"10\" Style=\"0\"><TEXT CharShape=\"7\"><CHAR></CHAR></TEXT></P>\n");
+		sb.append("						<P ParaShape=\"10\" Style=\"0\"><TEXT CharShape=\"7\"><CHAR>" + qcTotRpt + "</CHAR></TEXT></P>\n");
 		sb.append("					</PARALIST>\n");
 		sb.append("				</CELL>\n");
 		sb.append("			</ROW>\n");
@@ -770,7 +775,6 @@ public class GamFcltsMngRegistMngHwpReport {
 		
 		String etcDtlsSpec = (String) ((fcltsData.get("etcDtlsSpec") != null) ? fcltsData.get("etcDtlsSpec") : "");
 		
-		sb.append("	<!-- 2. 상세재원(계류시설) -->\n");
 		sb.append("	<P ColumnBreak=\"false\" PageBreak=\"true\" ParaShape=\"32\" Style=\"0\"><TEXT CharShape=\"0\">\n");
 		sb.append("		<TABLE BorderFill=\"1\" CellSpacing=\"0\" ColCount=\"8\" PageBreak=\"None\" RepeatHeader=\"true\" RowCount=\"10\">\n");
 		sb.append("			<SHAPEOBJECT InstId=\"1114101964\" Lock=\"false\" NumberingType=\"Table\" TextWrap=\"BehindText\" ZOrder=\"10\"><SIZE Height=\"38720\" HeightRelTo=\"Absolute\" Protect=\"false\" Width=\"66484\" WidthRelTo=\"Absolute\"/><POSITION AffectLSpacing=\"false\" AllowOverlap=\"false\" FlowWithText=\"true\" HoldAnchorAndSO=\"false\" HorzAlign=\"Left\" HorzOffset=\"3136\" HorzRelTo=\"Para\" TreatAsChar=\"false\" VertAlign=\"Top\" VertOffset=\"178\" VertRelTo=\"Para\"/><OUTSIDEMARGIN Bottom=\"0\" Left=\"0\" Right=\"0\" Top=\"0\"/></SHAPEOBJECT>\n");
@@ -1066,7 +1070,6 @@ public class GamFcltsMngRegistMngHwpReport {
 		
 		String etcDtlsSpec = (String) ((fcltsData.get("etcDtlsSpec") != null) ? fcltsData.get("etcDtlsSpec") : "");
 		
-		sb.append("	<!-- 2. 상세재원(건축물) -->\n");
 		sb.append("	<P ColumnBreak=\"false\" PageBreak=\"true\" ParaShape=\"32\" Style=\"0\"><TEXT CharShape=\"0\">\n");
 		sb.append("		<TABLE BorderFill=\"1\" CellSpacing=\"0\" ColCount=\"14\" PageBreak=\"None\" RepeatHeader=\"true\" RowCount=\"14\">\n");
 		sb.append("			<SHAPEOBJECT InstId=\"1114102000\" Lock=\"false\" NumberingType=\"Table\" TextWrap=\"BehindText\" ZOrder=\"8\"><SIZE Height=\"41580\" HeightRelTo=\"Absolute\" Protect=\"false\" Width=\"66828\" WidthRelTo=\"Absolute\"/><POSITION AffectLSpacing=\"false\" AllowOverlap=\"false\" FlowWithText=\"true\" HoldAnchorAndSO=\"false\" HorzAlign=\"Left\" HorzOffset=\"2970\" HorzRelTo=\"Para\" TreatAsChar=\"false\" VertAlign=\"Top\" VertOffset=\"56\" VertRelTo=\"Para\"/><OUTSIDEMARGIN Bottom=\"0\" Left=\"0\" Right=\"0\" Top=\"0\"/></SHAPEOBJECT>\n");
@@ -1607,6 +1610,7 @@ public class GamFcltsMngRegistMngHwpReport {
 		String upRoadCn = (String) ((fcltsData.get("upRoadCn") != null) ? fcltsData.get("upRoadCn") : "");
 		String downRoadCn = (String) ((fcltsData.get("downRoadCn") != null) ? fcltsData.get("downRoadCn") : "");
 		String sumUpDownRoadCn = (String) ((fcltsData.get("sumUpDownRoadCn") != null) ? fcltsData.get("sumUpDownRoadCn") : "");
+		String seismicPlanApply = (String) ((fcltsData.get("seismicPlanApply") != null) ? fcltsData.get("seismicPlanApply") : "");
 		
 		String spanComp = (String) ((fcltsData.get("spanComp") != null) ? fcltsData.get("spanComp") : "");
 		
@@ -1632,7 +1636,6 @@ public class GamFcltsMngRegistMngHwpReport {
 
 		String etcDtlsSpec = (String) ((fcltsData.get("etcDtlsSpec") != null) ? fcltsData.get("etcDtlsSpec") : "");
 
-		sb.append("	<!-- 2. 상세재원(교량) -->\n");
 		sb.append("	<P ColumnBreak=\"false\" PageBreak=\"true\" ParaShape=\"32\" Style=\"0\"><TEXT CharShape=\"0\">\n");
 		sb.append("		<TABLE BorderFill=\"1\" CellSpacing=\"0\" ColCount=\"16\" PageBreak=\"None\" RepeatHeader=\"true\" RowCount=\"13\">\n");
 		sb.append("			<SHAPEOBJECT InstId=\"1114256645\" Lock=\"false\" NumberingType=\"Table\" TextWrap=\"BehindText\" ZOrder=\"7\"><SIZE Height=\"38168\" HeightRelTo=\"Absolute\" Protect=\"false\" Width=\"66280\" WidthRelTo=\"Absolute\"/><POSITION AffectLSpacing=\"false\" AllowOverlap=\"false\" FlowWithText=\"true\" HoldAnchorAndSO=\"false\" HorzAlign=\"Left\" HorzOffset=\"3080\" HorzRelTo=\"Para\" TreatAsChar=\"false\" VertAlign=\"Top\" VertOffset=\"340\" VertRelTo=\"Para\"/><OUTSIDEMARGIN Bottom=\"0\" Left=\"0\" Right=\"0\" Top=\"0\"/></SHAPEOBJECT>\n");
@@ -1810,7 +1813,7 @@ public class GamFcltsMngRegistMngHwpReport {
 		sb.append("				</CELL>\n");
 		sb.append("				<CELL BorderFill=\"5\" ColAddr=\"14\" ColSpan=\"2\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"2664\" Protect=\"false\" RowAddr=\"4\" RowSpan=\"1\" Width=\"11284\">\n");
 		sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-		sb.append("						<P ParaShape=\"10\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR></CHAR></TEXT></P>\n");
+		sb.append("						<P ParaShape=\"10\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>" + seismicPlanApply + "</CHAR></TEXT></P>\n");
 		sb.append("					</PARALIST>\n");
 		sb.append("				</CELL>\n");
 		sb.append("			</ROW>\n");
@@ -2217,7 +2220,6 @@ public class GamFcltsMngRegistMngHwpReport {
 	//안전점검이력 (조회데이터없음)
 	protected StringBuilder getQcListNoDataBodyElement() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("	<!-- 3. 안전점검이력(조회데이터없음) -->\n");
 		sb.append("	<P ColumnBreak=\"false\" PageBreak=\"true\" ParaShape=\"32\" Style=\"0\"><TEXT CharShape=\"0\">\n");
 		sb.append("		<TABLE BorderFill=\"1\" CellSpacing=\"0\" ColCount=\"6\" PageBreak=\"Cell\" RepeatHeader=\"true\" RowCount=\"4\">\n");
 		sb.append("			<SHAPEOBJECT InstId=\"1114101972\" Lock=\"false\" NumberingType=\"Table\" TextWrap=\"BehindText\" ZOrder=\"2\"><SIZE Height=\"15782\" HeightRelTo=\"Absolute\" Protect=\"false\" Width=\"68040\" WidthRelTo=\"Absolute\"/><POSITION AffectLSpacing=\"false\" AllowOverlap=\"false\" FlowWithText=\"true\" HoldAnchorAndSO=\"false\" HorzAlign=\"Left\" HorzOffset=\"2363\" HorzRelTo=\"Para\" TreatAsChar=\"false\" VertAlign=\"Top\" VertOffset=\"225\" VertRelTo=\"Para\"/><OUTSIDEMARGIN Bottom=\"0\" Left=\"0\" Right=\"0\" Top=\"0\"/></SHAPEOBJECT>\n");
@@ -2268,7 +2270,6 @@ public class GamFcltsMngRegistMngHwpReport {
 		StringBuilder sb = new StringBuilder();
 		int rowCount = 3 + mntnHistList.size() * 3;
 		
-		sb.append("	<!-- 4. 보수보강이력 -->\n");
 		sb.append("	<P ColumnBreak=\"false\" PageBreak=\"true\" ParaShape=\"32\" Style=\"0\"><TEXT CharShape=\"0\">\n");
 		sb.append("		<TABLE BorderFill=\"1\" CellSpacing=\"0\" ColCount=\"8\" PageBreak=\"Cell\" RepeatHeader=\"true\" RowCount=\"" + rowCount + "\">\n");
 		sb.append("			<SHAPEOBJECT InstId=\"1114256649\" Lock=\"false\" NumberingType=\"Table\" TextWrap=\"BehindText\" ZOrder=\"5\"><SIZE Height=\"22939\" HeightRelTo=\"Absolute\" Protect=\"false\" Width=\"68460\" WidthRelTo=\"Absolute\"/><POSITION AffectLSpacing=\"false\" AllowOverlap=\"false\" FlowWithText=\"true\" HoldAnchorAndSO=\"false\" HorzAlign=\"Left\" HorzOffset=\"2188\" HorzRelTo=\"Para\" TreatAsChar=\"false\" VertAlign=\"Top\" VertOffset=\"225\" VertRelTo=\"Para\"/><OUTSIDEMARGIN Bottom=\"0\" Left=\"0\" Right=\"0\" Top=\"0\"/></SHAPEOBJECT>\n");
@@ -2455,7 +2456,6 @@ public class GamFcltsMngRegistMngHwpReport {
 	//보수보강이력 (조회데이터없음)
 	protected StringBuilder getMaintListNoDataBodyElement() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("	<!-- 4. 보수보강이력(조회데이터없음) -->\n");
 		sb.append("	<P ColumnBreak=\"false\" PageBreak=\"true\" ParaShape=\"32\" Style=\"0\"><TEXT CharShape=\"0\">\n");
 		sb.append("		<TABLE BorderFill=\"1\" CellSpacing=\"0\" ColCount=\"8\" PageBreak=\"Cell\" RepeatHeader=\"true\" RowCount=\"4\">\n");
 		sb.append("			<SHAPEOBJECT InstId=\"1115008265\" Lock=\"false\" NumberingType=\"Table\" TextWrap=\"BehindText\" ZOrder=\"11\"><SIZE Height=\"12139\" HeightRelTo=\"Absolute\" Protect=\"false\" Width=\"68460\" WidthRelTo=\"Absolute\"/><POSITION AffectLSpacing=\"false\" AllowOverlap=\"false\" FlowWithText=\"true\" HoldAnchorAndSO=\"false\" HorzAlign=\"Left\" HorzOffset=\"2188\" HorzRelTo=\"Para\" TreatAsChar=\"false\" VertAlign=\"Top\" VertOffset=\"225\" VertRelTo=\"Para\"/><OUTSIDEMARGIN Bottom=\"0\" Left=\"0\" Right=\"0\" Top=\"0\"/></SHAPEOBJECT>\n");
@@ -2490,7 +2490,6 @@ public class GamFcltsMngRegistMngHwpReport {
 	//비고(사진이미지 넣는 곳)
 	protected StringBuilder getEtcBodyElement() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("	<!-- 5. 비고(전경사진) -->\n");
 		sb.append("	<P ColumnBreak=\"false\" PageBreak=\"true\" ParaShape=\"32\" Style=\"0\"><TEXT CharShape=\"0\">\n");
 		sb.append("		<TABLE BorderFill=\"1\" CellSpacing=\"0\" ColCount=\"2\" PageBreak=\"None\" RepeatHeader=\"true\" RowCount=\"2\">\n");
 		sb.append("			<SHAPEOBJECT InstId=\"1114313829\" Lock=\"false\" NumberingType=\"Table\" TextWrap=\"BehindText\" ZOrder=\"6\"><SIZE Height=\"34400\" HeightRelTo=\"Absolute\" Protect=\"false\" Width=\"71404\" WidthRelTo=\"Absolute\"/><POSITION AffectLSpacing=\"false\" AllowOverlap=\"false\" FlowWithText=\"true\" HoldAnchorAndSO=\"false\" HorzAlign=\"Left\" HorzOffset=\"6380\" HorzRelTo=\"Paper\" TreatAsChar=\"false\" VertAlign=\"Top\" VertOffset=\"7796\" VertRelTo=\"Paper\"/><OUTSIDEMARGIN Bottom=\"0\" Left=\"0\" Right=\"0\" Top=\"0\"/></SHAPEOBJECT>\n");

@@ -35,7 +35,7 @@
 %>
 function GamFcltsMngRegistMngModule() {}
 
-GamFcltsMngRegistMngModule.prototype = new EmdModule(1000, 705);
+GamFcltsMngRegistMngModule.prototype = new EmdModule(1000, 810);
 
 GamFcltsMngRegistMngModule.prototype.loadComplete = function() {
 
@@ -957,14 +957,20 @@ GamFcltsMngRegistMngModule.prototype.addData = function() {
 	this.$('#locSi').val("광양시");
 	this.$('#locDong').val("");
 	this.$('#locJibun').val("");
+	this.$('#mngNo').val("");
 	this.$('#mngMainbdSe').val("공공");
 	this.$('#mngMainbd').val("여수광양항만공사 운영본부");
 	this.$('#owner').val("");
+	this.$('#ownerTel').val("");
+	this.$('#keeper').val("");
 	this.$('#bldDt').val("");
 	this.$('#flawEndDt').val("");
 	this.$('#dtlsSpecYn').val("Y");
 	this.$('#qcHistYn').val("N");
 	this.$('#mntnHistYn').val("N");
+	this.$('#planDupSubmit').val("");
+	this.$('#mngRpt').val("");
+	this.$('#qcTotRpt').val("");
 	this.$('#planBeginDt').val("");
 	this.$('#planEndDt').val("");
 	this.$('#planner').val("");
@@ -1075,6 +1081,7 @@ GamFcltsMngRegistMngModule.prototype.addData = function() {
 	this.$('#bridgePropBaseFmt1').val("");
 	this.$('#bridgePropFmt2').val("");
 	this.$('#bridgePropBaseFmt2').val("");
+	this.$('#seismicPlanApply').val("");
 	this.$('#crossRoute').val("");
 	this.$('#crossRiverHighDpwt').val("");
 	this.enableDetailInputItem();
@@ -1388,14 +1395,20 @@ GamFcltsMngRegistMngModule.prototype.enableDetailInputItem = function() {
 		this.$('#locSi').enable();
 		this.$('#locDong').enable();
 		this.$('#locJibun').enable();
+		this.$('#mngNo').enable();
 		this.$('#mngMainbdSe').enable();
 		this.$('#mngMainbd').enable();
 		this.$('#owner').enable();
+		this.$('#ownerTel').enable();
+		this.$('#keeper').enable();
 		this.$('#bldDt').enable();
 		this.$('#flawEndDt').enable();
 		this.$('#dtlsSpecYn').enable();
 		this.$('#qcHistYn').enable();
 		this.$('#mntnHistYn').enable();
+		this.$('#planDupSubmit').enable();
+		this.$('#mngRpt').enable();
+		this.$('#qcTotRpt').enable();
 		this.$('#planBeginDt').enable();
 		this.$('#planEndDt').enable();
 		this.$('#planner').enable();
@@ -1504,6 +1517,7 @@ GamFcltsMngRegistMngModule.prototype.enableDetailInputItem = function() {
 		this.$('#bridgePropBaseFmt1').enable();
 		this.$('#bridgePropFmt2').enable();
 		this.$('#bridgePropBaseFmt2').enable();
+		this.$('#seismicPlanApply').enable();
 		this.$('#crossRoute').enable();
 		this.$('#crossRiverHighDpwt').enable();
 		this.$('#popupFcltsMngGroupNo').enable();
@@ -1530,14 +1544,20 @@ GamFcltsMngRegistMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#locSi').enable();
 			this.$('#locDong').enable();
 			this.$('#locJibun').enable();
+			this.$('#mngNo').enable();
 			this.$('#mngMainbdSe').enable();
 			this.$('#mngMainbd').enable();
 			this.$('#owner').enable();
+			this.$('#ownerTel').enable();
+			this.$('#keeper').enable();
 			this.$('#bldDt').enable();
 			this.$('#flawEndDt').enable();
 			this.$('#dtlsSpecYn').enable();
 			this.$('#qcHistYn').enable();
 			this.$('#mntnHistYn').enable();
+			this.$('#planDupSubmit').enable();
+			this.$('#mngRpt').enable();
+			this.$('#qcTotRpt').enable();
 			this.$('#planBeginDt').enable();
 			this.$('#planEndDt').enable();
 			this.$('#planner').enable();
@@ -1646,6 +1666,7 @@ GamFcltsMngRegistMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#bridgePropBaseFmt1').enable();
 			this.$('#bridgePropFmt2').enable();
 			this.$('#bridgePropBaseFmt2').enable();
+			this.$('#seismicPlanApply').enable();
 			this.$('#crossRoute').enable();
 			this.$('#crossRiverHighDpwt').enable();
 			this.$('#popupFcltsMngGroupNo').enable();
@@ -1679,14 +1700,20 @@ GamFcltsMngRegistMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#locSi').disable();
 			this.$('#locDong').disable();
 			this.$('#locJibun').disable();
+			this.$('#mngNo').disable();
 			this.$('#mngMainbdSe').disable();
 			this.$('#mngMainbd').disable();
 			this.$('#owner').disable();
+			this.$('#ownerTel').disable();
+			this.$('#keeper').disable();
 			this.$('#bldDt').disable();
 			this.$('#flawEndDt').disable();
 			this.$('#dtlsSpecYn').disable();
 			this.$('#qcHistYn').disable();
 			this.$('#mntnHistYn').disable();
+			this.$('#planDupSubmit').disable();
+			this.$('#mngRpt').disable();
+			this.$('#qcTotRpt').disable();
 			this.$('#planBeginDt').disable();
 			this.$('#planEndDt').disable();
 			this.$('#planner').disable();
@@ -1795,6 +1822,7 @@ GamFcltsMngRegistMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#bridgePropBaseFmt1').disable();
 			this.$('#bridgePropFmt2').disable();
 			this.$('#bridgePropBaseFmt2').disable();
+			this.$('#seismicPlanApply').disable();
 			this.$('#crossRoute').disable();
 			this.$('#crossRiverHighDpwt').disable();
 			this.$('#popupFcltsMngGroupNo').disable({disableClass:"ui-state-disabled"});
@@ -1831,14 +1859,20 @@ GamFcltsMngRegistMngModule.prototype.disableDetailInputItem = function() {
 	this.$('#locSi').disable();
 	this.$('#locDong').disable();
 	this.$('#locJibun').disable();
+	this.$('#mngNo').disable();
 	this.$('#mngMainbdSe').disable();
 	this.$('#mngMainbd').disable();
 	this.$('#owner').disable();
+	this.$('#ownerTel').disable();
+	this.$('#keeper').disable();
 	this.$('#bldDt').disable();
 	this.$('#flawEndDt').disable();
 	this.$('#dtlsSpecYn').disable();
 	this.$('#qcHistYn').disable();
 	this.$('#mntnHistYn').disable();
+	this.$('#planDupSubmit').disable();
+	this.$('#mngRpt').disable();
+	this.$('#qcTotRpt').disable();
 	this.$('#planBeginDt').disable();
 	this.$('#planEndDt').disable();
 	this.$('#planner').disable();
@@ -1947,6 +1981,7 @@ GamFcltsMngRegistMngModule.prototype.disableDetailInputItem = function() {
 	this.$('#bridgePropBaseFmt1').disable();
 	this.$('#bridgePropFmt2').disable();
 	this.$('#bridgePropBaseFmt2').disable();
+	this.$('#seismicPlanApply').disable();
 	this.$('#crossRoute').disable();
 	this.$('#crossRiverHighDpwt').disable();
 	this.$('#popupFcltsMngGroupNo').disable({disableClass:"ui-state-disabled"});
@@ -2190,6 +2225,10 @@ var module_instance = new GamFcltsMngRegistMngModule();
 								</td>
 							</tr>
 							<tr>
+								<th style="width:10%; height:18px;">관　리　번　호</th>
+								<td>
+									<input type="text" id="mngNo" size="33" maxlength="50"/>
+								</td>
 								<th style="width:10%; height:18px;">관　리　주　체</th>
 								<td>
 									<input type="text" id="mngMainbd" size="33" maxlength="50"/>
@@ -2198,9 +2237,19 @@ var module_instance = new GamFcltsMngRegistMngModule();
 								<td>
 									<input type="text" id="mngMainbdSe" size="33" maxlength="10"/>
 								</td>
+							</tr>
+							<tr>
 								<th style="width:10%; height:18px;">소　　유　　자</th>
 								<td>
 									<input type="text" id="owner" size="33" maxlength="50"/>
+								</td>
+								<th style="width:10%; height:18px;">소유자전화번호</th>
+								<td>
+									<input type="text" id="ownerTel" size="33" maxlength="50"/>
+								</td>
+								<th style="width:10%; height:18px;">보　　관　　자</th>
+								<td>
+									<input type="text" id="keeper" size="33" maxlength="50"/>
 								</td>
 							</tr>
 							<tr>
@@ -2228,6 +2277,20 @@ var module_instance = new GamFcltsMngRegistMngModule();
 										<option value="Y">유</option>
 										<option value="N">무</option>
 									</select>
+								</td>
+							</tr>
+							<tr>
+								<th style="width:10%; height:18px;">설계사본　제출</th>
+								<td>
+									<input type="text" id="planDupSubmit" size="33" maxlength="50"/>
+								</td>
+								<th style="width:10%; height:18px;">감 리　보 고 서</th>
+								<td>
+									<input type="text" id="mngRpt" size="33" maxlength="50"/>
+								</td>
+								<th style="width:10%; height:18px;">안전점검보고서</th>
+								<td>
+									<input type="text" id="qcTotRpt" size="33" maxlength="50"/>
 								</td>
 							</tr>
 							<tr>
@@ -2589,27 +2652,55 @@ var module_instance = new GamFcltsMngRegistMngModule();
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:18px;">교　각　형　식</th>
+								<th style="width:10%; height:18px;">교　각　형　식1</th>
 								<td>
 									<input type="text" size="33" id="bridgePierFmt1" maxlength="50"/>
 								</td>
-								<th style="width:10%; height:18px;">교　각　갯　수</th>
+								<th style="width:10%; height:18px;">교　각　갯　수1</th>
 								<td>
 									<input type="text" size="33" id="bridgePierCn1" maxlength="10"/>
 								</td>
-								<th style="width:10%; height:18px;">교각　기초형식</th>
+								<th style="width:10%; height:18px;">교각　기초형식1</th>
 								<td>
 									<input type="text" size="33" id="bridgePierBaseFmt1" maxlength="50"/>
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:18px;">교　대　형　식</th>
+								<th style="width:10%; height:18px;">교　대　형　식1</th>
 								<td>
 									<input type="text" size="33" id="bridgePropFmt1" maxlength="50"/>
 								</td>
-								<th style="width:10%; height:18px;">교대　기초형식</th>
+								<th style="width:10%; height:18px;">교대　기초형식1</th>
 								<td>
 									<input type="text" size="33" id="bridgePropBaseFmt1" maxlength="50"/>
+								</td>
+								<th style="width:10%; height:18px;">내진설계적용여부</th>
+								<td>
+									<input type="text" size="33" id="seismicPlanApply" maxlength="50"/>
+								</td>
+							</tr>
+							<tr>
+								<th style="width:10%; height:18px;">교　각　형　식2</th>
+								<td>
+									<input type="text" size="33" id="bridgePierFmt2" maxlength="50"/>
+								</td>
+								<th style="width:10%; height:18px;">교　각　갯　수2</th>
+								<td>
+									<input type="text" size="33" id="bridgePierCn2" maxlength="10"/>
+								</td>
+								<th style="width:10%; height:18px;">교각　기초형식2</th>
+								<td>
+									<input type="text" size="33" id="bridgePierBaseFmt2" maxlength="50"/>
+								</td>
+							</tr>
+							<tr>
+								<th style="width:10%; height:18px;">교　대　형　식2</th>
+								<td>
+									<input type="text" size="33" id="bridgePropFmt2" maxlength="50"/>
+								</td>
+								<th style="width:10%; height:18px;">교대　기초형식2</th>
+								<td>
+									<input type="text" size="33" id="bridgePropBaseFmt2" maxlength="50"/>
 								</td>
 								<th style="width:10%; height:18px;">교차노선／수심</th>
 								<td>

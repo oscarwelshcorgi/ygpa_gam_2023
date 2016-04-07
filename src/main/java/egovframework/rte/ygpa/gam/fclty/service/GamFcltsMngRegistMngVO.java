@@ -174,7 +174,14 @@ public class GamFcltsMngRegistMngVO extends ComDefaultVO {
 	private	String sEndBldDt;				// 검색 종료 준공 일자
 	private	String totalCount;				// 조회 자료 수
 	private	String sumCnstrctAmt;			// 시공 금액 합계
-
+	
+	private	String mngNo;					// 관리번호
+	private 	String ownerTel; 				// 소유자 전화번호
+	private	String keeper; 					// 보관자
+	private 	String planDupSubmit;			// 설계도서사본제출
+	private	String mngRpt; 					// 감리보고서
+	private	String	qcTotRpt;					// 안전점검종합보고서
+	private	String seismicPlanApply; 		// 내진설계적용여부
 	/**
 	 * @return the fcltsNo
 	 */
@@ -1914,6 +1921,90 @@ public class GamFcltsMngRegistMngVO extends ComDefaultVO {
 	 */
 	public void setSumCnstrctAmt(String sumCnstrctAmt) {
 		this.sumCnstrctAmt = sumCnstrctAmt;
+	}
+	/**
+	 * @return the mngNo
+	 */
+	public String getMngNo() {
+		return mngNo;
+	}
+	/**
+	 * @param mngNo the mngNo to set
+	 */
+	public void setMngNo(String mngNo) {
+		this.mngNo = mngNo;
+	}
+	/**
+	 * @return the ownerTel
+	 */
+	public String getOwnerTel() {
+		return ownerTel;
+	}
+	/**
+	 * @param ownerTel the ownerTel to set
+	 */
+	public void setOwnerTel(String ownerTel) {
+		this.ownerTel = ownerTel;
+	}
+	/**
+	 * @return the keeper
+	 */
+	public String getKeeper() {
+		return keeper;
+	}
+	/**
+	 * @param keeper the keeper to set
+	 */
+	public void setKeeper(String keeper) {
+		this.keeper = keeper;
+	}
+	/**
+	 * @return the planDupSubmit
+	 */
+	public String getPlanDupSubmit() {
+		return planDupSubmit;
+	}
+	/**
+	 * @param planDupSubmit the planDupSubmit to set
+	 */
+	public void setPlanDupSubmit(String planDupSubmit) {
+		this.planDupSubmit = planDupSubmit;
+	}
+	/**
+	 * @return the mngRpt
+	 */
+	public String getMngRpt() {
+		return mngRpt;
+	}
+	/**
+	 * @param mngRpt the mngRpt to set
+	 */
+	public void setMngRpt(String mngRpt) {
+		this.mngRpt = mngRpt;
+	}
+	/**
+	 * @return the qcTotRpt
+	 */
+	public String getQcTotRpt() {
+		return qcTotRpt;
+	}
+	/**
+	 * @param qcTotRpt the qcTotRpt to set
+	 */
+	public void setQcTotRpt(String qcTotRpt) {
+		this.qcTotRpt = qcTotRpt;
+	}
+	/**
+	 * @return the seismicPlanApply
+	 */
+	public String getSeismicPlanApply() {
+		return seismicPlanApply;
+	}
+	/**
+	 * @param seismicPlanApply the seismicPlanApply to set
+	 */
+	public void setSeismicPlanApply(String seismicPlanApply) {
+		this.seismicPlanApply = seismicPlanApply;
 	}
 
 }
