@@ -88,7 +88,7 @@ GamCvlEngFcltySpecInqireModule.prototype.loadComplete = function(params) {
 					{display:"시설물 관리 번호",	name:"fcltsMngNo",				width:130,		sortable:false,		align:"left"},
 					//{display:"자산 위치",	 		name:"gisAssetsLocNm",			width:200,		sortable:false,		align:"left"},
 					{display:"자산 명",	 			name:"gisAssetsNm",				width:200,		sortable:false,		align:"left"},
-					{display:"유지보수기간",	 		name:"mntnRprCnstDt",			width:160,		sortable:false,		align:"left"}
+					{display:"유지보수기간",	 		name:"mntnRprCnstDt",			width:500,		sortable:false,		align:"left"}
 					],
 		showTableToggleBtn : false,
 		height : 'auto',
