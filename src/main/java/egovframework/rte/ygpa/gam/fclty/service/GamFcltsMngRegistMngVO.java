@@ -182,6 +182,8 @@ public class GamFcltsMngRegistMngVO extends ComDefaultVO {
 	private	String mngRpt; 					// 감리보고서
 	private	String	qcTotRpt;					// 안전점검종합보고서
 	private	String seismicPlanApply; 		// 내진설계적용여부
+	
+	private 	String fcltsDtlsSe;				// 상세제원 구분
 	/**
 	 * @return the fcltsNo
 	 */
@@ -2005,6 +2007,18 @@ public class GamFcltsMngRegistMngVO extends ComDefaultVO {
 	 */
 	public void setSeismicPlanApply(String seismicPlanApply) {
 		this.seismicPlanApply = seismicPlanApply;
+	}
+	/**
+	 * @return the fcltsDtlsSe
+	 */
+	public String getFcltsDtlsSe() {
+		return fcltsDtlsSe;
+	}
+	/**
+	 * @param fcltsDtlsSe the fcltsDtlsSe to set
+	 */
+	public void setFcltsDtlsSe(String fcltsDtlsSe) {
+		this.fcltsDtlsSe = fcltsDtlsSe;
 	}
 
 }

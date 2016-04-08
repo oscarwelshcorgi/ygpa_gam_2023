@@ -107,11 +107,18 @@ GamFcltsMngRegistMngModule.prototype.loadComplete = function() {
 		module.$("#mainTab").tabs("option", {active: 1});
 	});
 
+	/**
 	this.$("#fcltsNo").bind("keyup change", {module: this}, function(event) {
 		var fcltsNo = $(this).val();
 		event.data.module.changeDetailAreaForm(fcltsNo);
 	});
+	**/
 
+	this.$("#fcltsDtlsSe").bind("keyup change", {module: this}, function(event) {
+		var fcltsDtlsSe = $(this).val();
+		event.data.module.changeDetailAreaForm(fcltsDtlsSe);
+	});
+	
 	this.$("#fcltsMngGroupNo").bind("keyup change", {module: this}, function(event) {
 		event.data.module.getFcltsMngGroupNm("#fcltsMngGroupNo", "#fcltsMngGroupNm");
 		var fcltsNm = event.data.module.$('#fcltsNm').val();
@@ -399,26 +406,21 @@ GamFcltsMngRegistMngModule.prototype.calcSumUpDownRoadCn = function() {
 <%
 /**
  * @FUNCTION NAME : changeDetailAreaForm
- * @DESCRIPTION   : 시설 번호에 따른 폼 입력 영역 변경
+ * @DESCRIPTION   : 상세제원 구분에 따른 폼 입력 영역 변경
  * @PARAMETER     :
- *   1. argFcltsNo - FCLTS NO.(시설 번호)
+ *   1. fcltsDtlsSe - 상세제원구분
 **/
 %>
-GamFcltsMngRegistMngModule.prototype.changeDetailAreaForm = function(argFcltsNo) {
-
-	var fcltsNoSe = "Z";
-	if (argFcltsNo != "") {
-		fcltsNoSe = argFcltsNo.substring(0,1);
-	}
-	if (fcltsNoSe == "H") {
+GamFcltsMngRegistMngModule.prototype.changeDetailAreaForm = function(fcltsDtlsSe) {
+	if (fcltsDtlsSe == "H") {
 		this.$('#archDetailArea').hide();
 		this.$('#bridgeDetailArea').hide();
 		this.$('#cvlEngDetailArea').show();
-	} else if (fcltsNoSe == "A") {
+	} else if (fcltsDtlsSe == "A") {
 		this.$('#cvlEngDetailArea').hide();
 		this.$('#bridgeDetailArea').hide();
 		this.$('#archDetailArea').show();
-	} else if (fcltsNoSe == "B") {
+	} else if (fcltsDtlsSe == "B") {
 		this.$('#cvlEngDetailArea').hide();
 		this.$('#archDetailArea').hide();
 		this.$('#bridgeDetailArea').show();
@@ -427,7 +429,6 @@ GamFcltsMngRegistMngModule.prototype.changeDetailAreaForm = function(argFcltsNo)
 		this.$('#archDetailArea').hide();
 		this.$('#bridgeDetailArea').hide();
 	}
-
 };
 
 <%
@@ -991,6 +992,7 @@ GamFcltsMngRegistMngModule.prototype.addData = function() {
 	this.$('#lastUpdtDt').val("");
 	this.$('#lastUpdtUsr').val("");
 	this.$('#basicRm').val("");
+	this.$('#fcltsDtlsSe').val("");
 	this.$('#maxShipScl').val("");
 	this.$('#extd').val("");
 	this.$('#upsideAlt').val("");
@@ -1429,6 +1431,7 @@ GamFcltsMngRegistMngModule.prototype.enableDetailInputItem = function() {
 		this.$('#lastUpdtDt').enable();
 		this.$('#lastUpdtUsr').enable();
 		this.$('#basicRm').enable();
+		this.$('#fcltsDtlsSe').enable();
 		this.$('#maxShipScl').enable();
 		this.$('#extd').enable();
 		this.$('#upsideAlt').enable();
@@ -1578,6 +1581,7 @@ GamFcltsMngRegistMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#lastUpdtDt').enable();
 			this.$('#lastUpdtUsr').enable();
 			this.$('#basicRm').enable();
+			this.$('#fcltsDtlsSe').enable();
 			this.$('#maxShipScl').enable();
 			this.$('#extd').enable();
 			this.$('#upsideAlt').enable();
@@ -1734,6 +1738,7 @@ GamFcltsMngRegistMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#lastUpdtDt').disable();
 			this.$('#lastUpdtUsr').disable();
 			this.$('#basicRm').disable();
+			this.$('#fcltsDtlsSe').disable();
 			this.$('#maxShipScl').disable();
 			this.$('#extd').disable();
 			this.$('#upsideAlt').disable();
@@ -1893,6 +1898,7 @@ GamFcltsMngRegistMngModule.prototype.disableDetailInputItem = function() {
 	this.$('#lastUpdtDt').disable();
 	this.$('#lastUpdtUsr').disable();
 	this.$('#basicRm').disable();
+	this.$('#fcltsDtlsSe').disable();
 	this.$('#maxShipScl').disable();
 	this.$('#extd').disable();
 	this.$('#upsideAlt').disable();
@@ -2036,7 +2042,7 @@ GamFcltsMngRegistMngModule.prototype.onTabChange = function(newTabId, oldTabId) 
 				this.makeDivValues('#bridgeDetailAreaForm', {});
 				this.disableDetailInputItem();
 			}
-			this.changeDetailAreaForm(this.$('#fcltsNo').val());
+			this.changeDetailAreaForm(this.$('#fcltsDtlsSe').val());
 			break;
 		case 'qcMngTab':
 			this._qcMngFcltsMngGroupNo = this._mainFcltsMngGroupNo;
@@ -2365,9 +2371,18 @@ var module_instance = new GamFcltsMngRegistMngModule();
 								</td>
 							</tr>
 							<tr>
+								<th width="10%" height="18">상세제원　구분</th>
+								<td>
+									<select id="fcltsDtlsSe">
+										<option value="">선택</option>
+										<option value="H">계류시설</option>
+										<option value="A">건축물</option>
+										<option value="B">교량</option>
+									</select>
+								</td>
 								<th width="10%" height="18">기타　상세제원</th>
-								<td colspan="5">
-									<input type="text" size="149" id="etcDtlsSpec" maxlength="500"/>
+								<td colspan="3">
+									<input type="text" size="91" id="etcDtlsSpec" maxlength="500"/>
 								</td>
 							</tr>
 						</table>
