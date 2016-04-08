@@ -329,7 +329,7 @@ GamInfoCommFcltyDrwListModule.prototype.refreshDirData = function(argDirNo) {
 		this.$('#dirUpperNo').val("0");
 		this.$('#depthSort').val("0");
 		this.$('#leafYn').val("N");
-		this.$('#dirFcltsJobSe').val("A");
+		this.$('#dirFcltsJobSe').val("I");
 		this.$('#inputDirNm').val("ROOT");
 		this.displayAtchFileList("");
 	}
@@ -401,7 +401,7 @@ GamInfoCommFcltyDrwListModule.prototype.addAtchFileDirectory = function() {
 		this.$('#dirUpperNo').val(dirNo);
 		this.$('#depthSort').val("" + (depthSort + 1));
 		this.$('#leafYn').val("Y");
-		this.$('#dirFcltsJobSe').val("A");
+		this.$('#dirFcltsJobSe').val("I");
 		this.$('#dirNo').val("");
 		var insertVO = this.makeFormArgs("#dirForm");
 		this.$('#dirNm').val(dirNm);
