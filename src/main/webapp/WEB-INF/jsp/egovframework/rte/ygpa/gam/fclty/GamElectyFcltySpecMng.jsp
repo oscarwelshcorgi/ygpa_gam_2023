@@ -2946,7 +2946,7 @@ var module_instance = new GamElectyFcltySpecMngModule();
 						<tr>
 							<th>시설물 분류</th>
 							<td>
-								<input id="sGisPrtFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM068" value="E1"/>
+								<input id="sGisPrtFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM068"/>
 							</td>
 							<th>시설 명</th>
 							<td>

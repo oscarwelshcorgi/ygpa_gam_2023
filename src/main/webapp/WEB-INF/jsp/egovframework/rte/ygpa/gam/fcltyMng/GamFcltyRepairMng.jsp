@@ -2024,15 +2024,9 @@ var module_instance = new GamFcltyRepairMngModule();
 							</td>
 						</tr>
 						<tr>
-							<th style="width:10%; height:18px;">하자 보수 내용</th>
+							<th style="width:10%; height:18px;">하　자　내　용</th>
 							<td colspan="3"><textarea id="flawRprContents" cols="65" rows="5" maxlength="4000"></textarea></td>
 						</tr>
-						<!--
-						<tr>
-							<th style="width:10%; height:18px;">하자 보수 결과</th>
-							<td colspan="3"><textarea id="flawExamResult" cols="65" rows="5" title="하자보수결과" maxlength="4000"></textarea></td>
-						</tr>
-						-->
 						<tr>
 							<th style="width:10%; height:18px;">비　　　　　고</th>
 							<td colspan="3"><textarea id="rm" cols="65" rows="5" maxlength="4000"></textarea></td>
@@ -2040,35 +2034,26 @@ var module_instance = new GamFcltyRepairMngModule();
 					</table>
 				</form>
 				<div class="emdControlPanel">
-				<form id="fileListForm">
-				<input type="hidden" id="photoFcltsJobSe" data-column-id="fcltsJobSe"/>
-				<input type="hidden" id="photoFcltsMngGroupNo" data-column-id="fcltsMngGroupNo"/>
-				<input type="hidden" id="photoFlawRprSeq" data-column-id="flawRprSeq"/>
-				<input type="hidden" id="photoAtchFileSeq" data-column-id="atchFileSeq"/>
-				<input id="atchFileSe" type="hidden"/>
-				<input id="atchFileSeNm" type="hidden"/>
-				<input id="atchFileSj" type="hidden"/>
-				<input id="atchFileRm" type="hidden"/>
-				<input type="hidden" id="photoAtchFileNmLogic" data-column-id="atchFileNmLogic"/>
-				<input type="hidden" id="atchFileNmPhysicl" data-column-id="atchFileNmPhysicl"/>
-
-				</form>
+					<form id="fileListForm">
+						<input type="hidden" id="photoFcltsJobSe" data-column-id="fcltsJobSe"/>
+						<input type="hidden" id="photoFcltsMngGroupNo" data-column-id="fcltsMngGroupNo"/>
+						<input type="hidden" id="photoFlawRprSeq" data-column-id="flawRprSeq"/>
+						<input type="hidden" id="photoAtchFileSeq" data-column-id="atchFileSeq"/>
+						<input id="atchFileSe" type="hidden"/>
+						<input id="atchFileSeNm" type="hidden"/>
+						<input id="atchFileSj" type="hidden"/>
+						<input id="atchFileRm" type="hidden"/>
+						<input type="hidden" id="photoAtchFileNmLogic" data-column-id="atchFileNmLogic"/>
+						<input type="hidden" id="atchFileNmPhysicl" data-column-id="atchFileNmPhysicl"/>
+					</form>
 					<div>
-						<!--
-							<select id="printSe" title="출력구분">
-								<option value="hwp">한글문서</option>
-								<option value="print">인쇄</option>
-							</select>
-						-->
-						<button id="chkPrint"  data-role="printDown"  data-filename="하자검사조서.hwp" data-search-option="fcltyRepairMngListVO" data-url="/fcltyMng/selectFcltyRepairCheckReportHwp.do">하자검사조서 다운로드</button>
-						<!-- <button id="mngPrint"  data-search-option="fcltyRepairMngListVO">하자검사관리대장 출력</button>
-						<button id="expPrint"  data-search-option="fcltyRepairMngListVO">하자만료검사조서 출력</button> -->
 						<button id="addBtn" class="buttonAdd">　　추　가　　</button>
 						<button id="deleteDetailBtn" class="buttonDelete">　　삭　제　　</button>
 						<button id="saveBtn" class="buttonSave">  저 장  </button>
+						<button id="chkPrint"  data-role="printDown"  data-filename="하자검사조서.hwp" data-search-option="fcltyRepairMngListVO" data-url="/fcltyMng/selectFcltyRepairCheckReportHwp.do">하자검사조서 다운로드</button>
+					</div>
 				</div>
 			</div>
-		</div>
 			<!-- 하자보수 대상 시설물 -->
 			<div id="tabs3" class="emdTabPage" style="overflow: scroll;">
 				<div class="emdControlPanel">
@@ -2170,21 +2155,6 @@ var module_instance = new GamFcltyRepairMngModule();
 									<th>비고</th>
 									<td colspan="7"><input id="oRm" type="text" size="151" maxlength="333" class="objFcltsEditItem"/></td>
 								</tr>
-<!--							<tr>
-									<th height="18" class="required_text">첨부파일</th>
-									<td>
-										<select id="fcltyRepairFileList">
-											<option value="">선택</option>
-										</select>
-									</td>
-									<td colspan="6" style="text-align:right;">
-										<button id="btnPreviewFile">첨부파일 미리보기</button>
-										<div id="previewHidden" style="display: none;"></div>
-										<button id="btnUploadFile">업로드</button>
-										<button id="btnDownloadFile">다운로드</button>
-										<button id="btnRemoveFile" class="buttonDelete"> 삭 제 </button>
-									</td>
-								</tr> -->
 							</tbody>
 						</table>
 					</form>

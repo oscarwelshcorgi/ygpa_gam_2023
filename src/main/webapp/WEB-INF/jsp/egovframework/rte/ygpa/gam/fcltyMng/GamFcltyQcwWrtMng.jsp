@@ -2222,15 +2222,11 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 							<button id="btnAllSelect">선택</button>
 							<button id="btnAllUnSelect">해제</button>
 							&nbsp;　　　&nbsp;
-							<!-- 2015.10.27 김종민 수정
-							<button id="btnFcltsList">대상시설물 목록</button>
-							<button id="btnFileList">첨부파일 목록</button>
-							-->
 							&nbsp;　　　&nbsp;
 							&nbsp;　　　&nbsp;
 							&nbsp;　　　&nbsp;
 							&nbsp;　　　&nbsp;
-							&nbsp;　&nbsp;
+							&nbsp;　　　&nbsp;
 						</td>
 					</tr>
 				</table>
