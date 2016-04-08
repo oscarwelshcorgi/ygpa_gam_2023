@@ -121,52 +121,6 @@ GamArchFcltySpecInqireModule.prototype.loadComplete = function(params) {
 		event.data.module.getFcltsMngGroupNm("#sFcltsMngGroupNo", "#sFcltsMngGroupNm");
 	});
 
-	this.$("#fileGrid").flexigrid({
-		module : this,
-		url : '/fclty/gamSelectArchFcltySpecInqireFcltsAtchFileList.do',
-		dataType : 'json',
-		colModel : [
-					{display:"선택",		name:"atchFileSelChk",		width:40,		sortable:false,		align:"center",		displayFormat:"checkbox"},
-					{display:"번호",		name:"atchFileNo",			width:60,		sortable:false,		align:"center"},
-					{display:"구분",		name:"atchFileSeNm",		width:60,		sortable:false,		align:"center"},
-					{display:"파일명",		name:"atchFileNmLogic",		width:200,		sortable:false,		align:"left"},
-					{display:"프리뷰",		name:"photoUrl",			width:100,		sortable:false,		align:"center",		displayFormat:"image"}
-					],
-		height: "477",
-		preProcess: function(module, data) {
-			$.each(data.resultList, function() {
-				this.atchFileSelChk = (this.atchFileSelChk === 'TRUE');
-				this.photoUrl = "";
-				var atchFileNmPhysicl = this.atchFileNmPhysicl;
-				var ext = atchFileNmPhysicl.substring(atchFileNmPhysicl.lastIndexOf(".")+1).toLowerCase();
-				if (ext == "jpg" || ext == "jpeg" || ext == "bmp" || ext == "png" || ext == "gif") {
-					this.photoUrl = module.getPfPhotoUrl(atchFileNmPhysicl) + "^" + this.atchFileNmLogic + "^" + "100";
-				} else if (ext == "hwp") {
-					this.photoUrl = EMD.context_root+"js/codebase/imgs/hwp.png";
-				} else if (ext == "dwg") {
-					this.photoUrl = EMD.context_root+"js/codebase/imgs/dwg.png";
-				} else if (ext == "xls") {
-					this.photoUrl = EMD.context_root+"js/codebase/imgs/xls.png";
-				} else if (ext == "xlsx") {
-					this.photoUrl = EMD.context_root+"js/codebase/imgs/xlsx.png";
-				} else if (ext == "pdf") {
-					this.photoUrl = EMD.context_root+"js/codebase/imgs/pdf.jpg";
-				} else if (ext == "dow") {
-					this.photoUrl = EMD.context_root+"js/codebase/imgs/dow.png";
-				} else if (ext == "ppt") {
-					this.photoUrl = EMD.context_root+"js/codebase/imgs/ppt.png";
-				} else if (ext == "txt") {
-					this.photoUrl = EMD.context_root+"js/codebase/imgs/txt.png";
-				} else if (ext == "zip") {
-					this.photoUrl = EMD.context_root+"js/codebase/imgs/zip.jpg";
-				} else {
-					this.photoUrl = EMD.context_root+"js/codebase/imgs/unknown.png";
-				}
-			});
-			return data;
-		}
-	});
-	
 	this._params = params;
 	this._mainmode = 'query';
 	this._mainKeyValue = '';
@@ -174,23 +128,6 @@ GamArchFcltySpecInqireModule.prototype.loadComplete = function(params) {
 	this._atchFileDirLoad = false;
 	this._atchFilePreview = false;
 
-	this.$("#fileGrid").on('onLoadDataComplete', function(event, module, data) {
-		module.selectFileData();
-	});
-	
-	this.$("#fileGrid").on('onItemSelected', function(event, module, row, grid, param) {
-		module.refreshFileData(row.atchFileNo);
-	});
-
-	this.$("#fileGrid").on('onItemDoubleClick', function(event, module, row, grid, param) {
-		module.refreshFileData(row.atchFileNo);
-		module.showFcltsAtchFileViewPopup();
-	});
-	
-	this.$('#dirQueryOption').on('change',{module:this}, function(event){
-		event.data.module.displayAtchFileDirectory("");
-		event.data.module.displayAtchFileList("");
-	});
 };
 
 <%
@@ -230,20 +167,6 @@ GamArchFcltySpecInqireModule.prototype.getFcltsMngGroupNm = function(argFcltsMng
 
 <%
 /**
- * @FUNCTION NAME : onAtchFileDirTreeItemClick
- * @DESCRIPTION   : ATTACHE FILE DIRECTORY TREE ITEM CLICK EVENT
- * @PARAMETER     :
- *   1. itemId - ITEM ID
-**/
-%>
-GamArchFcltySpecInqireModule.prototype.onAtchFileDirTreeItemClick = function(itemId) {
-
-	$(this)[0].module.refreshDirData(itemId);
-
-};
-
-<%
-/**
  * @FUNCTION NAME : onClosePopup
  * @DESCRIPTION   : CLOSE POPUP EVENT
  * @PARAMETER     :
@@ -260,35 +183,6 @@ GamArchFcltySpecInqireModule.prototype.onClosePopup = function(popupId, msg, val
 				this.$('#sFcltsMngGroupNo').val(value.fcltsMngGroupNo);
 				this.$('#sFcltsMngGroupNm').val(value.fcltsMngGroupNm);
 				this.$('#sFcltsClCd').focus();
-			}
-			break;
-		case 'popupFcltsAtchFileView':
-			if (msg == 'ok') {
-				var atchFileNo = this.$('#atchFileNo').val();
-				if (atchFileNo == value.atchFileNo) {
-					this.$('#atchFileSe').val(value.atchFileSe);
-					this.$('#atchFileSeNm').val(value.atchFileSeNm);
-					this.$('#atchFileSj').val(value.atchFileSj);
-					var selectRow = this.$('#fileGrid').selectedRows();
-					if(selectRow.length > 0) {
-						var row = selectRow[0];
-						row['atchFileSeNm'] = value.atchFileSeNm;
-						row['atchFileSe'] = value.atchFileSe;
-						row['atchFileSj'] = value.atchFileSj;
-						var rowid = this.$("#fileGrid").selectedRowIds()[0];
-						this.$('#fileGrid').flexUpdateRow(rowid, row);
-					}
-				}
-			}
-			break;
-		case 'btnAtchDirFileSearch':
-			if (msg == 'ok') {
-				if (value.listSe == "F") {
-					this._fileKeyValue = value.fileNo;
-					this.displayAtchFileDirectory("" + value.dirNo);
-				} else {
-					this.displayAtchFileDirectory("" + value.dirNo);
-				}
 			}
 			break;
 	}
@@ -324,28 +218,6 @@ GamArchFcltySpecInqireModule.prototype.onButtonClick = function(buttonId) {
 		case 'popupSearchFcltsMngGroupNo':
 			this.doExecuteDialog(buttonId, "시설물 관리 그룹 선택", '/popup/showArchFcltsMngGroup.do', null);
 			break;
-		case 'btnDirRefresh':
-			this.displayAtchFileDirectory("");
-			this.displayAtchFileList("");
-			break;
-		case 'btnFileAllSelect':
-			this.selectAllFile();
-			break;
-		case 'btnFileDownload':
-			this.downloadMultiFile();
-			break;
-	    case 'btnFilePreview':
-	    	this.displayPreviewFile();
-			break;
-	    case 'btnAtchDirFileSearch':
-			var sFcltsJobSe = this.$('#dirQueryOption').val();
-			var sSearchSe = "D";
-            var searchOpts = {
-    				'sSearchSe':sSearchSe,
-    				'sFcltsJobSe':sFcltsJobSe
-                };
-			this.doExecuteDialog('btnAtchDirFileSearch', '디렉토리/파일 검색', '/popup/showAtchDirFile.do', null, searchOpts);
-			break;
 	    case 'btnFcltyMaintMngList':
 			this.showFcltyMaintMngList(this.$('#btnFcltyMaintMngList')[0]);
 			break;
@@ -379,20 +251,6 @@ GamArchFcltySpecInqireModule.prototype.onSubmit = function() {
 GamArchFcltySpecInqireModule.prototype.loadData = function() {
 
 	this.$("#mainTab").tabs("option", {active: 0});
-	var searchOpt=this.makeFormArgs('#searchForm');
-	this.$('#mainGrid').flexOptions({params:searchOpt}).flexReload();
-
-};
-
-<%
-/**
- * @FUNCTION NAME : refreshData
- * @DESCRIPTION   : DATA REFRESH (LIST)
- * @PARAMETER     : NONE
-**/
-%>
-GamArchFcltySpecInqireModule.prototype.refreshData = function() {
-
 	var searchOpt=this.makeFormArgs('#searchForm');
 	this.$('#mainGrid').flexOptions({params:searchOpt}).flexReload();
 
@@ -450,25 +308,6 @@ GamArchFcltySpecInqireModule.prototype.selectData = function() {
 		}
 		return;
 	}
-};
-
-<%
-/**
- * @FUNCTION NAME : selectFileData
- * @DESCRIPTION   : FILE DATA SELECT
- * @PARAMETER     : NONE
-**/
-%>
-GamArchFcltySpecInqireModule.prototype.selectFileData = function() {
-
-	if (this._fileKeyValue == "") {
-		return;
-	}
-	var atchFileNo = this._fileKeyValue;
-	this._fileKeyValue = "";
-	this.$("#fileGrid").selectFilterRow([{col:"atchFileNo", filter:atchFileNo}]);
-	this.refreshFileData(atchFileNo);
-
 };
 
 <%
@@ -706,234 +545,6 @@ GamArchFcltySpecInqireModule.prototype.downloadExcel = function(buttonId) {
 
 <%
 /**
- * @FUNCTION NAME : displayAtchFileDirectory
- * @DESCRIPTION   : 첨부 파일 디렉토리를 TREE형태로 보여준다.
- * @PARAMETER     :
- *   1. argDirNo - DIRECTORY NO.
-**/
-%>
-GamArchFcltySpecInqireModule.prototype.displayAtchFileDirectory = function(argDirNo) {
-
-	this.$("#atchFileDirTreeList").empty();
-	var inputVO = this.makeFormArgs("#dirForm");
-	this.doAction('/fclty/gamSelectArchFcltySpecInqireAtchFileDirList.do', inputVO, function(module, result) {
-		if (result.resultCode == "0") {
-			if (result.resultList.length > 0) {
-				var atchFileDirTreeNode = module.$('#atchFileDirTreeList');
-				var atchFileDirTreeItems = [];
-				for (var i=0; i < result.resultList.length; i++) {
-					var atchFileDir = result.resultList[i];
-					atchFileDirTreeItems[atchFileDirTreeItems.length] = [atchFileDir.dirNo, atchFileDir.dirUpperNo, atchFileDir.dirNm];
-				}
-				module.tree = new dhtmlXTreeObject(atchFileDirTreeNode.attr('id'), "100%", "100%", 0);
-				module.tree.setImagePath("<c:url value='/js/codebase/imgs/dhxtree_skyblue/'/>");
-				module.tree.loadJSArray(atchFileDirTreeItems);
-				module.tree.setUserData('module', module);
- 				module.tree.openItem(1);
-				module.tree.module = module;
-				module.tree.setOnClickHandler(module.onAtchFileDirTreeItemClick);
-				if (argDirNo != "") {
-					module.tree.selectItem(argDirNo);
-					module.tree.focusItem(argDirNo);
-					module.refreshDirData(argDirNo);
-				}
- 			}
-		}
-	});
-
-};
-
-<%
-/**
- * @FUNCTION NAME : refreshDirData
- * @DESCRIPTION   : DIRECTORY DATA REFRESH (LIST)
- * @PARAMETER     :
- *   1. argDirNo - DIRECTORY NO.
-**/
-%>
-GamArchFcltySpecInqireModule.prototype.refreshDirData = function(argDirNo) {
-
-	if (argDirNo > 1) {
-		this.$('#dirNo').val('' + argDirNo);
-		var dirQueryOption = this.$('#dirQueryOption').val();
-		var searchVO = this.getFormValues('#dirForm');
-		this.doAction('/fclty/gamSelectArchFcltySpecInqireAtchFileDirPk.do', searchVO, function(module, result){
-			if (result.resultCode == "0") {
-				module.makeFormValues('#dirForm', result.result);
-				module.makeDivValues('#dirForm', result.result);
-				module.$('#dirQueryOption').val(dirQueryOption);
-				module.$('#inputDirNm').val(result.result.dirNm);
-				module.displayAtchFileList(argDirNo);
-			} else {
-				module.makeFormValues('#dirForm', {});
-				module.makeDivValues('#dirForm', {});
-				module.$('#dirQueryOption').val(dirQueryOption);
-				module.displayAtchFileList("");
-			}
-		});
-	} else {
-		this.$('#dirNo').val("1");
-		this.$('#dirNm').val("ROOT");
-		this.$('#dirPath').val("/");
-		this.$('#dirUpperNo').val("0");
-		this.$('#depthSort').val("0");
-		this.$('#leafYn').val("N");
-		this.$('#dirFcltsJobSe').val("A");
-		this.$('#inputDirNm').val("ROOT");
-		this.displayAtchFileList("");
-	}
-
-};
-
-<%
-/**
- * @FUNCTION NAME : displayAtchFileList
- * @DESCRIPTION   : 첨부 파일 목록을 보여준다.
- * @PARAMETER     :
- *   1. argAtchFileDirNo - ATTACHE FILE DIRECTORY NO.
-**/
-%>
-GamArchFcltySpecInqireModule.prototype.displayAtchFileList = function(argAtchFileDirNo) {
-
-	this.makeFormValues('#fileForm', {});
-	this.makeDivValues('#fileForm', {});
-	this.$('#fileGrid').flexEmptyData();
-	if (argAtchFileDirNo != null && argAtchFileDirNo != "") {
-		this.$('#atchFileDirNo').val(argAtchFileDirNo);
-		var detailOpt = this.getFormValues('#fileForm');
-		this.$('#atchFileDirNo').val("");
-		this.$('#fileGrid').flexOptions({params:detailOpt}).flexReload();
-	}
-
-};
-
-<%
-/**
- * @FUNCTION NAME : refreshFileData
- * @DESCRIPTION   : FILE DATA REFRESH (LIST)
- * @PARAMETER     :
- *   1. argAtchFileNo - ATTACHE FILE NO.
-**/
-%>
-GamArchFcltySpecInqireModule.prototype.refreshFileData = function(argAtchFileNo) {
-
-	if (argAtchFileNo != null && argAtchFileNo != "") {
-		this.$('#atchFileNo').val(argAtchFileNo);
-		var searchVO = this.getFormValues('#fileForm');
-		this.doAction('/fclty/gamSelectArchFcltySpecInqireFcltsAtchFilePk.do', searchVO, function(module, result){
-			if (result.resultCode == "0") {
-				module.makeFormValues('#fileForm', result.result);
-				module.makeDivValues('#fileForm', result.result);
-			} else {
-				module.makeFormValues('#fileForm', {});
-				module.makeDivValues('#fileForm', {});
-			}
-		});
-	} else {
-		this.makeFormValues('#fileForm', {});
-		this.makeDivValues('#fileForm', {});
-	}
-
-};
-
-<%
-/**
- * @FUNCTION NAME : selectAllFile
- * @DESCRIPTION   : ALL FILE SELECT
- * @PARAMETER     : NONE
-**/
-%>
-GamArchFcltySpecInqireModule.prototype.selectAllFile = function() {
-
-	var rows = this.$('#fileGrid').flexGetData();
-	var atchFileDataCount = rows.length;
-	if (atchFileDataCount > 0) {
-		for (var i=0; i<atchFileDataCount; i++) {
-			var row = rows[i];
-			row["atchFileSelChk"] = true;
-			var rowid = this.$('#fileGrid')[0].dgrid.getRowId(i);
-			this.$('#fileGrid').flexUpdateRow(rowid, row);
-		}
-	}
-
-};
-
-<%
-/**
- * @FUNCTION NAME : downloadMultiFile
- * @DESCRIPTION   : MULTI FILE DOWNLOAD
- * @PARAMETER     : NONE
-**/
-%>
-GamArchFcltySpecInqireModule.prototype.downloadMultiFile = function() {
-
-	var rows = this.$('#fileGrid').selectFilterData([{col:'atchFileSelChk', filter: true}]);
-	if (rows.length <= 0) {
-		alert('다운로드할 첨부 파일 자료가 선택되지 않았습니다.');
-		return;
-	}
-	for (var i=0; i<rows.length; i++) {
-		var row = rows[i];
-		this.downPfPhoto(row["atchFileNmPhysicl"], row["atchFileNmLogic"]);
-	}
-
-};
-
-<%
-/**
- * @FUNCTION NAME : displayPreviewFile
- * @DESCRIPTION   : FILE PREVIEW DISPLAY
- * @PARAMETER     : NONE
-**/
-%>
-GamArchFcltySpecInqireModule.prototype.displayPreviewFile = function() {
-
-	var atchFilePreviewFlag = this.$('#fileGrid')[0].dgrid.isColumnHidden(4);
-	var columnWidth = "200";
-	if (atchFilePreviewFlag == true) {
-		atchFilePreviewFlag = false;
-		columnWidth = "200";
-	} else {
-		atchFilePreviewFlag = true;
-		columnWidth = "300";
-	}
-	this.$('#fileGrid')[0].dgrid.setColumnHidden(4,atchFilePreviewFlag);
-	this.$('#fileGrid')[0].dgrid.setColWidth(3, columnWidth);
-	this._atchFilePreview = atchFilePreviewFlag;
-	this.displayAtchFileList(this.$('#dirNo').val());
-
-};
-
-<%
-/**
- * @FUNCTION NAME : showFcltsAtchFileViewPopup
- * @DESCRIPTION   : FCLTS ATTACHE FILE VIEW POPUP
- * @PARAMETER     : NONE
-**/
-%>
-GamArchFcltySpecInqireModule.prototype.showFcltsAtchFileViewPopup = function() {
-
-	var inqire = true;
-	var atchFileNo = this.$('#atchFileNo').val();
-	var atchFileNmPhysicl = this.$('#atchFileNmPhysicl').val();
-	var imageURL = "";
-	if (atchFileNo == "") {
-		return;
-	}
-	if (atchFileNmPhysicl != "") {
-		imageURL = this.getPfPhotoUrl(atchFileNmPhysicl);
-	}
-    var searchOpts = {
-		'atchFileNo':atchFileNo,
-		'imageURL':imageURL,
-		'inqire':inqire
-    };
-	this.doExecuteDialog('popupFcltsAtchFileView', '시설물 첨부 파일 보기', '/popup/showFcltsAtchFileViewPopup.do', null, searchOpts);
-
-};
-
-<%
-/**
  * @FUNCTION NAME : onTabChange
  * @DESCRIPTION   : 탭이 변경 될때 호출된다. (태그로 정의 되어 있음)
  * @PARAMETER     :
@@ -951,31 +562,7 @@ GamArchFcltySpecInqireModule.prototype.onTabChange = function(newTabId, oldTabId
 				this.loadDetail('listTab');
 			}
 			break;
-		case 'fileTab':
-			if (this._atchFileDirLoad == false) {
-				this.displayAtchFileDirectory("");
-				this._atchFileDirLoad = true;
-				this.$('#fileGrid')[0].dgrid.setColumnHidden(4, true);
-				this.$('#fileGrid')[0].dgrid.setColWidth(3, "300");
-			}
-			break;
 	}
-
-};
-
-<%
-/**
- * @FUNCTION NAME : hideFcltyMaintMngList
- * @DESCRIPTION   : FCLTY MAINT MNG LIST POPUP HIDE
- * @PARAMETER     : NONE
-**/
-%>
-GamArchFcltySpecInqireModule.prototype.hideFcltyMaintMngList = function() {
-
-	if (fcltyMaintMngListPopup) {
-		fcltyMaintMngListPopup.hide();
-	}
-
 };
 
 <%
@@ -1112,7 +699,6 @@ var module_instance = new GamArchFcltySpecInqireModule();
 			<ul>
 				<li><a href="#listTab" class="emdTab">건축시설 목록</a></li>
 				<li><a href="#detailTab" class="emdTab">건축시설 제원</a></li>
-				<li><a href="#fileTab" class="emdTab">건축시설 첨부파일</a></li>
 			</ul>
 			<!-- 212. TAB 1 AREA (LIST) -->
 			<div id="listTab" class="emdTabPage fillHeight" style="overflow:hidden;" >
@@ -1439,75 +1025,6 @@ var module_instance = new GamArchFcltySpecInqireModule();
 						</table>
 					</form>
 				</div>
-			</div>
-			<!-- 214. TAB 3 AREA (FILE) -->
-			<div id="fileTab" class="emdTabPage" style="overflow:scroll;">
-				<table class="detailPanel" style="width:100%;">
-					<tr>
-						<th style="width:10%; height:20px;">선택디렉토리</th>
-						<td>
-							<form id="dirForm">
-								<input id="dirNo" type="hidden"/>
-								<input id="dirNm" type="hidden"/>
-								<input id="dirFcltsJobSe" type="hidden"/>
-								<input id="dirUpperNo" type="hidden"/>
-								<input id="dirPath" type="hidden"/>
-								<input id="depthSort" type="hidden"/>
-								<input id="leafYn" type="hidden"/>
-								<input id="inputDirNm" type="text" size="50" maxlength="100" disabled/>
-								<select id="dirQueryOption">
-									<option value="">전체</option>
-									<option value="A" selected>건축시설</option>
-									<option value="C">토목시설</option>
-									<option value="M">기계시설</option>
-									<option value="E">전기시설</option>
-									<option value="I">통신시설</option>
-								</select>
-							</form>
-						</td>
-						<td>
-							<button id="btnAtchDirFileSearch">디렉토리/파일 검색</button>
-						</td>
-						<th style="width:10%; height:20px;">선택첨부파일</th>
-						<td>
-							<form id="fileForm">
-								<input id="atchFileNo" type="hidden"/>
-								<input id="atchFileNmPhysicl" type="hidden"/>
-								<input id="atchFileSe" type="hidden"/>
-								<input id="atchFileSeNm" type="hidden"/>
-								<input id="atchFileSj" type="hidden"/>
-								<input id="atchFileDirNo" type="hidden"/>
-								<input id="atchFileDataSe" type="hidden"/>
-								<input id="atchFileFcltsJobSe" type="hidden"/>
-								<input id="atchFileFcltsMngNo" type="hidden"/>
-								<input id="atchFileFcltsMngSeq" type="hidden"/>
-								<input id="atchFileNmLogic" type="text" size="41" disabled/>
-							</form>
-						</td>
-					</tr>
-				</table>
-				<table style="width:100%;">
-					<tr>
-						<td style="width:50%;">
-							<div id="atchFileDirTreeList" class="tree" style="position:relative; margin:4px; width:455px; height:460px; z-index:10; overflow: scroll; border: 1px solid; margin-right: 8px; border-radius: 7px; padding : 8px;" data-resize="contentFill"></div>
-						</td>
-						<td style="width:50%;">
-							<table id="fileGrid" style="margin:1px; display:none;"></table>
-						</td>
-					</tr>
-				</table>
-				<table class="detailPanel" style="width:100%;">
-					<tr>
-						<td style="width:50%;">
-							<button id="btnDirRefresh">디렉토리 재조회</button>
-						</td>
-						<td style="width:50%; text-align:right;">
-							<button id="btnFileAllSelect">전체 선택</button>
-							<button id="btnFileDownload">파일 다운로드</button>
-							<button id="btnFilePreview">파일 미리보기</button>
-						</td>
-					</tr>
-				</table>
 			</div>
 		</div>
 	</div>
