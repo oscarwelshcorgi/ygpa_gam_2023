@@ -846,19 +846,15 @@ GamMachFcltySpecMngModule.prototype.onClosePopup = function(popupId, msg, value)
 				var gisAssetsLnm = value.gisAssetsLnm;
 				var gisAssetsLnmSub = value.gisAssetsLnmSub;
 				var prtFcltyLoc = "";
-				if (gisAssetsLocplc != "") {
-					if (gisAssetsLnm != "") {
-						if (gisAssetsLnmSub != "") {
+				if (gisAssetsLocplc != null) {
+					if (gisAssetsLnm != null) {
+						if (gisAssetsLnmSub != null) {
 							prtFcltyLoc = gisAssetsLocplc + " " + gisAssetsLnm + "-" + gisAssetsLnmSub;
 						} else {
 							prtFcltyLoc = gisAssetsLocplc + " " + gisAssetsLnm;
 						}
 					} else {
-						if (gisAssetsLnmSub != "") {
-							prtFcltyLoc = gisAssetsLocplc + " " + gisAssetsLnmSub;
-						} else {
-							prtFcltyLoc = gisAssetsLocplc;
-						}
+						prtFcltyLoc = gisAssetsLocplc;
 					}
 				}
 				this.$('#gisAssetsLocplcLnm').val(prtFcltyLoc);
