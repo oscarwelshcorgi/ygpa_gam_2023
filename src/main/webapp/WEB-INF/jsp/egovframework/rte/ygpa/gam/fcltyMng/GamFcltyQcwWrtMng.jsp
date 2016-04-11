@@ -1860,7 +1860,7 @@ GamFcltyQcwWrtMngModule.prototype.onButtonClick = function(buttonId) {
 		case 'popupEditQcResultItem' :
 			this.doExecuteDialog(
 									'editQcResultItem'
-									, '점검결과항목 편집'
+									, '점검표'
 									, '/popup/showQcMngResultItemPopup.do'
 									, {}
 									, {
@@ -2375,8 +2375,9 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 											<!-- <option value="2">항만부잔교</option> -->
 											<option value="3">건축기계설비</option>
 										</select>
-										<button id="popupEditQcResultItem">점검결과항목선택</button>
-										<button id="QcItemMng">점검항목관리</button>
+										<button id="popupEditQcResultItem">점검표</button>
+										&nbsp;&nbsp;
+										<button id="QcItemMng">점검표 관리</button>
 									</td>
 								</tr>
 								<tr>
