@@ -38,7 +38,7 @@ public class GamFcltsMngRegistMngHwpReport {
 		this.fcltsData = fcltsData;
 		this.qcHistList = qcHistList;
 		this.mntnHistList = mntnHistList;
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy년 MM일 dd일 HH시 mm분 ss초", Locale.KOREA);
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy년 MM일 dd일 HH시 mm분1 ss초", Locale.KOREA);
 		docDate = formatter.format(new Date());
 	}
 
