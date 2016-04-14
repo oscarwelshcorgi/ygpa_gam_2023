@@ -189,7 +189,7 @@ GamFcltsMngRegistMngModule.prototype.loadComplete = function() {
 					{display:'작성자',				name:'wrtUsr',				width:120,		sortable:false,		align:'left'}
 					],
 		showTableToggleBtn : false,
-		height : '520'
+		height : '630'
 	});
 
 <%---
@@ -225,7 +225,7 @@ GamFcltsMngRegistMngModule.prototype.loadComplete = function() {
 					{display:'작성자',			name:'wrtUsr',					width:90,		sortable:false,		align:'center'}
 					],
 		showTableToggleBtn : false,
-		height : '520'
+		height : '630'
 	});
 
 	this._mainmode = '';
