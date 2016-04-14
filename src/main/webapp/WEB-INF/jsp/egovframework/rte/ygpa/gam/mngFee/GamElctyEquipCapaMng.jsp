@@ -36,7 +36,7 @@
 %>
 function GamElctyEquipCapaMngModule() {}
 
-GamElctyEquipCapaMngModule.prototype = new EmdModule(1100, 700);
+GamElctyEquipCapaMngModule.prototype = new EmdModule(1120, 740);
 
 <%
 /**
@@ -111,7 +111,7 @@ GamElctyEquipCapaMngModule.prototype.loadComplete = function() {
 
 	this._mainmode = '';
 	this._mainKeyValue = '';
-	this._chartValueSe = "E";
+	this._chartValueSe = "A";
 	this._chartLabelDisplay = "Y";
 	this._searchButtonClick = false;
 	this.$('#btnAdd').disable({disableClass:"ui-state-disabled"});
@@ -789,7 +789,7 @@ GamElctyEquipCapaMngModule.prototype.addData = function() {
 
 	var mngYear = this.$('#sMngYear').val();
 	this.$('#mngYear').val(mngYear);
-	this.$('#elctySe').val('1');
+	this.$('#elctySe').val('');
 	this.$('#elctySeNm').val('산업용');
 	this.$('#equipCapa').val("0");
 	this.$('#ctrtCapa').val("0");
@@ -1321,11 +1321,31 @@ var module_instance = new GamElctyEquipCapaMngModule();
 											<option value="${yearListItem.code }" <c:if test="${yearListItem.code == thisyear}">selected</c:if> >${yearListItem.codeNm }</option>
 										</c:forEach>
 									</select>
-									&nbsp; &nbsp;
+									&nbsp;
 									<input type="text" size="10" id="mngSeq" disabled/>
 								</td>
-								<td colspan="2" rowspan="11" style="padding-left:4px;">
-									<div id="elctyEquipCapaChart" style="width:810px;height:515px;border:1px solid #A4BED4;"></div>
+								<th style="text-align: center;">
+									그래프　구분
+								</th>
+								<td>
+									<select id="chartValueSe">
+										<option value="">선택</option>
+										<option value="E">설비용량</option>
+										<option value="C">계약용량</option>
+										<option value="A">설비용량+계약용량</option>
+									</select>
+								</td>
+								<th style="text-align: center;">
+									표　　　　시
+								</th>
+								<td>
+									<select id="chartLabelDisplay">
+										<option value="">선택</option>
+										<option value="Y">값 표시</option>
+										<option value="N">값 미표시</option>
+									</select>
+									&nbsp;&nbsp;
+									<button id="btnChartSearch">그래프 조회</button>
 								</td>
 							</tr>
 							<tr>
@@ -1333,6 +1353,9 @@ var module_instance = new GamElctyEquipCapaMngModule();
 								<td>
 									<input type="text" size="13" id="fcltsMngGroupNo" disabled/>
 									<button id="popupFcltsMngGroup" class="popupButton">선택</button>
+								</td>
+								<td colspan="4" rowspan="10" style="padding-left:4px;">
+									<div id="elctyEquipCapaChart" style="width:810px;height:515px;border:1px solid #A4BED4;"></div>
 								</td>
 							</tr>
 							<tr>
@@ -1346,6 +1369,7 @@ var module_instance = new GamElctyEquipCapaMngModule();
 								<td>
 									<input id="elctySeNm" type="hidden"/>
 									<select id="elctySe">
+										<option value="">선택</option>
 										<option value="1">산업용</option>
 										<option value="2">일반용</option>
 										<option value="3">교육용</option>
@@ -1401,26 +1425,13 @@ var module_instance = new GamElctyEquipCapaMngModule();
 					</form>
 					<table style="width:100%;">
 						<tr>
-							<td style="text-align:right;">
-								&nbsp;그래프 구분 &nbsp;
-								<select id="chartValueSe">
-									<option value="">선택</option>
-									<option value="E">설비용량</option>
-									<option value="C">계약용량</option>
-									<option value="A">설비용량+계약용량</option>
-								</select>
-								&nbsp;표시 &nbsp;
-								<select id="chartLabelDisplay">
-									<option value="">선택</option>
-									<option value="Y">값 표시</option>
-									<option value="N">값 미표시</option>
-								</select>
-								&nbsp; &nbsp;
-								<button id="btnChartSearch">그래프 조회</button>
+							<td>
 								<button id="btnFirstData">처음 자료</button>
 								<button id="btnPrevData">이전 자료</button>
 								<button id="btnNextData">다음 자료</button>
 								<button id="btnLastData">마지막 자료</button>
+							</td>
+							<td style="text-align:right;">
 								<button id="btnInsert" class="buttonAdd">　　추　가　　</button>
 								<button id="btnSave" class="buttonSave">　　저　장　　</button>
 								<button id="btnRemove" class="buttonDelete">　　삭　제　　</button>
