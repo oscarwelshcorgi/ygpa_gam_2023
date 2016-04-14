@@ -1005,7 +1005,7 @@ public class GamFcltsMngRegistMngHwpReport {
 		
 		int rowAddr = 2;
 		int borderFillFirstDataRow[][] = {{12, 13, 13, 13, 13, 13, 14}, {11, 11, 5}, {11}};
-		int borderFillCenterDataRow[][] = {{4, 11, 18, 11, 11, 18, 5}, {11, 11, 5}, {11}};
+		int borderFillCenterDataRow[][] = {{4, 11, 38, 11, 11, 38, 5}, {11, 11, 5}, {11}};
 		int borderFillLastDataRow[][] = {{20, 38, 21, 38, 38, 21, 39}, {21, 21, 22}, {21}};
 		int borderFillAloneDataRow[][] = {{15, 13, 35, 13, 13, 35, 14}, {21, 21, 22}, {21}};
 		
