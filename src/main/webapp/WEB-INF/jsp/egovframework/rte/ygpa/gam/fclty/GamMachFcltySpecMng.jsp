@@ -3350,7 +3350,7 @@ var module_instance = new GamMachFcltySpecMngModule();
 			<ul>
 				<li><a href="#listTab" class="emdTab">기계시설 목록</a></li>
 				<li><a href="#detailTab" class="emdTab">기계시설 제원</a></li>
-				<li><a href="#fileTab" class="emdTab">기계시설 첨부파일</a></li>
+				<li><a href="#fileTab" class="emdTab">기계시설 설계도서</a></li>
 			</ul>
 			<!-- 212. TAB 1 AREA (LIST) -->
 			<div id="listTab" class="emdTabPage fillHeight" style="overflow:hidden;" >
