@@ -58,7 +58,11 @@ GamPopupQcResultItemCdModule.prototype.loadComplete = function(params) {
 	                       	{value:'W', name:'요주의'},
 	                       	{value:'X', name:'불량'}
 	                      ];
-
+	// 기계일 경우 점검결과항목에 없음 추가 2016-4-15
+	if(this._fcltsJobSe == 'M') {
+		resultChkOption[resultChkOption.length] = {value:'E', name:'없음'}
+	}
+	
 	var gridHeaders = [];
 	
 	// 각 시설물별 점검항목 해더 필드 설정
@@ -81,6 +85,16 @@ GamPopupQcResultItemCdModule.prototype.loadComplete = function(params) {
 			gridHeaders[gridHeaders.length] = {display:"점검 결과",	name:"inspResultChk",	width:80,	sortable:true,	align:"center", displayFormat:'select', displayOption:resultChkOption};
 		} else {
 			gridHeaders[gridHeaders.length] = {display:"점검 결과",	name:"inspResultChkNm",	width:80,	sortable:true,	align:"center"};
+		}
+	}
+	else if((this._fcltsJobSe == 'M') && this._mechFcltsSe == '2')  {
+		//항만부잔교일 경우
+		gridHeaders[gridHeaders.length] = {display:"점검 항목 명",	name:"qcItemUpperNm",	width:400,	sortable:true,	align:"left"};
+		gridHeaders[gridHeaders.length] = {display:"부잔교 명",		name:"qcItemNm",		width:150,	sortable:true,	align:"left"};
+		if(this._popupMode == 'edit') {
+			gridHeaders[gridHeaders.length] = {display:"점검 결과",	name:"inspResultChk",	width:100,	sortable:true,	align:"center", displayFormat:'select', displayOption:resultChkOption};
+		} else {
+			gridHeaders[gridHeaders.length] = {display:"점검 결과",	name:"inspResultChkNm",	width:100,	sortable:true,	align:"center"};
 		}
 	}
 	else {

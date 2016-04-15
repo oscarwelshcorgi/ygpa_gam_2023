@@ -1158,6 +1158,9 @@ GamFcltyQcwWrtMngModule.prototype.loadQcSubDataList = function() {
 		if(this.$('#mechFcltsSe').val() == '1') {
 			searchVO[searchVO.length] = { name: 'sMechCdStartChar', value: 'M02' };
 			this.$('#sMechCdStartChar').val('M02');
+		} else if(this.$('#mechFcltsSe').val() == '2') {
+			searchVO[searchVO.length] = { name: 'sMechCdStartChar', value: 'M03' };
+			this.$('#sMechCdStartChar').val('M03');
 		} else {
 			searchVO[searchVO.length] = { name: 'sMechCdStartChar', value: 'M01' };
 			this.$('#sMechCdStartChar').val('M01');
@@ -2372,7 +2375,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 										<select id="mechFcltsSe">
 											<option value="1">하역장비</option>
-											<!-- <option value="2">항만부잔교</option> -->
+											<option value="2">항만부잔교</option>
 											<option value="3">건축기계설비</option>
 										</select>
 										<button id="popupEditQcResultItem">점검표</button>
