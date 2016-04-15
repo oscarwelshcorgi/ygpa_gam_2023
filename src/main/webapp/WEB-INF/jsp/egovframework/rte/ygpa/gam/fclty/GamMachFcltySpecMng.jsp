@@ -2053,10 +2053,10 @@ GamMachFcltySpecMngModule.prototype.downloadExcel = function(buttonId) {
 					$(this).remove();
 				}
 				else {
-					$(this).css('border-left', '1px solid black');
-					$(this).css('border-top', '1px solid black');
-					$(this).css('border-right', '1px solid black');
-					$(this).css('border-bottom', '1px solid black');
+					$(this).css('border-left', '0.1pt solid black');
+					$(this).css('border-top', '0.1pt solid black');
+					$(this).css('border-right', '0.1pt solid black');
+					$(this).css('border-bottom', '0.1pt solid black');
 				}
 			});
 			clone.find("tr:eq(0)").remove();

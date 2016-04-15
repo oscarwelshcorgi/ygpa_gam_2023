@@ -569,22 +569,11 @@ GamFcltyQcwWrtMngModule.prototype.loadDataComplete = function() {
 
 <%
 /**
- * @FUNCTION NAME : downloadExcel
+ * @FUNCTION NAME : tableToExcel
  * @DESCRIPTION   : 리스트를 엑셀로 다운로드 한다.
  * @PARAMETER     : NONE
 **/
 %>
-GamFcltyQcwWrtMngModule.prototype.downloadExcel = function() {
-
-	var rowCount = this.$('#mainGrid').flexRowCount();
-	if (rowCount <= 0) {
-		alert('조회된 자료가 없습니다.');
-		return;
-	}
-	this.$('#mainGrid').flexExcelDown('/fcltyMng/excelDownloadQcMngDtlsList.do');
-
-};
-
 GamFcltyQcwWrtMngModule.prototype.tableToExcel = function() {
 	var clone =	this.$('#mainGrid').clone();
 	$(clone).find('th,td').each(function() {
@@ -592,10 +581,10 @@ GamFcltyQcwWrtMngModule.prototype.tableToExcel = function() {
 			$(this).remove();
 		}
 		else {
-			$(this).css('border-left', '1px solid black');
-			$(this).css('border-top', '1px solid black');
-			$(this).css('border-right', '1px solid black');
-			$(this).css('border-bottom', '1px solid black');
+			$(this).css('border-left', '0.1pt solid black');
+			$(this).css('border-top', '0.1pt solid black');
+			$(this).css('border-right', '0.1pt solid black');
+			$(this).css('border-bottom', '0.1pt solid black');
 		}
 	});
 	clone.find("img").remove();
@@ -1840,7 +1829,6 @@ GamFcltyQcwWrtMngModule.prototype.onButtonClick = function(buttonId) {
 			break;
 
 		case 'btnExcelDownload':
-			//this.downloadExcel();
 			this.tableToExcel();
 			break;
 

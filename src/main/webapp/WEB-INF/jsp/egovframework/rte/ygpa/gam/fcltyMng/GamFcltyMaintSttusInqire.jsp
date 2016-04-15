@@ -1557,20 +1557,11 @@ GamFcltyMaintSttusInqireModule.prototype.downloadFileData = function() {
 
 <%
 /**
- * @FUNCTION NAME : downloadExcel
+ * @FUNCTION NAME : tableToExcel
  * @DESCRIPTION   : 그리드리스트 다운로드 함수
  * @PARAMETER     : NONE
 **/
 %>
-GamFcltyMaintSttusInqireModule.prototype.downloadExcel = function() {
-	var rowCount = this.$('#fcltyMaintMngList').flexRowCount();
-	if (rowCount <= 0) {
-		alert('조회된 자료가 없습니다.');
-		return;
-	}
-	this.$('#fcltyMaintMngList').flexExcelDown('/fcltyMng/selectFcltyMaintMngListExcel.do');
-};
-
 GamFcltyMaintSttusInqireModule.prototype.tableToExcel = function() {
 	var clone =	this.$('#fcltyMaintMngList').clone();
 	$(clone).find('th,td').each(function() {
@@ -1578,21 +1569,28 @@ GamFcltyMaintSttusInqireModule.prototype.tableToExcel = function() {
 			$(this).remove();
 		}
 		else {
-			$(this).css('border-left', '1px solid black');
-			$(this).css('border-top', '1px solid black');
-			$(this).css('border-right', '1px solid black');
-			$(this).css('border-bottom', '1px solid black');
+			$(this).css('border-left', '0.1pt solid black');
+			$(this).css('border-top', '0.1pt solid black');
+			$(this).css('border-right', '0.1pt solid black');
+			$(this).css('border-bottom', '0.1pt solid black');
 		}
 	});
-	clone.find("img").remove();
+	clone.find("img").parent().css({"font-weight":"bold","height":"30px"});
 	clone.find("tr:eq(0)").remove();
 	clone.find("tr:eq(1)").remove();
 	clone.find(".ev_dhx_skyblue").find("td:eq(0)").text("");
 	clone.find(".odd_dhx_skyblue").find("td:eq(0)").text("");
-	clone.find("td:eq(0)").css("width","100");
+	clone.find("td:eq(0)").css("width","60");
+	clone.find("tr:eq(0) td").css({"font-size":"15px","font-weight":"bold","background-color":"#BDBDBD","height":"35px"});
+	clone.find("td:eq(1)").css("width","150");
 	clone.find("td:eq(2)").css("width","500");
-	clone.find("td:eq(3)").css("width","100");
-	clone.find("td:eq(9)").css("width","500");
+	clone.find("td:eq(3)").css("width","120");
+	clone.find("td:eq(4)").css("width","120");
+	clone.find("td:eq(5)").css("width","120");
+	clone.find("td:eq(6)").css("width","120");
+	clone.find("td:eq(7)").css("width","300");
+	clone.find("td:eq(8)").css("width","150");
+	clone.find("img").remove();
 	clone.table2excel({
 		filename: "유지보수내역 목록",
 	});
@@ -1668,7 +1666,6 @@ GamFcltyMaintSttusInqireModule.prototype.fillDetailBasicData = function(value) {
 
 		// 엑셀다운로드
 		case "btnExcelDownload":
-			//this.downloadExcel();
 			this.tableToExcel();
 		break;
 

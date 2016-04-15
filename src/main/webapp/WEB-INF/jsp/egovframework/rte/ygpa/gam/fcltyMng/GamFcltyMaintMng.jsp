@@ -249,6 +249,7 @@ GamFcltyMaintMngModule.prototype.loadComplete = function(params) {
 	this.getMapInfoList(params);
 
 	console.log('debug');
+	console.log(EMD.userinfo.mngFcltyCd);
 
 };
 
@@ -430,7 +431,7 @@ GamFcltyMaintMngModule.prototype.addAtchFileDirectory = function() {
 		alert('상위 디렉토리 정보가 부정확합니다. (업무구분)');
 		return;
 	}
-	if (dirFcltsJobSe != "G") {
+	if (dirFcltsJobSe != EMD.userinfo.mngFcltyCd) {
 		alert('다른 시설담당자가 생성한 디렉토리입니다. (생성불가)');
 		return;
 	}
@@ -445,7 +446,9 @@ GamFcltyMaintMngModule.prototype.addAtchFileDirectory = function() {
 		this.$('#dirUpperNo').val(dirNo);
 		this.$('#depthSort').val("" + (depthSort + 1));
 		this.$('#leafYn').val("Y");
-		this.$('#dirFcltsJobSe').val("G");
+		
+		this.$('#dirFcltsJobSe').val(EMD.userinfo.mngFcltyCd);
+		
 		this.$('#dirNo').val("");
 		var insertVO = this.makeFormArgs("#dirForm");
 		this.$('#dirNm').val(dirNm);
@@ -597,7 +600,7 @@ GamFcltyMaintMngModule.prototype.removeAtchFileDirectory = function() {
 		alert('디렉토리 정보가 부정확합니다. (업무구분)');
 		return;
 	}
-	if (dirFcltsJobSe != "G") {
+	if (dirFcltsJobSe != EMD.userinfo.mngFcltyCd) {
 		alert('다른 시설담당자가 생성한 디렉토리입니다. (삭제불가)');
 		return;
 	}
@@ -1549,6 +1552,13 @@ GamFcltyMaintMngModule.prototype.downloadFileData = function() {
 	}
 };
 
+<%
+/**
+ * @FUNCTION NAME : tableToExcel
+ * @DESCRIPTION   : 그리드리스트 다운로드 함수
+ * @PARAMETER     : NONE
+**/
+%>
 GamFcltyMaintMngModule.prototype.tableToExcel = function() {
 	var clone =	this.$('#fcltyMaintMngList').clone();
 	$(clone).find('th,td').each(function() {
@@ -1556,10 +1566,10 @@ GamFcltyMaintMngModule.prototype.tableToExcel = function() {
 			$(this).remove();
 		}
 		else {
-			$(this).css('border-left', '1px solid black');
-			$(this).css('border-top', '1px solid black');
-			$(this).css('border-right', '1px solid black');
-			$(this).css('border-bottom', '1px solid black');
+			$(this).css('border-left', '0.1pt solid black');
+			$(this).css('border-top', '0.1pt solid black');
+			$(this).css('border-right', '0.1pt solid black');
+			$(this).css('border-bottom', '0.1pt solid black');
 		}
 	});
 	clone.find("img").parent().css({"font-weight":"bold","height":"30px"});
@@ -1581,24 +1591,6 @@ GamFcltyMaintMngModule.prototype.tableToExcel = function() {
 	clone.table2excel({
 		filename: "유지보수내역 목록",
 	});
-};
-
-<%
-/**
- * @FUNCTION NAME : downloadExcel
- * @DESCRIPTION   : 그리드리스트 다운로드 함수
- * @PARAMETER     : NONE
-**/
-%>
-
-GamFcltyMaintMngModule.prototype.downloadExcel = function() {
-	var rowCount = this.$('#fcltyMaintMngList').flexRowCount();
-	if (rowCount <= 0) {
-		alert('조회된 자료가 없습니다.');
-		return;
-	}
-
-	this.$('#fcltyMaintMngList').flexExcelDown('/fcltyMng/selectFcltyMaintMngListExcel.do');
 };
 
 <%
@@ -1671,7 +1663,6 @@ GamFcltyMaintMngModule.prototype.fillDetailBasicData = function(value) {
 
 		// 엑셀다운로드
 		case "btnExcelDownload":
-			//this.downloadExcel();
 			this.tableToExcel();
 		break;
 
@@ -2124,7 +2115,7 @@ var module_instance = new GamFcltyMaintMngModule();
 							<form id="dirForm">
 								<input id="dirNo" type="hidden"/>
 								<input id="dirNm" type="hidden"/>
-								<input id="dirFcltsJobSe" type="hidden"/>
+								<input id="dirFcltsJobSe" type="text"/>
 								<input id="dirUpperNo" type="hidden"/>
 								<input id="dirPath" type="hidden"/>
 								<input id="depthSort" type="hidden"/>
