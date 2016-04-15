@@ -78,6 +78,11 @@ public class GamElctyUsageQyMngServiceImpl extends AbstractServiceImpl implement
 	}
 
 	@Override
+	public List selectElctyUsageQyMngMtAmtChart(GamElctyUsageQyMngVO gamElctyUsageQyMngVO) throws Exception {
+		return gamElctyUsageQyMngDao.selectElctyUsageQyMngMtAmtChart(gamElctyUsageQyMngVO);
+	}
+
+	@Override
 	public List selectElctyUsageQyMngYearCntList(GamElctyUsageQyMngVO gamElctyUsageQyMngVO) throws Exception {
 		return gamElctyUsageQyMngDao.selectElctyUsageQyMngYearCntList(gamElctyUsageQyMngVO);
 	}

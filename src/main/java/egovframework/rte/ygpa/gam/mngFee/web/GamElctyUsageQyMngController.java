@@ -281,6 +281,26 @@ public class GamElctyUsageQyMngController {
 		return map;
 
 	}
+	@RequestMapping(value="/mngFee/gamSelectElctyUsageQyMngMtAmtChart.do", method=RequestMethod.POST)
+	@ResponseBody Map gamSelectElctyUsageQyMngMtAmtChart(GamElctyUsageQyMngVO gamElctyUsageQyMngVO) throws Exception {
+
+		Map map = new HashMap();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		List resultList = gamElctyUsageQyMngService.selectElctyUsageQyMngMtAmtChart(gamElctyUsageQyMngVO);
+
+		map.put("resultCode", 0);
+		map.put("resultList", resultList);
+
+		return map;
+
+	}
 
 	@RequestMapping(value="/mngFee/gamSelectElctyUsageQyMngYearCnt.do", method=RequestMethod.POST)
 	@ResponseBody Map gamSelectElctyUsageQyMngYearCnt(GamElctyUsageQyMngVO gamElctyUsageQyMngVO) throws Exception {

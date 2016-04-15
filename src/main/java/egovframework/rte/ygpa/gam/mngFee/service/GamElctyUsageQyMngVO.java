@@ -47,6 +47,18 @@ public class GamElctyUsageQyMngVO extends ComDefaultVO {
 	private	String mt10Qy;				// 10월 사용 량
 	private	String mt11Qy;				// 11월 사용 량
 	private	String mt12Qy;				// 12월 사용 량
+	private	String mt01Amt;				// 01월 전기 요금
+	private	String mt02Amt;				// 02월 전기 요금
+	private	String mt03Amt;				// 03월 전기 요금
+	private	String mt04Amt;				// 04월 전기 요금
+	private	String mt05Amt;				// 05월 전기 요금
+	private	String mt06Amt;				// 06월 전기 요금
+	private	String mt07Amt;				// 07월 전기 요금
+	private	String mt08Amt;				// 08월 전기 요금
+	private	String mt09Amt;				// 09월 전기 요금
+	private	String mt10Amt;				// 10월 전기 요금
+	private	String mt11Amt;				// 11월 전기 요금
+	private	String mt12Amt;				// 12월 전기 요금
 	private	String regUsr;				// 등록자
 	private	String registDt;			// 등록일시
 	private	String updUsr;				// 수정자
@@ -445,6 +457,150 @@ public class GamElctyUsageQyMngVO extends ComDefaultVO {
 	 */
 	public void setSumPeekQy(String sumPeekQy) {
 		this.sumPeekQy = sumPeekQy;
+	}
+	/**
+	 * @return the mt01Amt
+	 */
+	public String getMt01Amt() {
+		return mt01Amt;
+	}
+	/**
+	 * @param mt01Amt the mt01Amt to set
+	 */
+	public void setMt01Amt(String mt01Amt) {
+		this.mt01Amt = mt01Amt;
+	}
+	/**
+	 * @return the mt02Amt
+	 */
+	public String getMt02Amt() {
+		return mt02Amt;
+	}
+	/**
+	 * @param mt02Amt the mt02Amt to set
+	 */
+	public void setMt02Amt(String mt02Amt) {
+		this.mt02Amt = mt02Amt;
+	}
+	/**
+	 * @return the mt03Amt
+	 */
+	public String getMt03Amt() {
+		return mt03Amt;
+	}
+	/**
+	 * @param mt03Amt the mt03Amt to set
+	 */
+	public void setMt03Amt(String mt03Amt) {
+		this.mt03Amt = mt03Amt;
+	}
+	/**
+	 * @return the mt04Amt
+	 */
+	public String getMt04Amt() {
+		return mt04Amt;
+	}
+	/**
+	 * @param mt04Amt the mt04Amt to set
+	 */
+	public void setMt04Amt(String mt04Amt) {
+		this.mt04Amt = mt04Amt;
+	}
+	/**
+	 * @return the mt05Amt
+	 */
+	public String getMt05Amt() {
+		return mt05Amt;
+	}
+	/**
+	 * @param mt05Amt the mt05Amt to set
+	 */
+	public void setMt05Amt(String mt05Amt) {
+		this.mt05Amt = mt05Amt;
+	}
+	/**
+	 * @return the mt06Amt
+	 */
+	public String getMt06Amt() {
+		return mt06Amt;
+	}
+	/**
+	 * @param mt06Amt the mt06Amt to set
+	 */
+	public void setMt06Amt(String mt06Amt) {
+		this.mt06Amt = mt06Amt;
+	}
+	/**
+	 * @return the mt07Amt
+	 */
+	public String getMt07Amt() {
+		return mt07Amt;
+	}
+	/**
+	 * @param mt07Amt the mt07Amt to set
+	 */
+	public void setMt07Amt(String mt07Amt) {
+		this.mt07Amt = mt07Amt;
+	}
+	/**
+	 * @return the mt08Amt
+	 */
+	public String getMt08Amt() {
+		return mt08Amt;
+	}
+	/**
+	 * @param mt08Amt the mt08Amt to set
+	 */
+	public void setMt08Amt(String mt08Amt) {
+		this.mt08Amt = mt08Amt;
+	}
+	/**
+	 * @return the mt09Amt
+	 */
+	public String getMt09Amt() {
+		return mt09Amt;
+	}
+	/**
+	 * @param mt09Amt the mt09Amt to set
+	 */
+	public void setMt09Amt(String mt09Amt) {
+		this.mt09Amt = mt09Amt;
+	}
+	/**
+	 * @return the mt10Amt
+	 */
+	public String getMt10Amt() {
+		return mt10Amt;
+	}
+	/**
+	 * @param mt10Amt the mt10Amt to set
+	 */
+	public void setMt10Amt(String mt10Amt) {
+		this.mt10Amt = mt10Amt;
+	}
+	/**
+	 * @return the mt11Amt
+	 */
+	public String getMt11Amt() {
+		return mt11Amt;
+	}
+	/**
+	 * @param mt11Amt the mt11Amt to set
+	 */
+	public void setMt11Amt(String mt11Amt) {
+		this.mt11Amt = mt11Amt;
+	}
+	/**
+	 * @return the mt12Amt
+	 */
+	public String getMt12Amt() {
+		return mt12Amt;
+	}
+	/**
+	 * @param mt12Amt the mt12Amt to set
+	 */
+	public void setMt12Amt(String mt12Amt) {
+		this.mt12Amt = mt12Amt;
 	}
 
 }

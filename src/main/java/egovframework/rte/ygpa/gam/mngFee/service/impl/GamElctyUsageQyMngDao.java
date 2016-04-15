@@ -102,6 +102,14 @@ public class GamElctyUsageQyMngDao extends YGPAAbstractDAO {
 	public List selectElctyUsageQyMngMonthChartList(GamElctyUsageQyMngVO gamElctyUsageQyMngVO) {
 		return list("gamElctyUsageQyMngDao.selectElctyUsageQyMngMonthChartList_D", gamElctyUsageQyMngVO);
 	}
+	/**
+	 * @name selectElctyUsageQyMngMtAmtChart
+	 * @param gamElctyUsageQyMngVO
+	 * @return List
+	 */
+	public List selectElctyUsageQyMngMtAmtChart(GamElctyUsageQyMngVO gamElctyUsageQyMngVO) {
+		return list("gamElctyUsageQyMngDao.selectElctyUsageQyMngMtAmtChart_D", gamElctyUsageQyMngVO);
+	}
 
 	/**
 	 * @name selectElctyUsageQyMngYearCntList

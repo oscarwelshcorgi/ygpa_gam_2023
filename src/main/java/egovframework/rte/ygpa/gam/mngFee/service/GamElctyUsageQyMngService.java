@@ -91,6 +91,14 @@ public interface GamElctyUsageQyMngService {
 	List selectElctyUsageQyMngMonthChartList(GamElctyUsageQyMngVO gamElctyUsageQyMngVO) throws Exception;
 
 	/**
+	 * @name selectElctyUsageQyMngMtAmtChart
+	 * @param gamElctyUsageQyMngVO
+	 * @return List
+	 * @throws Exception
+	 */
+	List selectElctyUsageQyMngMtAmtChart(GamElctyUsageQyMngVO gamElctyUsageQyMngVO) throws Exception;
+
+	/**
 	 * @name selectElctyUsageQyMngYearCntList
 	 * @param gamElctyUsageQyMngVO
 	 * @return List
@@ -113,5 +121,6 @@ public interface GamElctyUsageQyMngService {
 	 * @throws Exception
 	 */
 	public List selectMngFeeFcltyCdList() throws Exception;
+
 
 }

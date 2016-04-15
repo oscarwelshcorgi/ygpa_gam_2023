@@ -36,7 +36,7 @@
 %>
 function GamElctyUsageQyMngModule() {}
 
-GamElctyUsageQyMngModule.prototype = new EmdModule(800, 600);
+GamElctyUsageQyMngModule.prototype = new EmdModule(1070, 700);
 
 <%
 /**
@@ -105,6 +105,12 @@ GamElctyUsageQyMngModule.prototype.loadComplete = function() {
 	this.$('#chartLabelDisplay').on('change',{module:this}, function(event){
 		event.data.module.saveChartLabelDisplay();
 	});
+	this.$('.mtQy').on('keyup',{module:this}, function(event){
+		event.data.module.mtQySum();
+	});
+	this.$('.mtAmt').on('keyup',{module:this}, function(event){
+		event.data.module.mtAmtSum();
+	});
 
 	this._mainmode = "";
 	this._mainKeyValue = "";
@@ -120,7 +126,57 @@ GamElctyUsageQyMngModule.prototype.loadComplete = function() {
 	this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
 
 };
+<%
+/**
+ * @FUNCTION NAME : mtQySum
+ * @DESCRIPTION   : 월별 사용량에 대한 합계를 구한다.
+ * @PARAMETER     :
+**/
+%>
+GamElctyUsageQyMngModule.prototype.mtQySum = function() {
 
+
+	var mtQySum = parseFloat(this.$('#mt01Qy').val())+
+			   	  parseFloat(this.$('#mt02Qy').val())+
+			      parseFloat(this.$('#mt03Qy').val())+
+			      parseFloat(this.$('#mt04Qy').val())+
+		          parseFloat(this.$('#mt05Qy').val())+
+			      parseFloat(this.$('#mt06Qy').val())+
+			      parseFloat(this.$('#mt07Qy').val())+
+			      parseFloat(this.$('#mt08Qy').val())+
+			      parseFloat(this.$('#mt09Qy').val())+
+			      parseFloat(this.$('#mt10Qy').val())+
+			      parseFloat(this.$('#mt11Qy').val())+
+			      parseFloat(this.$('#mt12Qy').val());
+
+	this.$('#usageQy').val(mtQySum);
+
+};
+<%
+/**
+ * @FUNCTION NAME : mtAmtSum
+ * @DESCRIPTION   : 월별 사용량에 대한 합계를 구한다.
+ * @PARAMETER     :
+**/
+%>
+GamElctyUsageQyMngModule.prototype.mtAmtSum = function() {
+
+
+	var mtAmtSum = parseInt(this.$('#mt01Amt').val())+
+			   	   parseInt(this.$('#mt02Amt').val())+
+			       parseInt(this.$('#mt03Amt').val())+
+			       parseInt(this.$('#mt04Amt').val())+
+		           parseInt(this.$('#mt05Amt').val())+
+			       parseInt(this.$('#mt06Amt').val())+
+			       parseInt(this.$('#mt07Amt').val())+
+			       parseInt(this.$('#mt08Amt').val())+
+			       parseInt(this.$('#mt09Amt').val())+
+			       parseInt(this.$('#mt10Amt').val())+
+			       parseInt(this.$('#mt11Amt').val())+
+			       parseInt(this.$('#mt12Amt').val());
+	this.$('#usageAmt').val(mtAmtSum);
+
+};
 <%
 /**
  * @FUNCTION NAME : isValidYear
@@ -212,6 +268,22 @@ GamElctyUsageQyMngModule.prototype.isValidNumber12P2 = function(numValue) {
 	return true;
 
 };
+<%
+/**
+ * @FUNCTION NAME : isValidNumber10
+ * @DESCRIPTION   : NUMBER에 대한 VALIDATION을 검사한다. (정수10자리)
+ * @PARAMETER     :
+ *   1. numValue - NUMBER VALUE
+**/
+%>
+GamElctyUsageQyMngModule.prototype.isValidNumber10 = function(numValue) {
+
+	if (numValue > 9999999999 || numValue < 0) {
+		return false;
+	}
+	return true;
+
+};
 
 <%
 /**
@@ -272,9 +344,11 @@ GamElctyUsageQyMngModule.prototype.drawChart = function() {
 		chartLabelDisplay = this._chartLabelDisplay;
 	}
 	if (chartValueSe == "A") {
-		chartValueNm = "전기 요금";
+		chartValueNm = "년별 전기 요금";
 	} else if (chartValueSe == "P") {
 		chartValueNm = "PEEK 사용량";
+	} else if (chartValueSe == "E") {
+		chartValueNm = "월별 전기 요금";
 	} else {
 		chartValueNm = "전력 사용량";
 	}
@@ -282,8 +356,11 @@ GamElctyUsageQyMngModule.prototype.drawChart = function() {
 			view			: "bar",
 			container		: this.$('#elctyUsageQyChart')[0],
 			value			: "#gauge#",
-			color			: "#000BE0",
-	        gradient		: "rising",
+			gradient		:function(gradient){
+						        gradient.addColorStop(0.0,"#36ABEE");
+						        gradient.addColorStop(0.8,"#53B5EE");
+						        gradient.addColorStop(1.0,"#8DCAEE");
+								  },
 			width			: 20,
 			label			: "#txtGauge#",
 			tooltip			: "#txtGauge#",
@@ -301,8 +378,11 @@ GamElctyUsageQyMngModule.prototype.drawChart = function() {
 				}
 			}
 		};
+
 	if (chartValueSe == "M") {
+
 		this.doAction('/mngFee/gamSelectElctyUsageQyMngMonthChart.do', searchVO, function(module, result) {
+
 			if (result.resultCode == "0") {
 				for (var i=0; i<12; i++) {
 					usageYr = i + 1;
@@ -338,13 +418,79 @@ GamElctyUsageQyMngModule.prototype.drawChart = function() {
 			}
 			if (module.barChart == null) {
 				module.barChart = new dhtmlXChart(chartConfig);
+				module.barChart.define("yAxis", {
+					start           : 0,
+					end             : maxDataValue + 10,
+					step            : Math.ceil(maxDataValue / 10),
+					template		: function(value) {
+						return $.number(value);
+					}
+				});
+			} else {
+				module.barChart.clearAll();
+
+				module.barChart.define("yAxis", {
+					start           : 0,
+					end             : maxDataValue + 10,
+					step            : Math.ceil(maxDataValue / 10),
+					template		: function(value) {
+						return $.number(value);
+					}
+				});
+				if (chartLabelDisplay == "Y") {
+					module.barChart.define("label", "#txtGauge#");
+				} else {
+					module.barChart.define("label", "");
+				}
+			}
+			console.log(maxDataValue+"   6");
+			module.barChart.parse(dataValueArr, "json");
+			module.barChart.refresh();
+		});
+
+	} else if (chartValueSe == "E") {
+		this.doAction('/mngFee/gamSelectElctyUsageQyMngMtAmtChart.do', searchVO, function(module, result) {
+			if (result.resultCode == "0") {
+				for (var i=0; i<12; i++) {
+					usageYr = i + 1;
+					switch (i) {
+						case  0 : dataValue = result.resultList[0]['mt01Amt']*1;	break;
+						case  1 : dataValue = result.resultList[0]['mt02Amt']*1;	break;
+						case  2 : dataValue = result.resultList[0]['mt03Amt']*1;	break;
+						case  3 : dataValue = result.resultList[0]['mt04Amt']*1;	break;
+						case  4 : dataValue = result.resultList[0]['mt05Amt']*1;	break;
+						case  5 : dataValue = result.resultList[0]['mt06Amt']*1;	break;
+						case  6 : dataValue = result.resultList[0]['mt07Amt']*1;	break;
+						case  7 : dataValue = result.resultList[0]['mt08Amt']*1;	break;
+						case  8 : dataValue = result.resultList[0]['mt09Amt']*1;	break;
+						case  9 : dataValue = result.resultList[0]['mt10Amt']*1;	break;
+						case 10 : dataValue = result.resultList[0]['mt11Amt']*1;	break;
+						case 11 : dataValue = result.resultList[0]['mt12Amt']*1;	break;
+						default : dataValue = 0;								break;
+					}
+					numValue = $.number(dataValue);
+					dataValueArr[i] = { year : usageYr, gauge: dataValue, txtGauge: numValue };
+					if (maxDataValue < dataValue) {
+						maxDataValue = dataValue;
+					}
+				};
+			} else {
+				for (var i=0; i<12; i++) {
+					dataValue = 0;
+					dataValueArr[i] = { year : i + 1, gauge: dataValue, txtGauge: '0' };
+				};
+			}
+			if (maxDataValue < 10) {
+				maxDataValue = 10;
+			}
+			if (module.barChart == null) {
+				module.barChart = new dhtmlXChart(chartConfig);
 			} else {
 				module.barChart.clearAll();
 				module.barChart.define("yAxis", {
 					start           : 0,
 					end             : maxDataValue + 10,
 					step            : Math.ceil(maxDataValue / 10),
-					title           : chartValueNm,
 					template		: function(value) {
 						return $.number(value);
 					}
@@ -358,7 +504,9 @@ GamElctyUsageQyMngModule.prototype.drawChart = function() {
 			module.barChart.parse(dataValueArr, "json");
 			module.barChart.refresh();
 		});
-	} else {
+
+	}
+	else {
 		this.doAction('/mngFee/gamSelectElctyUsageQyMngChart.do', searchVO, function(module, result) {
 			if (result.resultCode == "0") {
 				for (var i=0; i<12; i++) {
@@ -393,7 +541,6 @@ GamElctyUsageQyMngModule.prototype.drawChart = function() {
 					start           : 0,
 					end             : maxDataValue + 10,
 					step            : Math.ceil(maxDataValue / 10),
-					title           : chartValueNm,
 					template		: function(value) {
 						return $.number(value);
 					}
@@ -409,6 +556,43 @@ GamElctyUsageQyMngModule.prototype.drawChart = function() {
 		});
 	}
 
+};
+
+<%
+/**
+ * @FUNCTION NAME : tableToExcel
+ * @DESCRIPTION   : TABLE EXCEL DOWNLOAD
+ * @PARAMETER     :
+**/
+%>
+GamElctyUsageQyMngModule.prototype.tableToExcel = function() {
+	var clone =	this.$('#mainGrid').clone();
+	$(clone).find('th,td').each(function() {
+		if($(this).css('display')=='none') {
+			$(this).remove();
+		}
+		else {
+			$(this).css('border-left', '0.1pt solid black');
+			$(this).css('border-top', '0.1pt solid black');
+			$(this).css('border-right', '0.1pt solid black');
+			$(this).css('border-bottom', '0.1pt solid black');
+		}
+	});
+	clone.find("img").parent().css({"font-weight":"bold","height":"30px"});
+	clone.find("tr:eq(0)").remove();
+	clone.find("tr:eq(1)").remove();
+	clone.find(".ev_dhx_skyblue").find("td:eq(0)").text("");
+	clone.find(".odd_dhx_skyblue").find("td:eq(0)").text("");
+	clone.find("td:eq(0)").css("width","90");
+	clone.find("tr:eq(0) td").css({"font-size":"15px","font-weight":"bold","background-color":"#BDBDBD","height":"35px"});
+	clone.find("td:eq(1)").css("width","200");
+	clone.find("td:eq(2)").css("width","150");
+	clone.find("td:eq(3)").css("width","150");
+	clone.find("td:eq(4)").css("width","150");
+	clone.find("img").remove();
+	clone.table2excel({
+		filename: "전기 사용요금 목록",
+	});
 };
 
 <%
@@ -452,7 +636,7 @@ GamElctyUsageQyMngModule.prototype.onButtonClick = function(buttonId) {
 			this.copyData();
 			break;
 		case 'btnExcelDownload':
-			this.downloadExcel();
+			this.tableToExcel();
 			break;
 		case 'btnChartSearch':
 			this.drawChart();
@@ -831,6 +1015,18 @@ GamElctyUsageQyMngModule.prototype.addData = function() {
 	this.$('#mt10Qy').val("0.00");
 	this.$('#mt11Qy').val("0.00");
 	this.$('#mt12Qy').val("0.00");
+	this.$('#mt01Amt').val("0");
+	this.$('#mt02Amt').val("0");
+	this.$('#mt03Amt').val("0");
+	this.$('#mt04Amt').val("0");
+	this.$('#mt05Amt').val("0");
+	this.$('#mt06Amt').val("0");
+	this.$('#mt07Amt').val("0");
+	this.$('#mt08Amt').val("0");
+	this.$('#mt09Amt').val("0");
+	this.$('#mt10Amt').val("0");
+	this.$('#mt11Amt').val("0");
+	this.$('#mt12Amt').val("0");
 	this.enableDetailInputItem();
 	this.$('#mngFeeFcltyCd').focus();
 
@@ -864,6 +1060,18 @@ GamElctyUsageQyMngModule.prototype.saveData = function() {
 	var mt10Qy = this.$('#mt10Qy').val();
 	var mt11Qy = this.$('#mt11Qy').val();
 	var mt12Qy = this.$('#mt12Qy').val();
+	var mt01Amt = this.$('#mt01Amt').val();
+	var mt02Amt = this.$('#mt02Amt').val();
+	var mt03Amt = this.$('#mt03Amt').val();
+	var mt04Amt = this.$('#mt04Amt').val();
+	var mt05Amt = this.$('#mt05Amt').val();
+	var mt06Amt = this.$('#mt06Amt').val();
+	var mt07Amt = this.$('#mt07Amt').val();
+	var mt08Amt = this.$('#mt08Amt').val();
+	var mt09Amt = this.$('#mt09Amt').val();
+	var mt10Amt = this.$('#mt10Amt').val();
+	var mt11Amt = this.$('#mt11Amt').val();
+	var mt12Amt = this.$('#mt12Amt').val();
 	if (this.isValidYear(usageYr, true) == false) {
 		alert('사용 년도가 부정확합니다.');
 		this.$("#usageYr").focus();
@@ -947,6 +1155,66 @@ GamElctyUsageQyMngModule.prototype.saveData = function() {
 	if (this.isValidNumber12P2(mt12Qy) == false) {
 		alert('12월 사용 량이 부정확합니다.');
 		this.$("#mt12Qy").focus();
+		return;
+	}
+	if (this.isValidNumber10(mt01Amt) == false) {
+		alert('01월 사용 량이 부정확합니다.');
+		this.$("#mt01Amt").focus();
+		return;
+	}
+	if (this.isValidNumber10(mt02Amt) == false) {
+		alert('02월 사용 량이 부정확합니다.');
+		this.$("#mt02Amt").focus();
+		return;
+	}
+	if (this.isValidNumber10(mt03Amt) == false) {
+		alert('03월 사용 량이 부정확합니다.');
+		this.$("#mt03Amt").focus();
+		return;
+	}
+	if (this.isValidNumber10(mt04Amt) == false) {
+		alert('04월 사용 량이 부정확합니다.');
+		this.$("#mt04Amt").focus();
+		return;
+	}
+	if (this.isValidNumber10(mt05Amt) == false) {
+		alert('05월 사용 량이 부정확합니다.');
+		this.$("#mt05Amt").focus();
+		return;
+	}
+	if (this.isValidNumber10(mt06Amt) == false) {
+		alert('06월 사용 량이 부정확합니다.');
+		this.$("#mt06Amt").focus();
+		return;
+	}
+	if (this.isValidNumber10(mt07Amt) == false) {
+		alert('07월 사용 량이 부정확합니다.');
+		this.$("#mt07Amt").focus();
+		return;
+	}
+	if (this.isValidNumber10(mt08Amt) == false) {
+		alert('08월 사용 량이 부정확합니다.');
+		this.$("#mt08Amt").focus();
+		return;
+	}
+	if (this.isValidNumber10(mt09Amt) == false) {
+		alert('09월 사용 량이 부정확합니다.');
+		this.$("#mt09Amt").focus();
+		return;
+	}
+	if (this.isValidNumber10(mt10Amt) == false) {
+		alert('10월 사용 량이 부정확합니다.');
+		this.$("#mt10Amt").focus();
+		return;
+	}
+	if (this.isValidNumber10(mt11Amt) == false) {
+		alert('11월 사용 량이 부정확합니다.');
+		this.$("#mt11Amt").focus();
+		return;
+	}
+	if (this.isValidNumber10(mt12Amt) == false) {
+		alert('12월 사용 량이 부정확합니다.');
+		this.$("#mt12Amt").focus();
 		return;
 	}
 	if (this._mainmode == "insert") {
@@ -1047,24 +1315,6 @@ GamElctyUsageQyMngModule.prototype.copyData = function() {
 
 <%
 /**
- * @FUNCTION NAME : downloadExcel
- * @DESCRIPTION   : 리스트를 엑셀로 다운로드한다.
- * @PARAMETER     : NONE
-**/
-%>
-GamElctyUsageQyMngModule.prototype.downloadExcel = function() {
-
-	var mainGridRowCount = this.$("#mainGrid").flexRowCount();
-	if (mainGridRowCount <= 0) {
-		alert("조회된 자료가 없습니다.");
-		return;
-	}
-	this.$('#mainGrid').flexExcelDown('/mngFee/gamExcelDownloadElctyUsageQyMng.do');
-
-};
-
-<%
-/**
  * @FUNCTION NAME : enableListButtonItem
  * @DESCRIPTION   : LIST 버튼항목을 ENABLE 한다.
  * @PARAMETER     : NONE
@@ -1120,6 +1370,18 @@ GamElctyUsageQyMngModule.prototype.enableDetailInputItem = function() {
 		this.$('#mt10Qy').enable();
 		this.$('#mt11Qy').enable();
 		this.$('#mt12Qy').enable();
+		this.$('#mt01Amt').enable();
+		this.$('#mt02Amt').enable();
+		this.$('#mt03Amt').enable();
+		this.$('#mt04Amt').enable();
+		this.$('#mt05Amt').enable();
+		this.$('#mt06Amt').enable();
+		this.$('#mt07Amt').enable();
+		this.$('#mt08Amt').enable();
+		this.$('#mt09Amt').enable();
+		this.$('#mt10Amt').enable();
+		this.$('#mt11Amt').enable();
+		this.$('#mt12Amt').enable();
 		this.$('#btnInsert').disable({disableClass:"ui-state-disabled"});
 		this.$('#btnSave').enable();
 		this.$('#btnSave').removeClass('ui-state-disabled');
@@ -1150,6 +1412,18 @@ GamElctyUsageQyMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#mt10Qy').enable();
 			this.$('#mt11Qy').enable();
 			this.$('#mt12Qy').enable();
+			this.$('#mt01Amt').enable();
+			this.$('#mt02Amt').enable();
+			this.$('#mt03Amt').enable();
+			this.$('#mt04Amt').enable();
+			this.$('#mt05Amt').enable();
+			this.$('#mt06Amt').enable();
+			this.$('#mt07Amt').enable();
+			this.$('#mt08Amt').enable();
+			this.$('#mt09Amt').enable();
+			this.$('#mt10Amt').enable();
+			this.$('#mt11Amt').enable();
+			this.$('#mt12Amt').enable();
 			this.$('#btnInsert').enable();
 			this.$('#btnInsert').removeClass('ui-state-disabled');
 			this.$('#btnSave').enable();
@@ -1186,6 +1460,18 @@ GamElctyUsageQyMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#mt10Qy').disable();
 			this.$('#mt11Qy').disable();
 			this.$('#mt12Qy').disable();
+			this.$('#mt01Amt').disable();
+			this.$('#mt02Amt').disable();
+			this.$('#mt03Amt').disable();
+			this.$('#mt04Amt').disable();
+			this.$('#mt05Amt').disable();
+			this.$('#mt06Amt').disable();
+			this.$('#mt07Amt').disable();
+			this.$('#mt08Amt').disable();
+			this.$('#mt09Amt').disable();
+			this.$('#mt10Amt').disable();
+			this.$('#mt11Amt').disable();
+			this.$('#mt12Amt').disable();
 			this.$('#btnInsert').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnSave').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnRemove').disable({disableClass:"ui-state-disabled"});
@@ -1227,6 +1513,18 @@ GamElctyUsageQyMngModule.prototype.disableDetailInputItem = function() {
 	this.$('#mt10Qy').disable();
 	this.$('#mt11Qy').disable();
 	this.$('#mt12Qy').disable();
+	this.$('#mt01Amt').disable();
+	this.$('#mt02Amt').disable();
+	this.$('#mt03Amt').disable();
+	this.$('#mt04Amt').disable();
+	this.$('#mt05Amt').disable();
+	this.$('#mt06Amt').disable();
+	this.$('#mt07Amt').disable();
+	this.$('#mt08Amt').disable();
+	this.$('#mt09Amt').disable();
+	this.$('#mt10Amt').disable();
+	this.$('#mt11Amt').disable();
+	this.$('#mt12Amt').disable();
 	this.$('#btnInsert').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnSave').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnRemove').disable({disableClass:"ui-state-disabled"});
@@ -1258,6 +1556,7 @@ GamElctyUsageQyMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 			if (this._mainmode=="modify") {
 				this.loadDetail(oldTabId);
 				this.enableDetailInputItem();
+				this.drawChart();
 			} else if (this._mainmode=="insert") {
 				this.makeFormValues('#detailForm', {});
 				this.makeDivValues('#detailForm', {});
@@ -1268,12 +1567,11 @@ GamElctyUsageQyMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 				this.makeDivValues('#detailForm', {});
 				this.disableDetailInputItem();
 			}
-			this.drawChart();
+
 			break;
 	}
 
 };
-
 var module_instance = new GamElctyUsageQyMngModule();
 
 </script>
@@ -1376,11 +1674,23 @@ var module_instance = new GamElctyUsageQyMngModule();
 										</c:forEach>
 									</select>
 								</td>
-								<th style="width:10%; height:18;">그래프　　구분</th>
+								<th style="width:10%; height:18px;">시　설　코　드</th>
+								<td>
+									<input id="mngFeeJobSe" type="hidden"/>
+									<input id="mngFeeJobSeNm" type="hidden"/>
+									<select id="mngFeeFcltyCd">
+										<option value="" selected="selected">선택</option>
+										<c:forEach  items="${mngFeeFcltyCdList}" var="mngFeeFcltyCdItem">
+											<option value="${mngFeeFcltyCdItem.mngFeeFcltyCd}">${mngFeeFcltyCdItem.mngFeeFcltyNm}</option>
+										</c:forEach>
+									</select>
+								</td>
+								<th style="width:10%; height:18px;">그래프　구분</th>
 								<td>
 									<select id="chartValueSe">
 										<option value="">선택</option>
 										<option value="M">월별 전력 사용량</option>
+										<option value="E">월별 전기 요금</option>
 										<option value="U">년별 전력 사용량</option>
 										<option value="A">년별 전기 요금</option>
 										<option value="P">년별 PEEK 사용량</option>
@@ -1396,90 +1706,158 @@ var module_instance = new GamElctyUsageQyMngModule();
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:18px;">시　설　코　드</th>
+
+								<th style="width:10%; height:18px;">전력　사용량</th>
 								<td>
-									<input id="mngFeeJobSe" type="hidden"/>
-									<input id="mngFeeJobSeNm" type="hidden"/>
-									<select id="mngFeeFcltyCd">
-										<option value="" selected="selected">선택</option>
-										<c:forEach  items="${mngFeeFcltyCdList}" var="mngFeeFcltyCdItem">
-											<option value="${mngFeeFcltyCdItem.mngFeeFcltyCd}">${mngFeeFcltyCdItem.mngFeeFcltyNm}</option>
-										</c:forEach>
-									</select>
+									<input type="text" size="15" id="usageQy" class="ygpaNumber" data-decimal-point="2" maxlength="18"/> kW/h
 								</td>
-								<td colspan="2" rowspan="10" style="padding-left:4px;">
-									<div id="elctyUsageQyChart" style="width:485px;height:380px;border:1px solid #A4BED4;"></div>
-								</td>
-							</tr>
-							<tr>
-								<th style="width:10%; height:18px;">전력　　사용량</th>
-								<td>
-									<input type="text" size="20" id="usageQy" class="ygpaNumber" data-decimal-point="2" maxlength="18"/> kW/h
-								</td>
-							</tr>
-							<tr>
 								<th style="width:10%; height:18px;">전　기　요　금</th>
 								<td>
-									<input type="text" size="20" id="usageAmt" class="ygpaNumber" maxlength="17"/> 원
+									<input type="text" size="15" id="usageAmt" class="ygpaNumber" maxlength="17"/> 원&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								</td>
+								<th style="width:10%; height:18px;">PEEK　사용량</th>
+								<td colspan="2">
+									<input type="text" size="18" id="peekQy" class="ygpaNumber" data-decimal-point="2" maxlength="18"/> kW
+								</td>
+
+							</tr>
+
+							<tr>
+								<th style="width:10%; height:18px;">01월　사용량</th>
+								<td>
+									<input type="text" size="15" id="mt01Qy" class="ygpaNumber mtQy" data-decimal-point="2" maxlength="18"/>
+								</td>
+								<th style="width:10%; height:18px;">01　월　요　금</th>
+								<td>
+									<input type="text" size="15" id="mt01Amt" class="ygpaNumber mtAmt"  maxlength="18"/> 원
+								</td>
+								<td colspan="4" rowspan="12" style="padding-left:4px;">
+									<div id="elctyUsageQyChart" style="width:515px;height:460px;border:1px solid #A4BED4;"></div>
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:18px;">PEEK　　사용량</th>
+								<th style="width:10%; height:18px;">02월　사용량</th>
 								<td>
-									<input type="text" size="20" id="peekQy" class="ygpaNumber" data-decimal-point="2" maxlength="18"/> kW
+									<input type="text" size="15" id="mt02Qy" class="ygpaNumber mtQy" data-decimal-point="2" maxlength="18"/>
+								</td>
+								<th style="width:10%; height:18px;">02　월　요　금</th>
+								<td>
+									<input type="text" size="15" id="mt02Amt" class="ygpaNumber mtAmt" maxlength="18"/> 원
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:18px;">01/02월 사용량</th>
+								<th style="width:10%; height:18px;">03월　사용량</th>
 								<td>
-									<input type="text" size="11" id="mt01Qy" class="ygpaNumber" data-decimal-point="2" maxlength="18"/> /
-									<input type="text" size="11" id="mt02Qy" class="ygpaNumber" data-decimal-point="2" maxlength="18"/>
+									<input type="text" size="15" id="mt03Qy" class="ygpaNumber mtQy" data-decimal-point="2" maxlength="18"/>
+								</td>
+								<th style="width:10%; height:18px;">03　월　요　금</th>
+								<td>
+									<input type="text" size="15" id="mt03Amt" class="ygpaNumber mtAmt" maxlength="18"/> 원
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:18px;">03/04월 사용량</th>
+								<th style="width:10%; height:18px;">04월　사용량</th>
 								<td>
-									<input type="text" size="11" id="mt03Qy" class="ygpaNumber" data-decimal-point="2" maxlength="18"/> /
-									<input type="text" size="11" id="mt04Qy" class="ygpaNumber" data-decimal-point="2" maxlength="18"/>
+									<input type="text" size="15" id="mt04Qy" class="ygpaNumber mtQy" data-decimal-point="2" maxlength="18"/>
+								</td>
+								<th style="width:10%; height:18px;">04　월　요　금</th>
+								<td>
+									<input type="text" size="15" id="mt04Amt" class="ygpaNumber mtAmt"  maxlength="18"/> 원
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:18px;">05/06월 사용량</th>
+								<th style="width:10%; height:18px;">05월　사용량</th>
 								<td>
-									<input type="text" size="11" id="mt05Qy" class="ygpaNumber" data-decimal-point="2" maxlength="18"/> /
-									<input type="text" size="11" id="mt06Qy" class="ygpaNumber" data-decimal-point="2" maxlength="18"/>
+									<input type="text" size="15" id="mt05Qy" class="ygpaNumber mtQy" data-decimal-point="2" maxlength="18"/>
+								</td>
+								<th style="width:10%; height:18px;">05　월　요　금</th>
+								<td>
+									<input type="text" size="15" id="mt05Amt" class="ygpaNumber mtAmt"  maxlength="18"/> 원
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:18px;">07/08월 사용량</th>
+								<th style="width:10%; height:18px;">06월　사용량</th>
 								<td>
-									<input type="text" size="11" id="mt07Qy" class="ygpaNumber" data-decimal-point="2" maxlength="18"/> /
-									<input type="text" size="11" id="mt08Qy" class="ygpaNumber" data-decimal-point="2" maxlength="18"/>
+									<input type="text" size="15" id="mt06Qy" class="ygpaNumber mtQy" data-decimal-point="2" maxlength="18"/>
+								</td>
+								<th style="width:10%; height:18px;">06　월　요　금</th>
+								<td>
+									<input type="text" size="15" id="mt06Amt" class="ygpaNumber mtAmt"  maxlength="18"/> 원
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:18px;">09/10월 사용량</th>
+								<th style="width:10%; height:18px;">07월　사용량</th>
 								<td>
-									<input type="text" size="11" id="mt09Qy" class="ygpaNumber" data-decimal-point="2" maxlength="18"/> /
-									<input type="text" size="11" id="mt10Qy" class="ygpaNumber" data-decimal-point="2" maxlength="18"/>
+									<input type="text" size="15" id="mt07Qy" class="ygpaNumber mtQy" data-decimal-point="2" maxlength="18"/>
+								</td>
+								<th style="width:10%; height:18px;">07　월　요　금</th>
+								<td>
+									<input type="text" size="15" id="mt07Amt" class="ygpaNumber mtAmt" maxlength="18"/> 원
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:18px;">11/12월 사용량</th>
+								<th style="width:10%; height:18px;">08월　사용량</th>
 								<td>
-									<input type="text" size="11" id="mt11Qy" class="ygpaNumber" data-decimal-point="2" maxlength="18"/> /
-									<input type="text" size="11" id="mt12Qy" class="ygpaNumber" data-decimal-point="2" maxlength="18"/>
+									<input type="text" size="15" id="mt08Qy" class="ygpaNumber mtQy" data-decimal-point="2" maxlength="18"/>
+								</td>
+								<th style="width:10%; height:18px;">08　월　요　금</th>
+								<td>
+									<input type="text" size="15" id="mt08Amt" class="ygpaNumber mtAmt"  maxlength="18"/> 원
 								</td>
 							</tr>
+							<tr>
+								<th style="width:10%; height:18px;">09월　사용량</th>
+								<td>
+									<input type="text" size="15" id="mt09Qy" class="ygpaNumber mtQy" data-decimal-point="2" maxlength="18"/>
+								</td>
+								<th style="width:10%; height:18px;">09　월　요　금</th>
+								<td>
+									<input type="text" size="15" id="mt09Amt" class="ygpaNumber mtAmt"  maxlength="18"/> 원
+								</td>
+							</tr>
+							<tr>
+								<th style="width:10%; height:18px;">10월　사용량</th>
+								<td>
+									<input type="text" size="15" id="mt10Qy" class="ygpaNumber mtQy" data-decimal-point="2" maxlength="18"/>
+								</td>
+								<th style="width:10%; height:18px;">10　월　요　금</th>
+								<td>
+									<input type="text" size="15" id="mt10Amt" class="ygpaNumber mtAmt" maxlength="18"/> 원
+								</td>
+							</tr>
+							<tr>
+								<th style="width:10%; height:18px;">11월　사용량</th>
+								<td>
+									<input type="text" size="15" id="mt11Qy" class="ygpaNumber mtQy" data-decimal-point="2" maxlength="18"/>
+								</td>
+								<th style="width:10%; height:18px;">11　월　요　금</th>
+								<td>
+									<input type="text" size="15" id="mt11Amt" class="ygpaNumber mtAmt"  maxlength="18"/> 원
+								</td>
+							</tr>
+							<tr>
+								<th style="width:10%; height:18px;">12월　사용량</th>
+								<td>
+									<input type="text" size="15" id="mt12Qy" class="ygpaNumber mtQy" data-decimal-point="2" maxlength="18"/>
+								</td>
+								<th style="width:10%; height:18px;">12　월　요　금</th>
+								<td>
+									<input type="text" size="15" id="mt12Amt" class="ygpaNumber mtAmt" maxlength="18"/> 원
+								</td>
+							</tr>
+
+
 						</table>
 					</form>
 					<table style="width:100%;">
 						<tr>
-							<td style="text-align:right;">
+							<td style="text-align:left;">
 								<button id="btnFirstData">처음 자료</button>
 								<button id="btnPrevData">이전 자료</button>
 								<button id="btnNextData">다음 자료</button>
 								<button id="btnLastData">마지막 자료</button>
+							</td>
+							<td style="text-align:right;">
 								<button id="btnInsert" class="buttonAdd">　　추　가　　</button>
 								<button id="btnSave" class="buttonSave">　　저　장　　</button>
 								<button id="btnRemove" class="buttonDelete">　　삭　제　　</button>
