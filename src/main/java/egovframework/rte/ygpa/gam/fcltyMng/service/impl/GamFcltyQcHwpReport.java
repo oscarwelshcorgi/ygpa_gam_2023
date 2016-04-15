@@ -928,382 +928,391 @@ public class GamFcltyQcHwpReport  extends GamFcltyQcHwpBaseReport implements Gam
 		sb.append("	</TEXT></P>\n");
 		sb.append("	<P ParaShape=\"15\" Style=\"0\"><TEXT CharShape=\"5\"/></P>\n");
 		sb.append("	<P ParaShape=\"14\" Style=\"0\"><TEXT CharShape=\"9\"><CHAR>※ 정상 ○ 요주의 : △ 불량 : ×</CHAR></TEXT></P>\n");
-		sb.append("	<P ParaShape=\"15\" Style=\"0\"><TEXT CharShape=\"5\">\n");
-		
-		//컨테이너 크레인의 표 출력 start
-		rowCount = 4 + containerCraneMUpperList.size() + containerCraneEUpperList.size(); //4 = 제목해더 row + (기계부) + (전기부)
-		sb.append("		<TABLE BorderFill=\"1\" CellSpacing=\"0\" ColCount=\"4\" PageBreak=\"Cell\" RepeatHeader=\"true\" RowCount=\""+rowCount+"\">\n");
-		sb.append("			<SHAPEOBJECT InstId=\"1099298195\" Lock=\"false\" NumberingType=\"Table\" TextWrap=\"TopAndBottom\" ZOrder=\"18\"><SIZE Height=\"17128\" HeightRelTo=\"Absolute\" Protect=\"false\" Width=\"50450\" WidthRelTo=\"Absolute\"/><POSITION AffectLSpacing=\"false\" AllowOverlap=\"false\" FlowWithText=\"true\" HoldAnchorAndSO=\"false\" HorzAlign=\"Left\" HorzOffset=\"0\" HorzRelTo=\"Column\" TreatAsChar=\"false\" VertAlign=\"Top\" VertOffset=\"0\" VertRelTo=\"Para\"/><OUTSIDEMARGIN Bottom=\"140\" Left=\"140\" Right=\"140\" Top=\"140\"/></SHAPEOBJECT>\n");
-		sb.append("			<INSIDEMARGIN Bottom=\"140\" Left=\"140\" Right=\"140\" Top=\"140\"/>\n");
-		sb.append("			<ROW>\n");
-		sb.append("				<CELL BorderFill=\"20\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"true\" Height=\"2248\" Protect=\"false\" RowAddr=\"0\" RowSpan=\"1\" Width=\"11976\">\n");
-		sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-		sb.append("						<P ParaShape=\"35\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>장   비   명</CHAR></TEXT></P>\n");
-		sb.append("					</PARALIST>\n");
-		sb.append("				</CELL>\n");
-		sb.append("				<CELL BorderFill=\"21\" ColAddr=\"1\" ColSpan=\"3\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"true\" Height=\"2248\" Protect=\"false\" RowAddr=\"0\" RowSpan=\"1\" Width=\"38474\">\n");
-		sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-		sb.append("						<P ParaShape=\"35\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>컨  테  이  너  크  레  인</CHAR></TEXT></P>\n");
-		sb.append("					</PARALIST>\n");
-		sb.append("				</CELL>\n");
-		sb.append("			</ROW>\n");
-		sb.append("			<ROW>\n");
-		sb.append("				<CELL BorderFill=\"22\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"true\" Height=\"2248\" Protect=\"false\" RowAddr=\"1\" RowSpan=\"1\" Width=\"11976\">\n");
-		sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-		sb.append("						<P ParaShape=\"35\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>점 검 개 소</CHAR></TEXT></P>\n");
-		sb.append("					</PARALIST>\n");
-		sb.append("				</CELL>\n");
-		sb.append("				<CELL BorderFill=\"19\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"true\" Height=\"2248\" Protect=\"false\" RowAddr=\"1\" RowSpan=\"1\" Width=\"24200\">\n");
-		sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-		sb.append("						<P ParaShape=\"35\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>점검사항</CHAR></TEXT></P>\n");
-		sb.append("					</PARALIST>\n");
-		sb.append("				</CELL>\n");
-		sb.append("				<CELL BorderFill=\"19\" ColAddr=\"2\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"true\" Height=\"2248\" Protect=\"false\" RowAddr=\"1\" RowSpan=\"1\" Width=\"7413\">\n");
-		sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-		sb.append("						<P ParaShape=\"35\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>점검결과</CHAR></TEXT></P>\n");
-		sb.append("					</PARALIST>\n");
-		sb.append("				</CELL>\n");
-		sb.append("				<CELL BorderFill=\"23\" ColAddr=\"3\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"true\" Height=\"2248\" Protect=\"false\" RowAddr=\"1\" RowSpan=\"1\" Width=\"6861\">\n");
-		sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-		sb.append("						<P ParaShape=\"35\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>비  고</CHAR></TEXT></P>\n");
-		sb.append("					</PARALIST>\n");
-		sb.append("				</CELL>\n");
-		sb.append("			</ROW>\n");
-		sb.append("			<ROW>\n");
-		sb.append("				<CELL BorderFill=\"17\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"2248\" Protect=\"false\" RowAddr=\"2\" RowSpan=\"1\" Width=\"11976\">\n");
-		sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-		sb.append("						<P ParaShape=\"35\" Style=\"0\"><TEXT CharShape=\"20\"><CHAR>(기 계 부)</CHAR></TEXT></P>\n");
-		sb.append("					</PARALIST>\n");
-		sb.append("				</CELL>\n");
-		sb.append("				<CELL BorderFill=\"14\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"2248\" Protect=\"false\" RowAddr=\"2\" RowSpan=\"1\" Width=\"24200\">\n");
-		sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-		sb.append("						<P ParaShape=\"16\" Style=\"0\"><TEXT CharShape=\"21\"/></P>\n");
-		sb.append("					</PARALIST>\n");
-		sb.append("				</CELL>\n");
-		sb.append("				<CELL BorderFill=\"14\" ColAddr=\"2\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"2248\" Protect=\"false\" RowAddr=\"2\" RowSpan=\"1\" Width=\"7413\">\n");
-		sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-		sb.append("						<P ParaShape=\"35\" Style=\"0\"><TEXT CharShape=\"10\"/></P>\n");
-		sb.append("					</PARALIST>\n");
-		sb.append("				</CELL>\n");
-		sb.append("				<CELL BorderFill=\"15\" ColAddr=\"3\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"2248\" Protect=\"false\" RowAddr=\"2\" RowSpan=\"1\" Width=\"6861\">\n");
-		sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-		sb.append("						<P ParaShape=\"16\" Style=\"0\"><TEXT CharShape=\"10\"/></P>\n");
-		sb.append("					</PARALIST>\n");
-		sb.append("				</CELL>\n");
-		sb.append("			</ROW>\n");
-		
-		//컨테이너 크레인의 기계부 항목 start
-		int rowAddr = 3;
-		for(int i=0; i<containerCraneMUpperList.size(); i++) {
-			HashMap<String, String> upperItem = containerCraneMUpperList.get(i);
-			String qcItemUpperCd = upperItem.get("qcItemUpperCd");
-			String qcItemUpperNm = upperItem.get("qcItemUpperNm");
-			int number = i+1;
+		if(containerCraneMUpperList.size() + containerCraneEUpperList.size() > 0) {
+			sb.append("	<P ParaShape=\"15\" Style=\"0\"><TEXT CharShape=\"5\">\n");
+			//컨테이너 크레인의 표 출력 start
+			rowCount = 4 + containerCraneMUpperList.size() + containerCraneEUpperList.size(); //4 = 제목해더 row + (기계부) + (전기부)
+			sb.append("		<TABLE BorderFill=\"1\" CellSpacing=\"0\" ColCount=\"4\" PageBreak=\"Cell\" RepeatHeader=\"true\" RowCount=\""+rowCount+"\">\n");
+			sb.append("			<SHAPEOBJECT InstId=\"1099298195\" Lock=\"false\" NumberingType=\"Table\" TextWrap=\"TopAndBottom\" ZOrder=\"18\"><SIZE Height=\"17128\" HeightRelTo=\"Absolute\" Protect=\"false\" Width=\"50450\" WidthRelTo=\"Absolute\"/><POSITION AffectLSpacing=\"false\" AllowOverlap=\"false\" FlowWithText=\"true\" HoldAnchorAndSO=\"false\" HorzAlign=\"Left\" HorzOffset=\"0\" HorzRelTo=\"Column\" TreatAsChar=\"false\" VertAlign=\"Top\" VertOffset=\"0\" VertRelTo=\"Para\"/><OUTSIDEMARGIN Bottom=\"140\" Left=\"140\" Right=\"140\" Top=\"140\"/></SHAPEOBJECT>\n");
+			sb.append("			<INSIDEMARGIN Bottom=\"140\" Left=\"140\" Right=\"140\" Top=\"140\"/>\n");
 			sb.append("			<ROW>\n");
-			sb.append("				<CELL BorderFill=\"24\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"0\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"11976\">\n");
+			sb.append("				<CELL BorderFill=\"20\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"true\" Height=\"2248\" Protect=\"false\" RowAddr=\"0\" RowSpan=\"1\" Width=\"11976\">\n");
 			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-			sb.append("						<P ParaShape=\"16\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>"+number+". "+qcItemUpperNm+"</CHAR></TEXT></P>\n");
+			sb.append("						<P ParaShape=\"35\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>장   비   명</CHAR></TEXT></P>\n");
 			sb.append("					</PARALIST>\n");
 			sb.append("				</CELL>\n");
-			sb.append("				<CELL BorderFill=\"18\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"0\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"24200\">\n");
+			sb.append("				<CELL BorderFill=\"21\" ColAddr=\"1\" ColSpan=\"3\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"true\" Height=\"2248\" Protect=\"false\" RowAddr=\"0\" RowSpan=\"1\" Width=\"38474\">\n");
 			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-			int cellHeight = 0;
-			for(EgovMap qcResultItem : qcResultItemList) {
-				String upperCd = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemUpperCd") : "";
-				if(qcItemUpperCd.equals(upperCd)) {
-					String qcItemNm = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemNm") : "";
-					sb.append("						<P ParaShape=\"16\" Style=\"0\"><TEXT CharShape=\"21\"><CHAR>○ "+qcItemNm+"</CHAR></TEXT></P>\n");
-					cellHeight += 2034;
-				}
-			}			
+			sb.append("						<P ParaShape=\"35\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>컨  테  이  너  크  레  인</CHAR></TEXT></P>\n");
 			sb.append("					</PARALIST>\n");
 			sb.append("				</CELL>\n");
-			sb.append("				<CELL BorderFill=\"18\" ColAddr=\"2\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\""+cellHeight+"\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"7413\">\n");
+			sb.append("			</ROW>\n");
+			sb.append("			<ROW>\n");
+			sb.append("				<CELL BorderFill=\"22\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"true\" Height=\"2248\" Protect=\"false\" RowAddr=\"1\" RowSpan=\"1\" Width=\"11976\">\n");
 			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-			for(EgovMap qcResultItem : qcResultItemList) {
-				String upperCd = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemUpperCd") : "";
-				if(qcItemUpperCd.equals(upperCd)) {
-					String inspResultChk = (qcResultItem.get("inspResultChk") != null) ? (String) qcResultItem.get("inspResultChk") : "";
-					sb.append("						<P ParaShape=\"29\" Style=\"0\"><TEXT CharShape=\"5\"><CHAR>" + getResultItemSymbol(inspResultChk) + "</CHAR></TEXT></P>\n");
+			sb.append("						<P ParaShape=\"35\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>점 검 개 소</CHAR></TEXT></P>\n");
+			sb.append("					</PARALIST>\n");
+			sb.append("				</CELL>\n");
+			sb.append("				<CELL BorderFill=\"19\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"true\" Height=\"2248\" Protect=\"false\" RowAddr=\"1\" RowSpan=\"1\" Width=\"24200\">\n");
+			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+			sb.append("						<P ParaShape=\"35\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>점검사항</CHAR></TEXT></P>\n");
+			sb.append("					</PARALIST>\n");
+			sb.append("				</CELL>\n");
+			sb.append("				<CELL BorderFill=\"19\" ColAddr=\"2\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"true\" Height=\"2248\" Protect=\"false\" RowAddr=\"1\" RowSpan=\"1\" Width=\"7413\">\n");
+			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+			sb.append("						<P ParaShape=\"35\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>점검결과</CHAR></TEXT></P>\n");
+			sb.append("					</PARALIST>\n");
+			sb.append("				</CELL>\n");
+			sb.append("				<CELL BorderFill=\"23\" ColAddr=\"3\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"true\" Height=\"2248\" Protect=\"false\" RowAddr=\"1\" RowSpan=\"1\" Width=\"6861\">\n");
+			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+			sb.append("						<P ParaShape=\"35\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>비  고</CHAR></TEXT></P>\n");
+			sb.append("					</PARALIST>\n");
+			sb.append("				</CELL>\n");
+			sb.append("			</ROW>\n");
+			sb.append("			<ROW>\n");
+			sb.append("				<CELL BorderFill=\"17\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"2248\" Protect=\"false\" RowAddr=\"2\" RowSpan=\"1\" Width=\"11976\">\n");
+			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+			sb.append("						<P ParaShape=\"35\" Style=\"0\"><TEXT CharShape=\"20\"><CHAR>(기 계 부)</CHAR></TEXT></P>\n");
+			sb.append("					</PARALIST>\n");
+			sb.append("				</CELL>\n");
+			sb.append("				<CELL BorderFill=\"14\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"2248\" Protect=\"false\" RowAddr=\"2\" RowSpan=\"1\" Width=\"24200\">\n");
+			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+			sb.append("						<P ParaShape=\"16\" Style=\"0\"><TEXT CharShape=\"21\"/></P>\n");
+			sb.append("					</PARALIST>\n");
+			sb.append("				</CELL>\n");
+			sb.append("				<CELL BorderFill=\"14\" ColAddr=\"2\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"2248\" Protect=\"false\" RowAddr=\"2\" RowSpan=\"1\" Width=\"7413\">\n");
+			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+			sb.append("						<P ParaShape=\"35\" Style=\"0\"><TEXT CharShape=\"10\"/></P>\n");
+			sb.append("					</PARALIST>\n");
+			sb.append("				</CELL>\n");
+			sb.append("				<CELL BorderFill=\"15\" ColAddr=\"3\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"2248\" Protect=\"false\" RowAddr=\"2\" RowSpan=\"1\" Width=\"6861\">\n");
+			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+			sb.append("						<P ParaShape=\"16\" Style=\"0\"><TEXT CharShape=\"10\"/></P>\n");
+			sb.append("					</PARALIST>\n");
+			sb.append("				</CELL>\n");
+			sb.append("			</ROW>\n");
+			
+			//컨테이너 크레인의 기계부 항목 start
+			int rowAddr = 3;
+			for(int i=0; i<containerCraneMUpperList.size(); i++) {
+				HashMap<String, String> upperItem = containerCraneMUpperList.get(i);
+				String qcItemUpperCd = upperItem.get("qcItemUpperCd");
+				String qcItemUpperNm = upperItem.get("qcItemUpperNm");
+				int number = i+1;
+				sb.append("			<ROW>\n");
+				sb.append("				<CELL BorderFill=\"24\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"0\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"11976\">\n");
+				sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+				sb.append("						<P ParaShape=\"16\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>"+number+". "+qcItemUpperNm+"</CHAR></TEXT></P>\n");
+				sb.append("					</PARALIST>\n");
+				sb.append("				</CELL>\n");
+				sb.append("				<CELL BorderFill=\"18\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"0\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"24200\">\n");
+				sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+				int cellHeight = 0;
+				for(EgovMap qcResultItem : qcResultItemList) {
+					String upperCd = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemUpperCd") : "";
+					if(qcItemUpperCd.equals(upperCd)) {
+						String qcItemNm = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemNm") : "";
+						sb.append("						<P ParaShape=\"16\" Style=\"0\"><TEXT CharShape=\"21\"><CHAR>○ "+qcItemNm+"</CHAR></TEXT></P>\n");
+						cellHeight += 2034;
+					}
+				}			
+				sb.append("					</PARALIST>\n");
+				sb.append("				</CELL>\n");
+				sb.append("				<CELL BorderFill=\"18\" ColAddr=\"2\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\""+cellHeight+"\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"7413\">\n");
+				sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+				for(EgovMap qcResultItem : qcResultItemList) {
+					String upperCd = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemUpperCd") : "";
+					if(qcItemUpperCd.equals(upperCd)) {
+						String inspResultChk = (qcResultItem.get("inspResultChk") != null) ? (String) qcResultItem.get("inspResultChk") : "";
+						sb.append("						<P ParaShape=\"29\" Style=\"0\"><TEXT CharShape=\"5\"><CHAR>" + getResultItemSymbol(inspResultChk) + "</CHAR></TEXT></P>\n");
+					}
 				}
+				sb.append("					</PARALIST>\n");
+				sb.append("				</CELL>\n");
+				sb.append("				<CELL BorderFill=\"25\" ColAddr=\"3\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"0\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"6861\">\n");
+				sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+				sb.append("						<P ParaShape=\"16\" Style=\"0\"><TEXT CharShape=\"10\"/></P>\n");
+				sb.append("					</PARALIST>\n");
+				sb.append("				</CELL>\n");
+				sb.append("			</ROW>\n");
+				rowAddr++;
 			}
+			//컨테이너 크레인의 기계부 항목 end
+			
+			////컨테이너 크레인의 전기부 항목 start
+			int borderFills[][] = {{10, 3, 3, 11}, {16, 12, 12, 13}};
+			int borderFill[] = (containerCraneEUpperList.size()>0) ? borderFills[0] : borderFills[1];
+			sb.append("			<ROW>\n");
+			sb.append("				<CELL BorderFill=\""+borderFill[0]+"\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"2248\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"11976\">\n");
+			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+			sb.append("						<P ParaShape=\"35\" Style=\"0\"><TEXT CharShape=\"20\"><CHAR>(전 기 부)</CHAR></TEXT></P>\n");
 			sb.append("					</PARALIST>\n");
 			sb.append("				</CELL>\n");
-			sb.append("				<CELL BorderFill=\"25\" ColAddr=\"3\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"0\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"6861\">\n");
+			sb.append("				<CELL BorderFill=\""+borderFill[1]+"\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"2248\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"24200\">\n");
+			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+			sb.append("						<P ParaShape=\"16\" Style=\"0\"><TEXT CharShape=\"21\"/></P>\n");
+			sb.append("					</PARALIST>\n");
+			sb.append("				</CELL>\n");
+			sb.append("				<CELL BorderFill=\""+borderFill[2]+"\" ColAddr=\"2\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"2248\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"7413\">\n");
+			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+			sb.append("						<P ParaShape=\"29\" Style=\"0\"><TEXT CharShape=\"10\"/></P>\n");
+			sb.append("					</PARALIST>\n");
+			sb.append("				</CELL>\n");
+			sb.append("				<CELL BorderFill=\""+borderFill[3]+"\" ColAddr=\"3\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"2248\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"6861\">\n");
 			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
 			sb.append("						<P ParaShape=\"16\" Style=\"0\"><TEXT CharShape=\"10\"/></P>\n");
 			sb.append("					</PARALIST>\n");
 			sb.append("				</CELL>\n");
 			sb.append("			</ROW>\n");
 			rowAddr++;
-		}
-		//컨테이너 크레인의 기계부 항목 end
-		
-		////컨테이너 크레인의 전기부 항목 start
-		int borderFills[][] = {{10, 3, 3, 11}, {16, 12, 12, 13}};
-		int borderFill[] = (containerCraneEUpperList.size()>0) ? borderFills[0] : borderFills[1];
-		sb.append("			<ROW>\n");
-		sb.append("				<CELL BorderFill=\""+borderFill[0]+"\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"2248\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"11976\">\n");
-		sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-		sb.append("						<P ParaShape=\"35\" Style=\"0\"><TEXT CharShape=\"20\"><CHAR>(전 기 부)</CHAR></TEXT></P>\n");
-		sb.append("					</PARALIST>\n");
-		sb.append("				</CELL>\n");
-		sb.append("				<CELL BorderFill=\""+borderFill[1]+"\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"2248\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"24200\">\n");
-		sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-		sb.append("						<P ParaShape=\"16\" Style=\"0\"><TEXT CharShape=\"21\"/></P>\n");
-		sb.append("					</PARALIST>\n");
-		sb.append("				</CELL>\n");
-		sb.append("				<CELL BorderFill=\""+borderFill[2]+"\" ColAddr=\"2\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"2248\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"7413\">\n");
-		sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-		sb.append("						<P ParaShape=\"29\" Style=\"0\"><TEXT CharShape=\"10\"/></P>\n");
-		sb.append("					</PARALIST>\n");
-		sb.append("				</CELL>\n");
-		sb.append("				<CELL BorderFill=\""+borderFill[3]+"\" ColAddr=\"3\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"2248\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"6861\">\n");
-		sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-		sb.append("						<P ParaShape=\"16\" Style=\"0\"><TEXT CharShape=\"10\"/></P>\n");
-		sb.append("					</PARALIST>\n");
-		sb.append("				</CELL>\n");
-		sb.append("			</ROW>\n");
-		rowAddr++;
-		
-		//컨테이너 크레인의 전기부 항목 start
-		for(int i=0; i<containerCraneEUpperList.size(); i++) {
-			HashMap<String, String> upperItem = containerCraneEUpperList.get(i);
-			String qcItemUpperCd = upperItem.get("qcItemUpperCd");
-			String qcItemUpperNm = upperItem.get("qcItemUpperNm");
-			borderFill = (i < containerCraneEUpperList.size() - 1) ? borderFills[0] : borderFills[1];
-			int number = i+1;
-			sb.append("			<ROW>\n");
-			sb.append("				<CELL BorderFill=\""+borderFill[0]+"\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"0\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"11976\">\n");
-			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-			sb.append("						<P ParaShape=\"16\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>"+number+". "+qcItemUpperNm+"</CHAR></TEXT></P>\n");
-			sb.append("					</PARALIST>\n");
-			sb.append("				</CELL>\n");
-			sb.append("				<CELL BorderFill=\""+borderFill[1]+"\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"0\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"24200\">\n");
-			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-			int cellHeight = 0;
-			for(EgovMap qcResultItem : qcResultItemList) {
-				String upperCd = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemUpperCd") : "";
-				if(qcItemUpperCd.equals(upperCd)) {
-					String qcItemNm = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemNm") : "";
-					sb.append("						<P ParaShape=\"16\" Style=\"0\"><TEXT CharShape=\"21\"><CHAR>○ "+qcItemNm+"</CHAR></TEXT></P>\n");
-					cellHeight += 2034;
+			
+			//컨테이너 크레인의 전기부 항목 start
+			for(int i=0; i<containerCraneEUpperList.size(); i++) {
+				HashMap<String, String> upperItem = containerCraneEUpperList.get(i);
+				String qcItemUpperCd = upperItem.get("qcItemUpperCd");
+				String qcItemUpperNm = upperItem.get("qcItemUpperNm");
+				borderFill = (i < containerCraneEUpperList.size() - 1) ? borderFills[0] : borderFills[1];
+				int number = i+1;
+				sb.append("			<ROW>\n");
+				sb.append("				<CELL BorderFill=\""+borderFill[0]+"\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"0\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"11976\">\n");
+				sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+				sb.append("						<P ParaShape=\"16\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>"+number+". "+qcItemUpperNm+"</CHAR></TEXT></P>\n");
+				sb.append("					</PARALIST>\n");
+				sb.append("				</CELL>\n");
+				sb.append("				<CELL BorderFill=\""+borderFill[1]+"\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"0\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"24200\">\n");
+				sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+				int cellHeight = 0;
+				for(EgovMap qcResultItem : qcResultItemList) {
+					String upperCd = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemUpperCd") : "";
+					if(qcItemUpperCd.equals(upperCd)) {
+						String qcItemNm = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemNm") : "";
+						sb.append("						<P ParaShape=\"16\" Style=\"0\"><TEXT CharShape=\"21\"><CHAR>○ "+qcItemNm+"</CHAR></TEXT></P>\n");
+						cellHeight += 2034;
+					}
+				}			
+				sb.append("					</PARALIST>\n");
+				sb.append("				</CELL>\n");
+				sb.append("				<CELL BorderFill=\""+borderFill[2]+"\" ColAddr=\"2\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\""+cellHeight+"\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"7413\">\n");
+				sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+				for(EgovMap qcResultItem : qcResultItemList) {
+					String upperCd = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemUpperCd") : "";
+					if(qcItemUpperCd.equals(upperCd)) {
+						String inspResultChk = (qcResultItem.get("inspResultChk") != null) ? (String) qcResultItem.get("inspResultChk") : "";
+						sb.append("						<P ParaShape=\"29\" Style=\"0\"><TEXT CharShape=\"5\"><CHAR>" + getResultItemSymbol(inspResultChk) + "</CHAR></TEXT></P>\n");
+					}
 				}
-			}			
-			sb.append("					</PARALIST>\n");
-			sb.append("				</CELL>\n");
-			sb.append("				<CELL BorderFill=\""+borderFill[2]+"\" ColAddr=\"2\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\""+cellHeight+"\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"7413\">\n");
-			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-			for(EgovMap qcResultItem : qcResultItemList) {
-				String upperCd = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemUpperCd") : "";
-				if(qcItemUpperCd.equals(upperCd)) {
-					String inspResultChk = (qcResultItem.get("inspResultChk") != null) ? (String) qcResultItem.get("inspResultChk") : "";
-					sb.append("						<P ParaShape=\"29\" Style=\"0\"><TEXT CharShape=\"5\"><CHAR>" + getResultItemSymbol(inspResultChk) + "</CHAR></TEXT></P>\n");
-				}
+				sb.append("					</PARALIST>\n");
+				sb.append("				</CELL>\n");
+				sb.append("				<CELL BorderFill=\""+borderFill[3]+"\" ColAddr=\"3\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"0\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"6861\">\n");
+				sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+				sb.append("						<P ParaShape=\"16\" Style=\"0\"><TEXT CharShape=\"10\"/></P>\n");
+				sb.append("					</PARALIST>\n");
+				sb.append("				</CELL>\n");
+				sb.append("			</ROW>\n");
+				rowAddr++;
 			}
+			//컨테이너 크레인의 기계부 항목 end
+			
+			sb.append("		</TABLE><CHAR/>\n");
+			//컨테이너 크레인의 표 출력 end
+			
+			sb.append("	</TEXT></P>\n");
+		}
+		
+		if(transferCraneMUpperList.size() + transferCraneEUpperList.size() > 0) {
+			if(containerCraneMUpperList.size() + containerCraneEUpperList.size() > 0) {
+				sb.append("	<P ParaShape=\"15\" Style=\"0\"><TEXT CharShape=\"5\"/></P>\n");
+				sb.append("	<P ColumnBreak=\"false\" PageBreak=\"true\" ParaShape=\"15\" Style=\"0\"><TEXT CharShape=\"1\">\n");
+			} else {
+				sb.append("	<P ColumnBreak=\"false\" PageBreak=\"false\" ParaShape=\"15\" Style=\"0\"><TEXT CharShape=\"1\">\n");
+			}
+			//트렌스퍼 크레인의 표 출력 start
+			rowCount = 4 + transferCraneMUpperList.size() + transferCraneEUpperList.size(); //4 = 제목해더 row + (기계부) + (전기부)
+			sb.append("		<TABLE BorderFill=\"1\" CellSpacing=\"0\" ColCount=\"4\" PageBreak=\"Cell\" RepeatHeader=\"true\" RowCount=\""+rowCount+"\">\n");
+			sb.append("			<SHAPEOBJECT InstId=\"1099298196\" Lock=\"false\" NumberingType=\"Table\" TextWrap=\"TopAndBottom\" ZOrder=\"19\"><SIZE Height=\"17128\" HeightRelTo=\"Absolute\" Protect=\"false\" Width=\"50450\" WidthRelTo=\"Absolute\"/><POSITION AffectLSpacing=\"false\" AllowOverlap=\"false\" FlowWithText=\"true\" HoldAnchorAndSO=\"false\" HorzAlign=\"Left\" HorzOffset=\"0\" HorzRelTo=\"Column\" TreatAsChar=\"false\" VertAlign=\"Top\" VertOffset=\"0\" VertRelTo=\"Para\"/><OUTSIDEMARGIN Bottom=\"140\" Left=\"140\" Right=\"140\" Top=\"140\"/></SHAPEOBJECT>\n");
+			sb.append("			<INSIDEMARGIN Bottom=\"140\" Left=\"140\" Right=\"140\" Top=\"140\"/>\n");
+			sb.append("			<ROW>\n");
+			sb.append("				<CELL BorderFill=\"20\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"true\" Height=\"2248\" Protect=\"false\" RowAddr=\"0\" RowSpan=\"1\" Width=\"11976\">\n");
+			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+			sb.append("						<P ParaShape=\"35\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>장   비   명</CHAR></TEXT></P>\n");
 			sb.append("					</PARALIST>\n");
 			sb.append("				</CELL>\n");
-			sb.append("				<CELL BorderFill=\""+borderFill[3]+"\" ColAddr=\"3\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"0\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"6861\">\n");
+			sb.append("				<CELL BorderFill=\"21\" ColAddr=\"1\" ColSpan=\"3\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"true\" Height=\"2248\" Protect=\"false\" RowAddr=\"0\" RowSpan=\"1\" Width=\"38474\">\n");
+			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+			sb.append("						<P ParaShape=\"35\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>트  란  스  퍼  크  레  인</CHAR></TEXT></P>\n");
+			sb.append("					</PARALIST>\n");
+			sb.append("				</CELL>\n");
+			sb.append("			</ROW>\n");
+			sb.append("			<ROW>\n");
+			sb.append("				<CELL BorderFill=\"22\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"true\" Height=\"2248\" Protect=\"false\" RowAddr=\"1\" RowSpan=\"1\" Width=\"11976\">\n");
+			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+			sb.append("						<P ParaShape=\"35\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>점 검 개 소</CHAR></TEXT></P>\n");
+			sb.append("					</PARALIST>\n");
+			sb.append("				</CELL>\n");
+			sb.append("				<CELL BorderFill=\"19\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"true\" Height=\"2248\" Protect=\"false\" RowAddr=\"1\" RowSpan=\"1\" Width=\"24200\">\n");
+			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+			sb.append("						<P ParaShape=\"35\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>점검사항</CHAR></TEXT></P>\n");
+			sb.append("					</PARALIST>\n");
+			sb.append("				</CELL>\n");
+			sb.append("				<CELL BorderFill=\"19\" ColAddr=\"2\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"true\" Height=\"2248\" Protect=\"false\" RowAddr=\"1\" RowSpan=\"1\" Width=\"7413\">\n");
+			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+			sb.append("						<P ParaShape=\"35\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>점검결과</CHAR></TEXT></P>\n");
+			sb.append("					</PARALIST>\n");
+			sb.append("				</CELL>\n");
+			sb.append("				<CELL BorderFill=\"23\" ColAddr=\"3\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"true\" Height=\"2248\" Protect=\"false\" RowAddr=\"1\" RowSpan=\"1\" Width=\"6861\">\n");
+			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+			sb.append("						<P ParaShape=\"35\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>비  고</CHAR></TEXT></P>\n");
+			sb.append("					</PARALIST>\n");
+			sb.append("				</CELL>\n");
+			sb.append("			</ROW>\n");
+			sb.append("			<ROW>\n");
+			sb.append("				<CELL BorderFill=\"17\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"2248\" Protect=\"false\" RowAddr=\"2\" RowSpan=\"1\" Width=\"11976\">\n");
+			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+			sb.append("						<P ParaShape=\"35\" Style=\"0\"><TEXT CharShape=\"20\"><CHAR>(기 계 부)</CHAR></TEXT></P>\n");
+			sb.append("					</PARALIST>\n");
+			sb.append("				</CELL>\n");
+			sb.append("				<CELL BorderFill=\"14\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"2248\" Protect=\"false\" RowAddr=\"2\" RowSpan=\"1\" Width=\"24200\">\n");
+			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+			sb.append("						<P ParaShape=\"16\" Style=\"0\"><TEXT CharShape=\"21\"/></P>\n");
+			sb.append("					</PARALIST>\n");
+			sb.append("				</CELL>\n");
+			sb.append("				<CELL BorderFill=\"14\" ColAddr=\"2\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"2248\" Protect=\"false\" RowAddr=\"2\" RowSpan=\"1\" Width=\"7413\">\n");
+			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+			sb.append("						<P ParaShape=\"35\" Style=\"0\"><TEXT CharShape=\"10\"/></P>\n");
+			sb.append("					</PARALIST>\n");
+			sb.append("				</CELL>\n");
+			sb.append("				<CELL BorderFill=\"15\" ColAddr=\"3\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"2248\" Protect=\"false\" RowAddr=\"2\" RowSpan=\"1\" Width=\"6861\">\n");
 			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
 			sb.append("						<P ParaShape=\"16\" Style=\"0\"><TEXT CharShape=\"10\"/></P>\n");
 			sb.append("					</PARALIST>\n");
 			sb.append("				</CELL>\n");
 			sb.append("			</ROW>\n");
-			rowAddr++;
-		}
-		//컨테이너 크레인의 기계부 항목 end
-		
-		sb.append("		</TABLE><CHAR/>\n");
-		//컨테이너 크레인의 표 출력 end
-		
-		sb.append("	</TEXT></P>\n");
-		sb.append("	<P ParaShape=\"15\" Style=\"0\"><TEXT CharShape=\"5\"/></P>\n");
-		sb.append("	<P ColumnBreak=\"false\" PageBreak=\"true\" ParaShape=\"15\" Style=\"0\"><TEXT CharShape=\"1\">\n");
-
-		//트렌스퍼 크레인의 표 출력 start
-		rowCount = 4 + transferCraneMUpperList.size() + transferCraneEUpperList.size(); //4 = 제목해더 row + (기계부) + (전기부)
-		sb.append("		<TABLE BorderFill=\"1\" CellSpacing=\"0\" ColCount=\"4\" PageBreak=\"Cell\" RepeatHeader=\"true\" RowCount=\""+rowCount+"\">\n");
-		sb.append("			<SHAPEOBJECT InstId=\"1099298196\" Lock=\"false\" NumberingType=\"Table\" TextWrap=\"TopAndBottom\" ZOrder=\"19\"><SIZE Height=\"17128\" HeightRelTo=\"Absolute\" Protect=\"false\" Width=\"50450\" WidthRelTo=\"Absolute\"/><POSITION AffectLSpacing=\"false\" AllowOverlap=\"false\" FlowWithText=\"true\" HoldAnchorAndSO=\"false\" HorzAlign=\"Left\" HorzOffset=\"0\" HorzRelTo=\"Column\" TreatAsChar=\"false\" VertAlign=\"Top\" VertOffset=\"0\" VertRelTo=\"Para\"/><OUTSIDEMARGIN Bottom=\"140\" Left=\"140\" Right=\"140\" Top=\"140\"/></SHAPEOBJECT>\n");
-		sb.append("			<INSIDEMARGIN Bottom=\"140\" Left=\"140\" Right=\"140\" Top=\"140\"/>\n");
-		sb.append("			<ROW>\n");
-		sb.append("				<CELL BorderFill=\"20\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"true\" Height=\"2248\" Protect=\"false\" RowAddr=\"0\" RowSpan=\"1\" Width=\"11976\">\n");
-		sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-		sb.append("						<P ParaShape=\"35\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>장   비   명</CHAR></TEXT></P>\n");
-		sb.append("					</PARALIST>\n");
-		sb.append("				</CELL>\n");
-		sb.append("				<CELL BorderFill=\"21\" ColAddr=\"1\" ColSpan=\"3\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"true\" Height=\"2248\" Protect=\"false\" RowAddr=\"0\" RowSpan=\"1\" Width=\"38474\">\n");
-		sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-		sb.append("						<P ParaShape=\"35\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>트  란  스  퍼  크  레  인</CHAR></TEXT></P>\n");
-		sb.append("					</PARALIST>\n");
-		sb.append("				</CELL>\n");
-		sb.append("			</ROW>\n");
-		sb.append("			<ROW>\n");
-		sb.append("				<CELL BorderFill=\"22\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"true\" Height=\"2248\" Protect=\"false\" RowAddr=\"1\" RowSpan=\"1\" Width=\"11976\">\n");
-		sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-		sb.append("						<P ParaShape=\"35\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>점 검 개 소</CHAR></TEXT></P>\n");
-		sb.append("					</PARALIST>\n");
-		sb.append("				</CELL>\n");
-		sb.append("				<CELL BorderFill=\"19\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"true\" Height=\"2248\" Protect=\"false\" RowAddr=\"1\" RowSpan=\"1\" Width=\"24200\">\n");
-		sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-		sb.append("						<P ParaShape=\"35\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>점검사항</CHAR></TEXT></P>\n");
-		sb.append("					</PARALIST>\n");
-		sb.append("				</CELL>\n");
-		sb.append("				<CELL BorderFill=\"19\" ColAddr=\"2\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"true\" Height=\"2248\" Protect=\"false\" RowAddr=\"1\" RowSpan=\"1\" Width=\"7413\">\n");
-		sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-		sb.append("						<P ParaShape=\"35\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>점검결과</CHAR></TEXT></P>\n");
-		sb.append("					</PARALIST>\n");
-		sb.append("				</CELL>\n");
-		sb.append("				<CELL BorderFill=\"23\" ColAddr=\"3\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"true\" Height=\"2248\" Protect=\"false\" RowAddr=\"1\" RowSpan=\"1\" Width=\"6861\">\n");
-		sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-		sb.append("						<P ParaShape=\"35\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>비  고</CHAR></TEXT></P>\n");
-		sb.append("					</PARALIST>\n");
-		sb.append("				</CELL>\n");
-		sb.append("			</ROW>\n");
-		sb.append("			<ROW>\n");
-		sb.append("				<CELL BorderFill=\"17\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"2248\" Protect=\"false\" RowAddr=\"2\" RowSpan=\"1\" Width=\"11976\">\n");
-		sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-		sb.append("						<P ParaShape=\"35\" Style=\"0\"><TEXT CharShape=\"20\"><CHAR>(기 계 부)</CHAR></TEXT></P>\n");
-		sb.append("					</PARALIST>\n");
-		sb.append("				</CELL>\n");
-		sb.append("				<CELL BorderFill=\"14\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"2248\" Protect=\"false\" RowAddr=\"2\" RowSpan=\"1\" Width=\"24200\">\n");
-		sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-		sb.append("						<P ParaShape=\"16\" Style=\"0\"><TEXT CharShape=\"21\"/></P>\n");
-		sb.append("					</PARALIST>\n");
-		sb.append("				</CELL>\n");
-		sb.append("				<CELL BorderFill=\"14\" ColAddr=\"2\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"2248\" Protect=\"false\" RowAddr=\"2\" RowSpan=\"1\" Width=\"7413\">\n");
-		sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-		sb.append("						<P ParaShape=\"35\" Style=\"0\"><TEXT CharShape=\"10\"/></P>\n");
-		sb.append("					</PARALIST>\n");
-		sb.append("				</CELL>\n");
-		sb.append("				<CELL BorderFill=\"15\" ColAddr=\"3\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"2248\" Protect=\"false\" RowAddr=\"2\" RowSpan=\"1\" Width=\"6861\">\n");
-		sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-		sb.append("						<P ParaShape=\"16\" Style=\"0\"><TEXT CharShape=\"10\"/></P>\n");
-		sb.append("					</PARALIST>\n");
-		sb.append("				</CELL>\n");
-		sb.append("			</ROW>\n");
-
-		//트란스퍼 크레인의 기계부 항목 start
-		rowAddr = 3;
-		for(int i=0; i<transferCraneMUpperList.size(); i++) {
-			HashMap<String, String> upperItem = transferCraneMUpperList.get(i);
-			String qcItemUpperCd = upperItem.get("qcItemUpperCd");
-			String qcItemUpperNm = upperItem.get("qcItemUpperNm");
-			int number = i+1;
-			sb.append("			<ROW>\n");
-			sb.append("				<CELL BorderFill=\"24\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"0\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"11976\">\n");
-			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-			sb.append("						<P ParaShape=\"16\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>"+number+". "+qcItemUpperNm+"</CHAR></TEXT></P>\n");
-			sb.append("					</PARALIST>\n");
-			sb.append("				</CELL>\n");
-			sb.append("				<CELL BorderFill=\"18\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"0\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"24200\">\n");
-			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-			int cellHeight = 0;
-			for(EgovMap qcResultItem : qcResultItemList) {
-				String upperCd = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemUpperCd") : "";
-				if(qcItemUpperCd.equals(upperCd)) {
-					String qcItemNm = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemNm") : "";
-					sb.append("						<P ParaShape=\"16\" Style=\"0\"><TEXT CharShape=\"21\"><CHAR>○ "+qcItemNm+"</CHAR></TEXT></P>\n");
-					cellHeight += 2034;
-				}
-			}			
-			sb.append("					</PARALIST>\n");
-			sb.append("				</CELL>\n");
-			sb.append("				<CELL BorderFill=\"18\" ColAddr=\"2\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\""+cellHeight+"\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"7413\">\n");
-			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-			for(EgovMap qcResultItem : qcResultItemList) {
-				String upperCd = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemUpperCd") : "";
-				if(qcItemUpperCd.equals(upperCd)) {
-					String inspResultChk = (qcResultItem.get("inspResultChk") != null) ? (String) qcResultItem.get("inspResultChk") : "";
-					sb.append("						<P ParaShape=\"29\" Style=\"0\"><TEXT CharShape=\"5\"><CHAR>" + getResultItemSymbol(inspResultChk) + "</CHAR></TEXT></P>\n");
-				}
-			}
-			sb.append("					</PARALIST>\n");
-			sb.append("				</CELL>\n");
-			sb.append("				<CELL BorderFill=\"25\" ColAddr=\"3\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"0\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"6861\">\n");
-			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-			sb.append("						<P ParaShape=\"16\" Style=\"0\"><TEXT CharShape=\"10\"/></P>\n");
-			sb.append("					</PARALIST>\n");
-			sb.append("				</CELL>\n");
-			sb.append("			</ROW>\n");
-			rowAddr++;
-		}
-		//트렌스퍼 크레인의 기계부 항목 end
-
-		//트랜스퍼 크레인의 전기부 항목 start
-		borderFill = (transferCraneEUpperList.size()>0) ? borderFills[0] : borderFills[1];
-		sb.append("			<ROW>\n");
-		sb.append("				<CELL BorderFill=\""+borderFill[0]+"\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"2248\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"11976\">\n");
-		sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-		sb.append("						<P ParaShape=\"35\" Style=\"0\"><TEXT CharShape=\"20\"><CHAR>(전 기 부)</CHAR></TEXT></P>\n");
-		sb.append("					</PARALIST>\n");
-		sb.append("				</CELL>\n");
-		sb.append("				<CELL BorderFill=\""+borderFill[1]+"\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"2248\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"24200\">\n");
-		sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-		sb.append("						<P ParaShape=\"16\" Style=\"0\"><TEXT CharShape=\"21\"/></P>\n");
-		sb.append("					</PARALIST>\n");
-		sb.append("				</CELL>\n");
-		sb.append("				<CELL BorderFill=\""+borderFill[2]+"\" ColAddr=\"2\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"2248\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"7413\">\n");
-		sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-		sb.append("						<P ParaShape=\"29\" Style=\"0\"><TEXT CharShape=\"10\"/></P>\n");
-		sb.append("					</PARALIST>\n");
-		sb.append("				</CELL>\n");
-		sb.append("				<CELL BorderFill=\""+borderFill[3]+"\" ColAddr=\"3\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"2248\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"6861\">\n");
-		sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-		sb.append("						<P ParaShape=\"16\" Style=\"0\"><TEXT CharShape=\"10\"/></P>\n");
-		sb.append("					</PARALIST>\n");
-		sb.append("				</CELL>\n");
-		sb.append("			</ROW>\n");
-		rowAddr++;
-		
-		//트란스퍼 크레인의 전기부 항목 start
-		for(int i=0; i<transferCraneEUpperList.size(); i++) {
-			HashMap<String, String> upperItem = transferCraneEUpperList.get(i);
-			String qcItemUpperCd = upperItem.get("qcItemUpperCd");
-			String qcItemUpperNm = upperItem.get("qcItemUpperNm");
-			borderFill = (i < transferCraneEUpperList.size() - 1) ? borderFills[0] : borderFills[1];
-			int number = i+1;
-			sb.append("			<ROW>\n");
-			sb.append("				<CELL BorderFill=\""+borderFill[0]+"\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"4068\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"11976\">\n");
-			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-			sb.append("						<P ParaShape=\"16\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>"+number+". "+qcItemUpperNm+"</CHAR></TEXT></P>\n");
-			sb.append("					</PARALIST>\n");
-			sb.append("				</CELL>\n");
-			sb.append("				<CELL BorderFill=\""+borderFill[1]+"\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"4068\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"24200\">\n");
-			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-			int cellHeight = 0;
-			for(EgovMap qcResultItem : qcResultItemList) {
-				String upperCd = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemUpperCd") : "";
-				if(qcItemUpperCd.equals(upperCd)) {
-					String qcItemNm = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemNm") : "";
-					sb.append("						<P ParaShape=\"16\" Style=\"0\"><TEXT CharShape=\"21\"><CHAR>○ "+qcItemNm+"</CHAR></TEXT></P>\n");
-					cellHeight += 2034;
-				}
-			}			
-			sb.append("					</PARALIST>\n");
-			sb.append("				</CELL>\n");
-			sb.append("				<CELL BorderFill=\""+borderFill[2]+"\" ColAddr=\"2\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\""+cellHeight+"\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"7413\">\n");
-			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-			for(EgovMap qcResultItem : qcResultItemList) {
-				String upperCd = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemUpperCd") : "";
-				if(qcItemUpperCd.equals(upperCd)) {
-					String inspResultChk = (qcResultItem.get("inspResultChk") != null) ? (String) qcResultItem.get("inspResultChk") : "";
-					sb.append("						<P ParaShape=\"29\" Style=\"0\"><TEXT CharShape=\"5\"><CHAR>" + getResultItemSymbol(inspResultChk) + "</CHAR></TEXT></P>\n");
-				}
-			}
-			sb.append("					</PARALIST>\n");
-			sb.append("				</CELL>\n");
-			sb.append("				<CELL BorderFill=\""+borderFill[3]+"\" ColAddr=\"3\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"0\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"6861\">\n");
-			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-			sb.append("						<P ParaShape=\"16\" Style=\"0\"><TEXT CharShape=\"10\"/></P>\n");
-			sb.append("					</PARALIST>\n");
-			sb.append("				</CELL>\n");
-			sb.append("			</ROW>\n");
-			rowAddr++;
-		}
-		//트렌스퍼 크레인의 전기부 항목 end
 	
-		sb.append("		</TABLE><CHAR/>\n");
-		sb.append("	</TEXT></P>\n");
+			//트란스퍼 크레인의 기계부 항목 start
+			int rowAddr = 3;
+			for(int i=0; i<transferCraneMUpperList.size(); i++) {
+				HashMap<String, String> upperItem = transferCraneMUpperList.get(i);
+				String qcItemUpperCd = upperItem.get("qcItemUpperCd");
+				String qcItemUpperNm = upperItem.get("qcItemUpperNm");
+				int number = i+1;
+				sb.append("			<ROW>\n");
+				sb.append("				<CELL BorderFill=\"24\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"0\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"11976\">\n");
+				sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+				sb.append("						<P ParaShape=\"16\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>"+number+". "+qcItemUpperNm+"</CHAR></TEXT></P>\n");
+				sb.append("					</PARALIST>\n");
+				sb.append("				</CELL>\n");
+				sb.append("				<CELL BorderFill=\"18\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"0\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"24200\">\n");
+				sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+				int cellHeight = 0;
+				for(EgovMap qcResultItem : qcResultItemList) {
+					String upperCd = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemUpperCd") : "";
+					if(qcItemUpperCd.equals(upperCd)) {
+						String qcItemNm = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemNm") : "";
+						sb.append("						<P ParaShape=\"16\" Style=\"0\"><TEXT CharShape=\"21\"><CHAR>○ "+qcItemNm+"</CHAR></TEXT></P>\n");
+						cellHeight += 2034;
+					}
+				}			
+				sb.append("					</PARALIST>\n");
+				sb.append("				</CELL>\n");
+				sb.append("				<CELL BorderFill=\"18\" ColAddr=\"2\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\""+cellHeight+"\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"7413\">\n");
+				sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+				for(EgovMap qcResultItem : qcResultItemList) {
+					String upperCd = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemUpperCd") : "";
+					if(qcItemUpperCd.equals(upperCd)) {
+						String inspResultChk = (qcResultItem.get("inspResultChk") != null) ? (String) qcResultItem.get("inspResultChk") : "";
+						sb.append("						<P ParaShape=\"29\" Style=\"0\"><TEXT CharShape=\"5\"><CHAR>" + getResultItemSymbol(inspResultChk) + "</CHAR></TEXT></P>\n");
+					}
+				}
+				sb.append("					</PARALIST>\n");
+				sb.append("				</CELL>\n");
+				sb.append("				<CELL BorderFill=\"25\" ColAddr=\"3\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"0\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"6861\">\n");
+				sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+				sb.append("						<P ParaShape=\"16\" Style=\"0\"><TEXT CharShape=\"10\"/></P>\n");
+				sb.append("					</PARALIST>\n");
+				sb.append("				</CELL>\n");
+				sb.append("			</ROW>\n");
+				rowAddr++;
+			}
+			//트렌스퍼 크레인의 기계부 항목 end
+	
+			//트랜스퍼 크레인의 전기부 항목 start
+			int borderFills[][] = {{10, 3, 3, 11}, {16, 12, 12, 13}};
+			int borderFill[] = (transferCraneEUpperList.size()>0) ? borderFills[0] : borderFills[1];
+			sb.append("			<ROW>\n");
+			sb.append("				<CELL BorderFill=\""+borderFill[0]+"\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"2248\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"11976\">\n");
+			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+			sb.append("						<P ParaShape=\"35\" Style=\"0\"><TEXT CharShape=\"20\"><CHAR>(전 기 부)</CHAR></TEXT></P>\n");
+			sb.append("					</PARALIST>\n");
+			sb.append("				</CELL>\n");
+			sb.append("				<CELL BorderFill=\""+borderFill[1]+"\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"2248\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"24200\">\n");
+			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+			sb.append("						<P ParaShape=\"16\" Style=\"0\"><TEXT CharShape=\"21\"/></P>\n");
+			sb.append("					</PARALIST>\n");
+			sb.append("				</CELL>\n");
+			sb.append("				<CELL BorderFill=\""+borderFill[2]+"\" ColAddr=\"2\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"2248\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"7413\">\n");
+			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+			sb.append("						<P ParaShape=\"29\" Style=\"0\"><TEXT CharShape=\"10\"/></P>\n");
+			sb.append("					</PARALIST>\n");
+			sb.append("				</CELL>\n");
+			sb.append("				<CELL BorderFill=\""+borderFill[3]+"\" ColAddr=\"3\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"2248\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"6861\">\n");
+			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+			sb.append("						<P ParaShape=\"16\" Style=\"0\"><TEXT CharShape=\"10\"/></P>\n");
+			sb.append("					</PARALIST>\n");
+			sb.append("				</CELL>\n");
+			sb.append("			</ROW>\n");
+			rowAddr++;
+			
+			//트란스퍼 크레인의 전기부 항목 start
+			for(int i=0; i<transferCraneEUpperList.size(); i++) {
+				HashMap<String, String> upperItem = transferCraneEUpperList.get(i);
+				String qcItemUpperCd = upperItem.get("qcItemUpperCd");
+				String qcItemUpperNm = upperItem.get("qcItemUpperNm");
+				borderFill = (i < transferCraneEUpperList.size() - 1) ? borderFills[0] : borderFills[1];
+				int number = i+1;
+				sb.append("			<ROW>\n");
+				sb.append("				<CELL BorderFill=\""+borderFill[0]+"\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"4068\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"11976\">\n");
+				sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+				sb.append("						<P ParaShape=\"16\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>"+number+". "+qcItemUpperNm+"</CHAR></TEXT></P>\n");
+				sb.append("					</PARALIST>\n");
+				sb.append("				</CELL>\n");
+				sb.append("				<CELL BorderFill=\""+borderFill[1]+"\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"4068\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"24200\">\n");
+				sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+				int cellHeight = 0;
+				for(EgovMap qcResultItem : qcResultItemList) {
+					String upperCd = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemUpperCd") : "";
+					if(qcItemUpperCd.equals(upperCd)) {
+						String qcItemNm = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemNm") : "";
+						sb.append("						<P ParaShape=\"16\" Style=\"0\"><TEXT CharShape=\"21\"><CHAR>○ "+qcItemNm+"</CHAR></TEXT></P>\n");
+						cellHeight += 2034;
+					}
+				}			
+				sb.append("					</PARALIST>\n");
+				sb.append("				</CELL>\n");
+				sb.append("				<CELL BorderFill=\""+borderFill[2]+"\" ColAddr=\"2\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\""+cellHeight+"\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"7413\">\n");
+				sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+				for(EgovMap qcResultItem : qcResultItemList) {
+					String upperCd = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemUpperCd") : "";
+					if(qcItemUpperCd.equals(upperCd)) {
+						String inspResultChk = (qcResultItem.get("inspResultChk") != null) ? (String) qcResultItem.get("inspResultChk") : "";
+						sb.append("						<P ParaShape=\"29\" Style=\"0\"><TEXT CharShape=\"5\"><CHAR>" + getResultItemSymbol(inspResultChk) + "</CHAR></TEXT></P>\n");
+					}
+				}
+				sb.append("					</PARALIST>\n");
+				sb.append("				</CELL>\n");
+				sb.append("				<CELL BorderFill=\""+borderFill[3]+"\" ColAddr=\"3\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"0\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"6861\">\n");
+				sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+				sb.append("						<P ParaShape=\"16\" Style=\"0\"><TEXT CharShape=\"10\"/></P>\n");
+				sb.append("					</PARALIST>\n");
+				sb.append("				</CELL>\n");
+				sb.append("			</ROW>\n");
+				rowAddr++;
+			}
+			//트렌스퍼 크레인의 전기부 항목 end
+		
+			sb.append("		</TABLE><CHAR/>\n");
+			sb.append("	</TEXT></P>\n");
+		}
+		
 		sb.append("	<P ParaShape=\"15\" Style=\"0\"><TEXT CharShape=\"1\"/></P>\n");
 		sb.append("	<P ParaShape=\"21\" Style=\"0\"><TEXT CharShape=\"5\">\n");
 		if(chargerInfo1 != null) {

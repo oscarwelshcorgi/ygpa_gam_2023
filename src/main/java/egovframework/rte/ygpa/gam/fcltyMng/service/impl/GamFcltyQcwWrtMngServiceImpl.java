@@ -431,7 +431,7 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 				if(fcltsJobSe.equals("M")) {
 					//기계
 					mechFcltsSe = (String)qcDetailData.get("mechFcltsSe");
-					String mechCdStartChar = (mechFcltsSe.equals("1")) ? "M02" : "M01";
+					String mechCdStartChar = (mechFcltsSe.equals("1")) ? "M02" : (mechFcltsSe.equals("2")) ? "M03" : "M01";
 					qcDetailData.put("mechCdStartChar", mechCdStartChar);
 					qcResultItemList = (List<EgovMap>) gamFcltyQcwWrtMngDao.selectHwpMechQcMngResultItemList(qcDetailData);
 				} else if(fcltsJobSe.equals("C")) {

@@ -1705,7 +1705,7 @@ GamFcltyQcwWrtMngModule.prototype.showQcInspResult = function() {
 		else {
 			for(var i=0; i<rows.length; i++) {
 				var row = rows[i];
-				if(row['inspResultChk'] != 'N') {
+				if((row['inspResultChk'] != 'N') && (row['inspResultChk'] != 'E')) {
 					qcInspResultVal += row['qcItemNm'] + ' : '
 									+ (row['inspResultChk'] == 'W' ? '요주의' :
 										(row['inspResultChk'] == 'X' ? '불량' : '')) + '\n';
@@ -1768,26 +1768,6 @@ GamFcltyQcwWrtMngModule.prototype.downloadSelectedResultList = function() {
 		return;
 	}
 	
-	/*
-	var fcltsJobSe = downList[0].fcltsJobSe;
-	var i = 0;
-	for(i=0; i<=downList.length-1; i++) {
-		if(fcltsJobSe != downList[i].fcltsJobSe) {
-			alert('선택한 항목들의 업무구분이 다릅니다.');
-			return;
-		}
-	}
-
-	if(fcltsJobSe == 'M') {
-		var mechFcltsSe = downList[0].mechFcltsSe;
-		for(i=0; i<=downList.length-1; i++) {
-			if(mechFcltsSe != downList[i].mechFcltsSe) {
-				alert('기계시설의 구분(하역장비, 건설설비)이 다릅니다.');
-				return;
-			}
-		}
-	}
-	*/
 	var url = '/fcltyMng/downloadSelectedResultList.do';
 	var param = {};
 	param['downList'] = JSON.stringify(downList);
