@@ -249,7 +249,6 @@ GamFcltyMaintMngModule.prototype.loadComplete = function(params) {
 	this.getMapInfoList(params);
 
 	console.log('debug');
-	console.log(EMD.userinfo.mngFcltyCd);
 
 };
 
@@ -431,7 +430,7 @@ GamFcltyMaintMngModule.prototype.addAtchFileDirectory = function() {
 		alert('상위 디렉토리 정보가 부정확합니다. (업무구분)');
 		return;
 	}
-	if (dirFcltsJobSe != EMD.userinfo.mngFcltyCd) {
+	if (dirFcltsJobSe != "G") {
 		alert('다른 시설담당자가 생성한 디렉토리입니다. (생성불가)');
 		return;
 	}
@@ -446,9 +445,7 @@ GamFcltyMaintMngModule.prototype.addAtchFileDirectory = function() {
 		this.$('#dirUpperNo').val(dirNo);
 		this.$('#depthSort').val("" + (depthSort + 1));
 		this.$('#leafYn').val("Y");
-		
-		this.$('#dirFcltsJobSe').val(EMD.userinfo.mngFcltyCd);
-		
+		this.$('#dirFcltsJobSe').val("G");
 		this.$('#dirNo').val("");
 		var insertVO = this.makeFormArgs("#dirForm");
 		this.$('#dirNm').val(dirNm);
@@ -600,7 +597,7 @@ GamFcltyMaintMngModule.prototype.removeAtchFileDirectory = function() {
 		alert('디렉토리 정보가 부정확합니다. (업무구분)');
 		return;
 	}
-	if (dirFcltsJobSe != EMD.userinfo.mngFcltyCd) {
+	if (dirFcltsJobSe != "G") {
 		alert('다른 시설담당자가 생성한 디렉토리입니다. (삭제불가)');
 		return;
 	}
@@ -2115,7 +2112,7 @@ var module_instance = new GamFcltyMaintMngModule();
 							<form id="dirForm">
 								<input id="dirNo" type="hidden"/>
 								<input id="dirNm" type="hidden"/>
-								<input id="dirFcltsJobSe" type="text"/>
+								<input id="dirFcltsJobSe" type="hidden"/>
 								<input id="dirUpperNo" type="hidden"/>
 								<input id="dirPath" type="hidden"/>
 								<input id="depthSort" type="hidden"/>
