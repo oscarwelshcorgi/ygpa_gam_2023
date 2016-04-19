@@ -801,7 +801,9 @@ GamFcltyRepairMngModule.prototype.addData = function() {
 	this.makeFormValues('#fcltyRepairMngListVO', {});
 	this.$("#searchFcltsMngGroupNo").show();
 	this.$("#fcltsJobSe").enable();
-	this.$("#fcltsJobSe").val(EMD.userinfo["mngFcltyCd"]);
+	if (EMD.userinfo.mngFcltyCd != null && EMD.userinfo.mngFcltyCd != "*") {
+		this.$("#fcltsJobSe").val(EMD.userinfo["mngFcltyCd"]);
+	}
 	var toYear = new Date().getFullYear();
 	this.$("#enforceYear").val(toYear);
 	this.$("#fcltyRepairFileList").flexEmptyData();
@@ -1870,9 +1872,9 @@ var module_instance = new GamFcltyRepairMngModule();
 					</table>
 					<table class="detailPanel" style="width:100%;">
 						<tr>
-							<th style="width:10%; height:18px;">시설물관리그룹</th>
+							<th style="width:11%; height:18px;">시설물관리그룹</th>
 							<td colspan="3">
-								<input type="text" size="20" id="fcltsMngGroupNo" disabled="disabled"/>-
+								<input type="text" size="20" id="fcltsMngGroupNo" disabled="disabled" data-required="true"/>-
 								<input type="text" size="30" id="fcltsMngGroupNoNm" disabled="disabled"/>
 								<button id="searchFcltsMngGroupNo" class="popupButton">선택</button>
 							</td>
@@ -1886,7 +1888,7 @@ var module_instance = new GamFcltyRepairMngModule();
 							<th style="width:10%; height:18px;">업　무　구　분</th>
 							<td>
 								<input type="hidden" id="fcltsJobSeNm"/>
-								<select id="fcltsJobSe">
+								<select id="fcltsJobSe" data-required="true">
 									<option value="">선택</option>
 									<option value="E">전기시설물</option>
 									<option value="M">기계시설물</option>
@@ -1916,32 +1918,32 @@ var module_instance = new GamFcltyRepairMngModule();
 						<tr>
 							<th style="width:10%; height:18px;">공　　사　　명</th>
 							<td colspan="3">
-								<input type="text" size="63" id="flawRprNm" />
+								<input type="text" size="63" id="flawRprNm" data-required="true"/>
 							</td>
-							<th style="width:10%; height:18px;">준　공　일　자</th>
+							<th style="width:10%; height:18px;">준 공　일 자</th>
 							<td>
-								<input type="text" size="15" id="bldDt" class="emdcal"/>
+								<input type="text" size="15" id="bldDt" class="emdcal" data-required="true"/>
 							</td>
-							<th style="width:10%; height:18px;">계　약　일　자</th>
+							<th style="width:10%; height:18px;">계 약　일 자</th>
 							<td colspan="3">
-								<input type="text" size="15" id="ctrtDt" class="emdcal"/>
+								<input type="text" size="15" id="ctrtDt" class="emdcal" data-required="true"/>
 							</td>
 						</tr>
 						<tr>
 							<th style="width:10%; height:18px;">도　급　업　체</th>
 							<td colspan="3">
-								<input type="text" size="63" id="flawRprEntrpsNm"/>
+								<input type="text" size="63" id="flawRprEntrpsNm" data-required="true"/>
 							</td>
 
-							<th style="width:10%; height:18px;">도　　급　　액</th>
+							<th style="width:10%; height:18px;">도　 급 　액</th>
 							<td colspan="3">
-								<input id="flawContrAmt" type="text" size="20"  class="ygpaNumber" maxlength="16"/> 원
+								<input id="flawContrAmt" type="text" size="20"  class="ygpaNumber" maxlength="16" data-required="true"/> 원
 							</td>
 						</tr>
 						<tr>
 							<th style="width:10%; height:18px;">하자 검사 일자</th>
 							<td>
-								<input type="text" size="15" id="flawExamDt" class="emdcal"/>
+								<input type="text" size="15" id="flawExamDt" class="emdcal" data-required="true"/>
 							</td>
 							<th style="width:10%; height:18px;">하　자　유　무</th>
 							<td>
@@ -1951,11 +1953,11 @@ var module_instance = new GamFcltyRepairMngModule();
 									<option value="N">무　　　　　</option>
 								</select>
 							</td>
-							<th style="width:10%; height:18px;">검　사　자　1</th>
+							<th style="width:10%; height:18px;">검　사　자 1</th>
 							<td>
-								<input id="flawExamUsrCls" type="text" size="3" />
+								<input id="flawExamUsrCls" type="text" size="3" data-required="true"/>
 								급&nbsp;
-								<input id="flawExamUsr" type="text" size="8" />
+								<input id="flawExamUsr" type="text" size="8" data-required="true"/>
 							</td>
 							<th style="width:10%; height:18px;">검　사　자　2</th>
 							<td>

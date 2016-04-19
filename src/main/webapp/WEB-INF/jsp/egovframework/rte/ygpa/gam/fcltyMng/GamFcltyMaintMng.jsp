@@ -37,7 +37,7 @@
 function GamFcltyMaintMngModule() {
 }
 
-GamFcltyMaintMngModule.prototype = new EmdModule(1000,600);	// 초기 시작 창크기 지정
+GamFcltyMaintMngModule.prototype = new EmdModule(1000,610);	// 초기 시작 창크기 지정
 
 <%
 /**
@@ -1368,11 +1368,11 @@ GamFcltyMaintMngModule.prototype.addData = function() {
 	this.$("#planHistSe").val('H');
 	this.$("#searchFcltsMngGroupNo").show();
 	this.$("#fcltsJobSe").enable();
-
 	this.$("#mntnRprObjFcltsF").flexEmptyData();
-	this.$("#fcltsJobSe").val(EMD.userinfo["mngFcltyCd"]);
+	if (EMD.userinfo.mngFcltyCd != null && EMD.userinfo.mngFcltyCd != "*") {
+		this.$("#fcltsJobSe").val(EMD.userinfo["mngFcltyCd"]);
+	}
 	this.$(".EditItem").trigger("change");
-
 
 	var toDate = new Date();
 	var toYear = toDate.getFullYear();
@@ -1385,8 +1385,6 @@ GamFcltyMaintMngModule.prototype.addData = function() {
 
 	this.$("#wrtDt").val(toYear + "-" + toMonth + "-" + toDay);
 	this.$("#wrtUsr").val(EMD.userinfo["name"]);
-
-
 
 	this.$("#fcltyMaintFileList").empty();
 	this.$('#fcltyMaintFileList').append('<option value="">선택</option>');
@@ -1412,7 +1410,6 @@ GamFcltyMaintMngModule.prototype.makeSelectArgs = function(selId) {
 
 	return optionValues;
 };
-
 
 <%
 /**
@@ -1984,7 +1981,7 @@ var module_instance = new GamFcltyMaintMngModule();
 									</td>
 									<th width="100px" height="18">시설물업무구분</th>
 									<td>
-										<select id="fcltsJobSe" title="시설물업무구분" class="EditItem">
+										<select id="fcltsJobSe" title="시설물업무구분" class="EditItem" data-required="true">
 											<option value="">선택</option>
 											<option value="E">전기시설물</option>
 											<option value="M">기계시설물</option>
@@ -2029,7 +2026,7 @@ var module_instance = new GamFcltyMaintMngModule();
 								<tr>
 									<th height="17">시설물관리그룹</th>
 									<td colspan="3">
-										<input type="text" size="20" id="fcltsMngGroupNo" disabled="disabled" title="시설물관리그룹넘버" />-
+										<input type="text" size="20" id="fcltsMngGroupNo" disabled="disabled" title="시설물관리그룹넘버" data-required="true"/>-
 										<input type="text" size="35" id="fcltsMngGroupNoNm" disabled="disabled" title="시설물관리그룹명"/>
 										<button id="searchFcltsMngGroupNo" class="popupButton">선택</button>
 									</td>
@@ -2045,7 +2042,7 @@ var module_instance = new GamFcltyMaintMngModule();
 								</tr>
 								<tr>
 									<th height="18" class="required_text">공사명</th>
-									<td colspan="3"><input id="mntnRprCnstNm" type="text"  title="공사명" maxlength="25" size="76" /></td>
+									<td colspan="3"><input id="mntnRprCnstNm" type="text"  title="공사명" maxlength="25" size="76" data-required="true"/></td>
 								</tr>
 								<!-- <tr>
 									<th height="18" class="required_text">유지보수부위</th>
@@ -2053,7 +2050,7 @@ var module_instance = new GamFcltyMaintMngModule();
 								</tr> -->
 								<tr>
 									<th height="18" class="required_text">공사기간</th>
-									<td><input id="mntnRprCnstStartDt" type="text" size="11" title="공사시작일자" class="emdcal" />  ~  <input id="mntnRprCnstEndDt" type="text" size="11" title="공사종료일자" class="emdcal" /></td>
+									<td><input id="mntnRprCnstStartDt" type="text" size="11" title="공사시작일자" class="emdcal" data-required="true"/>  ~  <input id="mntnRprCnstEndDt" type="text" size="11" title="공사종료일자" class="emdcal" /></td>
 									<th height="18" class="required_text">설계자</th>
 									<td><input id="plannerNm" type="text" title="설계자" maxlength="12" style="width:102px;" /></td>
 								</tr>

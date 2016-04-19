@@ -1667,7 +1667,7 @@ var module_instance = new GamElctyUsageQyMngModule();
 							<tr>
 								<th style="width:10%; height:18px;">사　용　년　도</th>
 								<td>
-									<select id="usageYr" class='selt'>
+									<select id="usageYr" class='selt' data-required="true">
 										<option value="">선택</option>
 										<c:forEach items="${yearsList}" var="yearListItem">
 											<option value="${yearListItem.code }" <c:if test="${yearListItem.code == thisyear}">selected</c:if> >${yearListItem.codeNm }</option>
@@ -1678,7 +1678,7 @@ var module_instance = new GamElctyUsageQyMngModule();
 								<td>
 									<input id="mngFeeJobSe" type="hidden"/>
 									<input id="mngFeeJobSeNm" type="hidden"/>
-									<select id="mngFeeFcltyCd">
+									<select id="mngFeeFcltyCd" data-required="true">
 										<option value="" selected="selected">선택</option>
 										<c:forEach  items="${mngFeeFcltyCdList}" var="mngFeeFcltyCdItem">
 											<option value="${mngFeeFcltyCdItem.mngFeeFcltyCd}">${mngFeeFcltyCdItem.mngFeeFcltyNm}</option>

@@ -1315,7 +1315,7 @@ var module_instance = new GamElctyEquipCapaMngModule();
 							<tr>
 								<th style="width:10%; height:30px;">관　리　년　도</th>
 								<td>
-									<select id="mngYear" class='selt'>
+									<select id="mngYear" class='selt' data-required="true">
 										<option value="">선택</option>
 										<c:forEach items="${yearsList}" var="yearListItem">
 											<option value="${yearListItem.code }" <c:if test="${yearListItem.code == thisyear}">selected</c:if> >${yearListItem.codeNm }</option>
@@ -1351,7 +1351,7 @@ var module_instance = new GamElctyEquipCapaMngModule();
 							<tr>
 								<th style="width:10%; height:30px;">시설물그룹번호</th>
 								<td>
-									<input type="text" size="13" id="fcltsMngGroupNo" disabled/>
+									<input type="text" size="13" id="fcltsMngGroupNo" data-required="true" disabled/>
 									<button id="popupFcltsMngGroup" class="popupButton">선택</button>
 								</td>
 								<td colspan="4" rowspan="10" style="padding-left:4px;">
@@ -1368,7 +1368,7 @@ var module_instance = new GamElctyEquipCapaMngModule();
 								<th style="width:10%; height:30px;">전　기　구　분</th>
 								<td>
 									<input id="elctySeNm" type="hidden"/>
-									<select id="elctySe">
+									<select id="elctySe" data-required="true">
 										<option value="">선택</option>
 										<option value="1">산업용</option>
 										<option value="2">일반용</option>

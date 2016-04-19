@@ -13,6 +13,15 @@
             <field property="fcltsMngGroupNo" depends="required">
                 <arg0 key="시설물관리그룹" resource="false"/>
             </field>
+            <field property="mntnRprCnstNm" depends="required">
+                <arg0 key="공사명" resource="false"/>
+            </field>
+            <field property="mntnRprCnstStartDt" depends="required">
+                <arg0 key="공사 시작일" resource="false"/>
+            </field>
+            <field property="mntnRprCnstEndDt" depends="required">
+                <arg0 key="공사 종료일" resource="false"/>
+            </field>
         </form>
     </formset>
 

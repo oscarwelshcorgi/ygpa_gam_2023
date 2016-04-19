@@ -2779,11 +2779,11 @@ var module_instance = new GamInfoCommFcltySpecMngModule();
 						</table>
 						<table class="detailPanel" style="width:100%;">
 							<tr>
-								<th style="width:10%; height:18px;">GIS 　자산코드</th>
+								<th style="width:10%; height:18px;">GIS 자산코드</th>
 								<td>
 									<input type="hidden" id="gisAssetsLocCd"/>
 									<input type="hidden" id="gisAssetsLocNm"/>
-									<input type="text" size="22" id="gisAssetsNm" disabled/>
+									<input type="text" size="22" id="gisAssetsNm" data-required="true" disabled/>
 									<button id="popupSpecGisAssetsCd" class="popupButton">선택</button>
 								</td>
 								<th style="width:10%; height:18px;">항구분／분　류</th>
@@ -2801,20 +2801,20 @@ var module_instance = new GamInfoCommFcltySpecMngModule();
 										<option value="I">통신시설</option>
 									</select>
 								</td>
-								<th style="width:10%; height:18px;">시　설　코　드</th>
+								<th style="width:10%; height:18px;">시 설　코 드</th>
 								<td>
 									<input type="hidden" id="prtFcltyGisCd"/>
 									<input type="hidden" id="gisPrtFcltyCdSub"/>
 									<input type="hidden" id="gisPrtFcltyCdNm"/>
-									<input type="text" size="3" id="gisPrtFcltyCdDisplay" disabled/>-
+									<input type="text" size="3" id="gisPrtFcltyCdDisplay" data-required="true" disabled/>-
 									<input type="text" size="6" id="gisPrtFcltySeq" disabled/>
 									<input id="gisPrtFcltyCd" class="ygpaCmmnCd" data-default-prompt="" data-code-id="GAM069"/>
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:18px;">시　　설　　명</th>
+								<th style="width:10%; height:18px;">시　설　명</th>
 								<td>
-									<input type="text" size="33" id="prtFcltyNm" maxlength="80"/>
+									<input type="text" size="33" id="prtFcltyNm" maxlength="80" data-required="true"/>
 								</td>
 								<th style="width:10%; height:18px;">소　　재　　지</th>
 								<td>
@@ -2858,9 +2858,9 @@ var module_instance = new GamInfoCommFcltySpecMngModule();
 									<input type="text" size="17" id="prtFcltyMngEntrpsNm" disabled/>
 									<button id="popupSpecPrtFcltyMngEntrpsCd" class="popupButton">선택</button>
 								</td>
-								<th style="width:10%; height:18px;">시설물관리그룹</th>
+								<th style="width:11%; height:18px;">시설물관리그룹</th>
 								<td colspan="3">
-									<input type="text" size="18" id="fcltsMngGroupNo" maxlength="8"/>
+									<input type="text" size="18" id="fcltsMngGroupNo" maxlength="8" data-required="true"/>
 									<input type="text" size="61" id="fcltsMngGroupNm" disabled/>
 									<button id="popupSpecFcltsMngGroupNo" class="popupButton">선택</button>
 								</td>

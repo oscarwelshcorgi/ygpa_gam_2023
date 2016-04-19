@@ -711,7 +711,9 @@ GamFcltyQcwWrtMngModule.prototype.initBeforeInsert = function() {
 	this.setControlStatus();
 	this.$('#planHistSe').val('H');
 	this.$('#enforceYear').val((new Date()).getFullYear());
-	this.$('#fcltsJobSe').val(EMD.userinfo.mngFcltyCd);
+	if (EMD.userinfo.mngFcltyCd != null && EMD.userinfo.mngFcltyCd != "*") {
+		this.$('#fcltsJobSe').val(EMD.userinfo.mngFcltyCd);
+	}
 	this.$('#wrtDt').val(EMD.util.getDate());
 	this.$('#wrtUsr').val(EMD.userinfo.name);
 	this.loadQcSubDataList();
@@ -909,7 +911,13 @@ GamFcltyQcwWrtMngModule.prototype.validateDetailForm = function() {
 		return false;
 	}
 	if(this.$('#fcltsJobSe').val() == '') {
-		alert('업무구분을 입력하세요.');
+		alert('업무구분을 선택하세요.');
+		this.$('#fcltsJobSe').focus();
+		return false;
+	}
+	if(this.$('#qcMngNm').val() == '') {
+		alert('점검관리명을 입력하세요.');
+		this.$('#qcMngNm').focus();
 		return false;
 	}
 	if((this._mainmode == 'modify') && (this.$('#qcMngSeq').val() == '')) {
@@ -2210,19 +2218,19 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 							<input type="hidden" id="sMechCdStartChar">
 							<table  class="detailPanel"  style="width:100%;">
 								<tr>
-									<th style="width:14%; height:18px;">관　리　그　룹</th>
+									<th style="width:14%; height:18px;">관 리　그 룹</th>
 									<td colspan="3">
-										<input type="text" size="20" id="fcltsMngGroupNo" disabled="disabled"/>-
+										<input type="text" size="20" id="fcltsMngGroupNo" data-required="true" disabled="disabled"/>-
 										<input type="text" size="53" id="fcltsMngGroupNm" disabled="disabled"/>
 										<button id="popupDetailFcltsMngGroup" class="popupButton">선택</button>
 									</td>
 								</tr>
 								<tr>
-									<th style="width:14%; height:18px;">업　무　구　분</th>
+									<th style="width:14%; height:18px;">업 무 구 분</th>
 									<td width="40%">
 		                                <input type="hidden" id="printSe"/>
 		                                <input type="hidden" id="qcMngSeq"/>
-										<select id="fcltsJobSe">
+										<select id="fcltsJobSe" data-required="true">
 											<option value="">선택</option>
 											<option value="A">건축시설</option>
 											<option value="C">토목시설</option>
@@ -2250,7 +2258,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 									</td>
 									<th style="width:14%; height:18px;">점검　관리　명</th>
 									<td>
-										<input type="text" size="35" id="qcMngNm" maxlength="70"/>
+										<input type="text" size="35" id="qcMngNm" maxlength="70" data-required="true"/>
 									</td>
 								</tr>
 								<tr>

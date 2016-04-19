@@ -1118,6 +1118,7 @@ GamFcltsMngRegistMngModule.prototype.saveData = function() {
 	var mntnHistYn = this.$('#mntnHistYn').val();
 	var erqProofPlanApplcEnnc = this.$('#erqProofPlanApplcEnnc').val();
 	var fcltsMngGroupNo = this.$('#fcltsMngGroupNo').val();
+	var fcltsDtlsSe = this.$('#fcltsDtlsSe').val();
 	if (fcltsNo == "") {
 		alert('시설물 번호가 부정확합니다.');
 		this.$("#fcltsNo").focus();
@@ -1226,6 +1227,11 @@ GamFcltsMngRegistMngModule.prototype.saveData = function() {
 	if (this.isValidDate(lastUpdtDt, false) == false) {
 		alert('수정 일자가 부정확합니다.');
 		this.$("#lastUpdtDt").focus();
+		return;
+	}
+	if (fcltsDtlsSe == "") {
+		alert('상세제원 구분을 선택하세요.');
+		this.$("#fcltsDtlsSe").focus();
 		return;
 	}
 	if (this._mainmode == "insert") {
@@ -2163,14 +2169,14 @@ var module_instance = new GamFcltsMngRegistMngModule();
 					<form id="detailForm">
 						<table class="detailPanel" style="width:100%;">
 							<tr>
-								<th style="width:10%; height:18px;">시설물　　번호</th>
+								<th style="width:10%; height:18px;">시설물　번호</th>
 								<td>
-									<input type="text" id="fcltsNo" size="33" maxlength="14"/>
+									<input type="text" id="fcltsNo" size="33" maxlength="14" data-required="true"/>
 								</td>
 								<th style="width:10%; height:18px;">시설물관리그룹</th>
 								<td colspan="3">
 									<input type="hidden" id="fcltsJobSe">
-									<input type="text" size="18" id="fcltsMngGroupNo" maxlength="8"/>
+									<input type="text" size="18" id="fcltsMngGroupNo" maxlength="8" data-required="true"/>
 									<input type="text" size="60" id="fcltsMngGroupNm" disabled/>
 									<button id="popupFcltsMngGroupNo" class="popupButton">선택</button>
 								</td>
@@ -2215,9 +2221,9 @@ var module_instance = new GamFcltsMngRegistMngModule();
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:18px;">시　설　물　명</th>
+								<th style="width:10%; height:18px;">시 설　물 명</th>
 								<td>
-									<input type="text" id="fcltsNm" size="33" maxlength="80"/>
+									<input type="text" id="fcltsNm" size="33" maxlength="80" data-required="true"/>
 								</td>
 								<th style="width:10%; height:18px;">위　　　　　치</th>
 								<td colspan="3">
@@ -2371,9 +2377,9 @@ var module_instance = new GamFcltsMngRegistMngModule();
 								</td>
 							</tr>
 							<tr>
-								<th width="10%" height="18">상세제원　구분</th>
+								<th width="10%" height="18">상세제원 구분</th>
 								<td>
-									<select id="fcltsDtlsSe">
+									<select id="fcltsDtlsSe" data-required="true">
 										<option value="">선택</option>
 										<option value="H">계류시설</option>
 										<option value="A">건축물</option>
