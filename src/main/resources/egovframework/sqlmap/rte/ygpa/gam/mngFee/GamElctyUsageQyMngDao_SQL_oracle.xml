@@ -410,4 +410,13 @@
 		ORDER BY MNG_FEE_FCLTY_NM
     </select>
 
+
+	<select id="gamElctyUsageQyMngDao.selectElctyUsageQyMngPkCnt_S" parameterClass="gamElctyUsageQyMngVO" resultClass="int">
+		SELECT COUNT(*) AS TOTAL_CNT
+		 FROM ELCTY_USAGE_QY_F
+		WHERE USAGE_YR = #usageYr#
+		AND MNG_FEE_JOB_SE = #mngFeeJobSe#
+		AND MNG_FEE_FCLTY_CD = #mngFeeFcltyCd#
+	</select>
+
 </sqlMap>

@@ -96,5 +96,9 @@ public class GamElctyUsageQyMngServiceImpl extends AbstractServiceImpl implement
 	public List selectMngFeeFcltyCdList() throws Exception {
 		return gamElctyUsageQyMngDao.selectMngFeeFcltyCdList();
 	}
+	@Override
+	public int selectElctyUsageQyMngPkCnt(GamElctyUsageQyMngVO vo) throws Exception {
+		return gamElctyUsageQyMngDao.selectElctyUsageQyMngPkCnt(vo);
+	}
 
 }

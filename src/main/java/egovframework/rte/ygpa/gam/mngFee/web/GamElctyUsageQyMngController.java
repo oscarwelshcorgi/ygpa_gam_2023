@@ -387,4 +387,31 @@ public class GamElctyUsageQyMngController {
 
 	}
 
+	@RequestMapping(value="/mngFee/gamSelectElctyUsageQyMngPkCnt.do", method=RequestMethod.POST)
+	@ResponseBody Map gamSelectElctyUsageQyMngPkCnt(GamElctyUsageQyMngVO gamElctyUsageQyMngVO) throws Exception {
+
+		Map map = new HashMap();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		int resultCnt = gamElctyUsageQyMngService.selectElctyUsageQyMngPkCnt(gamElctyUsageQyMngVO);
+
+		if(resultCnt > 0){
+
+			map.put("resultCode", 1);
+			map.put("resultMsg","중복된 키가 있습니다.");
+		}else{
+			map.put("resultCode", 0);
+		}
+
+
+		return map;
+
+	}
+
 }

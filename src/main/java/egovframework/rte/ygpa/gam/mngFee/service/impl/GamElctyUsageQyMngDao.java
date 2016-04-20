@@ -138,4 +138,7 @@ public class GamElctyUsageQyMngDao extends YGPAAbstractDAO {
 		return list("gamElctyUsageQyMngDao.selectMngFeeFcltyCdList_D", null);
 	}
 
+	public int selectElctyUsageQyMngPkCnt(GamElctyUsageQyMngVO gamElctyUsageQyMngVO) {
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamElctyUsageQyMngDao.selectElctyUsageQyMngPkCnt_S", gamElctyUsageQyMngVO);
+	}
 }

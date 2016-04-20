@@ -122,5 +122,11 @@ public interface GamElctyUsageQyMngService {
 	 */
 	public List selectMngFeeFcltyCdList() throws Exception;
 
+	/**
+	 * @param vo
+	 * @return
+	 * @throws Exception
+	 */
+	int selectElctyUsageQyMngPkCnt(GamElctyUsageQyMngVO vo)throws Exception;
 
 }

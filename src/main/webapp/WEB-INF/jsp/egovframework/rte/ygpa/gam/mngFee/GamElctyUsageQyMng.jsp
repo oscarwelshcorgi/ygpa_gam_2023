@@ -325,7 +325,7 @@ GamElctyUsageQyMngModule.prototype.saveChartLabelDisplay = function() {
 **/
 %>
 GamElctyUsageQyMngModule.prototype.drawChart = function() {
-
+	console.log(this.$('#chartValueSe').val());
 	var dataValueArr = [];
 	var maxDataValue = 0;
 	var dataValue = 0;
@@ -612,10 +612,21 @@ GamElctyUsageQyMngModule.prototype.onButtonClick = function(buttonId) {
 			this.$("#mainTab").tabs("option", {active: 1});
 			break;
 		case 'btnInsert':
+			console.log('debug');
 			this._mainmode = 'insert';
 			this._mainKeyValue = '';
 			this.makeFormValues('#detailForm', {});
 			this.makeDivValues('#detailForm', {});
+			if (this.barChart == null){
+				this.barChart = new dhtmlXChart();
+			}
+			this.barChart.define("yAxis", {
+				start           : 0,
+				end             : 10,
+				step            : 10/10
+			});
+			this.barChart.clearAll();
+			this.barChart.refresh();
 			this.disableDetailInputItem();
 			this.addData();
 			break;
@@ -632,7 +643,7 @@ GamElctyUsageQyMngModule.prototype.onButtonClick = function(buttonId) {
 		case 'btnRemove':
 			this.deleteData();
 			break;
-		case 'btnCopy':
+		case 'btnCopy':g
 			this.copyData();
 			break;
 		case 'btnExcelDownload':
@@ -1040,8 +1051,8 @@ GamElctyUsageQyMngModule.prototype.addData = function() {
 **/
 %>
 GamElctyUsageQyMngModule.prototype.saveData = function() {
-
 	var inputVO = this.makeFormArgs("#detailForm");
+
 	var usageYr = this.$('#usageYr').val();
 	var mngFeeJobSe = this.$('#mngFeeJobSe').val();
 	var mngFeeFcltyCd = this.$('#mngFeeFcltyCd').val();
@@ -1218,12 +1229,19 @@ GamElctyUsageQyMngModule.prototype.saveData = function() {
 		return;
 	}
 	if (this._mainmode == "insert") {
-		this._mainKeyValue = mngFeeFcltyCd + usageYr + mngFeeJobSe;
-		this.doAction('/mngFee/gamInsertElctyUsageQyMng.do', inputVO, function(module, result) {
-			if (result.resultCode == "0") {
-				module.refreshData();
+		this.doAction('/mngFee/gamSelectElctyUsageQyMngPkCnt.do', inputVO, function(module, result) {
+			if(result.resultCode == 1){
+				alert(result.resultMsg);
+				return true;
+			}else{
+				module._mainKeyValue = mngFeeFcltyCd + usageYr + mngFeeJobSe;
+				module.doAction('/mngFee/gamInsertElctyUsageQyMng.do', inputVO, function(module, result) {
+					if (result.resultCode == "0") {
+						module.refreshData();
+					}
+					alert(result.resultMsg);
+				});
 			}
-			alert(result.resultMsg);
 		});
 	} else {
 		this.doAction('/mngFee/gamUpdateElctyUsageQyMng.do', inputVO, function(module, result) {
