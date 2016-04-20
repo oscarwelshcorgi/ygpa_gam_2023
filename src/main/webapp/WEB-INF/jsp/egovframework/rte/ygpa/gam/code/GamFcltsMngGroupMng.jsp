@@ -669,6 +669,7 @@ GamFcltsMngGroupMngModule.prototype.saveData = function() {
 		this.$("#prtAtCode").focus();
 		return;
 	}
+	
 	if (fcltsMngGroupNo == "") {
 		alert('시설물 관리 그룹 번호가 부정확합니다.');
 		this.$("#fcltsMngGroupNo").focus();
@@ -1172,10 +1173,10 @@ var module_instance = new GamFcltsMngGroupMngModule();
 					<form id="detailForm">
 						<table class="detailPanel" style="width:100%;">
 							<tr>
-								<th style="width:20%; height:18px;">시설물 관리 그룹 번호</th>
+								<th style="width:20%; height:18px;">시설물관리그룹번호</th>
 								<td colspan="3">
 									<input id="prtAtCodeNm" type="hidden"/>
-									<input id="prtAtCode" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM019" />
+									<input id="prtAtCode" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM019" data-required="true"/>
 									<input type="text" id="fcltsMngGroupNo" size="92" maxlength="14" disabled/>
 								</td>
 							</tr>
@@ -1235,9 +1236,9 @@ var module_instance = new GamFcltsMngGroupMngModule();
 								</td>
 							</tr>
 							<tr>
-								<th style="width:20%; height:18px;">준　　공　　일　　자</th>
+								<th style="width:20%; height:18px;">준　공　　일　자</th>
 								<td>
-									<input type="text" id="bldDt" size="18" class="emdcal"/>
+									<input type="text" id="bldDt" size="18" class="emdcal" data-required="true"/>
 								</td>
 								<th style="width:20%; height:18px;">하　자　　만　료　일</th>
 								<td>

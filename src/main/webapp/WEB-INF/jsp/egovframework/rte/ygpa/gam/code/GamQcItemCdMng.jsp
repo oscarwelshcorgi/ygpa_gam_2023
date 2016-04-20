@@ -698,9 +698,19 @@ GamQcItemCdMngModule.prototype.saveData = function() {
 		this.$("#fcltsJobSe").focus();
 		return;
 	}
+	if (depthSort == "") {
+		alert('단계 항목을 입력하세요.');
+		this.$("#depthSort").focus();
+		return;
+	}
 	if (qcItemCd == "" || qcItemCd.length != 9) {
 		alert('점검 항목 코드가 부정확합니다.');
 		this.$("#qcItemCd").focus();
+		return;
+	}
+	if (qcItemNm == "") {
+		alert('점검 항목 명이 부정확합니다.');
+		this.$("#qcItemNm").focus();
 		return;
 	}
 	if (qcItemNm == "") {
@@ -1209,7 +1219,7 @@ var module_instance = new GamQcItemCdMngModule();
 								<th style="width:15%; height:18;">업　무　구　분</th>
 								<td>
 									<input id="fcltsJobSeNm" type="hidden"/>
-									<select id="fcltsJobSe">
+									<select id="fcltsJobSe" data-required="true">
 										<option value="A">건축시설</option>
 										<option value="C">토목시설</option>
 										<option value="M">기계시설</option>
@@ -1219,14 +1229,14 @@ var module_instance = new GamQcItemCdMngModule();
 								</td>
 								<th style="width:15%; height:18;">단계 / LEAF  여부</th>
 								<td>
-									<input type="text" id="depthSort" size="21" maxlength="1"/>
+									<input type="text" id="depthSort" size="21" maxlength="1" data-required="true"/>
 									<input type="text" id="leafYn" size="22" maxlength="1" disabled/>
 								</td>
 							</tr>
 							<tr>
 								<th style="width:15%; height:18;">점검 항목 상위</th>
 								<td>
-									<input type="text" id="qcItemUpperCd" size="11" maxlength="9"/>
+									<input type="text" id="qcItemUpperCd" size="11" maxlength="9" data-required="true"/>
 									<input type="text" id="qcItemUpperNm" size="20" maxlength="100"/>
 									<button id="popupQcItemUpperCd" class="popupButton">선택</button>
 								</td>
@@ -1242,7 +1252,7 @@ var module_instance = new GamQcItemCdMngModule();
 								</td>
 								<th style="width:15%; height:18;">점검　항목　명</th>
 								<td>
-									<input type="text" id="qcItemNm" size="45" maxlength="100"/>
+									<input type="text" id="qcItemNm" size="45" maxlength="100" data-required="true"/>
 								</td>
 							</tr>
 							<tr>
