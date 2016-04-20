@@ -906,12 +906,14 @@
 		WHERE
 			I.LEAF_YN = 'Y'
 			AND I.FCLTS_JOB_SE = 'M'
-			AND (R.INSP_RESULT_CHK = 'N' OR R.INSP_RESULT_CHK = 'W' OR R.INSP_RESULT_CHK = 'X')
 		    <isNotEmpty property="fcltsMngGroupNo">
 		    	AND R.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
 		   	</isNotEmpty>
 		    <isNotEmpty property="mechCdStartChar">
 		    	AND I.QC_ITEM_CD LIKE #mechCdStartChar# || '%'
+		    	<isNotEqual property="mechCdStartChar" compareValue="M03">
+		    		AND (R.INSP_RESULT_CHK = 'N' OR R.INSP_RESULT_CHK = 'W' OR R.INSP_RESULT_CHK = 'X')
+		    	</isNotEqual>
 		   	</isNotEmpty>
 		ORDER BY
 			I.QC_ITEM_UPPER_CD

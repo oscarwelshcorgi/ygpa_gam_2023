@@ -212,4 +212,45 @@ public class GamFcltyQcHwpBaseReport {
 		fis.close();
 		return new String(Base64.encodeBase64(fileData));
 	}
+	
+	
+	//기계항만부잔교 재배열 출력리스트 생성
+	protected List<HashMap<String, String>> getFloatingPierPrintList(List<HashMap<String, String>> qcItemUpperList, List<EgovMap> qcResultItemList) {
+		List<HashMap<String, String>> resultList = new ArrayList<HashMap<String,String>>();
+		
+		for(HashMap<String, String> itemUpper : qcItemUpperList) {
+			HashMap<String, String> displayItem = new HashMap<String, String>();
+			String itemUpperCd = itemUpper.get("qcItemUpperCd");
+			String itemUpperNm = itemUpper.get("qcItemUpperNm");
+			displayItem.put("qcItemUpperCd", itemUpperCd);
+			displayItem.put("qcItemUpperNm", itemUpperNm);
+			boolean displayFlag = false;
+			for(EgovMap resultItem : qcResultItemList) {
+				String resultItemUpperCd = (String) resultItem.get("qcItemUpperCd");
+				if(resultItemUpperCd.equals(itemUpperCd)) {
+					String resultItemNm = (String) resultItem.get("qcItemNm");
+					String resultItemInspChk = (String) resultItem.get("inspResultChk");
+					displayItem.put(resultItemNm, resultItemInspChk);
+					if(!resultItemInspChk.equals("E")) {
+						displayFlag = true;
+					}
+				}
+			}
+			if(displayFlag) resultList.add(displayItem);
+		}
+		return resultList;
+	}
+	
+	//기계항만부잔교 출력리스트에서 점검결과 가져오기
+	protected String getFloatingPierInspResultChk(List<HashMap<String, String>> printItemList, String qcItemUpperCd, String qcItemNm) {
+		String result = "";
+		for(HashMap<String, String> item : printItemList) {
+			String itemUpperCd = item.get("qcItemUpperCd");
+			if(itemUpperCd.equals(qcItemUpperCd)) {
+				result = item.get(qcItemNm);
+				break;
+			}
+		}
+		return result;
+	}
 }

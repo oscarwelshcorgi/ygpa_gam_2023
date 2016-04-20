@@ -31,25 +31,68 @@ public class GamFcltyQcHwpMngResultInfo {
 	private EgovMap qcDetailData = null;  //점검 데이터
 	private List<EgovMap> qcResultItemList = null; //점검 항목 목록
 	private EgovMap mngGroupInfo = null;  //시설물 그룹 관리 정보(토목일 때만 사용)
-	private Map<String, Object> chargerInfo1 = null; //검사자 정보1
-	private Map<String, Object> chargerInfo2 = null; //검사자 정보2
+	private List<Map<String, Object>> chargerInfoList = null; //검사자 정보리스트
 	
-	public GamFcltyQcHwpMngResultInfo(EgovMap qcDetailData, List<EgovMap> qcResultItemList, EgovMap mngGroupInfo, Map<String, Object> chargerInfo1, Map<String, Object> chargerInfo2) {
+	public GamFcltyQcHwpMngResultInfo(EgovMap qcDetailData, List<EgovMap> qcResultItemList, EgovMap mngGroupInfo,  List<Map<String, Object>> chargerInfoList) {
 		this.qcDetailData = qcDetailData;
 		this.qcResultItemList = qcResultItemList;
 		this.mngGroupInfo = mngGroupInfo;
-		this.chargerInfo1 = chargerInfo1;
-		this.chargerInfo2 = chargerInfo2;
+		this.chargerInfoList = chargerInfoList;
 	}
-	
-	public void setQcDetailData(EgovMap value) { this.qcDetailData = value; } 
-	public EgovMap getQcDetailData() { return this.qcDetailData; }
-	public void setQcResultItemList(List<EgovMap> value) { this.qcResultItemList = value; }
-	public List<EgovMap> getQcResultItemList() { return this.qcResultItemList; }
-	public void setMngGroupInfo(EgovMap value) { this.mngGroupInfo = value; } 
-	public EgovMap getMngGroupInfo() { return this.mngGroupInfo; }
-	public void setChargerInfo1(Map<String, Object> value) { this.chargerInfo1 = value; }
-	public Map<String, Object> getChargerInfo1() { return this.chargerInfo1; }
-	public void setChargerInfo2(Map<String, Object> value) { this.chargerInfo2 = value; }
-	public Map<String, Object> getChargerInfo2() { return this.chargerInfo2; }
+
+	/**
+	 * @return the qcDetailData
+	 */
+	public EgovMap getQcDetailData() {
+		return qcDetailData;
+	}
+
+	/**
+	 * @param qcDetailData the qcDetailData to set
+	 */
+	public void setQcDetailData(EgovMap qcDetailData) {
+		this.qcDetailData = qcDetailData;
+	}
+
+	/**
+	 * @return the qcResultItemList
+	 */
+	public List<EgovMap> getQcResultItemList() {
+		return qcResultItemList;
+	}
+
+	/**
+	 * @param qcResultItemList the qcResultItemList to set
+	 */
+	public void setQcResultItemList(List<EgovMap> qcResultItemList) {
+		this.qcResultItemList = qcResultItemList;
+	}
+
+	/**
+	 * @return the mngGroupInfo
+	 */
+	public EgovMap getMngGroupInfo() {
+		return mngGroupInfo;
+	}
+
+	/**
+	 * @param mngGroupInfo the mngGroupInfo to set
+	 */
+	public void setMngGroupInfo(EgovMap mngGroupInfo) {
+		this.mngGroupInfo = mngGroupInfo;
+	}
+
+	/**
+	 * @return the chargerInfoList
+	 */
+	public List<Map<String, Object>> getChargerInfoList() {
+		return chargerInfoList;
+	}
+
+	/**
+	 * @param chargerInfoList the chargerInfoList to set
+	 */
+	public void setChargerInfoList(List<Map<String, Object>> chargerInfoList) {
+		this.chargerInfoList = chargerInfoList;
+	}
 }

@@ -421,7 +421,7 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 		
 		//리포트 정보 생성
 		for(int i=0; i<reportList.size(); i++) {
-			EgovMap mngGroupInfo = null, chargerInfo1 = null, chargerInfo2 = null;
+			EgovMap mngGroupInfo = null;
 			List<EgovMap> qcResultItemList = null;
 			// 점검내역 조회
 			EgovMap qcDetailData = gamFcltyQcwWrtMngDao.selectHwpQcMngDtlsDetail(reportList.get(i));
@@ -447,63 +447,43 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 				}
 
 				// 작성자를 가져와서 ,로 나누어서 시설물관리자 정보를 가져온다.
+				List<Map<String, Object>> chargerInfoList = new ArrayList<Map<String,Object>>();
 				String wrtUsr = (String) qcDetailData.get("wrtUsr");
 				if(wrtUsr != null) wrtUsr = wrtUsr.replace(" ", "");				
 				if((wrtUsr != null) && (wrtUsr.length() > 0)) {
 					String wrtUsers[] = wrtUsr.split(",");
-					int index = 0;
 					for(String wrtUser : wrtUsers) {
-						if(index < 2) {
-							Map<String, String> chargerNm = new HashMap<String, String>();
-							chargerNm.put("chargerNm", wrtUser);
-							chargerNm.put("fcltsJobSe", fcltsJobSe);
-							EgovMap chargerInfo = gamFcltyQcwWrtMngDao.selectChargerInfo(chargerNm);
-							if(chargerInfo != null) {
-								String fileName = (String) chargerInfo.get("signFileNmPhysicl");
-						    	if((fileName != null) && (fileName.length() > 0)) {
-						    		fileName = EgovProperties.getProperty("prtfclty.fileStorePath") + fileName;
-						        	File file = new File(fileName);
-						        	if(file.exists()) {
-						        		chargerInfo.put("fileExists", new Boolean(true));
-						        		fileIndexInfo.put((String) chargerInfo.get("signFileNmPhysicl"), 0);
-						        	} else {
-						        		chargerInfo.put("fileExists", new Boolean(false));
-						        	}
-						    	} else {
-						    		chargerInfo.put("fileExists", new Boolean(false));
-						    	}
-							} else {
-								chargerInfo = new EgovMap();
-								chargerInfo.put("chargerNm", wrtUser);
-								chargerInfo.put("fileExists", new Boolean(false));
-							}
-							if(index == 0) chargerInfo1 = chargerInfo;
-							else chargerInfo2 = chargerInfo;
+						Map<String, String> chargerNm = new HashMap<String, String>();
+						chargerNm.put("chargerNm", wrtUser);
+						chargerNm.put("fcltsJobSe", fcltsJobSe);
+						EgovMap chargerInfo = gamFcltyQcwWrtMngDao.selectChargerInfo(chargerNm);
+						if(chargerInfo != null) {
+							String fileName = (String) chargerInfo.get("signFileNmPhysicl");
+					    	if((fileName != null) && (fileName.length() > 0)) {
+					    		fileName = EgovProperties.getProperty("prtfclty.fileStorePath") + fileName;
+					        	File file = new File(fileName);
+					        	if(file.exists()) {
+					        		chargerInfo.put("fileExists", new Boolean(true));
+					        		fileIndexInfo.put((String) chargerInfo.get("signFileNmPhysicl"), 0);
+					        	} else {
+					        		chargerInfo.put("fileExists", new Boolean(false));
+					        	}
+					    	} else {
+					    		chargerInfo.put("fileExists", new Boolean(false));
+					    	}
+						} else {
+							chargerInfo = new EgovMap();
+							chargerInfo.put("chargerNm", wrtUser);
+							chargerInfo.put("fileExists", new Boolean(false));
 						}
-						index++;
+						chargerInfoList.add(chargerInfo);
 					}
 				}
-				qcMngResultInfoList.add(new GamFcltyQcHwpMngResultInfo(qcDetailData, qcResultItemList, mngGroupInfo, chargerInfo1, chargerInfo2));
+				qcMngResultInfoList.add(new GamFcltyQcHwpMngResultInfo(qcDetailData, qcResultItemList, mngGroupInfo, chargerInfoList));
 			}
 		}
 		
 		GamFcltyQcHwpBaseReportInterface report = null;
-		
-		/*
-		if(fcltsJobSe.equals("C")) { //토목
-			report = new GamFcltyQcHwpCivilListReport(qcMngResultInfoList, fileIndexInfo);
-		} else if(fcltsJobSe.equals("A")) { //건축
-			report = new GamFcltyQcHwpArchListReport(qcMngResultInfoList, fileIndexInfo);
-		} else if(fcltsJobSe.equals("E")) { //전력
-			report = new GamFcltyQcHwpElectyListReport(qcMngResultInfoList, fileIndexInfo); 
-		} else if(fcltsJobSe.equals("I")) { //정보통신
-			report = new GamFcltyQcHwpInfoCommListReport(qcMngResultInfoList, fileIndexInfo);
-		} else if(fcltsJobSe.equals("M")) { //기계
-			if(mechFcltsSe != null) {
-				report = (mechFcltsSe.equals("1")) ? new GamFcltyQcHwpCraneMechListReport(qcMngResultInfoList, fileIndexInfo) : new GamFcltyQcHwpArchMechListReport(qcMngResultInfoList, fileIndexInfo);
-			} 
-		}
-		*/
 		
 		report = new GamFcltyQcHwpReport(qcMngResultInfoList, fileIndexInfo);
 		
