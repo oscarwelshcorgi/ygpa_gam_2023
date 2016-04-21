@@ -1193,6 +1193,12 @@ GamFcltyQcwWrtMngModule.prototype.loadQcSubDataList = function() {
 	 			module.setControlStatus();
 	 			if(module._mainmode == 'insert') {
 	 				searchVO[searchVO.length] = { name: 'sFcltsMngGroupNo', value: module.$('#fcltsMngGroupNo').val() };
+	 				//추가시 기계의 항만하역장비일 경우 없음을 디폴트값으로 넣는다.
+	 				if((module.$('#fcltsJobSe').val() == 'M') && (module.$('#mechFcltsSe').val() == '1')) {
+	 					for(var i=0; i<module._qcResultList.length; i++) {
+	 						module._qcResultList[i].inspResultChk = 'E';
+	 					}
+	 				}
 	 			}
 	 			module.$('#qcObjFcltsGrid').flexOptions({params:searchVO}).flexReload();
 	 		}
