@@ -222,7 +222,7 @@ GamElctyEquipCapaMngModule.prototype.saveChartLabelDisplay = function() {
 **/
 %>
 GamElctyEquipCapaMngModule.prototype.drawChart = function() {
-
+	this.$('#elctyEquipCapaLegend').empty();
 	var dataValueArr = [];
 	var legendArr = [];
 	var maxDataValue = 0;
@@ -258,6 +258,8 @@ GamElctyEquipCapaMngModule.prototype.drawChart = function() {
 			for (var i=0; i<dataCount; i++) {
 				elctyEquipNo = result.resultList[i]['elctyEquipNo'];
 				elctyEquipNm = result.resultList[i]['elctyEquipNm'];
+				var text = '&nbsp;&nbsp;' + (i + 1) + ":   "+elctyEquipNm+'</br>';
+				module.$('#elctyEquipCapaLegend').append(text);
 				dispElctyEquipNm = module.makeWordWrap(elctyEquipNm.replace(/ /gi, ""), 6);
 				dataValue1 = result.resultList[i]['equipCapa']*1;
 				dataValue2 = result.resultList[i]['ctrtCapa']*1;
@@ -270,6 +272,7 @@ GamElctyEquipCapaMngModule.prototype.drawChart = function() {
 					}
 				} else if (chartValueSe == "C") {
 					dataValueArr[i] = { elctyEquipNo: elctyEquipNo ,equip: dispElctyEquipNm, value1: dataValue2, txtValue1: numValue2 };
+
 					if (maxDataValue < dataValue2) {
 						maxDataValue = dataValue2;
 					}
@@ -312,13 +315,13 @@ GamElctyEquipCapaMngModule.prototype.drawChart = function() {
 				width			: 20,
 				label			: "#txtValue1#",
 				tooltip			: "#txtValue1#",
-				legend:{
+				/* legend:{
 					values:legendArr,
 					valign:"middle",
 					align:"right",
 					width:200,
 					layout:"y"
-				},
+				}, */
 				xAxis			: {
 					title 		: "전기 설비 용량",
 					template	: "#elctyEquipNo#"
@@ -341,8 +344,9 @@ GamElctyEquipCapaMngModule.prototype.drawChart = function() {
 					template		: "#txtValue2#"
 	            }
 			});
-		} else {
+		} else if(module.barChart!=null && chartValueSe == 'E') {
 			module.barChart.clearAll();
+			module.barChart.define("color", "#000BE0");
 			module.barChart.define("yAxis", {
 				start			: 0,
 				end				: maxDataValue + 10,
@@ -358,8 +362,45 @@ GamElctyEquipCapaMngModule.prototype.drawChart = function() {
 				module.barChart.define("label", "");
 			}
 		}
+		 else if(module.barChart!=null && chartValueSe == 'C') {
+			module.barChart.clearAll();
+			module.barChart.define("color", "#66cc00");
+			module.barChart.define("yAxis", {
+				start			: 0,
+				end				: maxDataValue + 10,
+				step			: Math.ceil(maxDataValue / 10),
+				title			: chartValueNm,
+				template		: function(value) {
+					return $.number(value);
+				}
+			});
+			if (chartLabelDisplay == "Y") {
+				module.barChart.define("label", "#txtValue1#");
+			} else {
+				module.barChart.define("label", "");
+			}
+		}else{
+			module.barChart.clearAll();
+			module.barChart.define("color","#000BE0");
+			module.barChart.define("yAxis", {
+				start			: 0,
+				end				: maxDataValue + 10,
+				step			: Math.ceil(maxDataValue / 10),
+				title			: chartValueNm,
+				template		: function(value) {
+					return $.number(value);
+				}
+			});
+			if (chartLabelDisplay == "Y") {
+				module.barChart.define("label", "#txtValue1#");
+			} else {
+				module.barChart.define("label", "");
+			}
+		}
+
 		module.barChart.parse(dataValueArr, "json");
 		module.barChart.refresh();
+
 		if (chartValueSe == "E") {
 			module.barChart.hideSeries(1);
 		} else if (chartValueSe == "C") {
@@ -419,6 +460,16 @@ GamElctyEquipCapaMngModule.prototype.onButtonClick = function(buttonId) {
 			this._mainKeyValue = '';
 			this.makeFormValues('#detailForm', {});
 			this.makeDivValues('#detailForm', {});
+			if (this.barChart == null){
+				this.barChart = new dhtmlXChart();
+			}
+			this.barChart.define("yAxis", {
+				start           : 0,
+				end             : 10,
+				step            : 10/10
+			});
+			this.barChart.clearAll();
+			this.barChart.refresh();
 			this.disableDetailInputItem();
 			this.addData();
 			break;
@@ -1324,7 +1375,7 @@ var module_instance = new GamElctyEquipCapaMngModule();
 									&nbsp;
 									<input type="text" size="10" id="mngSeq" disabled/>
 								</td>
-								<th style="text-align: center;">
+								<th>
 									그래프　구분
 								</th>
 								<td>
@@ -1335,8 +1386,8 @@ var module_instance = new GamElctyEquipCapaMngModule();
 										<option value="A">설비용량+계약용량</option>
 									</select>
 								</td>
-								<th style="text-align: center;">
-									표　　　　시
+								<th>
+									표　　시
 								</th>
 								<td>
 									<select id="chartLabelDisplay">
@@ -1344,9 +1395,9 @@ var module_instance = new GamElctyEquipCapaMngModule();
 										<option value="Y">값 표시</option>
 										<option value="N">값 미표시</option>
 									</select>
-									&nbsp;&nbsp;
 									<button id="btnChartSearch">그래프 조회</button>
 								</td>
+								<td></td>
 							</tr>
 							<tr>
 								<th style="width:10%; height:30px;">시설물그룹번호</th>
@@ -1355,7 +1406,11 @@ var module_instance = new GamElctyEquipCapaMngModule();
 									<button id="popupFcltsMngGroup" class="popupButton">선택</button>
 								</td>
 								<td colspan="4" rowspan="10" style="padding-left:4px;">
-									<div id="elctyEquipCapaChart" style="width:810px;height:515px;border:1px solid #A4BED4;"></div>
+									<div id="elctyEquipCapaChart" style="width:610px;height:515px;border:1px solid #A4BED4;"></div>
+
+								</td>
+								<td  rowspan="10">
+									<div id="elctyEquipCapaLegend" style="width:199px;height:515px;border:1px solid #A4BED4;"></div>
 								</td>
 							</tr>
 							<tr>
