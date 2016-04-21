@@ -1305,7 +1305,7 @@ public class GamFcltyQcHwpReport  extends GamFcltyQcHwpBaseReport implements Gam
 		sb.append("			<INSIDEMARGIN Bottom=\"140\" Left=\"140\" Right=\"140\" Top=\"140\"/>\n");
 		sb.append("			<ROW>\n");
 		sb.append("				<CELL BorderFill=\"26\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"true\" Height=\"4234\" Protect=\"false\" RowAddr=\"0\" RowSpan=\"2\" Width=\"5737\"><PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\"><P ParaShape=\"36\" Style=\"0\"><TEXT CharShape=\"23\"><CHAR>구 분</CHAR></TEXT></P></PARALIST></CELL>\n");
-		sb.append("				<CELL BorderFill=\"26\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"true\" Height=\"4234\" Protect=\"false\" RowAddr=\"0\" RowSpan=\"2\" Width=\"25040\"><PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\"><P ParaShape=\"36\" Style=\"0\"><TEXT CharShape=\"23\"><CHAR>점    검    내    용</CHAR></TEXT></P></PARALIST></CELL>\n");
+		sb.append("				<CELL BorderFill=\"26\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"true\" Height=\"4234\" Protect=\"false\" RowAddr=\"0\" RowSpan=\"2\" Width=\"27550\"><PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\"><P ParaShape=\"36\" Style=\"0\"><TEXT CharShape=\"23\"><CHAR>점    검    내    용</CHAR></TEXT></P></PARALIST></CELL>\n");
 		sb.append("				<CELL BorderFill=\"26\" ColAddr=\"2\" ColSpan=\"5\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"true\" Height=\"2117\" Protect=\"false\" RowAddr=\"0\" RowSpan=\"1\" Width=\"13942\"><PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\"><P ParaShape=\"36\" Style=\"0\"><TEXT CharShape=\"23\"><CHAR>점검결과</CHAR></TEXT></P></PARALIST></CELL>\n");
 		sb.append("				<CELL BorderFill=\"26\" ColAddr=\"7\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"true\" Height=\"4234\" Protect=\"false\" RowAddr=\"0\" RowSpan=\"2\" Width=\"3184\"><PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\"><P ParaShape=\"36\" Style=\"0\"><TEXT CharShape=\"23\"><CHAR>비고</CHAR></TEXT></P></PARALIST></CELL>\n");
 		sb.append("			</ROW>\n");
@@ -1322,7 +1322,7 @@ public class GamFcltyQcHwpReport  extends GamFcltyQcHwpBaseReport implements Gam
 		sb.append("						<P ParaShape=\"23\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>부잔교</CHAR></TEXT></P>\n");
 		sb.append("					</PARALIST>\n");
 		sb.append("				</CELL>\n");
-		sb.append("				<CELL BorderFill=\"3\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"10248\" Protect=\"false\" RowAddr=\"2\" RowSpan=\"1\" Width=\"25040\">\n");
+		sb.append("				<CELL BorderFill=\"3\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"10248\" Protect=\"false\" RowAddr=\"2\" RowSpan=\"1\" Width=\"27550\">\n");
 		sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
 		if(printItemList.size()>0) {
 			for(HashMap<String, String> item : printItemList) {
