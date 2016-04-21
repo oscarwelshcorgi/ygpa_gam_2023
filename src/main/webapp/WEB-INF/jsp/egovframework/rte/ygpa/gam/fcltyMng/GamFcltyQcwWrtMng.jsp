@@ -2351,7 +2351,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 										<select id="mechFcltsSe">
 											<option value="1">하역장비</option>
-											<!-- <option value="2">항만부잔교</option> -->
+											<option value="2">항만부잔교</option>
 											<option value="3">건축기계설비</option>
 										</select>
 										<button id="popupEditQcResultItem">점검표</button>

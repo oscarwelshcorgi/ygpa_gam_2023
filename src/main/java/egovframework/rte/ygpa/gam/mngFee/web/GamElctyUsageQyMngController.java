@@ -404,7 +404,7 @@ public class GamElctyUsageQyMngController {
 		if(resultCnt > 0){
 
 			map.put("resultCode", 1);
-			map.put("resultMsg","중복된 키가 있습니다.");
+			map.put("resultMsg","이미 등록된 자료가 있습니다.");
 		}else{
 			map.put("resultCode", 0);
 		}
