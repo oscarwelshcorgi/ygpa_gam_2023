@@ -315,13 +315,13 @@ GamElctyEquipCapaMngModule.prototype.drawChart = function() {
 				width			: 20,
 				label			: "#txtValue1#",
 				tooltip			: "#txtValue1#",
-				/* legend:{
-					values:legendArr,
-					valign:"middle",
+				 legend:{
+					values:[{text:"설비용량",color:"#000BE0"},{text:"계약용량",color:"#66cc00"}],
+					valign:"top",
 					align:"right",
 					width:200,
-					layout:"y"
-				}, */
+					layout:"x"
+				},
 				xAxis			: {
 					title 		: "전기 설비 용량",
 					template	: "#elctyEquipNo#"
