@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package egovframework.rte.ygpa.gam.code.service.impl;
 
@@ -20,14 +20,14 @@ import egovframework.rte.ygpa.gam.code.service.GamEntrpsChargerFVO;
 import egovframework.rte.ygpa.gam.code.service.GamEntrpsInfoFVO;
 
 /**
- * 
+ *
  * @author kok
  * @since 2014. 3. 5.
  * @version 1.0
  * @see
  * <pre>
  * << 개정이력(Modification Information) >>
- *   
+ *
  *   수정일 		 수정자		 수정내용
  *  -------		--------	---------------------------
  *  2014. 3. 5.		kok		최초 생성
@@ -40,16 +40,16 @@ public class GamCmpyInfoMngtServiceImpl extends AbstractServiceImpl implements G
 
 	@Resource(name="gamCmpyInfoMngtDao")
     private GamCmpyInfoMngtDao gamCmpyInfoMngtDao;
-	
-	
-	
+
+
+
 	/**
 	 * 업체정보관리 목록
 	 */
 	public List<GamEntrpsInfoFVO> selectCmpyInfoMngtList(GamEntrpsInfoFVO vo) throws Exception {
    		return (List<GamEntrpsInfoFVO>)gamCmpyInfoMngtDao.selectCmpyInfoMngtList(vo);
 	}
-	
+
 	/**
 	 * 업체정보관리 목록 총 수
 	 * @param vo
@@ -60,15 +60,14 @@ public class GamCmpyInfoMngtServiceImpl extends AbstractServiceImpl implements G
 		return gamCmpyInfoMngtDao.selectCmpyInfoMngtListTotCnt(vo);
     }
 
-
 	/**
 	 * 업체정보관리 목록
 	 */
 	public List<GamEntrpsChargerFVO> selectCmpyMngtList(GamEntrpsChargerFVO vo) throws Exception {
 		return (List<GamEntrpsChargerFVO>)gamCmpyInfoMngtDao.selectCmpyMngtList(vo);
 	}
-	
-	
+
+
 	/**
 	 * 업체정보관리 목록 총 수
 	 * @param vo
@@ -79,7 +78,7 @@ public class GamCmpyInfoMngtServiceImpl extends AbstractServiceImpl implements G
 		return gamCmpyInfoMngtDao.selectCmpyMngtListTotCnt(vo);
 	}
 
-	
+
 	/**
 	 * 업체정보관리 상세
 	 * @param vo
@@ -89,8 +88,8 @@ public class GamCmpyInfoMngtServiceImpl extends AbstractServiceImpl implements G
 	public GamEntrpsInfoFVO selectCmpyInfoMngtDetail(GamEntrpsInfoFVO vo) throws Exception {
 		return gamCmpyInfoMngtDao.selectCmpyInfoMngtDetail(vo);
 	}
-	
-	
+
+
 	/**
 	 * 업체담당자 정보 상세
 	 * @param vo
@@ -101,7 +100,7 @@ public class GamCmpyInfoMngtServiceImpl extends AbstractServiceImpl implements G
 		return gamCmpyInfoMngtDao.selectCmpyMngtDetail(vo);
 	}
 
-	
+
 	/**
 	 * 업체정보 관리 저장
 	 * @param vo
@@ -109,7 +108,7 @@ public class GamCmpyInfoMngtServiceImpl extends AbstractServiceImpl implements G
 	 * @throws Exception
 	 */
 	public void insertCmpyInfoMngt(Map<String, Object> cmpyMngtList) throws Exception {
-		
+
 		List<HashMap<String,String>> insertList = null;
     	HashMap<String,String> form = null;
 
@@ -135,8 +134,8 @@ public class GamCmpyInfoMngtServiceImpl extends AbstractServiceImpl implements G
     		}
     	}catch(Exception e) { log.warn("an error found"); }
 	}
-	
-	
+
+
 	/**
 	 * 업체정보 관리 수정
 	 * @param vo
@@ -144,26 +143,26 @@ public class GamCmpyInfoMngtServiceImpl extends AbstractServiceImpl implements G
 	 * @throws Exception
 	 */
 	public void updateCmpyInfoMngt(Map<String, Object> cmpyMngtList) throws Exception {
-		
+
 		List<HashMap<String,String>> insertList = null;
 		List<HashMap<String,String>> updateList = null;
 		List<HashMap<String,String>> deleteList = null;
 		HashMap<String,String> form = null;
-		
+
 		ObjectMapper mapper = new ObjectMapper();
-		
+
 		try {
-			
+
 			//convert JSON string to Map
 			form = mapper.readValue((String)cmpyMngtList.get("form"),new TypeReference<HashMap<String,String>>(){});
 			insertList = mapper.readValue((String)cmpyMngtList.get("insertList"),new TypeReference<List<HashMap<String,String>>>(){});
 			updateList = mapper.readValue((String)cmpyMngtList.get("updateList"),new TypeReference<List<HashMap<String,String>>>(){});
 			deleteList = mapper.readValue((String)cmpyMngtList.get("deleteList"),new TypeReference<List<HashMap<String,String>>>(){});
-			
+
 			// 업체정보 등록
 			form.put("updUsr", (String)cmpyMngtList.get("USERID"));
 			//updateCmpyInfo(form);
-			
+
 			// 업체 담당자 목록을 수정한다.
 			if(insertList.size() > 0){
 				for(int i = 0 ; i < insertList.size() ; i++) {
@@ -189,8 +188,8 @@ public class GamCmpyInfoMngtServiceImpl extends AbstractServiceImpl implements G
 			}
 		}catch(Exception e) { log.warn("an error found"); }
 	}
-	
-	
+
+
 	/**
 	 * 업체정보 관리 삭제
 	 * @param vo
@@ -198,50 +197,50 @@ public class GamCmpyInfoMngtServiceImpl extends AbstractServiceImpl implements G
 	 * @throws Exception
 	 */
 	public void deleteCmpyInfoMngt(String entrpscd) throws Exception {
-		
+
 		Map<String, String> deleteList = new HashMap<String, String>();
-		
+
 		deleteList.put("entrpscd", entrpscd);
 
 		// 업체담당자 삭제
 		deleteCmpyCharger(deleteList);
-		
+
 		// 업체정보 삭제
 		//deleteCmpyInfo(entrpscd);
 	}
-	
-	
+
+
 	// 업체 정보 저장
 	private void insertCmpyInfo(HashMap<String,String> form) throws Exception{
 		gamCmpyInfoMngtDao.insertCmpyInfo(form);
 	}
-	
+
 	// 업체 담당자 저장
 	private void insertCmpyCharger(Map<String,String> insertList) throws Exception{
 		gamCmpyInfoMngtDao.insertCmpyCharger(insertList);
 	}
-	
+
 	// 업체 정보 수정
 	private void updateCmpyInfo(HashMap<String,String> form) throws Exception{
 		gamCmpyInfoMngtDao.updateCmpyInfo(form);
 	}
-	
+
 	// 업체 담당자 수정
 	private void updateCmpyCharger(Map<String,String> updateList) throws Exception{
 		gamCmpyInfoMngtDao.updateCmpyCharger(updateList);
 	}
-	
+
 	// 업체 정보 삭제
 	private void deleteCmpyInfo(String entrpscd) throws Exception{
 		gamCmpyInfoMngtDao.deleteCmpyInfo(entrpscd);
 	}
-	
+
 	// 업체 담당자 삭제
 	private void deleteCmpyCharger(Map<String,String> deleteList) throws Exception{
 		gamCmpyInfoMngtDao.deleteCmpyCharger(deleteList);
 	}
-	
-	
+
+
 	/**
 	 * 업체코드 체크
 	 */

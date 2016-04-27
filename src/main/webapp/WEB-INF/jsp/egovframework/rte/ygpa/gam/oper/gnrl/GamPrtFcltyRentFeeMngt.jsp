@@ -105,13 +105,17 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
     this.$('#fee').on("keyup change", {module: this}, function(event) {
 		event.data.module.changeFee();
     });
-    
+
     this.$('#vat').on("keyup change", {module: this}, function(event) {
 		event.data.module._modifyFee=true;
     });
 
     this.$('#roundVat').on("change", {module: this}, function(event) {
 		event.data.module.changeFee();
+    });
+
+    this.$('#payinstIntrrate,#intrAmnt').on("change", {module: this}, function(event) {
+		event.data.module.changeInterest();
     });
 
     if(params!=null) {
@@ -145,6 +149,20 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
 
     this._modifyFee=false;
 
+	 this.$('#cofixMngt').click(function() {
+		 alert('이자율 변경 이후에 이 창을 닫고 새로 실행해 주셔야 목록에 반영됩니다.');
+	 });
+
+	    this.$('#cofixList').on('change', {module: this}, function(event) {
+	    	//alert('||'+$(this).val()+'||');
+	        if( $(this).val() == '' ) {
+	        	event.data.module.$('#payinstIntrrate').val("");
+	        } else {
+	        	event.data.module.$('#payinstIntrrate').val($(this).val()*100);
+	        }
+        	event.data.module.changeInterest();
+	    });
+
     console.log('loadComplete.');
 };
 
@@ -153,13 +171,49 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
 --%>
 GamAssetRentFeeMngtModule.prototype.changeFee = function() {
 	var fee = this.$('#fee').val().replace(/,/g, "")*1;
+	var intrAmnt = Number(this.$('#intrAmnt').val()||0);
+	var vat=0;
+	fee+=intrAmnt;
 	if(this.$('#roundVat').attr('checked')=="checked") {
-		this.$('#vat').val(Math.round(fee/100)*10);
+		vat=Math.round(fee/100)*10;
 	}
 	else {
-		this.$('#vat').val(Math.floor(fee/100)*10);
+		vat=Math.floor(fee/100)*10;
 	}
+	this.$('#totPrice').text($.number(fee));
+	this.$('#vat').val(vat);
+	this.$('#nticAmt').text($.number(fee+vat));
+
 	this._modifyFee=true;
+};
+
+<%--
+	납부 이자율 변경
+--%>
+GamAssetRentFeeMngtModule.prototype.changeInterest = function() {
+	var intrAmnt=0;
+	var payinstIntrrate=this.$('#payinstIntrrate').val()/100||0;
+	var bal=this.instBal;
+	var lm=12;
+	switch(this.nticMth) {
+	case '2':
+		lm-=this.nticCnt*6;
+		break;
+	case '3':
+		lm-=this.nticCnt*4;
+		break;
+	case '4':
+		lm-=this.nticCnt*3;
+		break;
+	case '5':
+		lm-=this.nticCnt;
+		break;
+	}
+	intrAmnt=bal*payinstIntrrate*lm/12;
+	intrAmnt=Math.floor(intrAmnt/10)*10;
+	this.$('#intrAmnt').val($.number(intrAmnt));
+	this.changeFee();
+
 };
 
 <%--
@@ -194,7 +248,7 @@ GamAssetRentFeeMngtModule.prototype.execSave = function() {
     }
 };
 
-<%--	
+<%--
 	투자비보전 상계취소 2015.12.17 김종민
 --%>
 GamAssetRentFeeMngtModule.prototype.cancelSave = function() {
@@ -304,7 +358,7 @@ GamAssetRentFeeMngtModule.prototype.cancelSave = function() {
                 	alert("이미 상계된 건 입니다.");
                 	return;
                 }
-               
+
                 if( confirm("선택한 건을 고지 하시겠습니까?") ) {
                 	if(EMD.userinfo.emplNo=='11076') {
                     	rows['payTmlmt']=EMD.util.getDate(EMD.util.addDates(15));
@@ -360,6 +414,8 @@ GamAssetRentFeeMngtModule.prototype.cancelSave = function() {
                 	if(this._modifyFee) {
                 		rows['modifyFee'] = "modified";
                     	rows['fee'] = this.$('#fee').val().replace(/,/g, "");
+                    	rows['intrAmnt'] = this.$('#intrAmnt').val().replace(/,/g, "");
+                    	rows['payinstIntrrate'] = this.$('#payinstIntrrate').val().replace(/,/g, "");
                     	rows['vat'] = this.$('#vat').val().replace(/,/g, "");
                     	this._modifyFee=false;
                 	}
@@ -441,7 +497,7 @@ GamAssetRentFeeMngtModule.prototype.cancelSave = function() {
                 	alert("투자비보전 상계가 되었기에 출력을 할 수 없습니다.");
                 	return;
                 }
-                
+
                 if( rows['nhtIsueYn'] != 'Y' ) {
                 	alert("해당 건은 아직 고지되지 않았습니다.");
                 	return;
@@ -623,6 +679,43 @@ GamAssetRentFeeMngtModule.prototype.loadDetail = function() {
 			} );	// 리스트 값을 채운다
 			module.makeDivValues('#summaryFeeInfo', result.resultSummary); // 결과값을 채운다.
 			module.makeFormValues('#gamAssetRentFeeForm', result.resultMaster);
+
+			var nticMth=result.resultMaster.nticMth;
+			if(nticMth=='1' || nticMth=='6') {	// 납부 방법이 일괄이나 연납인 경우
+				module.$('.interstRow').hide();
+				module.$('#payinstIntrrate').val(0);
+				module.$('#intrAmnt').val(0);
+			}
+			else {
+				var intrAmnt=result.resultMaster.intrAmnt||0;
+				module.$('.interstRow').show();
+				var payinstIntrrate=result.resultMaster.payinstIntrrate||0;
+				var bal=result.resultMaster.grFee-result.resultMaster.fee*result.resultMaster.nticCnt;
+				var lm=12;
+				switch(nticMth) {
+				case '2':
+					lm-=result.resultMaster.nticCnt*6;
+					break;
+				case '3':
+					lm-=result.resultMaster.nticCnt*4;
+					break;
+				case '4':
+					lm-=result.resultMaster.nticCnt*3;
+					break;
+				case '5':
+					lm-=result.resultMaster.nticCnt;
+					break;
+				}
+				intrAmnt=bal*payinstIntrrate*lm/12;
+				module.instBal=bal;
+				module.nticMth=nticMth;
+				module.nticCnt=result.resultMaster.nticCnt;
+				//console.log(payinstIntrrate);
+				module.$('#totPrice').text($.number(result.resultMaster.fee+intrAmnt));
+				module.$('#payinstIntrrate').val($.number(payinstIntrrate*100,2));
+				module.$('#intrAmnt').val($.number(intrAmnt));
+				module.changeFee();
+			}
 
 		} else {
 			alert(result.resultMsg);
@@ -880,6 +973,25 @@ var module_instance = new GamAssetRentFeeMngtModule();
                         	<th><span class="label">사용료</span></th>
                             <td style="text-align:right;"><input id="fee" data-column-id="fee" class="ygpaNumber" size="11"/> 원</td>
                         </tr>
+                        <tr class="interstRow">
+                        	<th><span class="label">이자율</span></th>
+                            <td colspan="3">
+                            	<input id="payinstIntrrate" data-column-id="payinstIntrrate" class="ygpaNumber"  data-decimal-point="2" size="8"/> %
+                            	<select id="cofixList">
+                                        <option value="">선택</option>
+                                        <c:forEach items="${cofixList}" var="cofixListItem">
+                                            <option value="${cofixListItem.code }">${cofixListItem.codeNm }</option>
+                                        </c:forEach>
+                                </select>
+                            	<button id="cofixMngt" data-role="openWindow" data-url="/code/gamCofixIntrrateMngt.do" data-title="COFIX 이자율 관리">이자율관리</button>
+                            </td>
+                        	<th><span class="label">이자</span></th>
+                            <td>
+                            	<input id="intrAmnt" data-column-id="intrAmnt" class="ygpaNumber" size="11"/> 원
+                            </td>
+                        	<th><span class="label">공급 가액</span></th>
+                            <td style="text-align:right;"><span id="totPrice" class="ygpaNumber"></span> 원</td>
+                        </tr>
                         <tr>
                         	<th><span class="label">부가세여부</span></th>
                             <td>
@@ -912,7 +1024,7 @@ var module_instance = new GamAssetRentFeeMngtModule();
                             <th><span class="label">고지일자</span></th>
                             <td colspan="3"><span data-column-id="nticDt"></span></td>
                         	<th><span class="label">고지금액</span></th>
-                            <td style="text-align:right;" colspan="3"><span data-column-id="nticAmt" class="ygpaNumber"></span> 원</td>
+                            <td style="text-align:right;" colspan="3"><span id="nticAmt" data-column-id="nticAmt" class="ygpaNumber"></span> 원</td>
                         </tr>
                         <tr>
                             <th><span class="label">납부기한일자</span></th>
@@ -975,7 +1087,7 @@ var module_instance = new GamAssetRentFeeMngtModule();
 	                            <td style="text-align:center;"><span data-column-id="accnutYear"></span></td>
 	                            <td style="text-align:center;"><span data-column-id="nticno"></span></td>
 	                            <td style="text-align:left;"><span data-column-id="chrgeKndNm"></span> (<span data-column-id="chrgeKnd"></span>)</td>
-	                            <td style="text-align:right;"><span data-column-id="fee" class="ygpaNumber"> 원</span></td>
+	                            <td style="text-align:right;"><span data-column-id="nticAmt" class="ygpaNumber"> 원</span></td>
 	                            <td style="text-align:center;"><span data-column-id="nticDt"></span></td>
 	                            <td style="text-align:center;"><span data-column-id="payTmlmt"></span></td>
 		                        <td style="text-align:center;"><span data-column-id="rcivSe" class="ygpaCmmnCd" data-code-id="GAM025"></span></td>

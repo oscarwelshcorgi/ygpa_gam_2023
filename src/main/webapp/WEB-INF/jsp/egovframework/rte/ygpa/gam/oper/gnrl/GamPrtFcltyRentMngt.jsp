@@ -433,6 +433,9 @@ GamAssetRentMngtModule.prototype.loadComplete = function(param) {
 		this.$('#assetRentMngtList').flexOptions({params:searchOpt}).flexReload();
 	 }
 
+	 this.$('#cofixMngt').click(function() {
+		 alert('이자율 변경 이후에 이 창을 닫고 새로 실행해 주셔야 목록에 반영됩니다.');
+	 });
 	console.log('debug');
 	// end of load complete
 };
@@ -2201,7 +2204,7 @@ var module_instance = new GamAssetRentMngtModule();
                                     <option value="" selected="selected">전체</option>
                                     <option value="L">부지</option>
                                     <option value="W">수역</option>
-                                </select>                               
+                                </select>
                             </td>
                             <td rowSpan="2"><button id="searchBtn" class="buttonSearch">조회</button></td>
                         </tr>
@@ -2364,13 +2367,14 @@ var module_instance = new GamAssetRentMngtModule();
                                 </td>
 								<th width="10%" height="18">분납이자율</th>
                                 <td>
-                                    <input type="text" size="19" id="payinstIntrrate" maxlength="4" size="5"/>
+                                    <input type="text" id="payinstIntrrate" maxlength="4" size="5"/>
                                     <select id="cofixList">
                                         <option value="">선택</option>
                                         <c:forEach items="${cofixList}" var="cofixListItem">
                                             <option value="${cofixListItem.code }">${cofixListItem.codeNm }</option>
                                         </c:forEach>
                                     </select>
+                                    <button id="cofixMngt" data-role="openWindow" data-url="/code/gamCofixIntrrateMngt.do" data-title="COFIX 이자율 관리">이자율관리</button>
                                 </td>
                             </tr>
                             <tr>

@@ -22,7 +22,7 @@ public class GamPrtFcltyRentFeeMngtVO extends ComDefaultVO {
 	private static final long serialVersionUID = 1L;
 
 	private String sChrgeKnd;
-	
+
 	/** 고지 횟수 */
     private String nticCnt;
 
@@ -101,7 +101,60 @@ public class GamPrtFcltyRentFeeMngtVO extends ComDefaultVO {
      */
     private String sNticCnt;
 
-    public String getSanctnSttus() {
+    /**
+     * 분납 이자율
+     */
+    private String payinstIntrrate;
+
+    /**
+     * 분납 이자
+     */
+    private String intrAmnt;
+
+
+    /**
+	 * @return the frstPayTmlmt
+	 */
+	public String getFrstPayTmlmt() {
+		return frstPayTmlmt;
+	}
+
+	/**
+	 * @param frstPayTmlmt the frstPayTmlmt to set
+	 */
+	public void setFrstPayTmlmt(String frstPayTmlmt) {
+		this.frstPayTmlmt = frstPayTmlmt;
+	}
+
+	/**
+	 * @return the payinstIntrrate
+	 */
+	public String getPayinstIntrrate() {
+		return payinstIntrrate;
+	}
+
+	/**
+	 * @param payinstIntrrate the payinstIntrrate to set
+	 */
+	public void setPayinstIntrrate(String payinstIntrrate) {
+		this.payinstIntrrate = payinstIntrrate;
+	}
+
+	/**
+	 * @return the intrAmnt
+	 */
+	public String getIntrAmnt() {
+		return intrAmnt;
+	}
+
+	/**
+	 * @param intrAmnt the intrAmnt to set
+	 */
+	public void setIntrAmnt(String intrAmnt) {
+		this.intrAmnt = intrAmnt;
+	}
+
+	public String getSanctnSttus() {
 		return sanctnSttus;
 	}
 
@@ -390,7 +443,7 @@ public class GamPrtFcltyRentFeeMngtVO extends ComDefaultVO {
     private String endDt;
 
     private String sNhtIsueYn;
-    
+
     private String sSaveYn;
 
 	/**

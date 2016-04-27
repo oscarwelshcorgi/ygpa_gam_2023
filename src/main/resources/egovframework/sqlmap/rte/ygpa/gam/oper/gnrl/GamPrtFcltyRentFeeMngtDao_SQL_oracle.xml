@@ -179,7 +179,7 @@
 							   <isNotEmpty property="sEntrpscd">
 							       AND L.entrpscd = #sEntrpscd#
 							   </isNotEmpty>
-							   
+
 						<isEqual property="searchCondition" compareValue="nticPdDt">
 							<isNotEmpty property="sUsagePdFrom">
 								<![CDATA[
@@ -216,7 +216,7 @@
 					         	]]>
 					         </isNotEmpty>
 						</isEqual>
-						
+
 							   <isNotEmpty property="sanctnSttus">
 							       AND L.SANCTN_STTUS = #sanctnSttus#
 							   </isNotEmpty>
@@ -283,16 +283,16 @@
 								<isNotEmpty property="sChrgeKnd">
 								    AND L.CHRGE_KND = #sChrgeKnd#
 								</isNotEmpty>
-								
+
 							<isEqual property="sSaveYn" compareValue="Y">
 							    AND L.SAVE = 'Y'
 							</isEqual>
 							<isEqual property="sSaveYn" compareValue="N">
 							    AND L.SAVE IS NULL OR L.SAVE = 'N'
 							</isEqual>
-								
+
                 ) S
-                ORDER BY S.PRMISN_DT DESC, S.NTIC_DT DESC
+                ORDER BY S.PRMISN_DT DESC, S.NTIC_DT DESC, S.NTIC_CNT ASC
              ) A
              ) Z
         <![CDATA[
@@ -638,6 +638,8 @@
 		     , VAT          = #vat#
 		     , UPD_USR      = #updUsr#
 		     , UPDT_DT      = SYSDATE
+		     , INTR_AMNT	= #intrAmnt#
+		     , PAYINST_INTRRATE = #payinstIntrrate#/100
 		WHERE  NTIC_CNT     = #nticCnt#
 		AND    PRT_AT_CODE  = #prtAtCode#
 		AND    MNG_YEAR     = #mngYear#
@@ -1762,6 +1764,8 @@
 		       , TO_CHAR(A.PRMISN_DT, 'YYYY-MM-DD') PRMISN_DT
 		       , NVL(A.GR_RDCXPT_FEE,0) GR_RDCXPT_FEE
 		       , NVL(L.REIM_FEE, 0) REIM_FEE
+		       , NVL(L.INTR_AMNT, 0) INTR_AMNT
+		       , NVL(L.PAYINST_INTRRATE, 0) PAYINST_INTRRATE
 		  FROM ASSETS_RENT_F A,
 		       LEV_REQEST_F L
 		 WHERE 1 = 1
@@ -1809,16 +1813,18 @@
 		     , UPD_USR      = #updUsr#
 		     , UPDT_DT      = SYSDATE
 		     , PAY_TMLMT = TO_DATE(#payTmlmt#, 'YYYY-MM-DD')
+		     , INTR_AMNT	= #intrAmnt#
+		     , PAYINST_INTRRATE = #payinstIntrrate#/100
         	<isNotNull prepend="," property="reimFee" >
 	        	REIM_FEE = #reimFee#
 	        	<isNotEqual prepend="," property="reimFee" compareValue="0">
 	        	REIM_FEE_NTICNO=''
 	        	, REIM_CHRGE_KND = 'DB'
-	        	, NTIC_AMT=FEE+NVL(VAT,0)+#reimFee#
+	        	, NTIC_AMT=FEE+NVL(INTR_AMNT, 0)+NVL(VAT,0)+#reimFee#
 	        	</isNotEqual>
 	        	<isEqual prepend="," property="reimFee" compareValue="0">
 	        	REIM_CHRGE_KND = ''
-	        	, NTIC_AMT=FEE+NVL(VAT,0)
+	        	, NTIC_AMT=FEE+NVL(INTR_AMNT, 0)+NVL(VAT,0)
 	        	</isEqual>
         	</isNotNull>
 		WHERE  NTIC_CNT     = #nticCnt#

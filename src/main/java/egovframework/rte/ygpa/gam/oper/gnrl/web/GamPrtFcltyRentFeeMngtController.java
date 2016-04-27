@@ -35,6 +35,7 @@ import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamNticRequestMngtService;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeeMngtService;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeeMngtVO;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeePaySttusMngtVO;
+import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtService;
 
 /**
  * @Class Name : GamPrtFcltyRentFeeMngtController.java
@@ -68,6 +69,9 @@ public class GamPrtFcltyRentFeeMngtController {
     /** cmmUseService */
     @Resource(name="EgovCmmUseService")
     private EgovCmmUseService cmmUseService;
+
+    @Resource(name = "gamPrtFcltyRentMngtService")
+    private GamPrtFcltyRentMngtService gamPrtFcltyRentMngtService;
 
     @Resource(name = "gamPrtFcltyRentFeeMngtService")
     private GamPrtFcltyRentFeeMngtService gamPrtFcltyRentFeeMngtService;
@@ -120,6 +124,8 @@ public class GamPrtFcltyRentFeeMngtController {
 		model.addAttribute("windowId", windowId);
 		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 		model.addAttribute("loginId", loginVO.getId());
+		List cofixList = gamPrtFcltyRentMngtService.selectCofixInfo();
+		model.addAttribute("cofixList", cofixList);
 
     	return "/ygpa/gam/oper/gnrl/GamPrtFcltyRentFeeMngt";
     }
@@ -756,7 +762,7 @@ public class GamPrtFcltyRentFeeMngtController {
      	   BindingResult bindingResult)
             throws Exception {
      	Map map = new HashMap();
- 
+
      	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
      	if(!isAuthenticated) {
  	        map.put("resultCode", 1);
@@ -795,7 +801,7 @@ public class GamPrtFcltyRentFeeMngtController {
      	   BindingResult bindingResult)
             throws Exception {
      	Map map = new HashMap();
- 
+
      	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
      	if(!isAuthenticated) {
  	        map.put("resultCode", 1);
@@ -869,6 +875,10 @@ public class GamPrtFcltyRentFeeMngtController {
 	 		paramMap.put("deptCd", loginVo.getDeptCd());
 	 		paramMap.put("nhtPrintYn", "N"); //고지서 출력 여부 기본 N 설정
 	 		paramMap.put("userName", loginVo.getName());
+	 		//paramMap.put("chrgeKnd", gamAssetRentFeeMngtVO.getNticAmt());
+	 		paramMap.put("fee", gamAssetRentFeeMngtVO.getIntrAmnt());
+	 		paramMap.put("intrAmnt", gamAssetRentFeeMngtVO.getIntrAmnt());
+	 		paramMap.put("vat", gamAssetRentFeeMngtVO.getIntrAmnt());
 	 		gamNticRequestMngtService.sendNticRequest(paramMap);
 
 	        resultCode = 0;
