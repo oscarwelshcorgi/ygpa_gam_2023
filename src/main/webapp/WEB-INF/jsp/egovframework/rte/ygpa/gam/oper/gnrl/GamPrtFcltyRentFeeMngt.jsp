@@ -194,22 +194,15 @@ GamAssetRentFeeMngtModule.prototype.changeInterest = function() {
 	var intrAmnt=0;
 	var payinstIntrrate=this.$('#payinstIntrrate').val()/100||0;
 	var bal=this.instBal;
-	var lm=12;
-	switch(this.nticMth) {
-	case '2':
-		lm-=this.nticCnt*6;
-		break;
-	case '3':
-		lm-=this.nticCnt*4;
-		break;
-	case '4':
-		lm-=this.nticCnt*3;
-		break;
-	case '5':
-		lm-=this.nticCnt;
-		break;
-	}
-	intrAmnt=bal*payinstIntrrate*lm/12;
+	var ndFrom = this.nticPdFrom.split('-');
+	var ndTo = this.nticPdTo.split('-');
+	var sod = new Date(ndFrom[0], 1, 1);
+	var eod = new Date(Number(ndFrom[0])+1, 1, 1);
+	var ydays = (eod.getTime() - sod.getTime()) / 1000 / 60 / 60 / 24;
+	var ndFromDt = new Date(ndFrom[0], ndFrom[1], ndFrom[2]);
+	var ndToDt = new Date(ndTo[0], ndTo[1], ndTo[2]);
+	var betweenDay = (ndToDt.getTime() - ndFromDt.getTime()) / 1000 / 60 / 60 / 24;
+	intrAmnt=bal*payinstIntrrate*betweenDay/ydays;
 	intrAmnt=Math.floor(intrAmnt/10)*10;
 	this.$('#intrAmnt').val($.number(intrAmnt));
 	this.changeFee();
@@ -680,6 +673,9 @@ GamAssetRentFeeMngtModule.prototype.loadDetail = function() {
 			module.makeDivValues('#summaryFeeInfo', result.resultSummary); // 결과값을 채운다.
 			module.makeFormValues('#gamAssetRentFeeForm', result.resultMaster);
 
+			module.nticPdFrom=result.resultMaster.nticPdFrom;
+			module.nticPdTo=result.resultMaster.nticPdTo;
+
 			var nticMth=result.resultMaster.nticMth;
 			if(nticMth=='1' || nticMth=='6') {	// 납부 방법이 일괄이나 연납인 경우
 				module.$('.interstRow').hide();
@@ -687,36 +683,16 @@ GamAssetRentFeeMngtModule.prototype.loadDetail = function() {
 				module.$('#intrAmnt').val(0);
 			}
 			else {
-				var intrAmnt=result.resultMaster.intrAmnt||0;
 				module.$('.interstRow').show();
 				var payinstIntrrate=result.resultMaster.payinstIntrrate||0;
 				var bal=result.resultMaster.grFee-result.resultMaster.fee*result.resultMaster.nticCnt;
-				var lm=12;
-				switch(nticMth) {
-				case '2':
-					lm-=result.resultMaster.nticCnt*6;
-					break;
-				case '3':
-					lm-=result.resultMaster.nticCnt*4;
-					break;
-				case '4':
-					lm-=result.resultMaster.nticCnt*3;
-					break;
-				case '5':
-					lm-=result.resultMaster.nticCnt;
-					break;
-				}
-				intrAmnt=bal*payinstIntrrate*lm/12;
 				module.instBal=bal;
 				module.nticMth=nticMth;
 				module.nticCnt=result.resultMaster.nticCnt;
 				//console.log(payinstIntrrate);
-				module.$('#totPrice').text($.number(result.resultMaster.fee+intrAmnt));
 				module.$('#payinstIntrrate').val($.number(payinstIntrrate*100,2));
-				module.$('#intrAmnt').val($.number(intrAmnt));
-				module.changeFee();
+				module.changeInterest();
 			}
-
 		} else {
 			alert(result.resultMsg);
 		}
