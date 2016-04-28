@@ -432,7 +432,7 @@ div.notice {
 	.notprint {
 		display:none;
 	}
-	
+
 	.page {
 	    width: 21cm;
 	    height: 28.7cm;
@@ -673,7 +673,7 @@ div.notice {
 	  	var topPrintPadding="topPrintPadding";
 	  	var leftPrintPad="";
 	  	var topPrintPad="";
-	  	  
+
 	    var ca = document.cookie.split(';');
 	    for(i=0; i<ca.length; i++) {
 	        var c = ca[i];
@@ -798,8 +798,8 @@ div.notice {
 	      			<p>면 적 : <fmt:formatNumber type="number" maxIntegerDigits="10" value="${result.grAr}" /> m<sup>2</sup></p>
 	      			<h2>산출근거</h2>
 	      			<p><c:out value="${result.chrgeKndNm}"/> : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${result.fee}" /> 원</p>
-	      			<c:if test="${result.feeA3>0}">
-		      			<p>분할납부이자 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.feeA3}" /> 원</p>
+	      			<c:if test="${result.intrAmnt>0}">
+		      			<p>분할납부이자 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.intrAmnt}" /> 원</p>
 	      			</c:if>
 	      			<c:if test="${result.feeA4>0}">
 		      			<p>관리비 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.feeA4}" /> 원</p>
@@ -813,7 +813,7 @@ div.notice {
 	      			<c:if test="${result.arrrgAmt>0}">
 		      			<p>연체료 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.arrrgAmt}" /> 원 (연체일 : <c:out value="${result.arrrgPayDates}"/>일)</p>
 	      			</c:if>
-	      			<p class="summary">소 계 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.fee+result.feeA3+result.feeA4+result.feeD1+result.arrrgAmt}" /> 원</p>
+	      			<p class="summary">소 계 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.fee+result.intrAmnt+result.feeA4+result.feeD1+result.arrrgAmt}" /> 원</p>
 	      			<p class="summary">부가세(<c:out value="${result.taxtSeNm}"/>) : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.vat}" /> 원</p>
 	      			<p class="summary">합 계 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.nticAmt}" /> 원</p>
 	      		</div>

@@ -878,7 +878,7 @@ public class GamPrtFcltyRentFeeMngtController {
 	 		//paramMap.put("chrgeKnd", gamAssetRentFeeMngtVO.getNticAmt());
 	 		paramMap.put("fee", gamAssetRentFeeMngtVO.getIntrAmnt());
 	 		paramMap.put("intrAmnt", gamAssetRentFeeMngtVO.getIntrAmnt());
-	 		paramMap.put("vat", gamAssetRentFeeMngtVO.getIntrAmnt());
+	 		paramMap.put("vat", gamAssetRentFeeMngtVO.getVat());
 	 		gamNticRequestMngtService.sendNticRequest(paramMap);
 
 	        resultCode = 0;

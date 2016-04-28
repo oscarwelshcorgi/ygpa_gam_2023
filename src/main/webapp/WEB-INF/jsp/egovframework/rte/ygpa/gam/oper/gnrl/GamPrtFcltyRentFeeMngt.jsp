@@ -171,18 +171,31 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
 --%>
 GamAssetRentFeeMngtModule.prototype.changeFee = function() {
 	var fee = this.$('#fee').val().replace(/,/g, "")*1;
-	var intrAmnt = Number(this.$('#intrAmnt').val()||0);
+	var intrAmnt = 0;
 	var vat=0;
-	fee+=intrAmnt;
-	if(this.$('#roundVat').attr('checked')=="checked") {
-		vat=Math.round(fee/100)*10;
+	if(this.nticMth!='1' && this.nticMth!='6') {
+		intrAmnt=Number(this.$('#intrAmnt').val()||0);
+		fee+=intrAmnt;
+		this.$('#totPrice').text($.number(fee));
+		if(this.$('#roundVat').attr('checked')=="checked") {
+			vat=Math.round(fee/10);
+		}
+		else {
+			vat=Math.floor(fee/10);
+		}
+		this.$('#vat').val(vat);
+		this.$('#nticAmt').text($.number(Math.ceil(fee+vat)));
 	}
 	else {
-		vat=Math.floor(fee/100)*10;
+		if(this.$('#roundVat').attr('checked')=="checked") {
+			vat=Math.round(fee/100)*10;
+		}
+		else {
+			vat=Math.floor(fee/100)*10;
+		}
+		this.$('#vat').val(vat);
+		this.$('#nticAmt').text($.number(fee+vat));
 	}
-	this.$('#totPrice').text($.number(fee));
-	this.$('#vat').val(vat);
-	this.$('#nticAmt').text($.number(fee+vat));
 
 	this._modifyFee=true;
 };
@@ -201,9 +214,11 @@ GamAssetRentFeeMngtModule.prototype.changeInterest = function() {
 	var ydays = (eod.getTime() - sod.getTime()) / 1000 / 60 / 60 / 24;
 	var ndFromDt = new Date(ndFrom[0], ndFrom[1], ndFrom[2]);
 	var ndToDt = new Date(ndTo[0], ndTo[1], ndTo[2]);
-	var betweenDay = (ndToDt.getTime() - ndFromDt.getTime()) / 1000 / 60 / 60 / 24;
+	var betweenDay = (ndToDt.getTime() - ndFromDt.getTime()) / 1000 / 60 / 60 / 24+1;
 	intrAmnt=bal*payinstIntrrate*betweenDay/ydays;
-	intrAmnt=Math.floor(intrAmnt/10)*10;
+	intrAmnt=Math.ceil(intrAmnt);
+	console.log('calc day = '+betweenDay);
+	console.log(ydays+' days');
 	this.$('#intrAmnt').val($.number(intrAmnt));
 	this.changeFee();
 
@@ -677,6 +692,7 @@ GamAssetRentFeeMngtModule.prototype.loadDetail = function() {
 			module.nticPdTo=result.resultMaster.nticPdTo;
 
 			var nticMth=result.resultMaster.nticMth;
+			module.nticMth=nticMth;
 			if(nticMth=='1' || nticMth=='6') {	// 납부 방법이 일괄이나 연납인 경우
 				module.$('.interstRow').hide();
 				module.$('#payinstIntrrate').val(0);
@@ -687,7 +703,6 @@ GamAssetRentFeeMngtModule.prototype.loadDetail = function() {
 				var payinstIntrrate=result.resultMaster.payinstIntrrate||0;
 				var bal=result.resultMaster.grFee-result.resultMaster.fee*result.resultMaster.nticCnt;
 				module.instBal=bal;
-				module.nticMth=nticMth;
 				module.nticCnt=result.resultMaster.nticCnt;
 				//console.log(payinstIntrrate);
 				module.$('#payinstIntrrate').val($.number(payinstIntrrate*100,2));

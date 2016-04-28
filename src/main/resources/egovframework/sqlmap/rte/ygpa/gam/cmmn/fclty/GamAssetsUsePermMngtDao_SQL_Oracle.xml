@@ -265,15 +265,15 @@
 			</isEqual>
 			 -->
 		<![CDATA[
-		(SELECT MAX(OLNLP) FROM ASSETS_RENT_DETAIL_F WHERE PRT_AT_CODE=#prtAtCode# AND MNG_YEAR=#mngYear# AND MNG_NO=#mngNo# AND MNG_CNT=#mngCnt#) OLNLP, RNTFEE, TRUNC(RNTFEE/10, -1), #taxtSe#,RNTFEE+INTR_AMNT + TRUNC((RNTFEE+INTR_AMNT) / 10, -1), #rm#,
+		(SELECT MAX(OLNLP) FROM ASSETS_RENT_DETAIL_F WHERE PRT_AT_CODE=#prtAtCode# AND MNG_YEAR=#mngYear# AND MNG_NO=#mngNo# AND MNG_CNT=#mngCnt#) OLNLP, RNTFEE, FLOOR((RNTFEE+INTR_AMNT)/10), #taxtSe#,TRUNC(RNTFEE+INTR_AMNT + FLOOR((RNTFEE+INTR_AMNT) / 10), -1), #rm#,
 		#nticMth#, #regUsr#, SYSDATE,
 		INTR_AMNT, INTR_RATE
 		from (
-			SELECT FEE_TP, NTIC_CNT, DECODE(FEE_TP, #chrgeKnd#, RNTFEE, 'A3', TRUNC(REFE*(#blTpNum#)/12*RATE, -1)) RNTFEE, REFE, START_DATE, PREV_DUE_DATE, DUE_DATE, END_DATE, #payinstIntrrate# INTR_RATE, TRUNC(REFE*(#blTpNum#)/12*(#payinstIntrrate#), -1) INTR_AMNT
+			SELECT FEE_TP, NTIC_CNT, DECODE(FEE_TP, #chrgeKnd#, RNTFEE, 'A3', TRUNC(REFE*(#blTpNum#)/12*RATE)) RNTFEE, REFE, START_DATE, PREV_DUE_DATE, DUE_DATE, END_DATE, #payinstIntrrate# INTR_RATE, CEIL(REFE*(END_DATE-START_DATE+1)/(TO_DATE(#grUsagePdTo#,'YYYY-MM-DD')-TO_DATE(#grUsagePdFrom#,'YYYY-MM-DD')+1)*(#payinstIntrrate#)) INTR_AMNT
 			FROM (
 			SELECT ROWNUM  as NTIC_CNT, #chrgeKnd# FEE_TP, 1 RATE,
-				  TRUNC(#grFee# / (TRUNC(MONTHS_BETWEEN(TO_DATE(#grUsagePdTo#,'YYYY-MM-DD'), TO_DATE(#grUsagePdFrom#,'YYYY-MM-DD')) / #blTpNum#)+1), -1) as RNTFEE,
-				  TRUNC(#grFee# - ((#grFee#/(TRUNC(MONTHS_BETWEEN(TO_DATE(#grUsagePdTo#,'YYYY-MM-DD'), TO_DATE(#grUsagePdFrom#,'YYYY-MM-DD')) / #blTpNum#)+1)) * (ROWNUM)), -1) as REFE,
+				  TRUNC(#grFee# / (TRUNC(MONTHS_BETWEEN(TO_DATE(#grUsagePdTo#,'YYYY-MM-DD'), TO_DATE(#grUsagePdFrom#,'YYYY-MM-DD')) / #blTpNum#)+1)) as RNTFEE,
+				  TRUNC(#grFee# - ((#grFee#/(TRUNC(MONTHS_BETWEEN(TO_DATE(#grUsagePdTo#,'YYYY-MM-DD'), TO_DATE(#grUsagePdFrom#,'YYYY-MM-DD')) / #blTpNum#)+1)) * (ROWNUM))) as REFE,
 				  ADD_MONTHS(TO_DATE(#grUsagePdFrom#,'YYYY-MM-DD'), #blTpNum#     * (ROWNUM-1))                            AS START_DATE,
 	        DECODE(ROWNUM, 1, 0, ADD_MONTHS(TO_DATE(#grUsagePdFrom#,'YYYY-MM-DD'), #blTpNum#     * (ROWNUM-1))-ADD_MONTHS(TO_DATE(#grUsagePdFrom#,'YYYY-MM-DD'), #blTpNum#     * (ROWNUM-1)-1)) AS RATE_DAY,
 	          LAG(ADD_MONTHS(TO_DATE(#grUsagePdFrom#,'YYYY-MM-DD'), #blTpNum# * (ROWNUM-1))+14) OVER (ORDER BY ROWNUM) AS PREV_DUE_DATE,
