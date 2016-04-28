@@ -206,7 +206,7 @@ GamAssetRentFeeMngtModule.prototype.changeFee = function() {
 GamAssetRentFeeMngtModule.prototype.changeInterest = function() {
 	var intrAmnt=0;
 	var payinstIntrrate=this.$('#payinstIntrrate').val()/100||0;
-	var bal=this.instBal;
+	var bal=this.instBal; //나머지
 	var ndFrom = this.nticPdFrom.split('-');
 	var ndTo = this.nticPdTo.split('-');
 	var sod = new Date(ndFrom[0], 1, 1);
@@ -978,7 +978,7 @@ var module_instance = new GamAssetRentFeeMngtModule();
                             </td>
                         	<th><span class="label">이자</span></th>
                             <td>
-                            	<input id="intrAmnt" data-column-id="intrAmnt" class="ygpaNumber" size="11"/> 원
+                            	<input id="intrAmnt" data-column-id="intrAmnt" class="ygpaNumber" size="9"/>원
                             </td>
                         	<th><span class="label">공급 가액</span></th>
                             <td style="text-align:right;"><span id="totPrice" class="ygpaNumber"></span> 원</td>

@@ -601,10 +601,10 @@ GamAssetRentMngtModule.prototype.loadEntrpsChargerList = function() {
 
 GamAssetRentMngtModule.prototype.calcFirstPaymentAmount = function() {
 	var firstAmt=0;
-	var nticMth=this.$('#nticMth').val();
-	var total = this.$('#grFee').val();
+	var nticMth=this.$('#nticMth').val(); //고지방법
+	var total = this.$('#grFee').val(); //총사용료
 	var totalAmount=Number(typeof total=="string"?total.replace(/,/gi, ""):total);
-	var payinst=this.$('#payinstIntrrate').val();
+	var payinst=this.$('#payinstIntrrate').val(); //이자율
 	var payinstIntrrate=Number(typeof payinst=="string"?payinst.replace(/,/gi, ""):payinst)/100;
     var grUsagePdFrom = new Date(Date.parse(this.$('#grUsagePdFrom').val())); //총사용기간FROM
     var grUsagePdTo = new Date(Date.parse(this.$('#grUsagePdTo').val())); //총사용기간To
@@ -612,28 +612,37 @@ GamAssetRentMngtModule.prototype.calcFirstPaymentAmount = function() {
 	var totalMonths = this.calcMonth(grUsagePdFrom, grUsagePdTo);
 	var totalDays = Math.floor((grUsagePdTo-grUsagePdFrom) / (1000*60*60*24))+1;
     var nDays;
+	var betweenDay = 0;
+	var ydays = (grUsagePdTo.getTime() - grUsagePdFrom.getTime()) / 1000 / 60 / 60 / 24;
+	var bal;
+	fromDt = grUsagePdFrom;
+
 //    console.log("calc Start : "+ nticMth);
-	switch(nticMth) {
+ 	switch(nticMth) {
 	case '2':	// 반기납
-		fromDt = grUsagePdFrom;
 		toDt = new Date(fromDt);
 		toDt.setMonth(fromDt.getMonth()+6);
-//		toDt.setDate(1);
+/* //		toDt.setDate(1);
 		toDt=toDt-(1000*60*60*24);
+
 		if(6>=totalMonths.month) firstAmt=totalAmount;
 		else {
 			//nDays = Math.floor((toDt-fromDt) / (1000*60*60*24))+1;
 			//firstAmt=Math.floor(totalAmount*nDays/totalDays/10)*10;
 			firstAmt = totalAmount*6/totalMonths.month;
-		}
+		} */
+		bal = totalAmount/2;
+		betweenDay = (toDt.getTime() - fromDt.getTime()) / 1000 / 60 / 60 / 24;
 		// 이자율 계산
-		firstAmt += (totalAmount-firstAmt) * (payinstIntrrate) /2;
-		firstAmt = Math.floor(firstAmt);
+		firstAmt = totalAmount/2;
+		firstAmt += Math.ceil(bal * (payinstIntrrate*betweenDay) /ydays);
+		firstAmt = Math.floor(firstAmt*1.1);
 		break;
 	case '3':	// 3분납
-		fromDt = grUsagePdFrom;
 		toDt = new Date(fromDt);
-		if(grUsagePdFrom.getMonth()<4) {
+	    toDt.setMonth(toDt.getMonth()+4);
+
+/* 		if(grUsagePdFrom.getMonth()<4) {
 			toDt.setMonth(4);
 		}
 		else if(grUsagePdFrom.getMonth()<8) {
@@ -644,20 +653,23 @@ GamAssetRentMngtModule.prototype.calcFirstPaymentAmount = function() {
 			toDt.setMonth(0);
 		}
 //		toDt.setDate(1);
-		toDt=toDt-(1000*60*60*24);
+		toDt=toDt-(1000*60*60*24); */
 		if(4>=totalMonths.month) firstAmt=totalAmount;
 		else {
 //			nDays = Math.floor((toDt-fromDt) / (1000*60*60*24))+1;
 			firstAmt=totalAmount*4/totalMonths.month;
 		}
+		bal = totalAmount-totalAmount/3;
+		betweenDay = (toDt.getTime() - fromDt.getTime()) / 1000 / 60 / 60 / 24;
 		// 이자율 계산
-		firstAmt += (totalAmount-firstAmt) * (payinstIntrrate) /3;
-		firstAmt = Math.floor(firstAmt);
+		firstAmt = totalAmount/3;
+		firstAmt += Math.ceil(bal * (payinstIntrrate*betweenDay) /ydays);
+		firstAmt = Math.floor(firstAmt*1.1);
 		break;
 	case '4':	// 분기납
-		fromDt = grUsagePdFrom;
 		toDt = new Date(fromDt);
-		if(grUsagePdFrom.getMonth()<3) {
+	    toDt.setMonth(toDt.getMonth()+3);
+/* 		if(grUsagePdFrom.getMonth()<3) {
 			toDt.setMonth(3);
 		}
 		else if(grUsagePdFrom.getMonth()<6) {
@@ -672,16 +684,15 @@ GamAssetRentMngtModule.prototype.calcFirstPaymentAmount = function() {
 		}
 //		toDt.setDate(1);
 		toDt=toDt-(1000*60*60*24);
-		if(3>=totalMonths.month) firstAmt=totalAmount;
-		else {
-			nDays = Math.floor((toDt-fromDt) / (1000*60*60*24))+1;
-			firstAmt=Math.floor(totalAmount*3/totalMonths.month);
-		}
-		firstAmt += (totalAmount-firstAmt) * (payinstIntrrate) /4;
-//		firstAmt = Math.floor(firstAmt/10)*10;
+		 */
+		bal = totalAmount-totalAmount/4;
+		betweenDay = (toDt.getTime() - fromDt.getTime()) / 1000 / 60 / 60 / 24;
+		// 이자율 계산
+		firstAmt = totalAmount/4;
+		firstAmt += Math.ceil(bal * (payinstIntrrate*betweenDay) /ydays);
+		firstAmt = Math.floor(firstAmt*1.1);
 		break;
 	case '5':	// 월납
-		fromDt = grUsagePdFrom;
 		toDt = new Date(fromDt);
 		toDt.setMonth(grUsagePdFrom.getMonth()+1);
 //		toDt.setDate(1);
@@ -692,8 +703,12 @@ GamAssetRentMngtModule.prototype.calcFirstPaymentAmount = function() {
 			firstAmt=Math.floor(totalAmount*1/totalMonths.month);
 //			firstAmt=totalAmount*1-firstAmt
 		}
-		firstAmt += (totalAmount-firstAmt) * (payinstIntrrate) /12;
-		firstAmt = Math.floor(firstAmt);
+		bal = totalAmount-totalAmount/12;
+		betweenDay = (toDt.getTime() - fromDt.getTime()) / 1000 / 60 / 60 / 24;
+		// 이자율 계산
+		firstAmt = Math.floor(totalAmount/12);
+		firstAmt += Math.ceil(bal * (payinstIntrrate*betweenDay) /ydays);
+		firstAmt = Math.floor(firstAmt*1.1);
 		break;
 	default:
 		firstAmt=totalAmount;
@@ -703,7 +718,6 @@ GamAssetRentMngtModule.prototype.calcFirstPaymentAmount = function() {
 		break;
 	}
     console.log("calc first Amount : "+ firstAmt);
-
 	this.$('#firstPayVal').val($.number(firstAmt));
 	//this.$('#firstPayValStr').text('산출내역 : 사용기간 ['+EMD.util.getDate(fromDt)+'~'+EMD.util.getDate(toDt)+'] : 사용일수 : '+$.number(nDays)+' 일/ 전체일수 : ' +$.number(totalDays)+' 일 * 사용료 : '+$.number(totalAmount)+'원');
 };
@@ -2382,7 +2396,7 @@ var module_instance = new GamAssetRentMngtModule();
                                 <td>
                                     <input id="taxtSe" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM016" />
                                 </td>
-								<th width="10%" height="18">첫회 사용료</th>
+								<th width="10%" height="18">첫회 납부금액</th>
                                 <td colspan="3">
                                 	<input type="text" size="13" id="firstPayVal" class="skipValue" disabled="disabled"/> 원
                                 </td>
