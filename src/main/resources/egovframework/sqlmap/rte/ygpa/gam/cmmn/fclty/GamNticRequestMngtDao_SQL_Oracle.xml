@@ -137,7 +137,7 @@
 	      TRUNC(SYSDATE+15),
       </isEmpty>
        L.NHT_PRINT_YN,
-      L.FEE+L.INTR_AMNT, L.RDCXPT_FEE, 0, 0,
+      L.FEE+NVL(L.INTR_AMNT,0), L.RDCXPT_FEE, 0, 0,
 		'0',
       #updUsr#, SYSDATE, SYSDATE, L.VAT_YN, L.VAT, L.NTIC_PD_FROM, L.NTIC_PD_TO,
       #deptCd#,
