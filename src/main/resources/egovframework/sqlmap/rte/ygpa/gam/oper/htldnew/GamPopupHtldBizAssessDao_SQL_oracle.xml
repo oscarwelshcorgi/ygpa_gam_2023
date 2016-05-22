@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="ygpa.gam.oper.htldnew">
+
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="GamPopupHtldBizAssessVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamPopupHtldBizAssessVO"/>
+	
+	<!-- 실적평가를 등록할 해당 계약상세 조회 -->	
+	<select id="gamPopupHtldBizAssessDao.selectHtldRentBizAssessDetail_S" parameterClass="GamPopupHtldBizAssessVO" resultClass="egovMap">
+		SELECT
+		  D.MNG_YEAR
+		  ,D.MNG_NO
+		  ,D.MNG_SEQ
+		  ,D.REGIST_SEQ
+		  ,R.ENTRPS_CD
+		  ,(SELECT E.ENTRPS_NM FROM ENTRPS_INFO_F E WHERE E.ENTRPSCD = R.ENTRPS_CD) ENTRPS_NM
+		  ,(SELECT SUBSTR(E.BIZRNO, 0,3)||'-'||SUBSTR(E.BIZRNO, 4,2)||'-'||SUBSTR(E.BIZRNO, 6,5) FROM ENTRPS_INFO_F E WHERE E.ENTRPSCD = ENTRPS_CD) BIZRNO
+		  ,TO_CHAR(R.CTRT_BEGIN_DT, 'YYYY-MM-DD') CTRT_BEGIN_DT
+		  ,TO_CHAR(R.CTRT_END_DT, 'YYYY-MM-DD') CTRT_END_DT
+      	  ,NVL(R.GR_RENT_AR, 0) GR_RENT_AR
+      	  ,R.BOUND_CD
+      	  ,GAM_GETCODENAME('GAM062', R.BOUND_CD) BOUND_NM
+      	  ,G.GIS_ASSETS_LOCPLC
+      	  ,G.GIS_ASSETS_LNM
+      	  ,G.GIS_ASSETS_LNM_SUB
+      	  ,D.ASSETS_NM
+		  ,NVL(D.RENT_AR, 0) RENT_AR
+      	  ,DECODE(D.RENT_AR_SE, '1', '물류부지', '2', '제조부지', '3', '숙성실', '') RENT_AR_SE_NM
+      	  ,D.APPLC_RNTFEE
+      	  ,DECODE(D.PRICE_SE, '1', '면적당단가', '2', '월단가','') PRICE_SE_NM
+     	  ,NVL(D.ASE_RNTFEE, 0) ASE_RNTFEE
+		  ,TO_CHAR(D.ASE_APPLC_BEGIN, 'YYYY-MM-DD') ASE_APPLC_BEGIN
+		  ,TO_CHAR(D.ASE_APPLC_END, 'YYYY-MM-DD') ASE_APPLC_END
+      	  ,D.APPLC_RSN
+      	  ,DECODE(R.TERMN_DT, NULL, 'N', 'Y') TERMN_YN
+		FROM
+		  HTLD_RENT_DETAIL_F D
+		LEFT OUTER JOIN HTLD_RENT_F R
+		  ON D.MNG_YEAR = R.MNG_YEAR AND D.MNG_NO = R.MNG_NO AND D.MNG_SEQ = R.MNG_SEQ
+		LEFT OUTER JOIN GIS_ASSETS_CD_F G
+		  ON D.GIS_ASSETS_PRT_AT_CODE = G.GIS_ASSETS_PRT_AT_CODE AND D.GIS_ASSETS_CD = G.GIS_ASSETS_CD AND D.GIS_ASSETS_SUB_CD = G.GIS_ASSETS_SUB_CD
+		wHERE
+		  D.MNG_YEAR = #mngYear#
+		  AND D.MNG_NO = #mngNo#
+		  AND D.MNG_SEQ = #mngSeq#
+		  AND D.REGIST_SEQ = #registSeq#
+	</select>
+	
+	<!-- 실적평가 등록 -->
+	<update id="gamPopupHtldBizAssessDao.updateBizAssess_S" parameterClass="GamPopupHtldBizAssessVO">
+		UPDATE HTLD_RENT_DETAIL_F
+		SET
+			ASE_RNTFEE = TO_NUMBER(#aseRntfee#)
+			,ASE_APPLC_BEGIN = TO_DATE(#aseApplcBegin#, 'YYYY-MM-DD')
+			,ASE_APPLC_END = TO_DATE(#aseApplcEnd#, 'YYYY-MM-DD')
+			,APPLC_RSN = #applicRsn#
+			,UPD_USR = #updUsr#
+			,UPDT_DT = SYSDATE
+		WHERE
+		  	MNG_YEAR = #mngYear#
+		  	AND MNG_NO = #mngNo#
+		  	AND MNG_SEQ = #mngSeq#
+		  	AND REGIST_SEQ = #registSeq#
+	</update>	
+</sqlMap>
