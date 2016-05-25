@@ -42,6 +42,8 @@ GamPopupHtldBizAssessModule.prototype.loadComplete = function(params) {
 	this.$('#mngNo').val(params.searchRow.mngNo);
 	this.$('#mngSeq').val(params.searchRow.mngSeq);
 	this.$('#registSeq').val(params.searchRow.registSeq);
+	this._searchRow = params.searchRow;
+	this._searchNticDt = params.searchNticDt;
 	this.loadData();
 };
 
@@ -79,6 +81,7 @@ GamPopupHtldBizAssessModule.prototype.loadData = function() {
 				}
 			}
 			module.makeFormValues('#gamPopupHtldBizAssessForm', result.resultDetail);
+			module.$('#sNticDt').val(module._searchNticDt);
 			module.initControls();
 		}
 	});
@@ -134,8 +137,10 @@ GamPopupHtldBizAssessModule.prototype.validateData = function() {
 GamPopupHtldBizAssessModule.prototype.saveData = function() {	
 	if(!confirm("저장하시겠습니까?")) return;
 	if(!this.validateData()) return;
-	
+	alert(this.$('#rentAr').val());
+	alert(this.$('#applcRntfee').val());	
 	var saveData = this.makeFormArgs('#gamPopupHtldBizAssessForm');
+	alert(saveData.rentAr);
 	this.doAction('/oper/htldnew/updateBizAssess.do', saveData, function(module, result) {
 		alert(result.resultMsg);
 		if(result.resultCode == 0) {
@@ -155,6 +160,9 @@ var popup_instance = new GamPopupHtldBizAssessModule();
 			<input type="hidden" id="mngNo" />
 			<input type="hidden" id="mngSeq" />
 			<input type="hidden" id="registSeq"/>
+			<input type="hidden" id="sNticDt"/>
+			<input type="hidden" id="paySe"/>
+			<input type="hidden" id="priceSe"/>
 			<input type="hidden" id="termnYn">
         	<table class="editForm" style="width:100%">
         		<tr>
@@ -170,8 +178,8 @@ var popup_instance = new GamPopupHtldBizAssessModule();
 				<tr>
 					<th width="10%" height="18">계약기간</th>
 					<td>
-						<input type="text" size="13" id="ctrtBeginDt" disabled/>~
-						<input type="text" size="13" id="ctrtEndDt" disabled/>
+						<input type="text" size="13" id="detailPdBegin" disabled/>~
+						<input type="text" size="13" id="detailPdEnd" disabled/>
 					</td>
 					<th width="10%" height="18">총임대면적</th>
 					<td>

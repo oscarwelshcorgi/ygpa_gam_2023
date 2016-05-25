@@ -97,13 +97,15 @@ GamHtldRentCtrtModule.prototype.loadComplete = function(params) {
 	});
 	
 	this.$('#rentDetailList')[0].dgrid.attachEvent('onCellChanged', function(rid, cind, value) {
-		// onCellEdited에서 이벤트가 안먹는 select 타입의 입력방식에 적용, rid로 데이터애 접근하려고 하니  this.rowsBuffer[rid]._attrs에 접근하지 못함)
+		// onCellEdited에서 이벤트가 안먹는 select,date 타입의 입력방식에 적용, rid로 데이터애 접근하려고 하니  this.rowsBuffer[rid]._attrs에 접근하지 못함)
 		var module = this.p.module;
 		if(module._currentRow != void(0)) {
 	    	var cid = this.getColumnId(cind);
 	    	switch(cid) {
 	    	case 'rentArSe' :
 	    	case 'priceSe' :
+	    	case 'detailPdBegin':
+	    	case 'detailPdEnd':
 	    		if(module._currentRow._updtId != 'I') {
 	    			module._currentRow._updtId = 'U';
 	    		}

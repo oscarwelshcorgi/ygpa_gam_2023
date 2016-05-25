@@ -162,7 +162,7 @@ GamHtldRentMngtMainModule.prototype.onMainGridSelectedRow = function(row, rid, c
 			break;
 		case 'aseRntfeeStr':
 		case 'asePd':
-			this.doExecuteDialog('bizAssessRegPopup', '실적평가 임대료', '/popup/showHtldBizAssess.do', {}, {'searchRow' : row} );
+			this.doExecuteDialog('bizAssessRegPopup', '실적평가 임대료', '/popup/showHtldBizAssess.do', {}, {'searchRow' : row, 'searchNticDt' : this.$('#sNticDt').val()} );
 			break;
 	}	
 };
@@ -184,7 +184,11 @@ GamHtldRentMngtMainModule.prototype.loadData = function() {
 		row - 그리드 row
 --%>
 GamHtldRentMngtMainModule.prototype.initDataRow = function(row) {
-	row.detailPdStr = row.detailPdBegin + '~' + row.detailPdEnd;
+	if(row.rntfeeSe == '0') {
+		row.detailPdStr = row.detailPdBegin + '~' + row.detailPdEnd;
+	} else {
+		row.detailPdStr = row.rntfeeSeNm;
+	}
 	if(row.rentArSe != '0') {
 		row.rentArStr = (row.rentArSe != '3') ? row.rentArStr + '/' + row.rentArSeNm : row.rentArSeNm;  
 	}

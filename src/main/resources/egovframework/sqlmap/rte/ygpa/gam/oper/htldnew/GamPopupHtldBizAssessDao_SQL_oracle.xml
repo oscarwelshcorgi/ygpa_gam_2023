@@ -6,6 +6,7 @@
 	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="GamPopupHtldBizAssessVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamPopupHtldBizAssessVO"/>
+    <typeAlias alias="GamPopupHtldRntfeeBizAssessVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamPopupHtldRntfeeBizAssessVO"/>
 	
 	<!-- 실적평가를 등록할 해당 계약상세 조회 -->	
 	<select id="gamPopupHtldBizAssessDao.selectHtldRentBizAssessDetail_S" parameterClass="GamPopupHtldBizAssessVO" resultClass="egovMap">
@@ -21,6 +22,7 @@
 		  ,TO_CHAR(R.CTRT_END_DT, 'YYYY-MM-DD') CTRT_END_DT
       	  ,NVL(R.GR_RENT_AR, 0) GR_RENT_AR
       	  ,R.BOUND_CD
+      	  ,R.PAY_SE
       	  ,GAM_GETCODENAME('GAM062', R.BOUND_CD) BOUND_NM
       	  ,G.GIS_ASSETS_LOCPLC
       	  ,G.GIS_ASSETS_LNM
@@ -29,8 +31,11 @@
 		  ,NVL(D.RENT_AR, 0) RENT_AR
       	  ,DECODE(D.RENT_AR_SE, '1', '물류부지', '2', '제조부지', '3', '숙성실', '') RENT_AR_SE_NM
       	  ,D.APPLC_RNTFEE
+      	  ,D.PRICE_SE
       	  ,DECODE(D.PRICE_SE, '1', '면적당단가', '2', '월단가','') PRICE_SE_NM
      	  ,NVL(D.ASE_RNTFEE, 0) ASE_RNTFEE
+		  ,TO_CHAR(D.DETAIL_PD_BEGIN, 'YYYY-MM-DD') DETAIL_PD_BEGIN
+		  ,TO_CHAR(D.DETAIL_PD_END, 'YYYY-MM-DD') DETAIL_PD_END
 		  ,TO_CHAR(D.ASE_APPLC_BEGIN, 'YYYY-MM-DD') ASE_APPLC_BEGIN
 		  ,TO_CHAR(D.ASE_APPLC_END, 'YYYY-MM-DD') ASE_APPLC_END
       	  ,D.APPLC_RSN
@@ -48,7 +53,7 @@
 		  AND D.REGIST_SEQ = #registSeq#
 	</select>
 	
-	<!-- 실적평가 등록 -->
+	<!-- 실적평가 등록 (임대상세내역) -->
 	<update id="gamPopupHtldBizAssessDao.updateBizAssess_S" parameterClass="GamPopupHtldBizAssessVO">
 		UPDATE HTLD_RENT_DETAIL_F
 		SET
@@ -63,5 +68,63 @@
 		  	AND MNG_NO = #mngNo#
 		  	AND MNG_SEQ = #mngSeq#
 		  	AND REGIST_SEQ = #registSeq#
-	</update>	
+	</update>
+	
+	<!-- 배후단지 임대료 순번 생성 -->
+	<select id="gamPopupHtldBizAssessDao.selectNextRntfeeSeq_S" parameterClass="GamPopupHtldBizAssessVO" resultClass="java.lang.String">
+   		SELECT
+   		  	LPAD(NVL(MAX(RNTFEE_SEQ),0) + 1,'3','0')
+   		FROM
+   		  	HTLD_RNTFEE_F
+   		WHERE
+			MNG_YEAR=#mngYear# 
+			AND MNG_NO=#mngNo# 
+			AND MNG_SEQ=#mngSeq#
+	</select>
+	
+	<!-- 실적평가 등록(임대료) -->
+	<insert  id="gamPopupHtldBizAssessDao.insertRntfeeBizAssess_S" parameterClass="GamPopupHtldRntfeeBizAssessVO">
+		INSERT INTO HTLD_RNTFEE_F (
+			MNG_YEAR
+			,MNG_NO
+			,MNG_SEQ
+			,RNTFEE_SEQ
+			,RENT_DETAIL_REGIST_SEQ
+			,RNTFEE_SE
+			,NTIC_BEGIN_DT
+			,NTIC_END_DT
+			,APPLC_BEGIN_DT
+			,APPLC_END_DT
+			,APPLC_RNTFEE
+			,RNTFEE
+			,PAYINST_INTR
+			,SUP_AMT
+			,VAT
+			,PAY_AMT
+			,RM
+			,REG_USR
+			,REGIST_DT
+		)
+		VALUES (
+			#mngYear#
+			,#mngNo#
+			,#mngSeq#
+			,#rntfeeSeq#
+			,#rentDetailRegistSeq#
+			,#rntfeeSe#
+			,TO_DATE(#nticBeginDt#, 'YYYY-MM-DD')
+			,TO_DATE(#nticEndDt#, 'YYYY-MM-DD')
+			,TO_DATE(#applcBeginDt#, 'YYYY-MM-DD')
+			,TO_DATE(#applcEndDt#, 'YYYY-MM-DD')
+			,TO_NUMBER(#applcRntfee#)
+			,TO_NUMBER(#rntfee#)
+			,0
+			,TO_NUMBER(#rntfee#)
+			,0
+			,0
+			,#rm#
+			,#regUsr#
+			,SYSDATE
+		)
+	</insert>
 </sqlMap>

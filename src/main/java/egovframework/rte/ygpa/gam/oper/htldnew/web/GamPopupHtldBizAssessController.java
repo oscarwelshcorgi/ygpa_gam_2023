@@ -107,7 +107,7 @@ public class GamPopupHtldBizAssessController {
 	}
 
 	/**
-     * 배후단지 임대계약 수정
+     * 실적평가 등록
      * @param Map
      * @return Map
      * @throws Exception

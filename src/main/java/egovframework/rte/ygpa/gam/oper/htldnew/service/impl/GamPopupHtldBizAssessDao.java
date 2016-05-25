@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamPopupHtldBizAssessVO;
+import egovframework.rte.ygpa.gam.oper.htldnew.service.GamPopupHtldRntfeeBizAssessVO;
 
 /**
  * 
@@ -40,7 +41,7 @@ public class GamPopupHtldBizAssessDao extends YGPAAbstractDAO {
 	}
 
 	/**
-	 * 실적평가 등록
+	 * 실적평가 등록(상세)
 	 * @param GamPopupHtldBizAssessVO
 	 * @return 
 	 * @exception Exception
@@ -48,5 +49,24 @@ public class GamPopupHtldBizAssessDao extends YGPAAbstractDAO {
 	public void updateBizAssess(GamPopupHtldBizAssessVO vo) throws Exception {
 		update("gamPopupHtldBizAssessDao.updateBizAssess_S", vo);
 	}
-
+	
+	/**
+	 * 임대료 순번 생성
+	 * @param searchVO
+	 * @return 임대료 순번
+	 * @throws Exception
+	 */
+	public String selectNextRntfeeSeq(GamPopupHtldBizAssessVO searchVO) throws Exception {
+		return (String) getSqlMapClientTemplate().queryForObject("gamPopupHtldBizAssessDao.selectNextRntfeeSeq_S", searchVO);
+	}
+	
+	/**
+	 * 실적평가 등록(상세)
+	 * @param GamPopupHtldBizAssessVO
+	 * @return 
+	 * @exception Exception
+	 */
+	public void insertRntfeeBizAssess(GamPopupHtldRntfeeBizAssessVO vo) throws Exception {
+		insert("gamPopupHtldBizAssessDao.insertRntfeeBizAssess_S", vo);
+	}
 }

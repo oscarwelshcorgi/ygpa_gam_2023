@@ -128,93 +128,44 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");		
 		LocalDate detailPdBeginDate = new LocalDate(dateFormat.parse(detailPdBegin));
 		LocalDate detailPdEndDate = new LocalDate(dateFormat.parse(detailPdEnd));
-		LocalDate aseApplcBeginDate, aseApplcEndDate;
-		
+				
 		if("1".equals(priceSe)) {
 			applcMonthFee = applcMonthFee.add(applcRntfee.multiply(rentAr));
+			aseMonthFee = aseMonthFee.add(aseRntfee.multiply(rentAr));
 		} else if("2".equals(priceSe)) {
 			applcMonthFee = applcMonthFee.add(applcRntfee);
+			aseMonthFee = aseMonthFee.add(aseRntfee);
 		}
 
-		if(aseRntfee.compareTo(new BigDecimal(0)) > 0) {
-			aseApplcBeginDate = new LocalDate(dateFormat.parse(aseApplcBegin));
-			aseApplcEndDate = new LocalDate(dateFormat.parse(aseApplcEnd));			
-			if("1".equals(priceSe)) {
-				aseMonthFee = aseMonthFee.add(aseRntfee.multiply(rentAr));
-			} else if("2".equals(priceSe)) {
-				aseMonthFee = aseMonthFee.add(aseRntfee);
-			}
-		} else {
-			aseApplcBeginDate = detailPdBeginDate;
-			aseApplcEndDate = detailPdEndDate;
-			aseMonthFee = applcMonthFee;
-		}
+		LocalDate startDate = ("4".equals(paySe)) ? getQuarterStartDate(nticDate) : new LocalDate(nticDate.getYear(), 1, 1);
+		LocalDate endDate = ("4".equals(paySe)) ? getQuarterEndDate(nticDate) : new LocalDate(nticDate.getYear(), 12, 31);
 		
-		LocalDate quarterStartDate;
-		LocalDate quarterEndDate;
-		
-		if("4".equals(paySe)) {
-			quarterStartDate = getQuarterStartDate(nticDate);
-			quarterEndDate = getQuarterEndDate(nticDate);
-		} else {
-			quarterStartDate = new LocalDate(nticDate.getYear(), 1, 1);
-			quarterEndDate = new LocalDate(nticDate.getYear(), 12, 31);
-		}
-		
-		LocalDate appStartDate = quarterStartDate, appEndDate = quarterEndDate, aseStartDate = quarterStartDate, aseEndDate = quarterEndDate;
-		
-		if(appStartDate.compareTo(detailPdBeginDate) < 0) {
-			appStartDate = detailPdBeginDate;
-		}
-		
-		if(appEndDate.compareTo(detailPdEndDate) > 0) {
-			appEndDate = detailPdEndDate;
-		}
-		
-		if(aseStartDate.compareTo(aseApplcBeginDate) < 0) {
-			aseStartDate = aseApplcBeginDate;
-		}
-
-		if(aseEndDate.compareTo(aseApplcEndDate) < 0) {
-			aseEndDate = aseApplcEndDate;
-		}
+		if(startDate.compareTo(detailPdBeginDate) < 0) startDate = detailPdBeginDate;
+		if(endDate.compareTo(detailPdEndDate) > 0) endDate = detailPdEndDate;
 		
 		BigDecimal resultFee = new BigDecimal(0);
 		
-		if((aseRntfee.compareTo(new BigDecimal(0)) > 0) && (aseRntfee.compareTo(applcRntfee) != 0)) {
-			if((aseStartDate.compareTo(appStartDate) != 0) || (aseEndDate.compareTo(appEndDate) != 0)) {
-				if((aseStartDate.compareTo(appStartDate) == 0) && (aseEndDate.compareTo(appEndDate) != 0)) {
-					if((aseEndDate.compareTo(appEndDate) > 0)) {
-						resultFee = getTotalFee(aseStartDate, appEndDate, aseMonthFee);
-					} else {
-						appStartDate = aseEndDate.plusDays(1);
-						resultFee = getTotalFee(aseStartDate, aseEndDate, aseMonthFee);
-						resultFee = resultFee.add(getTotalFee(appStartDate, appEndDate, applcMonthFee));
-					}
-				} else if((aseStartDate.compareTo(appStartDate) != 0) && (aseEndDate.compareTo(appEndDate) == 0)) {
-					if((aseStartDate.compareTo(appStartDate) > 0)) {
-						resultFee = getTotalFee(appStartDate, aseEndDate, aseMonthFee);
-					}
-					if((aseStartDate.compareTo(appStartDate) < 0)) {
-						appEndDate = aseStartDate.minusDays(1);
-						resultFee = getTotalFee(appStartDate, appEndDate, applcMonthFee);
-						resultFee = resultFee.add(getTotalFee(aseStartDate, aseEndDate, aseMonthFee));
-					}
-				} else if((aseStartDate.compareTo(appStartDate) < 0) && (aseEndDate.compareTo(appEndDate) > 0)) {
-					LocalDate tempAppEndDate = aseStartDate.minusDays(1);
-					LocalDate tempAppStartDate = aseEndDate.plusDays(1);
-					resultFee = getTotalFee(appStartDate, tempAppEndDate, applcMonthFee);
-					resultFee = resultFee.add(getTotalFee(aseStartDate, aseEndDate, aseMonthFee));
-					resultFee = resultFee.add(getTotalFee(tempAppStartDate, appEndDate, applcMonthFee));
-				} else {
-					resultFee = getTotalFee(appStartDate, appEndDate, aseMonthFee);
-				}
-			} else {
-				resultFee = getTotalFee(aseStartDate, aseEndDate, aseMonthFee);
-			}
+		if(aseRntfee.compareTo(new BigDecimal(0)) <= 0) {
+			resultFee = getTotalFee(startDate, endDate, applcMonthFee);
 		} else {
-			resultFee = getTotalFee(appStartDate, appEndDate, applcMonthFee);
+			LocalDate aseApplcBeginDate = new LocalDate(dateFormat.parse(aseApplcBegin));
+			LocalDate aseApplcEndDate = new LocalDate(dateFormat.parse(aseApplcEnd));			
+			
+			if((aseApplcBeginDate.compareTo(startDate) <= 0) && (aseApplcEndDate.compareTo(endDate) >= 0)) {
+				resultFee = getTotalFee(startDate, endDate, aseMonthFee);
+			} else if ((aseApplcBeginDate.compareTo(startDate) > 0) && (aseApplcEndDate.compareTo(endDate) >= 0)) {
+				resultFee = getTotalFee(startDate, aseApplcBeginDate.minusDays(1), applcMonthFee);
+				resultFee = resultFee.add(getTotalFee(aseApplcBeginDate, endDate, aseMonthFee));
+			} else if ((aseApplcBeginDate.compareTo(startDate) <= 0) && (aseApplcEndDate.compareTo(endDate) < 0)) {
+				resultFee = getTotalFee(startDate, aseApplcEndDate, aseMonthFee);
+				resultFee = resultFee.add(getTotalFee(aseApplcEndDate.plusDays(1), endDate, applcMonthFee));
+			} else if ((aseApplcBeginDate.compareTo(startDate) > 0) && (aseApplcEndDate.compareTo(endDate) < 0)) {
+				resultFee = getTotalFee(startDate, aseApplcBeginDate.minusDays(1), applcMonthFee);
+				resultFee = resultFee.add(getTotalFee(aseApplcBeginDate, aseApplcEndDate, aseMonthFee));
+				resultFee = resultFee.add(getTotalFee(aseApplcEndDate.plusDays(1), endDate, applcMonthFee));
+			}
 		}
+
 		return resultFee;
 	}
 	
@@ -229,8 +180,8 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 	protected BigDecimal getRentFeeInstIntr(BigDecimal rntFee, String cofixIntr, LocalDate nticDate, String detailPdEnd) {
 		cofixIntr = cofixIntr.replace(" ", "");
 		BigDecimal intrRate = new BigDecimal(cofixIntr);
-		intrRate = intrRate.divide(new BigDecimal(100));
-		BigDecimal monthPayInstIntr = rntFee.multiply(intrRate).divide(new BigDecimal(12));
+		intrRate = intrRate.divide(new BigDecimal(100), 5, RoundingMode.CEILING);
+		BigDecimal monthPayInstIntr = rntFee.multiply(intrRate).divide(new BigDecimal(12), 5, RoundingMode.CEILING);
 		LocalDate nticEndDate = getQuarterEndDate(nticDate);
 		LocalDate detailPdEndDate = new LocalDate(detailPdEnd);
 		if(nticDate.getYear() < detailPdEndDate.getYear()) {
@@ -260,8 +211,6 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 
 		totalFee = monthFee.multiply(new BigDecimal(months.getMonths()));
 		
-		System.out.println("debug : " + monthFee);
-		System.out.println("debug : " + totalFee);
 		int startDay=fromDate.getDayOfMonth();
 		if(startDay!=1) {
 			LocalDate endOfMonth = fromDate.dayOfMonth().withMaximumValue();
