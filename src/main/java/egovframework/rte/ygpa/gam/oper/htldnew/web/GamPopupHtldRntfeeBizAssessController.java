@@ -24,13 +24,13 @@ import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.service.EgovCmmUseService;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
-import egovframework.rte.ygpa.gam.oper.htldnew.service.GamPopupHtldBizAssessService;
-import egovframework.rte.ygpa.gam.oper.htldnew.service.GamPopupHtldBizAssessVO;
+import egovframework.rte.ygpa.gam.oper.htldnew.service.GamPopupHtldRntfeeBizAssessService;
+import egovframework.rte.ygpa.gam.oper.htldnew.service.GamPopupHtldRntfeeBizAssessVO;
 
 /**
  * 
  * @author Jongmin
- * @since 2016. 4. 26.
+ * @since 2016. 5. 26.
  * @version 1.0
  * @see
  * <pre>
@@ -38,14 +38,14 @@ import egovframework.rte.ygpa.gam.oper.htldnew.service.GamPopupHtldBizAssessVO;
  *   
  *   수정일 		 수정자		 수정내용
  *  -------		--------	---------------------------
- *  2016. 4. 26.		Jongmin		최초 생성
+ *  2016. 5. 26.		Jongmin		최초 생성
  *
  * Copyright (C) 2013 by LFIT  All right reserved.
  * </pre>
  */
 
 @Controller
-public class GamPopupHtldBizAssessController {
+public class GamPopupHtldRntfeeBizAssessController {
 	protected Log log = LogFactory.getLog(this.getClass());
 	
 	/** Validator */
@@ -64,21 +64,21 @@ public class GamPopupHtldBizAssessController {
     @Resource(name="EgovCmmUseService")
     private EgovCmmUseService cmmUseService;
 
-    @Resource(name="gamPopupHtldBizAssessService")
-    private GamPopupHtldBizAssessService gamPopupHtldBizAssessService;
-    
+    @Resource(name="gamPopupHtldRntfeeBizAssessService")
+    private GamPopupHtldRntfeeBizAssessService gamPopupHtldRntfeeBizAssessService;
+  
     /**
-     * 실적평가 화면을 로딩한다.
+     * 실적평가정산 화면을 로딩한다.
      * @param vo
      * @param model
      * @return /ygpa/gam/oper/htldnew/GamPopupHtldBizAssess
      */
-    @RequestMapping(value="/popup/showHtldBizAssess.do")
+    @RequestMapping(value="/popup/showHtldRntfeeBizAssess.do")
     public String showHtldBizAssess(@RequestParam Map<?, ?> params, ModelMap model) {
     	model.addAttribute("params", params);
-    	return "/ygpa/gam/oper/htldnew/GamPopupHtldBizAssess";
+    	return "/ygpa/gam/oper/htldnew/GamPopupHtldRntfeeBizAssess";
     }
-    
+
     /**
      * 배후단지임대계약상세(실적평가)를 조회한다.
      *
@@ -86,8 +86,8 @@ public class GamPopupHtldBizAssessController {
      * @return map
      * @throws Exception the exception
      */
-	@RequestMapping(value="/oper/htldnew/selectHtldRentBizAssessDetail.do", method=RequestMethod.POST)
-	public @ResponseBody Map<String, Object> selectHtldRentBizAssessDetail(GamPopupHtldBizAssessVO searchVO) throws Exception {
+	@RequestMapping(value="/oper/htldnew/selectHtldRntfeeBizAssessDetail.do", method=RequestMethod.POST)
+	public @ResponseBody Map<String, Object> selectHtldRntfeeBizAssessDetail(GamPopupHtldRntfeeBizAssessVO searchVO) throws Exception {
     	Map<String, Object> map = new HashMap<String, Object>();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -97,7 +97,7 @@ public class GamPopupHtldBizAssessController {
         	return map;
     	}
     	
-    	Map<?, ?> resultDetail = gamPopupHtldBizAssessService.selectHtldRentBizAssessDetail(searchVO);
+    	Map<?, ?> resultDetail = gamPopupHtldRntfeeBizAssessService.selectHtldRntfeeBizAssessDetail(searchVO);
     	
     	map.put("resultCode", 0);
     	map.put("resultDetail", resultDetail);
@@ -106,13 +106,13 @@ public class GamPopupHtldBizAssessController {
 	}
 
 	/**
-     * 실적평가 등록
+     * 실적평가정산 수정
      * @param Map
      * @return Map
      * @throws Exception
      */
-	@RequestMapping(value="/oper/htldnew/updateBizAssess.do")
-	public @ResponseBody Map<String, Object> updateBizAssess(GamPopupHtldBizAssessVO updateVO) throws Exception {
+	@RequestMapping(value="/oper/htldnew/updateRntfeeBizAssess.do")
+	public @ResponseBody Map<String, Object> updateRntfeeBizAssess(GamPopupHtldRntfeeBizAssessVO updateVO) throws Exception {
 		Map<String,Object> map = new HashMap<String,Object>();
 				
 		//사용자 인증 처리
@@ -126,12 +126,43 @@ public class GamPopupHtldBizAssessController {
     	LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
     	
     	try {
-    		gamPopupHtldBizAssessService.updateBizAssess(updateVO, loginVO.getId());
+    		updateVO.setUpdUsr(loginVO.getId());
+    		gamPopupHtldRntfeeBizAssessService.updateRntfeeBizAssess(updateVO);
 	        map.put("resultCode", 0);
     		map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));    		
     	} catch(Exception e) {
 	        map.put("resultCode", 1);
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));    		
+    	}
+    	
+    	return map;
+	}
+
+	/**
+     * 실적평가정산 삭제
+     * @param Map
+     * @return Map
+     * @throws Exception
+     */
+	@RequestMapping(value="/oper/htldnew/deleteRntfeeBizAssess.do")
+	public @ResponseBody Map<String, Object> deleteRntfeeBizAssess(GamPopupHtldRntfeeBizAssessVO deleteVO) throws Exception {
+		Map<String,Object> map = new HashMap<String,Object>();
+				
+		//사용자 인증 처리
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}    	
+		
+    	try {
+    		gamPopupHtldRntfeeBizAssessService.deleteRntfeeBizAssess(deleteVO);
+	        map.put("resultCode", 0);
+    		map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));    		
+    	} catch(Exception e) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));    		
     	}
     	
     	return map;

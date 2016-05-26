@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="ygpa.gam.oper.htldnew">
+
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="GamPopupHtldRntfeeBizAssessVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamPopupHtldRntfeeBizAssessVO"/>
+    
+    <select id="gamPopupHtldRntfeeBizAssessDao.selectHtldRntfeeBizAssessDetail_S" parameterClass="GamPopupHtldRntfeeBizAssessVO" resultClass="egovMap">
+		SELECT
+			F.MNG_YEAR MNG_YEAR
+			,F.MNG_NO MNG_NO
+			,F.MNG_SEQ MNG_SEQ
+			,F.RNTFEE_SEQ RNTFEE_SEQ
+			,F.RENT_DETAIL_REGIST_SEQ RENT_DETAIL_REGIST_SEQ
+			,(SELECT E.ENTRPS_NM FROM ENTRPS_INFO_F E WHERE E.ENTRPSCD = R.ENTRPS_CD) ENTRPS_NM
+			,GAM_GETCODENAME('GAM062', R.BOUND_CD) BOUND_NM
+			,NVL(D.RENT_AR, 0) RENT_AR
+			,DECODE(D.RENT_AR_SE, '1', '물류부지', '2', '제조부지', '3', '숙성실', '') RENT_AR_SE_NM
+			,TO_CHAR(F.APPLC_BEGIN_DT, 'YYYY-MM-DD') APPLC_BEGIN_DT
+			,TO_CHAR(F.APPLC_END_DT, 'YYYY-MM-DD') APPLC_END_DT
+			,NVL(F.APPLC_RNTFEE, 0) APPLC_RNTFEE
+			,D.PRICE_SE
+			,DECODE(R.TERMN_DT, NULL, 'N', 'Y') TERMN_YN
+		    ,DECODE(F.NTIC_SEQ, NULL, 'N', 'Y') NTIC_YN
+		FROM
+			HTLD_RNTFEE_F F
+		INNER JOIN
+			HTLD_RENT_DETAIL_F D
+			ON D.MNG_YEAR = F.MNG_YEAR AND D.MNG_NO = F.MNG_NO AND D.MNG_SEQ = F.MNG_SEQ AND D.REGIST_SEQ = F.RENT_DETAIL_REGIST_SEQ
+			INNER JOIN
+			HTLD_RENT_F R
+			ON D.MNG_YEAR = R.MNG_YEAR AND D.MNG_NO = R.MNG_NO AND D.MNG_SEQ = R.MNG_SEQ
+		WHERE   
+			F.MNG_YEAR = #mngYear#
+			AND F.MNG_NO = #mngNo#
+			AND F.MNG_SEQ = #mngSeq#
+			AND F.RNTFEE_SEQ = #rntfeeSeq#
+			AND F.RNTFEE_SE = '1'
+    </select>
+    
+	<!-- 실적평가정산 수정 -->
+	<update id="gamPopupHtldRntfeeBizAssessDao.updateRntfeeBizAssess_S" parameterClass="GamPopupHtldRntfeeBizAssessVO">
+		UPDATE HTLD_RNTFEE_F
+		SET
+			APPLC_BEGIN_DT = TO_DATE(#applcBeginDt#, 'YYYY-MM-DD')
+			,APPLC_END_DT = TO_DATE(#applcEndDt#, 'YYYY-MM-DD')
+			,APPLC_RNTFEE = TO_NUMBER(#applcRntfee#)
+			,RNTFEE = TO_NUMBER(#rntfee#)
+			,UPD_USR = #updUsr#
+			,UPDT_DT = SYSDATE
+		WHERE
+			MNG_YEAR = #mngYear#
+			AND MNG_NO = #mngNo#
+			AND MNG_SEQ = #mngSeq#
+			AND RNTFEE_SEQ = #rntfeeSeq#
+			AND RNTFEE_SE = '1'
+	</update>
+	
+	<!-- 실적평가정산 삭제 -->
+	<delete id="gamPopupHtldRntfeeBizAssessDao.deleteRntfeeBizAssess_S" parameterClass="GamPopupHtldRntfeeBizAssessVO">
+		DELETE FROM HTLD_RNTFEE_F
+		WHERE
+			MNG_YEAR = #mngYear#
+			AND MNG_NO = #mngNo#
+			AND MNG_SEQ = #mngSeq#
+			AND RNTFEE_SEQ = #rntfeeSeq#
+			AND RNTFEE_SE = '1'
+	</delete>	
+
+</sqlMap>

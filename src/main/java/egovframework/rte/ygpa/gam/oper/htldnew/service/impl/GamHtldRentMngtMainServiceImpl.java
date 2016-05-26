@@ -6,6 +6,8 @@ package egovframework.rte.ygpa.gam.oper.htldnew.service.impl;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -53,7 +55,7 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 	 */
 	@SuppressWarnings("unchecked")
 	public List<EgovMap> selectHtldRentDetailList(GamHtldRentMngtMainVO vo) throws Exception {
-		return calcHtldRentFeeList((List<EgovMap>) gamHtldRentMngtMainDao.selectHtldRentDetailList(vo), vo);
+		return getVirtualHtldRentFeeList((List<EgovMap>) gamHtldRentMngtMainDao.selectHtldRentDetailList(vo), vo);
 	}
 
 	/**
@@ -72,11 +74,23 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 	 * @return
 	 * @exception Exception
 	 */	
-	protected List<EgovMap>calcHtldRentFeeList(List<EgovMap> feeList, GamHtldRentMngtMainVO vo) throws Exception {
+	@SuppressWarnings("unchecked")
+	protected List<EgovMap>getVirtualHtldRentFeeList(List<EgovMap> feeList, GamHtldRentMngtMainVO vo) throws Exception {
+		List<EgovMap> resultList = new ArrayList<EgovMap>();
+		
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		LocalDate nticDate = new LocalDate(dateFormat.parse(vo.getsNticDt()));
 		String cofixIntr = gamHtldRentMngtMainDao.selectCofixIntrrate(vo);
-		for(EgovMap item : feeList) {
+		
+		BigDecimal totRntFee = new BigDecimal(0),  totPayinstIntr = new BigDecimal(0), totSupAmt = new BigDecimal(0),  totVat = new BigDecimal(0),  totPayAmt = new BigDecimal(0);
+		int groupCount  = 0;
+		
+		for(int i=0; i<feeList.size(); i++) {
+			EgovMap item = feeList.get(i);
+			
+			String mngYear = (item.get("mngYear") != null) ? (String)item.get("mngYear") : "";
+			String mngNo = (item.get("mngNo") != null) ? (String)item.get("mngNo") : "";
+			String mngSeq = (item.get("mngSeq") != null) ? (String)item.get("mngSeq") : "";
 			String priceSe = (item.get("priceSe") != null) ? (String)item.get("priceSe") : "";
 			String paySe = (item.get("paySe") != null) ? (String)item.get("paySe") : "";
 			BigDecimal applcRntfee = (item.get("applcRntfee") != null) ? (BigDecimal)item.get("applcRntfee") : new BigDecimal(0);
@@ -88,26 +102,141 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 			String aseApplcEnd = (item.get("aseApplcEnd") != null) ? (String)item.get("aseApplcEnd") : "";
 			String nticYn = (item.get("nticYn") != null) ? (String)item.get("nticYn") : "N";
 			String rntfeeSe = (item.get("rntfeeSe") != null) ? (String)item.get("rntfeeSe") : "0";
+			String rntfeeSeNm = (item.get("rntfeeSeNm") != null) ? (String)item.get("rntfeeSeNm") : "";
+			String rentArSe = (item.get("rentArSe") != null) ? (String)item.get("rentArSe") : "";
+			String rentArSeNm = (item.get("rentArSeNm") != null) ? (String)item.get("rentArSeNm") : "";
+			String rentArStr = (item.get("rentArStr") != null) ? (String)item.get("rentArStr") : "";
+			String applcRntfeeStr = (item.get("applcRntfeeStr") != null) ? (String)item.get("applcRntfeeStr") : "";
+			
+			BigDecimal rntFee = new BigDecimal(0),  payinstIntr = new BigDecimal(0), supAmt = new BigDecimal(0),  vat = new BigDecimal(0),  payAmt = new BigDecimal(0);
+			
+			int mngGroupCount = getMngGropListCount(feeList, mngYear, mngNo, mngSeq);
+			groupCount++;
 			
 			if(("0".equals(rntfeeSe)) && ("N".equals(nticYn))) {
-				BigDecimal rntFee = getRentFee(nticDate, paySe, priceSe, rentAr, applcRntfee, detailPdBegin, detailPdEnd, aseRntfee, aseApplcBegin, aseApplcEnd);
-				item.put("rntfee", rntFee);
-				BigDecimal payinstIntr = new BigDecimal(0);
+				rntFee = getRentFee(nticDate, paySe, priceSe, rentAr, applcRntfee, detailPdBegin, detailPdEnd, aseRntfee, aseApplcBegin, aseApplcEnd);
+				
 				if("4".equals(paySe)) {
 					payinstIntr = getRentFeeInstIntr(rntFee, cofixIntr, nticDate, detailPdEnd);
 				}
+				
+				if(mngGroupCount == 1) {
+					supAmt = rntFee.add(payinstIntr).setScale(-1, RoundingMode.DOWN);
+					vat = supAmt.divide(new BigDecimal(10));
+					payAmt = supAmt.add(vat);
+				} else {
+					totRntFee = totRntFee.add(rntFee);
+					totPayinstIntr = totPayinstIntr.add(payinstIntr);
+				}
+				
+				item.put("rntfee", rntFee);
 				item.put("payinstIntr", payinstIntr);
-				BigDecimal supAmt = rntFee.add(payinstIntr).setScale(-1, RoundingMode.DOWN);
 				item.put("supAmt", supAmt);
-				BigDecimal vat = supAmt.divide(new BigDecimal(10));
 				item.put("vat", vat);
-				BigDecimal payAmt = supAmt.add(vat);
 				item.put("payAmt", payAmt);
+			} else {
+				rntFee = (item.get("rntfee") != null) ? (BigDecimal)item.get("rntfee") : new BigDecimal(0);
+				payinstIntr = (item.get("payinstIntr") != null) ? (BigDecimal)item.get("payinstIntr") : new BigDecimal(0);
+				supAmt = (item.get("supAmt") != null) ? (BigDecimal)item.get("supAmt") : new BigDecimal(0);				
+				if(mngGroupCount > 1) {
+					totRntFee = totRntFee.add(rntFee);
+					totPayinstIntr = totPayinstIntr.add(payinstIntr);
+					totSupAmt = totSupAmt.add(supAmt);
+				}
+			}
+			
+			//가상 필드 추가
+			if("0".equals(rntfeeSe)) {
+				item.put("detailPdStr", detailPdBegin + "~" + detailPdEnd);
+			} else {
+				item.put("detailPdStr", rntfeeSeNm);
+			}
+			if(!"0".equals(rentArSe)) {
+				if("3".equals(rentArSe)) {
+					item.put("rentArStr", rentArSeNm); //숙성실
+				} else {
+					item.put("rentArStr", rentArStr + "/" + rentArSeNm); //물류부지, 제조부지
+				}
+			}
+			if("2".equals(priceSe)) { 
+				item.put("applcRntfeeStr", applcRntfeeStr + "원/월");
+			}
+			if(!"0".equals(rntfeeSe)) {
+				item.put("applcRntfeeStr", "");
+			}
+			if(aseRntfee.compareTo(new BigDecimal(0)) == 0) {
+				item.put("aseRntfeeStr", "");
+			}
+			if(aseApplcBegin.length() > 0) {
+				item.put("asePd", aseApplcBegin + "~" + aseApplcEnd);
+			}
+
+			resultList.add(item);
+			
+			if((mngGroupCount > 1) && (groupCount == mngGroupCount)) {
+				totSupAmt = totRntFee.add(totPayinstIntr).setScale(-1, RoundingMode.DOWN);
+				totVat = totSupAmt.divide(new BigDecimal(10));
+				totPayAmt = totSupAmt.add(totVat);
+				
+				//소계 레코드 추가
+				EgovMap totItem = new EgovMap();
+				Iterator<String> it = (Iterator<String>)item.keySet().iterator();
+				while(it.hasNext()) {
+					String key = it.next();
+					totItem.put(key, item.get(key));
+				}
+				
+				totItem.put("rntfeeSe", "9");
+			
+				totItem.put("rntfee", totRntFee);
+				totItem.put("payinstIntr", totPayinstIntr);
+				totItem.put("supAmt", totSupAmt);
+				totItem.put("vat", totVat);
+				totItem.put("payAmt", totPayAmt);
+				
+				totItem.put("detailPdStr", "소 계");
+				totItem.put("rentArStr", "");
+				totItem.put("applcRntfeeStr", "");
+				totItem.put("aseRntfeeStr", "");
+				totItem.put("asePd", "");
+				
+				resultList.add(totItem);
+
+				groupCount = 0;
+				totRntFee = new BigDecimal(0);
+				totPayinstIntr = new BigDecimal(0);
+				totSupAmt = new BigDecimal(0);
+				totVat = new BigDecimal(0);
+				totPayAmt = new BigDecimal(0);
+				
+			} else if (mngGroupCount == 1) {
+				groupCount = 0;
 			}
 		}
-		return feeList;
+		return resultList;
 	}
-		
+	
+	/**
+	 * 같은 관리코드 그룹의 레코드 수를 리턴
+	 * @param list
+	 * @param mngYear
+	 * @param mngNo
+	 * @param mngSeq
+	 * @return
+	 */
+	protected int getMngGropListCount(List<EgovMap> list, String mngYear, String mngNo, String mngSeq) {
+		int count = 0;
+		for(EgovMap item : list) {
+			String year = (item.get("mngYear") != null) ? (String)item.get("mngYear") : "";
+			String no = (item.get("mngNo") != null) ? (String)item.get("mngNo") : "";
+			String seq = (item.get("mngSeq") != null) ? (String)item.get("mngSeq") : "";
+			if(year.equals(mngYear) && no.equals(mngNo) && seq.equals(mngSeq)) {
+				count++;
+			}
+		}
+		return count;
+	}
+	
 	/**
 	 * 임대료 계산
 	 * @param nticDate - 고지예정일자

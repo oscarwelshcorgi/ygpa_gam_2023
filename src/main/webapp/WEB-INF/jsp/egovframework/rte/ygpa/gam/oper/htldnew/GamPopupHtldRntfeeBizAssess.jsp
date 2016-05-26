@@ -7,8 +7,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%--
   /**
-  * @Class Name : GamPopupHtldBizAssess.jsp
-  * @Description : 실적평가등록
+  * @Class Name : GamPopupHtldRntfeeBizAssess.jsp
+  * @Description : 실적평가정산 수정 및 삭제
   * @Modification Information
   *
   *   수정일         수정자                   수정내용
@@ -22,12 +22,12 @@
   */
 --%>
 <script>
-function GamPopupHtldBizAssessModule() {}
+function GamPopupHtldRntfeeBizAssessModule() {}
 
 <%--
 	EmdPopupModule을 상속하여 모듈 클래스를 정의한다.
 --%>
-GamPopupHtldBizAssessModule.prototype = new EmdPopupModule(700, 310);
+GamPopupHtldRntfeeBizAssessModule.prototype = new EmdPopupModule(700, 180);
 
 <%--///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	EmdPopupModule Override 및 이벤트 처리 정의 부분 시작	
@@ -36,14 +36,13 @@ GamPopupHtldBizAssessModule.prototype = new EmdPopupModule(700, 310);
 <%--
 	팝업 페이지가 호출 되었을때 호출 되는 함수
 --%>
-GamPopupHtldBizAssessModule.prototype.loadComplete = function(params) {
+GamPopupHtldRntfeeBizAssessModule.prototype.loadComplete = function(params) {
 	this.resizable(true);
 	this.$('#mngYear').val(params.searchRow.mngYear);
 	this.$('#mngNo').val(params.searchRow.mngNo);
 	this.$('#mngSeq').val(params.searchRow.mngSeq);
-	this.$('#registSeq').val(params.searchRow.registSeq);
+	this.$('#rntfeeSeq').val(params.searchRow.rntfeeSeq);
 	this._searchRow = params.searchRow;
-	this._searchNticDt = params.searchNticDt;
 	this.loadData();
 };
 
@@ -52,10 +51,13 @@ GamPopupHtldBizAssessModule.prototype.loadComplete = function(params) {
 	스위치문 안에 코드가 길어지면 반드시 하위 함수로 분리 할 것.
     case 문에 주석을 달때는 case 문 뒤에 붙일 것
 --%>
-GamPopupHtldBizAssessModule.prototype.onButtonClick = function(buttonId) {
+GamPopupHtldRntfeeBizAssessModule.prototype.onButtonClick = function(buttonId) {
 	switch(buttonId) {
 	case 'btnSave': //저장
 		this.saveData();
+		break;
+	case 'btnDelete': //삭제
+		this.deleteData();
 		break;
 	case 'btnCancel': //닫기
 		this.cancelDialog();
@@ -67,64 +69,60 @@ GamPopupHtldBizAssessModule.prototype.onButtonClick = function(buttonId) {
 	사용자 함수 정의 시작
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////--%>
 <%--
-	loadData - 임대계약상세 조회
+	loadData - 실적평가 정산 조회
 --%>
-GamPopupHtldBizAssessModule.prototype.loadData = function() {
-	var searchData = this.makeFormArgs('#gamPopupHtldBizAssessForm'); 
-	this.doAction('/oper/htldnew/selectHtldRentBizAssessDetail.do', searchData, function(module, result) {
-		if(result.resultCode == 0) {
-			result.resultDetail.assetsLocplcAll				= result.resultDetail.gisAssetsLocplc;
-			if(result.resultDetail.gisAssetsLnm != void(0)) {
-				result.resultDetail.assetsLocplcAll 			+= " " + result.resultDetail.gisAssetsLnm;
-				if(result.resultDetail.gisAssetsLnmSub != void(0)) {
-					result.resultDetail.assetsLocplcAll 		+= "-" + result.resultDetail.gisAssetsLnmSub;
-				}
-			}
-			module.makeFormValues('#gamPopupHtldBizAssessForm', result.resultDetail);
-			module.$('#sNticDt').val(module._searchNticDt);
-			module.initControls();
-		}
+GamPopupHtldRntfeeBizAssessModule.prototype.loadData = function() {
+	var searchData = this.makeFormArgs('#gamPopupHtldRntfeeBizAssessForm');
+	this.doAction('/oper/htldnew/selectHtldRntfeeBizAssessDetail.do', searchData, function(module, result) {
+		module.makeFormValues('#gamPopupHtldRntfeeBizAssessForm', result.resultDetail);
+		module.initControls();
 	});
 };
 
 <%--
 	initControls - 입력 컨트롤 및 버튼 설정
 --%>
-GamPopupHtldBizAssessModule.prototype.initControls = function() {
-	if(this.$('#termnYn').val() == 'N') {
+GamPopupHtldRntfeeBizAssessModule.prototype.initControls = function() {
+	if((this.$('#termnYn').val() == 'N') && (this.$('#nticYn').val() == 'N')) {
 		this.$('#btnSave').enable();
 		this.$('#btnSave').removeClass('ui-state-disabled');
-		this.$('#aseRntfee').enable();
-		this.$('#aseApplcBegin').enable();
-		this.$('#aseApplcEnd').enable();
-		this.$('#applcRsn').enable();		
+		this.$('#btnDelete').enable();
+		this.$('#btnDelete').removeClass('ui-state-disabled');
+		this.$('#applcRntfee').enable();
+		this.$('#applcBeginDt').enable();
+		this.$('#applcEndDt').enable();
 	} else {
 		this.$('#btnSave').disable({disableClass:"ui-state-disabled"});
-		this.$('#aseRntfee').disable();
-		this.$('#aseApplcBegin').disable();
-		this.$('#aseApplcEnd').disable();
-		this.$('#applcRsn').disable();
-		alert('해지된 계약이기에 실적평가 등록이 불가능합니다.');
+		this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
+		this.$('#applcRntfee').disable();
+		this.$('#applcBeginDt').disable();
+		this.$('#applcEndDt').disable();
+		if(this.$('#termnYn').val() == 'N') {
+			alert('해지된 계약의 실적평가이기에 실적평가 정산 수정 및 삭제가 불가능합니다.');
+		}
+		if(this.$('#termnYn').val() == 'N') {
+			alert('고지된 실적평가이기에 실적평가 정산 수정 및 삭제가 불가능합니다.');
+		}
 	}
 };
 
 <%--
 	validateData - 데이터 유효성 검사
 --%>
-GamPopupHtldBizAssessModule.prototype.validateData = function() {
-	if(this.$('#aseRntfee').val() == '') {
-		alert('실적평가임대료을 입력하세요.');
+GamPopupHtldRntfeeBizAssessModule.prototype.validateData = function() {
+	if(this.$('#applcRntfee').val() == '') {
+		alert('실적평가임대료를 입력하세요.');
 		return false;
 	}
-	if(this.$('#aseApplcBegin').val() == '') {
+	if(this.$('#applcBeginDt').val() == '') {
 		alert('실적평가기간(시작일)을 선택하세요.');
 		return false;
 	}
-	if(this.$('#aseApplcEnd').val() == '') {
+	if(this.$('#applcEndDt').val() == '') {
 		alert('실적평가기간(종료일)을 선택하세요.');
 		return false;
 	}
-	if(this.$('#aseApplcBegin').val() > this.$('#aseApplcEnd').val()) {
+	if(this.$('#applcBeginDt').val() > this.$('#applcEndDt').val()) {
 		alert('실적평가기간(시작일)이 실적평가기간(종료일)보다 큽니다.');
 		return false;
 	}
@@ -132,13 +130,27 @@ GamPopupHtldBizAssessModule.prototype.validateData = function() {
 };
 
 <%--
-	saveData - 실적평가 저장
+	saveData - 실적평가 정산 수정
 --%>
-GamPopupHtldBizAssessModule.prototype.saveData = function() {	
-	if(!confirm("저장하시겠습니까?")) return;
+GamPopupHtldRntfeeBizAssessModule.prototype.saveData = function() {	
+	if(!confirm("수정하시겠습니까?")) return;
 	if(!this.validateData()) return;
-	var saveData = this.makeFormArgs('#gamPopupHtldBizAssessForm');
-	this.doAction('/oper/htldnew/updateBizAssess.do', saveData, function(module, result) {
+	var saveData = this.makeFormArgs('#gamPopupHtldRntfeeBizAssessForm');
+	this.doAction('/oper/htldnew/updateRntfeeBizAssess.do', saveData, function(module, result) {
+		alert(result.resultMsg);
+		if(result.resultCode == 0) {
+			module.closeDialog("ok", null);
+		}
+	});
+};
+
+<%--
+	deleteData - 실적평가 정산 삭제
+--%>
+GamPopupHtldRntfeeBizAssessModule.prototype.deleteData = function() {	
+	if(!confirm("삭제하시겠습니까?")) return;
+	var deleteData = this.makeFormArgs('#gamPopupHtldRntfeeBizAssessForm');
+	this.doAction('/oper/htldnew/deleteRntfeeBizAssess.do', deleteData, function(module, result) {
 		alert(result.resultMsg);
 		if(result.resultCode == 0) {
 			module.closeDialog("ok", null);
@@ -148,55 +160,28 @@ GamPopupHtldBizAssessModule.prototype.saveData = function() {
 
 
 // 다음 변수는 고정 적으로 정의 해야 함
-var popup_instance = new GamPopupHtldBizAssessModule();
+var popup_instance = new GamPopupHtldRntfeeBizAssessModule();
 </script>
 <div class="dialog">
 	<div class="emdPanel">
-		<form id="gamPopupHtldBizAssessForm">
+		<form id="gamPopupHtldRntfeeBizAssessForm">
 			<input type="hidden" id="mngYear" />
 			<input type="hidden" id="mngNo" />
 			<input type="hidden" id="mngSeq" />
-			<input type="hidden" id="registSeq"/>
-			<input type="hidden" id="sNticDt"/>
-			<input type="hidden" id="paySe"/>
+			<input type="hidden" id="rntfeeSeq"/>
+			<input type="hidden" id="rentDetailRegistSeq"/>
 			<input type="hidden" id="priceSe"/>
 			<input type="hidden" id="termnYn">
+			<input type="hidden" id="nticYn">
         	<table class="editForm" style="width:100%">
         		<tr>
 					<th width="10%" height="18">입주기업</th>
 					<td>
 						<input type="text" size="30" id="entrpsNm" disabled/>
 					</td>
-					<th width="10%" height="18">사업자등록번호</th>
-					<td>
-						<input type="text" size="30" id="bizrno" disabled/>
-					</td>
- 				</tr>
-				<tr>
-					<th width="10%" height="18">계약기간</th>
-					<td>
-						<input type="text" size="13" id="detailPdBegin" disabled/>~
-						<input type="text" size="13" id="detailPdEnd" disabled/>
-					</td>
-					<th width="10%" height="18">총임대면적</th>
-					<td>
-						<input type="text" size="30" class="ygpaNumber" data-decimal-point="2" id="grRentAr" disabled/>&nbsp; m<sup>2</sup>
-					</td>
-				</tr>
-				<tr>
-					<th width="10%" height="18">자산명</th>
-					<td>
-						<input type="text" size="30" id="assetsNm" disabled/>
-					</td>
 					<th width="10%" height="18">임대구역</th>
 					<td>
 						<input type="text" size="30" id="boundNm" disabled/>
-					</td>
-				</tr>
-				<tr>
-					<th width="10%" height="18">주소지</th>
-					<td colspan="3">
-						<input type="text" size="92" id="assetsLocplcAll" disabled/>
 					</td>
 				</tr>
 				<tr>
@@ -210,31 +195,15 @@ var popup_instance = new GamPopupHtldBizAssessModule();
 					</td>
 				</tr>
 				<tr>
-					<th width="10%" height="18">적용단가</th>
-					<td>
-						<input type="text" size="30" class="ygpaNumber" data-decimal-point="2" id="applcRntfee" disabled/>&nbsp; 원
-					</td>
-					<th width="10%" height="18">단가구분</th>
-					<td>
-						<input type="text" size="30" id="priceSeNm" disabled/>
-					</td>
-				</tr>
-				<tr>
 					<th width="10%" height="18">실적평가임대료</th>
 					<td>
-						<input type="text" size="30" class="ygpaNumber" data-decimal-point="2" id="aseRntfee" />&nbsp; 원
+						<input type="text" size="30" class="ygpaNumber" data-decimal-point="2" id="applcRntfee" />&nbsp; 원
 					</td>
 					<th width="10%" height="18">실적평가기간</th>
 					<td>
-						<input type="text" size="12" id="aseApplcBegin" class="emdcal"/>~
-						<input type="text" size="12" id="aseApplcEnd" class="emdcal"/>
+						<input type="text" size="12" id="applcBeginDt" class="emdcal"/>~
+						<input type="text" size="12" id="applcEndDt" class="emdcal"/>
 					</td>									
-				</tr>
-				<tr>
-					<th width="10%" height="18">평가내용</th>
-					<td colspan="3">
-						<input type="text" size="92" id="applcRsn" />
-					</td>
 				</tr>
 			</table>
 		</form>
@@ -243,6 +212,7 @@ var popup_instance = new GamPopupHtldBizAssessModule();
 				<tr>
 					<th style="text-align:center">
 						<button id="btnSave">저장</button>
+						<button id="btnDelete">삭제</button>
 						<button id="btnCancel">닫기</button>
 					</th>
 				</tr>

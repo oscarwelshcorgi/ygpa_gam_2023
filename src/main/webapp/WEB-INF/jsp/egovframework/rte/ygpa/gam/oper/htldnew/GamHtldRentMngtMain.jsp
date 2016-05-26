@@ -124,10 +124,7 @@ GamHtldRentMngtMainModule.prototype.onButtonClick = function(buttonId) {
 GamHtldRentMngtMainModule.prototype.onClosePopup = function(popupId, msg, value) {
 	switch (popupId) {
 		case 'bizAssessRegPopup':
-			if (msg != 'cancel') {
-				this.loadData();
-			}
-			break;
+		case 'bizAssessUpdatePopup':
 		case 'intrrateMngtPopup':
 			if (msg != 'cancel') {
 				this.loadData();
@@ -160,9 +157,21 @@ GamHtldRentMngtMainModule.prototype.onMainGridSelectedRow = function(row, rid, c
 		case 'entrpsNm':
 			EMD.util.create_window('gamHtldRentContract', '배후단지 임대계약', '/oper/htldnew/gamHtldRentCtrt.do', null, {'searchRow' : row}, this);
 			break;
+		case 'detailPdStr':
+		case 'rentArStr':
+			if(row.rntfeeSe == '0') {
+				EMD.util.create_window('gamHtldRentContract', '배후단지 임대계약', '/oper/htldnew/gamHtldRentCtrt.do', null, {'searchRow' : row}, this);
+			} else if(row.rntfeeSe == '1') {
+				this.doExecuteDialog('bizAssessUpdatePopup', '실적평가 정산 수정 및 삭제', '/popup/showHtldRntfeeBizAssess.do', {}, {'searchRow' : row} );
+			}
+			break;
 		case 'aseRntfeeStr':
 		case 'asePd':
-			this.doExecuteDialog('bizAssessRegPopup', '실적평가 임대료', '/popup/showHtldBizAssess.do', {}, {'searchRow' : row, 'searchNticDt' : this.$('#sNticDt').val()} );
+			if(row.rntfeeSe == '0') {
+				this.doExecuteDialog('bizAssessRegPopup', '실적평가 임대료 등록', '/popup/showHtldBizAssess.do', {}, {'searchRow' : row, 'searchNticDt' : this.$('#sNticDt').val()} );
+			} else if(row.rntfeeSe == '1') {
+				this.doExecuteDialog('bizAssessUpdatePopup', '실적평가 정산 수정 및 삭제', '/popup/showHtldRntfeeBizAssess.do', {}, {'searchRow' : row} );
+			} 
 			break;
 	}	
 };
@@ -184,23 +193,11 @@ GamHtldRentMngtMainModule.prototype.loadData = function() {
 		row - 그리드 row
 --%>
 GamHtldRentMngtMainModule.prototype.initDataRow = function(row) {
-	if(row.rntfeeSe == '0') {
-		row.detailPdStr = row.detailPdBegin + '~' + row.detailPdEnd;
-	} else {
-		row.detailPdStr = row.rntfeeSeNm;
-	}
-	if(row.rentArSe != '0') {
-		row.rentArStr = (row.rentArSe != '3') ? row.rentArStr + '/' + row.rentArSeNm : row.rentArSeNm;  
-	}
-	if(row.priceSe == '2') {
-		row.applcRntfeeStr += '원/월';
-	}
-	if(row.aseRntfee == 0) {
-		row.aseRntfeeStr = '';
-	}
-	if(row.aseApplcBegin != void(0)) {
-		row.asePd = row.aseApplcBegin + '~' + row.aseApplcEnd;
-	}
+	row.oldRntfee = row.rntfee;
+	row.oldPayinstIntr = row.payinstIntr;
+	row.oldSupAmt = row.supAmt;
+	row.oldVat = row.vat;
+	row.oldPayAmt = row.payAmt;
 };
 
 <%--

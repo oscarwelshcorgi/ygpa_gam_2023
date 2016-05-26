@@ -38,9 +38,12 @@ public class GamPopupHtldRntfeeBizAssessVO extends ComDefaultVO{
 	private String applcBeginDt; 			/** 적용시작일 */
 	private String applcEndDt; 			/** 적용종료일 */
 	private String applcRntfee; 			/** 적용단가 */
+	private String priceSe;					/** 단가구분 */
+	private String rentAr;					/** 임대면적 */
 	private String rntfee; 					/** 임대료 */
 	private String rm;						/** 비고 */
 	private String regUsr;					/** 등록자 */
+	private String updUsr;					/** 수정자 */
 	/**
 	 * @return the mngYear
 	 */
@@ -174,6 +177,30 @@ public class GamPopupHtldRntfeeBizAssessVO extends ComDefaultVO{
 		this.applcRntfee = applcRntfee;
 	}
 	/**
+	 * @return the priceSe
+	 */
+	public String getPriceSe() {
+		return priceSe;
+	}
+	/**
+	 * @param priceSe the priceSe to set
+	 */
+	public void setPriceSe(String priceSe) {
+		this.priceSe = priceSe;
+	}
+	/**
+	 * @return the rentAr
+	 */
+	public String getRentAr() {
+		return rentAr;
+	}
+	/**
+	 * @param rentAr the rentAr to set
+	 */
+	public void setRentAr(String rentAr) {
+		this.rentAr = rentAr;
+	}
+	/**
 	 * @return the rntfee
 	 */
 	public String getRntfee() {
@@ -208,5 +235,17 @@ public class GamPopupHtldRntfeeBizAssessVO extends ComDefaultVO{
 	 */
 	public void setRegUsr(String regUsr) {
 		this.regUsr = regUsr;
+	}
+	/**
+	 * @return the updUsr
+	 */
+	public String getUpdUsr() {
+		return updUsr;
+	}
+	/**
+	 * @param updUsr the updUsr to set
+	 */
+	public void setUpdUsr(String updUsr) {
+		this.updUsr = updUsr;
 	}
 }

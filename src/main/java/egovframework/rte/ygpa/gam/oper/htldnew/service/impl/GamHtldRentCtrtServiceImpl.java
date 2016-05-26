@@ -121,6 +121,7 @@ public class GamHtldRentCtrtServiceImpl extends AbstractServiceImpl implements G
 		if(insertDetailList.size() > 0) {
 			for(GamHtldRentCtrtDetailVO detailItem : insertDetailList) {
 				detailItem.setRegUsr(updUsr);
+				detailItem.setRegistSeq(gamHtldRentCtrtDao.selectNextRegistSeq(updateRentData));
 				gamHtldRentCtrtDao.insertHtldRentCtrtDetail(detailItem);
 			}
 		}

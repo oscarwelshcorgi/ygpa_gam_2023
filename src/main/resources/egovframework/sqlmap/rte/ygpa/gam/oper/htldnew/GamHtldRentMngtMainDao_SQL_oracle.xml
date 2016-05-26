@@ -212,7 +212,7 @@
 				L.TERMN_YN = #sTermnYn#
 			</isNotEmpty>
 		ORDER BY
-			BOUND_CD, ENTRPS_CD, MNG_YEAR, MNG_NO, MNG_SEQ, REGIST_SEQ, RNTFEE_SE, RNTFEE_SEQ	
+			BOUND_CD, ENTRPS_CD, MNG_YEAR, MNG_NO, MNG_SEQ, RNTFEE_SE, REGIST_SEQ,  RNTFEE_SEQ	
 	</select>
 	 
 	<!-- Cofix 이자율 조회 -->

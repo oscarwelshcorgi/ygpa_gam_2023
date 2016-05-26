@@ -119,7 +119,7 @@
 			,TO_NUMBER(#applcRntfee#)
 			,TO_NUMBER(#rntfee#)
 			,0
-			,TO_NUMBER(#rntfee#)
+			,0
 			,0
 			,0
 			,#rm#
