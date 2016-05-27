@@ -45,8 +45,8 @@ public class GamPopupHtldBizAssessServiceImpl extends AbstractServiceImpl implem
 	@Resource(name="gamPopupHtldBizAssessDao")
     private GamPopupHtldBizAssessDao gamPopupHtldBizAssessDao;
 
-	@Resource(name="gamHtldRentCtrtDao")
-    private GamHtldRentCtrtDao gamHtldRentCtrtDao;
+	@Resource(name="gamHtldRentCtrtHistDao")
+    private GamHtldRentCtrtHistDao gamHtldRentCtrtHistDao;
 	
 	protected Log log = LogFactory.getLog(this.getClass());
 	
@@ -135,20 +135,16 @@ public class GamPopupHtldBizAssessServiceImpl extends AbstractServiceImpl implem
 	 * @exception Exception
 	 */	
 	protected void insertHtldRentHist(GamPopupHtldBizAssessVO rentData) throws Exception {
-		GamHtldRentCtrtVO ctrtVO = new GamHtldRentCtrtVO();
-		ctrtVO.setMngYear(rentData.getMngYear());
-		ctrtVO.setMngNo(rentData.getMngNo());
-		ctrtVO.setMngSeq(rentData.getMngSeq());
 		
 		//임대계약 이력번호 생성
-		String histSeq = gamHtldRentCtrtDao.selectNextHistSeq(ctrtVO);
-		ctrtVO.setHistSeq(histSeq);
+		String histSeq = gamHtldRentCtrtHistDao.selectNextHistSeq(rentData);
+		rentData.setHistSeq(histSeq);
 		
 		//임대계약 이력등록
-		gamHtldRentCtrtDao.insertHtldRentCtrtHist(ctrtVO);
+		gamHtldRentCtrtHistDao.insertHtldRentCtrtHist(rentData);
 		
 		//임대계약 상세이력등록
-		gamHtldRentCtrtDao.insertHtldRentCtrtDetailHist(ctrtVO);		
+		gamHtldRentCtrtHistDao.insertHtldRentCtrtDetailHist(rentData);		
 	}
 
 	/**

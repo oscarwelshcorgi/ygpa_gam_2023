@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="ygpa.gam.oper.htldnew">
+	
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    
+    <typeAlias alias="GamHtldRentMngDefaultVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentMngDefaultVO"/>
+    
+	<!--  배후단지 임대계약 최신이력번호 조회 -->
+	<select id="gamHtldRentCtrtHistDao.selectHtldRentCtrtMaxHistSeq_S" parameterClass="GamHtldRentMngDefaultVO" resultClass="java.lang.String">
+		SELECT 
+		  NVL(MAX(HIST_SEQ), '0000') MAX_HIST_SEQ
+		FROM HTLD_RENT_HIST_F
+		WHERE
+		  MNG_YEAR = #mngYear#
+		  AND MNG_NO = #mngNo#
+		  AND MNG_SEQ = #mngSeq#
+	</select>
+
+	<!-- 배후단지 임대계약 이력번호 생성 -->
+	<select id="gamHtldRentCtrtHistDao.selectNextHistSeq_S" parameterClass="GamHtldRentMngDefaultVO" resultClass="java.lang.String">
+		SELECT 
+			LPAD(NVL(MAX(HIST_SEQ),0) + 1,'4','0') AS NEXT_HIST_SEQ
+		FROM 
+			HTLD_RENT_HIST_F 
+		WHERE 
+			MNG_YEAR=#mngYear# 
+			AND MNG_NO=#mngNo# 
+			AND MNG_SEQ=#mngSeq#
+	</select>
+
+	<!--  배후단지 임대계약 변경시 이력등록 -->
+	<insert id="gamHtldRentCtrtHistDao.insertHtldRentCtrtHist_S" parameterClass="GamHtldRentMngDefaultVO">
+		INSERT INTO HTLD_RENT_HIST_F (
+		  MNG_YEAR
+		  ,MNG_NO
+		  ,MNG_SEQ
+		  ,HIST_SEQ
+		  ,ENTRPS_CD
+		  ,BOUND_CD
+		  ,CHRGE_KND_CD
+		  ,GR_RENT_AR
+		  ,PAY_SE
+		  ,CTRT_BEGIN_DT
+		  ,CTRT_END_DT
+		  ,CTRT_DT
+		  ,TERMN_DT
+		  ,TERMN_RSN
+		  ,REG_USR
+		  ,REGIST_DT
+		  ,UPD_USR
+		  ,UPDT_DT
+		)
+		SELECT
+		  MNG_YEAR
+		  ,MNG_NO
+		  ,MNG_SEQ
+		  ,#histSeq# AS HIST_SEQ
+		  ,ENTRPS_CD
+		  ,BOUND_CD
+		  ,CHRGE_KND_CD
+		  ,GR_RENT_AR
+		  ,PAY_SE
+		  ,CTRT_BEGIN_DT
+		  ,CTRT_END_DT
+		  ,CTRT_DT
+		  ,TERMN_DT
+		  ,TERMN_RSN
+		  ,REG_USR
+		  ,REGIST_DT
+		  ,UPD_USR
+		  ,UPDT_DT
+		FROM HTLD_RENT_F
+		WHERE
+		  MNG_YEAR = #mngYear#
+		  AND MNG_NO = #mngNo#
+		  AND MNG_SEQ = #mngSeq#
+	</insert>
+
+	<!--  배후단지 임대관리 상세목록 변경시 이력등록 -->
+	<insert id="gamHtldRentCtrtHistDao.insertHtldRentCtrtDetailHist_D" parameterClass="GamHtldRentMngDefaultVO">
+		INSERT INTO HTLD_RENT_DETAIL_HIST_F (
+		  MNG_YEAR
+		  ,MNG_NO
+		  ,MNG_SEQ
+		  ,REGIST_SEQ
+		  ,HIST_SEQ
+		  ,GIS_ASSETS_PRT_AT_CODE
+		  ,GIS_ASSETS_CD
+		  ,GIS_ASSETS_SUB_CD
+		  ,DETAIL_PD_BEGIN
+		  ,DETAIL_PD_END
+		  ,RENT_AR
+		  ,RENT_AR_SE
+		  ,APPLC_RNTFEE
+		  ,ASE_RNTFEE
+		  ,ASE_APPLC_BEGIN
+		  ,ASE_APPLC_END
+		  ,APPLC_RSN
+		  ,ASSETS_NM
+		  ,PRICE_SE
+		  ,RM
+		  ,REG_USR
+		  ,REGIST_DT
+		)
+		SELECT 
+		  MNG_YEAR
+		  ,MNG_NO
+		  ,MNG_SEQ
+		  ,REGIST_SEQ
+		  ,#histSeq# AS HIST_SEQ
+		  ,GIS_ASSETS_PRT_AT_CODE
+		  ,GIS_ASSETS_CD
+		  ,GIS_ASSETS_SUB_CD
+		  ,DETAIL_PD_BEGIN
+		  ,DETAIL_PD_END
+		  ,RENT_AR
+		  ,RENT_AR_SE
+		  ,APPLC_RNTFEE
+		  ,ASE_RNTFEE
+		  ,ASE_APPLC_BEGIN
+		  ,ASE_APPLC_END
+		  ,APPLC_RSN
+		  ,ASSETS_NM
+		  ,PRICE_SE
+		  ,RM
+		  ,REG_USR
+		  ,REGIST_DT
+		FROM
+		  HTLD_RENT_DETAIL_F
+		WHERE
+		  MNG_YEAR = #mngYear#
+		  AND MNG_NO = #mngNo#
+		  AND MNG_SEQ = #mngSeq#
+	</insert>
+    
+</sqlMap>

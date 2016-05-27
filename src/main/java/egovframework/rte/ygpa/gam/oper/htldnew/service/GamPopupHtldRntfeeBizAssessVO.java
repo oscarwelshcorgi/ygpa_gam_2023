@@ -24,12 +24,9 @@ import egovframework.com.cmm.ComDefaultVO;
  * </pre>
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class GamPopupHtldRntfeeBizAssessVO extends ComDefaultVO{
+public class GamPopupHtldRntfeeBizAssessVO extends GamHtldRentMngDefaultVO{
 	private static final long serialVersionUID = 1L;
-
-	private String mngYear;				/** 관리년도 */
-	private String mngNo; 				/** 관리번호 */
-	private String mngSeq;				/** 관리순번 */
+	
 	private String rntfeeSeq;				/** 임대료순번 */
 	private String rentDetailRegistSeq;	/** 등록순번 */
 	private String rntfeeSe; 				/** 임대료구분 0 - 일반 1 -실적 2- 지적 3 - 추가*/
@@ -44,42 +41,6 @@ public class GamPopupHtldRntfeeBizAssessVO extends ComDefaultVO{
 	private String rm;						/** 비고 */
 	private String regUsr;					/** 등록자 */
 	private String updUsr;					/** 수정자 */
-	/**
-	 * @return the mngYear
-	 */
-	public String getMngYear() {
-		return mngYear;
-	}
-	/**
-	 * @param mngYear the mngYear to set
-	 */
-	public void setMngYear(String mngYear) {
-		this.mngYear = mngYear;
-	}
-	/**
-	 * @return the mngNo
-	 */
-	public String getMngNo() {
-		return mngNo;
-	}
-	/**
-	 * @param mngNo the mngNo to set
-	 */
-	public void setMngNo(String mngNo) {
-		this.mngNo = mngNo;
-	}
-	/**
-	 * @return the mngSeq
-	 */
-	public String getMngSeq() {
-		return mngSeq;
-	}
-	/**
-	 * @param mngSeq the mngSeq to set
-	 */
-	public void setMngSeq(String mngSeq) {
-		this.mngSeq = mngSeq;
-	}
 	/**
 	 * @return the rntfeeSeq
 	 */

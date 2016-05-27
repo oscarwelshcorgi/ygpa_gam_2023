@@ -39,6 +39,9 @@ public class GamHtldRentCtrtServiceImpl extends AbstractServiceImpl implements G
 
 	@Resource(name="gamHtldRentCtrtDao")
     private GamHtldRentCtrtDao gamHtldRentCtrtDao;
+	
+	@Resource(name="gamHtldRentCtrtHistDao")
+    private GamHtldRentCtrtHistDao gamHtldRentCtrtHistDao;
 
 	protected Log log = LogFactory.getLog(this.getClass());
 	
@@ -151,13 +154,13 @@ public class GamHtldRentCtrtServiceImpl extends AbstractServiceImpl implements G
 	 */	
 	protected void insertHtldRentHist(GamHtldRentCtrtVO rentData) throws Exception {
 		//임대계약 이력번호 생성
-		String histSeq = gamHtldRentCtrtDao.selectNextHistSeq(rentData);
+		String histSeq = gamHtldRentCtrtHistDao.selectNextHistSeq(rentData);
 		rentData.setHistSeq(histSeq);
 		
 		//임대계약 이력등록
-		gamHtldRentCtrtDao.insertHtldRentCtrtHist(rentData);
+		gamHtldRentCtrtHistDao.insertHtldRentCtrtHist(rentData);
 		
 		//임대계약 상세이력등록
-		gamHtldRentCtrtDao.insertHtldRentCtrtDetailHist(rentData);		
+		gamHtldRentCtrtHistDao.insertHtldRentCtrtDetailHist(rentData);		
 	}	
 }

@@ -24,14 +24,9 @@ import egovframework.com.cmm.ComDefaultVO;
  * </pre>
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class GamHtldRentCtrtDetailVO extends ComDefaultVO{
+public class GamHtldRentCtrtDetailVO extends GamHtldRentMngDefaultVO {
 	private static final long serialVersionUID = 1L;
 
-	private String mngYear;				/** 관리년도 */
-	private String mngNo; 				/** 관리번호 */
-	private String mngSeq;				/** 관리순번 */
-	private String registSeq; 				/** 등록순번 */
-	private String histSeq;					/** 이력순번 */
 	private String gisAssetsPrtAtCode;	/** GIS 자산 항코드 */
 	private String gisAssetsCd;			/** GIS 자산	코드 */
 	private String gisAssetsSubCd;		/** GIS 자산 SUB코드 */
@@ -51,66 +46,6 @@ public class GamHtldRentCtrtDetailVO extends ComDefaultVO{
 	private String registDt; 				/** 등록일시 */
 	private String updUsr;					/** 수정자 */
 	private String updtDt;					/** 수정일시 */
-	/**
-	 * @return the mngYear
-	 */
-	public String getMngYear() {
-		return mngYear;
-	}
-	/**
-	 * @param mngYear the mngYear to set
-	 */
-	public void setMngYear(String mngYear) {
-		this.mngYear = mngYear;
-	}
-	/**
-	 * @return the mngNo
-	 */
-	public String getMngNo() {
-		return mngNo;
-	}
-	/**
-	 * @param mngNo the mngNo to set
-	 */
-	public void setMngNo(String mngNo) {
-		this.mngNo = mngNo;
-	}
-	/**
-	 * @return the mngSeq
-	 */
-	public String getMngSeq() {
-		return mngSeq;
-	}
-	/**
-	 * @param mngSeq the mngSeq to set
-	 */
-	public void setMngSeq(String mngSeq) {
-		this.mngSeq = mngSeq;
-	}
-	/**
-	 * @return the registSeq
-	 */
-	public String getRegistSeq() {
-		return registSeq;
-	}
-	/**
-	 * @param registSeq the registSeq to set
-	 */
-	public void setRegistSeq(String registSeq) {
-		this.registSeq = registSeq;
-	}
-	/**
-	 * @return the histSeq
-	 */
-	public String getHistSeq() {
-		return histSeq;
-	}
-	/**
-	 * @param histSeq the histSeq to set
-	 */
-	public void setHistSeq(String histSeq) {
-		this.histSeq = histSeq;
-	}
 	/**
 	 * @return the gisAssetsPrtAtCode
 	 */
