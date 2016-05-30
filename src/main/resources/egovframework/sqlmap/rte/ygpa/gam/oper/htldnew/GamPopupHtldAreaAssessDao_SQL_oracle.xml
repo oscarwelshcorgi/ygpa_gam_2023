@@ -23,9 +23,10 @@
 			,TO_CHAR(F.APPLC_END_DT, 'YYYY-MM-DD') APPLC_END_DT
 			,NVL(F.APPLC_RENT_AR, 0) APPLC_RENT_AR
 			,NVL(F.APPLC_RNTFEE, 0) APPLC_RNTFEE
-			,D.PRICE_SE
+			,D.PRICE_SE PRICE_SE
 			,DECODE(R.TERMN_DT, NULL, 'N', 'Y') TERMN_YN
 		    ,DECODE(F.NTIC_SEQ, NULL, 'N', 'Y') NTIC_YN
+		    ,F.RM RM
 		FROM
 			HTLD_RNTFEE_F F
 		INNER JOIN
@@ -63,6 +64,7 @@
 			,RNTFEE_SEQ
 			,RENT_DETAIL_REGIST_SEQ
 			,RNTFEE_SE
+			,RNTFEE_SE_NM
 			,NTIC_BEGIN_DT
 			,NTIC_END_DT
 			,APPLC_BEGIN_DT
@@ -84,7 +86,8 @@
 			,#mngSeq#
 			,#rntfeeSeq#
 			,#rentDetailRegistSeq#
-			,#rntfeeSe#
+			,'2'
+			,'지적측정 정산분'
 			,TO_DATE(#nticBeginDt#, 'YYYY-MM-DD')
 			,TO_DATE(#nticEndDt#, 'YYYY-MM-DD')
 			,TO_DATE(#applcBeginDt#, 'YYYY-MM-DD')

@@ -50,12 +50,12 @@ GamHtldRentMngtMainModule.prototype.loadComplete = function() {
                     {display:'실적평가임대료', name:'aseRntfeeStr',width:90, sortable:false,align:'right'},
                     {display:'실적평가적용기간', name:'asePd',width:170, sortable:false,align:'center'},
                     {display:'구분', name:'paySeNm',width:45, sortable:false,align:'center'},
-    				{display:'임대료', name:'rntfee',width:120, sortable:false,align:'right', displayFormat: 'input-number'},
-    				{display:'분납이자', name:'payinstIntr',width:100, sortable:false,align:'right', displayFormat: 'input-number'},
-    				{display:'공급가액', name:'supAmt',width:120, sortable:false,align:'right', displayFormat: 'input-number'},
+    				{display:'임대료', name:'rntfee',width:110, sortable:false,align:'right', displayFormat: 'input-number'},
+    				{display:'분납이자', name:'payinstIntr',width:90, sortable:false,align:'right', displayFormat: 'input-number'},
+    				{display:'공급가액', name:'supAmt',width:110, sortable:false,align:'right', displayFormat: 'input-number'},
     				{display:'부가세', name:'vat',width:90, sortable:false,align:'right', displayFormat: 'input-number'},
-    				{display:'납부금액', name:'payAmt',width:120, sortable:false,align:'right', displayFormat: 'input-number'},
-    				{display:'비고', name:'rm',width:140, sortable:false,align:'left', displayFormat: 'input'},
+    				{display:'납부금액', name:'payAmt',width:110, sortable:false,align:'right', displayFormat: 'input-number'},
+    				{display:'비고', name:'rm',width:180, sortable:false,align:'left'},
                     {display:'상태', name:'nticMthNm',width:60, sortable:false,align:'left'}
                     ],
         showTableToggleBtn: false,
@@ -235,6 +235,7 @@ GamHtldRentMngtMainModule.prototype.onMainGridSelectedRow = function(row, rid, c
 GamHtldRentMngtMainModule.prototype.onMainGrildCellEdited = function (row, rid, cid) {
 	switch(cid) {
 		case 'rntfee':
+			
 		case 'payinstIntr':
 			break;
 		case 'supAmt':
@@ -277,21 +278,6 @@ GamHtldRentMngtMainModule.prototype.initDataRow = function(row) {
 	} else if (row.rntfeeSe != '9') { //소계가 아니라면 (즉 실적평가, 지적평가, 추가정산)
 		row._updtId = 'U';
 	}
-};
-
-<%--
-	mngDataCount - 계약당 하위 데이터 수 리턴
---%>
-GamHtldRentMngtMainModule.prototype.mngDataCount = function(mngYear, mngNo, mngSeq) {
-	var rows = this.$("#mainGrid").flexGetData();
-	var count = 0;
-	for(var i=0; i<rows.length; i++) {
-		var row = rows[i];
-		if((row.mngYear == mngYear) && (row.mngNo == row.mngNo) && (row.mngSeq == mngSeq) && (row.rntfeeSe != '9')) {
-			count++;
-		}
-	}
-	return count;
 };
 
 <%--

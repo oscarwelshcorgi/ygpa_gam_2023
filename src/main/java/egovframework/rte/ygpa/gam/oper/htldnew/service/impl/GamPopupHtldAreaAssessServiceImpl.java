@@ -61,7 +61,6 @@ public class GamPopupHtldAreaAssessServiceImpl  extends AbstractServiceImpl impl
 	 */
 	public void insertAreaAssess(GamPopupHtldAreaAssessVO vo) throws Exception {
 		vo.setRntfeeSeq(gamPopupHtldAreaAssessDao.selectNextRntfeeSeq(vo));
-		vo.setRntfeeSe("2");
 		vo.setRntfee(getAreaRntfee(vo));
 		gamPopupHtldAreaAssessDao.insertAreaAssess(vo);
 	}

@@ -113,6 +113,8 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 			int mngGroupCount = getMngGropListCount(feeList, mngYear, mngNo, mngSeq);
 			groupCount++;
 			
+			item.put("mngGroupCount", new BigDecimal(mngGroupCount));
+			
 			if(("0".equals(rntfeeSe)) && ("N".equals(nticYn))) {
 				rntFee = getRentFee(nticDate, paySe, priceSe, rentAr, applcRntfee, detailPdBegin, detailPdEnd, aseRntfee, aseApplcBegin, aseApplcEnd);
 				
@@ -146,29 +148,46 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 			}
 			
 			//가상 필드 추가
-			if("0".equals(rntfeeSe)) {
+			if("0".equals(rntfeeSe)) { //일반고지 데이터이면
 				item.put("detailPdStr", detailPdBegin + "~" + detailPdEnd);
-			} else {
-				item.put("detailPdStr", rntfeeSeNm);
-			}
-			if(!"0".equals(rentArSe)) {
-				if("3".equals(rentArSe)) {
-					item.put("rentArStr", rentArSeNm); //숙성실
-				} else {
-					item.put("rentArStr", rentArStr + "/" + rentArSeNm); //물류부지, 제조부지
+				if(!"0".equals(rentArSe)) {
+					if("3".equals(rentArSe)) {
+						item.put("rentArStr", rentArSeNm); //숙성실
+					} else {
+						item.put("rentArStr", rentArStr + "/" + rentArSeNm); //물류부지, 제조부지
+					}
+				}				
+				if("2".equals(priceSe)) { 
+					item.put("applcRntfeeStr", applcRntfeeStr + "원/월");
 				}
-			}
-			if("2".equals(priceSe)) { 
-				item.put("applcRntfeeStr", applcRntfeeStr + "원/월");
-			}
-			if(!"0".equals(rntfeeSe)) {
+				if(aseRntfee.compareTo(new BigDecimal(0)) == 0) {
+					item.put("aseRntfeeStr", "");
+				}
+				if(aseApplcBegin.length() > 0) {
+					item.put("asePd", aseApplcBegin + "~" + aseApplcEnd);
+				}
+			} else { //일반고지데이터가 아니라면
+				item.put("detailPdStr", rntfeeSeNm);
 				item.put("applcRntfeeStr", "");
-			}
-			if(aseRntfee.compareTo(new BigDecimal(0)) == 0) {
-				item.put("aseRntfeeStr", "");
-			}
-			if(aseApplcBegin.length() > 0) {
-				item.put("asePd", aseApplcBegin + "~" + aseApplcEnd);
+				if("1".equals(rntfeeSe)) { //실적평가데이터라면
+					if(!"0".equals(rentArSe)) {
+						if("3".equals(rentArSe)) {
+							item.put("rentArStr", rentArSeNm); //숙성실
+						} else {
+							item.put("rentArStr", rentArStr + "/" + rentArSeNm); //물류부지, 제조부지
+						}
+					}
+					if(aseRntfee.compareTo(new BigDecimal(0)) == 0) {
+						item.put("aseRntfeeStr", "");
+					}
+					if(aseApplcBegin.length() > 0) {
+						item.put("asePd", aseApplcBegin + "~" + aseApplcEnd);
+					}
+				} else { //실적평가데이터가 아니라면
+					item.put("rentArStr", "");
+					item.put("aseRntfeeStr", "");
+					item.put("asePd", "");
+				}
 			}
 
 			resultList.add(item);
@@ -199,6 +218,7 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 				totItem.put("applcRntfeeStr", "");
 				totItem.put("aseRntfeeStr", "");
 				totItem.put("asePd", "");
+				totItem.put("rm", "");
 				
 				resultList.add(totItem);
 

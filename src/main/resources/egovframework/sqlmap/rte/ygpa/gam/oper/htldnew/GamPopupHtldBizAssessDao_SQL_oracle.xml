@@ -92,6 +92,7 @@
 			,RNTFEE_SEQ
 			,RENT_DETAIL_REGIST_SEQ
 			,RNTFEE_SE
+			,RNTFEE_SE_NM
 			,NTIC_BEGIN_DT
 			,NTIC_END_DT
 			,APPLC_BEGIN_DT
@@ -112,7 +113,8 @@
 			,#mngSeq#
 			,#rntfeeSeq#
 			,#rentDetailRegistSeq#
-			,#rntfeeSe#
+			,'1'
+			,'실적평가 정산분'
 			,TO_DATE(#nticBeginDt#, 'YYYY-MM-DD')
 			,TO_DATE(#nticEndDt#, 'YYYY-MM-DD')
 			,TO_DATE(#applcBeginDt#, 'YYYY-MM-DD')

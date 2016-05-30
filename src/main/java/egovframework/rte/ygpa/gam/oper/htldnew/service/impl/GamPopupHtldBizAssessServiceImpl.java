@@ -114,7 +114,6 @@ public class GamPopupHtldBizAssessServiceImpl extends AbstractServiceImpl implem
 			insertVO.setMngSeq(vo.getMngSeq());
 			insertVO.setRntfeeSeq(gamPopupHtldBizAssessDao.selectNextRntfeeSeq(vo));
 			insertVO.setRentDetailRegistSeq(vo.getRegistSeq());
-			insertVO.setRntfeeSe("1");
 			insertVO.setNticBeginDt(nticBeginDt.toString());
 			insertVO.setNticEndDt(nticEndDt.toString());
 			insertVO.setApplcBeginDt(startDate.toString());
