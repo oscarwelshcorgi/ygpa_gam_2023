@@ -63,6 +63,7 @@ GamHtldRentCtrtModule.prototype.loadComplete = function(params) {
 		preProcess: function(module, data) {
 			module._mode = 'U';
 			module.makeFormValues('#gamHtldRentCtrtForm', data.resultMaster);
+			module.$('#histDt').val(module._histDt);
 			module._deleteRentDetailList = [];
 			$.each(data.resultList, function() {
 				module.initDataRow(this);
@@ -125,6 +126,8 @@ GamHtldRentCtrtModule.prototype.loadComplete = function(params) {
 		this.$('#mngYear').val(params.searchRow.mngYear);
 		this.$('#mngNo').val(params.searchRow.mngNo);
 		this.$('#mngSeq').val(params.searchRow.mngSeq);
+		this.$('#histDt').val(params.histDt);
+		this._histDt = params.histDt;
 		this.loadData();
 	} else {
 		this._mode = 'I';
@@ -187,6 +190,15 @@ GamHtldRentCtrtModule.prototype.onClosePopup = function(popupId, msg, value) {
 			this.terminateRent(value);
 		}
 		break;
+	case 'areaAssessPopup' :
+		if(this._changeRowsId < (this._rentArChangedRows.length-1)) {
+			this._changeRowsId++;
+			var row = this._rentArChangedRows[this._changeRowsId];
+			this.doExecuteDialog('areaAssessPopup', '임대면적변경', '/popup/showHtldAreaAssess.do', {}, {'searchRow' : row, 'mode' : 'I', 'histDt' : this._histDt} );
+		} else {
+			this.closeWindow('SAVE_RENTCONTRACT');
+		}
+		break;
 	}
 };
 
@@ -215,6 +227,7 @@ GamHtldRentCtrtModule.prototype.initDataRow = function(row) {
 			row.assetsLocplcAll 		+= "-" + row.gisAssetsLnmSub;
 		}
 	}
+	row.oldRentAr = row.rentAr;
 	row._updtId = '';
 };
 
@@ -396,11 +409,34 @@ GamHtldRentCtrtModule.prototype.saveData = function() {
 	var actionUrl = (this._mode == 'I') ? '/oper/htldnew/insertHtldRentCtrt.do' : '/oper/htldnew/updateHtldRentCtrt.do';
 	
 	this.doAction(actionUrl, constractData, function(module, result) {
-		alert(result.resultMsg);
 		if(result.resultCode == 0) {
-			module.closeWindow('SAVE_RENTCONTRACT');
+			module._rentArChangedRows = module.getRentArChangedRows();
+			if(module._rentArChangedRows.length > 0) {
+				module._changeRowsId = 0;
+				var row = module._rentArChangedRows[module._changeRowsId];
+				module.doExecuteDialog('areaAssessPopup', '임대면적변경 정산', '/popup/showHtldAreaAssess.do', {}, {'searchRow' : row, 'mode' : 'I', 'histDt' : this._histDt} );
+			} else {
+				module.closeWindow('SAVE_RENTCONTRACT'); 
+			}
+		} else {
+			alert(result.resultMsg);
 		}
 	});
+};
+
+<%--
+	getRentArChangedRows - 임대 면적이 변한 데이터 가져오기
+--%>
+GamHtldRentCtrtModule.prototype.getRentArChangedRows = function() {
+	var ret = [];
+	rows = this.$('#rentDetailList').selectFilterData([{col: '_updtId', filter: 'U'}]);
+	for(var i=0; i<rows.length; i++) {
+		var row = rows[i];
+		if(row.rentAr != row.oldRentAr) {
+			ret[ret.length] = row;
+		}
+	}
+	return ret;
 };
 
 <%--
@@ -444,7 +480,7 @@ var module_instance = new GamHtldRentCtrtModule();
 				<input type="hidden" id="mngNo" />
 				<input type="hidden" id="mngSeq" />
 				<input type="hidden" id="histSeq"/>
-				<input type="hidden" id="sHistDt"/>
+				<input type="hidden" id="histDt"/>
 				
 	        	<table class="editForm" style="width:100%">
 	        		<tr>

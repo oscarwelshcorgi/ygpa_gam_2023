@@ -43,7 +43,8 @@ GamPopupHtldBizAssessModule.prototype.loadComplete = function(params) {
 	this.$('#mngSeq').val(params.searchRow.mngSeq);
 	this.$('#registSeq').val(params.searchRow.registSeq);
 	this._searchRow = params.searchRow;
-	this._searchNticDt = params.searchNticDt;
+	this._histDt = params.histDt;
+	this.$('#histDt').val(this._histDt);
 	this.loadData();
 };
 
@@ -81,7 +82,7 @@ GamPopupHtldBizAssessModule.prototype.loadData = function() {
 				}
 			}
 			module.makeFormValues('#gamPopupHtldBizAssessForm', result.resultDetail);
-			module.$('#sNticDt').val(module._searchNticDt);
+			module.$('#histDt').val(module._histDt);
 			module.initControls();
 		}
 	});
@@ -157,7 +158,7 @@ var popup_instance = new GamPopupHtldBizAssessModule();
 			<input type="hidden" id="mngNo" />
 			<input type="hidden" id="mngSeq" />
 			<input type="hidden" id="registSeq"/>
-			<input type="hidden" id="sNticDt"/>
+			<input type="hidden" id="histDt"/>
 			<input type="hidden" id="paySe"/>
 			<input type="hidden" id="priceSe"/>
 			<input type="hidden" id="termnYn">

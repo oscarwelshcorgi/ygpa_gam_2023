@@ -48,6 +48,7 @@
 		  ,CTRT_DT
 		  ,TERMN_DT
 		  ,TERMN_RSN
+		  ,HIST_DT
 		  ,REG_USR
 		  ,REGIST_DT
 		  ,UPD_USR
@@ -68,6 +69,7 @@
 		  ,CTRT_DT
 		  ,TERMN_DT
 		  ,TERMN_RSN
+		  ,TO_DATE(#histDt#, 'YYYY-MM-DD') AS HIST_DT
 		  ,REG_USR
 		  ,REGIST_DT
 		  ,UPD_USR
@@ -102,8 +104,11 @@
 		  ,ASSETS_NM
 		  ,PRICE_SE
 		  ,RM
+		  ,HIST_DT
 		  ,REG_USR
 		  ,REGIST_DT
+		  ,UPD_USR
+		  ,UPDT_DT
 		)
 		SELECT 
 		  MNG_YEAR
@@ -126,8 +131,11 @@
 		  ,ASSETS_NM
 		  ,PRICE_SE
 		  ,RM
+		  ,TO_DATE(#histDt#, 'YYYY-MM-DD') AS HIST_DT
 		  ,REG_USR
 		  ,REGIST_DT
+		  ,UPD_USR
+		  ,UPDT_DT
 		FROM
 		  HTLD_RENT_DETAIL_F
 		WHERE

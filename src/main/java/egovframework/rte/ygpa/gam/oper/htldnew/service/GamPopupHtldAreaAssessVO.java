@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 /**
  * 
  * @author Jongmin
- * @since 2016. 5. 15.
+ * @since 2016. 5. 30.
  * @version 1.0
  * @see
  * <pre>
@@ -16,13 +16,13 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  *   
  *   수정일 		 수정자		 수정내용
  *  -------		--------	---------------------------
- *  2016. 5. 15.		Jongmin		최초 생성
+ *  2016. 5. 30.		Jongmin		최초 생성
  *
  * Copyright (C) 2013 by LFIT  All right reserved.
  * </pre>
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class GamPopupHtldRntfeeBizAssessVO extends GamHtldRentMngDefaultVO{
+public class GamPopupHtldAreaAssessVO extends GamHtldRentMngDefaultVO{
 	private static final long serialVersionUID = 1L;
 	
 	private String rntfeeSeq;				/** 임대료순번 */
@@ -33,8 +33,8 @@ public class GamPopupHtldRntfeeBizAssessVO extends GamHtldRentMngDefaultVO{
 	private String applcBeginDt; 			/** 적용시작일 */
 	private String applcEndDt; 			/** 적용종료일 */
 	private String applcRntfee; 			/** 적용단가 */
+	private String applcRentAr;			/** 적용면적 */
 	private String priceSe;					/** 단가구분 */
-	private String rentAr;					/** 임대면적 */
 	private String rntfee; 					/** 임대료 */
 	private String rm;						/** 비고 */
 	private String regUsr;					/** 등록자 */
@@ -136,6 +136,18 @@ public class GamPopupHtldRntfeeBizAssessVO extends GamHtldRentMngDefaultVO{
 		this.applcRntfee = applcRntfee;
 	}
 	/**
+	 * @return the applcRentAr
+	 */
+	public String getApplcRentAr() {
+		return applcRentAr;
+	}
+	/**
+	 * @param applcRentAr the applcRentAr to set
+	 */
+	public void setApplcRentAr(String applcRentAr) {
+		this.applcRentAr = applcRentAr;
+	}
+	/**
 	 * @return the priceSe
 	 */
 	public String getPriceSe() {
@@ -146,18 +158,6 @@ public class GamPopupHtldRntfeeBizAssessVO extends GamHtldRentMngDefaultVO{
 	 */
 	public void setPriceSe(String priceSe) {
 		this.priceSe = priceSe;
-	}
-	/**
-	 * @return the rentAr
-	 */
-	public String getRentAr() {
-		return rentAr;
-	}
-	/**
-	 * @param rentAr the rentAr to set
-	 */
-	public void setRentAr(String rentAr) {
-		this.rentAr = rentAr;
 	}
 	/**
 	 * @return the rntfee

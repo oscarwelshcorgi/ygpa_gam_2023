@@ -17,7 +17,6 @@ import org.joda.time.Months;
 import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
-import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentCtrtVO;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamPopupHtldBizAssessService;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamPopupHtldBizAssessVO;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamPopupHtldRntfeeBizAssessVO;
@@ -78,10 +77,10 @@ public class GamPopupHtldBizAssessServiceImpl extends AbstractServiceImpl implem
 		LocalDate detailPdBeginDate = new LocalDate(dateFormat.parse(vo.getDetailPdBegin()));
 		LocalDate aseApplcBeginDate = new LocalDate(dateFormat.parse(vo.getAseApplcBegin()));
 		LocalDate aseApplcEndDate = new LocalDate(dateFormat.parse(vo.getAseApplcEnd()));
-		LocalDate sNitcDate = new LocalDate(dateFormat.parse(vo.getsNticDt()));
-		LocalDate quarterStartDate = getQuarterStartDate(sNitcDate);
+		LocalDate histDt = new LocalDate(dateFormat.parse(vo.getHistDt()));
+		LocalDate quarterStartDate = getQuarterStartDate(histDt);
 		if("6".equals(vo.getPaySe())) {
-			quarterStartDate = new LocalDate(sNitcDate.getYear(), 1, 1);
+			quarterStartDate = new LocalDate(histDt.getYear(), 1, 1);
 		}
 		LocalDate compareDate = (quarterStartDate.compareTo(detailPdBeginDate) > 0) ? quarterStartDate : detailPdBeginDate;
 		if(aseApplcBeginDate.compareTo(compareDate)<0) {
@@ -102,11 +101,11 @@ public class GamPopupHtldBizAssessServiceImpl extends AbstractServiceImpl implem
 			}
 			BigDecimal rntfee = getTotalFee(startDate, endDate, aseMonthFee);
 			
-			LocalDate nticBeginDt = getQuarterStartDate(sNitcDate);
-			LocalDate nticEndDt = getQuarterEndDate(sNitcDate);
+			LocalDate nticBeginDt = getQuarterStartDate(histDt);
+			LocalDate nticEndDt = getQuarterEndDate(histDt);
 			if("6".equals(vo.getPaySe())) {
-				nticBeginDt = new LocalDate(sNitcDate.getYear(), 1, 1);
-				nticEndDt = new LocalDate(sNitcDate.getYear(), 12, 31);
+				nticBeginDt = new LocalDate(histDt.getYear(), 1, 1);
+				nticEndDt = new LocalDate(histDt.getYear(), 12, 31);
 			}
 			
 			GamPopupHtldRntfeeBizAssessVO insertVO = new GamPopupHtldRntfeeBizAssessVO();

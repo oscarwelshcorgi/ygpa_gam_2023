@@ -33,11 +33,12 @@
 		  ,TO_CHAR(TERMN_DT, 'YYYY-MM-DD') TERMN_DT
 		  ,DECODE(TERMN_DT, NULL, 'N', 'Y') TERMN_YN
 		  ,TERMN_RSN
-		FROM HTLD_RENT_F
+		FROM HTLD_RENT_HIST_F
 		WHERE
 		  MNG_YEAR = #mngYear#
 		  AND MNG_NO = #mngNo#
 		  AND MNG_SEQ = #mngSeq#
+		  AND HIST_SEQ = GAM_GET_HTLD_RENT_HIST_SEQ(#mngYear#, #mngNo#, #mngSeq#, #histDt#)
 	</select>
 	
 	<!--  배후단지 임대계약 상세목록 조회 -->
@@ -62,7 +63,7 @@
 			,F.GIS_ASSETS_LNM
 			,F.GIS_ASSETS_LNM_SUB
 		FROM
-		  HTLD_RENT_DETAIL_F D
+		  HTLD_RENT_DETAIL_HIST_F D
 		LEFT OUTER JOIN GIS_ASSETS_CD_F F 
 		ON
 			D.GIS_ASSETS_PRT_AT_CODE = F.GIS_ASSETS_PRT_AT_CODE AND D.GIS_ASSETS_CD = F.GIS_ASSETS_CD AND D.GIS_ASSETS_SUB_CD = F.GIS_ASSETS_SUB_CD
@@ -70,6 +71,7 @@
 			D.MNG_YEAR = #mngYear#
 			AND D.MNG_NO = #mngNo#
 			AND D.MNG_SEQ = #mngSeq#
+		  	AND D.HIST_SEQ = GAM_GET_HTLD_RENT_HIST_SEQ(#mngYear#, #mngNo#, #mngSeq#, #histDt#)
 		ORDER BY
 			D.REGIST_SEQ ASC
 	</select>

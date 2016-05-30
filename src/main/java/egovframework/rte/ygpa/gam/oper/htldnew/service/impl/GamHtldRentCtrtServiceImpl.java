@@ -79,6 +79,7 @@ public class GamHtldRentCtrtServiceImpl extends AbstractServiceImpl implements G
 		insertRentData.setMngYear(mngKey.getMngYear());
 		insertRentData.setMngNo(mngKey.getMngNo());
 		insertRentData.setMngSeq(mngKey.getMngSeq());
+		insertRentData.setHistDt(insertRentData.getCtrtBeginDt());
 		gamHtldRentCtrtDao.insertHtldRentCtrt(insertRentData);
 		
 		//임대계약 상세목록 및 임대료 등록

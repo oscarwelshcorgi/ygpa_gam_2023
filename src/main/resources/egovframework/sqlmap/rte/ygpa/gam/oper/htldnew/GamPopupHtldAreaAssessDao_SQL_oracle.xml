@@ -5,9 +5,10 @@
 
 	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
-    <typeAlias alias="GamPopupHtldRntfeeBizAssessVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamPopupHtldRntfeeBizAssessVO"/>
-    
-    <select id="gamPopupHtldRntfeeBizAssessDao.selectHtldRntfeeBizAssessDetail_S" parameterClass="GamPopupHtldRntfeeBizAssessVO" resultClass="egovMap">
+    <typeAlias alias="GamPopupHtldAreaAssessVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamPopupHtldAreaAssessVO"/>
+
+	<!-- 지적평가 조회 -->
+	<select  id="gamPopupHtldAreaAssessDao.selectAreaAssessDetail_S" parameterClass="GamPopupHtldAreaAssessVO" resultClass="egovMap">
 		SELECT
 			F.MNG_YEAR MNG_YEAR
 			,F.MNG_NO MNG_NO
@@ -20,6 +21,7 @@
 			,DECODE(D.RENT_AR_SE, '1', '물류부지', '2', '제조부지', '3', '숙성실', '') RENT_AR_SE_NM
 			,TO_CHAR(F.APPLC_BEGIN_DT, 'YYYY-MM-DD') APPLC_BEGIN_DT
 			,TO_CHAR(F.APPLC_END_DT, 'YYYY-MM-DD') APPLC_END_DT
+			,NVL(F.APPLC_RENT_AR, 0) APPLC_RENT_AR
 			,NVL(F.APPLC_RNTFEE, 0) APPLC_RNTFEE
 			,D.PRICE_SE
 			,DECODE(R.TERMN_DT, NULL, 'N', 'Y') TERMN_YN
@@ -37,16 +39,77 @@
 			AND F.MNG_NO = #mngNo#
 			AND F.MNG_SEQ = #mngSeq#
 			AND F.RNTFEE_SEQ = #rntfeeSeq#
-			AND F.RNTFEE_SE = '1'
-    </select>
-    
-	<!-- 실적평가정산 수정 -->
-	<update id="gamPopupHtldRntfeeBizAssessDao.updateRntfeeBizAssess_S" parameterClass="GamPopupHtldRntfeeBizAssessVO">
+			AND F.RNTFEE_SE = '2'
+	</select>
+			
+	<!-- 배후단지 임대료 순번 생성 -->
+	<select id="gamPopupHtldAreaAssessDao.selectNextRntfeeSeq_S" parameterClass="GamPopupHtldAreaAssessVO" resultClass="java.lang.String">
+   		SELECT
+   		  	LPAD(NVL(MAX(RNTFEE_SEQ),0) + 1,'3','0')
+   		FROM
+   		  	HTLD_RNTFEE_F
+   		WHERE
+			MNG_YEAR=#mngYear# 
+			AND MNG_NO=#mngNo# 
+			AND MNG_SEQ=#mngSeq#
+	</select>
+	
+	<!-- 지적평가 등록(임대료) -->
+	<insert  id="gamPopupHtldAreaAssessDao.insertAreaAssess_S" parameterClass="GamPopupHtldAreaAssessVO">
+		INSERT INTO HTLD_RNTFEE_F (
+			MNG_YEAR
+			,MNG_NO
+			,MNG_SEQ
+			,RNTFEE_SEQ
+			,RENT_DETAIL_REGIST_SEQ
+			,RNTFEE_SE
+			,NTIC_BEGIN_DT
+			,NTIC_END_DT
+			,APPLC_BEGIN_DT
+			,APPLC_END_DT
+			,APPLC_RNTFEE
+			,APPLC_RENT_AR
+			,RNTFEE
+			,PAYINST_INTR
+			,SUP_AMT
+			,VAT
+			,PAY_AMT
+			,RM
+			,REG_USR
+			,REGIST_DT
+		)
+		VALUES (
+			#mngYear#
+			,#mngNo#
+			,#mngSeq#
+			,#rntfeeSeq#
+			,#rentDetailRegistSeq#
+			,#rntfeeSe#
+			,TO_DATE(#nticBeginDt#, 'YYYY-MM-DD')
+			,TO_DATE(#nticEndDt#, 'YYYY-MM-DD')
+			,TO_DATE(#applcBeginDt#, 'YYYY-MM-DD')
+			,TO_DATE(#applcEndDt#, 'YYYY-MM-DD')
+			,TO_NUMBER(#applcRntfee#)
+			,TO_NUMBER(#applcRentAr#)
+			,TO_NUMBER(#rntfee#)
+			,0
+			,0
+			,0
+			,0
+			,#rm#
+			,#regUsr#
+			,SYSDATE
+		)
+	</insert>
+	
+	<!-- 지적평가정산 수정 -->
+	<update id="gamPopupHtldAreaAssessDao.updateAreaAssess_S" parameterClass="GamPopupHtldAreaAssessVO">
 		UPDATE HTLD_RNTFEE_F
 		SET
 			APPLC_BEGIN_DT = TO_DATE(#applcBeginDt#, 'YYYY-MM-DD')
 			,APPLC_END_DT = TO_DATE(#applcEndDt#, 'YYYY-MM-DD')
 			,APPLC_RNTFEE = TO_NUMBER(#applcRntfee#)
+			,APPLC_RENT_AR = TO_NUMBER(#applcRentAr#)
 			,RNTFEE = TO_NUMBER(#rntfee#)
 			,UPD_USR = #updUsr#
 			,UPDT_DT = SYSDATE
@@ -55,18 +118,18 @@
 			AND MNG_NO = #mngNo#
 			AND MNG_SEQ = #mngSeq#
 			AND RNTFEE_SEQ = #rntfeeSeq#
-			AND RNTFEE_SE = '1'
+			AND RNTFEE_SE = '2'
 	</update>
 	
-	<!-- 실적평가정산 삭제 -->
-	<delete id="gamPopupHtldRntfeeBizAssessDao.deleteRntfeeBizAssess_S" parameterClass="GamPopupHtldRntfeeBizAssessVO">
+	<!-- 지적평가정산 삭제 -->
+	<delete id="gamPopupHtldAreaAssessDao.deleteAreaAssess_S" parameterClass="GamPopupHtldAreaAssessVO">
 		DELETE FROM HTLD_RNTFEE_F
 		WHERE
 			MNG_YEAR = #mngYear#
 			AND MNG_NO = #mngNo#
 			AND MNG_SEQ = #mngSeq#
 			AND RNTFEE_SEQ = #rntfeeSeq#
-			AND RNTFEE_SE = '1'
+			AND RNTFEE_SE = '2'
 	</delete>	
-
+	
 </sqlMap>

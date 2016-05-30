@@ -32,6 +32,7 @@ public class GamHtldRentMngDefaultVO extends ComDefaultVO{
 	private String mngSeq;				/** 관리순번 */
 	private String registSeq; 				/** 등록순번 */
 	private String histSeq;					/** 이력순번 */
+	private String histDt;					/** 이력기준일자 */
 	/**
 	 * @return the mngYear
 	 */
@@ -91,5 +92,17 @@ public class GamHtldRentMngDefaultVO extends ComDefaultVO{
 	 */
 	public void setHistSeq(String histSeq) {
 		this.histSeq = histSeq;
+	}
+	/**
+	 * @return the histDt
+	 */
+	public String getHistDt() {
+		return histDt;
+	}
+	/**
+	 * @param histDt the histDt to set
+	 */
+	public void setHistDt(String histDt) {
+		this.histDt = histDt;
 	}
 }

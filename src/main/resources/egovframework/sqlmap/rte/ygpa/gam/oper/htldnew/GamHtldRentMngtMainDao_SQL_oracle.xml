@@ -108,7 +108,12 @@
 					,F.RCIV_SE RCIV_SE
 					,TO_CHAR(F.RCIV_DT, 'YYYY-MM-DD') RCIV_DT
 				FROM
-					HTLD_RENT_DETAIL_F D
+					<isNotEmpty property="sNticDt">
+						(SELECT A.* FROM HTLD_RENT_DETAIL_HIST_F A WHERE A.HIST_SEQ = GAM_GET_HTLD_RENT_HIST_SEQ(A.MNG_YEAR, A.MNG_NO, A.MNG_SEQ, #sNticDt#)) D
+					</isNotEmpty>
+					<isEmpty property="sNticDt">
+						(SELECT A.* FROM HTLD_RENT_DETAIL_HIST_F A WHERE A.HIST_SEQ = GAM_GET_HTLD_RENT_HIST_SEQ(A.MNG_YEAR, A.MNG_NO, A.MNG_SEQ, TO_CHAR(SYSDATE, 'YYYY-MM-DD'))) D
+					</isEmpty>
 				LEFT OUTER JOIN
 					HTLD_RNTFEE_F F
 					ON D.MNG_YEAR = F.MNG_YEAR AND D.MNG_NO = F.MNG_NO AND D.MNG_SEQ = F.MNG_SEQ 
@@ -128,7 +133,12 @@
 							]]>
 						</isEmpty>
 				INNER JOIN
-					HTLD_RENT_F R
+					<isNotEmpty property="sNticDt">
+						(SELECT B.* FROM HTLD_RENT_HIST_F B WHERE B.HIST_SEQ = GAM_GET_HTLD_RENT_HIST_SEQ(B.MNG_YEAR, B.MNG_NO, B.MNG_SEQ, #sNticDt#)) R
+					</isNotEmpty>
+					<isEmpty property="sNticDt">
+						(SELECT B.* FROM HTLD_RENT_HIST_F B WHERE B.HIST_SEQ = GAM_GET_HTLD_RENT_HIST_SEQ(B.MNG_YEAR, B.MNG_NO, B.MNG_SEQ, TO_CHAR(SYSDATE, 'YYYY-MM-DD'))) R
+					</isEmpty>					
 					ON D.MNG_YEAR = R.MNG_YEAR AND D.MNG_NO = R.MNG_NO AND D.MNG_SEQ = R.MNG_SEQ
 				)
 				UNION ALL
@@ -183,7 +193,12 @@
 				FROM
 					HTLD_RNTFEE_F F
 				LEFT OUTER JOIN
-					HTLD_RENT_DETAIL_F D
+					<isNotEmpty property="sNticDt">
+						(SELECT A.* FROM HTLD_RENT_DETAIL_HIST_F A WHERE A.HIST_SEQ = GAM_GET_HTLD_RENT_HIST_SEQ(A.MNG_YEAR, A.MNG_NO, A.MNG_SEQ, #sNticDt#)) D
+					</isNotEmpty>
+					<isEmpty property="sNticDt">
+						(SELECT A.* FROM HTLD_RENT_DETAIL_HIST_F A WHERE A.HIST_SEQ = GAM_GET_HTLD_RENT_HIST_SEQ(A.MNG_YEAR, A.MNG_NO, A.MNG_SEQ, TO_CHAR(SYSDATE, 'YYYY-MM-DD'))) D
+					</isEmpty>
 					ON D.MNG_YEAR = F.MNG_YEAR AND D.MNG_NO = F.MNG_NO AND D.MNG_SEQ = F.MNG_SEQ AND D.REGIST_SEQ = F.RENT_DETAIL_REGIST_SEQ AND (F.RNTFEE_SE = '1' OR F.RNTFEE_SE = '2')
 						<isNotEmpty property="sNticDt" prepend="AND">
 							<![CDATA[
@@ -200,7 +215,12 @@
 							]]>
 						</isEmpty>
 				INNER JOIN
-					HTLD_RENT_F R
+					<isNotEmpty property="sNticDt">
+						(SELECT B.* FROM HTLD_RENT_HIST_F B WHERE B.HIST_SEQ = GAM_GET_HTLD_RENT_HIST_SEQ(B.MNG_YEAR, B.MNG_NO, B.MNG_SEQ, #sNticDt#)) R
+					</isNotEmpty>
+					<isEmpty property="sNticDt">
+						(SELECT B.* FROM HTLD_RENT_HIST_F B WHERE B.HIST_SEQ = GAM_GET_HTLD_RENT_HIST_SEQ(B.MNG_YEAR, B.MNG_NO, B.MNG_SEQ, TO_CHAR(SYSDATE, 'YYYY-MM-DD'))) R
+					</isEmpty>					
 					ON D.MNG_YEAR = R.MNG_YEAR AND D.MNG_NO = R.MNG_NO AND D.MNG_SEQ = R.MNG_SEQ
 				)
 			) L

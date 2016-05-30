@@ -75,6 +75,11 @@ GamHtldRentMngtMainModule.prototype.loadComplete = function() {
     	module.onMainGridSelectedRow(row, rid, cid);
     });
 	
+	// 셀 편집이 이루어졌을 때
+    this.$("#mainGrid").on('onCellEdited', function(event, module, row, rid, cid) {
+    	module.onMainGrildCellEdited(row, rid, cid);
+    });
+
     var today = new Date();
     var searchYear = today.getFullYear();
     var searchMonth = today.getMonth() + 1;
@@ -125,6 +130,7 @@ GamHtldRentMngtMainModule.prototype.onClosePopup = function(popupId, msg, value)
 	switch (popupId) {
 		case 'bizAssessRegPopup':
 		case 'bizAssessUpdatePopup':
+		case 'areaAssessPopup':
 		case 'intrrateMngtPopup':
 			if (msg != 'cancel') {
 				this.loadData();
@@ -155,25 +161,89 @@ GamHtldRentMngtMainModule.prototype.closeChildWindow = function(module, message)
 GamHtldRentMngtMainModule.prototype.onMainGridSelectedRow = function(row, rid, cid) {
 	switch(cid) {
 		case 'entrpsNm':
-			EMD.util.create_window('gamHtldRentContract', '배후단지 임대계약', '/oper/htldnew/gamHtldRentCtrt.do', null, {'searchRow' : row}, this);
+			EMD.util.create_window('gamHtldRentContract', '배후단지 임대계약', '/oper/htldnew/gamHtldRentCtrt.do', null, {'searchRow' : row, 'histDt' : this.$('#sNticDt').val()}, this);
 			break;
 		case 'detailPdStr':
 		case 'rentArStr':
 			if(row.rntfeeSe == '0') {
-				EMD.util.create_window('gamHtldRentContract', '배후단지 임대계약', '/oper/htldnew/gamHtldRentCtrt.do', null, {'searchRow' : row}, this);
+				EMD.util.create_window('gamHtldRentContract', '배후단지 임대계약', '/oper/htldnew/gamHtldRentCtrt.do', null, {'searchRow' : row, 'histDt' : this.$('#sNticDt').val()}, this);
 			} else if(row.rntfeeSe == '1') {
-				this.doExecuteDialog('bizAssessUpdatePopup', '실적평가 정산 수정 및 삭제', '/popup/showHtldRntfeeBizAssess.do', {}, {'searchRow' : row} );
+				if((row.termnYn == 'N') && (row.nticYn == 'N')) {
+					this.doExecuteDialog('bizAssessUpdatePopup', '실적평가 정산', '/popup/showHtldRntfeeBizAssess.do', {}, {'searchRow' : row} );
+				} else {
+					if(row.termnYn == 'Y') {
+						alert('해지된 계약이기에 실적평가 정산 수정이 불가능합니다.');
+					} else if(row.nticYn == 'Y') {
+						alert('고지된 상태이기에 실적평가 정산 수정이 불가능합니다.');
+					}					
+				}
+			} else if(row.rntfeeSe == '2') {
+				if((row.termnYn == 'N') && (row.nticYn == 'N')) {
+					this.doExecuteDialog('areaAssessPopup', '임대면적변경 정산', '/popup/showHtldAreaAssess.do', {}, {'searchRow' : row, 'mode' : 'U', 'histDt' : this.$('#sNticDt').val()} );
+				} else {
+					if(row.termnYn == 'Y') {
+						alert('해지된 계약이기에 임대면적변경 정산 수정이 불가능합니다.');
+					} else if(row.nticYn == 'Y') {
+						alert('고지된 상태이기에 임대면적변경 정산 수정이 불가능합니다.');
+					}
+				}
 			}
 			break;
 		case 'aseRntfeeStr':
 		case 'asePd':
 			if(row.rntfeeSe == '0') {
-				this.doExecuteDialog('bizAssessRegPopup', '실적평가 임대료 등록', '/popup/showHtldBizAssess.do', {}, {'searchRow' : row, 'searchNticDt' : this.$('#sNticDt').val()} );
+				if((row.termnYn == 'N') && (row.nticYn == 'N')) {
+					this.doExecuteDialog('bizAssessRegPopup', '실적평가 임대료', '/popup/showHtldBizAssess.do', {}, {'searchRow' : row, 'histDt' : this.$('#sNticDt').val()} );
+				} else {
+					if(row.termnYn == 'Y') {
+						alert('해지된 계약이기에 실적평가 임대료 등록이 불가능합니다.');
+					} else if(row.nticYn == 'Y') {
+						alert('고지된 상태이기에 실적평가 임대료 등록이 불가능합니다.');
+					}
+				}
 			} else if(row.rntfeeSe == '1') {
-				this.doExecuteDialog('bizAssessUpdatePopup', '실적평가 정산 수정 및 삭제', '/popup/showHtldRntfeeBizAssess.do', {}, {'searchRow' : row} );
-			} 
+				if((row.termnYn == 'N') && (row.nticYn == 'N')) {
+					this.doExecuteDialog('bizAssessUpdatePopup', '실적평가 정산', '/popup/showHtldRntfeeBizAssess.do', {}, {'searchRow' : row} );
+				} else {
+					if(row.termnYn == 'Y') {
+						alert('해지된 계약이기에 실적평가 정산 수정이 불가능합니다.');
+					} else if(row.nticYn == 'Y') {
+						alert('고지된 상태이기에 실적평가 정산 수정이 불가능합니다.');
+					}					
+				}
+			} else if(row.rntfeeSe == '2') {
+				if((row.termnYn == 'N') && (row.nticYn == 'N')) {
+					this.doExecuteDialog('areaAssessPopup', '임대면적변경 정산', '/popup/showHtldAreaAssess.do', {}, {'searchRow' : row, 'mode' : 'U', 'histDt' : this.$('#sNticDt').val()} );
+				} else {
+					if(row.termnYn == 'Y') {
+						alert('해지된 계약이기에 임대면적변경 정산 수정이 불가능합니다.');
+					} else if(row.nticYn == 'Y') {
+						alert('고지된 상태이기에 임대면적변경 정산 수정이 불가능합니다.');
+					}
+				}
+			}
 			break;
 	}	
+};
+
+<%--
+	그리드의 해당 row의 cell 편집이 끝났을 때 호출 된다. EmdModule의 onCellEdited에서 호출 함.
+		row : 선택 row
+		rid : 선택된 row id
+		cid : 선택된 cell id
+--%>
+GamHtldRentMngtMainModule.prototype.onMainGrildCellEdited = function (row, rid, cid) {
+	switch(cid) {
+		case 'rntfee':
+		case 'payinstIntr':
+			break;
+		case 'supAmt':
+			break;
+		case 'vat':
+			break;
+		case 'payAmt':
+			break;
+	}
 };
 
 <%--///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -198,6 +268,30 @@ GamHtldRentMngtMainModule.prototype.initDataRow = function(row) {
 	row.oldSupAmt = row.supAmt;
 	row.oldVat = row.vat;
 	row.oldPayAmt = row.payAmt;
+	if(row.rntfeeSe == '0') { //일반임대료 데이터라면
+		if(row.rntfeeSeq == void(0)) { //임대료순번이 없을 경우.
+			row._updtId = 'I';
+		} else {
+			row._updtId = 'U';
+		}
+	} else if (row.rntfeeSe != '9') { //소계가 아니라면 (즉 실적평가, 지적평가, 추가정산)
+		row._updtId = 'U';
+	}
+};
+
+<%--
+	mngDataCount - 계약당 하위 데이터 수 리턴
+--%>
+GamHtldRentMngtMainModule.prototype.mngDataCount = function(mngYear, mngNo, mngSeq) {
+	var rows = this.$("#mainGrid").flexGetData();
+	var count = 0;
+	for(var i=0; i<rows.length; i++) {
+		var row = rows[i];
+		if((row.mngYear == mngYear) && (row.mngNo == row.mngNo) && (row.mngSeq == mngSeq) && (row.rntfeeSe != '9')) {
+			count++;
+		}
+	}
+	return count;
 };
 
 <%--

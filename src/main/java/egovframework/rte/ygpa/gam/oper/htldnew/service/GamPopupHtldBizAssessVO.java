@@ -5,8 +5,6 @@ package egovframework.rte.ygpa.gam.oper.htldnew.service;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import egovframework.com.cmm.ComDefaultVO;
-
 /**
  * 
  * @author Jongmin
@@ -39,7 +37,6 @@ public class GamPopupHtldBizAssessVO extends GamHtldRentMngDefaultVO{
 	private String applicRsn; 				/** 실적평가내용(적용사유) */
 	private String updUsr;					/** 수정자 */
 	private String updtDt;					/** 수정일시 */
-	private String sNticDt;					/** 고지(예정)날짜 */
 	/**
 	 * @return the paySe
 	 */
@@ -183,17 +180,5 @@ public class GamPopupHtldBizAssessVO extends GamHtldRentMngDefaultVO{
 	 */
 	public void setUpdtDt(String updtDt) {
 		this.updtDt = updtDt;
-	}
-	/**
-	 * @return the sNticDt
-	 */
-	public String getsNticDt() {
-		return sNticDt;
-	}
-	/**
-	 * @param sNticDt the sNticDt to set
-	 */
-	public void setsNticDt(String sNticDt) {
-		this.sNticDt = sNticDt;
 	}
 }
