@@ -26,6 +26,7 @@
 			,D.PRICE_SE PRICE_SE
 			,DECODE(R.TERMN_DT, NULL, 'N', 'Y') TERMN_YN
 		    ,DECODE(F.NTIC_SEQ, NULL, 'N', 'Y') NTIC_YN
+		    ,R.PAY_SE PAY_SE
 		    ,F.RM RM
 		FROM
 			HTLD_RNTFEE_F F
@@ -114,6 +115,7 @@
 			,APPLC_RNTFEE = TO_NUMBER(#applcRntfee#)
 			,APPLC_RENT_AR = TO_NUMBER(#applcRentAr#)
 			,RNTFEE = TO_NUMBER(#rntfee#)
+			,RM = #rm#
 			,UPD_USR = #updUsr#
 			,UPDT_DT = SYSDATE
 		WHERE

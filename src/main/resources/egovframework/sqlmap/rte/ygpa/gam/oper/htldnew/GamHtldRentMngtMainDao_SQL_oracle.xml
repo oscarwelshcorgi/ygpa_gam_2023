@@ -61,6 +61,7 @@
 		FROM
 			(
 				(
+				<!-- 임대료 상세 가져오는 쿼리 -->
 				SELECT
 					D.MNG_YEAR MNG_YEAR
 					,D.MNG_NO MNG_NO
@@ -110,24 +111,24 @@
 					,TO_CHAR(F.RCIV_DT, 'YYYY-MM-DD') RCIV_DT
 					,F.RM RM
 				FROM
-					<isNotEmpty property="sNticDt">
-						(SELECT A.* FROM HTLD_RENT_DETAIL_HIST_F A WHERE A.HIST_SEQ = GAM_GET_HTLD_RENT_HIST_SEQ(A.MNG_YEAR, A.MNG_NO, A.MNG_SEQ, #sNticDt#)) D
+					<isNotEmpty property="histDt">
+						(SELECT A.* FROM HTLD_RENT_DETAIL_HIST_F A WHERE A.HIST_SEQ = GAM_GET_HTLD_RENT_HIST_SEQ(A.MNG_YEAR, A.MNG_NO, A.MNG_SEQ, #histDt#)) D
 					</isNotEmpty>
-					<isEmpty property="sNticDt">
+					<isEmpty property="histDt">
 						(SELECT A.* FROM HTLD_RENT_DETAIL_HIST_F A WHERE A.HIST_SEQ = GAM_GET_HTLD_RENT_HIST_SEQ(A.MNG_YEAR, A.MNG_NO, A.MNG_SEQ, TO_CHAR(SYSDATE, 'YYYY-MM-DD'))) D
 					</isEmpty>
 				LEFT OUTER JOIN
 					HTLD_RNTFEE_F F
 					ON D.MNG_YEAR = F.MNG_YEAR AND D.MNG_NO = F.MNG_NO AND D.MNG_SEQ = F.MNG_SEQ 
 						AND (F.RENT_DETAIL_REGIST_SEQ IS NULL OR F.RENT_DETAIL_REGIST_SEQ = D.REGIST_SEQ) AND (F.RNTFEE_SE IS NULL OR F.RNTFEE_SE = '0' )
-						<isNotEmpty property="sNticDt" prepend="AND">
+						<isNotEmpty property="histDt" prepend="AND">
 							<![CDATA[
-								D.DETAIL_PD_BEGIN <= TO_DATE(#sNticDt#, 'YYYY-MM-DD')
-								AND D.DETAIL_PD_END >= TO_DATE(#sNticDt#, 'YYYY-MM-DD')
-								AND ((F.NTIC_BEGIN_DT <= TO_DATE(#sNticDt#, 'YYYY-MM-DD') AND F.NTIC_END_DT >= TO_DATE(#sNticDt#, 'YYYY-MM-DD')) OR (F.NTIC_BEGIN_DT IS NULL AND F.NTIC_END_DT IS NULL ))
+								D.DETAIL_PD_BEGIN <= TO_DATE(#histDt#, 'YYYY-MM-DD')
+								AND D.DETAIL_PD_END >= TO_DATE(#histDt#, 'YYYY-MM-DD')
+								AND ((F.NTIC_BEGIN_DT <= TO_DATE(#histDt#, 'YYYY-MM-DD') AND F.NTIC_END_DT >= TO_DATE(#histDt#, 'YYYY-MM-DD')) OR (F.NTIC_BEGIN_DT IS NULL AND F.NTIC_END_DT IS NULL ))
 							]]>
 						</isNotEmpty>
-						<isEmpty property="sNticDt" prepend="AND">
+						<isEmpty property="histDt" prepend="AND">
 							<![CDATA[
 								D.DETAIL_PD_BEGIN <= TO_DATE(TO_CHAR(SYSDATE, 'YYYY-MM-DD'), 'YYYY-MM-DD')
 								AND D.DETAIL_PD_END >= TO_DATE(TO_CHAR(SYSDATE, 'YYYY-MM-DD'), 'YYYY-MM-DD')
@@ -135,16 +136,17 @@
 							]]>
 						</isEmpty>
 				INNER JOIN
-					<isNotEmpty property="sNticDt">
-						(SELECT B.* FROM HTLD_RENT_HIST_F B WHERE B.HIST_SEQ = GAM_GET_HTLD_RENT_HIST_SEQ(B.MNG_YEAR, B.MNG_NO, B.MNG_SEQ, #sNticDt#)) R
+					<isNotEmpty property="histDt">
+						(SELECT B.* FROM HTLD_RENT_HIST_F B WHERE B.HIST_SEQ = GAM_GET_HTLD_RENT_HIST_SEQ(B.MNG_YEAR, B.MNG_NO, B.MNG_SEQ, #histDt#)) R
 					</isNotEmpty>
-					<isEmpty property="sNticDt">
+					<isEmpty property="histDt">
 						(SELECT B.* FROM HTLD_RENT_HIST_F B WHERE B.HIST_SEQ = GAM_GET_HTLD_RENT_HIST_SEQ(B.MNG_YEAR, B.MNG_NO, B.MNG_SEQ, TO_CHAR(SYSDATE, 'YYYY-MM-DD'))) R
 					</isEmpty>					
 					ON D.MNG_YEAR = R.MNG_YEAR AND D.MNG_NO = R.MNG_NO AND D.MNG_SEQ = R.MNG_SEQ
 				)
 				UNION ALL
 				(
+				<!-- 실적평가 및 지적평가 가져오는 쿼리 -->
 				SELECT
 					D.MNG_YEAR MNG_YEAR
 					,D.MNG_NO MNG_NO
@@ -196,43 +198,123 @@
 				FROM
 					HTLD_RNTFEE_F F
 				LEFT OUTER JOIN
-					<isNotEmpty property="sNticDt">
-						(SELECT A.* FROM HTLD_RENT_DETAIL_HIST_F A WHERE A.HIST_SEQ = GAM_GET_HTLD_RENT_HIST_SEQ(A.MNG_YEAR, A.MNG_NO, A.MNG_SEQ, #sNticDt#)) D
+					<isNotEmpty property="histDt">
+						(SELECT A.* FROM HTLD_RENT_DETAIL_HIST_F A WHERE A.HIST_SEQ = GAM_GET_HTLD_RENT_HIST_SEQ(A.MNG_YEAR, A.MNG_NO, A.MNG_SEQ, #histDt#)) D
 					</isNotEmpty>
-					<isEmpty property="sNticDt">
+					<isEmpty property="histDt">
 						(SELECT A.* FROM HTLD_RENT_DETAIL_HIST_F A WHERE A.HIST_SEQ = GAM_GET_HTLD_RENT_HIST_SEQ(A.MNG_YEAR, A.MNG_NO, A.MNG_SEQ, TO_CHAR(SYSDATE, 'YYYY-MM-DD'))) D
 					</isEmpty>
-					ON D.MNG_YEAR = F.MNG_YEAR AND D.MNG_NO = F.MNG_NO AND D.MNG_SEQ = F.MNG_SEQ AND D.REGIST_SEQ = F.RENT_DETAIL_REGIST_SEQ AND (F.RNTFEE_SE = '1' OR F.RNTFEE_SE = '2' OR F.RNTFEE_SE = '3')
-						<isNotEmpty property="sNticDt" prepend="AND">
+					ON D.MNG_YEAR = F.MNG_YEAR AND D.MNG_NO = F.MNG_NO AND D.MNG_SEQ = F.MNG_SEQ AND D.REGIST_SEQ = F.RENT_DETAIL_REGIST_SEQ AND (F.RNTFEE_SE = '1' OR F.RNTFEE_SE = '2')
+						<isNotEmpty property="histDt" prepend="AND">
 							<![CDATA[
-								D.DETAIL_PD_BEGIN <= TO_DATE(#sNticDt#, 'YYYY-MM-DD')
-								AND D.DETAIL_PD_END >= TO_DATE(#sNticDt#, 'YYYY-MM-DD')
-								AND ((F.NTIC_BEGIN_DT <= TO_DATE(#sNticDt#, 'YYYY-MM-DD') AND F.NTIC_END_DT >= TO_DATE(#sNticDt#, 'YYYY-MM-DD')) OR (F.NTIC_BEGIN_DT IS NULL AND F.NTIC_END_DT IS NULL ))
+								D.DETAIL_PD_BEGIN <= TO_DATE(#histDt#, 'YYYY-MM-DD')
+								AND D.DETAIL_PD_END >= TO_DATE(#histDt#, 'YYYY-MM-DD')
+								AND F.NTIC_BEGIN_DT <= TO_DATE(#histDt#, 'YYYY-MM-DD') 
+								AND F.NTIC_END_DT >= TO_DATE(#histDt#, 'YYYY-MM-DD')
 							]]>
 						</isNotEmpty>
-						<isEmpty property="sNticDt" prepend="AND">
+						<isEmpty property="histDt" prepend="AND">
 							<![CDATA[
 								D.DETAIL_PD_BEGIN <= TO_DATE(TO_CHAR(SYSDATE, 'YYYY-MM-DD'), 'YYYY-MM-DD')
 								AND D.DETAIL_PD_END >= TO_DATE(TO_CHAR(SYSDATE, 'YYYY-MM-DD'), 'YYYY-MM-DD')
-								AND ((F.NTIC_BEGIN_DT <= TO_DATE(TO_CHAR(SYSDATE, 'YYYY-MM-DD'), 'YYYY-MM-DD') AND F.NTIC_END_DT >= TO_DATE(TO_CHAR(SYSDATE, 'YYYY-MM-DD'), 'YYYY-MM-DD')) OR (F.NTIC_BEGIN_DT IS NULL AND F.NTIC_END_DT IS NULL ))
+								AND F.NTIC_BEGIN_DT <= TO_DATE(TO_CHAR(SYSDATE, 'YYYY-MM-DD'), 'YYYY-MM-DD') 
+								AND F.NTIC_END_DT >= TO_DATE(TO_CHAR(SYSDATE, 'YYYY-MM-DD'), 'YYYY-MM-DD')
 							]]>
 						</isEmpty>
 				INNER JOIN
-					<isNotEmpty property="sNticDt">
-						(SELECT B.* FROM HTLD_RENT_HIST_F B WHERE B.HIST_SEQ = GAM_GET_HTLD_RENT_HIST_SEQ(B.MNG_YEAR, B.MNG_NO, B.MNG_SEQ, #sNticDt#)) R
+					<isNotEmpty property="histDt">
+						(SELECT B.* FROM HTLD_RENT_HIST_F B WHERE B.HIST_SEQ = GAM_GET_HTLD_RENT_HIST_SEQ(B.MNG_YEAR, B.MNG_NO, B.MNG_SEQ, #histDt#)) R
 					</isNotEmpty>
-					<isEmpty property="sNticDt">
+					<isEmpty property="histDt">
 						(SELECT B.* FROM HTLD_RENT_HIST_F B WHERE B.HIST_SEQ = GAM_GET_HTLD_RENT_HIST_SEQ(B.MNG_YEAR, B.MNG_NO, B.MNG_SEQ, TO_CHAR(SYSDATE, 'YYYY-MM-DD'))) R
 					</isEmpty>					
 					ON D.MNG_YEAR = R.MNG_YEAR AND D.MNG_NO = R.MNG_NO AND D.MNG_SEQ = R.MNG_SEQ
 				)
+				UNION ALL
+				(
+				<!-- 추가정산 가져오는 쿼리 -->
+				SELECT
+					F.MNG_YEAR MNG_YEAR
+					,F.MNG_NO MNG_NO
+					,F.MNG_SEQ MNG_SEQ
+					,NULL REGIST_SEQ
+					,F.RNTFEE_SEQ RNTFEE_SEQ
+					,R.ENTRPS_CD ENTRPS_CD
+					,(SELECT E.ENTRPS_NM FROM ENTRPS_INFO_F E WHERE E.ENTRPSCD = R.ENTRPS_CD) ENTRPS_NM
+					,R.BOUND_CD BOUND_CD 
+					,GAM_GETCODENAME('GAM062', R.BOUND_CD) BOUND_NM
+					,R.PAY_SE PAY_SE
+					,TO_CHAR(R.CTRT_BEGIN_DT, 'YYYY-MM-DD') CTRT_BEGIN_DT
+					,TO_CHAR(R.CTRT_END_DT, 'YYYY-MM-DD') CTRT_END_DT
+					,GAM_GETCODENAME('GAM008', R.PAY_SE) PAY_SE_NM
+					,R.CHRGE_KND_CD CHRGE_KND_CD
+					,GAM_GETCODENAME('GAM053', R.CHRGE_KND_CD) CHRGE_KND_NM
+					,TO_CHAR(R.TERMN_DT, 'YYYY-MM-DD') TERMN_DT
+					,DECODE(R.TERMN_DT, NULL, 'N', 'Y') TERMN_YN
+					,TO_CHAR(R.CTRT_BEGIN_DT, 'YYYY-MM-DD') DETAIL_PD_BEGIN
+					,TO_CHAR(R.CTRT_END_DT, 'YYYY-MM-DD') DETAIL_PD_END
+					,0 RENT_AR
+					,'0' RENT_AR_STR
+					,NULL RENT_AR_SE
+					,'' RENT_AR_SE_NM
+					,0 APPLC_RNTFEE
+					,'0' APPLC_RNTFEE_STR
+					,NULL PRICE_SE
+					,'' PRICE_SE_NM
+					,NVL(F.APPLC_RNTFEE, 0) ASE_RNTFEE
+					,TO_CHAR(NVL(F.APPLC_RNTFEE, 0), '9,999,999,999.99') ASE_RNTFEE_STR
+					,TO_CHAR(F.APPLC_BEGIN_DT, 'YYYY-MM-DD') ASE_APPLC_BEGIN
+					,TO_CHAR(F.APPLC_END_DT, 'YYYY-MM-DD') ASE_APPLC_END
+					,TO_CHAR(F.NTIC_BEGIN_DT, 'YYYY-MM-DD') NTIC_BEGIN_DT
+					,TO_CHAR(F.NTIC_END_DT, 'YYYY-MM-DD') NTIC_END_DT
+					,NVL(F.RNTFEE, 0) RNTFEE
+					,NVL(F.RNTFEE_SE, '0') RNTFEE_SE
+					,F.RNTFEE_SE_NM RNTFEE_SE_NM
+					,NVL(F.PAYINST_INTR, 0) PAYINST_INTR
+					,NVL(F.SUP_AMT, 0) SUP_AMT
+					,NVL(F.VAT, 0) VAT
+					,NVL(F.PAY_AMT, 0) PAY_AMT 
+					,F.ACCNUT_YEAR ACCNUT_YEAR 
+					,F.RNTFEE_NTIC_NO RNTFEE_NTIC_NO
+					,F.NTIC_SEQ NTIC_SEQ
+					,DECODE(F.NTIC_SEQ, NULL, 'N', 'Y') NTIC_YN
+					,F.RCIV_SE RCIV_SE
+					,TO_CHAR(F.RCIV_DT, 'YYYY-MM-DD') RCIV_DT
+					,F.RM RM
+				FROM
+					HTLD_RNTFEE_F F
+				INNER JOIN
+					<isNotEmpty property="histDt">
+						(SELECT B.* FROM HTLD_RENT_HIST_F B WHERE B.HIST_SEQ = GAM_GET_HTLD_RENT_HIST_SEQ(B.MNG_YEAR, B.MNG_NO, B.MNG_SEQ, #histDt#)) R
+					</isNotEmpty>
+					<isEmpty property="histDt">
+						(SELECT B.* FROM HTLD_RENT_HIST_F B WHERE B.HIST_SEQ = GAM_GET_HTLD_RENT_HIST_SEQ(B.MNG_YEAR, B.MNG_NO, B.MNG_SEQ, TO_CHAR(SYSDATE, 'YYYY-MM-DD'))) R
+					</isEmpty>					
+					ON F.MNG_YEAR = R.MNG_YEAR AND F.MNG_NO = R.MNG_NO AND F.MNG_SEQ = R.MNG_SEQ AND F.RNTFEE_SE = '3'
+						<isNotEmpty property="histDt" prepend="AND">
+							<![CDATA[
+								R.CTRT_BEGIN_DT <= TO_DATE(#histDt#, 'YYYY-MM-DD')
+								AND R.CTRT_END_DT >= TO_DATE(#histDt#, 'YYYY-MM-DD')
+								AND F.NTIC_BEGIN_DT <= TO_DATE(#histDt#, 'YYYY-MM-DD') 
+								AND F.NTIC_END_DT >= TO_DATE(#histDt#, 'YYYY-MM-DD')
+							]]>
+						</isNotEmpty>
+						<isEmpty property="histDt" prepend="AND">
+							<![CDATA[
+								R.CTRT_BEGIN_DT <= TO_DATE(TO_CHAR(SYSDATE, 'YYYY-MM-DD'), 'YYYY-MM-DD')
+								AND R.CTRT_END_DT >= TO_DATE(TO_CHAR(SYSDATE, 'YYYY-MM-DD'), 'YYYY-MM-DD')
+								AND F.NTIC_BEGIN_DT <= TO_DATE(TO_CHAR(SYSDATE, 'YYYY-MM-DD'), 'YYYY-MM-DD') 
+								AND F.NTIC_END_DT >= TO_DATE(TO_CHAR(SYSDATE, 'YYYY-MM-DD'), 'YYYY-MM-DD')
+							]]>
+						</isEmpty>
+				)
 			) L
 		WHERE 1=1
-			<isNotEmpty property="sPaySe" prepend="AND">
-				L.PAY_SE = #sPaySe#
+			<isNotEmpty property="paySe" prepend="AND">
+				L.PAY_SE = #paySe#
 			</isNotEmpty>
-			<isNotEmpty property="sTermnYn" prepend="AND">
-				L.TERMN_YN = #sTermnYn#
+			<isNotEmpty property="termnYn" prepend="AND">
+				L.TERMN_YN = #termnYn#
 			</isNotEmpty>
 		ORDER BY
 			BOUND_CD, ENTRPS_CD, MNG_YEAR, MNG_NO, MNG_SEQ, RNTFEE_SE, REGIST_SEQ,  RNTFEE_SEQ	
@@ -244,12 +326,12 @@
 		FROM 
 			COFIX_INTRRATE_F
 		WHERE
-			<isNotEmpty property="sNticDt">
+			<isNotEmpty property="histDt">
 				<![CDATA[
-				OBJ_YRMT = (SELECT MAX(OBJ_YRMT) FROM COFIX_INTRRATE_F WHERE TO_DATE(TO_CHAR(ANNODT, 'YYYY-MM-DD'), 'YYYY-MM-DD') <= TO_DATE(GAM_GET_QUARTER_START_DATE(#sNticDt#), 'YYYY-MM-DD'))
+				OBJ_YRMT = (SELECT MAX(OBJ_YRMT) FROM COFIX_INTRRATE_F WHERE TO_DATE(TO_CHAR(ANNODT, 'YYYY-MM-DD'), 'YYYY-MM-DD') <= TO_DATE(GAM_GET_QUARTER_START_DATE(#histDt#), 'YYYY-MM-DD'))
 				]]>
 			</isNotEmpty>
-			<isEmpty property="sNticDt">
+			<isEmpty property="histDt">
 				<![CDATA[
 				OBJ_YRMT = (SELECT MAX(OBJ_YRMT) FROM COFIX_INTRRATE_F WHERE TO_DATE(TO_CHAR(ANNODT, 'YYYY-MM-DD'), 'YYYY-MM-DD') <= TO_DATE(GAM_GET_QUARTER_START_DATE(TO_CHAR(SYSDATE, 'YYYY-MM-DD')), 'YYYY-MM-DD'))
 				]]>

@@ -24,47 +24,33 @@ import egovframework.com.cmm.ComDefaultVO;
  * </pre>
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class GamHtldRentMngtMainVO extends ComDefaultVO{
+public class GamHtldRentMngtMainVO extends GamHtldRentMngDefaultVO{
 	private static final long serialVersionUID = 1L;
 	
-	private String sNticDt;			/** 고지(예정)날짜 */
-	private String sPaySe; 			/** 납부구분 */
-	private String sTermnYn; 		/** 계약해지유무 */
+	private String paySe; 			/** 납부구분 */
+	private String termnYn; 		/** 계약해지유무 */
 	/**
-	 * @return the sNticDt
+	 * @return the paySe
 	 */
-	public String getsNticDt() {
-		return sNticDt;
+	public String getPaySe() {
+		return paySe;
 	}
 	/**
-	 * @param sNticDt the sNticDt to set
+	 * @param paySe the paySe to set
 	 */
-	public void setsNticDt(String sNticDt) {
-		this.sNticDt = sNticDt;
+	public void setPaySe(String paySe) {
+		this.paySe = paySe;
 	}
 	/**
-	 * @return the sPaySe
+	 * @return the termnYn
 	 */
-	public String getsPaySe() {
-		return sPaySe;
+	public String getTermnYn() {
+		return termnYn;
 	}
 	/**
-	 * @param sPaySe the sPaySe to set
+	 * @param termnYn the termnYn to set
 	 */
-	public void setsPaySe(String sPaySe) {
-		this.sPaySe = sPaySe;
+	public void setTermnYn(String termnYn) {
+		this.termnYn = termnYn;
 	}
-	/**
-	 * @return the sTermnYn
-	 */
-	public String getsTermnYn() {
-		return sTermnYn;
-	}
-	/**
-	 * @param sTermnYn the sTermnYn to set
-	 */
-	public void setsTermnYn(String sTermnYn) {
-		this.sTermnYn = sTermnYn;
-	}
-
 }

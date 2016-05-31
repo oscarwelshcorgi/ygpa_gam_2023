@@ -7,8 +7,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%--
   /**
-  * @Class Name : GamPopupHtldAreaAssess.jsp
-  * @Description : 지적평가정산
+  * @Class Name : GamPopupHtldAddNtic.jsp
+  * @Description : 추가정산고지
   * @Modification Information
   *
   *   수정일         수정자                   수정내용
@@ -22,12 +22,12 @@
   */
 --%>
 <script>
-function GamPopupHtldAreaAssessModule() {}
+function GamPopupHtldAddNticModule() {}
 
 <%--
 	EmdPopupModule을 상속하여 모듈 클래스를 정의한다.
 --%>
-GamPopupHtldAreaAssessModule.prototype = new EmdPopupModule(700, 150);
+GamPopupHtldAddNticModule.prototype = new EmdPopupModule(350, 250);
 
 <%--///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	EmdPopupModule Override 및 이벤트 처리 정의 부분 시작	
@@ -36,7 +36,7 @@ GamPopupHtldAreaAssessModule.prototype = new EmdPopupModule(700, 150);
 <%--
 	팝업 페이지가 호출 되었을때 호출 되는 함수
 --%>
-GamPopupHtldAreaAssessModule.prototype.loadComplete = function(params) {
+GamPopupHtldAddNticModule.prototype.loadComplete = function(params) {
 	this.resizable(true);
 	this._mode = params.mode;
 	this.$('#mngYear').val(params.searchRow.mngYear);
@@ -46,15 +46,10 @@ GamPopupHtldAreaAssessModule.prototype.loadComplete = function(params) {
 	this._histDt = params.histDt;
 	if(this._mode == 'U') {
 		this.$('#rntfeeSeq').val(params.searchRow.rntfeeSeq);
-		this.loadData();
 	} else {
 		this.$('#paySe').val(params.searchRow.paySe);
-		this.$('#priceSe').val(params.searchRow.priceSe);
-		this.$('#applcRentAr').val(params.searchRow.rentAr - params.searchRow.oldRentAr);
-		this.$('#applcRntfee').val(params.searchRow.applcRntfee);
-		this.$('#rentDetailRegistSeq').val(params.searchRow.registSeq);
-		this.initControls();
 	}
+	this.loadData();
 	this._searchRow = params.searchRow;
 };
 
@@ -63,7 +58,7 @@ GamPopupHtldAreaAssessModule.prototype.loadComplete = function(params) {
 	스위치문 안에 코드가 길어지면 반드시 하위 함수로 분리 할 것.
     case 문에 주석을 달때는 case 문 뒤에 붙일 것
 --%>
-GamPopupHtldAreaAssessModule.prototype.onButtonClick = function(buttonId) {
+GamPopupHtldAddNticModule.prototype.onButtonClick = function(buttonId) {
 	switch(buttonId) {
 	case 'btnSave': //저장
 		this.saveData();
@@ -83,10 +78,11 @@ GamPopupHtldAreaAssessModule.prototype.onButtonClick = function(buttonId) {
 <%--
 	loadData - 지적평가 정산 조회
 --%>
-GamPopupHtldAreaAssessModule.prototype.loadData = function() {
-	var searchData = this.makeFormArgs('#gamPopupHtldAreaAssessForm');
-	this.doAction('/oper/htldnew/selectHtldAreaAssessDetail.do', searchData, function(module, result) {
-		module.makeFormValues('#gamPopupHtldAreaAssessForm', result.resultDetail);
+GamPopupHtldAddNticModule.prototype.loadData = function() {
+	var searchData = this.makeFormArgs('#gamPopupHtldAddNticForm');
+	var actionUrl = (this._mode == 'I') ? '/oper/htldnew/selectHtldAddNticCtrtDetail.do' : '/oper/htldnew/selectHtldAddNticDetail.do';
+	this.doAction(actionUrl, searchData, function(module, result) {
+		module.makeFormValues('#gamPopupHtldAddNticForm', result.resultDetail);
 		module.$('#histDt').val(module._histDt);
 		module.initControls();
 	});
@@ -95,7 +91,7 @@ GamPopupHtldAreaAssessModule.prototype.loadData = function() {
 <%--
 	initControls - 입력 컨트롤 및 버튼 설정
 --%>
-GamPopupHtldAreaAssessModule.prototype.initControls = function() {
+GamPopupHtldAddNticModule.prototype.initControls = function() {
 	if(this._mode == 'I') {
 		this.$('#btnDelete').hide();
 	} else {
@@ -106,38 +102,26 @@ GamPopupHtldAreaAssessModule.prototype.initControls = function() {
 <%--
 	validateData - 데이터 유효성 검사
 --%>
-GamPopupHtldAreaAssessModule.prototype.validateData = function() {
-	if(this.$('#applcRentAr').val() == '') {
-		alert('변경면적을 입력하세요.');
+GamPopupHtldAddNticModule.prototype.validateData = function() {
+	if(this.$('#rntfeeSeNm').val() == '') {
+		alert('고지내역을 입력하세요.');
 		return false;
 	}
-	if(this.$('#applcRntfee').val() == '') {
-		alert('적용임대료를 입력하세요.');
-		return false;
-	}
-	if(this.$('#applcBeginDt').val() == '') {
-		alert('면적변경적용기간(시작일)을 선택하세요.');
-		return false;
-	}
-	if(this.$('#applcEndDt').val() == '') {
-		alert('면적변경적용기간(종료일)을 선택하세요.');
-		return false;
-	}
-	if(this.$('#applcBeginDt').val() > this.$('#applcEndDt').val()) {
-		alert('면적변경적용기간(시작일)이 면적변경적용기간(종료일)보다 큽니다.');
+	if(this.$('#rntfee').val() == '') {
+		alert('임대료를 입력하세요.');
 		return false;
 	}
 	return true;
 };
 
 <%--
-	saveData - 지적평가 정산 수정
+	saveData - 추가정산 고지 저장
 --%>
-GamPopupHtldAreaAssessModule.prototype.saveData = function() {	
+GamPopupHtldAddNticModule.prototype.saveData = function() {	
 	if(!confirm("저장하시겠습니까?")) return;
 	if(!this.validateData()) return;
-	var params = this.makeFormArgs('#gamPopupHtldAreaAssessForm');
-	var actionUrl = (this._mode == 'I') ? '/oper/htldnew/insertAreaAssess.do' : '/oper/htldnew/updateAreaAssess.do'; 
+	var params = this.makeFormArgs('#gamPopupHtldAddNticForm');
+	var actionUrl = (this._mode == 'I') ? '/oper/htldnew/insertAddNtic.do' : '/oper/htldnew/updateAddNtic.do'; 
 	this.doAction(actionUrl , params, function(module, result) {
 		alert(result.resultMsg);
 		if(result.resultCode == 0) {
@@ -147,13 +131,13 @@ GamPopupHtldAreaAssessModule.prototype.saveData = function() {
 };
 
 <%--
-	deleteData - 지적평가 정산 삭제
+	deleteData - 추가정산 고지 삭제
 --%>
-GamPopupHtldAreaAssessModule.prototype.deleteData = function() {	
+GamPopupHtldAddNticModule.prototype.deleteData = function() {	
 	if(!confirm("삭제하시겠습니까?")) return;
 	if(!this.validateData()) return;
-	var params = this.makeFormArgs('#gamPopupHtldAreaAssessForm');
-	this.doAction('/oper/htldnew/deleteAreaAssess.do', params, function(module, result) {
+	var params = this.makeFormArgs('#gamPopupHtldAddNticForm');
+	this.doAction('/oper/htldnew/deleteAddNtic.do', params, function(module, result) {
 		alert(result.resultMsg);
 		if(result.resultCode == 0) {
 			module.closeDialog("ok", null);
@@ -162,37 +146,50 @@ GamPopupHtldAreaAssessModule.prototype.deleteData = function() {
 };
 
 // 다음 변수는 고정 적으로 정의 해야 함
-var popup_instance = new GamPopupHtldAreaAssessModule();
+var popup_instance = new GamPopupHtldAddNticModule();
 </script>
 <div class="dialog">
 	<div class="emdPanel">
-		<form id="gamPopupHtldAreaAssessForm">
+		<form id="gamPopupHtldAddNticForm">
 			<input type="hidden" id="mngYear" />
 			<input type="hidden" id="mngNo" />
 			<input type="hidden" id="mngSeq" />
 			<input type="hidden" id="rntfeeSeq"/>
-			<input type="hidden" id="rentDetailRegistSeq"/>
-			<input type="hidden" id="priceSe"/>
-			<input type="hidden" id="paySe"/>
 			<input type="hidden" id="histDt"/>
+			<input type="hidden" id="paySe"/>
         	<table class="editForm" style="width:100%">
 				<tr>
-					<th width="10%" height="18">변경면적</th>
+					<th width="25%" height="18">고지 대상 업체</th>
 					<td>
-						<input type="text" size="30" class="ygpaNumber" data-decimal-point="2" id="applcRentAr"/>&nbsp; m<sup>2</sup>
-					</td>
-					<th width="10%" height="18">적용임대료</th>
-					<td>
-						<input type="text" size="30" class="ygpaNumber" data-decimal-point="2" id="applcRntfee" />&nbsp; 원
+						<input type="text" size="30" id="entrpsNm" disabled />
 					</td>
 				</tr>
 				<tr>
-					<th width="10%" height="18">면적변경적용기간</th>
+					<th width="25%" height="18">사업자등록번호</th>
 					<td>
-						<input type="text" size="12" id="applcBeginDt" class="emdcal"/>~
-						<input type="text" size="12" id="applcEndDt" class="emdcal"/>
-					</td>									
-					<th width="10%" height="18">변경사유</th>
+						<input type="text" size="30" id="bizrno" disabled />
+					</td>
+				</tr>
+				<tr>
+					<th width="25%" height="18">대표자</th>
+					<td>
+						<input type="text" size="30" id="rprsntvNm" disabled />
+					</td>
+				</tr>
+				<tr>
+					<th width="25%" height="18">고지내역</th>
+					<td>
+						<input type="text" size="30" id="rntfeeSeNm" />
+					</td>
+				</tr>
+				<tr>
+					<th width="25%" height="18">고지금액</th>
+					<td>
+						<input type="text" size="30" class="ygpaNumber" id="rntfee" />&nbsp; 원
+					</td>
+				</tr>
+				<tr>
+					<th width="25%" height="18">비고</th>
 					<td>
 						<input type="text" size="30" id="rm" />
 					</td>
@@ -203,7 +200,7 @@ var popup_instance = new GamPopupHtldAreaAssessModule();
 			<tbody>
 				<tr>
 					<th style="text-align:center">
-						<button id="btnSave">저장</button>
+						<button id="btnSave">추가</button>
 						<button id="btnDelete">삭제</button>
 						<button id="btnCancel">취소</button>
 					</th>

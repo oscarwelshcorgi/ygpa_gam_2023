@@ -79,7 +79,7 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 		List<EgovMap> resultList = new ArrayList<EgovMap>();
 		
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		LocalDate nticDate = new LocalDate(dateFormat.parse(vo.getsNticDt()));
+		LocalDate histDt = new LocalDate(dateFormat.parse(vo.getHistDt()));
 		String cofixIntr = gamHtldRentMngtMainDao.selectCofixIntrrate(vo);
 		
 		BigDecimal totRntFee = new BigDecimal(0),  totPayinstIntr = new BigDecimal(0), totSupAmt = new BigDecimal(0),  totVat = new BigDecimal(0),  totPayAmt = new BigDecimal(0);
@@ -116,10 +116,10 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 			item.put("mngGroupCount", new BigDecimal(mngGroupCount));
 			
 			if(("0".equals(rntfeeSe)) && ("N".equals(nticYn))) {
-				rntFee = getRentFee(nticDate, paySe, priceSe, rentAr, applcRntfee, detailPdBegin, detailPdEnd, aseRntfee, aseApplcBegin, aseApplcEnd);
+				rntFee = getRentFee(histDt, paySe, priceSe, rentAr, applcRntfee, detailPdBegin, detailPdEnd, aseRntfee, aseApplcBegin, aseApplcEnd);
 				
 				if("4".equals(paySe)) {
-					payinstIntr = getRentFeeInstIntr(rntFee, cofixIntr, nticDate, detailPdEnd);
+					payinstIntr = getRentFeeInstIntr(rntFee, cofixIntr, histDt, detailPdEnd);
 				}
 				
 				if(mngGroupCount == 1) {
@@ -259,7 +259,7 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 	
 	/**
 	 * 임대료 계산
-	 * @param nticDate - 고지예정일자
+	 * @param histDt - 고지예정일자
 	 * @param paySe - 납부구분 - 연납, 분기납
 	 * @param priceSe - 가격구분 - 면적당단가, 월단가
 	 * @param rentAr - 임대면적
@@ -272,7 +272,7 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 	 * @return 임대료
 	 * @throws Exception
 	 */
-	protected BigDecimal getRentFee(LocalDate nticDate, String paySe, String priceSe, BigDecimal rentAr, BigDecimal applcRntfee, String detailPdBegin, String detailPdEnd, BigDecimal aseRntfee, String aseApplcBegin, String aseApplcEnd) throws Exception {
+	protected BigDecimal getRentFee(LocalDate histDt, String paySe, String priceSe, BigDecimal rentAr, BigDecimal applcRntfee, String detailPdBegin, String detailPdEnd, BigDecimal aseRntfee, String aseApplcBegin, String aseApplcEnd) throws Exception {
 		BigDecimal applcMonthFee = new BigDecimal(0), aseMonthFee = new BigDecimal(0); 
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");		
 		LocalDate detailPdBeginDate = new LocalDate(dateFormat.parse(detailPdBegin));
@@ -286,8 +286,8 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 			aseMonthFee = aseMonthFee.add(aseRntfee);
 		}
 
-		LocalDate startDate = ("4".equals(paySe)) ? getQuarterStartDate(nticDate) : new LocalDate(nticDate.getYear(), 1, 1);
-		LocalDate endDate = ("4".equals(paySe)) ? getQuarterEndDate(nticDate) : new LocalDate(nticDate.getYear(), 12, 31);
+		LocalDate startDate = ("4".equals(paySe)) ? getQuarterStartDate(histDt) : new LocalDate(histDt.getYear(), 1, 1);
+		LocalDate endDate = ("4".equals(paySe)) ? getQuarterEndDate(histDt) : new LocalDate(histDt.getYear(), 12, 31);
 		
 		if(startDate.compareTo(detailPdBeginDate) < 0) startDate = detailPdBeginDate;
 		if(endDate.compareTo(detailPdEndDate) > 0) endDate = detailPdEndDate;
@@ -322,19 +322,19 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 	 * 분납이자 계산
 	 * @param rntFee : 임대료
 	 * @param cofixIntr : 이자율
-	 * @param nticDate : 고지예정일자
+	 * @param histDt : 고지예정일자
 	 * @param detailPdEnd : 상세계약만료일자
 	 * @return 분납이자
 	 */
-	protected BigDecimal getRentFeeInstIntr(BigDecimal rntFee, String cofixIntr, LocalDate nticDate, String detailPdEnd) {
+	protected BigDecimal getRentFeeInstIntr(BigDecimal rntFee, String cofixIntr, LocalDate histDt, String detailPdEnd) {
 		cofixIntr = cofixIntr.replace(" ", "");
 		BigDecimal intrRate = new BigDecimal(cofixIntr);
 		intrRate = intrRate.divide(new BigDecimal(100), 5, RoundingMode.CEILING);
 		BigDecimal monthPayInstIntr = rntFee.multiply(intrRate).divide(new BigDecimal(12), 5, RoundingMode.CEILING);
-		LocalDate nticEndDate = getQuarterEndDate(nticDate);
+		LocalDate nticEndDate = getQuarterEndDate(histDt);
 		LocalDate detailPdEndDate = new LocalDate(detailPdEnd);
-		if(nticDate.getYear() < detailPdEndDate.getYear()) {
-			detailPdEndDate = new LocalDate(nticDate.getYear(), 12, 31);
+		if(histDt.getYear() < detailPdEndDate.getYear()) {
+			detailPdEndDate = new LocalDate(histDt.getYear(), 12, 31);
 		}
 		BigDecimal payinstIntr = new BigDecimal(0);
 		if(nticEndDate.compareTo(detailPdEndDate) < 0) {

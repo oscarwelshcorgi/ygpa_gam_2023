@@ -414,7 +414,7 @@ GamHtldRentCtrtModule.prototype.saveData = function() {
 			if(module._rentArChangedRows.length > 0) {
 				module._changeRowsId = 0;
 				var row = module._rentArChangedRows[module._changeRowsId];
-				module.doExecuteDialog('areaAssessPopup', '임대면적변경 정산', '/popup/showHtldAreaAssess.do', {}, {'searchRow' : row, 'mode' : 'I', 'histDt' : this._histDt} );
+				module.doExecuteDialog('areaAssessPopup', '임대면적변경 정산', '/popup/showHtldAreaAssess.do', {}, {'searchRow' : row, 'mode' : 'I', 'histDt' : module._histDt} );
 			} else {
 				module.closeWindow('SAVE_RENTCONTRACT'); 
 			}

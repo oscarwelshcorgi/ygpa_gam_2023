@@ -143,5 +143,5 @@
 		  AND MNG_NO = #mngNo#
 		  AND MNG_SEQ = #mngSeq#
 	</insert>
-    
+
 </sqlMap>

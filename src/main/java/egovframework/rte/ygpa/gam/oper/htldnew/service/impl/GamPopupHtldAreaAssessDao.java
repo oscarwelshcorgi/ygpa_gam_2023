@@ -29,9 +29,9 @@ import egovframework.rte.ygpa.gam.oper.htldnew.service.GamPopupHtldAreaAssessVO;
 @Repository("gamPopupHtldAreaAssessDao")
 public class GamPopupHtldAreaAssessDao extends YGPAAbstractDAO {
 	/**
-	 * 실적평가정산 조회
+	 * 지적평가 조회
 	 * @param GamPopupHtldAreaAssessVO
-	 * @return Map 실적평가정산
+	 * @return Map 
 	 * @exception Exception
 	 */
 	public Map<?, ?> selectHtldAreaAssessDetail(GamPopupHtldAreaAssessVO searchVO) throws Exception {

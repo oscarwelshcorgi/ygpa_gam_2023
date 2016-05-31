@@ -22,20 +22,16 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  * </pre>
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class GamPopupHtldAreaAssessVO extends GamHtldRentMngDefaultVO{
+public class GamPopupHtldAddNticVO extends GamHtldRentMngDefaultVO{
 	private static final long serialVersionUID = 1L;
 	
 	private String rntfeeSeq;				/** 임대료순번 */
 	private String rentDetailRegistSeq;	/** 등록순번 */
 	private String rntfeeSe; 				/** 임대료구분 0 - 일반 1 -실적 2- 지적 3 - 추가*/
+	private String rntfeeSeNm;			/** 임대료구분명(추가일때만 사용) */
+	private String paySe;					/** 납부구분 */
 	private String nticBeginDt; 			/** 고지대상시작일 */
 	private String nticEndDt;				/** 고지대상종료일 */
-	private String applcBeginDt; 			/** 적용시작일 */
-	private String applcEndDt; 			/** 적용종료일 */
-	private String applcRntfee; 			/** 적용단가 */
-	private String applcRentAr;			/** 적용면적 */
-	private String priceSe;					/** 단가구분 */
-	private String paySe;					/** 납부구분 */
 	private String rntfee; 					/** 임대료 */
 	private String rm;						/** 비고 */
 	private String regUsr;					/** 등록자 */
@@ -77,6 +73,30 @@ public class GamPopupHtldAreaAssessVO extends GamHtldRentMngDefaultVO{
 		this.rntfeeSe = rntfeeSe;
 	}
 	/**
+	 * @return the rntfeeSeNm
+	 */
+	public String getRntfeeSeNm() {
+		return rntfeeSeNm;
+	}
+	/**
+	 * @param rntfeeSeNm the rntfeeSeNm to set
+	 */
+	public void setRntfeeSeNm(String rntfeeSeNm) {
+		this.rntfeeSeNm = rntfeeSeNm;
+	}
+	/**
+	 * @return the paySe
+	 */
+	public String getPaySe() {
+		return paySe;
+	}
+	/**
+	 * @param paySe the paySe to set
+	 */
+	public void setPaySe(String paySe) {
+		this.paySe = paySe;
+	}
+	/**
 	 * @return the nticBeginDt
 	 */
 	public String getNticBeginDt() {
@@ -99,78 +119,6 @@ public class GamPopupHtldAreaAssessVO extends GamHtldRentMngDefaultVO{
 	 */
 	public void setNticEndDt(String nticEndDt) {
 		this.nticEndDt = nticEndDt;
-	}
-	/**
-	 * @return the applcBeginDt
-	 */
-	public String getApplcBeginDt() {
-		return applcBeginDt;
-	}
-	/**
-	 * @param applcBeginDt the applcBeginDt to set
-	 */
-	public void setApplcBeginDt(String applcBeginDt) {
-		this.applcBeginDt = applcBeginDt;
-	}
-	/**
-	 * @return the applcEndDt
-	 */
-	public String getApplcEndDt() {
-		return applcEndDt;
-	}
-	/**
-	 * @param applcEndDt the applcEndDt to set
-	 */
-	public void setApplcEndDt(String applcEndDt) {
-		this.applcEndDt = applcEndDt;
-	}
-	/**
-	 * @return the applcRntfee
-	 */
-	public String getApplcRntfee() {
-		return applcRntfee;
-	}
-	/**
-	 * @param applcRntfee the applcRntfee to set
-	 */
-	public void setApplcRntfee(String applcRntfee) {
-		this.applcRntfee = applcRntfee;
-	}
-	/**
-	 * @return the applcRentAr
-	 */
-	public String getApplcRentAr() {
-		return applcRentAr;
-	}
-	/**
-	 * @param applcRentAr the applcRentAr to set
-	 */
-	public void setApplcRentAr(String applcRentAr) {
-		this.applcRentAr = applcRentAr;
-	}
-	/**
-	 * @return the priceSe
-	 */
-	public String getPriceSe() {
-		return priceSe;
-	}
-	/**
-	 * @param priceSe the priceSe to set
-	 */
-	public void setPriceSe(String priceSe) {
-		this.priceSe = priceSe;
-	}
-	/**
-	 * @return the paySe
-	 */
-	public String getPaySe() {
-		return paySe;
-	}
-	/**
-	 * @param paySe the paySe to set
-	 */
-	public void setPaySe(String paySe) {
-		this.paySe = paySe;
 	}
 	/**
 	 * @return the rntfee

@@ -42,6 +42,8 @@ GamPopupHtldRntfeeBizAssessModule.prototype.loadComplete = function(params) {
 	this.$('#mngNo').val(params.searchRow.mngNo);
 	this.$('#mngSeq').val(params.searchRow.mngSeq);
 	this.$('#rntfeeSeq').val(params.searchRow.rntfeeSeq);
+	this.$('#histDt').val(params.histDt);
+	this._histDt = params.histDt;
 	this._searchRow = params.searchRow;
 	this.loadData();
 };
@@ -75,6 +77,7 @@ GamPopupHtldRntfeeBizAssessModule.prototype.loadData = function() {
 	var searchData = this.makeFormArgs('#gamPopupHtldRntfeeBizAssessForm');
 	this.doAction('/oper/htldnew/selectHtldRntfeeBizAssessDetail.do', searchData, function(module, result) {
 		module.makeFormValues('#gamPopupHtldRntfeeBizAssessForm', result.resultDetail);
+		module.$('#histDt').val(module._histDt);
 		module.initControls();
 	});
 };
@@ -165,6 +168,8 @@ var popup_instance = new GamPopupHtldRntfeeBizAssessModule();
 			<input type="hidden" id="rntfeeSeq"/>
 			<input type="hidden" id="rentDetailRegistSeq"/>
 			<input type="hidden" id="priceSe"/>
+			<input type="hidden" id="histDt"/>
+			<input type="hidden" id="paySe"/>
 			<input type="hidden" id="termnYn">
 			<input type="hidden" id="nticYn">
         	<table class="editForm" style="width:100%">

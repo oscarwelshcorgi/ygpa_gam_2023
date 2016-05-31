@@ -81,6 +81,7 @@ GamPopupHtldBizAssessModule.prototype.loadData = function() {
 					result.resultDetail.assetsLocplcAll 		+= "-" + result.resultDetail.gisAssetsLnmSub;
 				}
 			}
+			module._resultDetail = result.resultDetail;
 			module.makeFormValues('#gamPopupHtldBizAssessForm', result.resultDetail);
 			module.$('#histDt').val(module._histDt);
 			module.initControls();
@@ -92,20 +93,10 @@ GamPopupHtldBizAssessModule.prototype.loadData = function() {
 	initControls - 입력 컨트롤 및 버튼 설정
 --%>
 GamPopupHtldBizAssessModule.prototype.initControls = function() {
-	if(this.$('#termnYn').val() == 'N') {
-		this.$('#btnSave').enable();
-		this.$('#btnSave').removeClass('ui-state-disabled');
-		this.$('#aseRntfee').enable();
-		this.$('#aseApplcBegin').enable();
-		this.$('#aseApplcEnd').enable();
-		this.$('#applcRsn').enable();		
+	if(this._resultDetail.aseRntfee == void(0)) {
+		this.$('#btnDelete').hide();
 	} else {
-		this.$('#btnSave').disable({disableClass:"ui-state-disabled"});
-		this.$('#aseRntfee').disable();
-		this.$('#aseApplcBegin').disable();
-		this.$('#aseApplcEnd').disable();
-		this.$('#applcRsn').disable();
-		alert('해지된 계약이기에 실적평가 등록이 불가능합니다.');
+		this.$('#btnDelete').show();
 	}
 };
 
@@ -147,6 +138,19 @@ GamPopupHtldBizAssessModule.prototype.saveData = function() {
 	});
 };
 
+<%--
+	deleteData - 실적평가 삭제
+--%>
+GamPopupHtldBizAssessModule.prototype.deleteData = function() {	
+	if(!confirm("삭제하시겠습니까?")) return;
+	var deleteData = this.makeFormArgs('#gamPopupHtldBizAssessForm');
+	this.doAction('/oper/htldnew/deleteBizAssess.do', deleteData, function(module, result) {
+		alert(result.resultMsg);
+		if(result.resultCode == 0) {
+			module.closeDialog("ok", null);
+		}
+	});
+};
 
 // 다음 변수는 고정 적으로 정의 해야 함
 var popup_instance = new GamPopupHtldBizAssessModule();
@@ -244,6 +248,7 @@ var popup_instance = new GamPopupHtldBizAssessModule();
 				<tr>
 					<th style="text-align:center">
 						<button id="btnSave">저장</button>
+						<button id="btnDelete">삭제</button>
 						<button id="btnCancel">닫기</button>
 					</th>
 				</tr>

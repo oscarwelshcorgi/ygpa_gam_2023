@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="ygpa.gam.oper.htldnew">
+
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="GamPopupHtldAddNticVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamPopupHtldAddNticVO"/>
+
+	<!-- 추가정산 계약정보 조회 -->
+	<select  id="gamPopupHtldAddNticDao.selectAddNticCtrtDetail_S" parameterClass="GamPopupHtldAddNticVO" resultClass="egovMap">
+		SELECT
+			R.MNG_YEAR MNG_YEAR
+			,R.MNG_NO MNG_NO
+			,R.MNG_SEQ MNG_SEQ
+			,(SELECT E.ENTRPS_NM FROM ENTRPS_INFO_F E WHERE E.ENTRPSCD = R.ENTRPS_CD) ENTRPS_NM
+			,(SELECT SUBSTR(E.BIZRNO, 0,3)||'-'||SUBSTR(E.BIZRNO, 4,2)||'-'||SUBSTR(E.BIZRNO, 6,5) AS BIZRNO FROM ENTRPS_INFO_F E WHERE E.ENTRPSCD = R.ENTRPS_CD) BIZRNO
+			,(SELECT E.RPRSNTV_NM FROM ENTRPS_INFO_F E WHERE E.ENTRPSCD = R.ENTRPS_CD) RPRSNTV_NM
+			,GAM_GETCODENAME('GAM062', R.BOUND_CD) BOUND_NM
+			,DECODE(R.TERMN_DT, NULL, 'N', 'Y') TERMN_YN
+		    ,R.PAY_SE PAY_SE
+		FROM
+			(SELECT B.* FROM HTLD_RENT_HIST_F B WHERE B.HIST_SEQ = GAM_GET_HTLD_RENT_HIST_SEQ(B.MNG_YEAR, B.MNG_NO, B.MNG_SEQ, #histDt#)) R
+		WHERE   
+			R.MNG_YEAR = #mngYear#
+			AND R.MNG_NO = #mngNo#
+			AND R.MNG_SEQ = #mngSeq#
+	</select>
+
+	<!-- 추가정산 조회 -->
+	<select  id="gamPopupHtldAddNticDao.selectAddNticDetail_S" parameterClass="GamPopupHtldAddNticVO" resultClass="egovMap">
+		SELECT
+			F.MNG_YEAR MNG_YEAR
+			,F.MNG_NO MNG_NO
+			,F.MNG_SEQ MNG_SEQ
+			,F.RNTFEE_SEQ RNTFEE_SEQ
+			,F.RNTFEE_SE_NM RNTFEE_SE_NM
+			,(SELECT E.ENTRPS_NM FROM ENTRPS_INFO_F E WHERE E.ENTRPSCD = R.ENTRPS_CD) ENTRPS_NM
+			,(SELECT SUBSTR(E.BIZRNO, 0,3)||'-'||SUBSTR(E.BIZRNO, 4,2)||'-'||SUBSTR(E.BIZRNO, 6,5) AS BIZRNO FROM ENTRPS_INFO_F E WHERE E.ENTRPSCD = R.ENTRPS_CD) BIZRNO
+			,(SELECT E.RPRSNTV_NM FROM ENTRPS_INFO_F E WHERE E.ENTRPSCD = R.ENTRPS_CD) RPRSNTV_NM
+			,GAM_GETCODENAME('GAM062', R.BOUND_CD) BOUND_NM
+			,NVL(F.RNTFEE, 0) RNTFEE
+			,DECODE(R.TERMN_DT, NULL, 'N', 'Y') TERMN_YN
+		    ,DECODE(F.NTIC_SEQ, NULL, 'N', 'Y') NTIC_YN
+		    ,R.PAY_SE PAY_SE
+		    ,F.RM RM
+		FROM
+			HTLD_RNTFEE_F F
+		INNER JOIN
+			(SELECT B.* FROM HTLD_RENT_HIST_F B WHERE B.HIST_SEQ = GAM_GET_HTLD_RENT_HIST_SEQ(B.MNG_YEAR, B.MNG_NO, B.MNG_SEQ, #histDt#)) R
+			ON F.MNG_YEAR = R.MNG_YEAR AND F.MNG_NO = R.MNG_NO AND F.MNG_SEQ = R.MNG_SEQ
+		WHERE   
+			F.MNG_YEAR = #mngYear#
+			AND F.MNG_NO = #mngNo#
+			AND F.MNG_SEQ = #mngSeq#
+			AND F.RNTFEE_SEQ = #rntfeeSeq#
+			AND F.RNTFEE_SE = '3'
+	</select>
+			
+	<!-- 배후단지 임대료 순번 생성 -->
+	<select id="gamPopupHtldAddNticDao.selectNextRntfeeSeq_S" parameterClass="GamPopupHtldAddNticVO" resultClass="java.lang.String">
+   		SELECT
+   		  	LPAD(NVL(MAX(RNTFEE_SEQ),0) + 1,'3','0')
+   		FROM
+   		  	HTLD_RNTFEE_F
+   		WHERE
+			MNG_YEAR=#mngYear# 
+			AND MNG_NO=#mngNo# 
+			AND MNG_SEQ=#mngSeq#
+	</select>
+	
+	<!-- 추가정산 등록(임대료) -->
+	<insert  id="gamPopupHtldAddNticDao.insertAddNtic_S" parameterClass="GamPopupHtldAddNticVO">
+		INSERT INTO HTLD_RNTFEE_F (
+			MNG_YEAR
+			,MNG_NO
+			,MNG_SEQ
+			,RNTFEE_SEQ
+			,RNTFEE_SE
+			,RNTFEE_SE_NM
+			,NTIC_BEGIN_DT
+			,NTIC_END_DT
+			,RNTFEE
+			,PAYINST_INTR
+			,SUP_AMT
+			,VAT
+			,PAY_AMT
+			,RM
+			,REG_USR
+			,REGIST_DT
+		)
+		VALUES (
+			#mngYear#
+			,#mngNo#
+			,#mngSeq#
+			,#rntfeeSeq#
+			,'3'
+			,#rntfeeSeNm#
+			,TO_DATE(#nticBeginDt#, 'YYYY-MM-DD')
+			,TO_DATE(#nticEndDt#, 'YYYY-MM-DD')
+			,TO_NUMBER(#rntfee#)
+			,0
+			,0
+			,0
+			,0
+			,#rm#
+			,#regUsr#
+			,SYSDATE
+		)
+	</insert>
+	
+	<!-- 추가정산 수정 -->
+	<update id="gamPopupHtldAddNticDao.updateAddNtic_S" parameterClass="GamPopupHtldAddNticVO">
+		UPDATE HTLD_RNTFEE_F
+		SET
+			RNTFEE_SE_NM = #rntfeeSeNm#
+			,RNTFEE = TO_NUMBER(#rntfee#)
+			,RM = #rm#
+			,UPD_USR = #updUsr#
+			,UPDT_DT = SYSDATE
+		WHERE
+			MNG_YEAR = #mngYear#
+			AND MNG_NO = #mngNo#
+			AND MNG_SEQ = #mngSeq#
+			AND RNTFEE_SEQ = #rntfeeSeq#
+			AND RNTFEE_SE = '3'
+	</update>
+	
+	<!-- 추가정산 삭제 -->
+	<delete id="gamPopupHtldAddNticDao.deleteAddNtic_S" parameterClass="GamPopupHtldAddNticVO">
+		DELETE FROM HTLD_RNTFEE_F
+		WHERE
+			MNG_YEAR = #mngYear#
+			AND MNG_NO = #mngNo#
+			AND MNG_SEQ = #mngSeq#
+			AND RNTFEE_SEQ = #rntfeeSeq#
+			AND RNTFEE_SE = '3'
+	</delete>	
+	
+</sqlMap>

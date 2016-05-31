@@ -68,7 +68,7 @@ public class GamPopupHtldBizAssessServiceImpl extends AbstractServiceImpl implem
 	public void updateBizAssess(GamPopupHtldBizAssessVO vo, String updUsr) throws Exception {
 		vo.setUpdUsr(updUsr);
 		gamPopupHtldBizAssessDao.updateBizAssess(vo);
-		insertHtldRentHist(vo);
+		//insertHtldRentHist(vo);
 		insertHtldRentBizAssess(vo);
 	}
 

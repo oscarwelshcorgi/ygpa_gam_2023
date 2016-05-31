@@ -60,7 +60,17 @@ public class GamPopupHtldAreaAssessServiceImpl  extends AbstractServiceImpl impl
 	 * @exception Exception
 	 */
 	public void insertAreaAssess(GamPopupHtldAreaAssessVO vo) throws Exception {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		LocalDate histDt = new LocalDate(dateFormat.parse(vo.getHistDt()));
+		LocalDate nticBeginDt = getQuarterStartDate(histDt);
+		LocalDate nticEndDt = getQuarterEndDate(histDt);
+		if("6".equals(vo.getPaySe())) {
+			nticBeginDt = new LocalDate(histDt.getYear(), 1, 1);
+			nticEndDt = new LocalDate(histDt.getYear(), 12, 31);
+		}
 		vo.setRntfeeSeq(gamPopupHtldAreaAssessDao.selectNextRntfeeSeq(vo));
+		vo.setNticBeginDt(nticBeginDt.toString());
+		vo.setNticEndDt(nticEndDt.toString());
 		vo.setRntfee(getAreaRntfee(vo));
 		gamPopupHtldAreaAssessDao.insertAreaAssess(vo);
 	}
