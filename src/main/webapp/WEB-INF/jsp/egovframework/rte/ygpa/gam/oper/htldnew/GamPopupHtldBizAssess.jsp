@@ -58,6 +58,9 @@ GamPopupHtldBizAssessModule.prototype.onButtonClick = function(buttonId) {
 	case 'btnSave': //저장
 		this.saveData();
 		break;
+	case 'btnDelete': //삭제
+		this.deleteData();
+		break;
 	case 'btnCancel': //닫기
 		this.cancelDialog();
 		break;
@@ -93,7 +96,7 @@ GamPopupHtldBizAssessModule.prototype.loadData = function() {
 	initControls - 입력 컨트롤 및 버튼 설정
 --%>
 GamPopupHtldBizAssessModule.prototype.initControls = function() {
-	if(this._resultDetail.aseRntfee == void(0)) {
+	if(this._resultDetail.aseRntfee == 0) {
 		this.$('#btnDelete').hide();
 	} else {
 		this.$('#btnDelete').show();

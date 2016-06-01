@@ -6,6 +6,7 @@ package egovframework.rte.ygpa.gam.oper.htldnew.service.impl;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -17,6 +18,8 @@ import org.joda.time.Months;
 import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
+import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentCtrtDetailVO;
+import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentCtrtVO;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamPopupHtldBizAssessService;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamPopupHtldBizAssessVO;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamPopupHtldRntfeeBizAssessVO;
@@ -65,11 +68,77 @@ public class GamPopupHtldBizAssessServiceImpl extends AbstractServiceImpl implem
 	 * @return 
 	 * @exception Exception
 	 */	
+	@SuppressWarnings("unchecked")
 	public void updateBizAssess(GamPopupHtldBizAssessVO vo, String updUsr) throws Exception {
-		vo.setUpdUsr(updUsr);
-		gamPopupHtldBizAssessDao.updateBizAssess(vo);
-		//insertHtldRentHist(vo);
+		//vo의 이력날짜에 최신 데이터를 가져온다.
+		GamHtldRentCtrtVO rentVo = gamHtldRentCtrtHistDao.selectHtldRentCtrt(vo);
+		List<GamHtldRentCtrtDetailVO> rentDetailList = (List<GamHtldRentCtrtDetailVO>) gamHtldRentCtrtHistDao.selectHtldRentCtrtDetail(vo);
+		
+		// 이력번호 생성
+		String histSeq = gamHtldRentCtrtHistDao.selectNextHistSeq(vo);
+		
+		// 이력데이터와 실적평가데이터 추가
+		rentVo.setHistDt(vo.getHistDt());
+		rentVo.setHistSeq(histSeq);
+		rentVo.setRegUsr(updUsr);
+		rentVo.setUpdUsr(updUsr);
+		gamHtldRentCtrtHistDao.insertHtldRentCtrtHist(rentVo);
+		
+		for(GamHtldRentCtrtDetailVO detailItem : rentDetailList) {
+			detailItem.setHistDt(vo.getHistDt());
+			detailItem.setHistSeq(histSeq);
+			detailItem.setRegUsr(updUsr);
+			detailItem.setUpdUsr(updUsr);
+			if(detailItem.getRegistSeq().equals(vo.getRegistSeq())) {
+				detailItem.setAseApplcBegin(vo.getAseApplcBegin());
+				detailItem.setAseApplcEnd(vo.getAseApplcEnd());
+				detailItem.setAseRntfee(vo.getAseRntfee());
+				detailItem.setApplcRsn(vo.getApplicRsn());
+			}
+			gamHtldRentCtrtHistDao.insertHtldRentCtrtDetailHist(detailItem);
+		}
+		
+		//임대료에 실적평가 정산부분 추가
 		insertHtldRentBizAssess(vo);
+	}
+	
+	/**
+	 * 실적평가 등록
+	 * @param GamPopupHtldBizAssessVO
+	 * @return 
+	 * @exception Exception
+	 */	
+	@SuppressWarnings("unchecked")
+	public void deleteBizAssess(GamPopupHtldBizAssessVO vo, String updUsr) throws Exception {
+		//vo의 이력날짜에 최신 데이터를 가져온다.
+		GamHtldRentCtrtVO rentVo = gamHtldRentCtrtHistDao.selectHtldRentCtrt(vo);
+		List<GamHtldRentCtrtDetailVO> rentDetailList = (List<GamHtldRentCtrtDetailVO>) gamHtldRentCtrtHistDao.selectHtldRentCtrtDetail(vo);
+		
+		// 이력번호 생성
+		String histSeq = gamHtldRentCtrtHistDao.selectNextHistSeq(vo);
+		
+		// 이력데이터와 실적평가데이터 추가
+		rentVo.setHistDt(vo.getHistDt());
+		rentVo.setHistSeq(histSeq);
+		rentVo.setRegUsr(updUsr);
+		rentVo.setUpdUsr(updUsr);
+		gamHtldRentCtrtHistDao.insertHtldRentCtrtHist(rentVo);
+		
+		for(GamHtldRentCtrtDetailVO detailItem : rentDetailList) {
+			detailItem.setHistDt(vo.getHistDt());
+			detailItem.setHistSeq(histSeq);
+			detailItem.setRegUsr(updUsr);
+			detailItem.setUpdUsr(updUsr);
+			if(detailItem.getRegistSeq().equals(vo.getRegistSeq())) {
+				detailItem.setAseApplcBegin(null);
+				detailItem.setAseApplcEnd(null);
+				detailItem.setAseRntfee(null);
+				detailItem.setApplcRsn(null);
+			}
+			gamHtldRentCtrtHistDao.insertHtldRentCtrtDetailHist(detailItem);
+		}
+		//임대료에 있는 실적정산분 삭제
+		deleteHtldRentBizAssess(vo);
 	}
 
 	protected void insertHtldRentBizAssess(GamPopupHtldBizAssessVO vo) throws Exception {
@@ -126,25 +195,27 @@ public class GamPopupHtldBizAssessServiceImpl extends AbstractServiceImpl implem
 		}
 	}
 	
-	/**
-	 * 배후단지 임대계약 이력등록
-	 * @param rentData - 임대계약 
-	 * @return
-	 * @exception Exception
-	 */	
-	protected void insertHtldRentHist(GamPopupHtldBizAssessVO rentData) throws Exception {
-		
-		//임대계약 이력번호 생성
-		String histSeq = gamHtldRentCtrtHistDao.selectNextHistSeq(rentData);
-		rentData.setHistSeq(histSeq);
-		
-		//임대계약 이력등록
-		gamHtldRentCtrtHistDao.insertHtldRentCtrtHist(rentData);
-		
-		//임대계약 상세이력등록
-		gamHtldRentCtrtHistDao.insertHtldRentCtrtDetailHist(rentData);		
-	}
+	protected void deleteHtldRentBizAssess(GamPopupHtldBizAssessVO vo) throws Exception {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		LocalDate histDt = new LocalDate(dateFormat.parse(vo.getHistDt()));
+		LocalDate nticBeginDt = getQuarterStartDate(histDt);
+		LocalDate nticEndDt = getQuarterEndDate(histDt);
+		if("6".equals(vo.getPaySe())) {
+			nticBeginDt = new LocalDate(histDt.getYear(), 1, 1);
+			nticEndDt = new LocalDate(histDt.getYear(), 12, 31);
+		}
 
+		GamPopupHtldRntfeeBizAssessVO deleteVO = new GamPopupHtldRntfeeBizAssessVO();
+		deleteVO.setMngYear(vo.getMngYear());
+		deleteVO.setMngNo(vo.getMngNo());
+		deleteVO.setMngSeq(vo.getMngSeq());
+		deleteVO.setRentDetailRegistSeq(vo.getRegistSeq());
+		deleteVO.setNticBeginDt(nticBeginDt.toString());
+		deleteVO.setNticEndDt(nticEndDt.toString());
+
+		gamPopupHtldBizAssessDao.deleteRntfeeBizAssess(deleteVO);
+	}
+	
 	/**
 	 * 해당 기간의 사용료를 구함
 	 * @param  시작일자, 종료일자, 월사용료

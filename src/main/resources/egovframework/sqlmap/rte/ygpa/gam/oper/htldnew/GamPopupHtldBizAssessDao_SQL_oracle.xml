@@ -130,4 +130,17 @@
 			,SYSDATE
 		)
 	</insert>
+	
+	<!-- 실적평가 삭제(임대료) -->
+	<delete  id="gamPopupHtldBizAssessDao.deleteRntfeeBizAssess_S" parameterClass="GamPopupHtldRntfeeBizAssessVO">
+		 DELETE FROM HTLD_RNTFEE_F 
+		 WHERE
+		 	MNG_YEAR = #mngYear#
+			AND MNG_NO = #mngNo#
+			AND MNG_SEQ = #mngSeq#
+			AND RENT_DETAIL_REGIST_SEQ = #rentDetailRegistSeq#
+			AND RNTFEE_SE = '1'
+			AND NTIC_BEGIN_DT = TO_DATE(#nticBeginDt#, 'YYYY-MM-DD')
+			AND NTIC_END_DT = TO_DATE(#nticEndDt#, 'YYYY-MM-DD')
+	</delete>
 </sqlMap>

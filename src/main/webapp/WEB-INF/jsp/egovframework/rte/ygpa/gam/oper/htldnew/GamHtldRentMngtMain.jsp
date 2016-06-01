@@ -90,7 +90,6 @@ GamHtldRentMngtMainModule.prototype.loadComplete = function() {
     this.$('#histDt').val(searchDt);
     
     this.loadData();
-    console.log('1');
 };
 
 <%--

@@ -7,6 +7,8 @@
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     
     <typeAlias alias="GamHtldRentMngDefaultVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentMngDefaultVO"/>
+	<typeAlias alias="GamHtldRentCtrtVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentCtrtVO"/>
+	<typeAlias alias="GamHtldRentCtrtDetailVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentCtrtDetailVO"/>
     
 	<!--  배후단지 임대계약 최신이력번호 조회 -->
 	<select id="gamHtldRentCtrtHistDao.selectHtldRentCtrtMaxHistSeq_S" parameterClass="GamHtldRentMngDefaultVO" resultClass="java.lang.String">
@@ -31,34 +33,27 @@
 			AND MNG_SEQ=#mngSeq#
 	</select>
 
+	<!-- 배후단지 임대계약 상세번호 생성(이력테이블) -->
+	<select id="gamHtldRentCtrtHistDao.selectNextRegistSeq_S" parameterClass="GamHtldRentCtrtVO" resultClass="java.lang.String">
+   		SELECT
+   		  	LPAD(NVL(MAX(REGIST_SEQ),0) + 1,'3','0')
+   		FROM
+   		  	HTLD_RENT_DETAIL_HIST_F
+   		WHERE
+			MNG_YEAR=#mngYear# 
+			AND MNG_NO=#mngNo# 
+			AND MNG_SEQ=#mngSeq#
+			AND HIST_SEQ =GAM_GET_HTLD_RENT_HIST_SEQ(#mngYear#, #mngNo#, #mngSeq#, #histDt#)
+	</select>
+
 	<!--  배후단지 임대계약 변경시 이력등록 -->
-	<insert id="gamHtldRentCtrtHistDao.insertHtldRentCtrtHist_S" parameterClass="GamHtldRentMngDefaultVO">
+	<insert id="gamHtldRentCtrtHistDao.insertHtldRentCtrtHist_S" parameterClass="GamHtldRentCtrtVO" >
 		INSERT INTO HTLD_RENT_HIST_F (
 		  MNG_YEAR
 		  ,MNG_NO
 		  ,MNG_SEQ
 		  ,HIST_SEQ
-		  ,ENTRPS_CD
-		  ,BOUND_CD
-		  ,CHRGE_KND_CD
-		  ,GR_RENT_AR
-		  ,PAY_SE
-		  ,CTRT_BEGIN_DT
-		  ,CTRT_END_DT
-		  ,CTRT_DT
-		  ,TERMN_DT
-		  ,TERMN_RSN
 		  ,HIST_DT
-		  ,REG_USR
-		  ,REGIST_DT
-		  ,UPD_USR
-		  ,UPDT_DT
-		)
-		SELECT
-		  MNG_YEAR
-		  ,MNG_NO
-		  ,MNG_SEQ
-		  ,#histSeq# AS HIST_SEQ
 		  ,ENTRPS_CD
 		  ,BOUND_CD
 		  ,CHRGE_KND_CD
@@ -69,26 +64,42 @@
 		  ,CTRT_DT
 		  ,TERMN_DT
 		  ,TERMN_RSN
-		  ,TO_DATE(#histDt#, 'YYYY-MM-DD') AS HIST_DT
 		  ,REG_USR
 		  ,REGIST_DT
 		  ,UPD_USR
 		  ,UPDT_DT
-		FROM HTLD_RENT_F
-		WHERE
-		  MNG_YEAR = #mngYear#
-		  AND MNG_NO = #mngNo#
-		  AND MNG_SEQ = #mngSeq#
+		) VALUES (
+		  #mngYear#
+		  ,#mngNo#
+		  ,#mngSeq#
+		  ,#histSeq#
+		  ,TO_DATE(#histDt#, 'YYYY-MM-DD')
+		  ,#entrpsCd#
+		  ,#boundCd#
+		  ,#chrgeKndCd#
+		  ,TO_NUMBER(#grRentAr#)
+		  ,#paySe#
+		  ,TO_DATE(#ctrtBeginDt#, 'YYYY-MM-DD')
+		  ,TO_DATE(#ctrtEndDt#, 'YYYY-MM-DD')
+		  ,TO_DATE(#ctrtDt#, 'YYYY-MM+DD')
+		  ,TO_DATE(#termnDt#, 'YYYY-MM+DD')
+		  ,#termnRsn#
+		  ,#regUsr#
+		  ,SYSDATE
+		  ,#regUsr#
+		  ,SYSDATE
+		)
 	</insert>
 
 	<!--  배후단지 임대관리 상세목록 변경시 이력등록 -->
-	<insert id="gamHtldRentCtrtHistDao.insertHtldRentCtrtDetailHist_D" parameterClass="GamHtldRentMngDefaultVO">
+	<insert id="gamHtldRentCtrtHistDao.insertHtldRentCtrtDetailHist_D" parameterClass="GamHtldRentCtrtDetailVO">
 		INSERT INTO HTLD_RENT_DETAIL_HIST_F (
 		  MNG_YEAR
 		  ,MNG_NO
 		  ,MNG_SEQ
 		  ,REGIST_SEQ
 		  ,HIST_SEQ
+		  ,HIST_DT
 		  ,GIS_ASSETS_PRT_AT_CODE
 		  ,GIS_ASSETS_CD
 		  ,GIS_ASSETS_SUB_CD
@@ -104,44 +115,147 @@
 		  ,ASSETS_NM
 		  ,PRICE_SE
 		  ,RM
-		  ,HIST_DT
 		  ,REG_USR
 		  ,REGIST_DT
 		  ,UPD_USR
 		  ,UPDT_DT
+		) VALUES (
+		  #mngYear#
+		  ,#mngNo#
+		  ,#mngSeq#
+		  ,#registSeq#
+		  ,#histSeq#
+		  ,TO_DATE(#histDt#, 'YYYY-MM-DD')
+		  ,#gisAssetsPrtAtCode#
+		  ,#gisAssetsCd#
+		  ,#gisAssetsSubCd#
+		  ,TO_DATE(#detailPdBegin#, 'YYYY-MM-DD')
+		  ,TO_DATE(#detailPdEnd#, 'YYYY-MM-DD')
+		  ,TO_NUMBER(#rentAr#)
+		  ,#rentArSe#
+		  ,TO_NUMBER(#applcRntfee#)
+		  ,TO_NUMBER(#aseRntfee#)
+		  ,TO_DATE(#aseApplcBegin#, 'YYYY-MM-DD')
+		  ,TO_DATE(#aseApplcEnd#, 'YYYY-MM-DD')
+		  ,#applcRsn#
+		  ,#assetsNm#
+		  ,#priceSe#
+		  ,#rm#
+		  ,#regUsr#
+		  ,SYSDATE
+		  ,#regUsr#
+		  ,SYSDATE
 		)
-		SELECT 
+	</insert>
+
+	<resultMap id="gamHtldRentCtrtMap" class="egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentCtrtVO">
+        <result property="mngYear" column="MNG_YEAR" columnIndex="1"/>
+        <result property="mngNo" column="MNG_NO" columnIndex="2"/>
+        <result property="mngSeq" column="MNG_SEQ" columnIndex="3"/>
+        <result property="histSeq" column="HIST_SEQ" columnIndex="4"/>
+        <result property="histDt" column="HIST_DT" columnIndex="5"/>
+        <result property="entrpsCd" column="ENTRPS_CD" columnIndex="6"/>
+        <result property="boundCd" column="BOUND_CD" columnIndex="7"/>
+        <result property="chrgeKndCd" column="CHRGE_KND_CD" columnIndex="8"/>
+        <result property="grRentAr" column="GR_RENT_AR" columnIndex="9"/>
+        <result property="paySe" column="PAY_SE" columnIndex="10"/>
+        <result property="ctrtBeginDt" column="CTRT_BEGIN_DT" columnIndex="11"/>
+        <result property="ctrtEndDt" column="CTRT_END_DT" columnIndex="12"/>
+        <result property="ctrtDt" column="CTRT_DT" columnIndex="13"/>
+        <result property="termnDt" column="TERMN_DT" columnIndex="14"/>
+        <result property="termnRsn" column="TERMN_RSN" columnIndex="15"/>
+        <result property="regUsr" column="REG_USR" columnIndex="16"/>
+        <result property="updUsr" column="UPD_USR" columnIndex="17"/>
+	</resultMap>
+
+	<!--  이력날짜에 해당하는 계약 가져오기 -->
+	<select id="gamHtldRentCtrtHistDao.selectHtldRentCtrt_S" parameterClass="GamHtldRentMngDefaultVO" resultMap="gamHtldRentCtrtMap">
+		SELECT
 		  MNG_YEAR
 		  ,MNG_NO
 		  ,MNG_SEQ
-		  ,REGIST_SEQ
-		  ,#histSeq# AS HIST_SEQ
-		  ,GIS_ASSETS_PRT_AT_CODE
-		  ,GIS_ASSETS_CD
-		  ,GIS_ASSETS_SUB_CD
-		  ,DETAIL_PD_BEGIN
-		  ,DETAIL_PD_END
-		  ,RENT_AR
-		  ,RENT_AR_SE
-		  ,APPLC_RNTFEE
-		  ,ASE_RNTFEE
-		  ,ASE_APPLC_BEGIN
-		  ,ASE_APPLC_END
-		  ,APPLC_RSN
-		  ,ASSETS_NM
-		  ,PRICE_SE
-		  ,RM
-		  ,TO_DATE(#histDt#, 'YYYY-MM-DD') AS HIST_DT
+		  ,HIST_SEQ
+		  ,TO_CHAR(HIST_DT, 'YYYY-MM-DD') HIST_DT
+		  ,ENTRPS_CD
+		  ,BOUND_CD
+		  ,CHRGE_KND_CD
+		  ,TO_CHAR(GR_RENT_AR) GR_RENT_AR
+		  ,PAY_SE
+		  ,TO_CHAR(CTRT_BEGIN_DT, 'YYYY-MM-DD') CTRT_BEGIN_DT
+		  ,TO_CHAR(CTRT_END_DT, 'YYYY-MM-DD') CTRT_END_DT
+		  ,TO_CHAR(CTRT_DT, 'YYYY-MM-DD') CTRT_DT
+		  ,TO_CHAR(TERMN_DT, 'YYYY-MM-DD') TERMN_DT
+		  ,TERMN_RSN
 		  ,REG_USR
-		  ,REGIST_DT
 		  ,UPD_USR
-		  ,UPDT_DT
 		FROM
-		  HTLD_RENT_DETAIL_F
+		  HTLD_RENT_HIST_F
 		WHERE
 		  MNG_YEAR = #mngYear#
 		  AND MNG_NO = #mngNo#
 		  AND MNG_SEQ = #mngSeq#
-	</insert>
-
+		  AND HIST_SEQ = GAM_GET_HTLD_RENT_HIST_SEQ(#mngYear#, #mngNo#, #mngSeq#, #histDt#)
+	</select>
+	
+	<resultMap id="gamHtldRentCtrtDetailMap" class="egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentCtrtDetailVO">
+        <result property="mngYear" column="MNG_YEAR" columnIndex="1"/>
+        <result property="mngNo" column="MNG_NO" columnIndex="2"/>
+        <result property="mngSeq" column="MNG_SEQ" columnIndex="3"/>
+        <result property="registSeq" column="REGIST_SEQ" columnIndex="4"/>
+        <result property="histSeq" column="HIST_SEQ" columnIndex="5"/>
+        <result property="histDt" column="HIST_DT" columnIndex="6"/>
+        <result property="gisAssetsPrtAtCode" column="GIS_ASSETS_PRT_AT_CODE" columnIndex="7"/>
+        <result property="gisAssetsCd" column="GIS_ASSETS_CD" columnIndex="8"/>
+        <result property="gisAssetsSubCd" column="GIS_ASSETS_SUB_CD" columnIndex="9"/>
+        <result property="detailPdBegin" column="DETAIL_PD_BEGIN" columnIndex="10"/>
+        <result property="detailPdEnd" column="DETAIL_PD_END" columnIndex="11"/>
+        <result property="rentAr" column="RENT_AR" columnIndex="12"/>
+        <result property="rentArSe" column="RENT_AR_SE" columnIndex="13"/>
+        <result property="applcRntfee" column="APPLC_RNTFEE" columnIndex="14"/>
+        <result property="aseRntfee" column="ASE_RNTFEE" columnIndex="15"/>
+        <result property="aseApplcBegin" column="ASE_APPLC_BEGIN" columnIndex="16"/>
+        <result property="aseApplcEnd" column="ASE_APPLC_END" columnIndex="17"/>
+        <result property="applcRsn" column="APPLC_RSN" columnIndex="18"/>
+        <result property="assetsNm" column="ASSETS_NM" columnIndex="19"/>
+        <result property="priceSe" column="PRICE_SE" columnIndex="20"/>
+        <result property="rm" column="RM" columnIndex="21"/>
+        <result property="regUsr" column="REG_USR" columnIndex="22"/>
+        <result property="updUsr" column="UPD_USR" columnIndex="23"/>
+	</resultMap>
+	
+	<!--  이력날짜에 해당하는 계약상세 가져오기 -->
+	<select id="gamHtldRentCtrtHistDao.selectHtldRentCtrtDetail_D" parameterClass="GamHtldRentMngDefaultVO" resultMap="gamHtldRentCtrtDetailMap">
+		SELECT
+		  MNG_YEAR
+		  ,MNG_NO
+		  ,MNG_SEQ
+		  ,REGIST_SEQ
+		  ,HIST_SEQ
+		  ,TO_CHAR(HIST_DT, 'YYYY-MM-DD') HIST_DT
+		  ,GIS_ASSETS_PRT_AT_CODE
+		  ,GIS_ASSETS_CD
+		  ,GIS_ASSETS_SUB_CD
+		  ,TO_CHAR(DETAIL_PD_BEGIN, 'YYYY-MM-DD') DETAIL_PD_BEGIN
+		  ,TO_CHAR(DETAIL_PD_END, 'YYYY-MM-DD') DETAIL_PD_END
+		  ,TO_CHAR(RENT_AR) RENT_AR
+		  ,RENT_AR_SE
+		  ,TO_CHAR(APPLC_RNTFEE) APPLC_RNTFEE
+		  ,TO_CHAR(ASE_RNTFEE) ASE_RNTFEE
+		  ,TO_CHAR(ASE_APPLC_BEGIN, 'YYYY-MM-DD') ASE_APPLC_BEGIN
+		  ,TO_CHAR(ASE_APPLC_END, 'YYYY-MM-DD') ASE_APPLC_END
+		  ,APPLC_RSN
+		  ,ASSETS_NM
+		  ,PRICE_SE
+		  ,RM
+		  ,REG_USR
+		  ,UPD_USR
+		FROM
+		  HTLD_RENT_DETAIL_HIST_F
+		WHERE
+		  MNG_YEAR = #mngYear#
+		  AND MNG_NO = #mngNo#
+		  AND MNG_SEQ = #mngSeq#
+		  AND HIST_SEQ = GAM_GET_HTLD_RENT_HIST_SEQ(#mngYear#, #mngNo#, #mngSeq#, #histDt#)
+	</select>
+	
 </sqlMap>

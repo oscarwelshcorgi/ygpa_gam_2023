@@ -69,4 +69,14 @@ public class GamPopupHtldBizAssessDao extends YGPAAbstractDAO {
 	public void insertRntfeeBizAssess(GamPopupHtldRntfeeBizAssessVO vo) throws Exception {
 		insert("gamPopupHtldBizAssessDao.insertRntfeeBizAssess_S", vo);
 	}
+
+	/**
+	 * 실적평가 삭제(상세)
+	 * @param GamPopupHtldBizAssessVO
+	 * @return 
+	 * @exception Exception
+	 */
+	public void deleteRntfeeBizAssess(GamPopupHtldRntfeeBizAssessVO vo) throws Exception {
+		delete("gamPopupHtldBizAssessDao.deleteRntfeeBizAssess_S", vo);
+	}
 }

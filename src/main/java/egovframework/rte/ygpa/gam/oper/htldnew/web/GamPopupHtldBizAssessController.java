@@ -138,4 +138,37 @@ public class GamPopupHtldBizAssessController {
     	return map;
 	}
 
+	/**
+     * 실적평가 삭제
+     * @param Map
+     * @return Map
+     * @throws Exception
+     */
+	@RequestMapping(value="/oper/htldnew/deleteBizAssess.do")
+	public @ResponseBody Map<String, Object> deleteBizAssess(GamPopupHtldBizAssessVO deleteVO) throws Exception {
+		Map<String,Object> map = new HashMap<String,Object>();
+				
+		//사용자 인증 처리
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}    	
+		
+    	LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+    	
+    	try {
+    		gamPopupHtldBizAssessService.deleteBizAssess(deleteVO, loginVO.getId());
+	        map.put("resultCode", 0);
+    		map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));    		
+    	} catch(Exception e) {
+    		System.out.println(e.getMessage());
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));    		
+    	}
+    	
+    	return map;
+	}
+
 }

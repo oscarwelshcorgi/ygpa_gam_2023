@@ -38,4 +38,13 @@ public interface GamPopupHtldBizAssessService {
 	 * @exception Exception
 	 */
 	void updateBizAssess(GamPopupHtldBizAssessVO vo, String updUsr) throws Exception;
+
+	/**
+	 * 실적평가 삭제
+	 * @param GamPopupHtldBizAssessVO
+	 * @return 
+	 * @exception Exception
+	 */
+	void deleteBizAssess(GamPopupHtldBizAssessVO vo, String updUsr) throws Exception;
+
 }

@@ -400,11 +400,7 @@ GamHtldRentCtrtModule.prototype.saveData = function() {
 	var constractData ={};
 	
 	constractData['rentData'] 				= JSON.stringify(this.getFormValues('#gamHtldRentCtrtForm'));
-	constractData['insertDetailList'] 		= JSON.stringify(this.$('#rentDetailList').selectFilterData([{col: '_updtId', filter: 'I'}]));
-	if(this._mode == 'U') {
-		constractData['updateDetailList'] 	= JSON.stringify(this.$('#rentDetailList').selectFilterData([{col: '_updtId', filter: 'U'}]));
-		constractData['deleteDetailList'] 	= JSON.stringify(this._deleteRentDetailList);
-	}
+	constractData['rentDetailList'] 			= JSON.stringify(this.$('#rentDetailList').flexGetData());
 
 	var actionUrl = (this._mode == 'I') ? '/oper/htldnew/insertHtldRentCtrt.do' : '/oper/htldnew/updateHtldRentCtrt.do';
 	

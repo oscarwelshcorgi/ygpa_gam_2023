@@ -135,19 +135,19 @@ public class GamHtldRentCtrtController {
     	LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
     	
     	GamHtldRentCtrtVO rentData = null;
-    	List<GamHtldRentCtrtDetailVO> insertDetailList = null;
+    	List<GamHtldRentCtrtDetailVO> rentDetailList = null;
     	
     	//데이터 변환
     	if(contractData.containsKey("rentData")) {
     		rentData = mapper.readValue((String)contractData.get("rentData"), GamHtldRentCtrtVO.class);
     	}
     	
-    	if(contractData.containsKey("insertDetailList")) {
-    		insertDetailList = mapper.readValue((String)contractData.get("insertDetailList"), TypeFactory.defaultInstance().constructCollectionType(List.class, GamHtldRentCtrtDetailVO.class));
+    	if(contractData.containsKey("rentDetailList")) {
+    		rentDetailList = mapper.readValue((String)contractData.get("rentDetailList"), TypeFactory.defaultInstance().constructCollectionType(List.class, GamHtldRentCtrtDetailVO.class));
     	}
     	
     	try {
-    		gamHtldRentCtrtService.insertHtldRentCtrt(rentData, insertDetailList, loginVO.getId());
+    		gamHtldRentCtrtService.insertHtldRentCtrt(rentData, rentDetailList, loginVO.getId());
 	        map.put("resultCode", 0);
     		map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));    		
     	} catch(Exception e) {
@@ -181,29 +181,19 @@ public class GamHtldRentCtrtController {
     	LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
     	
     	GamHtldRentCtrtVO rentData = null;
-    	List<GamHtldRentCtrtDetailVO> insertDetailList = null;
-    	List<GamHtldRentCtrtDetailVO> updateDetailList = null;
-    	List<GamHtldRentCtrtDetailVO> deleteDetailList = null;
+    	List<GamHtldRentCtrtDetailVO> rentDetailList = null;
     	
     	//데이터 변환
     	if(contractData.containsKey("rentData")) {
     		rentData = mapper.readValue((String)contractData.get("rentData"), GamHtldRentCtrtVO.class);
     	}
     	
-    	if(contractData.containsKey("insertDetailList")) {
-    		insertDetailList = mapper.readValue((String)contractData.get("insertDetailList"), TypeFactory.defaultInstance().constructCollectionType(List.class, GamHtldRentCtrtDetailVO.class));
-    	}
-
-    	if(contractData.containsKey("updateDetailList")) {
-    		updateDetailList = mapper.readValue((String)contractData.get("updateDetailList"), TypeFactory.defaultInstance().constructCollectionType(List.class, GamHtldRentCtrtDetailVO.class));
-    	}
-    	
-    	if(contractData.containsKey("deleteDetailList")) {
-    		deleteDetailList = mapper.readValue((String)contractData.get("deleteDetailList"), TypeFactory.defaultInstance().constructCollectionType(List.class, GamHtldRentCtrtDetailVO.class));
+    	if(contractData.containsKey("rentDetailList")) {
+    		rentDetailList = mapper.readValue((String)contractData.get("rentDetailList"), TypeFactory.defaultInstance().constructCollectionType(List.class, GamHtldRentCtrtDetailVO.class));
     	}
  	
     	try {
-    		gamHtldRentCtrtService.updateHtldRentCtrt(rentData, insertDetailList, updateDetailList, deleteDetailList, loginVO.getId());
+    		gamHtldRentCtrtService.updateHtldRentCtrt(rentData, rentDetailList, loginVO.getId());
 	        map.put("resultCode", 0);
     		map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));    		
     	} catch(Exception e) {

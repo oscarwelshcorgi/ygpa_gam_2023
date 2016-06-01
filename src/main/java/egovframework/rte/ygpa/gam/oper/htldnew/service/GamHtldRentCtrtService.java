@@ -47,14 +47,14 @@ public interface GamHtldRentCtrtService {
 	 * @return
 	 * @exception Exception
 	 */	
-	void insertHtldRentCtrt(GamHtldRentCtrtVO insertRentData, List<GamHtldRentCtrtDetailVO> insertDetailList, String regUsr) throws Exception;
+	void insertHtldRentCtrt(GamHtldRentCtrtVO insertRentData, List<GamHtldRentCtrtDetailVO> rentDetailList, String regUsr) throws Exception;
 	
 	/**
 	 * 배후단지 임대계약 수정
 	 * @param updateRentData - 수정할 임대계약, insertDetailList - 등록할 임대계약 상세목록, updateDetailList - 수정할 임대계약 상세목록, deleteDetailList - 삭제할 임대계약 상세목록, updtUsr - 수정자	 * @return
 	 * @exception Exception
 	 */	
-	void updateHtldRentCtrt(GamHtldRentCtrtVO updateRentData, List<GamHtldRentCtrtDetailVO> insertDetailList, List<GamHtldRentCtrtDetailVO> updateDetailList, List<GamHtldRentCtrtDetailVO> deleteDetailList, String updUsr) throws Exception;
+	void updateHtldRentCtrt(GamHtldRentCtrtVO updateRentData, List<GamHtldRentCtrtDetailVO> rentDetailList, String updUsr) throws Exception;
 	
 	/**
 	 * 배후단지 임대계약 해지

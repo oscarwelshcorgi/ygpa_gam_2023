@@ -5,8 +5,6 @@ package egovframework.rte.ygpa.gam.oper.htldnew.service;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import egovframework.com.cmm.ComDefaultVO;
-
 /**
  * 
  * @author Jongmin
