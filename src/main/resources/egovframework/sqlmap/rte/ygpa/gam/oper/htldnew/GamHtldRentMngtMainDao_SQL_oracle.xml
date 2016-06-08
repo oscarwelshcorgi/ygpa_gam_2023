@@ -7,6 +7,7 @@
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     
 	<typeAlias alias="GamHtldRentMngtMainVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentMngtMainVO"/>
+	<typeAlias alias="GamHtldRentRntfeeVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentRntfeeVO"/>
 	
 	<!-- 배후단지 임대 상세목록 조회 -->
 	<select id="gamHtldRentMngtMainDao.selectHtldRentDetailList_D" parameterClass="GamHtldRentMngtMainVO" resultClass="egovMap">
@@ -106,7 +107,7 @@
 					,F.ACCNUT_YEAR ACCNUT_YEAR 
 					,F.RNTFEE_NTIC_NO RNTFEE_NTIC_NO
 					,F.NTIC_SEQ NTIC_SEQ
-					,DECODE(F.NTIC_SEQ, NULL, 'N', 'Y') NTIC_YN
+					,DECODE(F.RNTFEE_NTIC_NO, NULL, 'N', 'Y') NTIC_YN
 					,F.RCIV_SE RCIV_SE
 					,TO_CHAR(F.RCIV_DT, 'YYYY-MM-DD') RCIV_DT
 					,F.RM RM
@@ -182,7 +183,7 @@
 					,TO_CHAR(F.NTIC_BEGIN_DT, 'YYYY-MM-DD') NTIC_BEGIN_DT
 					,TO_CHAR(F.NTIC_END_DT, 'YYYY-MM-DD') NTIC_END_DT
 					,NVL(F.RNTFEE, 0) RNTFEE
-					,NVL(F.RNTFEE_SE, '0') RNTFEE_SE
+					,NVL(F.RNTFEE_SE, '2') RNTFEE_SE
 					,F.RNTFEE_SE_NM RNTFEE_SE_NM
 					,NVL(F.PAYINST_INTR, 0) PAYINST_INTR
 					,NVL(F.SUP_AMT, 0) SUP_AMT
@@ -191,7 +192,7 @@
 					,F.ACCNUT_YEAR ACCNUT_YEAR 
 					,F.RNTFEE_NTIC_NO RNTFEE_NTIC_NO
 					,F.NTIC_SEQ NTIC_SEQ
-					,DECODE(F.NTIC_SEQ, NULL, 'N', 'Y') NTIC_YN
+					,DECODE(F.RNTFEE_NTIC_NO, NULL, 'N', 'Y') NTIC_YN
 					,F.RCIV_SE RCIV_SE
 					,TO_CHAR(F.RCIV_DT, 'YYYY-MM-DD') RCIV_DT
 					,F.RM RM
@@ -268,7 +269,7 @@
 					,TO_CHAR(F.NTIC_BEGIN_DT, 'YYYY-MM-DD') NTIC_BEGIN_DT
 					,TO_CHAR(F.NTIC_END_DT, 'YYYY-MM-DD') NTIC_END_DT
 					,NVL(F.RNTFEE, 0) RNTFEE
-					,NVL(F.RNTFEE_SE, '0') RNTFEE_SE
+					,NVL(F.RNTFEE_SE, '3') RNTFEE_SE
 					,F.RNTFEE_SE_NM RNTFEE_SE_NM
 					,NVL(F.PAYINST_INTR, 0) PAYINST_INTR
 					,NVL(F.SUP_AMT, 0) SUP_AMT
@@ -277,7 +278,7 @@
 					,F.ACCNUT_YEAR ACCNUT_YEAR 
 					,F.RNTFEE_NTIC_NO RNTFEE_NTIC_NO
 					,F.NTIC_SEQ NTIC_SEQ
-					,DECODE(F.NTIC_SEQ, NULL, 'N', 'Y') NTIC_YN
+					,DECODE(F.RNTFEE_NTIC_NO, NULL, 'N', 'Y') NTIC_YN
 					,F.RCIV_SE RCIV_SE
 					,TO_CHAR(F.RCIV_DT, 'YYYY-MM-DD') RCIV_DT
 					,F.RM RM
@@ -337,4 +338,77 @@
 				]]>
 			</isEmpty>
 	</select>
+	
+	<!-- 임대료 테이블 등록(일반고지일 경우 가상데이터를 위한 쿼리 -->
+	<insert id="gamHtldRentMngtMainDao.insertHtldRntfee_S" parameterClass="GamHtldRentRntfeeVO">
+		INSERT INTO HTLD_RNTFEE_F (
+			MNG_YEAR
+			,MNG_NO
+			,MNG_SEQ
+			,RNTFEE_SEQ
+			,RENT_DETAIL_REGIST_SEQ
+			,RNTFEE_SE
+			,RNTFEE_SE_NM
+			,NTIC_BEGIN_DT
+			,NTIC_END_DT
+			,RNTFEE
+			,PAYINST_INTR
+			,SUP_AMT
+			,VAT
+			,PAY_AMT
+			,RM
+			,REG_USR
+			,REGIST_DT
+		) VALUES (
+			#mngYear#
+			,#mngNo#
+			,#mngSeq#
+			,#rntfeeSeq#
+			,#registSeq#
+			,#rntfeeSe#
+			,#rntfeeSeNm#
+			,TO_DATE(#nticBeginDt#, 'YYYY-MM-DD')
+			,TO_DATE(#nticEndDt#, 'YYYY-MM-DD')
+			,TO_NUMBER(#rntfee#)
+			,TO_NUMBER(#payinstIntr#)
+			,TO_NUMBER(#supAmt#)
+			,TO_NUMBER(#vat#)
+			,TO_NUMBER(#payAmt#)
+			,#rm#
+			,#regUsr#
+			,SYSDATE
+		)
+	</insert>
+	
+	<!-- 임대료 수정(메인화면에서 임대료등을 고치면 자동계산후 갱신) -->
+	<update id="gamHtldRentMngtMainDao.updateHtldRntfee_S" parameterClass="GamHtldRentRntfeeVO">
+		UPDATE HTLD_RNTFEE_F
+		SET
+			RNTFEE = TO_NUMBER(#rntfee#)
+			,PAYINST_INTR = TO_NUMBER(#payinstIntr#)
+			,SUP_AMT = TO_NUMBER(#supAmt#)
+			,VAT = TO_NUMBER(#vat#)
+			,PAY_AMT = TO_NUMBER(#payAmt#)
+			,RM = #rm#
+			,UPD_USR = #updUsr#
+			,UPDT_DT = SYSDATE
+		WHERE 
+			MNG_YEAR = #mngYear#
+			AND MNG_NO = #mngNo#
+			AND MNG_SEQ = #mngSeq#
+			AND RNTFEE_SEQ = #rntfeeSeq#
+	</update>
+	
+		<!-- 배후단지 임대료 순번 생성 -->
+	<select id="gamHtldRentMngtMainDao.selectNextRntfeeSeq_S" parameterClass="GamHtldRentRntfeeVO" resultClass="java.lang.String">
+   		SELECT
+   		  	LPAD(NVL(MAX(RNTFEE_SEQ),0) + 1,'3','0')
+   		FROM
+   		  	HTLD_RNTFEE_F
+   		WHERE
+			MNG_YEAR=#mngYear# 
+			AND MNG_NO=#mngNo# 
+			AND MNG_SEQ=#mngSeq#
+	</select>
+	
 </sqlMap>

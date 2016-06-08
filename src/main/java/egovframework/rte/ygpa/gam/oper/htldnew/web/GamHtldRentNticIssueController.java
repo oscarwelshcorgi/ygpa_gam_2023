@@ -28,14 +28,15 @@ import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.service.EgovCmmUseService;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
-import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentMngtMainService;
-import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentMngtMainVO;
+import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentMngDefaultVO;
+import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentNticInfoVO;
+import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentNticIssueService;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentRntfeeVO;
 
 /**
  * 
  * @author Jongmin
- * @since 2016. 4. 25.
+ * @since 2016. 6. 2.
  * @version 1.0
  * @see
  * <pre>
@@ -43,14 +44,13 @@ import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentRntfeeVO;
  *   
  *   수정일 		 수정자		 수정내용
  *  -------		--------	---------------------------
- *  2016. 4. 25.		Jongmin		최초 생성
+ *  2016. 6. 2.		Jongmin		최초 생성
  *
  * Copyright (C) 2013 by LFIT  All right reserved.
  * </pre>
  */
 @Controller
-public class GamHtldRentMngtMainController {
-	
+public class GamHtldRentNticIssueController {
 	protected Log log = LogFactory.getLog(this.getClass());
 	
 	/** Validator */
@@ -68,34 +68,32 @@ public class GamHtldRentMngtMainController {
     /** cmmUseService */
     @Resource(name="EgovCmmUseService")
     private EgovCmmUseService cmmUseService;
-
-    /** gamHtldRentMngtMainService */
-    @Resource(name="gamHtldRentMngtMainService")
-    private GamHtldRentMngtMainService gamHtldRentMngtMainService;
- 
+    
+    @Resource(name="gamHtldRentNticIssueService")
+    private GamHtldRentNticIssueService gamHtldRentNticIssueService;
+    
     /**
-     * 배후단지 임대관리메인화면을 로딩한다.
+     * 배후단지 고지 화면을 로딩한다.
      * @param windowId
      * @param model
-     * @return /ygpa/gam/oper/htldnew/GamHtldRentMngtMain
+     * @return /ygpa/gam/oper/htldnew/GamHtldRentNticIssue.jsp
      */
-    @RequestMapping(value="/oper/htldnew/gamHtldRentMngtMain.do")
+    @RequestMapping(value="/oper/htldnew/gamHtldRentNticIssue.do")
     public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) {
     	model.addAttribute("windowId", windowId);
-    	return "/ygpa/gam/oper/htldnew/GamHtldRentMngtMain";
+    	return "/ygpa/gam/oper/htldnew/GamHtldRentNticIssue";
     }
-
+   
     /**
-     * 배후단지임대상세목록을 조회한다.
+     * 고지정보를 조회한다.
      *
      * @param searchVO
      * @return map
      * @throws Exception the exception
      */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/oper/htldnew/selectHtldRentDetailList.do", method=RequestMethod.POST)
-	public @ResponseBody Map selectHtldRentDetailList(GamHtldRentMngtMainVO searchVO) throws Exception {
-    	Map map = new HashMap();
+	@RequestMapping(value="/oper/htldnew/selectHtldRentNticIssueInfo.do", method=RequestMethod.POST)
+	public @ResponseBody Map<String, Object> selectHtldRentNticIssueInfo(GamHtldRentMngDefaultVO searchVO) throws Exception {
+    	Map<String, Object> map = new HashMap<String, Object>();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -104,24 +102,24 @@ public class GamHtldRentMngtMainController {
         	return map;
     	}
     	
-    	List resultList = gamHtldRentMngtMainService.selectHtldRentDetailList(searchVO);
-    	String cofixIntrrate = gamHtldRentMngtMainService.selectCofixIntrrate(searchVO);
+    	Map<?, ?> resultMaster = gamHtldRentNticIssueService.selectNticIssueMasterl(searchVO);
+    	List<?> resultList = gamHtldRentNticIssueService.selectNticIssueDetailListl(searchVO);
     	
     	map.put("resultCode", 0);
+    	map.put("resultMaster", resultMaster);
     	map.put("resultList", resultList);
-    	map.put("cofixIntrrate", cofixIntrrate);
     	
     	return map;
 	}
 	
 	/**
-     * 배후단지 임대료를 저장한다.
-     * @param Map
-     * @return Map
-     * @throws Exception
-     */
-	@RequestMapping(value="/oper/htldnew/updateHtldRntfee.do")
-	public @ResponseBody Map<String, Object> updateHtldRntfee(@RequestParam Map<String, Object> rentFeeData) throws Exception {
+	 * 고지 실행
+	 * @param Map
+	 * @return Map
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/oper/htldnew/execNticIssue.do")
+	public @ResponseBody Map<String, Object> execNticIssue(@RequestParam Map<String, Object> nticData) throws Exception {
 		Map<String,Object> map = new HashMap<String,Object>();
 		ObjectMapper mapper = new ObjectMapper();
 		
@@ -135,28 +133,27 @@ public class GamHtldRentMngtMainController {
 		
     	LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
     	
-    	List<GamHtldRentRntfeeVO> feeInsertList = null;
-    	List<GamHtldRentRntfeeVO> feeUpdateList = null;
-    	    	
-    	if(rentFeeData.containsKey("feeInsertList")) {
-    		feeInsertList = mapper.readValue((String)rentFeeData.get("feeInsertList"), TypeFactory.defaultInstance().constructCollectionType(List.class, GamHtldRentRntfeeVO.class));
+    	GamHtldRentNticInfoVO nticInfo = null;
+    	List<GamHtldRentRntfeeVO> rntfeeList = null;
+    	
+    	//데이터 변환
+    	if(nticData.containsKey("nticInfo")) {
+    		nticInfo = mapper.readValue((String)nticData.get("nticInfo"), GamHtldRentNticInfoVO.class);
     	}
-
-    	if(rentFeeData.containsKey("feeUpdateList")) {
-    		feeUpdateList = mapper.readValue((String)rentFeeData.get("feeUpdateList"), TypeFactory.defaultInstance().constructCollectionType(List.class, GamHtldRentRntfeeVO.class));
+    	
+    	if(nticData.containsKey("rntfeeList")) {
+    		rntfeeList = mapper.readValue((String)nticData.get("rntfeeList"), TypeFactory.defaultInstance().constructCollectionType(List.class, GamHtldRentRntfeeVO.class));
     	}
     	
     	try {
-    		gamHtldRentMngtMainService.updateHtldRntfee(feeInsertList, feeUpdateList, loginVO.getId());
+        	gamHtldRentNticIssueService.execNticIssue(nticInfo, rntfeeList, loginVO);
 	        map.put("resultCode", 0);
-    		map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));    		
+    		map.put("resultMsg", egovMessageSource.getMessage("success.common.insert")); 		
     	} catch(Exception e) {
+    		System.out.println(e.getMessage());
 	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));    		
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));    		
     	}
-    	
     	return map;
 	}
-
-	
 }

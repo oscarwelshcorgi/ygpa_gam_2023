@@ -109,6 +109,7 @@ GamHtldRentMngtMainModule.prototype.onButtonClick = function(buttonId) {
 			EMD.util.create_window('gamHtldRentContract', '배후단지 임대계약', '/oper/htldnew/gamHtldRentCtrt.do', null, null, this);
        		break;
 		case 'btnExecNticIssue':  //고지
+			this.execNticIssue();
 			break;
 		case 'btnPrintNticIssue':  //고지서출력
 			break;
@@ -356,6 +357,45 @@ GamHtldRentMngtMainModule.prototype.addNticIssue = function() {
 	var row = rows[0];
 	this.doExecuteDialog('addNticPopup', '배후단지 추가 고지', '/popup/showHtldAddNtic.do', {}, {'searchRow' : row, 'mode' : 'I', 'histDt' : this.$('#histDt').val()} );
 };
+
+<%--
+	execNticIssue - 고지
+--%>
+GamHtldRentMngtMainModule.prototype.execNticIssue = function() {
+	var rows = this.$('#mainGrid').selectedRows();
+	if(rows.length < 1) {
+		alert("목록에서 입주기업을 선택하십시오.");
+		return;
+	}
+	var row = rows[0];
+	var gridList = this.$('#mainGrid').flexGetData();
+	var feeUpdateList = [];
+	var feeInsertList = [];
+	for(var i=0; i<gridList.length; i++) {
+		var gridRow = gridList[i];
+		if((gridRow.mngYear == row.mngYear) && (gridRow.mngNo == row.mngNo) && (gridRow.mngSeq == row.mngSeq) && (gridRow.rntfeeSe != '9')) {
+			if(gridRow._updtId == 'I') { 
+				feeInsertList[feeInsertList.length] = gridRow;	
+			} else {
+				feeUpdateList[feeUpdateList.length] = gridRow;
+			}
+		}
+	}
+	
+	var rentFeeData = {};
+	rentFeeData['feeInsertList'] 			= JSON.stringify(feeInsertList);
+	rentFeeData['feeUpdateList'] 			= JSON.stringify(feeUpdateList);
+	
+	this.doAction('/oper/htldnew/updateHtldRntfee.do', rentFeeData, function(module, result) {
+		if(result.resultCode == 0) {
+			EMD.util.create_window('gamHtldRentNticIssue', '배후단지 고지', '/oper/htldnew/gamHtldRentNticIssue.do', null, 
+					{'searchRow' : row, 'histDt' : module.$('#histDt').val(), 'intrrate' : module.$('#cofixIntrrate').val()}, module);
+		} else {
+			alert(result.resultMsg);
+		}
+	});
+};
+
 
 <%--
 	다음 변수는 고정 적으로 정의 해야 함

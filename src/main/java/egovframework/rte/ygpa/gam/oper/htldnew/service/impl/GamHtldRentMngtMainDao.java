@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentMngtMainVO;
+import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentRntfeeVO;
 
 /**
  * 
@@ -48,4 +49,35 @@ public class GamHtldRentMngtMainDao extends YGPAAbstractDAO {
 	public String selectCofixIntrrate(GamHtldRentMngtMainVO vo) throws Exception {
 		return (String)selectByPk("gamHtldRentMngtMainDao.selectCofixIntrrate_S", vo);
 	}
+		
+	/**
+	 * 임대료 등록
+	 * @param GamHtldRntfeeVO
+	 * @return 
+	 * @exception Exception
+	 */
+	public void insertHtldRntfee(GamHtldRentRntfeeVO vo) throws Exception {
+		insert("gamHtldRentMngtMainDao.insertHtldRntfee_S", vo);
+	}
+
+	/**
+	 * 임대료 수정
+	 * @param GamHtldRntfeeVO
+	 * @return 
+	 * @exception Exception
+	 */
+	public void updateHtldRntfee(GamHtldRentRntfeeVO vo) throws Exception {
+		insert("gamHtldRentMngtMainDao.updateHtldRntfee_S", vo);
+	}
+
+	/**
+	 * 임대료 순번 생성
+	 * @param GamHtldRntfeeVO
+	 * @return 임대료 순번
+	 * @throws Exception
+	 */
+	public String selectNextRntfeeSeq(GamHtldRentRntfeeVO searchVO) throws Exception {
+		return (String) getSqlMapClientTemplate().queryForObject("gamHtldRentMngtMainDao.selectNextRntfeeSeq_S", searchVO);
+	}
+
 }

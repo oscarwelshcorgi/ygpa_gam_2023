@@ -79,7 +79,8 @@ GamHtldRentCtrtModule.prototype.loadComplete = function(params) {
     this.$("#rentDetailList").on('onItemSelected', function(event, module, row, grid, param) {
     	module._currentRow = row;
     });
-	this.$("#rentDetailList").on('onCellEdited', function(event, module, row, rid, cid) {
+
+    this.$("#rentDetailList").on('onCellEdited', function(event, module, row, rid, cid) {
 		if(row != void(0)) {
 			switch(cid) {
 			case 'rentAr':

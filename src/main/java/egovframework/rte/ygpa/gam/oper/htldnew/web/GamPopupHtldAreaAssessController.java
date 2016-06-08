@@ -130,7 +130,6 @@ public class GamPopupHtldAreaAssessController {
 	        map.put("resultCode", 0);
     		map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));    		
     	} catch(Exception e) {
-    		System.out.println(e.getMessage());
 	        map.put("resultCode", 1);
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));    		
     	}

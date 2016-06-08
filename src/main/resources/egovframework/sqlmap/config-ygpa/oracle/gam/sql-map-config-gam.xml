@@ -75,6 +75,7 @@
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/oper/htldnew/GamHtldRentCtrtDao_SQL_oracle.xml" />
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/oper/htldnew/GamHtldRentCtrtHistDao_SQL_oracle.xml" />
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/oper/htldnew/GamHtldRentMngtMainDao_SQL_oracle.xml" />
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/oper/htldnew/GamHtldRentNticIssueDao_SQL_oracle.xml" />
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/oper/htldnew/GamPopupHtldBizAssessDao_SQL_oracle.xml" />
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/oper/htldnew/GamPopupHtldRntfeeBizAssessDao_SQL_oracle.xml" />
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/oper/htldnew/GamPopupHtldAreaAssessDao_SQL_oracle.xml" />

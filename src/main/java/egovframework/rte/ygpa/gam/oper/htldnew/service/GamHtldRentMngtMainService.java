@@ -39,5 +39,13 @@ public interface GamHtldRentMngtMainService {
 	 * @exception Exception
 	 */
 	String selectCofixIntrrate(GamHtldRentMngtMainVO vo) throws Exception;
+
+	/**
+	 * 임대료 저장
+	 * @param feeInsertList
+	 * @param feeUpdateList
+	 * @param id
+	 */
+	void updateHtldRntfee(List<GamHtldRentRntfeeVO> feeInsertList, List<GamHtldRentRntfeeVO> feeUpdateList, String id) throws Exception;
 	
 }

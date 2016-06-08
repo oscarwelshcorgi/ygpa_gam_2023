@@ -22,6 +22,7 @@ import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentMngtMainService;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentMngtMainVO;
+import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentRntfeeVO;
 
 /**
  * 
@@ -114,8 +115,9 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 			groupCount++;
 			
 			item.put("mngGroupCount", new BigDecimal(mngGroupCount));
-			
+						
 			if(("0".equals(rntfeeSe)) && ("N".equals(nticYn))) {
+				//일반고지자료이면서 고지가 되지 않은 가상의 자료
 				rntFee = getRentFee(histDt, paySe, priceSe, rentAr, applcRntfee, detailPdBegin, detailPdEnd, aseRntfee, aseApplcBegin, aseApplcEnd);
 				
 				if("4".equals(paySe)) {
@@ -123,20 +125,28 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 				}
 				
 				if(mngGroupCount == 1) {
+					//합산고지를 할 필요가 없는 자료
 					supAmt = rntFee.add(payinstIntr).setScale(-1, RoundingMode.DOWN);
 					vat = supAmt.divide(new BigDecimal(10));
 					payAmt = supAmt.add(vat);
 				} else {
+					//합산고지를 할 필요가 있는 자료
 					totRntFee = totRntFee.add(rntFee);
 					totPayinstIntr = totPayinstIntr.add(payinstIntr);
 				}
+
+				LocalDate nticBeginDate = ("4".equals(paySe)) ? getQuarterStartDate(histDt) : new LocalDate(histDt.getYear(), 1, 1);
+				LocalDate nticEndDate = ("4".equals(paySe)) ? getQuarterEndDate(histDt) : new LocalDate(histDt.getYear(), 12, 31);
 				
+				item.put("nticBeginDt", nticBeginDate.toString());
+				item.put("nticEndDt", nticEndDate.toString());
 				item.put("rntfee", rntFee);
 				item.put("payinstIntr", payinstIntr);
 				item.put("supAmt", supAmt);
 				item.put("vat", vat);
 				item.put("payAmt", payAmt);
 			} else {
+				//가상의 자료가 아닌 자료(즉 고지버튼을 누른 일반자료나 실적,면적,추가 고지자료
 				rntFee = (item.get("rntfee") != null) ? (BigDecimal)item.get("rntfee") : new BigDecimal(0);
 				payinstIntr = (item.get("payinstIntr") != null) ? (BigDecimal)item.get("payinstIntr") : new BigDecimal(0);
 				supAmt = (item.get("supAmt") != null) ? (BigDecimal)item.get("supAmt") : new BigDecimal(0);				
@@ -193,11 +203,11 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 			resultList.add(item);
 			
 			if((mngGroupCount > 1) && (groupCount == mngGroupCount)) {
+				//합산고지의 소계 레코드에 들어갈 항목 정의
 				totSupAmt = totRntFee.add(totPayinstIntr).setScale(-1, RoundingMode.DOWN);
 				totVat = totSupAmt.divide(new BigDecimal(10));
 				totPayAmt = totSupAmt.add(totVat);
 				
-				//소계 레코드 추가
 				EgovMap totItem = new EgovMap();
 				Iterator<String> it = (Iterator<String>)item.keySet().iterator();
 				while(it.hasNext()) {
@@ -205,7 +215,7 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 					totItem.put(key, item.get(key));
 				}
 				
-				totItem.put("rntfeeSe", "9");
+				totItem.put("rntfeeSe", "9");  //소계레코드 구분자.
 			
 				totItem.put("rntfee", totRntFee);
 				totItem.put("payinstIntr", totPayinstIntr);
@@ -221,7 +231,8 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 				totItem.put("rm", "");
 				
 				resultList.add(totItem);
-
+				
+				//합계 변수 초기화
 				groupCount = 0;
 				totRntFee = new BigDecimal(0);
 				totPayinstIntr = new BigDecimal(0);
@@ -431,4 +442,23 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 		return retDate;
 	}
 	
+	/**
+	 * 임대료 저장
+	 * @param feeInsertList
+	 * @param feeUpdateList
+	 * @param id
+	 */
+	public void updateHtldRntfee(List<GamHtldRentRntfeeVO> feeInsertList, List<GamHtldRentRntfeeVO> feeUpdateList, String id) throws Exception {
+		for(GamHtldRentRntfeeVO item : feeUpdateList) {
+			item.setUpdUsr(id);
+			gamHtldRentMngtMainDao.updateHtldRntfee(item);
+		}
+		
+		for(GamHtldRentRntfeeVO item : feeInsertList) {
+			item.setRegUsr(id);
+			item.setRntfeeSeq(gamHtldRentMngtMainDao.selectNextRntfeeSeq(item));
+			gamHtldRentMngtMainDao.insertHtldRntfee(item);
+		}
+	}
+
 }
