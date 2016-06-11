@@ -56,7 +56,7 @@ GamHtldRentMngtMainModule.prototype.loadComplete = function() {
     				{display:'부가세', name:'vat',width:90, sortable:false,align:'right', displayFormat: 'input-number'},
     				{display:'납부금액', name:'payAmt',width:110, sortable:false,align:'right', displayFormat: 'input-number'},
     				{display:'비고', name:'rm',width:180, sortable:false,align:'left'},
-                    {display:'상태', name:'status',width:60, sortable:false,align:'left'}
+                    {display:'상태', name:'status',width:60, sortable:false,align:'center'}
                     ],
         showTableToggleBtn: false,
         height: 'auto',
@@ -108,8 +108,11 @@ GamHtldRentMngtMainModule.prototype.onButtonClick = function(buttonId) {
 		case 'btnAddRentContract': //계약등록
 			EMD.util.create_window('gamHtldRentContract', '배후단지 임대계약', '/oper/htldnew/gamHtldRentCtrt.do', null, null, this);
        		break;
-		case 'btnExecNticIssue':  //고지
+		case 'btnNticIssue':  //고지
 			this.execNticIssue();
+			break;
+		case 'btnArrrgNticIssue':  //연체고지
+			this.execArrrgNticIssue();
 			break;
 		case 'btnPrintNticIssue':  //고지서출력
 			break;
@@ -147,11 +150,7 @@ GamHtldRentMngtMainModule.prototype.onClosePopup = function(popupId, msg, value)
 		message : 자식창이 종료될 때 넘겨온 메시지
 --%>
 GamHtldRentMngtMainModule.prototype.closeChildWindow = function(module, message) {
-	switch (message) {
-		case 'SAVE_RENTCONTRACT':
-			this.loadData();
-			break;
-	}	
+	this.loadData();
 };
 
 <%--
@@ -306,6 +305,34 @@ GamHtldRentMngtMainModule.prototype.initDataRow = function(row) {
 	} else if (row.rntfeeSe != '9') { //소계가 아니라면 (즉 실적평가, 지적평가, 추가정산)
 		row._updtId = 'U';
 	}
+	
+	if (row.rntfeeSe != '9') {
+		if(row.nticYn != 'Y') {
+			row.status = '미고지';
+		} else {
+			if(row.payTmlmtYn != 'Y') { //납부기한을 넘기지 않았을 경우
+				if(row.rcivSe == '3') {
+					row.status = '수납';	
+				} else if (row.rcivSe == '4') {
+					row.status = '불납';
+				} else if (row.rcivSe == '1') {
+					row.status = '연체고지';
+				} else {
+					row.status = '고지';
+				}
+			} else {
+				if(row.rcivSe == '2') {
+					row.status = '연체수납';	
+				} else if (row.rcivSe == '3') {
+					row.status = '수납';
+				} else if (row.rcivSe == '4') {
+					row.status = '불납';
+				} else {
+					row.status = '연체'; 
+				}
+			}
+		}
+	}
 };
 
 <%-- 
@@ -368,6 +395,10 @@ GamHtldRentMngtMainModule.prototype.execNticIssue = function() {
 		return;
 	}
 	var row = rows[0];
+	if(row.nticYn == 'Y') {
+		alert('이미 고지된 건입니다.');
+		return;
+	}
 	var gridList = this.$('#mainGrid').flexGetData();
 	var feeUpdateList = [];
 	var feeInsertList = [];
@@ -396,6 +427,25 @@ GamHtldRentMngtMainModule.prototype.execNticIssue = function() {
 	});
 };
 
+<%--
+	execArrrgNticIssue - 연체고지
+--%>
+GamHtldRentMngtMainModule.prototype.execArrrgNticIssue = function() {
+	var rows = this.$('#mainGrid').selectedRows();
+	if(rows.length < 1) {
+		alert("목록에서 입주기업을 선택하십시오.");
+		return;
+	}
+	var row = rows[0];
+	
+	if(row.status != '연체') {
+		alert('상태가 연체인 것만 연체고지를 할 수가 있습니다.');
+		return;
+	}
+	
+	EMD.util.create_window('gamHtldRentArrrgNticIssue', '배후단지 연체고지', '/oper/htldnew/gamHtldRentArrrgNticIssue.do', null, 
+			{'searchRow' : row, 'histDt' : this.$('#histDt').val()}, this);
+};
 
 <%--
 	다음 변수는 고정 적으로 정의 해야 함
@@ -453,7 +503,8 @@ var module_instance = new GamHtldRentMngtMainModule();
 				<tr>
 					<td style="text-align: right">
                        <button id="btnAddRentContract">계약등록</button>
-                       <button id="btnExecNticIssue">고지</button>
+                       <button id="btnNticIssue">고지</button>
+                       <button id="btnArrrgNticIssue">연체고지</button>
                        <button id="btnPrintNticIssue" >고지서출력</button>
                        <button id="btnNticIssueHist" >고지이력</button>
                        <button id="btnAddNticIssue">추가고지</button>

@@ -31,7 +31,6 @@ public class GamHtldRentNticInfoVO extends GamHtldRentNticDefaultVO{
 	private String	entrpsNm;		/** 업체명 */
 	private String 	rprsntvNm;		/** 대표자 */
 	private String	paySe;				/** 납부구분 : 4 분기납 6 연납 */
-	private String 	chrgeKndCd;		/** 요금종류코드 */
 	private String 	paySttus;			/** 납부상태 */
 
 	private String 	nticSeq;			/** 고지순번 */
@@ -46,9 +45,7 @@ public class GamHtldRentNticInfoVO extends GamHtldRentNticDefaultVO{
 	private String	payAmt;			/** 고지금액 */
 	private String 	rcivSe;				/** 수납구분 */
 
-	private String 	nticNo;			/** BILL NO LEV_REQEST_F REV_COLL_F 용*/
 	private String	rm;					/** 비고 */
-	private String	nticCnt;			/** 고지순번 LEV_REQEST_F 용 */
 	
 	private String 	regUsr;			/** 등록자 */
 	private String 	updUsr;			/** 수정자 */
@@ -114,18 +111,6 @@ public class GamHtldRentNticInfoVO extends GamHtldRentNticDefaultVO{
 	 */
 	public void setPaySe(String paySe) {
 		this.paySe = paySe;
-	}
-	/**
-	 * @return the chrgeKndCd
-	 */
-	public String getChrgeKndCd() {
-		return chrgeKndCd;
-	}
-	/**
-	 * @param chrgeKndCd the chrgeKndCd to set
-	 */
-	public void setChrgeKndCd(String chrgeKndCd) {
-		this.chrgeKndCd = chrgeKndCd;
 	}
 	/**
 	 * @return the paySttus
@@ -272,18 +257,6 @@ public class GamHtldRentNticInfoVO extends GamHtldRentNticDefaultVO{
 		this.rcivSe = rcivSe;
 	}
 	/**
-	 * @return the nticNo
-	 */
-	public String getNticNo() {
-		return nticNo;
-	}
-	/**
-	 * @param nticNo the nticNo to set
-	 */
-	public void setNticNo(String nticNo) {
-		this.nticNo = nticNo;
-	}
-	/**
 	 * @return the rm
 	 */
 	public String getRm() {
@@ -294,18 +267,6 @@ public class GamHtldRentNticInfoVO extends GamHtldRentNticDefaultVO{
 	 */
 	public void setRm(String rm) {
 		this.rm = rm;
-	}
-	/**
-	 * @return the nticCnt
-	 */
-	public String getNticCnt() {
-		return nticCnt;
-	}
-	/**
-	 * @param nticCnt the nticCnt to set
-	 */
-	public void setNticCnt(String nticCnt) {
-		this.nticCnt = nticCnt;
 	}
 	/**
 	 * @return the regUsr

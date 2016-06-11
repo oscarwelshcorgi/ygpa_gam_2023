@@ -74,6 +74,7 @@ public class GamHtldRentNticIssueServiceImpl extends AbstractServiceImpl impleme
 		nticInfo.setFcltySe("1");
 		nticInfo.setRegUsr(loginVO.getId());
 		nticInfo.setUpdUsr(loginVO.getId());
+		nticInfo.setRcivSe("0"); //고지(미수납) 상태로 설정 
 		
 		Map<String, String> summKey = (Map<String, String>) gamHtldRentNticIssueDao.selectHtldNticSummPk(nticInfo);
 		nticInfo.setRntfeeNticNo(summKey.get("rntfeeNticNo"));
@@ -92,6 +93,8 @@ public class GamHtldRentNticIssueServiceImpl extends AbstractServiceImpl impleme
 			item.setAccnutYear(nticInfo.getAccnutYear());
 			item.setRntfeeNticNo(nticInfo.getRntfeeNticNo());
 			item.setNticSeq(nticInfo.getNticSeq());
+			item.setRcivSe(nticInfo.getRcivSe());
+			item.setPayTmlmt(nticInfo.getPayTmlmt());
 			gamHtldRentNticIssueDao.updateHtldRntfee(item);
 		}
 		gamHtldRentNticIssueDao.insertLevReqest(nticInfo);
