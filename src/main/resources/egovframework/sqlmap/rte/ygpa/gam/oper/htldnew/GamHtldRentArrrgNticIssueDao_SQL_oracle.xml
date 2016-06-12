@@ -356,16 +356,4 @@
 	      	AND CHRGE_KND=#chrgeKnd#
 	</update>
 	
-	<!-- HTLD_NTIC_DTLS_F 에 납부기한 수정 -->
-	<update id="gamHtldRentArrrgNticIssueDao.updateNticDtlsInfo_S" parameterClass="egovMap">
-		UPDATE HTLD_NTIC_DTLS_F SET
-			PAY_TMLMT=TO_DATE(#dlyDueDt#, 'YYYY-MM-DD'),
-	  		UPD_USR=#regUsr#,
-      		UPDT_DT=SYSDATE
-      	WHERE
-      		ACCNUT_YEAR = #accnutYear#
-      		AND RNTFEE_NTIC_NO  = #rntfeeNticNo#
-      		AND NTIC_SEQ = #nticSeq#
-	</update>
-	
 </sqlMap>
