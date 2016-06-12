@@ -81,9 +81,5 @@ public class GamHtldRentArrrgNticIssueServiceImpl extends AbstractServiceImpl im
 		Map<String, Object> map = (Map<String, Object>) gamHtldRentArrrgNticIssueDao.selectArrrgInfo(arrrgVO);
 		gamHtldRentArrrgNticIssueDao.insertArrrgInfo(map);
 		gamHtldRentArrrgNticIssueDao.updateLevReqestNticInfo(map);
-		map.put("accnutYear", arrrgVO.getAccnutYear());
-		map.put("rntfeeNticNo", arrrgVO.getRntfeeNticNo());
-		map.put("nticSeq", arrrgVO.getNticSeq());
-		gamHtldRentArrrgNticIssueDao.updateNticDtlsInfo(map);
 	}
 }
