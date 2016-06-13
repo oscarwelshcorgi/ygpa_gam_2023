@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="ygpa.gam.oper.htldnew">
+	
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    
+	<typeAlias alias="GamHtldRentNticHistVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentNticHistVO"/>
+
+	<!-- 업체정보조회 -->
+	<select id="gamHtldRentNticHistDao.selectEntrpsInfo_S" parameterClass="GamHtldRentNticHistVO" resultClass="egovMap">
+		SELECT
+			ENTRPSCD ENTRPS_CD
+			,ENTRPS_NM
+			,RPRSNTV_NM
+			,SUBSTR(BIZRNO, 0,3)||'-'||SUBSTR(BIZRNO, 4,2)||'-'||SUBSTR(BIZRNO, 6,5) AS BIZRNO
+		FROM
+			ENTRPS_INFO_F
+		WHERE
+			ENTRPSCD = #entrpsCd#
+	</select>
+		
+	<!-- 업체별 고지 이력 목록 조회 -->
+	<select id="gamHtldRentNticHistDao.selectHtldRentNticHistList_D" parameterClass="GamHtldRentNticHistVO" resultClass="egovMap">
+		SELECT 
+		  TO_CHAR(D.NTIC_DT, 'YYYY-MM-DD') NTIC_DT
+		  ,TO_CHAR(L.NTIC_PD_FROM, 'YYYY-MM-DD') NTIC_PD_FROM
+		  ,TO_CHAR(L.NTIC_PD_TO, 'YYYY-MM-DD') NTIC_PD_TO
+		  ,L.CHRGE_KND CHRGE_KND_CD
+		  ,GAM_GETCODENAME('GAM053', L.CHRGE_KND) CHRGE_KND_NM
+		  ,L.NTIC_MTH PAY_SE
+		  ,GAM_GETCODENAME('GAM008', L.NTIC_MTH) PAY_SE_NM
+		  ,L.FEE SUP_amt
+		  ,L.VAT VAT
+		  ,NVL(L.ARRRG_AMT, 0) ARRRG_AMT
+		  ,L.NTIC_AMT NTIC_AMT
+		  ,TO_CHAR(L.PAY_TMLMT, 'YYYY-MM-DD') PAY_TMLMT
+		  ,GAM_GET_IS_PASS_DATE_YN(L.PAY_TMLMT) PAY_TMLMT_YN
+		  ,L.RCIV_SE RCIV_SE
+		  ,TO_CHAR(L.RCIV_DT, 'YYYY-MM-DD') RCIV_DT
+		  ,L.RM RM
+		  ,NVL(L.NHT_PRINT_YN,'N') AS NHT_PRINT_YN
+		  ,DECODE(NVL(L.NHT_PRINT_YN,'N'), 'N', '', '출력') AS NHT_PRINT_YN_NM
+		  ,D.MNG_YEAR MNG_YEAR
+		  ,D.MNG_NO MNG_NO
+		  ,D.MNG_SEQ MNG_SEQ
+		  ,D.HIST_SEQ HIST_SEQ
+		  ,D.ACCNUT_YEAR ACCNUT_YEAR
+		  ,D.RNTFEE_NTIC_NO RNTFEE_NTIC_NO
+		  ,D.NTIC_SEQ NTIC_SEQ
+		  ,D.NTIC_NO NTIC_NO
+		  ,L.ENTRPSCD ENTRPS_CD
+		FROM
+		  HTLD_NTIC_DTLS_F D
+		INNER JOIN
+		  LEV_REQEST_F L
+		ON
+		  D.MNG_YEAR = L.MNG_YEAR AND D.MNG_NO = L.MNG_NO AND D.MNG_SEQ = L.MNG_CNT AND D.NTIC_CNT = L.NTIC_CNT AND D.CHRGE_KND_CD = L.CHRGE_KND AND L.PRT_AT_CODE = '622'
+		WHERE
+		  L.ENTRPSCD = #entrpsCd#
+		ORDER BY
+		  D.NTIC_DT, D.NTIC_NO DESC	
+	</select>
+	
+	<!-- 고지 상세 리스트 조회 -->
+	<select id="gamHtldRentNticHistDao.selectHistNticIssueList_D" parameterClass="GamHtldRentNticHistVO" resultClass="egovMap">
+		SELECT
+			F.MNG_YEAR MNG_YEAR
+			,F.MNG_NO MNG_NO
+			,F.MNG_SEQ MNG_SEQ
+			,F.RENT_DETAIL_REGIST_SEQ RENT_DETAIL_REGIST_SEQ
+			,F.RNTFEE_SEQ RNTFEE_SEQ
+			,R.PAY_SE PAY_SE
+			,GAM_GETCODENAME('GAM008', R.PAY_SE) PAY_SE_NM
+			,NVL(D.RENT_AR, 0) RENT_AR
+			,TO_CHAR(NVL(D.RENT_AR, 0), '9,999,999,999.99') RENT_AR_STR
+			,D.RENT_AR_SE RENT_AR_SE
+			,DECODE(D.RENT_AR_SE, '1', '물류부지', '2', '제조부지', '3', '숙성실', '') RENT_AR_SE_NM
+			,NVL(D.APPLC_RNTFEE, 0) APPLC_RNTFEE
+			,TO_CHAR(D.DETAIL_PD_BEGIN, 'YYYY-MM-DD') DETAIL_PD_BEGIN
+			,TO_CHAR(D.DETAIL_PD_END, 'YYYY-MM-DD') DETAIL_PD_END			
+			,TO_CHAR(NVL(D.APPLC_RNTFEE, 0), '9,999,999,999.99') APPLC_RNTFEE_STR
+			,D.PRICE_SE PRICE_SE
+			,DECODE(D.PRICE_SE, '1', '면적당단가', '2', '월단가','') PRICE_SE_NM
+			,NVL(D.ASE_RNTFEE, 0) ASE_RNTFEE
+			,TO_CHAR(NVL(D.ASE_RNTFEE, 0), '9,999,999,999.99') ASE_RNTFEE_STR
+			,TO_CHAR(D.ASE_APPLC_BEGIN, 'YYYY-MM-DD') ASE_APPLC_BEGIN
+			,TO_CHAR(D.ASE_APPLC_END, 'YYYY-MM-DD') ASE_APPLC_END
+			,TO_CHAR(F.NTIC_BEGIN_DT, 'YYYY-MM-DD') NTIC_BEGIN_DT
+			,TO_CHAR(F.NTIC_END_DT, 'YYYY-MM-DD') NTIC_END_DT
+			,NVL(F.RNTFEE, 0) RNTFEE
+			,NVL(F.RNTFEE_SE, '0') RNTFEE_SE
+			,F.RNTFEE_SE_NM RNTFEE_SE_NM
+			,NVL(F.PAYINST_INTR, 0) PAYINST_INTR
+			,F.ACCNUT_YEAR ACCNUT_YEAR 
+			,F.RNTFEE_NTIC_NO RNTFEE_NTIC_NO
+			,F.NTIC_SEQ NTIC_SEQ
+		FROM
+		    HTLD_RNTFEE_F F
+		LEFT OUTER JOIN
+			(SELECT A.* FROM HTLD_RENT_DETAIL_HIST_F A WHERE A.HIST_SEQ = #histSeq#) D
+			ON F.MNG_YEAR = D.MNG_YEAR AND F.MNG_NO = D.MNG_NO AND F.MNG_SEQ = D.MNG_SEQ 
+				AND (F.RENT_DETAIL_REGIST_SEQ IS NULL OR F.RENT_DETAIL_REGIST_SEQ = D.REGIST_SEQ)
+		INNER JOIN
+			(SELECT B.* FROM HTLD_RENT_HIST_F B WHERE B.HIST_SEQ = #histSeq#) R
+			ON F.MNG_YEAR = R.MNG_YEAR AND F.MNG_NO = R.MNG_NO AND F.MNG_SEQ = R.MNG_SEQ
+		WHERE
+			F.MNG_YEAR = #mngYear#
+			AND F.MNG_NO = #mngNo#
+			AND F.MNG_SEQ = #mngSeq#
+			AND F.ACCNUT_YEAR = #accnutYear#
+			AND F.RNTFEE_NTIC_NO = #rntfeeNticNo#
+			AND F.NTIC_SEQ = #nticSeq#
+		ORDER BY F.RNTFEE_SE, F.RNTFEE_SEQ
+	</select>
+	
+	<!-- 연체 고지 상세 리스트 조회 -->
+	<select id="gamHtldRentNticHistDao.selectHistArrrgNticIssueList_D" parameterClass="GamHtldRentNticHistVO" resultClass="egovMap">
+		SELECT
+			U.FEE_TP
+			,U.FISCAL_YR
+			,U.BILL_NO
+			,U.WORK_CODE
+			,U.DLY_SER_NO
+			,U.AGENT_CODE
+			,U.BZ_RGST_ID
+			,U.DLY_BILL_AMNT
+			,U.DBILL_AMNT
+			,U.DJIRO_AMNT
+			,NVL(U.ARRRG_TARIFF, 0) * 100 AS ARRRG_TARIFF  
+			,TO_CHAR(U.DLY_BILL_DT, 'YYYY-MM-DD') AS DLY_BILL_DT
+			,NVL(U.DLY_BILL_PRT_YN,'N') AS DLY_BILL_PRT_YN
+			,DECODE(NVL(U.DLY_BILL_PRT_YN,'N'), 'N', '', '출력') AS DLY_BILL_PRT_YN
+			,U.DLY_BILL_RSN
+			,TO_CHAR(U.DLY_DUE_DT, 'YYYY-MM-DD') AS DLY_DUE_DT
+			,TO_CHAR(U.FIRST_BILL_DT, 'YYYY-MM-DD') AS FIRST_BILL_DT
+			,TO_CHAR(U.DLY_RCVD_DT, 'YYYY-MM-DD') AS DLY_RCVD_DT
+			,U.DC_RATE
+			,TO_CHAR(U.RECPT_EPDT, 'YYYY-MM-DD') AS RECPT_EPDT
+			,U.STR_DATE
+			,U.END_DATE
+			,GAM_GETCODENAME('GAM025', U.WORK_CODE) FEE_TP_KOR_NM
+			,GAM_GETENTRPSNM(U.AGENT_CODE, '1') FIRM_KOR_NM
+		FROM
+			LEV_REQEST_F L, UNPAID_F U
+		WHERE 1=1
+           	AND L.PRT_AT_CODE=U.PRT_AT_CODE
+           	AND L.ACCNUT_YEAR=U.FISCAL_YR
+           	AND GAM_GET_HTLD_ARRRG_CHRGE_KND(L.CHRGE_KND)=U.WORK_CODE
+          	AND L.NTICNO=U.BILL_NO
+            AND U.PRT_AT_CODE = '622'
+            AND U.FEE_TP = GAM_GET_HTLD_FEE_TP(GAM_GET_HTLD_ARRRG_CHRGE_KND(#chrgeKndCd#))
+            AND U.WORK_CODE = GAM_GET_HTLD_ARRRG_CHRGE_KND(#chrgeKndCd#)
+            AND U.FISCAL_YR = #accnutYear#
+            AND U.BILL_NO = #nticNo#
+		ORDER BY
+			U.DLY_SER_NO	
+	</select>	
+</sqlMap>

@@ -182,6 +182,8 @@ GamHtldRentNticIssueModule.prototype.onCalcPay = function() {
 		supAmt = Math.floor(supAmt*0.1) * 10;
 		var vat = (supAmt >= 0) ? supAmt / 10 : 0;
 		var payAmt = supAmt + vat;
+		this.$('#rntfee').val(rntfee);
+		this.$('#payinstIntr').val(payinstIntr);
 		this.$('#supAmt').val(supAmt);
 		this.$('#vat').val(vat);
 		this.$('#payAmt').val(payAmt);
@@ -192,6 +194,8 @@ GamHtldRentNticIssueModule.prototype.onCalcPay = function() {
 			this.$('#btnNticIssue').disable({disableClass:"ui-state-disabled"});			
 		}
 	} else {
+		this.$('#rntfee').val(0);
+		this.$('#payinstIntr').val(0);
 		this.$('#supAmt').val(0);
 		this.$('#vat').val(0);
 		this.$('#payAmt').val(0);
@@ -215,6 +219,7 @@ GamHtldRentNticIssueModule.prototype.execNticIssue = function() {
 		alert(result.resultMsg);
 		if(result.resultCode == 0) {
 			module._nticIssue = 'Y';
+			module._parent.loadData();
 			module.$('#btnNticIssueExcelDownload').enable();
 			module.$('#btnNticIssueExcelDownload').removeClass('ui-state-disabled');			
 		} else {
@@ -242,6 +247,7 @@ var module_instance = new GamHtldRentNticIssueModule();
 				<input type="hidden" id="mngSeq" />
 				<input type="hidden" id="chrgeKndCd" />
 				<input type="hidden" id="histDt" />
+				<input type="hidden" id="histSeq" />
 				<input type="hidden" id="paySe" />
 				<input type="hidden" id="rntfee" />
 				<input type="hidden" id="payinstIntr" />
@@ -261,7 +267,7 @@ var module_instance = new GamHtldRentNticIssueModule();
 					<tr>
 						<th width="10%" height="18">대표자</th>
 						<td>
-							<input type="text" size="30" id="bizrno" disabled/>
+							<input type="text" size="30" id="rprsntvNm" disabled/>
 						</td>
 						<th width="10%" height="18">고지대상기간</th>
 						<td>

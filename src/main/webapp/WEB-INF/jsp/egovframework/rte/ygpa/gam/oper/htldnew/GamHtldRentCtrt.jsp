@@ -197,7 +197,8 @@ GamHtldRentCtrtModule.prototype.onClosePopup = function(popupId, msg, value) {
 			var row = this._rentArChangedRows[this._changeRowsId];
 			this.doExecuteDialog('areaAssessPopup', '임대면적변경', '/popup/showHtldAreaAssess.do', {}, {'searchRow' : row, 'mode' : 'I', 'histDt' : this._histDt} );
 		} else {
-			this.closeWindow('SAVE_RENTCONTRACT');
+			this._parent.loadData();
+			this.closeWindow();
 		}
 		break;
 	}
@@ -413,7 +414,8 @@ GamHtldRentCtrtModule.prototype.saveData = function() {
 				var row = module._rentArChangedRows[module._changeRowsId];
 				module.doExecuteDialog('areaAssessPopup', '임대면적변경 정산', '/popup/showHtldAreaAssess.do', {}, {'searchRow' : row, 'mode' : 'I', 'histDt' : module._histDt} );
 			} else {
-				module.closeWindow('SAVE_RENTCONTRACT'); 
+				module._parent.loadData();
+				module.closeWindow(); 
 			}
 		} else {
 			alert(result.resultMsg);
@@ -448,7 +450,8 @@ GamHtldRentCtrtModule.prototype.terminateRent = function(value) {
 	this.doAction('/oper/htldnew/terminateHtldRentCtrt.do', terminateData, function(module, result) {
 		if(result.resultCode == 0) {
 			alert('정상적으로 계약해지가 되었습니다.');
-			module.closeWindow('TERMINATE_RENTCONTRACT');
+			module._parent.loadData();
+			module.closeWindow();
 		} else {
 			alert(result.resultMsg);
 		}

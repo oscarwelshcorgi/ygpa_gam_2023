@@ -22,9 +22,18 @@
 	  		,(SELECT SUBSTR(E.BIZRNO, 0,3)||'-'||SUBSTR(E.BIZRNO, 4,2)||'-'||SUBSTR(E.BIZRNO, 6,5) FROM ENTRPS_INFO_F E WHERE E.ENTRPSCD = ENTRPS_CD) BIZRNO
 			,(SELECT E.RPRSNTV_NM FROM ENTRPS_INFO_F E WHERE E.ENTRPSCD = ENTRPS_CD) RPRSNTV_NM
 			,PAY_SE
+			<isNotEmpty property="histDt">
+			,#histDt# HIST_DT
+			,GAM_GET_HTLD_RENT_HIST_SEQ(#mngYear#, #mngNo#, #mngSeq#, #histDt#) HIST_SEQ
+			,#histDt# NTIC_DT
+			,TO_CHAR(p2mgr.sf_get_wrk_dt@ygpa_portmis(TO_DATE(#histDt#, 'YYYY-MM-DD')+14), 'YYYY-MM-DD') PAY_TMLMT
+			</isNotEmpty>
+			<isEmpty property="histDt">
+			,TO_CHAR(SYSDATE, 'YYYY-MM-DD') HIST_DT
+			,GAM_GET_HTLD_RENT_HIST_SEQ(#mngYear#, #mngNo#, #mngSeq#, TO_CHAR(SYSDATE, 'YYYY-MM-DD')) HIST_SEQ
 			,TO_CHAR(SYSDATE, 'YYYY-MM-DD') NTIC_DT
 			,TO_CHAR(p2mgr.sf_get_wrk_dt@ygpa_portmis(SYSDATE+14), 'YYYY-MM-DD') PAY_TMLMT
-			,#histDt# HIST_DT
+			</isEmpty>
 		FROM 
 			HTLD_RENT_HIST_F 
 		WHERE
@@ -198,11 +207,11 @@
 		INSERT INTO HTLD_NTIC_DTLS_F (
 			RNTFEE_NTIC_NO, ACCNUT_YEAR, NTIC_SEQ, NTIC_NO, CHRGE_KND_CD, NTIC_DT, NTIC_AMT,
 			RNTFEE, PAYINST_INTR, INTR_RATE, SUP_AMT, VAT, PAY_AMT, RM, 
-			RCIV_SE, NHT_PRT_YN, PAY_TMLMT, MNG_YEAR, MNG_NO, MNG_SEQ, NTIC_CNT, REG_USR, REGIST_DT
+			RCIV_SE, NHT_PRT_YN, PAY_TMLMT, MNG_YEAR, MNG_NO, MNG_SEQ, NTIC_CNT, HIST_SEQ, REG_USR, REGIST_DT
 		) VALUES (
 			#rntfeeNticNo#, #accnutYear#, #nticSeq#, #nticNo#, #chrgeKndCd#, TO_DATE(#nticDt#, 'YYYY-MM-DD'), TO_NUMBER(#payAmt#),
 			TO_NUMBER(#rntfee#), TO_NUMBER(#payinstIntr#), TO_NUMBER(#intrRate#) / 100, TO_NUMBER(#supAmt#), TO_NUMBER(#vat#), TO_NUMBER(#payAmt#), #rm#, 
-			#rcivSe#, 'N', TO_DATE(#payTmlmt#, 'YYYY-MM-DD'), #mngYear#, #mngNo#, #mngSeq#, #nticCnt#, #regUsr#, SYSDATE
+			#rcivSe#, 'N', TO_DATE(#payTmlmt#, 'YYYY-MM-DD'), #mngYear#, #mngNo#, #mngSeq#, #nticCnt#, #histSeq#, #regUsr#, SYSDATE
 		)
 	</insert>
 	
@@ -229,7 +238,7 @@
 		) VALUES (
 			'622', #mngYear#, #mngNo#, #mngSeq#, #nticCnt#, #chrgeKndCd#, #entrpsCd#, #entrpsNm#, #accnutYear#,
 			TO_DATE(#nticBeginDt#, 'YYYY-MM-DD'), TO_DATE(#nticEndDt#, 'YYYY-MM-DD'), TO_DATE(#payTmlmt#, 'YYYY-MM-DD'), #nticNo#, #nticDt#, '0', 'Y',
-			TO_NUMBER(#rntfee#), TO_NUMBER(#payinstIntr#), TO_NUMBER(#vat#), 'Y', TO_NUMBER(#intrRate#) / 100, TO_NUMBER(#payAmt#), #paySe#, 'A3', 
+			TO_NUMBER(#supAmt#), TO_NUMBER(#payinstIntr#), TO_NUMBER(#vat#), 'Y', TO_NUMBER(#intrRate#) / 100, TO_NUMBER(#payAmt#), #paySe#, 'A3', 
 			#regUsr#, SYSDATE, #deptCd#, #fcltySe#, #rm#
 		)
 	</insert>

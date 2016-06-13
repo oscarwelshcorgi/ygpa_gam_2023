@@ -236,13 +236,13 @@ GamHtldRentArrrgNticIssueModule.prototype.displayArrrg = function(supAmt, vat) {
 		dlyBillRsn = '(' + supAmt.toLocaleString() + '원 X 3%)+' + '(' + supAmt.toLocaleString() + '원 X 1.2%)';
 		if(nextArrrgNo > 2) dlyBillRsn += ' X ' + (nextArrrgNo - 1);  
 	}
-	
+
 	this.$('#arrrgAmt').val(arrrgAmt);
 	this.$('#payAmt').val(supAmt + vat + arrrgAmt);
 	this.$('#arrrgNticAmt').val(supAmt + vat + arrrgAmt);
 	this.$('#nticAmt').val(supAmt + vat);
-	this.$('#arrrgNo').val(arrrgNo);
-	this.$('#arrrgTariff').val(arrrgRate * 100);
+	this.$('#arrrgNo').val(nextArrrgNo);
+	this.$('#arrrgTariff').val(arrrgRate);
 	this.$('#dlyBillRsn').val(dlyBillRsn);
 };
 
@@ -257,12 +257,12 @@ GamHtldRentArrrgNticIssueModule.prototype.execArrrgNticIssue = function() {
 	this.$('#newPayTmlmt').val(this.$('#payTmlmt').val());
 	
 	var arrrgData = this.makeFormArgs('#gamHtldRentArrrgNticIssueForm');
-	
 	this.$('#btnArrrgNticIssue').disable({disableClass:"ui-state-disabled"});
 	this.doAction('/oper/htldnew/execArrrgNticIssue.do', arrrgData, function(module, result) {
 		alert(result.resultMsg);
 		if(result.resultCode == 0) {
-			module._arrrgNticIssue = 'Y';	
+			module._arrrgNticIssue = 'Y';
+			module._parent.loadData();
 			module.$('#btnArrrgNticIssueExcelDownload').enable();
 			module.$('#btnArrrgNticIssueExcelDownload').removeClass('ui-state-disabled');
 		} else {
