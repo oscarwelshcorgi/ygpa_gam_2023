@@ -292,7 +292,6 @@ var module_instance = new GamHtldRentArrrgNticIssueModule();
 				<input type="hidden" id="accnutYear" />
 				<input type="hidden" id="rntfeeNticNo" />
 				<input type="hidden" id="nticSeq" />
-				<input type="hidden" id="nticCnt" />			
 				<input type="hidden" id="histDt" />
 				<input type="hidden" id="arrrgNo" />
 				<input type="hidden" id="arrrgTariff" />

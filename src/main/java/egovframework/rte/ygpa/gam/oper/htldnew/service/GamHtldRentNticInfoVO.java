@@ -33,7 +33,6 @@ public class GamHtldRentNticInfoVO extends GamHtldRentNticDefaultVO{
 	private String	paySe;				/** 납부구분 : 4 분기납 6 연납 */
 	private String 	paySttus;			/** 납부상태 */
 
-	private String 	nticSeq;			/** 고지순번 */
 	private String	nticBeginDt;		/** 고지대상기간 시작일 */
 	private String	nticEndDt;		/** 고지대상기간 종료일 */
 	private String 	payTmlmt;		/** 납부기한 */
@@ -123,18 +122,6 @@ public class GamHtldRentNticInfoVO extends GamHtldRentNticDefaultVO{
 	 */
 	public void setPaySttus(String paySttus) {
 		this.paySttus = paySttus;
-	}
-	/**
-	 * @return the nticSeq
-	 */
-	public String getNticSeq() {
-		return nticSeq;
-	}
-	/**
-	 * @param nticSeq the nticSeq to set
-	 */
-	public void setNticSeq(String nticSeq) {
-		this.nticSeq = nticSeq;
 	}
 	/**
 	 * @return the nticBeginDt

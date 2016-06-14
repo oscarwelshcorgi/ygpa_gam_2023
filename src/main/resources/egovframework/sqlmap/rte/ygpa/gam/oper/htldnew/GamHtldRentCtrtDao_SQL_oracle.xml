@@ -76,12 +76,11 @@
 			D.REGIST_SEQ ASC
 	</select>
 	
-	<!-- 자산관리코드(관리년도, 관리번호, 관리순번) 생성 (일반부두의 자산관리코드와 LEV_REQEST_F에 공유되므로 겹치지 않도록 함, 향후 일반부두에도 적용시켜야 함 ) -->
+	<!-- 자산관리코드(관리년도, 관리번호, 관리순번) 생성  -->
 	<select id="gamHtldRentCtrtDao.selectMngKeyValues_S" resultMap="gamHtldRentCtrtMngKeyMap">
 		SELECT
 		  TO_CHAR(SYSDATE, 'YYYY') MNG_YEAR
-		  ,GREATEST( (SELECT LPAD(NVL(MAX(MNG_NO),0) + 1,'3','0') MNG_NO FROM ASSETS_RENT_F WHERE MNG_YEAR = TO_CHAR(SYSDATE, 'YYYY'))
-		    , (SELECT LPAD(NVL(MAX(MNG_NO),0) + 1,'3','0') MNG_NO FROM HTLD_RENT_F WHERE MNG_YEAR = TO_CHAR(SYSDATE, 'YYYY')) ) MNG_NO
+		  ,(SELECT LPAD(NVL(MAX(MNG_NO),0) + 1,'3','0') MNG_NO FROM HTLD_RENT_F WHERE MNG_YEAR = TO_CHAR(SYSDATE, 'YYYY')) MNG_NO
 		  , '01' MNG_SEQ
 		FROM
 		  DUAL		

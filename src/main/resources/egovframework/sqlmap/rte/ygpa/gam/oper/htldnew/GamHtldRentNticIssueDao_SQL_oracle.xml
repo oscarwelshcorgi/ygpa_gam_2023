@@ -82,8 +82,6 @@
 			,F.RNTFEE_NTIC_NO RNTFEE_NTIC_NO
 			,F.NTIC_SEQ NTIC_SEQ
 			,DECODE(F.NTIC_SEQ, NULL, 'N', 'Y') NTIC_YN
-			,F.RCIV_SE RCIV_SE
-			,TO_CHAR(F.RCIV_DT, 'YYYY-MM-DD') RCIV_DT
 		FROM
 		    HTLD_RNTFEE_F F
 		LEFT OUTER JOIN
@@ -130,11 +128,8 @@
 	<!-- accutYear rntfeeNticNo 생성하거나 존재하면 가져오기 -->
 	<select id="gamHtldRentNticIssueDao.selectHtldNticSummPk_S" parameterClass="GamHtldRentNticInfoVO" resultClass="egovMap">
 	    SELECT 
-	      DECODE((SELECT COUNT(*) FROM HTLD_NTIC_SUMM_F WHERE ENTRPS_CD = #entrpsCd# AND ACCNUT_YEAR = TO_CHAR(SYSDATE, 'YYYY')), 0,
-	        (SELECT LPAD(NVL(MAX(RNTFEE_NTIC_NO), 0) + 1, 6, '0') RNTFEE_NTIC_NO FROM HTLD_NTIC_SUMM_F WHERE ACCNUT_YEAR = TO_CHAR(SYSDATE, 'YYYY')),
-	        (SELECT RNTFEE_NTIC_NO FROM HTLD_NTIC_SUMM_F WHERE ENTRPS_CD = #entrpsCd# AND ACCNUT_YEAR = TO_CHAR(SYSDATE, 'YYYY'))) RNTFEE_NTIC_NO
-	      ,TO_CHAR(SYSDATE, 'YYYY') ACCNUT_YEAR
-	      ,DECODE((SELECT COUNT(*) FROM HTLD_NTIC_SUMM_F WHERE ENTRPS_CD = #entrpsCd# AND ACCNUT_YEAR = TO_CHAR(SYSDATE, 'YYYY')), 0, 'I', 'U') SUMM_UPDT_ID
+	      TO_CHAR(SYSDATE, 'YYYY') ACCNUT_YEAR
+	      ,(SELECT LPAD(NVL(MAX(RNTFEE_NTIC_NO), 0) + 1, 6, '0') RNTFEE_NTIC_NO FROM HTLD_NTIC_SUMM_F WHERE ACCNUT_YEAR = TO_CHAR(SYSDATE, 'YYYY')) RNTFEE_NTIC_NO
 	    FROM
 	      DUAL
 	</select>
@@ -151,19 +146,6 @@
 			#regUsr#, #regUsr#, SYSDATE
 		) 
 	</insert>
-
-	<!-- HTLD_NTIC_SUMM_F에 수정 -->
-	<update id="gamHtldRentNticIㅅssueDao.updateHtldNticSumm_S" parameterClass="GamHtldRentNticInfoVO">
-		UPDATE HTLD_NTIC_SUMM_F SET
-			GR_SUP_AMT = NVL(GR_SUP_AMT, 0) + TO_NUMBER(#supAmt#),
-			GR_VAT = NVL(GR_VAT, 0) + TO_NUMBER(#vat#),
-			GR_PAY_AMT = NVL(GR_PAY_AMT, 0) + TO_NUMBER(#payAmt#),
-			UPD_USR = #updUsr#,
-			UPDT_DT = SYSDATE
-		WHERE
-			RNTFEE_NTIC_NO = #rntfeeNticNo# 
-			AND ACCNUT_YEAR = #accnutYear#
-	</update>
 	
 	<!-- nticSeq 생성하기 -->
 	<select id="gamHtldRentNticIssueDao.selectHtldNticDtlsNextNticSeq_S" parameterClass="GamHtldRentNticDefaultVO" resultClass="java.lang.String">
@@ -176,20 +158,6 @@
 			AND ACCNUT_YEAR = #accnutYear#
 	</select>
 	
-	<!-- nticCnt 생성하기 -->
-	<select id="gamHtldRentNticIssueDao.selectLevReqestNextNticCnt_S" parameterClass="GamHtldRentNticInfoVO" resultClass="java.lang.String">
-		SELECT
-			LPAD(NVL(MAX(NTIC_CNT), 0) + 1, 2, '0') NTIC_CNT
-		FROM
-			LEV_REQEST_F 
-		WHERE
-			PRT_AT_CODE = '622'
-			AND MNG_YEAR = #mngYear#
-			AND MNG_NO = #mngNo#
-			AND MNG_CNT = #mngSeq#
-			AND CHRGE_KND = #chrgeKndCd#
-	</select>
-
 	<!-- nticNo 생성하기 -->
 	<select id="gamHtldRentNticIssueDao.selectRevCollNextNticNo_S" parameterClass="GamHtldRentNticInfoVO" resultClass="java.lang.String">
 		SELECT
@@ -207,11 +175,13 @@
 		INSERT INTO HTLD_NTIC_DTLS_F (
 			RNTFEE_NTIC_NO, ACCNUT_YEAR, NTIC_SEQ, NTIC_NO, CHRGE_KND_CD, NTIC_DT, NTIC_AMT,
 			RNTFEE, PAYINST_INTR, INTR_RATE, SUP_AMT, VAT, PAY_AMT, RM, 
-			RCIV_SE, NHT_PRT_YN, PAY_TMLMT, MNG_YEAR, MNG_NO, MNG_SEQ, NTIC_CNT, HIST_SEQ, REG_USR, REGIST_DT
+			RCIV_SE, NHT_PRT_YN, PAY_TMLMT, MNG_YEAR, MNG_NO, MNG_SEQ, HIST_SEQ, REG_USR, REGIST_DT,
+			NTIC_PD_FROM, NTIC_PD_TO, PAY_SE
 		) VALUES (
 			#rntfeeNticNo#, #accnutYear#, #nticSeq#, #nticNo#, #chrgeKndCd#, TO_DATE(#nticDt#, 'YYYY-MM-DD'), TO_NUMBER(#payAmt#),
 			TO_NUMBER(#rntfee#), TO_NUMBER(#payinstIntr#), TO_NUMBER(#intrRate#) / 100, TO_NUMBER(#supAmt#), TO_NUMBER(#vat#), TO_NUMBER(#payAmt#), #rm#, 
-			#rcivSe#, 'N', TO_DATE(#payTmlmt#, 'YYYY-MM-DD'), #mngYear#, #mngNo#, #mngSeq#, #nticCnt#, #histSeq#, #regUsr#, SYSDATE
+			#rcivSe#, 'N', TO_DATE(#payTmlmt#, 'YYYY-MM-DD'), #mngYear#, #mngNo#, #mngSeq#, #histSeq#, #regUsr#, SYSDATE,
+			#nticBeginDt#, #nticEndDt#, #paySe#
 		)
 	</insert>
 	
@@ -220,7 +190,7 @@
 		UPDATE HTLD_RNTFEE_F 
 		SET
 			RNTFEE_NTIC_NO = #rntfeeNticNo#, ACCNUT_YEAR = #accnutYear#, NTIC_SEQ = #nticSeq#, 
-			RCIV_SE = #rcivSe#, PAY_TMLMT = TO_DATE(#payTmlmt#, 'YYYY-MM-DD'), UPD_USR = #updUsr#, UPDT_DT = SYSDATE
+			UPD_USR = #updUsr#, UPDT_DT = SYSDATE
 		WHERE
 			MNG_YEAR = #mngYear#  
 			AND MNG_NO = #mngNo#
@@ -228,21 +198,6 @@
 			AND RNTFEE_SEQ = #rntfeeSeq#
 	</update>
 		
-	<!-- LEV_REQEST_F에 고지자료 등록 -->
-	<insert id="gamHtldRentNticIssueDao.insertLevReqest_S" parameterClass="GamHtldRentNticInfoVO">
-		INSERT INTO LEV_REQEST_F ( 
-			PRT_AT_CODE, MNG_YEAR, MNG_NO, MNG_CNT, NTIC_CNT, CHRGE_KND, ENTRPSCD, ENTRPS_NM, ACCNUT_YEAR,
-			NTIC_PD_FROM, NTIC_PD_TO, PAY_TMLMT, NTICNO, NTIC_DT, RCIV_SE, NHT_ISUE_YN,
-			FEE, INTR_AMNT, VAT, VAT_YN, INTR_RATE, NTIC_AMT, NTIC_MTH, INTR_CHRGE_KND,
-			REG_USR, REGIST_DT, DEPTCD, FCLTY_SE, RM
-		) VALUES (
-			'622', #mngYear#, #mngNo#, #mngSeq#, #nticCnt#, #chrgeKndCd#, #entrpsCd#, #entrpsNm#, #accnutYear#,
-			TO_DATE(#nticBeginDt#, 'YYYY-MM-DD'), TO_DATE(#nticEndDt#, 'YYYY-MM-DD'), TO_DATE(#payTmlmt#, 'YYYY-MM-DD'), #nticNo#, #nticDt#, '0', 'Y',
-			TO_NUMBER(#supAmt#), TO_NUMBER(#payinstIntr#), TO_NUMBER(#vat#), 'Y', TO_NUMBER(#intrRate#) / 100, TO_NUMBER(#payAmt#), #paySe#, 'A3', 
-			#regUsr#, SYSDATE, #deptCd#, #fcltySe#, #rm#
-		)
-	</insert>
-	
 	<!-- REV_COLL_F에 고지자료 등록 -->
 	<insert id="gamHtldRentNticIssueDao.insertRevColl_S" parameterClass="GamHtldRentNticInfoVO">
 		INSERT INTO REV_COLL_F (

@@ -27,6 +27,7 @@ public class GamHtldRentArrrgNticInfoVO extends GamHtldRentNticDefaultVO{
 	private static final long serialVersionUID = 1L;
 	
 	private String	arrrgNo;			/** 연체 횟수 */
+	private String 	entrpsCd;			/** 업체코드 */
 	private String 	dlyBillDt;			/** 연체고지일자 */
 	private String	newPayTmlmt;	/** 연체납부기한 */
 	private String 	nticAmt; 			/** 원고지금액 */
@@ -50,6 +51,18 @@ public class GamHtldRentArrrgNticInfoVO extends GamHtldRentNticDefaultVO{
 	 */
 	public void setArrrgNo(String arrrgNo) {
 		this.arrrgNo = arrrgNo;
+	}
+	/**
+	 * @return the entrpsCd
+	 */
+	public String getEntrpsCd() {
+		return entrpsCd;
+	}
+	/**
+	 * @param entrpsCd the entrpsCd to set
+	 */
+	public void setEntrpsCd(String entrpsCd) {
+		this.entrpsCd = entrpsCd;
 	}
 	/**
 	 * @return the dlyBillDt
@@ -195,4 +208,5 @@ public class GamHtldRentArrrgNticInfoVO extends GamHtldRentNticDefaultVO{
 	public void setEmplNo(String emplNo) {
 		this.emplNo = emplNo;
 	}
+
 }

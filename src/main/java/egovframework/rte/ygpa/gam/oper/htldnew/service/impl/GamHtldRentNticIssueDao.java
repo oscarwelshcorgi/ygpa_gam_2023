@@ -74,16 +74,6 @@ public class GamHtldRentNticIssueDao  extends YGPAAbstractDAO {
 	}
 
 	/**
-	 * 고지 요약 정보 수정
-	 * @param GamHtldRentNticInfoVO
-	 * @return  
-	 * @exception Exception
-	 */
-	public void updateHtldNticSumm(GamHtldRentNticInfoVO searchVO) throws Exception {
-		update("gamHtldRentNticIssueDao.updateHtldNticSumm_S", searchVO);
-	}
-
-	/**
 	 * 고지 상세 순번 생성
 	 * @param GamHtldRentNticDefaultVO
 	 * @return String 
@@ -93,16 +83,6 @@ public class GamHtldRentNticIssueDao  extends YGPAAbstractDAO {
 		return (String) selectByPk("gamHtldRentNticIssueDao.selectHtldNticDtlsNextNticSeq_S", searchVO);
 	}
 	
-	/**
-	 * LEV_REQEST_F의 NTIC_CNT 생성
-	 * @param GamHtldRentNticInfoVO
-	 * @return String 
-	 * @exception Exception
-	 */
-	public String selectLevReqestNextNticCnt(GamHtldRentNticInfoVO searchVO) throws Exception {
-		return (String) selectByPk("gamHtldRentNticIssueDao.selectLevReqestNextNticCnt_S", searchVO);
-	}
-
 	/**
 	 * REV_COLL_F의 NTIC_NO 생성
 	 * @param GamHtldRentNticInfoVO
@@ -133,16 +113,6 @@ public class GamHtldRentNticIssueDao  extends YGPAAbstractDAO {
 		update("gamHtldRentNticIssueDao..updateHtldRntfee_S", searchVO);
 	}
 
-	/**
-	 * LEV_REQEST_F 에 고지자료 등록
-	 * @param GamHtldRentNticInfoVO
-	 * @return 
-	 * @exception Exception
-	 */
-	public void insertLevReqest(GamHtldRentNticInfoVO searchVO) throws Exception {
-		insert("gamHtldRentNticIssueDao.insertLevReqest_S", searchVO);
-	}
-	
 	/**
 	 * REV_COLL_F 에 고지자료 등록
 	 * @param GamHtldRentNticInfoVO

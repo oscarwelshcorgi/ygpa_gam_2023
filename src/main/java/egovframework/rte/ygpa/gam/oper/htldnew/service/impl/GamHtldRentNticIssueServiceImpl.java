@@ -79,13 +79,8 @@ public class GamHtldRentNticIssueServiceImpl extends AbstractServiceImpl impleme
 		Map<String, String> summKey = (Map<String, String>) gamHtldRentNticIssueDao.selectHtldNticSummPk(nticInfo);
 		nticInfo.setRntfeeNticNo(summKey.get("rntfeeNticNo"));
 		nticInfo.setAccnutYear(summKey.get("accnutYear"));
-		if("I".equals(summKey.get("summUpdtId"))) {
-			gamHtldRentNticIssueDao.insertHtldNticSumm(nticInfo);
-		} else {
-			gamHtldRentNticIssueDao.updateHtldNticSumm(nticInfo);
-		}
+		gamHtldRentNticIssueDao.insertHtldNticSumm(nticInfo);
 		nticInfo.setNticSeq(gamHtldRentNticIssueDao.selectHtldNticDtlsNextNticSeq(nticInfo));
-		nticInfo.setNticCnt(gamHtldRentNticIssueDao.selectLevReqestNextNticCnt(nticInfo));
 		nticInfo.setNticNo(gamHtldRentNticIssueDao.selectRevCollNextNticNo(nticInfo));
 		gamHtldRentNticIssueDao.insertHtldNticDtls(nticInfo);
 		for(GamHtldRentRntfeeVO item : rntfeeList) {
@@ -97,7 +92,6 @@ public class GamHtldRentNticIssueServiceImpl extends AbstractServiceImpl impleme
 			item.setPayTmlmt(nticInfo.getPayTmlmt());
 			gamHtldRentNticIssueDao.updateHtldRntfee(item);
 		}
-		gamHtldRentNticIssueDao.insertLevReqest(nticInfo);
 		gamHtldRentNticIssueDao.insertRevColl(nticInfo);
 	}
 }

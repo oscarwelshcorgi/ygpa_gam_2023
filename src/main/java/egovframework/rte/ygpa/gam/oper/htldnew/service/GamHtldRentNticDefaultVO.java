@@ -29,7 +29,6 @@ public class GamHtldRentNticDefaultVO extends GamHtldRentMngDefaultVO{
 	private String	rntfeeNticNo;		/**	임대료 고지번호 */
 	private String	nticSeq;			/** 임대료 고지순번 */
 	private String 	nticNo;			/** BILL NO LEV_REQEST_F REV_COLL_F 용*/
-	private String	nticCnt;			/** 고지순번 LEV_REQEST_F 용 */
 	private String 	chrgeKndCd;		/** 요금종류코드 */
 	/**
 	 * @return the accnutYear
@@ -78,18 +77,6 @@ public class GamHtldRentNticDefaultVO extends GamHtldRentMngDefaultVO{
 	 */
 	public void setNticNo(String nticNo) {
 		this.nticNo = nticNo;
-	}
-	/**
-	 * @return the nticCnt
-	 */
-	public String getNticCnt() {
-		return nticCnt;
-	}
-	/**
-	 * @param nticCnt the nticCnt to set
-	 */
-	public void setNticCnt(String nticCnt) {
-		this.nticCnt = nticCnt;
 	}
 	/**
 	 * @return the chrgeKndCd
