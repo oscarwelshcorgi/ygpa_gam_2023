@@ -298,7 +298,7 @@
 	</insert>
 	
 	<!-- HTLD_NTIC_DTLS_F 에 연체정보 수정 -->
-	<update id="gamHtldRentArrrgNticIssueDao.updateLevReqestNticInfo_S" parameterClass="egovMap">
+	<update id="gamHtldRentArrrgNticIssueDao.updateHtldNticDtlsInfo_S" parameterClass="egovMap">
     	UPDATE HTLD_NTIC_DTLS_F SET
         	NTIC_DT=TO_DATE(#dlyBillDt#, 'YYYY-MM-DD'),
         	PAY_TMLMT=TO_DATE(#dlyDueDt#, 'YYYY-MM-DD'),

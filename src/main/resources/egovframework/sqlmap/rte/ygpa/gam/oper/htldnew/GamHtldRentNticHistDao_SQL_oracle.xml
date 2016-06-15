@@ -41,6 +41,7 @@
 		  ,N.RM RM
 		  ,NVL(N.NHT_PRT_YN,'N') AS NHT_PRT_YN
 		  ,DECODE(N.NHT_PRT_YN, 'N', '', '출력') AS NHT_PRT_YN_NM
+		  ,NVL(N.BILL_PRT_YN,'N') AS BILL_PRT_YN
 		  ,N.MNG_YEAR MNG_YEAR
 		  ,N.MNG_NO MNG_NO
 		  ,N.MNG_SEQ MNG_SEQ
@@ -143,12 +144,11 @@
 			,GAM_GETCODENAME('GAM025', U.WORK_CODE) FEE_TP_KOR_NM
 			,GAM_GETENTRPSNM(U.AGENT_CODE, '1') FIRM_KOR_NM
 		FROM
-			LEV_REQEST_F L, UNPAID_F U
+			HTLD_NTIC_DTLS_F N, UNPAID_F U
 		WHERE 1=1
-           	AND L.PRT_AT_CODE=U.PRT_AT_CODE
-           	AND L.ACCNUT_YEAR=U.FISCAL_YR
-           	AND GAM_GET_HTLD_ARRRG_CHRGE_KND(L.CHRGE_KND)=U.WORK_CODE
-          	AND L.NTICNO=U.BILL_NO
+           	AND N.ACCNUT_YEAR=U.FISCAL_YR
+           	AND GAM_GET_HTLD_ARRRG_CHRGE_KND(N.CHRGE_KND_CD)=U.WORK_CODE
+          	AND N.NTIC_NO=U.BILL_NO
             AND U.PRT_AT_CODE = '622'
             AND U.FEE_TP = GAM_GET_HTLD_FEE_TP(GAM_GET_HTLD_ARRRG_CHRGE_KND(#chrgeKndCd#))
             AND U.WORK_CODE = GAM_GET_HTLD_ARRRG_CHRGE_KND(#chrgeKndCd#)
@@ -185,33 +185,31 @@
 	<!-- 연체 고지 취소를 위한 연체정보목록 조회 -->
 	<select id="gamHtldRentNticHistDao.selectHistArrrgNticIssueCancelList_D" parameterClass="GamHtldRentNticHistVO" resultClass="egovMap">
 		SELECT
-			L.PRT_AT_CODE PRT_AT_CDE
-			,L..FEE FEE
-			,L.NTIC_AMT NTIC_AMT
-			,L.CHRGE_KND CHRGE_KND_CD
-			,L.ACCNUT_YEAR ACCNUT_YEAR
-			,L.NTICNO
-			,NVL(L.ARRRG_AMT, 0) ARRRG_AMT
+			N.SUP_AMT SUP_AMT
+			,NVL(N.ARRRG_AMT, 0) ARRRG_AMT
+			,N.PAY_AMT PAY_AMT
+			,N.CHRGE_KND_CD CHRGE_KND_CD
+			,N.ACCNUT_YEAR ACCNUT_YEAR
+			,N.NTIC_NO NTIC_NO
 			,U.DLY_BILL_PRT_YN DLY_BILL_PRT_YN
 			,U.FEE_TP FEE_TP
 			,U.WORK_CODE WORK_CODE
 			,U.FISCAL_YR FISCAL_YR
 			,U.BILL_NO BILL_NO
 			,U.DLY_SER_NO DLY_SER_NO
-			,U.ARRRG_TARIFF ARRRG_TARIFF
-			,U.ARRRG_PAY_DATES ARRRG_PAY_DATES
-			,U.DLY_BILL_AMNT DLY_BILL_AMNT
-			,U.DBILL_AMNT DBILL_AMNT
+			,TO_CHAR(U.ARRRG_TARIFF) ARRRG_TARIFF
+			,TO_CHAR(U.ARRRG_PAY_DATES) ARRRG_PAY_DATES
+			,TO_CHAR(U.DLY_BILL_AMNT) DLY_BILL_AMNT
+			,TO_CHAR(U.DBILL_AMNT) DBILL_AMNT
 			,TO_CHAR(U.PRV_DUE_DT, 'YYYY-MM-DD') PRV_DUE_DT
 			,TO_CHAR(U.PRV_BILL_DT, 'YYYY-MM-DD') PRV_BILL_DT
 			,TO_CHAR(U.FIRST_BILL_DT, 'YYYY-MM-DD') FIRST_BILL_DT
 		FROM
-			LEV_REQEST_F L, UNPAID_F U
+			HTLD_NTIC_DTLS_F N, UNPAID_F U
 		WHERE 1=1
-           	AND L.PRT_AT_CODE=U.PRT_AT_CODE
-           	AND L.ACCNUT_YEAR=U.FISCAL_YR
-           	AND GAM_GET_HTLD_ARRRG_CHRGE_KND(L.CHRGE_KND)=U.WORK_CODE
-          	AND L.NTICNO=U.BILL_NO
+           	AND N.ACCNUT_YEAR=U.FISCAL_YR
+           	AND GAM_GET_HTLD_ARRRG_CHRGE_KND(N.CHRGE_KND_CD)=U.WORK_CODE
+          	AND N.NTIC_NO=U.BILL_NO
             AND U.PRT_AT_CODE = '622'
             AND U.FEE_TP = GAM_GET_HTLD_FEE_TP(GAM_GET_HTLD_ARRRG_CHRGE_KND(#chrgeKndCd#))
             AND U.WORK_CODE = GAM_GET_HTLD_ARRRG_CHRGE_KND(#chrgeKndCd#)
@@ -222,66 +220,56 @@
 	</select>	
 	
 	<!-- 최초연체고지취소를 위한 원고지정보변경. -->
-    <update id="gamHtldRentNticHistDao.updateLevReqestUnarrrgAmt_S" parameterClass="hashMap">
-        UPDATE LEV_REQEST_F SET
+    <update id="gamHtldRentNticHistDao.updateHtldNticDtlsUnarrrgAmt_S" parameterClass="GamHtldRentNticHistVO">
+        UPDATE HTLD_NTIC_DTLS_F SET
       		RCIV_SE='0',
       		ARRRG_NO=NULL,
       		ARRRG_AMT=NULL,
       		ARRRG_TARIFF=NULL,
       		ARRRG_PAY_DATES=NULL,
       		NTIC_DT=#prvBillDt#,
-      		NTIC_AMT=TRUNC(NVL(FEE,0)+NVL(INTR_AMNT,0)+NVL(ADD_AMNT,0),-1)+NVL(VAT,0),
+      		PAY_AMT=NVL(SUP_AMT,0)+NVL(VAT,0),
       		PAY_TMLMT=TO_DATE(#dlyDueDt#, 'YYYY-MM-DD'),
       		UPD_USR=#updUsr#,
       		UPDT_DT=SYSDATE
      	WHERE
-			PRT_AT_CODE=#prtAtCode#
-	      	AND MNG_YEAR=#mngYear#
-	      	AND MNG_NO=#mngNo#
-	      	AND MNG_CNT=#mngCnt#
-	      	AND NTIC_CNT=#nticCnt#
-	      	AND CHRGE_KND=#chrgeKnd#
+     		ACCNUT_YEAR = #accnutYear#
+     		AND RNTFEE_NTIC_NO = #rntfeeNticNo#
+     		AND NTIC_SEQ = #nticSeq#
 	</update>
 
   	<!-- 최초연체가 아닌 연체고지취소를 위한 원고지정보변경. -->
-  	<update id="gamHtldRentNticHistDao.updateLevReqestArrrgAmt_S" parameterClass="hashMap">
-        UPDATE LEV_REQEST_F SET
-        	NTIC_DT=TO_DATE(#dlyBillDt#, 'YYYY-MM-DD'),
+  	<update id="gamHtldRentNticHistDao.updateHtldNticDtlsArrrgAmt_S" parameterClass="GamHtldRentNticHistVO">
+        UPDATE HTLD_NTIC_DTLS_F SET
+        	NTIC_DT=TO_DATE(#billDt#, 'YYYY-MM-DD'),
         	PAY_TMLMT=TO_DATE(#dlyDueDt#, 'YYYY-MM-DD'),
       		ARRRG_NO=#dlySerNo#,
       		ARRRG_AMT=TO_NUMBER(#dbillAmnt#),
       		ARRRG_TARIFF=TO_NUMBER(#arrrgTariff#),
-      		ARRRG_PAY_DATES=TO_NUMBER(#applyPayDates#),
-      		NTIC_AMT=TRUNC(NVL(FEE,0)+NVL(INTR_AMNT,0)+NVL(ADD_AMNT,0),-1)+NVL(VAT,0)+TO_NUMBER(#dlyBillAmnt#),
-      		<isNotNull property="rcivSe">
-	      		RCIV_SE=#rcivSe#,
-      		</isNotNull>
-      		UPD_USR=#updUsr#,
+      		ARRRG_PAY_DATES=TO_NUMBER(#arrrgPayDates#),
+      		PAY_AMT=NVL(SUP_AMT, 0)+NVL(VAT,0)+TO_NUMBER(#dlyBillAmnt#),
+	      	UPD_USR=#updUsr#,
       		UPDT_DT=SYSDATE
      	WHERE
-			PRT_AT_CODE=#prtAtCode#
-	      	AND MNG_YEAR=#mngYear#
-	      	AND MNG_NO=#mngNo#
-	      	AND MNG_CNT=#mngCnt#
-	      	AND NTIC_CNT=#nticCnt#
-	      	AND CHRGE_KND=#chrgeKnd#
+     		ACCNUT_YEAR = #accnutYear#
+     		AND RNTFEE_NTIC_NO = #rntfeeNticNo#
+     		AND NTIC_SEQ = #nticSeq#
   	</update>
 	
 	<!-- 연체정보 삭제 -->
-    <delete id="gamHtldRentNticHistDao.deleteUnpaidByPk" parameterClass="hashMap" >
-            DELETE FROM UNPAID_F WHERE (PRT_AT_CODE, FEE_TP, WORK_CODE, FISCAL_YR, BILL_NO) IN
-     (
-     	SELECT
-              PRT_AT_CODE, GAM_GET_HTLD_FEE_TP(GAM_GET_HTLD_ARRRG_CHRGE_KND(CHRGE_KND)), GAM_GET_HTLD_ARRRG_CHRGE_KND(CHRGE_KND), ACCNUT_YEAR, NTICNO
-		FROM LEV_REQEST_F
-      	WHERE PRT_AT_CODE=#prtAtCode#
-	      	AND MNG_YEAR=#mngYear#
-	      	AND MNG_NO=#mngNo#
-	      	AND MNG_CNT=#mngCnt#
-	      	AND NTIC_CNT=#nticCnt#
-	      	AND CHRGE_KND=#chrgeKnd#
-      	)
+    <delete id="gamHtldRentNticHistDao.deleteUnpaidByPk" parameterClass="GamHtldRentNticHistVO">
+     	DELETE FROM UNPAID_F WHERE (PRT_AT_CODE, FEE_TP, WORK_CODE, FISCAL_YR, BILL_NO) IN
+     	(
+     		SELECT
+              	'622' PRT_AT_CODE, GAM_GET_HTLD_FEE_TP(GAM_GET_HTLD_ARRRG_CHRGE_KND(CHRGE_KND_CD)), GAM_GET_HTLD_ARRRG_CHRGE_KND(CHRGE_KND_CD), ACCNUT_YEAR, NTIC_NO
+			FROM HTLD_NTIC_DTLS_F
+      		WHERE 
+     		ACCNUT_YEAR = #accnutYear#
+     		AND RNTFEE_NTIC_NO = #rntfeeNticNo#
+     		AND NTIC_SEQ = #nticSeq#
+       	)
       	AND DLY_SER_NO=#dlySerNo#
     </delete>
-
+	
+	
 </sqlMap>

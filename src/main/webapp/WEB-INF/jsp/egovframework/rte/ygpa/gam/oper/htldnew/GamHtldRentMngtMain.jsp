@@ -80,14 +80,7 @@ GamHtldRentMngtMainModule.prototype.loadComplete = function() {
     	module.onMainGrildCellEdited(row, rid, cid);
     });
 
-    var today = new Date();
-    var searchYear = today.getFullYear();
-    var searchMonth = today.getMonth() + 1;
-    if(searchMonth < 10) searchMonth = '0' + searchMonth;
-    var searchDay = today.getDate();
-    if(searchDay < 10) searchDay = '0' + searchDay;
-    var searchDt = searchYear + '-' + searchMonth + '-' + searchDay;
-    this.$('#histDt').val(searchDt);
+    this.$('#histDt').val(EMD.util.getDate());
     
     this.loadData();
 };

@@ -28,7 +28,7 @@ public class GamHtldRentNticDefaultVO extends GamHtldRentMngDefaultVO{
 	private String	accnutYear; 		/** 회계년도 */
 	private String	rntfeeNticNo;		/**	임대료 고지번호 */
 	private String	nticSeq;			/** 임대료 고지순번 */
-	private String 	nticNo;			/** BILL NO LEV_REQEST_F REV_COLL_F 용*/
+	private String 	nticNo;			/** BILL NO REV_COLL_F 용*/
 	private String 	chrgeKndCd;		/** 요금종류코드 */
 	/**
 	 * @return the accnutYear

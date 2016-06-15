@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="ygpa.gam.oper.htldnew">
+
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    
+ 	<typeAlias alias="GamPopupHtldRcivProcVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamPopupHtldRcivProcVO"/>
+ 	<typeAlias alias="GamHtldRentNticDefaultVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentNticDefaultVO"/>
+    
+    <!-- 지로 수납된 자료인지 조회 -->
+    <select id="gamPopupHtldRcivProcDao.selectCheckOcrResult_S" parameterClass="GamHtldRentNticDefaultVO" resultClass="java.lang.String">
+		SELECT
+			DECODE(OCR_DT, NULL, 'N', 'Y') OCR_DT_YN
+		FROM
+			HTLD_NTIC_DTLS_F N
+			REV_COLL_F R
+		WHERE
+			R.PRT_AT_CODE = '622'
+			AND R.FISCAL_YR = N.ACCNUT_YEAR
+			AND R.FEE_TP = GAM_GET_HTLD_FEE_TP(N.CHRGE_KND_CD)
+			AND R.WORK_CODE = N.CHRGE_KND_CD
+			AND R.BILL_NO = N.NTIC_NO
+			AND N.ACCNUT_YEAR = #accnutYear#
+			AND N.RNTFEE_NTIC_NO = #rntfeeNticNo#
+			AND N.NTIC_SEQ = #nticSeq#
+			AND N.NTIC_NO = #nticNo#
+    </select>
+
+	<!-- 수납처리정보 조회 -->  
+    <select id="gamPopupHtldRcivProcDao.selectHtldNticDtlsRcivInfo_S" parameterClass="GamHtldRentNticDefaultVO" resultClass="egovMap">
+		SELECT 
+		  TO_CHAR(N.NTIC_DT, 'YYYY-MM-DD') NTIC_DT
+		  ,TO_CHAR(N.NTIC_PD_FROM, 'YYYY-MM-DD') NTIC_PD_FROM
+		  ,TO_CHAR(N.NTIC_PD_TO, 'YYYY-MM-DD') NTIC_PD_TO
+		  ,N.CHRGE_KND_CD CHRGE_KND_CD
+		  ,GAM_GETCODENAME('GAM053', N.CHRGE_KND_CD) CHRGE_KND_NM
+		  ,N.PAY_SE PAY_SE
+		  ,GAM_GETCODENAME('GAM008', N.PAY_SE) PAY_SE_NM
+		  ,N.SUP_AMT SUP_AMT
+		  ,N.VAT VAT
+		  ,NVL(N.ARRRG_AMT, 0) ARRRG_AMT
+		  ,N.PAY_AMT PAY_AMT
+		  ,TO_CHAR(N.PAY_TMLMT, 'YYYY-MM-DD') PAY_TMLMT
+		  ,GAM_GET_IS_PASS_DATE_YN(N.PAY_TMLMT) PAY_TMLMT_YN
+		  ,N.RCIV_SE RCIV_SE
+		  ,TO_CHAR(N.RCIV_DT, 'YYYY-MM-DD') RCIV_DT
+		  ,N.RM RM
+		  ,NVL(N.NHT_PRT_YN,'N') AS NHT_PRT_YN
+		  ,DECODE(N.NHT_PRT_YN, 'N', '', '출력') AS NHT_PRT_YN_NM
+		  ,NVL(N.BILL_PRT_YN,'N') AS BILL_PRT_YN
+		  ,N.MNG_YEAR MNG_YEAR
+		  ,N.MNG_NO MNG_NO
+		  ,N.MNG_SEQ MNG_SEQ
+		  ,N.HIST_SEQ HIST_SEQ
+		  ,N.ACCNUT_YEAR ACCNUT_YEAR
+		  ,N.RNTFEE_NTIC_NO RNTFEE_NTIC_NO
+		  ,N.NTIC_SEQ NTIC_SEQ
+		  ,N.NTIC_NO NTIC_NO
+		  ,N.RCIV_SE RCIV_SE
+		  ,TO_CHAR(N.RCIV_DT, 'YYYY-MM-DD') RCIV_DT
+		  ,S.ENTRPS_CD ENTRPS_CD
+		  ,S.ENTRPS_NM ENTRPS_NM
+		  ,S.RPRSNTV_NM RPRSNTV_NM
+		FROM
+		  HTLD_NTIC_DTLS_F N
+		INNER JOIN 
+		  HTLD_NTIC_SUMM_F S
+		  ON N.ACCNUT_YEAR = S.ACCNUT_YEAR AND N.RNTFEE_NTIC_NO = S.RNTFEE_NTIC_NO  
+		WHERE
+		  N.ACCNUT_YEAR = #accnutYear#
+		  AND N.RNTFEE_NTIC_NO = #rntfeeNticNo#
+		  AND N.NTIC_SEQ = #nticSeq#
+    </select>
+    
+    <!-- HTLD_NTIC_DTLS_F 의 수납정보 수정 -->
+    <update id="gamPopupHtldRcivProcDao.updateNticDtlsRcivInfo_S" parameterClass="GamPopupHtldRcivProcVO">
+    	UPDATE HTLD_NTIC_DTLS_F
+    	SET
+    		RCIV_SE=#rcivSe#
+    		,UPD_USR=#updUsr#
+    		,UPDT_DT=SYSDATE
+    		<isNotEmpty property="rm">
+    			,RM=#rm#
+    		</isNotEmpty>
+    		<isEqual property="rcivSe" compareValue="3">
+      			<isNotEmpty property="rcivDt">
+	      			,RCIV_DT=TO_DATE(#rcivDt#, 'YYYY-MM-DD')
+	      		</isNotEmpty>
+      			<isEmpty property="rcivDt">
+	      			,RCIV_DT=SYSDATE
+	      		</isEmpty>
+      		</isEqual>
+      		<isNotEqual property="rcivSe" compareValue="3">
+   		      <isEqual property="rcivSe" compareValue="2">
+	      			<isNotEmpty property="rcivDt">
+		      			,RCIV_DT=TO_DATE(#rcivDt#, 'YYYY-MM-DD')
+		      		</isNotEmpty>
+	      			<isEmpty property="rcivDt">
+		      			,RCIV_DT=SYSDATE
+		      		</isEmpty>
+	      		</isEqual>
+	      		<isNotEqual property="rcivSe" compareValue="2">
+      				,RCIV_DT=NULL
+      			</isNotEqual>
+      		</isNotEqual>
+    	WHERE
+  			ACCNUT_YEAR = #accnutYear#
+			AND RNTFEE_NTIC_NO = #rntfeeNticNo#
+			AND NTIC_SEQ = #nticSeq#
+    </update>
+    
+    <!-- REV_COLL_F 의 수납정보 수정 -->
+    <update id="gamPopupHtldRcivProcDao.updateRevCollRcivInfo_S"  parameterClass="GamPopupHtldRcivProcVO">
+    	UPDATE REV_COLL_F
+    	SET
+      		RCVD_TP=#rcvdTp#,
+     		<isEqual property="rcvdTp" compareValue="3">
+      			<isNotEmpty property="rcvdDt">
+	      			RCVD_DT=TO_DATE(#rcvdDt#, 'YYYY-MM-DD')
+	      		</isNotEmpty>
+      			<isEmpty property="rcvdDt">
+	      			RCVD_DT=SYSDATE
+	      		</isEmpty>
+      		</isEqual>
+      		<isNotEqual property="rcvdTp" compareValue="3">
+   		      <isEqual property="rcvdTp" compareValue="2">
+	      			<isNotEmpty property="rcvdDt">
+		      			RCVD_DT=TO_DATE(#rcvdDt#, 'YYYY-MM-DD')
+		      		</isNotEmpty>
+	      			<isEmpty property="rcvdDt">
+		      			RCVD_DT=SYSDATE
+		      		</isEmpty>
+	      		</isEqual>
+	      		<isNotEqual property="rcvdTp" compareValue="2">
+      				RCVD_DT=NULL
+      			</isNotEqual>
+      		</isNotEqual>    	
+    	WHERE (PRT_AT_CODE, FISCAL_YR, FEE_TP, WORK_CODE, BILL_NO)
+    	IN (
+    		SELECT
+    			'622' PRT_AT_CODE
+    			,ACCNUT_YEAR
+    			,GAM_GET_HTLD_FEE_TP(CHRGE_KND_CD)
+    			,CHRGE_KND_CD
+    			,NTIC_NO
+    		FROM
+    			HTLD_NTIC_DTLS_F
+    		WHERE
+	  			ACCNUT_YEAR = #accnutYear#
+				AND RNTFEE_NTIC_NO = #rntfeeNticNo#
+				AND NTIC_SEQ = #nticSeq#
+    	)
+    </update>
+</sqlMap>

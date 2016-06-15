@@ -21,9 +21,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
 import egovframework.com.cmm.EgovMessageSource;
+import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.service.EgovCmmUseService;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
+import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentNticDefaultVO;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentNticHistService;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentNticHistVO;
 
@@ -81,7 +83,6 @@ public class GamHtldRentNticHistController {
 
     /**
      * 고지이력목록을 조회한다.
-     *
      * @param searchVO
      * @return map
      * @throws Exception the exception
@@ -109,7 +110,6 @@ public class GamHtldRentNticHistController {
 
     /**
      * 고지상세목록을 조회한다.
-     *
      * @param searchVO
      * @return map
      * @throws Exception the exception
@@ -135,7 +135,6 @@ public class GamHtldRentNticHistController {
 
     /**
      * 연체고지상세목록을 조회한다.
-     *
      * @param searchVO
      * @return map
      * @throws Exception the exception
@@ -159,4 +158,87 @@ public class GamHtldRentNticHistController {
     	return map;
 	}
 
+
+    /**
+     * 연체고지상세목록수를 조회한다.
+     * @param searchVO
+     * @return map
+     * @throws Exception the exception
+     */
+	@RequestMapping(value="/oper/htldnew/selectHistArrrgNticIssueListCnt.do", method=RequestMethod.POST)
+	public @ResponseBody Map<String, Object> selectHistArrrgNticIssueListCnt(GamHtldRentNticHistVO searchVO) throws Exception {
+    	Map<String, Object> map = new HashMap<String, Object>();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+    	
+    	int arrrgCnt = gamHtldRentNticHistService.selectHistArrrgNticIssueListCnt(searchVO);
+    	
+    	map.put("resultCode", 0);
+    	map.put("arrrgCnt", arrrgCnt);
+    	
+    	return map;
+	}
+
+    /**
+     * 최신연체고지정보를 취소한다.
+     * @param searchVO
+     * @return map
+     * @throws Exception the exception
+     */
+	@RequestMapping(value="/oper/htldnew/cancelArrrgNticIssue.do", method=RequestMethod.POST)
+	public @ResponseBody Map<String, Object> cancelArrrgNticIssue(GamHtldRentNticHistVO searchVO) throws Exception {
+    	Map<String, Object> map = new HashMap<String, Object>();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+    	
+    	LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+    	
+    	try {
+    		searchVO.setUpdUsr(loginVO.getId());
+    		gamHtldRentNticHistService.cancelArrrgNticIssue(searchVO);
+	        map.put("resultCode", 0);
+    		map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));    		
+    	} catch(Exception e) {
+    		System.out.println(e.getMessage());
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));    		
+    	}
+    	
+    	return map;
+	}
+
+    /**
+     * 지로 수납된 자료인지 조회
+     * @param searchVO
+     * @return map
+     * @throws Exception the exception
+     */
+	@RequestMapping(value="/oper/htldnew/selectCheckOcrResult.do", method=RequestMethod.POST)
+	public @ResponseBody Map<String, Object> selectCheckOcrResult(GamHtldRentNticDefaultVO searchVO) throws Exception {
+    	Map<String, Object> map = new HashMap<String, Object>();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+    	
+    	String ocrResult = gamHtldRentNticHistService.selectCheckOcrResult(searchVO);
+    	
+    	map.put("resultCode", 0);
+    	map.put("ocrResult", ocrResult);
+    	
+    	return map;
+	}
+	
 }

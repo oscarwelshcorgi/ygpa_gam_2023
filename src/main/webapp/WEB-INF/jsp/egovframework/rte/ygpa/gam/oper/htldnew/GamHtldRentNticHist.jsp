@@ -49,7 +49,7 @@ GamHtldRentNticHistModule.prototype.loadComplete = function(params) {
                     {display:'공급가액', name:'supAmt',width:100, sortable:false,align:'right', displayFormat: 'number'},
                     {display:'부가세', name:'vat',width:100, sortable:false,align:'right', displayFormat: 'number'},
                     {display:'연체료', name:'arrrgAmt',width:100, sortable:false,align:'right', displayFormat: 'number'},
-                    {display:'고지금액', name:'nticAmt',width:110, sortable:false,align:'right', displayFormat: 'number'},
+                    {display:'고지금액', name:'payAmt',width:110, sortable:false,align:'right', displayFormat: 'number'},
     				{display:'납부기한', name:'payTmlmt',width:80, sortable:false,align:'center'},
     				{display:'상태', name:'status',width:80, sortable:false,align:'center'},
     				{display:'출력', name:'nhtPrintYnNm',width:50, sortable:false,align:'center'},
@@ -108,7 +108,7 @@ GamHtldRentNticHistModule.prototype.loadComplete = function(params) {
                     {display:'고지금액', name:'djiroAmnt',width:100, sortable:false,align:'right', displayFormat: 'number'},
 					{display:'출력', name:'dlyBillPrtYnNm',width:35, sortable:false,align:'center'},
 					{display:'납부기한', name:'dlyDueDt',width:80, sortable:false,align:'center'},
-					{display:'산출근거', name:'dlyBillRsn',width:330, sortable:false,align:'center'},
+					{display:'산출근거', name:'dlyBillRsn',width:320, sortable:false,align:'center'},
                     ],
         showTableToggleBtn: false,
         height: '150',
@@ -141,6 +141,9 @@ GamHtldRentNticHistModule.prototype.onButtonClick = function(buttonId) {
 			} else {
 				alert('입주기업을 선택하세요.');
 			}
+			break;
+		case 'btnCancelNticIssue' :
+			this.cancelNticIsssue();
 			break;
 	}
 };
@@ -258,14 +261,50 @@ GamHtldRentNticHistModule.prototype.initNticDataRow = function(row) {
 	loadArrrgNticData - 연체고지상세목록 조회
 --%>
 GamHtldRentNticHistModule.prototype.loadArrrgNticData = function() {	
-this.doAction('/oper/htldnew/selectHistArrrgNticIssueList.do', this._currentRow, function(module, result) {
-	if(result.resultCode == 0) {
-		module.$('#arrrgList').flexEmptyData();
-		module.$("#arrrgList").flexAddData({resultList: result.resultList});
-	} else {
-		alert(result.resultMsg);
+	this.doAction('/oper/htldnew/selectHistArrrgNticIssueList.do', this._currentRow, function(module, result) {
+		if(result.resultCode == 0) {
+			module.$('#arrrgList').flexEmptyData();
+			module.$("#arrrgList").flexAddData({resultList: result.resultList});
+		} else {
+			alert(result.resultMsg);
+		}
+	});
+};
+
+<%--
+	cancelNticIsssue - 고지취소
+--%>
+GamHtldRentNticHistModule.prototype.cancelNticIsssue = function() {
+	if(this._currentRow == void(0)) {
+		alert('이력 목록에서 데이터를 선택하세요.');
+		return;
 	}
-});
+	this.doAction('/oper/htldnew/selectHistArrrgNticIssueListCnt.do', this._currentRow, function(module, result) {
+		if(result.resultCode == 0) {
+			if(result.arrrgCnt > 0) {
+				module.cancelArrrgNticIsssue();
+			} else {
+				
+			}
+		} else {
+			alert(result.resultMsg);
+		}
+	});
+};
+
+<%--
+	cancelArrrgNticIsssue - 연체고지취소
+--%>
+GamHtldRentNticHistModule.prototype.cancelArrrgNticIsssue = function() {
+	if(!confirm('연체정보가 있습니다. 마지막 연체정보를 취소하시겠습니까?')) return;
+	this.doAction('/oper/htldnew/cancelArrrgNticIssue.do', this._currentRow, function(module, result) {
+		if(result.resultCode == 0) {
+			alert('연체고지가 취소되었습니다.');
+			module.loadData();
+		} else {
+			alert(result.resultMsg);
+		}
+	});
 };
 
 <%--

@@ -81,22 +81,13 @@ public class GamHtldRentArrrgNticIssueDao  extends YGPAAbstractDAO {
 	}
 
 	/**
-	 * LEV_REQEST_F 에 연체정보 수정
+	 * HTLD_NTIC_DTLS_F 에 연체정보 수정
 	 * @param Map
 	 * @return  
 	 * @exception Exception
 	 */
-	public void updateLevReqestNticInfo(Map<?, ?> vo) throws Exception {
-		update("gamHtldRentArrrgNticIssueDao.updateLevReqestNticInfo_S", vo);
+	public void updateHtldNticDtlsInfo(Map<?, ?> vo) throws Exception {
+		update("gamHtldRentArrrgNticIssueDao.updateHtldNticDtlsInfo_S", vo);
 	}
 
-	/**
-	 * HTLD_NTIC_DTLS_F 에 납부기한 수정
-	 * @param Map
-	 * @return  
-	 * @exception Exception
-	 */
-	public void updateNticDtlsInfo(Map<?, ?> vo) throws Exception {
-		update("gamHtldRentArrrgNticIssueDao.updateNticDtlsInfo_S", vo);
-	}
 }

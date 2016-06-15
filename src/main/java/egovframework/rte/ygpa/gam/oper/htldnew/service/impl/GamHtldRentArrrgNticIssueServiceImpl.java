@@ -80,6 +80,6 @@ public class GamHtldRentArrrgNticIssueServiceImpl extends AbstractServiceImpl im
 	public void execArrrgNticIssue(GamHtldRentArrrgNticInfoVO arrrgVO) throws Exception {
 		Map<String, Object> map = (Map<String, Object>) gamHtldRentArrrgNticIssueDao.selectArrrgInfo(arrrgVO);
 		gamHtldRentArrrgNticIssueDao.insertArrrgInfo(map);
-		gamHtldRentArrrgNticIssueDao.updateLevReqestNticInfo(map);
+		gamHtldRentArrrgNticIssueDao.updateHtldNticDtlsInfo(map);
 	}
 }

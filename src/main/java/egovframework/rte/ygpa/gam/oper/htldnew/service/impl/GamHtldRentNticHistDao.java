@@ -71,4 +71,65 @@ public class GamHtldRentNticHistDao  extends YGPAAbstractDAO {
 		return (List<?>) list("gamHtldRentNticHistDao.selectHistArrrgNticIssueList_D", searchVO);
 	}
 
+	/**
+	 * 해당고지의 연체고지 자료수 조회
+	 * @param GamHtldRentNticHistVO
+	 * @return List
+	 * @exception Exception
+	 */
+	public int selectHistArrrgNticIssueListCnt(GamHtldRentNticHistVO searchVO) throws Exception {
+		return (Integer) selectByPk("gamHtldRentNticHistDao.selectHistArrrgNticIssueListCnt_S", searchVO);
+	}
+
+	/**
+	 * 해당고지의 연체고지 최대번호 조회
+	 * @param GamHtldRentNticHistVO
+	 * @return String
+	 * @exception Exception
+	 */
+	public String selectHistArrrgNticIssueMaxDlySerNo(GamHtldRentNticHistVO searchVO) throws Exception {
+		return (String) selectByPk("gamHtldRentNticHistDao.selectHistArrrgNticIssueMaxDlySerNo_S", searchVO);
+	}
+
+
+	/**
+	 * 연체 고지 취소를 위한 연체정보목록 조회
+	 * @param GamHtldRentNticHistVO
+	 * @return List
+	 * @exception Exception 
+	 */
+	public List<?> selectHistArrrgNticIssueCancelList(GamHtldRentNticHistVO searchVO) throws Exception {
+		return (List<?>) list("gamHtldRentNticHistDao.selectHistArrrgNticIssueCancelList_D", searchVO);
+	}
+
+	/**
+	 * 최초연체고지취소를 위한 원고지정보변경
+	 * @param Map
+	 * @return 
+	 * @exception Exception 
+	 */
+	public void updateHtldNticDtlsUnarrrgAmt(GamHtldRentNticHistVO vo) throws Exception {
+		update("gamHtldRentNticHistDao.updateHtldNticDtlsUnarrrgAmt_S", vo);
+	}
+
+	/**
+	 * 최초연체가 아닌 연체고지취소를 위한 원고지정보변경
+	 * @param Map
+	 * @return 
+	 * @exception Exception 
+	 */
+	public void updateHtldNticDtlsArrrgAmt(GamHtldRentNticHistVO vo) throws Exception {
+		update("gamHtldRentNticHistDao.updateHtldNticDtlsArrrgAmt_S", vo);
+	}
+
+	/**
+	 * 연체정보 삭제
+	 * @param Map
+	 * @return 
+	 * @exception Exception 
+	 */
+	public void deleteUnpaidByPk(GamHtldRentNticHistVO vo) throws Exception {
+		delete("gamHtldRentNticHistDao.deleteUnpaidByPk", vo);
+	}
+	
 }
