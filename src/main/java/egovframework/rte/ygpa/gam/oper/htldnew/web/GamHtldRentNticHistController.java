@@ -185,6 +185,38 @@ public class GamHtldRentNticHistController {
 	}
 
     /**
+     * 원고지정보를 취소한다.
+     * @param searchVO
+     * @return map
+     * @throws Exception the exception
+     */
+	@RequestMapping(value="/oper/htldnew/cancelSourceNticIssue.do", method=RequestMethod.POST)
+	public @ResponseBody Map<String, Object> cancelSourceNticIssue(GamHtldRentNticHistVO searchVO) throws Exception {
+    	Map<String, Object> map = new HashMap<String, Object>();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+    	
+    	LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+    	
+    	try {
+    		searchVO.setUpdUsr(loginVO.getId());
+    		gamHtldRentNticHistService.cancelSourceNticIssue(searchVO);
+	        map.put("resultCode", 0);
+    		map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));    		
+    	} catch(Exception e) {
+    		System.out.println(e.getMessage());
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));    		
+    	}
+    	
+    	return map;
+	}
+	
+    /**
      * 최신연체고지정보를 취소한다.
      * @param searchVO
      * @return map

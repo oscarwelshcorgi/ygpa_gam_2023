@@ -142,8 +142,11 @@ GamHtldRentNticHistModule.prototype.onButtonClick = function(buttonId) {
 				alert('입주기업을 선택하세요.');
 			}
 			break;
-		case 'btnCancelNticIssue' :
-			this.cancelNticIsssue();
+		case 'btnCancelNticIssue' : //고지취소
+			this.cancelNticIssue();
+			break;
+		case 'btnProcessNticIssue' : //수납처리
+			this.processNticIssue();
 			break;
 	}
 };
@@ -165,6 +168,12 @@ GamHtldRentNticHistModule.prototype.onClosePopup = function(popupId, msg, value)
 				this.$('#nticHistList').flexEmptyData();
 				this.$('#nticList').flexEmptyData();
 				this.$('#arrrgList').flexEmptyData();				
+			}
+			break;
+		case 'rcivProcPopup':
+			if (msg != 'cancel') {
+				this.loadData();
+				this._parent.loadData();
 			}
 			break;
 	}
@@ -274,7 +283,7 @@ GamHtldRentNticHistModule.prototype.loadArrrgNticData = function() {
 <%--
 	cancelNticIsssue - 고지취소
 --%>
-GamHtldRentNticHistModule.prototype.cancelNticIsssue = function() {
+GamHtldRentNticHistModule.prototype.cancelNticIssue = function() {
 	if(this._currentRow == void(0)) {
 		alert('이력 목록에서 데이터를 선택하세요.');
 		return;
@@ -282,9 +291,9 @@ GamHtldRentNticHistModule.prototype.cancelNticIsssue = function() {
 	this.doAction('/oper/htldnew/selectHistArrrgNticIssueListCnt.do', this._currentRow, function(module, result) {
 		if(result.resultCode == 0) {
 			if(result.arrrgCnt > 0) {
-				module.cancelArrrgNticIsssue();
+				module.cancelArrrgNticIssue(); //연체고지취소
 			} else {
-				
+				module.cancelSourceNticIssue(); //원고지취소
 			}
 		} else {
 			alert(result.resultMsg);
@@ -293,18 +302,69 @@ GamHtldRentNticHistModule.prototype.cancelNticIsssue = function() {
 };
 
 <%--
+	canceSourceNticIsssue - 원고지취소
+	
+	nhtPrtYn은 출력버튼을 누를 때 Y로 변하지만 billPrtYn은 고지일자와 연동되어 변함.
+	즉 화면에 출력표시는 nhtPrtYn으로 하는 것이고 rev_coll_f와 연계되는 출력확인을 하는 것은 billPrtYn으로 해야 함.
+	bilPrtYn은 즉 고지일자별 rev_coll_f의 billPrtYn을 Y로 만드는 스케줄링의 결과값을 담고 있음.
+--%>
+GamHtldRentNticHistModule.prototype.cancelSourceNticIssue = function() {
+	if(!confirm("선택한 건의 고지를 취소 하시겠습니까?")) return;
+	
+	if(this._currentRow.billPrtYn == 'Y') {
+		if(!confirm("포트미스에 연동된 자료를 취소하려고 합니다. 고지 취소를 하려면 먼저 출력을 취소 해야 합니다. 출력을 취소하면 발행된 마이너스 세금계산서가 발행 되고 징수의뢰 자료가 삭제 됩니다. 출력을 취소 하시겠습니까?"))
+			return;
+	}
+	
+	this.doAction('/oper/htldnew/cancelSourceNticIssue.do', this._currentRow, function(module, result) {
+    	if(result.resultCode=='0') {
+    		alert('고지가 취소되었습니다.');
+    		module.loadData();
+    		module._parent.loadData();
+    	} else {
+    		alert(result.resultMsg);
+    	}
+	});	
+};
+
+<%--
 	cancelArrrgNticIsssue - 연체고지취소
 --%>
-GamHtldRentNticHistModule.prototype.cancelArrrgNticIsssue = function() {
+GamHtldRentNticHistModule.prototype.cancelArrrgNticIssue = function() {
 	if(!confirm('연체정보가 있습니다. 마지막 연체정보를 취소하시겠습니까?')) return;
 	this.doAction('/oper/htldnew/cancelArrrgNticIssue.do', this._currentRow, function(module, result) {
 		if(result.resultCode == 0) {
 			alert('연체고지가 취소되었습니다.');
 			module.loadData();
+			module._parent.loadData();
 		} else {
 			alert(result.resultMsg);
 		}
 	});
+};
+
+<%--
+	processNticIsssue - 수납처리
+--%>
+GamHtldRentNticHistModule.prototype.processNticIssue = function() {
+	if(this._currentRow == void(0)) {
+		alert('이력 목록에서 데이터를 선택하세요.');
+		return;
+	}
+	
+	//지로 수납된 건인지 체크한다.
+	this.doAction('/oper/htldnew/selectCheckOcrResult.do', this._currentRow, function(module, result) {
+		if(result.resultCode == 0) {
+			if(result.ocrResult == 'Y') {
+				alert('지로 수납된 자료는 변경할 수 없습니다.');
+				return;
+			}
+			module.doExecuteDialog('rcivProcPopup', '수납 처리', '/popup/showHtldRcivProc.do', module._currentRow);
+		} else {
+			alert(result.resultMsg);
+		}
+	});
+	
 };
 
 <%--

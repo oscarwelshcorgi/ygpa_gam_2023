@@ -93,6 +93,33 @@ public class GamHtldRentNticHistServiceImpl extends AbstractServiceImpl implemen
 	public int selectHistArrrgNticIssueListCnt(GamHtldRentNticHistVO searchVO) throws Exception {
 		return gamHtldRentNticHistDao.selectHistArrrgNticIssueListCnt(searchVO);
 	}
+
+	/**
+     * 배후단지 원고지 취소 
+     * @param GamHtldRentNticHistVO
+     * @return
+     * @throws Exception
+     */
+	public void cancelSourceNticIssue(GamHtldRentNticHistVO searchVO) throws Exception {
+		Map<?, ?> nticInfo = gamHtldRentNticHistDao.selectRevCollNticInfo(searchVO);
+		
+		if("3".equals((String)nticInfo.get("rcvdTp"))) { 
+			throw processException("fail.cancelNticIssue.msg"); //REV_COLL_F의 수납상태가 수납이면 고지취소 불가
+		}
+		
+		if(!"0".equals((String)nticInfo.get("rcivSe"))) { 
+			throw processException("fail.cancelNticIssue.msg"); //HTLD_NTIC_DTLS_F의 수납상태가 미수납이 아니면 고지취소 불가
+		}
+		
+		if("Y".equals((String)nticInfo.get("billPrtYn"))) {
+			gamHtldRentNticHistDao.cancelRevCollPrtYn(searchVO); //REV_COLL_F가 출력상태이면 출력취소를 한다.
+		}
+		
+		gamHtldRentNticHistDao.deleteRevCollIInfo(searchVO); //REV_COLL_F의 고지정보 삭제
+		gamHtldRentNticHistDao.initNitcIssueRntfee(searchVO); //HTLD_RNTFEE_F의 고지정보 초기화
+		gamHtldRentNticHistDao.deleteNticDtlsInfo(searchVO); //HTLD_NTIC_DTLS_F의 고지정보 삭제
+		gamHtldRentNticHistDao.deleteNticSummInfo(searchVO); //HTLD_NTIC_SUMM_F 삭제
+	}
 	
 	/**
      * 배후단지 연체고지 취소 

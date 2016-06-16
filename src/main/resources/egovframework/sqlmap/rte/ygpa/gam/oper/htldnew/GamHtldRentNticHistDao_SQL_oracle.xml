@@ -157,7 +157,112 @@
 		ORDER BY
 			U.DLY_SER_NO	
 	</select>	
+
+	<!-- 고지취소를 위한 REV_COLL_F 의 고지정보 조회 -->
+	<select id="gamHtldRentNticHistDao.selectRevCollNticInfo_S" parameterClass="GamHtldRentNticHistVO" resultClass="egovMap">
+		SELECT
+			R.BILL_NO BILL_NO 
+			,R.RCVD_TP RCVD_TP
+			,TO_CHAR(R.RCVD_DT, 'YYYY-MM-DD') RCVD_DT
+			,R.BILL_PRT_YN BILL_PRT_YN 
+			,N.RCIV_SE RCIV_SE
+		FROM
+			REV_COLL_F R,
+			(
+				SELECT
+					'622' PRT_AT_CODE
+					,ACCNUT_YEAR
+					,NTIC_NO
+					,CHRGE_KND_CD
+					,RCIV_SE
+				FROM
+					HTLD_NTIC_DTLS_F
+				WHERE
+					ACCNUT_YEAR = #accnutYear#
+					AND RNTFEE_NTIC_NO = #rntfeeNticNo#
+					AND NTIC_SEQ = #nticSeq#
+			) N
+		WHERE
+			R.PRT_AT_CODE = N.PRT_AT_CODE
+			AND R.FISCAL_YR = N.ACCNUT_YEAR
+			AND R.FEE_TP = GAM_GET_HTLD_FEE_TP(N.CHRGE_KND_CD)
+			AND R.BILL_NO = N.NTIC_NO
+	</select>	
 	
+	<!-- 고지취소를 위한 REV_COLL_F의 출력취소를 설정 -->
+	<update id="gamHtldRentNticHistDao.cancelRevCollPrtYn_S" parameterClass="GamHtldRentNticHistVO">
+		UPDATE REV_COLL_F
+			SET
+				BILL_PRT_YN='N'
+      		WHERE
+      			(PRT_AT_CODE, FISCAL_YR, FEE_TP, WORK_CODE, BILL_NO) IN (
+					SELECT
+						'622' PRT_AT_CODE
+						,ACCNUT_YEAR FISCAL_YR
+						,GAM_GET_HTLD_FEE_TP(CHRGE_KND_CD) FEE_TP
+						,CHRGE_KND_CD WORK_CODE
+						,NTIC_NO BILL_NO
+					FROM
+						HTLD_NTIC_DTLS_F
+					WHERE
+						ACCNUT_YEAR = #accnutYear#
+						AND RNTFEE_NTIC_NO = #rntfeeNticNo#
+						AND NTIC_SEQ = #nticSeq#
+				)
+	</update>
+
+	<!-- 고지취소를 위한 REV_COLL_F의 정보 삭제 -->
+	<delete id="gamHtldRentNticHistDao.deleteRevCollIInfo_S" parameterClass="GamHtldRentNticHistVO">
+		DELETE FROM REV_COLL_F
+      		WHERE
+      			(PRT_AT_CODE, FISCAL_YR, FEE_TP, WORK_CODE, BILL_NO) IN (
+					SELECT
+						'622' PRT_AT_CODE
+						,ACCNUT_YEAR FISCAL_YR
+						,GAM_GET_HTLD_FEE_TP(CHRGE_KND_CD) FEE_TP
+						,CHRGE_KND_CD WORK_CODE
+						,NTIC_NO BILL_NO
+					FROM
+						HTLD_NTIC_DTLS_F
+					WHERE
+						ACCNUT_YEAR = #accnutYear#
+						AND RNTFEE_NTIC_NO = #rntfeeNticNo#
+						AND NTIC_SEQ = #nticSeq#
+				)
+	</delete>
+	
+	<!-- 고지취소를 위한 HTLD_RNTFEE_F 연결부분 NULL로 초기화 -->
+	<update id="gamHtldRentNticHistDao.initNitcIssueRntfee_S"  parameterClass="GamHtldRentNticHistVO">
+		UPDATE HTLD_RNTFEE_F
+			SET
+				ACCNUT_YEAR = NULL
+				,RNTFEE_NTIC_NO = NULL
+				,NTIC_SEQ = NULL
+				,UPD_USR = #updUsr#
+				,UPDT_DT = SYSDATE
+			WHERE
+				ACCNUT_YEAR = #accnutYear#
+				AND RNTFEE_NTIC_NO = #rntfeeNticNo#
+				AND NTIC_SEQ = #nticSeq#
+	</update>
+	
+	<!-- 고지취소를 위한 HTLD_NTIC_DTLS_F 삭제 -->
+	<delete id="gamHtldRentNticHistDao.deleteNticDtlsInfo_S"  parameterClass="GamHtldRentNticHistVO">
+		DELETE FROM HTLD_NTIC_DTLS_F
+		WHERE
+			ACCNUT_YEAR = #accnutYear#
+			AND RNTFEE_NTIC_NO = #rntfeeNticNo#
+			AND NTIC_SEQ = #nticSeq#
+	</delete>
+
+	<!-- 고지취소를 위한 HTLD_NTIC_SUMM_F 삭제 -->
+	<delete id="gamHtldRentNticHistDao.deleteNticSummInfo_S"  parameterClass="GamHtldRentNticHistVO">
+		DELETE FROM HTLD_NTIC_SUMM_F
+		WHERE
+			ACCNUT_YEAR = #accnutYear#
+			AND RNTFEE_NTIC_NO = #rntfeeNticNo#
+	</delete>
+		
 	<!-- 해당고지의 연체고지 자료수 조회 -->
 	<select id="gamHtldRentNticHistDao.selectHistArrrgNticIssueListCnt_S" parameterClass="GamHtldRentNticHistVO" resultClass="int">
 		SELECT COUNT(*) TOT_CNT

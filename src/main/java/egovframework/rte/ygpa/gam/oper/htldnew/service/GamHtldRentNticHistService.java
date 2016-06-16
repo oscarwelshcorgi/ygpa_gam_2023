@@ -65,6 +65,14 @@ public interface GamHtldRentNticHistService {
 	int selectHistArrrgNticIssueListCnt(GamHtldRentNticHistVO searchVO) throws Exception;
 	
 	/**
+     * 배후단지 원고지 취소 
+     * @param GamHtldRentNticHistVO
+     * @return
+     * @throws Exception
+     */
+	void cancelSourceNticIssue(GamHtldRentNticHistVO searchVO) throws Exception;
+	
+	/**
      * 배후단지 연체고지 취소 
      * @param GamHtldRentNticHistVO
      * @return

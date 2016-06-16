@@ -72,6 +72,66 @@ public class GamHtldRentNticHistDao  extends YGPAAbstractDAO {
 	}
 
 	/**
+	 * 고지취소를 위한 REV_COLL_F 의 고지정보 조회
+	 * @param GamHtldRentNticHistVO
+	 * @return List
+	 * @exception Exception
+	 */
+	public Map<?, ?> selectRevCollNticInfo(GamHtldRentNticHistVO searchVO) throws Exception {
+		return (Map<?, ?>) selectByPk("gamHtldRentNticHistDao.selectRevCollNticInfo_S", searchVO);
+	}
+
+	/**
+	 * 고지취소를 위한 REV_COLL_F의 출력취소를 설정
+	 * @param GamHtldRentNticHistVO
+	 * @return 
+	 * @exception Exception 
+	 */
+	public void cancelRevCollPrtYn(GamHtldRentNticHistVO vo) throws Exception {
+		update("gamHtldRentNticHistDao.cancelRevCollPrtYn_S", vo);
+	}
+	
+	/**
+	 * 고지취소를 위한 REV_COLL_F의 정보 삭제
+	 * @param GamHtldRentNticHistVO
+	 * @return 
+	 * @exception Exception 
+	 */
+	public void deleteRevCollIInfo(GamHtldRentNticHistVO vo) throws Exception {
+		delete("gamHtldRentNticHistDao.deleteRevCollIInfo_S", vo);
+	}
+
+	/**
+	 * 고지취소를 위한 HTLD_RNTFEE_F 연결부분 NULL로 초기화
+	 * @param GamHtldRentNticHistVO
+	 * @return 
+	 * @exception Exception 
+	 */
+	public void initNitcIssueRntfee(GamHtldRentNticHistVO vo) throws Exception {
+		update("gamHtldRentNticHistDao.initNitcIssueRntfee_S", vo);
+	}
+
+	/**
+	 * 고지취소를 위한 HTLD_NTIC_DTLS_F 삭제
+	 * @param GamHtldRentNticHistVO
+	 * @return 
+	 * @exception Exception 
+	 */
+	public void deleteNticDtlsInfo(GamHtldRentNticHistVO vo) throws Exception {
+		delete("gamHtldRentNticHistDao.deleteNticDtlsInfo_S", vo);
+	}
+
+	/**
+	 * 고지취소를 위한 HTLD_NTIC_SUMM_F 삭제
+	 * @param GamHtldRentNticHistVO
+	 * @return 
+	 * @exception Exception 
+	 */
+	public void deleteNticSummInfo(GamHtldRentNticHistVO vo) throws Exception {
+		delete("gamHtldRentNticHistDao.deleteNticSummInfo_S", vo);
+	}
+	
+	/**
 	 * 해당고지의 연체고지 자료수 조회
 	 * @param GamHtldRentNticHistVO
 	 * @return List
@@ -104,7 +164,7 @@ public class GamHtldRentNticHistDao  extends YGPAAbstractDAO {
 
 	/**
 	 * 최초연체고지취소를 위한 원고지정보변경
-	 * @param Map
+	 * @param GamHtldRentNticHistVO
 	 * @return 
 	 * @exception Exception 
 	 */
@@ -114,7 +174,7 @@ public class GamHtldRentNticHistDao  extends YGPAAbstractDAO {
 
 	/**
 	 * 최초연체가 아닌 연체고지취소를 위한 원고지정보변경
-	 * @param Map
+	 * @param GamHtldRentNticHistVO
 	 * @return 
 	 * @exception Exception 
 	 */

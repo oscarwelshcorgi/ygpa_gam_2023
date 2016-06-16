@@ -52,9 +52,9 @@ GamHtldRentMngtMainModule.prototype.loadComplete = function() {
                     {display:'구분', name:'paySeNm',width:45, sortable:false,align:'center'},
     				{display:'임대료', name:'rntfee',width:110, sortable:false,align:'right', displayFormat: 'input-number'},
     				{display:'분납이자', name:'payinstIntr',width:90, sortable:false,align:'right', displayFormat: 'input-number'},
-    				{display:'공급가액', name:'supAmt',width:110, sortable:false,align:'right', displayFormat: 'input-number'},
-    				{display:'부가세', name:'vat',width:90, sortable:false,align:'right', displayFormat: 'input-number'},
-    				{display:'납부금액', name:'payAmt',width:110, sortable:false,align:'right', displayFormat: 'input-number'},
+    				{display:'공급가액', name:'supAmt',width:110, sortable:false,align:'right', displayFormat: 'number'},
+    				{display:'부가세', name:'vat',width:90, sortable:false,align:'right', displayFormat: 'number'},
+    				{display:'납부금액', name:'payAmt',width:110, sortable:false,align:'right', displayFormat: 'number'},
     				{display:'비고', name:'rm',width:180, sortable:false,align:'left', displayFormat: 'input'},
                     {display:'상태', name:'status',width:60, sortable:false,align:'center'}
                     ],
@@ -81,6 +81,11 @@ GamHtldRentMngtMainModule.prototype.loadComplete = function() {
     });
 
     this.$('#histDt').val(EMD.util.getDate());
+    
+	this.$('#histDt').on('change', {module:this}, function(e) {
+		var module=e.data.module;
+		module.loadData();
+	});
     
     this.loadData();
 };
@@ -144,7 +149,6 @@ GamHtldRentMngtMainModule.prototype.onClosePopup = function(popupId, msg, value)
 		message : 자식창이 종료될 때 넘겨온 메시지
 --%>
 GamHtldRentMngtMainModule.prototype.closeChildWindow = function(module, message) {
-	//this.loadData();
 };
 
 <%--
@@ -519,7 +523,7 @@ var module_instance = new GamHtldRentMngtMainModule();
                        <button id="btnAddRentContract">계약등록</button>
                        <button id="btnNticIssue">고지</button>
                        <button id="btnArrrgNticIssue">연체고지</button>
-                       <button id="btnPrintNticIssue" >고지서출력</button>
+                       <!--<button id="btnPrintNticIssue" >고지서출력</button>-->
                        <button id="btnNticIssueHist" >고지이력</button>
                        <button id="btnAddNticIssue">추가고지</button>
 					</td>
