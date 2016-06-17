@@ -24,4 +24,6 @@ public interface GamHtldRentNticSchedulingService {
 	
 	public void updateHtldRentNticIssueStatusRefresh() throws Exception;
 
+	public void updateHtldRentPrintStatusRefresh() throws Exception;
+	
 }

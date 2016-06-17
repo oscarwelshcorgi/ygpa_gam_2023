@@ -19,12 +19,11 @@
 			( 
 				SELECT 1
 				FROM REV_COLL_F R
-				WHERE 
-				R.PRT_AT_CODE = '622'
-				AND N.CHRGE_KND_CD = R.WORK_CODE
-				AND N.ACCNUT_YEAR  = R.FISCAL_YR
-				AND N.NTIC_NO      = R.BILL_NO
-				AND N.RCIV_SE='0'
+				WHERE R.PRT_AT_CODE = '622'
+					AND N.CHRGE_KND_CD = R.WORK_CODE
+					AND N.ACCNUT_YEAR  = R.FISCAL_YR
+					AND N.NTIC_NO      = R.BILL_NO
+					AND N.RCIV_SE='0'
 			)
 	</update>
 
@@ -66,5 +65,65 @@
 		      AND N.NTIC_NO = U.BILL_NO
 		      AND N.RCIV_SE = '1'
 		  )
+	</update>
+
+	<!-- 고지일자에 맞추어 REV_COLL_F의 BILL_PRT_YN을 변경  -->
+	<update id="gamHtldRentNticSchedulingDao.updateHtldRentPrintStatusRefreshRevcoll_D">
+		UPDATE REV_COLL_F R
+		SET 
+		    R.BILL_PRT_YN =
+		      (
+		        SELECT NHT_PRT_YN FROM HTLD_NTIC_DTLS_F N WHERE R.PRT_AT_CODE = '622'
+		          	AND N.CHRGE_KND_CD = R.WORK_CODE
+		         	AND N.ACCNUT_YEAR  = R.FISCAL_YR
+		          	AND N.NTIC_NO      = R.BILL_NO
+					AND N.RCIV_SE = '0'
+			        AND N.NHT_PRT_YN = 'Y'
+			        AND N.BILL_PRT_YN IS NULL
+			        AND TRUNC(N.NTIC_DT) = TRUNC(SYSDATE)
+		      )
+		WHERE EXISTS
+		    (
+		      SELECT 1 
+		      FROM HTLD_NTIC_DTLS_F N
+		      WHERE R.PRT_AT_CODE = '622'
+				AND N.CHRGE_KND_CD = R.WORK_CODE
+				AND N.ACCNUT_YEAR  = R.FISCAL_YR
+				AND N.NTIC_NO      = R.BILL_NO
+				AND N.RCIV_SE = '0'
+		        AND N.NHT_PRT_YN = 'Y'
+		        AND N.BILL_PRT_YN IS NULL
+		        AND TRUNC(N.NTIC_DT) = TRUNC(SYSDATE)
+		    )	
+	</update>
+	
+	<!-- REV_COLL_F의 변경된 BILL_PRT_YN을 HTL_NTIC_DTLS_F에 기록  -->
+	<update id="gamHtldRentNticSchedulingDao.updateHtldRentPrintStatusRefreshNticDtls_D">
+		UPDATE HTLD_NTIC_DTLS_F N
+		SET 
+			N.BILL_PRT_YN =
+		      (
+		        SELECT BILL_PRT_YN FROM REV_COLL_F R WHERE R.PRT_AT_CODE = '622'
+		          	AND N.CHRGE_KND_CD = R.WORK_CODE
+		          	AND N.ACCNUT_YEAR  = R.FISCAL_YR
+		          	AND N.NTIC_NO      = R.BILL_NO
+					AND N.RCIV_SE = '0'
+			        AND N.NHT_PRT_YN = 'Y'
+			        AND N.BILL_PRT_YN IS NULL
+			        AND TRUNC(N.NTIC_DT) = TRUNC(SYSDATE)
+		      )
+		WHERE EXISTS
+		    (
+		      SELECT 1 
+		      FROM REV_COLL_F R
+		      WHERE R.PRT_AT_CODE = '622'
+				AND N.CHRGE_KND_CD = R.WORK_CODE
+				AND N.ACCNUT_YEAR  = R.FISCAL_YR
+				AND N.NTIC_NO      = R.BILL_NO
+				AND N.RCIV_SE = '0'
+		        AND N.NHT_PRT_YN = 'Y'
+		        AND N.BILL_PRT_YN IS NULL
+		        AND TRUNC(N.NTIC_DT) = TRUNC(SYSDATE)
+		    )
 	</update>
 </sqlMap>

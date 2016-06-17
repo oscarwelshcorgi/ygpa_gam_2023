@@ -38,5 +38,19 @@ public class GamHtldRentNticSchedulingDao extends YGPAAbstractDAO {
 	public void updateHtldRentNticIssueStatusRefreshUnpaid() throws Exception {
 		update("gamHtldRentNticSchedulingDao.updateHtldRentNticIssueStatusRefreshUnpaid_D", null); 
 	}
-	
+
+	/**
+	 * 고지일자에 맞추어 REV_COLL_F의 BILL_PRT_YN을 변경
+	 */
+	public void updateHtldRentPrintStatusRefreshRevcoll() throws Exception {
+		update("gamHtldRentNticSchedulingDao.updateHtldRentPrintStatusRefreshRevcoll_D", null); 
+	}
+
+	/**
+	 * REV_COLL_F의 변경된 BILL_PRT_YN을 HTL_NTIC_DTLS_F에 기록
+	 */
+	public void updateHtldRentPrintStatusRefreshNticDtls() throws Exception {
+		update("gamHtldRentNticSchedulingDao.updateHtldRentPrintStatusRefreshNticDtls_D", null); 
+	}
+
 }

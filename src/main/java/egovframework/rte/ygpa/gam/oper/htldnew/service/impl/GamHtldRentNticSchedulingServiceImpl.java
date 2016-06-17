@@ -35,4 +35,9 @@ public class GamHtldRentNticSchedulingServiceImpl extends AbstractServiceImpl im
 		gamHtldRentNticScheduling.updateHtldRentNticIssueStatusRefreshRevcoll();
 		gamHtldRentNticScheduling.updateHtldRentNticIssueStatusRefreshUnpaid();
 	}
+	
+	public void updateHtldRentPrintStatusRefresh() throws Exception {
+		gamHtldRentNticScheduling.updateHtldRentPrintStatusRefreshRevcoll();
+		gamHtldRentNticScheduling.updateHtldRentPrintStatusRefreshNticDtls();
+	}
 }

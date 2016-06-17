@@ -29,8 +29,6 @@
 	</bean>
 
 
-
-
 	<!-- 배후단지용 포트미스 납부확인 작업 정의  -->
 	<bean id="updateHtldRentNticIssueStatusRefresh"
 		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
@@ -52,6 +50,32 @@
 		<property name="triggers">
 			<list>
 				<ref bean="updateHtldRentNticIssueStatusRefreshTrigger" />
+			</list>
+		</property>
+	</bean>
+
+
+	<!-- 배후단지용 포트미스 예약 고지 작업  -->
+	<bean id="updateHtldRentPrintStatusRefresh"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="gamHtldRentNticSchedulingService" />
+		<property name="targetMethod" value="updateHtldRentPrintStatusRefresh" />
+		<property name="concurrent" value="false" />
+	</bean>
+
+	<!-- 배후단지용 포트미스 예약 고지 트리거  -->
+	<bean id="updateHtldRentPrintStatusRefreshTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="updateHtldRentPrintStatusRefresh" />
+		<property name="startDelay" value="60000" />
+		<property name="cronExpression" value="0 30 17 ? * *" />
+	</bean>
+
+	<!-- 배후단지용 포트미스 예약 고지 스케줄  -->
+	<bean id="updateHtldRentPrintStatusRefreshScheduler"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="updateHtldRentPrintStatusRefreshTrigger" />
 			</list>
 		</property>
 	</bean>
