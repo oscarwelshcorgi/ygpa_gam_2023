@@ -27,4 +27,33 @@
 			</list>
 		</property>
 	</bean>
+
+
+
+
+	<!-- 배후단지용 포트미스 납부확인 작업 정의  -->
+	<bean id="updateHtldRentNticIssueStatusRefresh"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="gamHtldRentNticSchedulingService" />
+		<property name="targetMethod" value="updateHtldRentNticIssueStatusRefresh" />
+		<property name="concurrent" value="false" />
+	</bean>
+
+	<!-- 배후단지용 포트미스 납부확인 트리거  -->
+	<bean id="updateHtldRentNticIssueStatusRefreshTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="updateHtldRentNticIssueStatusRefresh" />
+		<property name="startDelay" value="60000" />
+		<property name="cronExpression" value="0 30 10 ? * *" />
+	</bean>
+
+	<!-- 배후단지용 포트미스 납부확인 스케줄  -->
+	<bean id="updateHtldRentNticIssueStatusRefreshScheduler"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="updateHtldRentNticIssueStatusRefreshTrigger" />
+			</list>
+		</property>
+	</bean>
+
 </beans>

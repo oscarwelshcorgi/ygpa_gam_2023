@@ -106,7 +106,7 @@ public class GamHtldRentNticHistServiceImpl extends AbstractServiceImpl implemen
 		if("3".equals((String)nticInfo.get("rcvdTp"))) { 
 			throw processException("fail.cancelNticIssue.msg"); //REV_COLL_F의 수납상태가 수납이면 고지취소 불가
 		}
-		
+				
 		if(!"0".equals((String)nticInfo.get("rcivSe"))) { 
 			throw processException("fail.cancelNticIssue.msg"); //HTLD_NTIC_DTLS_F의 수납상태가 미수납이 아니면 고지취소 불가
 		}
@@ -135,6 +135,8 @@ public class GamHtldRentNticHistServiceImpl extends AbstractServiceImpl implemen
 		
 		EgovMap dlyInfo = (EgovMap)dlyInfoList.get(0);
 		if(dlyInfo == null) throw processException("fail.nticArrg.cancel");
+		
+		if("2".equals((String)dlyInfo.get("dlyRcvdTp"))) throw processException("fail.nticArrg.cancel"); //연체수납일 경우 취소불가
 		
 		//고지테이블 데이터를 변경한다.
 		String dlySerNo = (dlyInfo.get("dlySerNo") != null) ? (String) dlyInfo.get("dlySerNo") : null;

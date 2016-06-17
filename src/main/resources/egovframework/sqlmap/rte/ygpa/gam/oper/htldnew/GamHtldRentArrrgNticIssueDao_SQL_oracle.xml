@@ -86,22 +86,6 @@
 			AND F.ACCNUT_YEAR = #accnutYear#
 			AND F.RNTFEE_NTIC_NO = #rntfeeNticNo#
 			AND F.NTIC_SEQ = #nticSeq#
-			<isNotEmpty property="histDt">
-			<![CDATA[
-				AND D.DETAIL_PD_BEGIN <= TO_DATE(#histDt#, 'YYYY-MM-DD')
-				AND D.DETAIL_PD_END >= TO_DATE(#histDt#, 'YYYY-MM-DD')
-				AND ((F.NTIC_BEGIN_DT <= TO_DATE(#histDt#, 'YYYY-MM-DD') 
-				AND F.NTIC_END_DT >= TO_DATE(#histDt#, 'YYYY-MM-DD')))
-			]]>
-			</isNotEmpty>
-			<isEmpty property="histDt">
-			<![CDATA[
-				AND D.DETAIL_PD_BEGIN <= TO_DATE(TO_CHAR(SYSDATE, 'YYYY-MM-DD'), 'YYYY-MM-DD')
-				AND D.DETAIL_PD_END >= TO_DATE(TO_CHAR(SYSDATE, 'YYYY-MM-DD'), 'YYYY-MM-DD')
-				AND ((F.NTIC_BEGIN_DT <= TO_DATE(TO_CHAR(SYSDATE, 'YYYY-MM-DD'), 'YYYY-MM-DD') 
-				AND F.NTIC_END_DT >= TO_DATE(TO_CHAR(SYSDATE, 'YYYY-MM-DD'), 'YYYY-MM-DD')))
-			]]>
-			</isEmpty>
 		ORDER BY F.RNTFEE_SE, F.RNTFEE_SEQ
 	</select>
 	

@@ -227,10 +227,10 @@ public class GamHtldRentCtrtController {
     	try {
     		gamHtldRentCtrtService.terminateHtldRentCtrt(terminateRentData, loginVO.getId());
 	        map.put("resultCode", 0);
-    		map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));    		
+    		map.put("resultMsg", egovMessageSource.getMessage("success.common.termnate"));    		
     	} catch(Exception e) {
 	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));    		
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.termnate"));    		
     	}
     	
     	return map;

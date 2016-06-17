@@ -309,27 +309,15 @@ GamHtldRentMngtMainModule.prototype.initDataRow = function(row) {
 		if(row.nticYn != 'Y') {
 			row.status = '미고지';
 		} else {
-			if(row.payTmlmtYn != 'Y') { //납부기한을 넘기지 않았을 경우
-				if(row.rcivSe == '2') {
-					row.status = '연체수납';
-				} else if(row.rcivSe == '3') {
-					row.status = '수납';	
-				} else if (row.rcivSe == '4') {
-					row.status = '불납';
-				} else if (row.rcivSe == '1') {
-					row.status = '연체고지';
-				} else {
-					row.status = '고지';
-				}
-			} else {
-				if(row.rcivSe == '2') {
-					row.status = '연체수납';	
-				} else if (row.rcivSe == '3') {
-					row.status = '수납';
-				} else if (row.rcivSe == '4') {
-					row.status = '불납';
-				} else {
-					row.status = '연체'; 
+			switch (row.rcivSe) {
+			case '2' : row.status = '연체수납'; break;
+			case '3' : row.status = '수납'; break;
+			case '4' : row.status = '불납'; break;
+			default : 
+				if(row.payTmlmtYn != 'Y') { //현재 디비시스템 시간이 납부기한을 넘기지 않았을 경우
+					row.status = (row.rcivSe == '1') ? '연체고지' : '고지';
+				} else  {
+					row.status = '연체';
 				}
 			}
 		}
@@ -441,10 +429,10 @@ GamHtldRentMngtMainModule.prototype.execArrrgNticIssue = function() {
 	}
 	var row = rows[0];
 	
-	if(row.status != '연체') {
+	if(((row.rcivSe == '0') || (row.rcivSe == '1')) && (row.payTmlmtYn == 'Y')) {
 		alert('상태가 연체인 것만 연체고지를 할 수가 있습니다.');
-		return;
-	}
+		return;		
+	} 
 	
 	EMD.util.create_window('gamHtldRentArrrgNticIssue', '배후단지 연체고지', '/oper/htldnew/gamHtldRentArrrgNticIssue.do', null, 
 			{'searchRow' : row, 'histDt' : this.$('#histDt').val()}, this);

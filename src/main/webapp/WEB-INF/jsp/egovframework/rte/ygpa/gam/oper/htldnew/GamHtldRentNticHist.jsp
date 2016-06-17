@@ -200,27 +200,15 @@ GamHtldRentNticHistModule.prototype.loadData = function() {
 GamHtldRentNticHistModule.prototype.initNticHistDataRow = function(row) {
 	row.nticPd = row.nticPdFrom + '~' + row.nticPdTo;
 
-	if(row.payTmlmtYn != 'Y') { //납부기한을 넘기지 않았을 경우
-		if(row.rcivSe == '2') {
-			row.status = '연체수납';
-		} else if(row.rcivSe == '3') {
-			row.status = '수납';	
-		} else if (row.rcivSe == '4') {
-			row.status = '불납';
-		} else if (row.rcivSe == '1') {
-			row.status = '연체고지';
-		} else {
-			row.status = '고지';
-		}
-	} else {
-		if(row.rcivSe == '2') {
-			row.status = '연체수납';	
-		} else if (row.rcivSe == '3') {
-			row.status = '수납';
-		} else if (row.rcivSe == '4') {
-			row.status = '불납';
-		} else {
-			row.status = '연체'; 
+	switch (row.rcivSe) {
+	case '2' : row.status = '연체수납'; break;
+	case '3' : row.status = '수납'; break;
+	case '4' : row.status = '불납'; break;
+	default : 
+		if(row.payTmlmtYn != 'Y') { //현재 디비시스템 시간이 납부기한을 넘기지 않았을 경우
+			row.status = (row.rcivSe == '1') ? '연체고지' : '고지';
+		} else  {
+			row.status = '연체';
 		}
 	}
 };

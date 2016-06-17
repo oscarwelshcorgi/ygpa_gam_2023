@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="ygpa.gam.oper.htldnew">
+	<!-- REV_COLL_F 의 납부상태를 HTLD_NTIC_DTLS_F에 업데이트  -->
+	<update id="gamHtldRentNticSchedulingDao.updateHtldRentNticIssueStatusRefreshRevcoll_D">
+		UPDATE HTLD_NTIC_DTLS_F N
+		SET 
+			RCIV_DT = 
+				(SELECT RCVD_DT FROM REV_COLL_F R WHERE R.PRT_AT_CODE = '622'
+					AND N.CHRGE_KND_CD = R.WORK_CODE
+					AND N.ACCNUT_YEAR  = R.FISCAL_YR
+					AND N.NTIC_NO      = R.BILL_NO),
+			RCIV_SE = 
+				(SELECT RCVD_TP FROM REV_COLL_F R WHERE R.PRT_AT_CODE = '622'
+					AND N.CHRGE_KND_CD = R.WORK_CODE
+					AND N.ACCNUT_YEAR  = R.FISCAL_YR
+					AND N.NTIC_NO      = R.BILL_NO)
+		WHERE EXISTS
+			( 
+				SELECT 1
+				FROM REV_COLL_F R
+				WHERE 
+				R.PRT_AT_CODE = '622'
+				AND N.CHRGE_KND_CD = R.WORK_CODE
+				AND N.ACCNUT_YEAR  = R.FISCAL_YR
+				AND N.NTIC_NO      = R.BILL_NO
+				AND N.RCIV_SE='0'
+			)
+	</update>
+
+	<!-- UNPAID_F 의 납부상태를 HTLD_NTIC_DTLS_F에 업데이트  -->
+	<update id="gamHtldRentNticSchedulingDao.updateHtldRentNticIssueStatusRefreshUnpaid_D">
+		UPDATE HTLD_NTIC_DTLS_F N
+		SET
+		  RCIV_SE = 
+		    (
+		      SELECT DLY_RCVD_TP FROM UNPAID_F U WHERE U.PRT_AT_CODE = '622'
+		        AND GAM_GET_HTLD_ARRRG_CHRGE_KND(N.CHRGE_KND_CD) = U.WORK_CODE
+		        AND N.ACCNUT_YEAR = U.FISCAL_YR
+		        AND N.NTIC_NO = U.BILL_NO
+		        AND U.DLY_SER_NO = 
+		          (SELECT MAX(DLY_SER_NO) FROM UNPAID_F D WHERE D.PRT_AT_CODE = '622'
+		            AND GAM_GET_HTLD_ARRRG_CHRGE_KND(N.CHRGE_KND_CD) = D.WORK_CODE
+		            AND N.ACCNUT_YEAR = D.FISCAL_YR
+		            AND N.NTIC_NO = D.BILL_NO)
+		    ),
+		  RCIV_DT = 
+		    (
+		      SELECT DLY_RCVD_DT FROM UNPAID_F U WHERE U.PRT_AT_CODE = '622'
+		        AND GAM_GET_HTLD_ARRRG_CHRGE_KND(N.CHRGE_KND_CD) = U.WORK_CODE
+		        AND N.ACCNUT_YEAR = U.FISCAL_YR
+		        AND N.NTIC_NO = U.BILL_NO
+		        AND U.DLY_SER_NO = 
+		          (SELECT MAX(DLY_SER_NO) FROM UNPAID_F D WHERE D.PRT_AT_CODE = '622'
+		            AND GAM_GET_HTLD_ARRRG_CHRGE_KND(N.CHRGE_KND_CD) = D.WORK_CODE
+		            AND N.ACCNUT_YEAR = D.FISCAL_YR
+		            AND N.NTIC_NO = D.BILL_NO)
+		    )
+		WHERE EXISTS
+		  (
+		    SELECT 1
+		    FROM UNPAID_F U
+		    WHERE U.PRT_AT_CODE = '622'
+		      AND GAM_GET_HTLD_ARRRG_CHRGE_KND(N.CHRGE_KND_CD) = U.WORK_CODE
+		      AND N.ACCNUT_YEAR = U.FISCAL_YR
+		      AND N.NTIC_NO = U.BILL_NO
+		      AND N.RCIV_SE = '1'
+		  )
+	</update>
+</sqlMap>

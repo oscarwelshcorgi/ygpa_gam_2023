@@ -140,10 +140,10 @@ public class GamHtldRentArrrgNticIssueController {
     		gamHtldRentArrrgNticIssueService.execArrrgNticIssue(arrrgVO);
     		
 	        map.put("resultCode", 0);
-    		map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));    		
+    		map.put("resultMsg", egovMessageSource.getMessage("success.common.unpaid"));    		
     	} catch(Exception e) {
     		map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));    		
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.nticArrg.confirm"));    		
     	}
     	
     	return map;

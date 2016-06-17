@@ -207,10 +207,10 @@ public class GamHtldRentNticHistController {
     		searchVO.setUpdUsr(loginVO.getId());
     		gamHtldRentNticHistService.cancelSourceNticIssue(searchVO);
 	        map.put("resultCode", 0);
-    		map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));    		
+    		map.put("resultMsg", egovMessageSource.getMessage("gam.asset.proc"));    		
     	} catch(Exception e) {
-    		System.out.println(e.getMessage());
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));    		
+    		map.put("resultCode", 1);
+    		map.put("resultMsg", e.getMessage());    		
     	}
     	
     	return map;
@@ -239,10 +239,10 @@ public class GamHtldRentNticHistController {
     		searchVO.setUpdUsr(loginVO.getId());
     		gamHtldRentNticHistService.cancelArrrgNticIssue(searchVO);
 	        map.put("resultCode", 0);
-    		map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));    		
+    		map.put("resultMsg", egovMessageSource.getMessage("success.common.unpaid"));    		
     	} catch(Exception e) {
-    		System.out.println(e.getMessage());
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));    		
+    		map.put("resultCode", 1);
+    		map.put("resultMsg", e.getMessage());    		
     	}
     	
     	return map;
