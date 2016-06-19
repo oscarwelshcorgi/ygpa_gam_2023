@@ -33,7 +33,6 @@ public class GamHtldRentNticHistVO extends GamHtldRentNticDefaultVO{
 	private String	dlyDueDt;	    	/** 연체납부기한 */
 	private String	dlyBillAmnt; 		/** 연체금액 */
 	private String	dbillAmnt; 		/** 연체금액 */
-	private String	dlySerNo;	    	/** 연체횟수 */
 	private String	arrrgTariff;		/** 연체요율 */
 	private String	arrrgPayDates; 	/** 연체일수 */
 	
@@ -135,20 +134,6 @@ public class GamHtldRentNticHistVO extends GamHtldRentNticDefaultVO{
 	 */
 	public void setDbillAmnt(String dbillAmnt) {
 		this.dbillAmnt = dbillAmnt;
-	}
-
-	/**
-	 * @return the dlySerNo
-	 */
-	public String getDlySerNo() {
-		return dlySerNo;
-	}
-
-	/**
-	 * @param dlySerNo the dlySerNo to set
-	 */
-	public void setDlySerNo(String dlySerNo) {
-		this.dlySerNo = dlySerNo;
 	}
 
 	/**
