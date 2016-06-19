@@ -52,7 +52,7 @@ GamHtldRentNticHistModule.prototype.loadComplete = function(params) {
                     {display:'고지금액', name:'payAmt',width:110, sortable:false,align:'right', displayFormat: 'number'},
     				{display:'납부기한', name:'payTmlmt',width:80, sortable:false,align:'center'},
     				{display:'상태', name:'status',width:80, sortable:false,align:'center'},
-    				{display:'출력', name:'nhtPrintYnNm',width:50, sortable:false,align:'center'},
+    				{display:'출력', name:'nhtPrtYnNm',width:50, sortable:false,align:'center'},
     				{display:'납부일자', name:'rcivDt',width:80, sortable:false,align:'center'},
     				{display:'비고', name:'rm',width:250, sortable:false,align:'left'},
                     ],
