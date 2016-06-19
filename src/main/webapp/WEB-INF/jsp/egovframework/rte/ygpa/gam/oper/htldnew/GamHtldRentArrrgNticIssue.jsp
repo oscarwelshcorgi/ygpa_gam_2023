@@ -98,7 +98,7 @@ GamHtldRentArrrgNticIssueModule.prototype.loadComplete = function(params) {
 	} else {
 		this.$('#btnArrrgNticIssue').disable({disableClass:"ui-state-disabled"}); 
 	}
-	this.$('#btnArrrgNticIssueExcelDownload').disable({disableClass:"ui-state-disabled"});
+	//this.$('#btnArrrgNticIssueExcelDownload').disable({disableClass:"ui-state-disabled"});
 };
 
 <%--
@@ -263,8 +263,9 @@ GamHtldRentArrrgNticIssueModule.prototype.execArrrgNticIssue = function() {
 		if(result.resultCode == 0) {
 			module._arrrgNticIssue = 'Y';
 			module._parent.loadData();
-			module.$('#btnArrrgNticIssueExcelDownload').enable();
-			module.$('#btnArrrgNticIssueExcelDownload').removeClass('ui-state-disabled');
+			//module.$('#btnArrrgNticIssueExcelDownload').enable();
+			//module.$('#btnArrrgNticIssueExcelDownload').removeClass('ui-state-disabled');
+			module.closeWindow();
 		} else {
 			module.$('#btnArrrgNticIssue').enable();
 			module.$('#btnArrrgNticIssue').removeClass('ui-state-disabled');
@@ -363,7 +364,7 @@ var module_instance = new GamHtldRentArrrgNticIssueModule();
 			<div class="emdPanel fillHeight">
 				<table id="arrrgList" style="display: none" class="fillHeight"></table>
 				<div class="emdControlPanel">
-					<button id="btnArrrgNticIssueExcelDownload">산출내역서 다운로드</button>
+					<!-- <button id="btnArrrgNticIssueExcelDownload">산출내역서 다운로드</button>  -->
 					<button id="btnArrrgNticIssue">연체고지</button>
 					<button id="btnCancel">닫기</button>
 				</div>

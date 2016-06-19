@@ -85,7 +85,7 @@ GamHtldRentNticIssueModule.prototype.loadComplete = function(params) {
 	} else {
 		this.$('#btnNticIssue').disable({disableClass:"ui-state-disabled"}); 
 	}	
-	this.$('#btnNticIssueExcelDownload').disable({disableClass:"ui-state-disabled"});
+	//this.$('#btnNticIssueExcelDownload').disable({disableClass:"ui-state-disabled"});
 };
 
 <%--
@@ -220,8 +220,9 @@ GamHtldRentNticIssueModule.prototype.execNticIssue = function() {
 		if(result.resultCode == 0) {
 			module._nticIssue = 'Y';
 			module._parent.loadData();
-			module.$('#btnNticIssueExcelDownload').enable();
-			module.$('#btnNticIssueExcelDownload').removeClass('ui-state-disabled');			
+			//module.$('#btnNticIssueExcelDownload').enable();
+			//module.$('#btnNticIssueExcelDownload').removeClass('ui-state-disabled');
+			module.closeWindow();
 		} else {
 			module.$('#btnNticIssue').enable();
 			module.$('#btnNticIssue').removeClass('ui-state-disabled');
@@ -311,7 +312,7 @@ var module_instance = new GamHtldRentNticIssueModule();
 			<div class="emdPanel fillHeight">
 				<table id="nticList" style="display: none" class="fillHeight"></table>
 				<div class="emdControlPanel">
-					<button id="btnNticIssueExcelDownload">산출내역서 다운로드</button>
+					<!-- <button id="btnNticIssueExcelDownload">산출내역서 다운로드</button> -->
 					<button id="btnNticIssue">고지</button>
 					<button id="btnCancel">닫기</button>
 				</div>
