@@ -148,6 +148,9 @@ GamHtldRentNticHistModule.prototype.onButtonClick = function(buttonId) {
 		case 'btnProcessNticIssue' : //수납처리
 			this.processNticIssue();
 			break;
+		case 'btnPrintNticIssue' : //고지서 출력
+			this.printNticIssue();
+			break;
 	}
 };
 
@@ -353,6 +356,50 @@ GamHtldRentNticHistModule.prototype.processNticIssue = function() {
 		}
 	});
 	
+};
+
+<%--
+	printNticIsssue - 고지서 출력
+--%>
+GamHtldRentNticHistModule.prototype.printNticIssue = function() {
+	if(this._currentRow == void(0)) {
+		alert('이력 목록에서 데이터를 선택하세요.');
+		return;
+	}
+	this.printPayNticIssue('/oper/htldnew/printNticIssue.do', this._currentRow);
+};
+
+GamHtldRentNticHistModule.prototype.printPayNticIssue = function(url, params, retfunc) {
+	$('#__tempDiv').empty();
+	var form = document.createElement("form");
+	$(form).attr("id", "__printPayNoticeForm");
+	var accnutYear = document.createElement("input");
+	var rntfeeNticNo = document.createElement("input");
+	var nticSeq = document.createElement("input");
+	$(accnutYear).attr("name", "accnutYear");
+	$(accnutYear).val(params.accnutYear);
+	$(rntfeeNticNo).attr("name", "rntfeeNticNo");
+	$(rntfeeNticNo).val(params.rntfeeNticNo);
+	$(nticSeq).attr("name", "nticSeq");
+	$(nticSeq).val(params.nticSeq);
+	$(form).append(accnutYear);
+	$(form).append(rntfeeNticNo);
+	$(form).append(nticSeq);
+	$(form).attr("action", EMD.context_root+url);
+	$('#__tempDiv').append(form);
+
+	var win = window.open("","payNotice","width=800, height=600, menubar=no,status=no,scrollbars=yes");
+
+	var module=this;
+
+	win[win.addEventListener ? 'addEventListener' : 'attachEvent'](
+			  (win.attachEvent ? 'on' : '') + 'load', function(e){
+				  console.log('debug listener');
+					retfunc(module, 'done');
+				}, false
+			);
+	form.target = "payNotice";
+	form.submit();
 };
 
 <%--

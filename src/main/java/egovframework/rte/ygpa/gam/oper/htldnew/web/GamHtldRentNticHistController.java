@@ -28,6 +28,7 @@ import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentNticDefaultVO;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentNticHistService;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentNticHistVO;
+import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentNticReportService;
 
 /**
  * 
@@ -68,6 +69,9 @@ public class GamHtldRentNticHistController {
 
     @Resource(name="gamHtldRentNticHistService")
     private GamHtldRentNticHistService gamHtldRentNticHistService;
+
+    @Resource(name="gamHtldRentNticReportService")
+    private GamHtldRentNticReportService gamHtldRentNticReportService;
 
     /**
      * 배후단지 고지 이력 화면을 로딩한다.
@@ -272,5 +276,31 @@ public class GamHtldRentNticHistController {
     	
     	return map;
 	}
-	
+
+    /**
+     * 고지서 출력 화면 로딩
+     * @param searchVO
+     * @return String
+     * @throws Exception the exception
+     */
+    @RequestMapping(value="/oper/htldnew/printNticIssue.do")
+    public String printNticIssue(GamHtldRentNticDefaultVO searchVO, ModelMap model) throws Exception {
+    	model.addAttribute("searchVO", searchVO);
+    	
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+    		model.addAttribute("resultCode", 1);
+    		model.addAttribute("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+    		return "ygpa/gam/oper/htldnew/GamHtldRentPrintNticIssue";
+    	}
+    	
+    	Map<?, ?> master = gamHtldRentNticReportService.selectNticPrintMaster(searchVO);
+    	
+    	model.addAttribute("master", master);
+    	model.addAttribute("resultCode", 0);
+    	model.addAttribute("resultMsg", "");
+    	return "ygpa/gam/oper/htldnew/GamHtldRentPrintNticIssue";
+    }
+    
+    
 }

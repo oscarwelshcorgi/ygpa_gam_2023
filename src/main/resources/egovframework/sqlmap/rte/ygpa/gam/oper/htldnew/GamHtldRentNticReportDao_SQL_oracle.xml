@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="ygpa.gam.oper.htldnew">
+	
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    
+	<typeAlias alias="gamHtldRentNticDefaultVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentNticDefaultVO"/>
+	
+	<select id="gamHtldRentNticReportDao.selectNticPrintMaster_S" parameterClass="gamHtldRentNticDefaultVO" resultClass="egovMap">
+		  SELECT
+		    P2MGR.sf_makedigit@YGPA_P2MGR(N.PRT_AT_CODE
+		      || ASCII(SUBSTR(N.FEE_TP,1,1))
+		      || SUBSTR(N.FEE_TP,2,1)
+		      || N.FISCAL_YR
+		      || N.BILL_NO
+		      || NVL(N.ARRRG_NO, '0'),'BILLNO') CSTMR_REF_CODE
+		    ,(
+		        SELECT DECODE(N.PRT_AT_CODE, '620', '1', '621', '2', '3')
+				      || FEE_TP_MAP
+				      || SUBSTR(N.FISCAL_YR, 3,2)
+				      || N.BILL_NO
+				      || NVL(N.ARRRG_NO, '00')
+				    FROM P2MGR.FEE_TP_F@YGPA_P2MGR
+				    WHERE PRT_AT_CODE = N.PRT_AT_CODE
+		          AND FEE_TP      = N.FEE_TP
+		    ) ELEC_PAY_NO
+		    ,DECODE(N.PRT_AT_CODE, '622', '6374594', '6374604') GIRO_NO
+		    ,P2MGR.sf_makedigit@YGPA_P2MGR(N.BILL_AMNT, 'AMT') ELEC_NTIC_AMT
+		    ,N.*
+		  FROM  
+		  (
+		    SELECT
+		      R.PRT_AT_CODE
+		      ,R.FISCAL_YR
+		      ,R.FEE_TP
+		      ,R.BILL_NO
+		      ,R.BILL_AMNT
+		      ,N.SUP_AMT
+		      ,N.VAT
+		      ,N.PAY_AMT
+		      ,N.RM
+		      ,R.AGENT_CODE
+		      ,R.AGENT_NAME
+		      ,TO_CHAR(N.NTIC_PD_FROM, 'YYYY-MM-DD') NTIC_PD_FROM
+		      ,TO_CHAR(N.NTIC_PD_TO, 'YYYY-MM-DD') NTIC_PD_TO
+		      ,TO_CHAR(N.NTIC_DT, 'YYYY-MM-DD') NTIC_DT
+		      ,N.ARRRG_NO
+		      ,(SELECT RPRSNTV_NM FROM ENTRPS_INFO_F WHERE ENTRPSCD=R.AGENT_CODE) RPRSNTV_NM
+		      ,(SELECT ADRES FROM ENTRPS_INFO_F WHERE ENTRPSCD=R.AGENT_CODE) ADRES
+		      ,(SELECT ADRES2 FROM ENTRPS_INFO_F WHERE ENTRPSCD=R.AGENT_CODE) ADRES2
+		      ,(SELECT ZIP FROM ENTRPS_INFO_F WHERE ENTRPSCD=R.AGENT_CODE) ZIP
+		      ,GAM_GET_FEE_TP_NM(R.PRT_AT_CODE, 'H', DECODE(R.FEE_TP, 'V2', 'A3',R.WORK_CODE)) CHRGE_KND_NM
+		      ,R.BZ_RGST_ID
+		      ,R.VAT_YN
+		      ,GAM_GETCODENAME('GAM016', R.VAT_YN) TAXT_SE_NM
+		      ,TO_CHAR(R.BILL_DT, 'YYYY-MM-DD') BILL_DT
+		      ,TO_CHAR(R.DUE_DATE, 'YYYY-MM-DD') DUE_DATE
+		    FROM
+		      HTLD_NTIC_DTLS_F N, REV_COLL_F R
+		    WHERE
+		      R.PRT_AT_CODE = '622'
+		      AND N.ACCNUT_YEAR = R.FISCAL_YR
+		      AND GAM_GET_HTLD_FEE_TP(N.CHRGE_KND_CD) = R.FEE_TP
+		      AND N.NTIC_NO = R.BILL_NO
+		      AND N.ACCNUT_YEAR = #accnutYear#
+		      AND N.RNTFEE_NTIC_NO = #rntfeeNticNo#
+		      AND N.NTIC_SEQ = #nticSeq#
+		  ) N	
+	</select>
+	
+	
+</sqlMap>
