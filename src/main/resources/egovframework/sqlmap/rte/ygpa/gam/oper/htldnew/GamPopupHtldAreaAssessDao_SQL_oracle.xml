@@ -5,10 +5,10 @@
 
 	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
-    <typeAlias alias="GamPopupHtldAreaAssessVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamPopupHtldAreaAssessVO"/>
+    <typeAlias alias="gamPopupHtldAreaAssessVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamPopupHtldAreaAssessVO"/>
 
 	<!-- 지적평가 조회 -->
-	<select  id="gamPopupHtldAreaAssessDao.selectAreaAssessDetail_S" parameterClass="GamPopupHtldAreaAssessVO" resultClass="egovMap">
+	<select  id="gamPopupHtldAreaAssessDao.selectAreaAssessDetail_S" parameterClass="gamPopupHtldAreaAssessVO" resultClass="egovMap">
 		SELECT
 			F.MNG_YEAR MNG_YEAR
 			,F.MNG_NO MNG_NO
@@ -45,7 +45,7 @@
 	</select>
 			
 	<!-- 배후단지 임대료 순번 생성 -->
-	<select id="gamPopupHtldAreaAssessDao.selectNextRntfeeSeq_S" parameterClass="GamPopupHtldAreaAssessVO" resultClass="java.lang.String">
+	<select id="gamPopupHtldAreaAssessDao.selectNextRntfeeSeq_S" parameterClass="gamPopupHtldAreaAssessVO" resultClass="java.lang.String">
    		SELECT
    		  	LPAD(NVL(MAX(RNTFEE_SEQ),0) + 1,'3','0')
    		FROM
@@ -57,7 +57,7 @@
 	</select>
 	
 	<!-- 지적평가 등록(임대료) -->
-	<insert  id="gamPopupHtldAreaAssessDao.insertAreaAssess_S" parameterClass="GamPopupHtldAreaAssessVO">
+	<insert  id="gamPopupHtldAreaAssessDao.insertAreaAssess_S" parameterClass="gamPopupHtldAreaAssessVO">
 		INSERT INTO HTLD_RNTFEE_F (
 			MNG_YEAR
 			,MNG_NO
@@ -107,7 +107,7 @@
 	</insert>
 	
 	<!-- 지적평가정산 수정 -->
-	<update id="gamPopupHtldAreaAssessDao.updateAreaAssess_S" parameterClass="GamPopupHtldAreaAssessVO">
+	<update id="gamPopupHtldAreaAssessDao.updateAreaAssess_S" parameterClass="gamPopupHtldAreaAssessVO">
 		UPDATE HTLD_RNTFEE_F
 		SET
 			APPLC_BEGIN_DT = TO_DATE(#applcBeginDt#, 'YYYY-MM-DD')
@@ -127,7 +127,7 @@
 	</update>
 	
 	<!-- 지적평가정산 삭제 -->
-	<delete id="gamPopupHtldAreaAssessDao.deleteAreaAssess_S" parameterClass="GamPopupHtldAreaAssessVO">
+	<delete id="gamPopupHtldAreaAssessDao.deleteAreaAssess_S" parameterClass="gamPopupHtldAreaAssessVO">
 		DELETE FROM HTLD_RNTFEE_F
 		WHERE
 			MNG_YEAR = #mngYear#

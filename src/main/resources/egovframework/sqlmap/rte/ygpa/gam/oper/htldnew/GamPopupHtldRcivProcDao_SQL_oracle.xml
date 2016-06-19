@@ -6,11 +6,11 @@
 	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     
- 	<typeAlias alias="GamPopupHtldRcivProcVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamPopupHtldRcivProcVO"/>
- 	<typeAlias alias="GamHtldRentNticDefaultVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentNticDefaultVO"/>
+ 	<typeAlias alias="gamPopupHtldRcivProcVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamPopupHtldRcivProcVO"/>
+ 	<typeAlias alias="gamHtldRentNticDefaultVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentNticDefaultVO"/>
     
     <!-- 지로 수납된 자료인지 조회 -->
-    <select id="gamPopupHtldRcivProcDao.selectCheckOcrResult_S" parameterClass="GamHtldRentNticDefaultVO" resultClass="java.lang.String">
+    <select id="gamPopupHtldRcivProcDao.selectCheckOcrResult_S" parameterClass="gamHtldRentNticDefaultVO" resultClass="java.lang.String">
 		SELECT
 			DECODE(OCR_DT, NULL, 'N', 'Y') OCR_DT_YN
 		FROM
@@ -28,7 +28,7 @@
     </select>
 
 	<!-- 수납처리정보 조회 -->  
-    <select id="gamPopupHtldRcivProcDao.selectHtldNticDtlsRcivInfo_S" parameterClass="GamHtldRentNticDefaultVO" resultClass="egovMap">
+    <select id="gamPopupHtldRcivProcDao.selectHtldNticDtlsRcivInfo_S" parameterClass="gamHtldRentNticDefaultVO" resultClass="egovMap">
 		SELECT 
 		  TO_CHAR(N.NTIC_DT, 'YYYY-MM-DD') NTIC_DT
 		  ,TO_CHAR(N.NTIC_PD_FROM, 'YYYY-MM-DD') NTIC_PD_FROM
@@ -74,7 +74,7 @@
     </select>
     
     <!-- HTLD_NTIC_DTLS_F 의 수납정보 수정 -->
-    <update id="gamPopupHtldRcivProcDao.updateNticDtlsRcivInfo_S" parameterClass="GamPopupHtldRcivProcVO">
+    <update id="gamPopupHtldRcivProcDao.updateNticDtlsRcivInfo_S" parameterClass="gamPopupHtldRcivProcVO">
     	UPDATE HTLD_NTIC_DTLS_F
     	SET
     		RCIV_SE=#rcivSe#
@@ -111,7 +111,7 @@
     </update>
     
     <!-- REV_COLL_F 의 수납정보 수정 -->
-    <update id="gamPopupHtldRcivProcDao.updateRevCollRcivInfo_S"  parameterClass="GamPopupHtldRcivProcVO">
+    <update id="gamPopupHtldRcivProcDao.updateRevCollRcivInfo_S"  parameterClass="gamPopupHtldRcivProcVO">
     	UPDATE REV_COLL_F
     	SET
       		RCVD_TP=#rcvdTp#,

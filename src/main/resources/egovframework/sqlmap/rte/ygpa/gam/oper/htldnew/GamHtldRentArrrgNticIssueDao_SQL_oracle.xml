@@ -5,11 +5,11 @@
 	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     
-    <typeAlias alias="GamHtldRentNticDefaultVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentNticDefaultVO"/>
-    <typeAlias alias="GamHtldRentArrrgNticInfoVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentArrrgNticInfoVO"/>
+    <typeAlias alias="gamHtldRentNticDefaultVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentNticDefaultVO"/>
+    <typeAlias alias="gamHtldRentArrrgNticInfoVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentArrrgNticInfoVO"/>
 	
 	<!-- 연체고지 내역 가져오기 -->
-	<select id="gamHtldRentArrrgNticIssueDao.selectNticIssueMaster_S" parameterClass="GamHtldRentNticDefaultVO" resultClass="egovMap">
+	<select id="gamHtldRentArrrgNticIssueDao.selectNticIssueMaster_S" parameterClass="gamHtldRentNticDefaultVO" resultClass="egovMap">
 		SELECT 
 			MNG_YEAR
 			,MNG_NO
@@ -36,7 +36,7 @@
 	</select>	
 	
 	<!-- 연체고지 상세 리스트 가져오기 -->
-	<select id="gamHtldRentArrrgNticIssueDao.selectNticIssueDetailList_D" parameterClass="GamHtldRentNticDefaultVO" resultClass="egovMap">
+	<select id="gamHtldRentArrrgNticIssueDao.selectNticIssueDetailList_D" parameterClass="gamHtldRentNticDefaultVO" resultClass="egovMap">
 		SELECT
 			F.MNG_YEAR MNG_YEAR
 			,F.MNG_NO MNG_NO
@@ -90,7 +90,7 @@
 	</select>
 	
 	<!-- 연체정보상세 가져오기 -->
-    <select id="gamHtldRentArrrgNticIssueDao.selectNticArrrgDetail_S" parameterClass="GamHtldRentNticDefaultVO" resultClass="egovMap">
+    <select id="gamHtldRentArrrgNticIssueDao.selectNticArrrgDetail_S" parameterClass="gamHtldRentNticDefaultVO" resultClass="egovMap">
 		SELECT 
 			A.MNG_YEAR,
 			A.MNG_NO,
@@ -184,7 +184,7 @@
     </select>
 	
 	<!-- 연체고지 등록 전 고지테이블에서 연체고지테이블에서 연체정보 데이터 가져오기 -->
-	<select id="gamHtldRentArrrgNticIssueDao.selectArrrgInfo_S" parameterClass="GamHtldRentArrrgNticInfoVO" resultClass="egovMap">
+	<select id="gamHtldRentArrrgNticIssueDao.selectArrrgInfo_S" parameterClass="gamHtldRentArrrgNticInfoVO" resultClass="egovMap">
 		SELECT
 			D.ACCNUT_YEAR,
 			D.RNTFEE_NTIC_NO,

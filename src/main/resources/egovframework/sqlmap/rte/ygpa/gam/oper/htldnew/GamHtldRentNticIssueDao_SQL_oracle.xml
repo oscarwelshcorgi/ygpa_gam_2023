@@ -5,13 +5,13 @@
 	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     
-    <typeAlias alias="GamHtldRentMngDefaultVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentMngDefaultVO"/>
-    <typeAlias alias="GamHtldRentNticDefaultVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentNticDefaultVO"/>
-    <typeAlias alias="GamHtldRentNticInfoVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentNticInfoVO"/>
-    <typeAlias alias="GamHtldRentRntfeeVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentRntfeeVO"/>
+    <typeAlias alias="gamHtldRentMngDefaultVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentMngDefaultVO"/>
+    <typeAlias alias="gamHtldRentNticDefaultVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentNticDefaultVO"/>
+    <typeAlias alias="gamHtldRentNticInfoVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentNticInfoVO"/>
+    <typeAlias alias="gamHtldRentRntfeeVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentRntfeeVO"/>
 	
 	<!-- 고지 내역 가져오기 -->
-	<select id="gamHtldRentNticIssueDao.selectNticIssueMaster_S" parameterClass="GamHtldRentMngDefaultVO" resultClass="egovMap">
+	<select id="gamHtldRentNticIssueDao.selectNticIssueMaster_S" parameterClass="gamHtldRentMngDefaultVO" resultClass="egovMap">
 		SELECT 
 			MNG_YEAR
 			,MNG_NO
@@ -49,7 +49,7 @@
 	</select>	
 	
 	<!-- 고지 상세 리스트 가져오기 -->
-	<select id="gamHtldRentNticIssueDao.selectNticIssueDetailList_D" parameterClass="GamHtldRentMngDefaultVO" resultClass="egovMap">
+	<select id="gamHtldRentNticIssueDao.selectNticIssueDetailList_D" parameterClass="gamHtldRentMngDefaultVO" resultClass="egovMap">
 		SELECT
 			F.MNG_YEAR MNG_YEAR
 			,F.MNG_NO MNG_NO
@@ -126,7 +126,7 @@
 	</select>
 		
 	<!-- accutYear rntfeeNticNo 생성하거나 존재하면 가져오기 -->
-	<select id="gamHtldRentNticIssueDao.selectHtldNticSummPk_S" parameterClass="GamHtldRentNticInfoVO" resultClass="egovMap">
+	<select id="gamHtldRentNticIssueDao.selectHtldNticSummPk_S" parameterClass="gamHtldRentNticInfoVO" resultClass="egovMap">
 	    SELECT 
 	      TO_CHAR(SYSDATE, 'YYYY') ACCNUT_YEAR
 	      ,(SELECT LPAD(NVL(MAX(RNTFEE_NTIC_NO), 0) + 1, 6, '0') RNTFEE_NTIC_NO FROM HTLD_NTIC_SUMM_F WHERE ACCNUT_YEAR = TO_CHAR(SYSDATE, 'YYYY')) RNTFEE_NTIC_NO
@@ -135,7 +135,7 @@
 	</select>
 	
 	<!-- HTLD_NTIC_SUMM_F에 삽입 -->
-	<insert id="gamHtldRentNticIssueDao.insertHtldNticSumm_S" parameterClass="GamHtldRentNticInfoVO">
+	<insert id="gamHtldRentNticIssueDao.insertHtldNticSumm_S" parameterClass="gamHtldRentNticInfoVO">
 		INSERT INTO HTLD_NTIC_SUMM_F (
 			RNTFEE_NTIC_NO, ACCNUT_YEAR, ENTRPS_CD, ENTRPS_NM, RPRSNTV_NM, 
 			NTIC_DT, NTIC_RESV_DT, GR_SUP_AMT, GR_VAT, GR_PAY_AMT, PAY_STTUS,
@@ -148,7 +148,7 @@
 	</insert>
 	
 	<!-- nticSeq 생성하기 -->
-	<select id="gamHtldRentNticIssueDao.selectHtldNticDtlsNextNticSeq_S" parameterClass="GamHtldRentNticDefaultVO" resultClass="java.lang.String">
+	<select id="gamHtldRentNticIssueDao.selectHtldNticDtlsNextNticSeq_S" parameterClass="gamHtldRentNticDefaultVO" resultClass="java.lang.String">
 	    SELECT 
 	    	LPAD(NVL(MAX(NTIC_SEQ), 0) + 1, 18, '0') NTIC_SEQ
 	    FROM
@@ -159,7 +159,7 @@
 	</select>
 	
 	<!-- nticNo 생성하기 -->
-	<select id="gamHtldRentNticIssueDao.selectRevCollNextNticNo_S" parameterClass="GamHtldRentNticInfoVO" resultClass="java.lang.String">
+	<select id="gamHtldRentNticIssueDao.selectRevCollNextNticNo_S" parameterClass="gamHtldRentNticInfoVO" resultClass="java.lang.String">
 		SELECT
 			LPAD(NVL(MAX(BILL_NO), 0) + 1, 6, '0') NTIC_NO
 		FROM
@@ -171,7 +171,7 @@
 	</select>
 
 	<!-- HTLD_NTIC_DTLS_F에 고지자료 삽입 -->
-	<insert id="gamHtldRentNticIssueDao.insertHtldNticDtls_S" parameterClass="GamHtldRentNticInfoVO">
+	<insert id="gamHtldRentNticIssueDao.insertHtldNticDtls_S" parameterClass="gamHtldRentNticInfoVO">
 		INSERT INTO HTLD_NTIC_DTLS_F (
 			RNTFEE_NTIC_NO, ACCNUT_YEAR, NTIC_SEQ, NTIC_NO, CHRGE_KND_CD, NTIC_DT, NTIC_AMT,
 			RNTFEE, PAYINST_INTR, INTR_RATE, SUP_AMT, VAT, PAY_AMT, RM, 
@@ -186,7 +186,7 @@
 	</insert>
 	
 	<!-- HTLD_RNTFEE_F에 고지키와 연결되는 부분 수정 -->
-	<update id="gamHtldRentNticIssueDao..updateHtldRntfee_S" parameterClass="GamHtldRentRntfeeVO">
+	<update id="gamHtldRentNticIssueDao..updateHtldRntfee_S" parameterClass="gamHtldRentRntfeeVO">
 		UPDATE HTLD_RNTFEE_F 
 		SET
 			RNTFEE_NTIC_NO = #rntfeeNticNo#, ACCNUT_YEAR = #accnutYear#, NTIC_SEQ = #nticSeq#, 
@@ -199,7 +199,7 @@
 	</update>
 		
 	<!-- REV_COLL_F에 고지자료 등록 -->
-	<insert id="gamHtldRentNticIssueDao.insertRevColl_S" parameterClass="GamHtldRentNticInfoVO">
+	<insert id="gamHtldRentNticIssueDao.insertRevColl_S" parameterClass="gamHtldRentNticInfoVO">
 		INSERT INTO REV_COLL_F (
 			PRT_AT_CODE, FEE_TP, FISCAL_YR, BILL_NO, WORK_CODE, AGENT_CODE, AGENT_NAME, 
 			BZ_RGST_ID, SSN,

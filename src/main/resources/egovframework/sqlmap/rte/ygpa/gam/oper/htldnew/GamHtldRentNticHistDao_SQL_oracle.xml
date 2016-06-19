@@ -5,10 +5,10 @@
 	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     
-	<typeAlias alias="GamHtldRentNticHistVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentNticHistVO"/>
+	<typeAlias alias="gamHtldRentNticHistVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentNticHistVO"/>
 
 	<!-- 업체정보조회 -->
-	<select id="gamHtldRentNticHistDao.selectEntrpsInfo_S" parameterClass="GamHtldRentNticHistVO" resultClass="egovMap">
+	<select id="gamHtldRentNticHistDao.selectEntrpsInfo_S" parameterClass="gamHtldRentNticHistVO" resultClass="egovMap">
 		SELECT
 			ENTRPSCD ENTRPS_CD
 			,ENTRPS_NM
@@ -21,7 +21,7 @@
 	</select>
 		
 	<!-- 업체별 고지 이력 목록 조회 -->
-	<select id="gamHtldRentNticHistDao.selectHtldRentNticHistList_D" parameterClass="GamHtldRentNticHistVO" resultClass="egovMap">
+	<select id="gamHtldRentNticHistDao.selectHtldRentNticHistList_D" parameterClass="gamHtldRentNticHistVO" resultClass="egovMap">
 		SELECT 
 		  TO_CHAR(N.NTIC_DT, 'YYYY-MM-DD') NTIC_DT
 		  ,TO_CHAR(N.NTIC_PD_FROM, 'YYYY-MM-DD') NTIC_PD_FROM
@@ -65,7 +65,7 @@
 	</select>
 	
 	<!-- 고지 상세 리스트 조회 -->
-	<select id="gamHtldRentNticHistDao.selectHistNticIssueList_D" parameterClass="GamHtldRentNticHistVO" resultClass="egovMap">
+	<select id="gamHtldRentNticHistDao.selectHistNticIssueList_D" parameterClass="gamHtldRentNticHistVO" resultClass="egovMap">
 		SELECT
 			F.MNG_YEAR MNG_YEAR
 			,F.MNG_NO MNG_NO
@@ -117,7 +117,7 @@
 	</select>
 	
 	<!-- 연체 고지 상세 리스트 조회 -->
-	<select id="gamHtldRentNticHistDao.selectHistArrrgNticIssueList_D" parameterClass="GamHtldRentNticHistVO" resultClass="egovMap">
+	<select id="gamHtldRentNticHistDao.selectHistArrrgNticIssueList_D" parameterClass="gamHtldRentNticHistVO" resultClass="egovMap">
 		SELECT
 			U.FEE_TP
 			,U.FISCAL_YR
@@ -159,7 +159,7 @@
 	</select>	
 
 	<!-- 고지취소를 위한 REV_COLL_F 의 고지정보 조회 -->
-	<select id="gamHtldRentNticHistDao.selectRevCollNticInfo_S" parameterClass="GamHtldRentNticHistVO" resultClass="egovMap">
+	<select id="gamHtldRentNticHistDao.selectRevCollNticInfo_S" parameterClass="gamHtldRentNticHistVO" resultClass="egovMap">
 		SELECT
 			R.BILL_NO BILL_NO 
 			,R.RCVD_TP RCVD_TP
@@ -190,7 +190,7 @@
 	</select>	
 	
 	<!-- 고지취소를 위한 REV_COLL_F의 출력취소를 설정 -->
-	<update id="gamHtldRentNticHistDao.cancelRevCollPrtYn_S" parameterClass="GamHtldRentNticHistVO">
+	<update id="gamHtldRentNticHistDao.cancelRevCollPrtYn_S" parameterClass="gamHtldRentNticHistVO">
 		UPDATE REV_COLL_F
 			SET
 				BILL_PRT_YN='N'
@@ -212,7 +212,7 @@
 	</update>
 
 	<!-- 고지취소를 위한 REV_COLL_F의 정보 삭제 -->
-	<delete id="gamHtldRentNticHistDao.deleteRevCollIInfo_S" parameterClass="GamHtldRentNticHistVO">
+	<delete id="gamHtldRentNticHistDao.deleteRevCollIInfo_S" parameterClass="gamHtldRentNticHistVO">
 		DELETE FROM REV_COLL_F
       		WHERE
       			(PRT_AT_CODE, FISCAL_YR, FEE_TP, WORK_CODE, BILL_NO) IN (
@@ -232,7 +232,7 @@
 	</delete>
 	
 	<!-- 고지취소를 위한 HTLD_RNTFEE_F 연결부분 NULL로 초기화 -->
-	<update id="gamHtldRentNticHistDao.initNitcIssueRntfee_S"  parameterClass="GamHtldRentNticHistVO">
+	<update id="gamHtldRentNticHistDao.initNitcIssueRntfee_S"  parameterClass="gamHtldRentNticHistVO">
 		UPDATE HTLD_RNTFEE_F
 			SET
 				ACCNUT_YEAR = NULL
@@ -247,7 +247,7 @@
 	</update>
 	
 	<!-- 고지취소를 위한 HTLD_NTIC_DTLS_F 삭제 -->
-	<delete id="gamHtldRentNticHistDao.deleteNticDtlsInfo_S"  parameterClass="GamHtldRentNticHistVO">
+	<delete id="gamHtldRentNticHistDao.deleteNticDtlsInfo_S"  parameterClass="gamHtldRentNticHistVO">
 		DELETE FROM HTLD_NTIC_DTLS_F
 		WHERE
 			ACCNUT_YEAR = #accnutYear#
@@ -256,7 +256,7 @@
 	</delete>
 
 	<!-- 고지취소를 위한 HTLD_NTIC_SUMM_F 삭제 -->
-	<delete id="gamHtldRentNticHistDao.deleteNticSummInfo_S"  parameterClass="GamHtldRentNticHistVO">
+	<delete id="gamHtldRentNticHistDao.deleteNticSummInfo_S"  parameterClass="gamHtldRentNticHistVO">
 		DELETE FROM HTLD_NTIC_SUMM_F
 		WHERE
 			ACCNUT_YEAR = #accnutYear#
@@ -264,7 +264,7 @@
 	</delete>
 		
 	<!-- 해당고지의 연체고지 자료수 조회 -->
-	<select id="gamHtldRentNticHistDao.selectHistArrrgNticIssueListCnt_S" parameterClass="GamHtldRentNticHistVO" resultClass="int">
+	<select id="gamHtldRentNticHistDao.selectHistArrrgNticIssueListCnt_S" parameterClass="gamHtldRentNticHistVO" resultClass="int">
 		SELECT COUNT(*) TOT_CNT
 		FROM UNPAID_F
 		WHERE
@@ -276,7 +276,7 @@
 	</select>
 	
 	<!-- 해당고지의 연체고지 최대번호 조회 -->
-	<select id="gamHtldRentNticHistDao.selectHistArrrgNticIssueMaxDlySerNo_S" parameterClass="GamHtldRentNticHistVO" resultClass="java.lang.String">
+	<select id="gamHtldRentNticHistDao.selectHistArrrgNticIssueMaxDlySerNo_S" parameterClass="gamHtldRentNticHistVO" resultClass="java.lang.String">
 		SELECT MAX(DLY_SER_NO) DLY_SER_NO
 		FROM UNPAID_F
 		WHERE
@@ -288,7 +288,7 @@
 	</select>
 
 	<!-- 연체 고지 취소를 위한 연체정보목록 조회 -->
-	<select id="gamHtldRentNticHistDao.selectHistArrrgNticIssueCancelList_D" parameterClass="GamHtldRentNticHistVO" resultClass="egovMap">
+	<select id="gamHtldRentNticHistDao.selectHistArrrgNticIssueCancelList_D" parameterClass="gamHtldRentNticHistVO" resultClass="egovMap">
 		SELECT
 			N.SUP_AMT SUP_AMT
 			,NVL(N.ARRRG_AMT, 0) ARRRG_AMT
@@ -326,7 +326,7 @@
 	</select>	
 	
 	<!-- 최초연체고지취소를 위한 원고지정보변경. -->
-    <update id="gamHtldRentNticHistDao.updateHtldNticDtlsUnarrrgAmt_S" parameterClass="GamHtldRentNticHistVO">
+    <update id="gamHtldRentNticHistDao.updateHtldNticDtlsUnarrrgAmt_S" parameterClass="gamHtldRentNticHistVO">
         UPDATE HTLD_NTIC_DTLS_F SET
       		RCIV_SE='0',
       		ARRRG_NO=NULL,
@@ -345,7 +345,7 @@
 	</update>
 
   	<!-- 최초연체가 아닌 연체고지취소를 위한 원고지정보변경. -->
-  	<update id="gamHtldRentNticHistDao.updateHtldNticDtlsArrrgAmt_S" parameterClass="GamHtldRentNticHistVO">
+  	<update id="gamHtldRentNticHistDao.updateHtldNticDtlsArrrgAmt_S" parameterClass="gamHtldRentNticHistVO">
         UPDATE HTLD_NTIC_DTLS_F SET
         	NTIC_DT=TO_DATE(#billDt#, 'YYYY-MM-DD'),
         	PAY_TMLMT=TO_DATE(#dlyDueDt#, 'YYYY-MM-DD'),
@@ -363,7 +363,7 @@
   	</update>
 	
 	<!-- 연체정보 삭제 -->
-    <delete id="gamHtldRentNticHistDao.deleteUnpaidByPk" parameterClass="GamHtldRentNticHistVO">
+    <delete id="gamHtldRentNticHistDao.deleteUnpaidByPk" parameterClass="gamHtldRentNticHistVO">
      	DELETE FROM UNPAID_F WHERE (PRT_AT_CODE, FEE_TP, WORK_CODE, FISCAL_YR, BILL_NO) IN
      	(
      		SELECT

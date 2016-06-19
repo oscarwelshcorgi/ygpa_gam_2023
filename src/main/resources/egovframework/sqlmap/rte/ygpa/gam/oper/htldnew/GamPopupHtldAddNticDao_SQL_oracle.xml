@@ -5,10 +5,10 @@
 
 	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
-    <typeAlias alias="GamPopupHtldAddNticVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamPopupHtldAddNticVO"/>
+    <typeAlias alias="gamPopupHtldAddNticVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamPopupHtldAddNticVO"/>
 
 	<!-- 추가정산 계약정보 조회 -->
-	<select  id="gamPopupHtldAddNticDao.selectAddNticCtrtDetail_S" parameterClass="GamPopupHtldAddNticVO" resultClass="egovMap">
+	<select  id="gamPopupHtldAddNticDao.selectAddNticCtrtDetail_S" parameterClass="gamPopupHtldAddNticVO" resultClass="egovMap">
 		SELECT
 			R.MNG_YEAR MNG_YEAR
 			,R.MNG_NO MNG_NO
@@ -28,7 +28,7 @@
 	</select>
 
 	<!-- 추가정산 조회 -->
-	<select  id="gamPopupHtldAddNticDao.selectAddNticDetail_S" parameterClass="GamPopupHtldAddNticVO" resultClass="egovMap">
+	<select  id="gamPopupHtldAddNticDao.selectAddNticDetail_S" parameterClass="gamPopupHtldAddNticVO" resultClass="egovMap">
 		SELECT
 			F.MNG_YEAR MNG_YEAR
 			,F.MNG_NO MNG_NO
@@ -58,7 +58,7 @@
 	</select>
 			
 	<!-- 배후단지 임대료 순번 생성 -->
-	<select id="gamPopupHtldAddNticDao.selectNextRntfeeSeq_S" parameterClass="GamPopupHtldAddNticVO" resultClass="java.lang.String">
+	<select id="gamPopupHtldAddNticDao.selectNextRntfeeSeq_S" parameterClass="gamPopupHtldAddNticVO" resultClass="java.lang.String">
    		SELECT
    		  	LPAD(NVL(MAX(RNTFEE_SEQ),0) + 1,'3','0')
    		FROM
@@ -70,7 +70,7 @@
 	</select>
 	
 	<!-- 추가정산 등록(임대료) -->
-	<insert  id="gamPopupHtldAddNticDao.insertAddNtic_S" parameterClass="GamPopupHtldAddNticVO">
+	<insert  id="gamPopupHtldAddNticDao.insertAddNtic_S" parameterClass="gamPopupHtldAddNticVO">
 		INSERT INTO HTLD_RNTFEE_F (
 			MNG_YEAR
 			,MNG_NO
@@ -110,7 +110,7 @@
 	</insert>
 	
 	<!-- 추가정산 수정 -->
-	<update id="gamPopupHtldAddNticDao.updateAddNtic_S" parameterClass="GamPopupHtldAddNticVO">
+	<update id="gamPopupHtldAddNticDao.updateAddNtic_S" parameterClass="gamPopupHtldAddNticVO">
 		UPDATE HTLD_RNTFEE_F
 		SET
 			RNTFEE_SE_NM = #rntfeeSeNm#
@@ -127,7 +127,7 @@
 	</update>
 	
 	<!-- 추가정산 삭제 -->
-	<delete id="gamPopupHtldAddNticDao.deleteAddNtic_S" parameterClass="GamPopupHtldAddNticVO">
+	<delete id="gamPopupHtldAddNticDao.deleteAddNtic_S" parameterClass="gamPopupHtldAddNticVO">
 		DELETE FROM HTLD_RNTFEE_F
 		WHERE
 			MNG_YEAR = #mngYear#

@@ -6,11 +6,11 @@
 	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     
-	<typeAlias alias="GamHtldRentMngtMainVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentMngtMainVO"/>
-	<typeAlias alias="GamHtldRentRntfeeVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentRntfeeVO"/>
+	<typeAlias alias="gamHtldRentMngtMainVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentMngtMainVO"/>
+	<typeAlias alias="gamHtldRentRntfeeVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentRntfeeVO"/>
 	
 	<!-- 배후단지 임대 상세목록 조회 -->
-	<select id="gamHtldRentMngtMainDao.selectHtldRentDetailList_D" parameterClass="GamHtldRentMngtMainVO" resultClass="egovMap">
+	<select id="gamHtldRentMngtMainDao.selectHtldRentDetailList_D" parameterClass="gamHtldRentMngtMainVO" resultClass="egovMap">
 		SELECT
 			L.MNG_YEAR MNG_YEAR
 			,L.MNG_NO MNG_NO
@@ -328,7 +328,7 @@
 	</select>
 	 
 	<!-- Cofix 이자율 조회 -->
-	<select id="gamHtldRentMngtMainDao.selectCofixIntrrate_S" parameterClass="GamHtldRentMngtMainVO" resultClass="java.lang.String">
+	<select id="gamHtldRentMngtMainDao.selectCofixIntrrate_S" parameterClass="gamHtldRentMngtMainVO" resultClass="java.lang.String">
 		SELECT TO_CHAR(NEW_MANIP_AMT_STDR_INTRRATE * 100, '9.99') COFIX_INTRRATE
 		FROM 
 			COFIX_INTRRATE_F
@@ -346,7 +346,7 @@
 	</select>
 	
 	<!-- 임대료 테이블 등록(일반고지일 경우 가상데이터를 위한 쿼리 -->
-	<insert id="gamHtldRentMngtMainDao.insertHtldRntfee_S" parameterClass="GamHtldRentRntfeeVO">
+	<insert id="gamHtldRentMngtMainDao.insertHtldRntfee_S" parameterClass="gamHtldRentRntfeeVO">
 		INSERT INTO HTLD_RNTFEE_F (
 			MNG_YEAR
 			,MNG_NO
@@ -387,7 +387,7 @@
 	</insert>
 	
 	<!-- 임대료 수정(메인화면에서 임대료등을 고치면 자동계산후 갱신) -->
-	<update id="gamHtldRentMngtMainDao.updateHtldRntfee_S" parameterClass="GamHtldRentRntfeeVO">
+	<update id="gamHtldRentMngtMainDao.updateHtldRntfee_S" parameterClass="gamHtldRentRntfeeVO">
 		UPDATE HTLD_RNTFEE_F
 		SET
 			RNTFEE = TO_NUMBER(#rntfee#)
@@ -406,7 +406,7 @@
 	</update>
 	
 		<!-- 배후단지 임대료 순번 생성 -->
-	<select id="gamHtldRentMngtMainDao.selectNextRntfeeSeq_S" parameterClass="GamHtldRentRntfeeVO" resultClass="java.lang.String">
+	<select id="gamHtldRentMngtMainDao.selectNextRntfeeSeq_S" parameterClass="gamHtldRentRntfeeVO" resultClass="java.lang.String">
    		SELECT
    		  	LPAD(NVL(MAX(RNTFEE_SEQ),0) + 1,'3','0')
    		FROM

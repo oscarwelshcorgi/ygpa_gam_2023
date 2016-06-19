@@ -5,9 +5,9 @@
 
 	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
-    <typeAlias alias="GamPopupHtldRntfeeBizAssessVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamPopupHtldRntfeeBizAssessVO"/>
+    <typeAlias alias="gamPopupHtldRntfeeBizAssessVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamPopupHtldRntfeeBizAssessVO"/>
     
-    <select id="gamPopupHtldRntfeeBizAssessDao.selectHtldRntfeeBizAssessDetail_S" parameterClass="GamPopupHtldRntfeeBizAssessVO" resultClass="egovMap">
+    <select id="gamPopupHtldRntfeeBizAssessDao.selectHtldRntfeeBizAssessDetail_S" parameterClass="gamPopupHtldRntfeeBizAssessVO" resultClass="egovMap">
 		SELECT
 			F.MNG_YEAR MNG_YEAR
 			,F.MNG_NO MNG_NO
@@ -43,7 +43,7 @@
     </select>
     
 	<!-- 실적평가정산 수정 -->
-	<update id="gamPopupHtldRntfeeBizAssessDao.updateRntfeeBizAssess_S" parameterClass="GamPopupHtldRntfeeBizAssessVO">
+	<update id="gamPopupHtldRntfeeBizAssessDao.updateRntfeeBizAssess_S" parameterClass="gamPopupHtldRntfeeBizAssessVO">
 		UPDATE HTLD_RNTFEE_F
 		SET
 			APPLC_BEGIN_DT = TO_DATE(#applcBeginDt#, 'YYYY-MM-DD')
@@ -61,7 +61,7 @@
 	</update>
 	
 	<!-- 실적평가정산 삭제 -->
-	<delete id="gamPopupHtldRntfeeBizAssessDao.deleteRntfeeBizAssess_S" parameterClass="GamPopupHtldRntfeeBizAssessVO">
+	<delete id="gamPopupHtldRntfeeBizAssessDao.deleteRntfeeBizAssess_S" parameterClass="gamPopupHtldRntfeeBizAssessVO">
 		DELETE FROM HTLD_RNTFEE_F
 		WHERE
 			MNG_YEAR = #mngYear#

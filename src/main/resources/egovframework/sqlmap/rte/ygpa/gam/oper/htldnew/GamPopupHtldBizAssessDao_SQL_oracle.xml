@@ -5,11 +5,11 @@
 
 	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
-    <typeAlias alias="GamPopupHtldBizAssessVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamPopupHtldBizAssessVO"/>
-    <typeAlias alias="GamPopupHtldRntfeeBizAssessVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamPopupHtldRntfeeBizAssessVO"/>
+    <typeAlias alias="gamPopupHtldBizAssessVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamPopupHtldBizAssessVO"/>
+    <typeAlias alias="gamPopupHtldRntfeeBizAssessVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamPopupHtldRntfeeBizAssessVO"/>
 	
 	<!-- 실적평가를 등록할 해당 계약상세 조회 -->	
-	<select id="gamPopupHtldBizAssessDao.selectHtldRentBizAssessDetail_S" parameterClass="GamPopupHtldBizAssessVO" resultClass="egovMap">
+	<select id="gamPopupHtldBizAssessDao.selectHtldRentBizAssessDetail_S" parameterClass="gamPopupHtldBizAssessVO" resultClass="egovMap">
 		SELECT
 		  D.MNG_YEAR
 		  ,D.MNG_NO
@@ -55,7 +55,7 @@
 	</select>
 	
 	<!-- 실적평가 등록 (임대상세내역) -->
-	<update id="gamPopupHtldBizAssessDao.updateBizAssess_S" parameterClass="GamPopupHtldBizAssessVO">
+	<update id="gamPopupHtldBizAssessDao.updateBizAssess_S" parameterClass="gamPopupHtldBizAssessVO">
 		UPDATE HTLD_RENT_DETAIL_F
 		SET
 			ASE_RNTFEE = TO_NUMBER(#aseRntfee#)
@@ -72,7 +72,7 @@
 	</update>
 	
 	<!-- 배후단지 임대료 순번 생성 -->
-	<select id="gamPopupHtldBizAssessDao.selectNextRntfeeSeq_S" parameterClass="GamPopupHtldBizAssessVO" resultClass="java.lang.String">
+	<select id="gamPopupHtldBizAssessDao.selectNextRntfeeSeq_S" parameterClass="gamPopupHtldBizAssessVO" resultClass="java.lang.String">
    		SELECT
    		  	LPAD(NVL(MAX(RNTFEE_SEQ),0) + 1,'3','0')
    		FROM
@@ -84,7 +84,7 @@
 	</select>
 	
 	<!-- 실적평가 등록(임대료) -->
-	<insert  id="gamPopupHtldBizAssessDao.insertRntfeeBizAssess_S" parameterClass="GamPopupHtldRntfeeBizAssessVO">
+	<insert  id="gamPopupHtldBizAssessDao.insertRntfeeBizAssess_S" parameterClass="gamPopupHtldRntfeeBizAssessVO">
 		INSERT INTO HTLD_RNTFEE_F (
 			MNG_YEAR
 			,MNG_NO
@@ -132,7 +132,7 @@
 	</insert>
 	
 	<!-- 실적평가 삭제(임대료) -->
-	<delete  id="gamPopupHtldBizAssessDao.deleteRntfeeBizAssess_S" parameterClass="GamPopupHtldRntfeeBizAssessVO">
+	<delete  id="gamPopupHtldBizAssessDao.deleteRntfeeBizAssess_S" parameterClass="gamPopupHtldRntfeeBizAssessVO">
 		 DELETE FROM HTLD_RNTFEE_F 
 		 WHERE
 		 	MNG_YEAR = #mngYear#
