@@ -395,14 +395,12 @@ GamHtldRentMngtMainModule.prototype.execNticIssue = function() {
 		var gridRow = gridList[i];
 		if((gridRow.mngYear == row.mngYear) && (gridRow.mngNo == row.mngNo) && (gridRow.mngSeq == row.mngSeq) && (gridRow.rntfeeSe != '9')) {
 			if(gridRow._updtId == 'I') {
-				if(gridRow.rntfeeSe == '0') { //일반고지일 경우
-					if(gridRow.detailPdBegin > gridRow.nticBeginDt) {
-						gridRow.nticBeginDt = gridRow.detailPdBegin;
-					} 
-					if(gridRow.detailPdEnd < gridRow.nticEndDt) {
-						gridRow.nticEndDt = gridRow.detailPdEnd;
-					} 
-				}
+				if(gridRow.detailPdBegin > gridRow.nticBeginDt) {
+					gridRow.nticBeginDt = gridRow.detailPdBegin;
+				} 
+				if(gridRow.detailPdEnd < gridRow.nticEndDt) {
+					gridRow.nticEndDt = gridRow.detailPdEnd;
+				} 
 				feeInsertList[feeInsertList.length] = gridRow;	
 			} else {
 				feeUpdateList[feeUpdateList.length] = gridRow;
