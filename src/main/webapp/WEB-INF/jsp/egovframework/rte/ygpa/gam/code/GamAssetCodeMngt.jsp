@@ -985,11 +985,11 @@ var module_instance = new GamAssetCodeModule();
 						</td>
 						<th><span class="label">위치구분</span></th>
 						<td>
-							<input id="gisAssetsLocCd" type="text" class="ygpaFilterCode changeAssetPk" data-url="/cmmn/selectLocCdOptionsList.do" data-filter="gisAssetsPrtAtCode" data-required="true"/>
+							<input id="gisAssetsLocCd" type="text" class="ygpaFilterCode changeAssetPk" data-url="/cmmn/selectLocCdOptionsList.do" data-filter="gisAssetsPrtAtCode" data-required="true" data-default-prompt="선택"/>
 						</td>
 						<th><span class="label">부두구분</span></th>
 						<td>
-							<input id="gisAssetsQuayCd" type="text" class="ygpaFilterCode changeAssetPk" data-url="/cmmn/selectQuayCdOptionsList.do" data-filter="gisAssetsLocCd" data-required="true"/>
+							<input id="gisAssetsQuayCd" type="text" class="ygpaFilterCode changeAssetPk" data-url="/cmmn/selectQuayCdOptionsList.do" data-filter="gisAssetsLocCd" data-required="true" data-default-prompt="선택"/>
 						</td>
 					</tr>
 					<tr>
