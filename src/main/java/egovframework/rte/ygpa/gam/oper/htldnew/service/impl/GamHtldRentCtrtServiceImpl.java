@@ -16,6 +16,7 @@ import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentCtrtDetailVO;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentCtrtService;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentCtrtVO;
+import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentMngDefaultVO;
 
 /**
  * 
@@ -184,5 +185,22 @@ public class GamHtldRentCtrtServiceImpl extends AbstractServiceImpl implements G
 		}
 	}
 	
-
+	/**
+	 * 계약삭제
+	 * @param vo
+	 * @throws Exception
+	 */
+	public void deleteHtldCtrt(GamHtldRentMngDefaultVO vo) throws Exception {
+		int nticCnt = gamHtldRentCtrtDao.selectHtldRentCtrtNticCnt(vo);
+		
+		if(nticCnt > 0) {
+			throw processException("fail.rent.delete.notice");
+		}
+		
+		gamHtldRentCtrtDao.deleteHtldRntfee(vo);
+		gamHtldRentCtrtDao.deleteHtldRentDetailHist(vo);
+		gamHtldRentCtrtDao.deleteHtldRentDetail(vo);
+		gamHtldRentCtrtDao.deleteHtldRentHist(vo);
+		gamHtldRentCtrtDao.deleteHtldRent(vo);
+	}
 }

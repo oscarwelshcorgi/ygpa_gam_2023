@@ -31,6 +31,7 @@ import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentCtrtDetailVO;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentCtrtService;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentCtrtVO;
+import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentMngDefaultVO;
 
 /**
  * 
@@ -231,6 +232,36 @@ public class GamHtldRentCtrtController {
     	} catch(Exception e) {
 	        map.put("resultCode", 1);
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.termnate"));    		
+    	}
+    	
+    	return map;
+	}
+
+	/**
+     * 배후단지 임대계약 해지
+     * @param Map
+     * @return Map
+     * @throws Exception
+     */
+	@RequestMapping(value="/oper/htldnew/deleteHtldCtrt.do")
+	public @ResponseBody Map<String, Object> deleteHtldCtrt(GamHtldRentMngDefaultVO vo) throws Exception {
+		Map<String,Object> map = new HashMap<String,Object>();
+				
+		//사용자 인증 처리
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}    	
+    	
+    	try {
+    		gamHtldRentCtrtService.deleteHtldCtrt(vo);
+	        map.put("resultCode", 0);
+    		map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));    		
+    	} catch(Exception e) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", e.getMessage());    		
     	}
     	
     	return map;

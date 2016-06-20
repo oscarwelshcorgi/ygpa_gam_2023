@@ -5,6 +5,7 @@
 	
 	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
+	<typeAlias alias="gamHtldRentMngDefaultVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentMngDefaultVO"/>
 	<typeAlias alias="gamHtldRentCtrtVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentCtrtVO"/>
 	<typeAlias alias="gamHtldRentCtrtDetailVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentCtrtDetailVO"/>
 	
@@ -247,4 +248,42 @@
 		  AND REGIST_SEQ = #registSeq#
 	</delete>
 	
+	
+	<!-- 계약삭제를 위한 고지횟수 조회 -->
+	<select id="gamHtldRentCtrtDao.selectHtldRentCtrtNticCnt_S" parameterClass="gamHtldRentMngDefaultVO" resultClass="int">
+		SELECT COUNT(*) TOT_CNT
+		FROM HTLD_NTIC_DTLS_F
+		WHERE MNG_YEAR = #mngYear# AND MNG_NO = #mngNo# AND MNG_SEQ = #mngSeq#	
+	</select>
+	
+	<!-- 계약의 임대료 테이블 삭제 -->
+	<delete id="gamHtldRentCtrtDao.deleteHtldRntfee_D" parameterClass="gamHtldRentMngDefaultVO">
+		DELETE FROM HTLD_RNTFEE_F
+		WHERE MNG_YEAR = #mngYear# AND MNG_NO = #mngNo# AND MNG_SEQ = #mngSeq#	
+	</delete>
+
+	<!-- 계약상세이력 테이블 삭제 -->
+	<delete id="gamHtldRentCtrtDao.deleteHtldRentDetailHist_D" parameterClass="gamHtldRentMngDefaultVO">
+		DELETE FROM HTLD_RENT_DETAIL_HIST_F
+		WHERE MNG_YEAR = #mngYear# AND MNG_NO = #mngNo# AND MNG_SEQ = #mngSeq#	
+	</delete>
+
+	<!-- 계약상세 테이블 삭제 -->
+	<delete id="gamHtldRentCtrtDao.deleteHtldRentDetail_D" parameterClass="gamHtldRentMngDefaultVO">
+		DELETE FROM HTLD_RENT_DETAIL_F
+		WHERE MNG_YEAR = #mngYear# AND MNG_NO = #mngNo# AND MNG_SEQ = #mngSeq#	
+	</delete>
+
+	<!-- 계약이력 테이블 삭제 -->
+	<delete id="gamHtldRentCtrtDao.deleteHtldRentHist_D" parameterClass="gamHtldRentMngDefaultVO">
+		DELETE FROM HTLD_RENT_HIST_F
+		WHERE MNG_YEAR = #mngYear# AND MNG_NO = #mngNo# AND MNG_SEQ = #mngSeq#	
+	</delete>
+
+	<!-- 계약 테이블 삭제 -->
+	<delete id="gamHtldRentCtrtDao.deleteHtldRent_S" parameterClass="gamHtldRentMngDefaultVO">
+		DELETE FROM HTLD_RENT_F
+		WHERE MNG_YEAR = #mngYear# AND MNG_NO = #mngNo# AND MNG_SEQ = #mngSeq#	
+	</delete>
+
 </sqlMap>

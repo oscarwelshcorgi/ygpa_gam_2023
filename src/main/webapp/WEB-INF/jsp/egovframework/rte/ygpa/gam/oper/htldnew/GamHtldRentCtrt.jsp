@@ -159,6 +159,8 @@ GamHtldRentCtrtModule.prototype.onButtonClick = function(buttonId) {
 		break;
 	case 'btnCtrtSave': //저장
 		this.saveData();
+	case 'btnCtrtDelete': //삭제
+		this.deleteData();
 		break;
 	case 'btnCancel': //취소
 		this.closeWindow();
@@ -241,10 +243,12 @@ GamHtldRentCtrtModule.prototype.setButtons = function() {
 		this.$('#btnEntrpsInfoPopup').enable();
 		this.$('#btnEntrpsInfoPopupl').removeClass('ui-state-disabled');
 		this.$('#btnCtrtTerm').hide();
+		this.$('#btnCtrtDelete').hide();
 	} else {
 		this.$('#btnEntrpsInfoPopup').disable({disableClass:"ui-state-disabled"});
 		if(this.$('#termnYn').val() == 'N')  {
 			this.$('#btnCtrtTerm').show();
+			this.$('#btnCtrtDelete').show();
 			this.$('#btnAddCtrtDetail').enable();
 			this.$('#btnAddCtrtDetail').removeClass('ui-state-disabled');
 			this.$('#btnRemoveCtrtDetail').enable();
@@ -423,6 +427,18 @@ GamHtldRentCtrtModule.prototype.saveData = function() {
 	});
 };
 
+GamHtldRentCtrtModule.prototype.deleteData = function() {
+	if(!confirm("삭제하시겠습니까?")) return;
+	var params = this.makeFormArgs('#gamHtldRentCtrtForm');
+	this.doAction('/oper/htldnew/deleteHtldCtrt.do', params, function(module, result) {
+		alert(result.resultMsg);
+		if(result.resultCode == 0) {
+			module._parent.loadData();
+			module.closeWindow();
+		}
+	});
+};
+
 <%--
 	getRentArChangedRows - 임대 면적이 변한 데이터 가져오기
 --%>
@@ -552,7 +568,8 @@ var module_instance = new GamHtldRentCtrtModule();
 				<tr>
 					<td style="text-align:right">
 						<button id="btnCtrtTerm">계약해지</button>
-						<button id="btnCtrtSave" class="buttonSave">저장</button>
+						<button id="btnCtrtSave" class="buttonSave">계약저장</button>
+						<button id="btnCtrtDelete" class="buttonDelete">계약삭제</button>
 						<button id="btnCancel" class="buttonCancel">취소</button>
 					</td>
 				</tr>

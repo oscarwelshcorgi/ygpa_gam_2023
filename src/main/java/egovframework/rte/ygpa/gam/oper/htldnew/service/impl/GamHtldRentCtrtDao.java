@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentCtrtDetailVO;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentCtrtVO;
+import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentMngDefaultVO;
 
 /**
  * 
@@ -129,6 +130,66 @@ public class GamHtldRentCtrtDao extends YGPAAbstractDAO {
 	 */
 	public void deleteHtldRentCtrtDetail(GamHtldRentCtrtDetailVO vo) throws Exception {
 		delete("gamHtldRentCtrtDao.deleteHtldRentCtrtDetail_S", vo);
+	}
+
+	/**
+	 * 계약삭제를 위한 고지횟수 조회
+	 * @param 관리번호
+	 * @return 고지횟수
+	 * @exception Exception
+	 */
+	public int selectHtldRentCtrtNticCnt(GamHtldRentMngDefaultVO searchVO) throws Exception {
+		return (Integer) getSqlMapClientTemplate().queryForObject("gamHtldRentCtrtDao.selectHtldRentCtrtNticCnt_S", searchVO);
+	}
+
+	/**
+	 * 계약의 임대료 테이블 삭제
+	 * @param 관리번호
+	 * @return 
+	 * @exception Exception
+	 */
+	public void deleteHtldRntfee(GamHtldRentMngDefaultVO vo) throws Exception {
+		delete("gamHtldRentCtrtDao.deleteHtldRntfee_D", vo);
+	}
+
+	/**
+	 * 계약상세이력 테이블 삭제
+	 * @param 관리번호
+	 * @return 
+	 * @exception Exception
+	 */
+	public void deleteHtldRentDetailHist(GamHtldRentMngDefaultVO vo) throws Exception {
+		delete("gamHtldRentCtrtDao.deleteHtldRentDetailHist_D", vo);
+	}
+
+	/**
+	 * 계약상세 테이블 삭제
+	 * @param 관리번호
+	 * @return 
+	 * @exception Exception
+	 */
+	public void deleteHtldRentDetail(GamHtldRentMngDefaultVO vo) throws Exception {
+		delete("gamHtldRentCtrtDao.deleteHtldRentDetail_D", vo);
+	}
+
+	/**
+	 * 계약이력 테이블 삭제
+	 * @param 관리번호
+	 * @return 
+	 * @exception Exception
+	 */
+	public void deleteHtldRentHist(GamHtldRentMngDefaultVO vo) throws Exception {
+		delete("gamHtldRentCtrtDao.deleteHtldRentHist_D", vo);
+	}
+	
+	/**
+	 * 계약 테이블 삭제
+	 * @param 관리번호
+	 * @return 
+	 * @exception Exception
+	 */
+	public void deleteHtldRent(GamHtldRentMngDefaultVO vo) throws Exception {
+		delete("gamHtldRentCtrtDao.deleteHtldRent_S", vo);
 	}
 
 }

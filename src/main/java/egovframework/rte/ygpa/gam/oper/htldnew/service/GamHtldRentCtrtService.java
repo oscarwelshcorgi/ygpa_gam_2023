@@ -63,4 +63,12 @@ public interface GamHtldRentCtrtService {
 	 * @exception Exception
 	 */	
 	void terminateHtldRentCtrt(GamHtldRentCtrtVO terminateRentData, String updUsr) throws Exception;
+	
+	/**
+	 * 계약삭제
+	 * @param vo
+	 * @throws Exception
+	 */
+	void deleteHtldCtrt(GamHtldRentMngDefaultVO vo) throws Exception;
+
 }
