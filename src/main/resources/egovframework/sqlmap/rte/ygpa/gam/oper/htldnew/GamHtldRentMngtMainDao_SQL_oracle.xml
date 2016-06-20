@@ -317,6 +317,18 @@
 				)
 			) L
 		WHERE 1=1
+			<isNotEmpty property="histDt" prepend="AND">
+				<![CDATA[
+				TO_DATE(L.DETAIL_PD_BEGIN) <= TO_DATE(#histDt#, 'YYYY-MM-DD')
+				AND TO_DATE(L.DETAIL_PD_END) >= TO_DATE(#histDt#, 'YYYY-MM-DD')
+				]]>
+			</isNotEmpty>
+			<isEmpty property="histDt" prepend="AND">
+				<![CDATA[
+					TO_DATE(L.DETAIL_PD_BEGIN) <= TO_DATE(TO_CHAR(SYSDATE, 'YYYY-MM-DD'), 'YYYY-MM-DD')
+					AND TO_DATE(L.DETAIL_PD_END) >= TO_DATE(TO_CHAR(SYSDATE, 'YYYY-MM-DD'), 'YYYY-MM-DD')
+				]]>
+			</isEmpty>
 			<isNotEmpty property="paySe" prepend="AND">
 				L.PAY_SE = #paySe#
 			</isNotEmpty>

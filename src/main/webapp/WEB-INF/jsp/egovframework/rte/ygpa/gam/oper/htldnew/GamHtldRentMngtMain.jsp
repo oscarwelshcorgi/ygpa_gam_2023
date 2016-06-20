@@ -200,26 +200,29 @@ GamHtldRentMngtMainModule.prototype.onMainGrildCellEdited = function (row, rid, 
 		row.payinstIntr = row.oldPayinstIntr;
 		row.supAmt = row.oldSupAmt;
 		row.vat = row.oldVat;
-		row.payAmt = row.oldPayAmt;	
+		row.payAmt = row.oldPayAmt;
+		row.rm = row.oldRm;
 		this.$('#mainGrid').flexUpdateRow(rid, row);
 		return;
 	} 
+	
 	if(row.rntfeeSe == '9') {
 		alert('소계는 수정할 수 없습니다.');
 		row.rntfee = row.oldRntfee;
 		row.payinstIntr = row.oldPayinstIntr;
 		row.supAmt = row.oldSupAmt;
 		row.vat = row.oldVat;
-		row.payAmt = row.oldPayAmt;	
+		row.payAmt = row.oldPayAmt;
+		row.rm = row.oldRm;
 		this.$('#mainGrid').flexUpdateRow(rid, row);
 		return;
 	}
-	if((row.mngGroupCount > 1) && ((cid == 'supAmt') || (cid == 'vat') || (cid == 'payAmt') || (cid == 'rm'))) {
-		alert('소계가 있는 항목의 공급가액, 부가세, 납부금액, 비고는 입력을 할 수 없습니다.');
+	
+	if((row.mngGroupCount > 1) && ((cid == 'supAmt') || (cid == 'vat') || (cid == 'payAmt'))) {
+		alert('소계가 있는 항목의 공급가액, 부가세, 납부금액은 입력을 할 수 없습니다.');
 		row.supAmt = row.oldSupAmt;
 		row.vat = row.oldVat;
 		row.payAmt = row.oldPayAmt;
-		row.rm = '';
 		this.$('#mainGrid').flexUpdateRow(rid, row);
 		return;
 	}
@@ -295,6 +298,7 @@ GamHtldRentMngtMainModule.prototype.initDataRow = function(row) {
 	row.oldSupAmt = row.supAmt;
 	row.oldVat = row.vat;
 	row.oldPayAmt = row.payAmt;
+	row.oldRm = (row.rm != void(0)) ? row.rm : '';
 	if(row.rntfeeSe == '0') { //일반임대료 데이터라면
 		if(row.rntfeeSeq == void(0)) { //임대료순번이 없을 경우.
 			row._updtId = 'I';
@@ -318,6 +322,7 @@ GamHtldRentMngtMainModule.prototype.initDataRow = function(row) {
 					row.status = (row.rcivSe == '1') ? '연체고지' : '고지';
 				} else  {
 					row.status = '연체';
+					row.arrrgYn = 'Y';
 				}
 			}
 		}
@@ -435,7 +440,7 @@ GamHtldRentMngtMainModule.prototype.execArrrgNticIssue = function() {
 	}
 	var row = rows[0];
 	
-	if(((row.rcivSe == '0') || (row.rcivSe == '1')) && (row.payTmlmtYn == 'Y')) {
+	if(row.arrrgYn != 'Y') {
 		alert('상태가 연체인 것만 연체고지를 할 수가 있습니다.');
 		return;		
 	} 

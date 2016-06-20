@@ -296,7 +296,7 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 			applcMonthFee = applcMonthFee.add(applcRntfee);
 			aseMonthFee = aseMonthFee.add(aseRntfee);
 		}
-
+		
 		LocalDate startDate = ("4".equals(paySe)) ? getQuarterStartDate(histDt) : new LocalDate(histDt.getYear(), 1, 1);
 		LocalDate endDate = ("4".equals(paySe)) ? getQuarterEndDate(histDt) : new LocalDate(histDt.getYear(), 12, 31);
 		
@@ -304,25 +304,25 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 		if(endDate.compareTo(detailPdEndDate) > 0) endDate = detailPdEndDate;
 		
 		BigDecimal resultFee = new BigDecimal(0);
-		
+			
 		if(aseRntfee.compareTo(new BigDecimal(0)) <= 0) {
 			resultFee = getTotalFee(startDate, endDate, applcMonthFee);
 		} else {
 			LocalDate aseApplcBeginDate = new LocalDate(dateFormat.parse(aseApplcBegin));
 			LocalDate aseApplcEndDate = new LocalDate(dateFormat.parse(aseApplcEnd));			
 			
-			if((aseApplcBeginDate.compareTo(startDate) <= 0) && (aseApplcEndDate.compareTo(endDate) >= 0)) {
-				resultFee = getTotalFee(startDate, endDate, aseMonthFee);
-			} else if ((aseApplcBeginDate.compareTo(startDate) > 0) && (aseApplcEndDate.compareTo(endDate) >= 0)) {
+			if((aseApplcBeginDate.compareTo(startDate) >= 0) && (aseApplcEndDate.compareTo(startDate) <= 0)) {
+				if(aseApplcEndDate.compareTo(endDate) <= 0) {
+					resultFee = getTotalFee(startDate, endDate, aseMonthFee);
+				} else {
+					resultFee = getTotalFee(startDate, aseApplcEndDate, aseMonthFee);
+					resultFee = resultFee.add(getTotalFee(aseApplcEndDate.plusDays(1), endDate, applcMonthFee));
+				}
+			} else if (((aseApplcBeginDate.compareTo(endDate) >= 0) && (aseApplcEndDate.compareTo(endDate) <= 0))) {
 				resultFee = getTotalFee(startDate, aseApplcBeginDate.minusDays(1), applcMonthFee);
 				resultFee = resultFee.add(getTotalFee(aseApplcBeginDate, endDate, aseMonthFee));
-			} else if ((aseApplcBeginDate.compareTo(startDate) <= 0) && (aseApplcEndDate.compareTo(endDate) < 0)) {
-				resultFee = getTotalFee(startDate, aseApplcEndDate, aseMonthFee);
-				resultFee = resultFee.add(getTotalFee(aseApplcEndDate.plusDays(1), endDate, applcMonthFee));
-			} else if ((aseApplcBeginDate.compareTo(startDate) > 0) && (aseApplcEndDate.compareTo(endDate) < 0)) {
-				resultFee = getTotalFee(startDate, aseApplcBeginDate.minusDays(1), applcMonthFee);
-				resultFee = resultFee.add(getTotalFee(aseApplcBeginDate, aseApplcEndDate, aseMonthFee));
-				resultFee = resultFee.add(getTotalFee(aseApplcEndDate.plusDays(1), endDate, applcMonthFee));
+			} else {
+				resultFee = getTotalFee(startDate, endDate, applcMonthFee);
 			}
 		}
 
