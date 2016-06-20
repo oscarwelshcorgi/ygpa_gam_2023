@@ -919,9 +919,9 @@ div.notice {
 		      					&nbsp; (외 <c:out value="${lnmCnt}"/>건)
 		      				</c:if>
 		      			</p>
-		      			<p>공급가액 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${master.supplyAmnt}" /> 원 (임대료<c:if test="${master.intrAmnt>0}">&nbsp;+&nbsp;분납이자</c:if><c:if test="${master.addAmnt>0}">&nbsp;+&nbsp;추가금액</c:if>)</p>
+		      			<p>공급가액 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${master.supAmt}" /> 원</p>
 		      			<p>부가세(매출과세(일반)) : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${master.vat}" /> 원</p>
-		      			<p>합계 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${master.nticAmt}" /> 원</p>
+		      			<p>합계 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${master.payAmt}" /> 원</p>
 		      			<br>
 	      			<h2>산출근거</h2>
 		      			<p>사용기간 : <c:out value="${master.nticPdFrom}"/> ~ <c:out value="${master.nticPdTo}"/></p>

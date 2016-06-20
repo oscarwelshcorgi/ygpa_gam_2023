@@ -311,14 +311,14 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 			LocalDate aseApplcBeginDate = new LocalDate(dateFormat.parse(aseApplcBegin));
 			LocalDate aseApplcEndDate = new LocalDate(dateFormat.parse(aseApplcEnd));			
 			
-			if((aseApplcBeginDate.compareTo(startDate) >= 0) && (aseApplcEndDate.compareTo(startDate) <= 0)) {
-				if(aseApplcEndDate.compareTo(endDate) <= 0) {
+			if((aseApplcBeginDate.compareTo(startDate) <= 0) && (aseApplcEndDate.compareTo(startDate) >= 0)) {
+				if(aseApplcEndDate.compareTo(endDate) >= 0) {
 					resultFee = getTotalFee(startDate, endDate, aseMonthFee);
 				} else {
 					resultFee = getTotalFee(startDate, aseApplcEndDate, aseMonthFee);
 					resultFee = resultFee.add(getTotalFee(aseApplcEndDate.plusDays(1), endDate, applcMonthFee));
 				}
-			} else if (((aseApplcBeginDate.compareTo(endDate) >= 0) && (aseApplcEndDate.compareTo(endDate) <= 0))) {
+			} else if (((aseApplcBeginDate.compareTo(endDate) <= 0) && (aseApplcEndDate.compareTo(endDate) >= 0))) {
 				resultFee = getTotalFee(startDate, aseApplcBeginDate.minusDays(1), applcMonthFee);
 				resultFee = resultFee.add(getTotalFee(aseApplcBeginDate, endDate, aseMonthFee));
 			} else {

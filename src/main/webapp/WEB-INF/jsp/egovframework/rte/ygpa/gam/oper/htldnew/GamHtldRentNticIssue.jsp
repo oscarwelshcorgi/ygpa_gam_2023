@@ -27,7 +27,7 @@ function GamHtldRentNticIssueModule() {}
 <%--
 	EmdModule을 상속하여 모듈 클래스를 정의한다.
 --%>
-GamHtldRentNticIssueModule.prototype = new EmdModule(750, 380);
+GamHtldRentNticIssueModule.prototype = new EmdModule(800, 400);
 
 <%--///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	EmdModule Override 및 이벤트 처리 정의 부분 시작	
@@ -45,14 +45,14 @@ GamHtldRentNticIssueModule.prototype.loadComplete = function(params) {
         colModel : [
 					{display:'선택<div id="'+this.getId('title_chkRole')+'" style="padding-right:3px"></div>',name:'chkRole', width:40, sortable:false, align:'center', displayFormat: 'checkbox', skipxls: true},
                     {display:'고지항목', name:'nticItemNm',width:170, sortable:false,align:'center'},
-                    {display:'임대면적(㎡)', name:'rentArStr',width:135, sortable:false,align:'right'},
+                    {display:'임대면적(㎡)', name:'rentArStr',width:155, sortable:false,align:'right'},
                     {display:'적용단가', name:'applcRntfeeStr',width:130, sortable:false,align:'right'},
                     {display:'구분', name:'paySeNm',width:45, sortable:false,align:'center'},
     				{display:'임대료', name:'rntfee',width:110, sortable:false,align:'right', displayFormat: 'number'},
     				{display:'분납이자', name:'payinstIntr',width:90, sortable:false,align:'right', displayFormat: 'number'},
                     ],
         showTableToggleBtn: false,
-        height: '140',
+        height: '160',
 		preProcess: function(module, data) {
 			module.makeFormValues('#gamHtldRentNticIssueForm', data.resultMaster);
 			module.$('#intrrate').val(module.intrrate);
@@ -129,13 +129,21 @@ GamHtldRentNticIssueModule.prototype.initDataRow = function(row) {
 				row.rentArStr = row.rentArSeNm;
 			}
 		}
-		if((this.$('#histDt').val() >= row.aseApplcBegin) && (this.$('#histDt').val() <= row.aseApplcEnd)) {
+		if((this.$('#nticDt').val() >= row.aseApplcBegin) && (this.$('#nticDt').val() <= row.aseApplcEnd)) {
 			row.applcRntfeeStr = row.aseRntfeeStr + '(실적)';
+		}
+		if(row.priceSe == '2') {
+			row.applcRntfeeStr += '원/월';
 		}
 	} else {
 		row.nticItemNm = row.rntfeeSeNm;
-		row.rentArStr = '';
-		row.applcRntfeeStr = '';
+		if((row.rntfeeSe == '1') || (row.rntfeeSe == '2')) {
+			row.rentArStr = row.applcBeginDt + '~' + row.applcEndDt;
+			row.applcRntfeeStr = row.appRntfee;
+		} else {
+			row.rentArStr = '';
+			row.applcRntfeeStr = '';
+		}
 		row.payinstIntr = 0;
 	}
 	this.$('#nticBeginDt').val(row.nticBeginDt);
