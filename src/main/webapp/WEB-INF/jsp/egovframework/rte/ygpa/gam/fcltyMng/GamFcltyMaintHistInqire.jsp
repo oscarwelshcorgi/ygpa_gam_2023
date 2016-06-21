@@ -72,8 +72,6 @@ GamFcltyMaintHistInqireModule.prototype.loadComplete = function() {
 			return data;
 		}
 	});
-
- 	
  	
  	this.$("#fcltyMaintHistInqireList").on("onItemDoubleClick", function(event, module, row, grid, param) {
 		module.$("#fcltyMaintHistInqireListTab").tabs("option", {active: 1});
