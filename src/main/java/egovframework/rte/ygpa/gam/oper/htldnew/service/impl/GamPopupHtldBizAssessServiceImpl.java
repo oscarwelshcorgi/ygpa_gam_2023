@@ -93,7 +93,7 @@ public class GamPopupHtldBizAssessServiceImpl extends AbstractServiceImpl implem
 				detailItem.setAseApplcBegin(vo.getAseApplcBegin());
 				detailItem.setAseApplcEnd(vo.getAseApplcEnd());
 				detailItem.setAseRntfee(vo.getAseRntfee());
-				detailItem.setApplcRsn(vo.getApplicRsn());
+				detailItem.setApplcRsn(vo.getApplcRsn());
 			}
 			gamHtldRentCtrtHistDao.insertHtldRentCtrtDetailHist(detailItem);
 		}

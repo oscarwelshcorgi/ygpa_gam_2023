@@ -61,7 +61,7 @@
 			ASE_RNTFEE = TO_NUMBER(#aseRntfee#)
 			,ASE_APPLC_BEGIN = TO_DATE(#aseApplcBegin#, 'YYYY-MM-DD')
 			,ASE_APPLC_END = TO_DATE(#aseApplcEnd#, 'YYYY-MM-DD')
-			,APPLC_RSN = #applicRsn#
+			,APPLC_RSN = #applcRsn#
 			,UPD_USR = #updUsr#
 			,UPDT_DT = SYSDATE
 		WHERE

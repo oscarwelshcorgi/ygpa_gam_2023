@@ -428,7 +428,7 @@ GamHtldRentMngtMainModule.prototype.execNticIssue = function() {
 		if(result.resultCode == 0) {
 			module.loadData();
 			EMD.util.create_window('gamHtldRentNticIssue', '배후단지 고지', '/oper/htldnew/gamHtldRentNticIssue.do', null, 
-					{'searchRow' : row, 'histDt' : module.$('#histDt').val(), 'intrrate' : module.$('#cofixIntrrate').val()}, module);
+					{'searchRow' : row, 'histDt' : module.$('#histDt').val(), 'intrRate' : module.$('#cofixIntrrate').val()}, module);
 		} else {
 			alert(result.resultMsg);
 		}

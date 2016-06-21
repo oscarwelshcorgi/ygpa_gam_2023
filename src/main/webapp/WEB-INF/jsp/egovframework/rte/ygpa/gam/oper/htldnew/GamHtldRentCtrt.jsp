@@ -159,6 +159,7 @@ GamHtldRentCtrtModule.prototype.onButtonClick = function(buttonId) {
 		break;
 	case 'btnCtrtSave': //저장
 		this.saveData();
+		break;
 	case 'btnCtrtDelete': //삭제
 		this.deleteData();
 		break;

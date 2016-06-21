@@ -34,7 +34,7 @@ public class GamPopupHtldBizAssessVO extends GamHtldRentMngDefaultVO{
 	private String aseRntfee;				/** 실적평가금액 */
 	private String aseApplcBegin; 		/** 실적평가적용시작일 */
 	private String aseApplcEnd; 			/** 실적평가적용시작일 */
-	private String applicRsn; 				/** 실적평가내용(적용사유) */
+	private String applcRsn; 				/** 실적평가내용(적용사유) */
 	private String updUsr;					/** 수정자 */
 	private String updtDt;					/** 수정일시 */
 	/**
@@ -146,16 +146,16 @@ public class GamPopupHtldBizAssessVO extends GamHtldRentMngDefaultVO{
 		this.aseApplcEnd = aseApplcEnd;
 	}
 	/**
-	 * @return the applicRsn
+	 * @return the applcRsn
 	 */
-	public String getApplicRsn() {
-		return applicRsn;
+	public String getApplcRsn() {
+		return applcRsn;
 	}
 	/**
-	 * @param applicRsn the applicRsn to set
+	 * @param applcRsn the applcRsn to set
 	 */
-	public void setApplicRsn(String applicRsn) {
-		this.applicRsn = applicRsn;
+	public void setApplcRsn(String applcRsn) {
+		this.applcRsn = applcRsn;
 	}
 	/**
 	 * @return the updUsr

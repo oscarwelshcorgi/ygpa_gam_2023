@@ -55,7 +55,6 @@ GamHtldRentNticIssueModule.prototype.loadComplete = function(params) {
         height: '160',
 		preProcess: function(module, data) {
 			module.makeFormValues('#gamHtldRentNticIssueForm', data.resultMaster);
-			module.$('#intrrate').val(module.intrrate);
 			$.each(data.resultList, function() {
 				module.initDataRow(this);
 	     	});
@@ -80,7 +79,7 @@ GamHtldRentNticIssueModule.prototype.loadComplete = function(params) {
 		this.$('#mngSeq').val(params.searchRow.mngSeq);
 		this.$('#histDt').val(params.histDt);
 		this._histDt = params.histDt;
-		this._intrrate = params.intrrate;
+		this._intrRate = params.intrRate;
 		this.loadData();
 	} else {
 		this.$('#btnNticIssue').disable({disableClass:"ui-state-disabled"}); 
@@ -218,11 +217,14 @@ GamHtldRentNticIssueModule.prototype.execNticIssue = function() {
 	if(!confirm("고지하시겠습니까?")) return;
 	if(!this.validateData()) return;
 	
+	if(this.$('#paySe').val() == '4') { 
+		this.$('#intrRate').val(this._intrRate);
+	}
+	
 	var nticData = {};
 	nticData['nticInfo'] 			= JSON.stringify(this.getFormValues('#gamHtldRentNticIssueForm'));
-	nticData['rntfeeList'] 		= JSON.stringify(this.$('#nticList').selectFilterData([{col: 'chkRole', filter: true}]));
-	
-	//alert(this.$('#intrrate').val());
+	nticData['rntfeeList'] 		= JSON.stringify(this.$('#nticList').selectFilterData([{col: 'chkRole', filter: true}]));	
+
 	this.$('#btnNticIssue').disable({disableClass:"ui-state-disabled"});
 	this.doAction('/oper/htldnew/execNticIssue.do', nticData, function(module, result) {
 		alert(result.resultMsg);
@@ -261,7 +263,7 @@ var module_instance = new GamHtldRentNticIssueModule();
 				<input type="hidden" id="paySe" />
 				<input type="hidden" id="rntfee" />
 				<input type="hidden" id="payinstIntr" />
-				<input type="hidden" id="intrrate" />
+				<input type="hidden" id="intrRate" />
 	        	<table class="editForm" style="width:100%">
 	        		<tr>
 						<th width="10%" height="18">고지대상기업</th>
