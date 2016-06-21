@@ -377,16 +377,12 @@
 						ON D.MNG_YEAR = F.MNG_YEAR AND D.MNG_NO = F.MNG_NO AND D.MNG_SEQ = F.MNG_SEQ AND (D.REGIST_SEQ = F.RENT_DETAIL_REGIST_SEQ) AND D.HIST_SEQ = N.HIST_SEQ
 						<isNotEmpty property="histDt" prepend="AND">
 							<![CDATA[
-								D.DETAIL_PD_BEGIN <= TO_DATE(GAM_GET_QUARTER_START_DATE(#histDt#), 'YYYY-MM-DD')
-								AND D.DETAIL_PD_END >= TO_DATE(GAM_GET_QUARTER_START_DATE(#histDt#), 'YYYY-MM-DD')
-								AND F.NTIC_END_DT < TO_DATE(GAM_GET_QUARTER_START_DATE(#histDt#), 'YYYY-MM-DD')
+								F.NTIC_END_DT < TO_DATE(GAM_GET_QUARTER_START_DATE(#histDt#), 'YYYY-MM-DD')
 							]]>
 						</isNotEmpty>
 						<isEmpty property="histDt" prepend="AND">
 							<![CDATA[
-								D.DETAIL_PD_BEGIN <= TRUNC(SYSDATE)
-								AND D.DETAIL_PD_END >= TRUNC(SYSDATE)
-								AND F.NTIC_END_DT < TO_DATE(GAM_GET_QUARTER_START_DATE(TO_CHAR(SYSDATE, 'YYYY-MM-DD')), 'YYYY-MM-DD')
+								F.NTIC_END_DT < TO_DATE(GAM_GET_QUARTER_START_DATE(TO_CHAR(SYSDATE, 'YYYY-MM-DD')), 'YYYY-MM-DD')
 							]]>
 						</isEmpty>
 					INNER JOIN
@@ -455,16 +451,12 @@
 			            ON N.MNG_YEAR = R.MNG_YEAR AND N.MNG_NO = R.MNG_NO AND N.MNG_SEQ = R.MNG_SEQ AND R.HIST_SEQ = N.HIST_SEQ
 						<isNotEmpty property="histDt" prepend="AND">
 							<![CDATA[
-							R.CTRT_BEGIN_DT <= TO_DATE(GAM_GET_QUARTER_START_DATE(#histDt#), 'YYYY-MM-DD')
-							AND R.CTRT_END_DT >= TO_DATE(GAM_GET_QUARTER_START_DATE(#histDt#), 'YYYY-MM-DD')
-			            	AND F.NTIC_END_DT < TO_DATE(GAM_GET_QUARTER_START_DATE(#histDt#), 'YYYY-MM-DD')
+			            	F.NTIC_END_DT < TO_DATE(GAM_GET_QUARTER_START_DATE(#histDt#), 'YYYY-MM-DD')
 							]]>
 						</isNotEmpty>
 						<isEmpty property="histDt" prepend="AND">
 							<![CDATA[
-							R.CTRT_BEGIN_DT <= TRUNC(SYSDATE)
-							AND R.CTRT_END_DT >= TRUNC(SYSDATE)
-			            	AND F.NTIC_END_DT < TO_DATE(GAM_GET_QUARTER_START_DATE(TO_CHAR(SYSDATE, 'YYYY-MM-DD')), 'YYYY-MM-DD')
+							F.NTIC_END_DT < TO_DATE(GAM_GET_QUARTER_START_DATE(TO_CHAR(SYSDATE, 'YYYY-MM-DD')), 'YYYY-MM-DD')
 							]]>
 						</isEmpty>
     			)
@@ -472,14 +464,14 @@
 		WHERE 1=1
 			<isNotEmpty property="histDt" prepend="AND">
 				<![CDATA[
-				TO_DATE(L.DETAIL_PD_BEGIN) <= TO_DATE(#histDt#, 'YYYY-MM-DD')
-				AND TO_DATE(L.DETAIL_PD_END) >= TO_DATE(#histDt#, 'YYYY-MM-DD')
+				TO_DATE(L.CTRT_BEGIN_DT) <= TO_DATE(#histDt#, 'YYYY-MM-DD')
+				AND TO_DATE(L.CTRT_END_DT) >= TO_DATE(#histDt#, 'YYYY-MM-DD')
 				]]>
 			</isNotEmpty>
 			<isEmpty property="histDt" prepend="AND">
 				<![CDATA[
-					TO_DATE(L.DETAIL_PD_BEGIN) <= TO_DATE(TO_CHAR(SYSDATE, 'YYYY-MM-DD'), 'YYYY-MM-DD')
-					AND TO_DATE(L.DETAIL_PD_END) >= TO_DATE(TO_CHAR(SYSDATE, 'YYYY-MM-DD'), 'YYYY-MM-DD')
+					TO_DATE(L.CTRT_BEGIN_DT) <= TO_DATE(TO_CHAR(SYSDATE, 'YYYY-MM-DD'), 'YYYY-MM-DD')
+					AND TO_DATE(L.CTRT_END_DT) >= TO_DATE(TO_CHAR(SYSDATE, 'YYYY-MM-DD'), 'YYYY-MM-DD')
 				]]>
 			</isEmpty>
 			<isNotEmpty property="paySe" prepend="AND">
