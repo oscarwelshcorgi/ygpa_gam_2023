@@ -250,12 +250,12 @@
 	<!-- HTLD_NTIC_DTLS_F에 고지자료 삽입 -->
 	<insert id="gamHtldRentNticIssueDao.insertHtldNticDtls_S" parameterClass="gamHtldRentNticInfoVO">
 		INSERT INTO HTLD_NTIC_DTLS_F (
-			RNTFEE_NTIC_NO, ACCNUT_YEAR, NTIC_SEQ, NTIC_NO, CHRGE_KND_CD, NTIC_DT, NTIC_AMT,
+			RNTFEE_NTIC_NO, ACCNUT_YEAR, NTIC_SEQ, NTIC_NO, CHRGE_KND_CD, NTIC_DT, SRC_NTIC_DT, NTIC_AMT,
 			RNTFEE, PAYINST_INTR, INTR_RATE, SUP_AMT, VAT, PAY_AMT, RM, 
 			RCIV_SE, NHT_PRT_YN, PAY_TMLMT, MNG_YEAR, MNG_NO, MNG_SEQ, HIST_SEQ, REG_USR, REGIST_DT,
 			NTIC_PD_FROM, NTIC_PD_TO, PAY_SE
 		) VALUES (
-			#rntfeeNticNo#, #accnutYear#, #nticSeq#, #nticNo#, #chrgeKndCd#, TO_DATE(#nticDt#, 'YYYY-MM-DD'), TO_NUMBER(#payAmt#),
+			#rntfeeNticNo#, #accnutYear#, #nticSeq#, #nticNo#, #chrgeKndCd#, TO_DATE(#nticDt#, 'YYYY-MM-DD'), TO_DATE(#nticDt#, 'YYYY-MM-DD'), TO_NUMBER(#payAmt#),
 			TO_NUMBER(#rntfee#), TO_NUMBER(#payinstIntr#), TO_NUMBER(#intrRate#) / 100, TO_NUMBER(#supAmt#), TO_NUMBER(#vat#), TO_NUMBER(#payAmt#), #rm#, 
 			#rcivSe#, 'N', TO_DATE(#payTmlmt#, 'YYYY-MM-DD'), #mngYear#, #mngNo#, #mngSeq#, #histSeq#, #regUsr#, SYSDATE,
 			#nticBeginDt#, #nticEndDt#, #paySe#

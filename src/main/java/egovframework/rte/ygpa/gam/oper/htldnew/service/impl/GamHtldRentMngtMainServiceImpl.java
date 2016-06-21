@@ -92,6 +92,9 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 			String mngYear = (item.get("mngYear") != null) ? (String)item.get("mngYear") : "";
 			String mngNo = (item.get("mngNo") != null) ? (String)item.get("mngNo") : "";
 			String mngSeq = (item.get("mngSeq") != null) ? (String)item.get("mngSeq") : "";
+			String accnutYear = (item.get("accnutYear") != null) ? (String)item.get("accnutYear") : "";
+			String rntfeeNticNo = (item.get("rntfeeNticNo") != null) ? (String)item.get("rntfeeNticNo") : "";
+			String nticSeq = (item.get("nticSeq") != null) ? (String)item.get("nticSeq") : "";
 			String priceSe = (item.get("priceSe") != null) ? (String)item.get("priceSe") : "";
 			String paySe = (item.get("paySe") != null) ? (String)item.get("paySe") : "";
 			BigDecimal applcRntfee = (item.get("applcRntfee") != null) ? (BigDecimal)item.get("applcRntfee") : new BigDecimal(0);
@@ -111,7 +114,7 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 			
 			BigDecimal rntFee = new BigDecimal(0),  payinstIntr = new BigDecimal(0), supAmt = new BigDecimal(0),  vat = new BigDecimal(0),  payAmt = new BigDecimal(0);
 			
-			int mngGroupCount = getMngGropListCount(feeList, mngYear, mngNo, mngSeq);
+			int mngGroupCount = getMngGropListCount(feeList, mngYear, mngNo, mngSeq, accnutYear, rntfeeNticNo, nticSeq);
 			groupCount++;
 			
 			item.put("mngGroupCount", new BigDecimal(mngGroupCount));
@@ -200,6 +203,12 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 				}
 			}
 
+			if(mngGroupCount > 1) {
+				item.put("supAmt", null);
+				item.put("vat", null);
+				item.put("payAmt", null);
+			}
+			
 			resultList.add(item);
 			
 			if((mngGroupCount > 1) && (groupCount == mngGroupCount)) {
@@ -255,13 +264,17 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 	 * @param mngSeq
 	 * @return
 	 */
-	protected int getMngGropListCount(List<EgovMap> list, String mngYear, String mngNo, String mngSeq) {
+	protected int getMngGropListCount(List<EgovMap> list, String mngYear, String mngNo, String mngSeq, String accnutYear, String rntfeeNticNo, String nticSeq) {
 		int count = 0;
 		for(EgovMap item : list) {
 			String year = (item.get("mngYear") != null) ? (String)item.get("mngYear") : "";
 			String no = (item.get("mngNo") != null) ? (String)item.get("mngNo") : "";
 			String seq = (item.get("mngSeq") != null) ? (String)item.get("mngSeq") : "";
-			if(year.equals(mngYear) && no.equals(mngNo) && seq.equals(mngSeq)) {
+			String aYear = (item.get("accnutYear") != null) ? (String)item.get("accnutYear") : "";
+			String nNo = (item.get("rntfeeNticNo") != null) ? (String)item.get("rntfeeNticNo") : "";
+			String nSeq = (item.get("nticSeq") != null) ? (String)item.get("nticSeq") : "";
+			if(year.equals(mngYear) && no.equals(mngNo) && seq.equals(mngSeq) 
+				&& aYear.equals(accnutYear) && nNo.equals(rntfeeNticNo) && nSeq.equals(nticSeq) ) {
 				count++;
 			}
 		}

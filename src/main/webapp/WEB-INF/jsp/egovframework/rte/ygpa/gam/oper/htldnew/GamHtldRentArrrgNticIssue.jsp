@@ -142,13 +142,21 @@ GamHtldRentArrrgNticIssueModule.prototype.initDataRow = function(row) {
 				row.rentArStr = row.rentArSeNm;
 			}
 		}
-		if((this.$('#histDt').val() >= row.aseApplcBegin) && (this.$('#histDt').val() <= row.aseApplcEnd)) {
+		if((row.srcNticDt >= row.aseApplcBegin) && (row.srcNticDt <= row.aseApplcEnd)) {
 			row.applcRntfeeStr = row.aseRntfeeStr + '(실적)';
 		}
+		if(row.priceSe == '2') {
+			row.applcRntfeeStr += '원/월';
+		}		
 	} else {
 		row.nticItemNm = row.rntfeeSeNm;
-		row.rentArStr = '';
-		row.applcRntfeeStr = '';
+		if((row.rntfeeSe == '1') || (row.rntfeeSe == '2')) {
+			row.rentArStr = row.applcBeginDt + '~' + row.applcEndDt;
+			row.applcRntfeeStr = row.appRntfee;
+		} else {
+			row.rentArStr = '';
+			row.applcRntfeeStr = '';
+		}
 		row.payinstIntr = 0;
 	}
 	this.$('#nticBeginDt').val(row.nticBeginDt);

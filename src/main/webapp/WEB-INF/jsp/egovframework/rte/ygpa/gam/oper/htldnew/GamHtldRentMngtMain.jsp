@@ -73,6 +73,11 @@ GamHtldRentMngtMainModule.prototype.loadComplete = function() {
     // 임대상세목록의 row선택
     this.$("#mainGrid").on('onItemSelected', function(event, module, row, grid, param) {
     	module._currentRow = row;
+    	if(row.arrrgYn == 'Y') {
+    		module.$('#btnArrrgNticIssue').show();
+    	} else {
+    		module.$('#btnArrrgNticIssue').hide();
+    	}
     });
 	
     // 해당셀에 더블클릭이 일어났을 때 
@@ -94,6 +99,8 @@ GamHtldRentMngtMainModule.prototype.loadComplete = function() {
 		module.loadData();
 	});
     
+	this.$('#btnArrrgNticIssue').hide();
+	
     this.loadData();
 };
 

@@ -42,7 +42,7 @@ GamHtldRentNticHistModule.prototype.loadComplete = function(params) {
         url: '/oper/htldnew/selectHtldRentNticHistList.do',
         dataType: 'json',
         colModel : [
-                    {display:'고지일자', name:'nticDt',width:80, sortable:false,align:'center'},
+                    {display:'고지일자', name:'srcNticDt',width:80, sortable:false,align:'center'},
                     {display:'고지대상기간', name:'nticPd',width:170, sortable:false,align:'center'},
                     {display:'요금종류', name:'chrgeKndNm',width:200, sortable:false,align:'center'},
                     {display:'납부구분', name:'paySeNm',width:70, sortable:false,align:'center'},

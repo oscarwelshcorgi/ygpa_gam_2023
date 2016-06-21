@@ -23,7 +23,8 @@
 	<!-- 업체별 고지 이력 목록 조회 -->
 	<select id="gamHtldRentNticHistDao.selectHtldRentNticHistList_D" parameterClass="gamHtldRentNticHistVO" resultClass="egovMap">
 		SELECT 
-		  TO_CHAR(N.NTIC_DT, 'YYYY-MM-DD') NTIC_DT
+		  TO_CHAR(N.SRC_NTIC_DT, 'YYYY-MM-DD') SRC_NTIC_DT
+		  ,TO_CHAR(N.NTIC_DT, 'YYYY-MM-DD') NTIC_DT
 		  ,TO_CHAR(N.NTIC_PD_FROM, 'YYYY-MM-DD') NTIC_PD_FROM
 		  ,TO_CHAR(N.NTIC_PD_TO, 'YYYY-MM-DD') NTIC_PD_TO
 		  ,N.CHRGE_KND_CD CHRGE_KND_CD
