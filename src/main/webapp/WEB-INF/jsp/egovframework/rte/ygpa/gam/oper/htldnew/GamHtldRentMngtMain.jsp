@@ -70,11 +70,18 @@ GamHtldRentMngtMainModule.prototype.loadComplete = function() {
 	   	}        
     });
     
-    // 임대상세목록의 선택한 셀의 위치를 알고 싶을 때 
-    this.$("#mainGrid").on('onSelectedRow', function(event, module, row, rid, cid) {
-    	module.onMainGridSelectedRow(row, rid, cid);
+    // 임대상세목록의 row선택
+    this.$("#mainGrid").on('onItemSelected', function(event, module, row, grid, param) {
+    	module._currentRow = row;
     });
 	
+    // 해당셀에 더블클릭이 일어났을 때 
+	this.$('#mainGrid')[0].dgrid.attachEvent('onRowDblClicked', function(rid, ind) {
+		var module = this.p.module;
+		var cid = this.getColumnId(ind);
+		module.onMainGridSelectedRowCell(module._currentRow, rid, cid);
+	});
+    
 	// 셀 편집이 이루어졌을 때
     this.$("#mainGrid").on('onCellEdited', function(event, module, row, rid, cid) {
     	module.onMainGrildCellEdited(row, rid, cid);
@@ -152,12 +159,12 @@ GamHtldRentMngtMainModule.prototype.closeChildWindow = function(module, message)
 };
 
 <%--
-	그리드의 해당 row를 선택할 때 호출 된다. EmdModule의 onSelectedRow에서 호출 함.
+	그리드의 row를 선택한 후 해당 cell을 더블클릭할 때 호출 된다. 
 		row : 선택 row
 		rid : 선택된 row id
 		cid : 선택된 cell id
 --%>
-GamHtldRentMngtMainModule.prototype.onMainGridSelectedRow = function(row, rid, cid) {
+GamHtldRentMngtMainModule.prototype.onMainGridSelectedRowCell = function(row, rid, cid) {
 	switch(cid) {
 	case 'detailPdStr':
 	case 'rentArStr':

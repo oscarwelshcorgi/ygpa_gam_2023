@@ -222,6 +222,7 @@ GamHtldRentNticIssueModule.prototype.execNticIssue = function() {
 	nticData['nticInfo'] 			= JSON.stringify(this.getFormValues('#gamHtldRentNticIssueForm'));
 	nticData['rntfeeList'] 		= JSON.stringify(this.$('#nticList').selectFilterData([{col: 'chkRole', filter: true}]));
 	
+	//alert(this.$('#intrrate').val());
 	this.$('#btnNticIssue').disable({disableClass:"ui-state-disabled"});
 	this.doAction('/oper/htldnew/execNticIssue.do', nticData, function(module, result) {
 		alert(result.resultMsg);
