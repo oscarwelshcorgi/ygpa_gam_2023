@@ -63,6 +63,7 @@ GamHtldRentMngtMainModule.prototype.loadComplete = function() {
         mergeRows: 'boundNm,entrpsNm,detailPdStr',
 		preProcess: function(module, data) {
 			module.$('#cofixIntrrate').val(data.cofixIntrrate);
+			module.$('#btnArrrgNticIssue').hide();
 			$.each(data.resultList, function() {
 				module.initDataRow(this);
 	     	});
@@ -99,8 +100,6 @@ GamHtldRentMngtMainModule.prototype.loadComplete = function() {
 		module.loadData();
 	});
     
-	this.$('#btnArrrgNticIssue').hide();
-	
     this.loadData();
 };
 
@@ -133,6 +132,9 @@ GamHtldRentMngtMainModule.prototype.onButtonClick = function(buttonId) {
 			break;
 		case 'btnAddNticIssue':  //추가고지
 			this.addNticIssue();
+			break;
+		case 'btnProcessNticIssue' : //수납처리
+			this.processNticIssue();
 			break;
 	}
 };
@@ -479,6 +481,29 @@ GamHtldRentMngtMainModule.prototype.showNticIssueHist = function() {
 };
 
 <%--
+	processNticIsssue - 수납처리
+--%>
+GamHtldRentMngtMainModule.prototype.processNticIssue = function() {
+	if(this._currentRow == void(0)) {
+		alert('이력 목록에서 데이터를 선택하세요.');
+		return;
+	}
+	
+	//지로 수납된 건인지 체크한다.
+	this.doAction('/oper/htldnew/selectCheckOcrResult.do', this._currentRow, function(module, result) {
+		if(result.resultCode == 0) {
+			if(result.ocrResult == 'Y') {
+				alert('지로 수납된 자료는 변경할 수 없습니다.');
+				return;
+			}
+			module.doExecuteDialog('rcivProcPopup', '수납 처리', '/popup/showHtldRcivProc.do', module._currentRow);
+		} else {
+			alert(result.resultMsg);
+		}
+	});	
+};
+
+<%--
 	다음 변수는 고정 적으로 정의 해야 함
 	module_instance는 고정 변수 GamHtldRentMngtMainModule은 위에서 EmdModule을 상속 받는 이 윈도우의 모듈 함수로 정의 됨.
 --%>
@@ -536,9 +561,10 @@ var module_instance = new GamHtldRentMngtMainModule();
                        <button id="btnAddRentContract">계약등록</button>
                        <button id="btnNticIssue">고지</button>
                        <button id="btnArrrgNticIssue">연체고지</button>
-                       <!--<button id="btnPrintNticIssue" >고지서출력</button>-->
-                       <button id="btnNticIssueHist" >고지이력</button>
+                       <button id="btnPrintNticIssue" >고지서출력</button>
                        <button id="btnAddNticIssue">추가고지</button>
+                       <button id="btnNticIssueHist" >고지이력</button>
+                       <button id="btnProcessNticIssue" >수납처리</button>
 					</td>
 				</tr>
 			</table>

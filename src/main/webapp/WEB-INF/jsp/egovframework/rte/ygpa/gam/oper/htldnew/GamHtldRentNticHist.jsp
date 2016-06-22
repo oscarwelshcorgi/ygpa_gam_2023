@@ -27,7 +27,7 @@ function GamHtldRentNticHistModule() {}
 <%--
 	EmdModule을 상속하여 모듈 클래스를 정의한다.
 --%>
-GamHtldRentNticHistModule.prototype = new EmdModule(1550, 620);
+GamHtldRentNticHistModule.prototype = new EmdModule(1550, 520);
 
 <%--///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	EmdModule Override 및 이벤트 처리 정의 부분 시작	
@@ -42,7 +42,8 @@ GamHtldRentNticHistModule.prototype.loadComplete = function(params) {
         url: '/oper/htldnew/selectHtldRentNticHistList.do',
         dataType: 'json',
         colModel : [
-                    {display:'고지일자', name:'srcNticDt',width:80, sortable:false,align:'center'},
+                    {display:'고지일자', name:'nticDt',width:80, sortable:false,align:'center'},
+                    {display:'고지구분', name:'nticSeNm',width:70, sortable:false,align:'center'},
                     {display:'고지대상기간', name:'nticPd',width:170, sortable:false,align:'center'},
                     {display:'요금종류', name:'chrgeKndNm',width:200, sortable:false,align:'center'},
                     {display:'납부구분', name:'paySeNm',width:70, sortable:false,align:'center'},
@@ -54,14 +55,15 @@ GamHtldRentNticHistModule.prototype.loadComplete = function(params) {
     				{display:'상태', name:'status',width:80, sortable:false,align:'center'},
     				{display:'출력', name:'nhtPrtYnNm',width:50, sortable:false,align:'center'},
     				{display:'납부일자', name:'rcivDt',width:80, sortable:false,align:'center'},
-    				{display:'비고', name:'rm',width:250, sortable:false,align:'left'},
+    				{display:'비고', name:'rm',width:220, sortable:false,align:'left'},
                     ],
         showTableToggleBtn: false,
-        height: '300',
+        height: '350',
 		preProcess: function(module, data) {
 			module.makeFormValues('#gamHtldRentNticHistListSearchForm', data.entrpsInfo);
+			module._resultList = data.resultList; 
 			$.each(data.resultList, function() {
-				module.initNticHistDataRow(this);
+				module.initDataRow(this);
 	     	});
 	     	return data;
 	   	}        
@@ -69,53 +71,11 @@ GamHtldRentNticHistModule.prototype.loadComplete = function(params) {
         
     this.$("#nticHistList").on('onItemSelected', function(event, module, row, grid, param) {
     	module._currentRow = row;
-    	module.loadNticData();
     });
 
-    this.$("#nticList").flexigrid({
-        module: this,
-        url: '',
-        dataType: 'json',
-        colModel : [
-                    {display:'고지항목', name:'nticItemNm',width:170, sortable:false,align:'center'},
-                    {display:'임대면적(㎡)', name:'rentArStr',width:160, sortable:false,align:'right'},
-                    {display:'적용단가', name:'applcRntfeeStr',width:140, sortable:false,align:'right'},
-                    {display:'구분', name:'paySeNm',width:50, sortable:false,align:'center'},
-    				{display:'임대료', name:'rntfee',width:120, sortable:false,align:'right', displayFormat: 'number'},
-    				{display:'분납이자', name:'payinstIntr',width:100, sortable:false,align:'right', displayFormat: 'number'},
-                    ],
-        showTableToggleBtn: false,
-        height: '160',
-		preProcess: function(module, data) {
-			$.each(data.resultList, function() {
-				module.initNticDataRow(this);
-	     	});
-	     	return data;
-	   	}
-    });
-	this.$("#nticList").on('onLoadDataComplete', function(event, module, data) {
-    	module.loadArrrgNticData();
+	this.$("#nticHistList").on('onLoadDataComplete', function(event, module, data) {
+		module.onCalcNticAmt();
 	});
-
-    this.$("#arrrgList").flexigrid({
-        module: this,
-        url: '',
-        dataType: 'json',
-        colModel : [
-                    {display:'회수', name:'dlySerNo',width:35, sortable:false,align:'center'},
-                    {display:'고지일자', name:'dlyBillDt',width:80, sortable:false,align:'center'},
-                    {display:'연체료', name:'dlyBillAmnt',width:80, sortable:false,align:'right', displayFormat: 'number'},
-                    {display:'고지금액', name:'djiroAmnt',width:100, sortable:false,align:'right', displayFormat: 'number'},
-					{display:'출력', name:'dlyBillPrtYnNm',width:35, sortable:false,align:'center'},
-					{display:'납부기한', name:'dlyDueDt',width:80, sortable:false,align:'center'},
-					{display:'산출근거', name:'dlyBillRsn',width:320, sortable:false,align:'center'},
-                    ],
-        showTableToggleBtn: false,
-        height: '160',
-		preProcess: function(module, data) {
-	     	return data;
-	   	}
-    });
 
 	if(params != null) {
 		this.$('#entrpsCd').val(params.entrpsCd);
@@ -123,6 +83,8 @@ GamHtldRentNticHistModule.prototype.loadComplete = function(params) {
 	} else {
 		this.$('#entrpsCd').val('');
 	}
+	
+	console.log('1');
 };
 
 <%--
@@ -145,9 +107,6 @@ GamHtldRentNticHistModule.prototype.onButtonClick = function(buttonId) {
 		case 'btnCancelNticIssue' : //고지취소
 			this.cancelNticIssue();
 			break;
-		case 'btnProcessNticIssue' : //수납처리
-			this.processNticIssue();
-			break;
 		case 'btnPrintNticIssue' : //고지서 출력
 			this.printNticIssue();
 			break;
@@ -169,8 +128,6 @@ GamHtldRentNticHistModule.prototype.onClosePopup = function(popupId, msg, value)
 				this.$('#bizrno').val(value.bizrno);
 				this.$('#rprsntvNm').val(value.rprsntvNm);
 				this.$('#nticHistList').flexEmptyData();
-				this.$('#nticList').flexEmptyData();
-				this.$('#arrrgList').flexEmptyData();				
 			}
 			break;
 		case 'rcivProcPopup':
@@ -196,11 +153,11 @@ GamHtldRentNticHistModule.prototype.loadData = function() {
 };
 
 <%--
-	initNticHistDataRow - 이력 목록의 각 row 데이터 초기화
+	initDataRow - 이력 목록의 각 row 데이터 초기화
 	params :
 		row - 그리드 row
 --%>
-GamHtldRentNticHistModule.prototype.initNticHistDataRow = function(row) {
+GamHtldRentNticHistModule.prototype.initDataRow = function(row) {
 	row.nticPd = row.nticPdFrom + '~' + row.nticPdTo;
 
 	switch (row.rcivSe) {
@@ -215,68 +172,32 @@ GamHtldRentNticHistModule.prototype.initNticHistDataRow = function(row) {
 		}
 	}
 };
-
 <%--
-	loadNticData - 고지상세목록 조회
+	onCalcNticAmt - 이력 목록의 고지금액 합계 계산
 --%>
-GamHtldRentNticHistModule.prototype.loadNticData = function() {	
-	this.doAction('/oper/htldnew/selectHistNticIssueList.do', this._currentRow, function(module, result) {
-		if(result.resultCode == 0) {
-			module.$('#nticList').flexEmptyData();
-			module.$("#nticList").flexAddData({resultList: result.resultList});
-		} else {
-			alert(result.resultMsg);
-		}
-	});
-};
-
-<%--
-	initNticDataRow - 각 row 데이터 초기 설정
-	params :
-		row - 그리드 row
---%>
-GamHtldRentNticHistModule.prototype.initNticDataRow = function(row) {
-	if(row.rntfeeSe == '0') { //일반고지
-		row.nticItemNm = row.detailPdBegin + '~' + row.detailPdEnd;
-		if(row.rentArSe != '0') {
-			row.rentArStr = row.rentArStr + '/' + row.rentArSeNm;
-			if(row.rentArSe == '3') {
-				row.rentArStr = row.rentArSeNm;
+GamHtldRentNticHistModule.prototype.onCalcNticAmt = function() {
+	var sumNticAmt = 0;
+	var getNticAmtArrrgNo = function(list, compareRow) {
+		var nticAmt = 0;
+		for(var n=0; n<list.length; n++) {
+			var row = list[n];
+			if((compareRow.accnutYear == row.accnutYear) && (compareRow.rntfeeNticNo == row.rntfeeNticNo) 
+				&& (compareRow.nticSeq == row.nticSeq) && (compareRow.arrrgNo == row.arrrgNo) && (row.srcNticYn == 'N')) {
+				nticAmt = Number(row.payAmt);
+				break;
 			}
 		}
-		if((this._currentRow.nticDt >= row.aseApplcBegin) && (this._currentRow.nticDt <= row.aseApplcEnd)) {
-			row.applcRntfeeStr = row.aseRntfeeStr + '(실적)';
+		return nticAmt;
+	};
+	
+	for(var i=0; i<this._resultList.length; i++) {
+		var row = this._resultList[i];
+		if(row.srcNticYn == 'Y') {
+			sumNticAmt += (row.arrrgNo != '00') ? getNticAmtArrrgNo(this._resultList, row) : Number(row.payAmt);
 		}
-		if(row.priceSe == '2') {
-			row.applcRntfeeStr += '원/월';
-		}		
-	} else {
-		row.nticItemNm = row.rntfeeSeNm;
-		if((row.rntfeeSe == '1') || (row.rntfeeSe == '2')) {
-			row.rentArStr = row.applcBeginDt + '~' + row.applcEndDt;
-			row.applcRntfeeStr = row.appRntfee;
-		} else {
-			row.rentArStr = '';
-			row.applcRntfeeStr = '';
-		}
-		row.payinstIntr = 0;
-	}
-	this.$('#nticBeginDt').val(row.nticBeginDt);
-	this.$('#nticEndDt').val(row.nticEndDt);
-};
-
-<%--
-	loadArrrgNticData - 연체고지상세목록 조회
---%>
-GamHtldRentNticHistModule.prototype.loadArrrgNticData = function() {	
-	this.doAction('/oper/htldnew/selectHistArrrgNticIssueList.do', this._currentRow, function(module, result) {
-		if(result.resultCode == 0) {
-			module.$('#arrrgList').flexEmptyData();
-			module.$("#arrrgList").flexAddData({resultList: result.resultList});
-		} else {
-			alert(result.resultMsg);
-		}
-	});
+	} 
+	
+	this.$('#sumNticAmt').val(sumNticAmt);
 };
 
 <%--
@@ -302,7 +223,6 @@ GamHtldRentNticHistModule.prototype.cancelNticIssue = function() {
 
 <%--
 	canceSourceNticIsssue - 원고지취소
-	
 	nhtPrtYn은 출력버튼을 누를 때 Y로 변하지만 billPrtYn은 고지일자와 연동되어 변함.
 	즉 화면에 출력표시는 nhtPrtYn으로 하는 것이고 rev_coll_f와 연계되는 출력확인을 하는 것은 billPrtYn으로 해야 함.
 	bilPrtYn은 즉 고지일자별 rev_coll_f의 billPrtYn을 Y로 만드는 스케줄링의 결과값을 담고 있음.
@@ -342,29 +262,6 @@ GamHtldRentNticHistModule.prototype.cancelArrrgNticIssue = function() {
 	});
 };
 
-<%--
-	processNticIsssue - 수납처리
---%>
-GamHtldRentNticHistModule.prototype.processNticIssue = function() {
-	if(this._currentRow == void(0)) {
-		alert('이력 목록에서 데이터를 선택하세요.');
-		return;
-	}
-	
-	//지로 수납된 건인지 체크한다.
-	this.doAction('/oper/htldnew/selectCheckOcrResult.do', this._currentRow, function(module, result) {
-		if(result.resultCode == 0) {
-			if(result.ocrResult == 'Y') {
-				alert('지로 수납된 자료는 변경할 수 없습니다.');
-				return;
-			}
-			module.doExecuteDialog('rcivProcPopup', '수납 처리', '/popup/showHtldRcivProc.do', module._currentRow);
-		} else {
-			alert(result.resultMsg);
-		}
-	});
-	
-};
 
 <%--
 	printNticIsssue - 고지서 출력
@@ -453,20 +350,8 @@ var module_instance = new GamHtldRentNticHistModule();
 	<div class="emdPanel fillHeight">
 		<table style="width:100%;">
 			<tr>
-				<td colspan="2">
+				<td>
 					<table id="nticHistList" style="display:none" class="fillHeight"></table>
-				</td>
-			</tr>
-			<tr>
-				<td width="60%" style="font-weight: bold;">고지 내역</td>
-				<td style="font-weight: bold;">연체고지 내역</td>
-			</tr>
-			<tr>
-				<td style="padding-right:5px;">
-					<table id="nticList" style="display:none" class="fillHeight"></table>
-				</td>
-				<td style="padding-right:5px;">
-					<table id="arrrgList" style="display:none" class="fillHeight"></table>
 				</td>
 			</tr>
 		</table>
@@ -474,10 +359,17 @@ var module_instance = new GamHtldRentNticHistModule();
 			<table style="width:100%;">
 				<tr>
 					<td style="text-align: right">
+						고지금액 합계 <input type="text" size="20" class="ygpaNumber" id="sumNticAmt" disabled/>&nbsp; 원 &nbsp; &nbsp; 
+                    </td>
+				</tr>
+			</table>
+		</div>
+ 		<div class="emdControlPanel">
+			<table style="width:100%;">
+				<tr>
+					<td style="text-align: right">
                        <button id="btnCancelNticIssue" >고지취소</button>
-                       <button id="btnProcessNticIssue" >수납처리</button>
                        <button id="btnPrintNticIssue" >고지서출력</button>
-                       <button id="btnNticIssueExcelDownload" >산출내역서 다운로드</button>
 					</td>
 				</tr>
 			</table>

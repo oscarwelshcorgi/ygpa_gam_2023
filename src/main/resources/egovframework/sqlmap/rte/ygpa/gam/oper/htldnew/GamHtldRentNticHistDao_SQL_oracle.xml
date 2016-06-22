@@ -22,47 +22,105 @@
 		
 	<!-- 업체별 고지 이력 목록 조회 -->
 	<select id="gamHtldRentNticHistDao.selectHtldRentNticHistList_D" parameterClass="gamHtldRentNticHistVO" resultClass="egovMap">
-		SELECT 
-		  TO_CHAR(N.SRC_NTIC_DT, 'YYYY-MM-DD') SRC_NTIC_DT
-		  ,TO_CHAR(N.NTIC_DT, 'YYYY-MM-DD') NTIC_DT
-		  ,TO_CHAR(N.NTIC_PD_FROM, 'YYYY-MM-DD') NTIC_PD_FROM
-		  ,TO_CHAR(N.NTIC_PD_TO, 'YYYY-MM-DD') NTIC_PD_TO
-		  ,N.CHRGE_KND_CD CHRGE_KND_CD
-		  ,GAM_GETCODENAME('GAM053', N.CHRGE_KND_CD) CHRGE_KND_NM
-		  ,N.PAY_SE PAY_SE
-		  ,GAM_GETCODENAME('GAM008', N.PAY_SE) PAY_SE_NM
-		  ,N.SUP_AMT SUP_AMT
-		  ,N.VAT VAT
-		  ,NVL(N.ARRRG_AMT, 0) ARRRG_AMT
-		  ,N.PAY_AMT PAY_AMT
-		  ,TO_CHAR(N.PAY_TMLMT, 'YYYY-MM-DD') PAY_TMLMT
-		  ,GAM_GET_IS_PASS_DATE_YN(N.PAY_TMLMT) PAY_TMLMT_YN
-		  ,N.RCIV_SE RCIV_SE
-		  ,TO_CHAR(N.RCIV_DT, 'YYYY-MM-DD') RCIV_DT
-		  ,N.RM RM
-		  ,NVL(N.NHT_PRT_YN,'N') AS NHT_PRT_YN
-		  ,DECODE(N.NHT_PRT_YN, 'N', '', '출력') AS NHT_PRT_YN_NM
-		  ,NVL(N.BILL_PRT_YN,'N') AS BILL_PRT_YN
-		  ,N.MNG_YEAR MNG_YEAR
-		  ,N.MNG_NO MNG_NO
-		  ,N.MNG_SEQ MNG_SEQ
-		  ,N.HIST_SEQ HIST_SEQ
-		  ,N.ACCNUT_YEAR ACCNUT_YEAR
-		  ,N.RNTFEE_NTIC_NO RNTFEE_NTIC_NO
-		  ,N.NTIC_SEQ NTIC_SEQ
-		  ,N.NTIC_NO NTIC_NO
-		  ,S.ENTRPS_CD ENTRPS_CD
-		  ,S.ENTRPS_NM ENTRPS_NM
-		  ,S.RPRSNTV_NM RPRSNTV_NM
-		FROM
-		  HTLD_NTIC_DTLS_F N
-		INNER JOIN 
-		  HTLD_NTIC_SUMM_F S
-		  ON N.ACCNUT_YEAR = S.ACCNUT_YEAR AND N.RNTFEE_NTIC_NO = S.RNTFEE_NTIC_NO  
-		WHERE
-		  S.ENTRPS_CD = #entrpsCd#
-		ORDER BY
-		  N.SRC_NTIC_DT DESC, N.NTIC_NO DESC	
+		  SELECT
+		    L.*
+		  FROM
+		    (
+		      (
+		        SELECT 
+		          TO_CHAR(N.SRC_NTIC_DT, 'YYYY-MM-DD') NTIC_DT
+		          ,TO_CHAR(N.NTIC_PD_FROM, 'YYYY-MM-DD') NTIC_PD_FROM
+		          ,TO_CHAR(N.NTIC_PD_TO, 'YYYY-MM-DD') NTIC_PD_TO
+		          ,N.CHRGE_KND_CD CHRGE_KND_CD
+		          ,GAM_GETCODENAME('GAM053', N.CHRGE_KND_CD) CHRGE_KND_NM
+		          ,N.PAY_SE PAY_SE
+		          ,GAM_GETCODENAME('GAM008', N.PAY_SE) PAY_SE_NM
+		          ,N.SUP_AMT SUP_AMT
+		          ,N.VAT VAT
+		          ,0 ARRRG_AMT
+		          ,NVL(SUP_AMT,0) + NVL(VAT,0) PAY_AMT
+		          ,TO_CHAR(N.SRC_PAY_TMLMT, 'YYYY-MM-DD') PAY_TMLMT
+		          ,GAM_GET_IS_PASS_DATE_YN(N.PAY_TMLMT) PAY_TMLMT_YN
+		          ,N.RCIV_SE RCIV_SE
+		          ,TO_CHAR(N.RCIV_DT, 'YYYY-MM-DD') RCIV_DT
+		          ,N.RM RM
+		          ,NVL(N.NHT_PRT_YN,'N') AS NHT_PRT_YN
+		          ,DECODE(N.NHT_PRT_YN, 'N', '', '출력') AS NHT_PRT_YN_NM
+		          ,NVL(N.BILL_PRT_YN,'N') AS BILL_PRT_YN
+		          ,NVL(N.ARRRG_NO, '00') ARRRG_NO
+		          ,N.MNG_YEAR MNG_YEAR
+		          ,N.MNG_NO MNG_NO
+		          ,N.MNG_SEQ MNG_SEQ
+		          ,N.HIST_SEQ HIST_SEQ
+		          ,N.ACCNUT_YEAR ACCNUT_YEAR
+		          ,N.RNTFEE_NTIC_NO RNTFEE_NTIC_NO
+		          ,N.NTIC_SEQ NTIC_SEQ
+		          ,N.NTIC_NO NTIC_NO
+		          ,S.ENTRPS_CD ENTRPS_CD
+		          ,S.ENTRPS_NM ENTRPS_NM
+		          ,S.RPRSNTV_NM RPRSNTV_NM
+		          ,'Y' SRC_NTIC_YN
+		          ,'최초고지' NTIC_SE_NM
+		        FROM
+		          HTLD_NTIC_DTLS_F N
+		        INNER JOIN 
+		          HTLD_NTIC_SUMM_F S
+		          ON N.ACCNUT_YEAR = S.ACCNUT_YEAR AND N.RNTFEE_NTIC_NO = S.RNTFEE_NTIC_NO      
+		      )
+		      UNION ALL
+		      (
+		        SELECT 
+		          TO_CHAR(U.DLY_BILL_DT, 'YYYY-MM-DD') NTIC_DT
+		          ,TO_CHAR(N.NTIC_PD_FROM, 'YYYY-MM-DD') NTIC_PD_FROM
+		          ,TO_CHAR(N.NTIC_PD_TO, 'YYYY-MM-DD') NTIC_PD_TO
+		          ,N.CHRGE_KND_CD CHRGE_KND_CD
+		          ,GAM_GETCODENAME('GAM053', N.CHRGE_KND_CD) CHRGE_KND_NM
+		          ,N.PAY_SE PAY_SE
+		          ,GAM_GETCODENAME('GAM008', N.PAY_SE) PAY_SE_NM
+		          ,N.SUP_AMT SUP_AMT
+		          ,N.VAT VAT
+		          ,U.DLY_BILL_AMNT ARRRG_AMT
+		          ,U.DJIRO_AMNT PAY_AMT
+		          ,TO_CHAR(U.DLY_DUE_DT, 'YYYY-MM-DD') PAY_TMLMT
+		          ,GAM_GET_IS_PASS_DATE_YN(N.PAY_TMLMT) PAY_TMLMT_YN
+		          ,N.RCIV_SE RCIV_SE
+		          ,TO_CHAR(N.RCIV_DT, 'YYYY-MM-DD') RCIV_DT
+		          ,N.RM RM
+		          ,NVL(U.DLY_BILL_PRT_YN,'N') AS NHT_PRT_YN
+		          ,DECODE(U.DLY_BILL_PRT_YN, 'N', '', '출력') AS NHT_PRT_YN_NM
+		          ,NVL(U.DLY_BILL_PRT_YN,'N') AS BILL_PRT_YN
+		          ,U.DLY_SER_NO ARRRG_NO
+		          ,N.MNG_YEAR MNG_YEAR
+		          ,N.MNG_NO MNG_NO
+		          ,N.MNG_SEQ MNG_SEQ
+		          ,N.HIST_SEQ HIST_SEQ
+		          ,N.ACCNUT_YEAR ACCNUT_YEAR
+		          ,N.RNTFEE_NTIC_NO RNTFEE_NTIC_NO
+		          ,N.NTIC_SEQ NTIC_SEQ
+		          ,N.NTIC_NO NTIC_NO
+		          ,S.ENTRPS_CD ENTRPS_CD
+		          ,S.ENTRPS_NM ENTRPS_NM
+		          ,S.RPRSNTV_NM RPRSNTV_NM
+		          ,'N' SRC_NTIC_YN
+		          ,'연체고지' NTIC_SE_NM
+		        FROM
+		          UNPAID_F U
+		        INNER JOIN
+		          HTLD_NTIC_DTLS_F N
+		          ON N.ACCNUT_YEAR=U.FISCAL_YR
+		            AND GAM_GET_HTLD_ARRRG_CHRGE_KND(N.CHRGE_KND_CD)=U.WORK_CODE
+		            AND N.NTIC_NO=U.BILL_NO
+		            AND U.PRT_AT_CODE = '622'
+		            AND U.FEE_TP = GAM_GET_HTLD_FEE_TP(GAM_GET_HTLD_ARRRG_CHRGE_KND(N.CHRGE_KND_CD))
+		        INNER JOIN 
+		          HTLD_NTIC_SUMM_F S
+		          ON N.ACCNUT_YEAR = S.ACCNUT_YEAR AND N.RNTFEE_NTIC_NO = S.RNTFEE_NTIC_NO  
+		      )
+		    )L
+		  WHERE
+		  	L.ENTRPS_CD = #entrpsCd#
+		  ORDER BY
+		    ACCNUT_YEAR, RNTFEE_NTIC_NO, NTIC_SEQ, NTIC_NO, SRC_NTIC_YN DESC, NTIC_DT, ARRRG_NO
 	</select>
 	
 	<!-- 고지 상세 리스트 조회 -->
