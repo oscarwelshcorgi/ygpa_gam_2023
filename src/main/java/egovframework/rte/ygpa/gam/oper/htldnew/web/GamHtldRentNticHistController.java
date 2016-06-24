@@ -28,6 +28,7 @@ import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentNticDefaultVO;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentNticHistService;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentNticHistVO;
+import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentNticInfoVO;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentNticReportService;
 
 /**
@@ -314,7 +315,7 @@ public class GamHtldRentNticHistController {
      * @throws Exception the exception
      */
 	@RequestMapping(value="/oper/htldnew/printProcessHtldNticIssue.do", method=RequestMethod.POST)
-	public @ResponseBody Map<String, Object> printProcessHtldNticIssue(GamHtldRentNticDefaultVO searchVO) throws Exception {
+	public @ResponseBody Map<String, Object> printProcessHtldNticIssue(GamHtldRentNticInfoVO nticInfoVO) throws Exception {
     	Map<String, Object> map = new HashMap<String, Object>();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -323,7 +324,18 @@ public class GamHtldRentNticHistController {
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
-    	    	
+    	
+    	if("00".equals(nticInfoVO.getDlySerNo())) { //최초고지일 경우
+    		int diffDays = gamHtldRentNticReportService.selectNticDaysDiff(nticInfoVO);
+    		if(diffDays >= 0) { //고지일자가 오늘날짜를 포함한 이전의 날짜이면 즉시 출력상태를 바꾼다.
+    			gamHtldRentNticReportService.updateImmediatelyPrintState(nticInfoVO);
+    		} else { //미래의 날짜이면 예약출력상태로 해둔다. 스케줄링에 의해 출력상태 처리
+    			gamHtldRentNticReportService.updateReservePrintState(nticInfoVO);
+    		}
+    	} else { //연체고지일 경우
+    		gamHtldRentNticReportService.updateArrrgPrintState(nticInfoVO);
+    	}
+    	
     	map.put("resultCode", 0);
     	
     	return map;

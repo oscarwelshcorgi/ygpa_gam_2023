@@ -48,4 +48,36 @@ public interface GamHtldRentNticReportService {
 	 */
 	List<?> selectNticIssueList(GamHtldRentNticDefaultVO searchVO) throws Exception;
 
+	/**
+	 * 고지일자와 시스템 일자와 일수 차이
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	int selectNticDaysDiff(GamHtldRentNticInfoVO nticInfoVO) throws Exception;
+
+	/**
+	 * 예약 출력 상태 변경
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	void updateReservePrintState(GamHtldRentNticInfoVO nticInfoVO) throws Exception;
+
+	/**
+	 * 즉시 출력 상태 변경
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	void updateImmediatelyPrintState(GamHtldRentNticInfoVO nticInfoVO) throws Exception;
+	
+	/**
+	 * 연체고지 출력 상태 변경
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	void updateArrrgPrintState(GamHtldRentNticInfoVO nticInfoVO) throws Exception;
+	
 }

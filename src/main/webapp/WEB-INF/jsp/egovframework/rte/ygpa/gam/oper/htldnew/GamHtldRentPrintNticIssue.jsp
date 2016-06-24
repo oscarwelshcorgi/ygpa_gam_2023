@@ -820,7 +820,9 @@ div.notice {
 			          {name : 'rntfeeNticNo', value: '<c:out value="${searchVO.rntfeeNticNo}"/>'},
 			          {name : 'nticSeq', value: '<c:out value="${searchVO.nticSeq}"/>'},
 			          {name : 'dlySerNo', value: '<c:out value="${searchVO.dlySerNo}"/>'},
-			          {name : 'nticDt', value: '<c:out value="${master.nticDt}"/>'}
+			          {name : 'nticNo', value: '<c:out value="${master.billNo}"/>'},
+			          {name : 'chrgeKndCd', value: '<c:out value="${master.chrgeKndCd}"/>'},
+			          {name : 'nticDt', value: '<c:out value="${master.nticDt}"/>'},
 			          ];
 			var leftPadding = ""+(2.7+Number($('#leftPrintPadding').val()||0))/10;
 			var topPadding = ""+(2.7+Number($('#topPrintPadding').val()||0))/10;

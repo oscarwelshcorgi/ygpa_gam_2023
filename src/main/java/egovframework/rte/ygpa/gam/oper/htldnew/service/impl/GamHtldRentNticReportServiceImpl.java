@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentNticDefaultVO;
+import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentNticInfoVO;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentNticReportService;
 
 /**
@@ -68,6 +69,48 @@ public class GamHtldRentNticReportServiceImpl extends AbstractServiceImpl implem
 	public List<?> selectNticIssueList(GamHtldRentNticDefaultVO searchVO) throws Exception {
 		return getNticDtlsReportList((List<EgovMap>)gamHtldRentNticReportDao.selectNticIssueList(searchVO));
 	}
+
+	/**
+	 * 고지일자와 시스템 일자와 일수 차이
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	public int selectNticDaysDiff(GamHtldRentNticInfoVO nticInfoVO) throws Exception {
+		return gamHtldRentNticReportDao.selectNticDaysDiff(nticInfoVO);
+	}
+
+	/**
+	 * 예약 출력 상태 변경
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	public void updateReservePrintState(GamHtldRentNticInfoVO nticInfoVO) throws Exception {
+		gamHtldRentNticReportDao.updateReservePrintState(nticInfoVO);
+	}
+
+	/**
+	 * 즉시 출력 상태 변경
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	public void updateImmediatelyPrintState(GamHtldRentNticInfoVO nticInfoVO) throws Exception {
+		gamHtldRentNticReportDao.updateImmediatelyPrintStateNticDtls(nticInfoVO);
+		gamHtldRentNticReportDao.updateImmediatelyPrintStateRevColl(nticInfoVO);
+	}
+	
+	/**
+	 * 연체고지 출력 상태 변경
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	public void updateArrrgPrintState(GamHtldRentNticInfoVO nticInfoVO) throws Exception {
+		gamHtldRentNticReportDao.updateArrrgPrintState(nticInfoVO);
+	}
+
 	
 	protected List<EgovMap> getNticDtlsReportList(List<EgovMap> list) {
 		List<EgovMap> resultList = new ArrayList<EgovMap>();

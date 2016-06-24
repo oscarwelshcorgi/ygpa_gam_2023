@@ -6,6 +6,7 @@
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     
 	<typeAlias alias="gamHtldRentNticDefaultVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentNticDefaultVO"/>
+	<typeAlias alias="gamHtldRentNticInfoVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentNticInfoVO"/>
 	
 	<!-- 원고지 마스터 출력 -->
 	<select id="gamHtldRentNticReportDao.selectNticPrintMaster_S" parameterClass="gamHtldRentNticDefaultVO" resultClass="egovMap">
@@ -56,6 +57,7 @@
 		      ,TO_CHAR(R.BILL_DT, 'YYYY-MM-DD') BILL_DT
 		      ,TO_CHAR(R.DUE_DATE, 'YYYY-MM-DD') DUE_DATE
 		      ,N.PAY_SE  
+		      ,N.CHRGE_KND_CD
 		      ,DECODE(RPAD(TO_CHAR(TO_DATE(TO_CHAR(N.NTIC_PD_FROM, 'YYYYMMDDhh24MISS'), 'YYYYMMDDhh24MISS'),'q'), 3, '/4'), '1/4', '1', '2/4', '2', '3/4', '3', '4/4', '4') QUARTER
 		    FROM
 		      HTLD_NTIC_DTLS_F N, REV_COLL_F R
@@ -119,7 +121,8 @@
 		      ,U.BZ_RGST_ID
 		      ,TO_CHAR(U.DLY_BILL_DT, 'YYYY-MM-DD') BILL_DT
 		      ,TO_CHAR(U.DLY_DUE_DT, 'YYYY-MM-DD') DUE_DATE
-		      ,N.PAY_SE  
+		      ,N.PAY_SE
+		      ,N.CHRGE_KND_CD  
 		      ,DECODE(RPAD(TO_CHAR(TO_DATE(TO_CHAR(N.NTIC_PD_FROM, 'YYYYMMDDhh24MISS'), 'YYYYMMDDhh24MISS'),'q'), 3, '/4'), '1/4', '1', '2/4', '2', '3/4', '3', '4/4', '4') QUARTER
 		    FROM
 		      HTLD_NTIC_DTLS_F N, UNPAID_F U
@@ -264,5 +267,65 @@
 		) L
 		ORDER BY L.RNTFEE_SE, L.RNTFEE_SEQ
 	</select>
+	
+	<!-- 고지일자와 시스템 일자와 일수 차이  -->
+	<select id="gamHtldRentNticReportDao.selectNticDaysDiff_S"  parameterClass="gamHtldRentNticInfoVO" resultClass="int">
+		SELECT 
+  			TRUNC(SYSDATE) - TO_DATE(#nticDt#,'YYYY-MM-DD') AS DAYSDIFF
+		FROM
+  			DUAL
+	</select>
+	
+	<!-- 예약 출력 상태 변경 -->
+	<update id="gamHtldRentNticReportDao.updateReservePrintState_S" parameterClass="gamHtldRentNticInfoVO">
+		UPDATE HTLD_NTIC_DTLS_F
+		SET
+			NHT_PRT_YN = 'Y'
+			,BILL_PRT_YN = NULL
+		WHERE
+			ACCNUT_YEAR = #accnutYear#
+			AND RNTFEE_NTIC_NO = #rntfeeNticNo#
+			AND NTIC_SEQ = #nticSeq#
+	</update>
+	
+	<!-- 즉시 출력 상태 변경 (HTLD_NTIC_DTLS_F) -->
+	<update id="gamHtldRentNticReportDao.updateImmediatelyPrintStateNticDtls_S" parameterClass="gamHtldRentNticInfoVO">
+		UPDATE HTLD_NTIC_DTLS_F
+		SET
+			NHT_PRT_YN = 'Y'
+			,BILL_PRT_YN = 'Y'
+		WHERE
+			ACCNUT_YEAR = #accnutYear#
+			AND RNTFEE_NTIC_NO = #rntfeeNticNo#
+			AND NTIC_SEQ = #nticSeq#
+	</update>
+	
+	<!-- 즉시 출력 상태 변경 (REV_COLL_F) -->
+	<update id="gamHtldRentNticReportDao.updateImmediatelyPrintStateRevColl_S" parameterClass="gamHtldRentNticInfoVO">
+		UPDATE REV_COLL_F
+		SET
+			BILL_PRT_YN = 'Y'
+		WHERE
+			PRT_AT_CODE = '622'
+			AND FEE_TP = GAM_GET_HTLD_FEE_TP(#chrgeKndCd#)
+			AND WORK_CODE = #chrgeKndCd#
+			AND FISCAL_YR = #accnutYear#
+			AND BILL_NO = #nticNo#
+			AND BILL_PRT_YN = 'N'
+	</update>
+	
+	<!-- 연체고지 출력 상태 변경 -->
+	<update id="gamHtldRentNticReportDao.updateArrrgPrintState_S" parameterClass="gamHtldRentNticInfoVO">
+		UPDATE UNPAID_F
+		SET
+			DLY_BILL_PRT_YN = 'Y'
+		WHERE
+			PRT_AT_CODE = '622'
+	        AND FISCAL_YR = #accnutYear#
+	        AND WORK_CODE = GAM_GET_HTLD_ARRRG_CHRGE_KND(#chrgeKndCd#)
+	        AND BILL_NO = #nticNo#
+		    AND FEE_TP = GAM_GET_HTLD_FEE_TP(GAM_GET_HTLD_ARRRG_CHRGE_KND(#chrgeKndCd#))
+		    AND DLY_BILL_PRT_YN = 'N'		     
+	</update>
 	
 </sqlMap>

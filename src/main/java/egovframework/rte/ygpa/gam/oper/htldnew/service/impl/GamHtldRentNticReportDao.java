@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentNticDefaultVO;
+import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentNticInfoVO;
 
 /**
  * 
@@ -59,4 +60,53 @@ public class GamHtldRentNticReportDao extends YGPAAbstractDAO {
 		return list("gamHtldRentNticReportDao.selectNticIssueList_D", searchVO);
 	}
 
+	/**
+	 * 고지일자와 시스템 일자와 일수 차이
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	public int selectNticDaysDiff(GamHtldRentNticInfoVO nticInfoVO) throws Exception {
+		return (Integer)selectByPk("gamHtldRentNticReportDao.selectNticDaysDiff_S", nticInfoVO);
+	}
+
+	/**
+	 * 예약 출력 상태 변경
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	public void updateReservePrintState(GamHtldRentNticInfoVO nticInfoVO) throws Exception {
+		update("gamHtldRentNticReportDao.updateReservePrintState_S", nticInfoVO);
+	}
+
+	/**
+	 * 즉시 출력 상태 변경 (HTLD_NTIC_DTLS_F)
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	public void updateImmediatelyPrintStateNticDtls(GamHtldRentNticInfoVO nticInfoVO) throws Exception {
+		update("gamHtldRentNticReportDao.updateImmediatelyPrintStateNticDtls_S", nticInfoVO);
+	}
+	
+	/**
+	 * 즉시 출력 상태 변경 (REV_COLL_F)
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	public void updateImmediatelyPrintStateRevColl(GamHtldRentNticInfoVO nticInfoVO) throws Exception {
+		update("gamHtldRentNticReportDao.updateImmediatelyPrintStateRevColl_S", nticInfoVO);
+	}
+
+	/**
+	 * 연체고지 출력 상태 변경
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	public void updateArrrgPrintState(GamHtldRentNticInfoVO nticInfoVO) throws Exception {
+		update("gamHtldRentNticReportDao.updateArrrgPrintState_S", nticInfoVO);
+	}
 }
