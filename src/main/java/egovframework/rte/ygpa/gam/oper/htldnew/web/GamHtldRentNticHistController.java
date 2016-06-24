@@ -294,13 +294,39 @@ public class GamHtldRentNticHistController {
     		return "ygpa/gam/oper/htldnew/GamHtldRentPrintNticIssue";
     	}
     	
-    	Map<?, ?> master = gamHtldRentNticReportService.selectNticPrintMaster(searchVO);
+    	Map<?, ?> master = ("00".equals(searchVO.getDlySerNo())) ? 
+    			gamHtldRentNticReportService.selectNticPrintMaster(searchVO) : gamHtldRentNticReportService.selectArrrgNticPrintMaster(searchVO);
+    			
+    	List<?> detailList = gamHtldRentNticReportService.selectNticIssueList(searchVO);
     	
     	model.addAttribute("master", master);
+    	model.addAttribute("detailList", detailList);
+    	model.addAttribute("detailListCnt", detailList.size());
     	model.addAttribute("resultCode", 0);
     	model.addAttribute("resultMsg", "");
     	return "ygpa/gam/oper/htldnew/GamHtldRentPrintNticIssue";
     }
     
+    /**
+     * 인쇄 후 고지서 출력 처리
+     * @param searchVO
+     * @return map
+     * @throws Exception the exception
+     */
+	@RequestMapping(value="/oper/htldnew/printProcessHtldNticIssue.do", method=RequestMethod.POST)
+	public @ResponseBody Map<String, Object> printProcessHtldNticIssue(GamHtldRentNticDefaultVO searchVO) throws Exception {
+    	Map<String, Object> map = new HashMap<String, Object>();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+    	    	
+    	map.put("resultCode", 0);
+    	
+    	return map;
+	}
     
 }

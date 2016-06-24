@@ -3,6 +3,7 @@
  */
 package egovframework.rte.ygpa.gam.oper.htldnew.service;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -30,5 +31,21 @@ public interface GamHtldRentNticReportService {
 	 * @exception Exception
 	 */
 	Map<?, ?> selectNticPrintMaster(GamHtldRentNticDefaultVO searchVO) throws Exception;
+
+	/**
+	 * 연체 고지서 출력 마스터 정보 조회
+	 * @param GamHtldRentMngDefaultVO
+	 * @return Map 
+	 * @exception Exception
+	 */
+	Map<?, ?> selectArrrgNticPrintMaster(GamHtldRentNticDefaultVO searchVO) throws Exception;
+
+	/**
+	 * 출력용 고지 상세 리스트 조회
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	List<?> selectNticIssueList(GamHtldRentNticDefaultVO searchVO) throws Exception;
 
 }

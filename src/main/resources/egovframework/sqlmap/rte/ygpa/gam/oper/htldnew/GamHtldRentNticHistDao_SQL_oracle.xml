@@ -59,6 +59,7 @@
 		          ,S.ENTRPS_CD ENTRPS_CD
 		          ,S.ENTRPS_NM ENTRPS_NM
 		          ,S.RPRSNTV_NM RPRSNTV_NM
+		          ,'00' DLY_SER_NO
 		          ,'Y' SRC_NTIC_YN
 		          ,'최초고지' NTIC_SE_NM
 		        FROM
@@ -101,6 +102,7 @@
 		          ,S.ENTRPS_CD ENTRPS_CD
 		          ,S.ENTRPS_NM ENTRPS_NM
 		          ,S.RPRSNTV_NM RPRSNTV_NM
+		          ,N.ARRRG_NO DLY_SER_NO
 		          ,'N' SRC_NTIC_YN
 		          ,'연체고지' NTIC_SE_NM
 		        FROM

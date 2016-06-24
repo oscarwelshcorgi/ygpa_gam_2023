@@ -98,6 +98,7 @@
 			,APPLC_BEGIN_DT
 			,APPLC_END_DT
 			,APPLC_RNTFEE
+			,APPLC_RENT_AR
 			,RNTFEE
 			,PAYINST_INTR
 			,SUP_AMT
@@ -120,6 +121,7 @@
 			,TO_DATE(#applcBeginDt#, 'YYYY-MM-DD')
 			,TO_DATE(#applcEndDt#, 'YYYY-MM-DD')
 			,TO_NUMBER(#applcRntfee#)
+			,TO_NUMBER(#rentAr#)
 			,TO_NUMBER(#rntfee#)
 			,0
 			,0

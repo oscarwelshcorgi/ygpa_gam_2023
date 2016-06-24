@@ -126,6 +126,7 @@ GamHtldRentMngtMainModule.prototype.onButtonClick = function(buttonId) {
 			this.execArrrgNticIssue();
 			break;
 		case 'btnPrintNticIssue':  //고지서출력
+			this.printNticIssue();
 			break;
 		case 'btnNticIssueHist':  //고지이력
 			this.showNticIssueHist();
@@ -501,6 +502,74 @@ GamHtldRentMngtMainModule.prototype.processNticIssue = function() {
 			alert(result.resultMsg);
 		}
 	});	
+};
+
+<%--
+printNticIsssue - 고지서 출력
+--%>
+GamHtldRentMngtMainModule.prototype.printNticIssue = function() {
+	if(this._currentRow == void(0)) {
+		alert('이력 목록에서 데이터를 선택하세요.');
+		return;
+	}
+	if(this._currentRow.nticYn != 'Y') {
+		alert('미고지 데이터는 출력할 수 없습니다.');
+		return;
+	}
+	this.printPayNticIssue('/oper/htldnew/printNticIssue.do', this._currentRow);
+};
+
+GamHtldRentMngtMainModule.prototype.printPayNticIssue = function(url, params, retfunc) {
+	$('#__tempDiv').empty();
+	var form = document.createElement("form");
+	$(form).attr("id", "__printPayNoticeForm");
+	var mngYear = document.createElement("input");
+	var mngNo = document.createElement("input");
+	var mngSeq = document.createElement("input");
+	var histSeq = document.createElement("input");
+	var accnutYear = document.createElement("input");
+	var rntfeeNticNo = document.createElement("input");
+	var nticSeq = document.createElement("input");
+	var dlySerNo = document.createElement("input");
+	$(mngYear).attr("name", "mngYear");
+	$(mngYear).val(params.mngYear);
+	$(mngNo).attr("name", "mngNo");
+	$(mngNo).val(params.mngNo);
+	$(mngSeq).attr("name", "mngSeq");
+	$(mngSeq).val(params.mngSeq);
+	$(histSeq).attr("name", "histSeq");
+	$(histSeq).val(params.histSeq);
+	$(accnutYear).attr("name", "accnutYear");
+	$(accnutYear).val(params.accnutYear);
+	$(rntfeeNticNo).attr("name", "rntfeeNticNo");
+	$(rntfeeNticNo).val(params.rntfeeNticNo);
+	$(nticSeq).attr("name", "nticSeq");
+	$(nticSeq).val(params.nticSeq);
+	$(dlySerNo).attr("name", "dlySerNo");
+	$(dlySerNo).val(params.dlySerNo);
+	$(form).append(mngYear);
+	$(form).append(mngNo);
+	$(form).append(mngSeq);
+	$(form).append(histSeq);
+	$(form).append(accnutYear);
+	$(form).append(rntfeeNticNo);
+	$(form).append(nticSeq);
+	$(form).append(dlySerNo);
+	$(form).attr("action", EMD.context_root+url);
+	$('#__tempDiv').append(form);
+	
+	var win = window.open("","payNotice","width=800, height=600, menubar=no,status=no,scrollbars=yes");
+	
+	var module=this;
+	
+	win[win.addEventListener ? 'addEventListener' : 'attachEvent'](
+			  (win.attachEvent ? 'on' : '') + 'load', function(e){
+				  console.log('debug listener');
+					retfunc(module, 'done');
+				}, false
+			);
+	form.target = "payNotice";
+	form.submit();
 };
 
 <%--

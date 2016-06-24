@@ -3,6 +3,7 @@
  */
 package egovframework.rte.ygpa.gam.oper.htldnew.service.impl;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Repository;
@@ -37,6 +38,25 @@ public class GamHtldRentNticReportDao extends YGPAAbstractDAO {
 	public Map<?, ?> selectNticPrintMaster(GamHtldRentNticDefaultVO searchVO) throws Exception {
 		return (Map<?, ?>) selectByPk("gamHtldRentNticReportDao.selectNticPrintMaster_S", searchVO);
 	}
+
+	/**
+	 * 연체 고지서 출력 마스터 정보 조회
+	 * @param GamHtldRentMngDefaultVO
+	 * @return Map 
+	 * @exception Exception
+	 */
+	public Map<?, ?> selectArrrgNticPrintMaster(GamHtldRentNticDefaultVO searchVO) throws Exception {
+		return (Map<?, ?>) selectByPk("gamHtldRentNticReportDao.selectArrrgNticPrintMaster_S", searchVO);
+	}
 	
-	
+	/**
+	 * 출력용 고지 상세 리스트 조회
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	public List<?> selectNticIssueList(GamHtldRentNticDefaultVO searchVO) throws Exception {
+		return list("gamHtldRentNticReportDao.selectNticIssueList_D", searchVO);
+	}
+
 }

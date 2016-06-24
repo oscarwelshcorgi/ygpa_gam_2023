@@ -83,8 +83,6 @@ GamHtldRentNticHistModule.prototype.loadComplete = function(params) {
 	} else {
 		this.$('#entrpsCd').val('');
 	}
-	
-	console.log('1');
 };
 
 <%--
@@ -148,8 +146,6 @@ GamHtldRentNticHistModule.prototype.onClosePopup = function(popupId, msg, value)
 GamHtldRentNticHistModule.prototype.loadData = function() {
 	var searchOpt=this.makeFormArgs('#gamHtldRentNticHistListSearchForm');
 	this.$('#nticHistList').flexOptions({params:searchOpt}).flexReload();
-	this.$('#nticList').flexEmptyData();
-	this.$('#arrrgList').flexEmptyData();
 };
 
 <%--
@@ -278,18 +274,38 @@ GamHtldRentNticHistModule.prototype.printPayNticIssue = function(url, params, re
 	$('#__tempDiv').empty();
 	var form = document.createElement("form");
 	$(form).attr("id", "__printPayNoticeForm");
+	var mngYear = document.createElement("input");
+	var mngNo = document.createElement("input");
+	var mngSeq = document.createElement("input");
+	var histSeq = document.createElement("input");
 	var accnutYear = document.createElement("input");
 	var rntfeeNticNo = document.createElement("input");
 	var nticSeq = document.createElement("input");
+	var dlySerNo = document.createElement("input");
+	$(mngYear).attr("name", "mngYear");
+	$(mngYear).val(params.mngYear);
+	$(mngNo).attr("name", "mngNo");
+	$(mngNo).val(params.mngNo);
+	$(mngSeq).attr("name", "mngSeq");
+	$(mngSeq).val(params.mngSeq);
+	$(histSeq).attr("name", "histSeq");
+	$(histSeq).val(params.histSeq);
 	$(accnutYear).attr("name", "accnutYear");
 	$(accnutYear).val(params.accnutYear);
 	$(rntfeeNticNo).attr("name", "rntfeeNticNo");
 	$(rntfeeNticNo).val(params.rntfeeNticNo);
 	$(nticSeq).attr("name", "nticSeq");
 	$(nticSeq).val(params.nticSeq);
+	$(dlySerNo).attr("name", "dlySerNo");
+	$(dlySerNo).val(params.dlySerNo);
+	$(form).append(mngYear);
+	$(form).append(mngNo);
+	$(form).append(mngSeq);
+	$(form).append(histSeq);
 	$(form).append(accnutYear);
 	$(form).append(rntfeeNticNo);
 	$(form).append(nticSeq);
+	$(form).append(dlySerNo);
 	$(form).attr("action", EMD.context_root+url);
 	$('#__tempDiv').append(form);
 

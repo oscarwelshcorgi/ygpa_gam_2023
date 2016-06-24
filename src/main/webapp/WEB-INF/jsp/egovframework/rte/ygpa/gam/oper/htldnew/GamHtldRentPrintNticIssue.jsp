@@ -51,11 +51,9 @@
 .page {
 	width: 21cm;
 	min-height: 28.7cm; 
-	/*min-height: 267mm;*/
-	/* padding: 1cm; */
 	margin: 0cm auto;
-	border: 1px #D3D3D3 solid;
-	border-radius: 5px;
+	/*border: 1px #D3D3D3 solid;
+	border-radius: 5px;*/
 	background-image: url('<c:url value="/images/egovframework/ygpa/gam/misc/giro_page.png" />');
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
@@ -78,9 +76,9 @@ div.postPage {
 
 div.receipPage {
 	position: relative;
-padding: 0cm;
-height: 9cm;
-display: block;
+	padding: 0cm;
+	height: 9cm;
+	display: block;
 }
 
  div.giro {
@@ -255,7 +253,7 @@ div.notice {
 	/* top: 11.3cm; */
 	width: 7.85cm;
 	height: 8cm;
-	font-size: 0.27cm;
+	font-size: 0.25cm;
 	font-family: 돋움;
 	margin-top: 0.85cm;
 	margin-left: 12.2cm;
@@ -430,12 +428,10 @@ div.notice {
 
 	.page {
 	    width: 21cm;
-	    /*min-height: 29.7cm;*/
-	    min-height: 267mm;
-		/* padding: 1cm; */
+	    min-height: 28.7mm;
 	    margin: 0cm auto;
-	    border: 1px #D3D3D3 solid;
-	    border-radius: 5px;
+	    /*border: 1px #D3D3D3 solid;
+	    border-radius: 5px;*/
 	    background: white;
 	    -webkit-background-size: cover; /* For WebKit*/
 	    -moz-background-size: cover;    /* Mozilla*/
@@ -452,8 +448,8 @@ div.notice {
 
 	div.postPage {
 		position: relative;
-		padding: 2cm 1.7cm;
-		height: 10cm;
+		padding: 1.7cm;
+		height: 10.3cm;
 	}
 
 	div.receipPage {
@@ -630,7 +626,7 @@ div.notice {
 		/* top: 11.3cm; */
 		width: 7.85cm;
 		height: 8cm;
-		font-size: 0.27cm;
+		font-size: 0.25cm;
 		font-family: 돋움;
 		margin-top: 1cm;
 		margin-left: 12cm;
@@ -822,14 +818,16 @@ div.notice {
 			var vo = [
 			          {name : 'accnutYear', value: '<c:out value="${searchVO.accnutYear}"/>'},
 			          {name : 'rntfeeNticNo', value: '<c:out value="${searchVO.rntfeeNticNo}"/>'},
-			          {name : 'nticSeq', value: '<c:out value="${searchVO.nticSeq}"/>'}
+			          {name : 'nticSeq', value: '<c:out value="${searchVO.nticSeq}"/>'},
+			          {name : 'dlySerNo', value: '<c:out value="${searchVO.dlySerNo}"/>'},
+			          {name : 'nticDt', value: '<c:out value="${master.nticDt}"/>'}
 			          ];
 			var leftPadding = ""+(2.7+Number($('#leftPrintPadding').val()||0))/10;
 			var topPadding = ""+(2.7+Number($('#topPrintPadding').val()||0))/10;
 			$('.subpage').css('padding-left', leftPadding+"cm");
 			$('.subpage').css('padding-top', topPadding+"cm");
 			$.ajax({
-				url: '<c:url value="/oper/htldnew/printHtldNoticeIssue.do"/>',
+				url: '<c:url value="/oper/htldnew/printProcessHtldNticIssue.do"/>',
 				type: 'POST',
 				module: this,
 				dataType: 'json',
@@ -905,55 +903,83 @@ div.notice {
 		      		</div>
 	       		</div>
 	      		<div class="rmk">
-	  			    <c:set var="detailItem" value="${detail[0]}"/>
-	  			    <c:set var="lnmCnt" value="0" />
-	  			    <c:forEach var="dItem" items="${detail }">
-	  			    	<c:if test="${ not ((detailItem.gisAssetsLocplc eq dItem.gisAssetsLocplc) and (detailItem.gisAssetsLnm eq dItem.gisAssetsLnm) and (detailItem.gisAssetsLnmSub eq dItem.gisAssetsLnmSub))  }">
-	  			    		<c:set var="lnmCnt" value="${lnmCnt+1}" />
-	  			    	</c:if>
-	  			    </c:forEach>
 	      			<h2>부과내역</h2>
-		      			<p>소재지 : 
-		      				<c:out value="${detailItem.gisAssetsLocplc}"/>&nbsp;<c:out value="${detailItem.gisAssetsLnm}"/><c:if test="${detailItem.gisAssetsLnmSub!=null}">-<c:out value="${detailItem.gisAssetsLnmSub}"/></c:if>
-		      				<c:if test="${lnmCnt > 0}">
-		      					&nbsp; (외 <c:out value="${lnmCnt}"/>건)
-		      				</c:if>
-		      			</p>
 		      			<p>공급가액 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${master.supAmt}" /> 원</p>
 		      			<p>부가세(매출과세(일반)) : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${master.vat}" /> 원</p>
-		      			<p>합계 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${master.payAmt}" /> 원</p>
-		      			<br>
+		      			<c:if test="${ master.arrrgNo ne '00'}">
+		      				<p>연체료 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${master.arrrgAmt}" /> 원</p>
+		      			</c:if>
+		      			<p>합계 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${master.billAmnt}" /> 원</p>
 	      			<h2>산출근거</h2>
-		      			<p>사용기간 : <c:out value="${master.nticPdFrom}"/> ~ <c:out value="${master.nticPdTo}"/></p>
-		      			<c:set var="nItemCount" value="0" />
-		      			<c:forEach var="feeHistItem" items="${feeHist }" varStatus="itemStatus">
-			      			<c:set var="nItemCount" value="${itemStatus.count}" />
-			      			<c:if test="${nItemCount lt 3 }">
-			      				<p>
-			      					적용단가 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${feeHistItem.applcPrice}" /> 원<c:if test="${feeHistItem.priceSe eq 2}">/월</c:if>, &nbsp; 면적 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${feeHistItem.usageAr}" /> m<sup>2</sup>
-			      					<br/>임대료 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${feeHistItem.fee}" /> 원<c:if test="${feeHistItem.intrAmnt > 0}">, 분납이자 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${feeHistItem.intrAmnt}" /> 원</c:if>
-			      					<c:if test="${(nItemCount eq 2) and  (feeHistItem.cnt gt 2) }">
-			      						&nbsp; (외 <c:out value="${ feeHistItem.cnt - 2 }"/>건)
-			      					</c:if>
-			      				</p>
-			      			</c:if>
-		      			</c:forEach>
-		      			<p>
-		      				<c:if test="${nItemCount gt 1}">
-		      					합계&nbsp;&nbsp;임대료 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${master.fee}" /> 원<c:if test="${master.intrAmnt > 0}">, &nbsp;&nbsp;&nbsp;분납이자 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${master.intrAmnt}" /> 원 </c:if><br/>
+		      			<p> * 사용기간 : <c:out value="${master.nticPdFrom}"/> ~ <c:out value="${master.nticPdTo}"/> </p>
+		      			<p> * 공급가액 산출근거 
+		      				<c:if test="${master.paySe == 4}">
+		      					<c:if test="${master.quarter != 4}">
+		      						(분납 이자율 : COFIX기준금리 <c:out value="${master.intrRate}"/>% 적용 )
+		      					</c:if>
 		      				</c:if>
-		      				<c:if test="${master.intrAmnt gt 0}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(이자율 : <fmt:formatNumber type="number" maxIntegerDigits="5" maxFractionDigits="2" value="${master.intrRate}" />% Cofix수신금리)</c:if>
 		      			</p>
-						    <c:if test="${master.addAmnt>0}">
-		 			    		<p>
-				      				추가금액 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${master.addAmnt}" /> 원 
-				      				<c:if test="${master.addAmntRm!=null}">
-				      					<br />&nbsp;<c:out value="${master.addAmntRm}"/>
-				      				</c:if>
-	      						</p>
-			      			</c:if>
+		      			<c:set var="nItemCount" value="0" />
+		      			<c:set var="nItemPrintCount" value="0" />
+		      			<c:forEach var="detailItem" items="${detailList}" varStatus="itemStatus">
+		      				<c:set var="nItemCount" value="${itemStatus.count}" />
+		      				<c:if test="${nItemCount le 3 }">
+		      					<c:set var="nItemPrintCount" value="${nItemPrintCount + 1}" />
+				      			<c:if test="${detailItem.rntfeeSe eq 0}">
+									<p>
+											소재지 : <c:out value="${detailItem.gisAssetsLocplc}"/>&nbsp;<c:out value="${detailItem.gisAssetsLnm}"/>
+												<c:if test="${detailItem.gisAssetsLnmSub!=null}">-<c:out value="${detailItem.gisAssetsLnmSub}"/></c:if>
+												<br/>
+											면적 : <c:out value="${detailItem.rentArStr }"/>
+												<c:if test="${!(detailItem.rentArSe eq '3')}"> m <sup>2</sup></c:if>
+												&nbsp;&nbsp; 
+											적용단가 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${detailItem.applcRntfee}" />
+												<c:if test="${detailItem.priceSe eq '1' }">원</c:if>
+												<c:if test="${detailItem.priceSe eq '2' }">원/월</c:if>
+												<c:if test="${detailItem.applcRntfeeSe eq '1'}">(실적)</c:if>
+												<br/>
+											임대료 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${detailItem.rntfee}" />원
+												&nbsp;&nbsp;
+											<c:if test="${ (detailItem.paySe eq '4') && (master.quarter != 4) }">
+												분납이자 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${detailItem.payinstIntr}" />원
+											</c:if>
+									</p>			      				
+				      			</c:if>
+				      			<c:if test="${(detailItem.rntfeeSe eq 1) or (detailItem.rntfeeSe eq 2) }">
+				      				<p>
+				      					<c:out value="${detailItem.rntfeeSeNm}" /> ( <c:out value="${detailItem.applcBeginDt }"/> ~ <c:out value="${detailItem.applcEndDt }"/> ) 
+				      					<br /> 
+				      					<c:if test="${ detailItem.rntfeeSe eq 1 }">
+				      					적용면적 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${detailItem.applcRentAr}" /> m <sup>2</sup>
+				      					</c:if>
+				      					<c:if test="${ detailItem.rntfeeSe eq 2 }">
+				      					변동면적 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${detailItem.applcRentAr}" /> m <sup>2</sup>
+				      					</c:if>			      					
+				      					&nbsp;&nbsp;
+				      					적용단가 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${detailItem.appRntfee}" /> 원
+				      					<br />
+				      					임대료 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${detailItem.rntfee}" /> 원
+				      				</p>
+				      			</c:if>
+				      			<c:if test="${detailItem.rntfeeSe eq 3}">
+				      				<p>
+				      					<c:out value="${detailItem.rntfeeSeNm}" /> : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${detailItem.rntfee}" /> 원
+				      				</p>
+				      			</c:if>
+				      		</c:if>
+			      		</c:forEach>
+			      		<c:if test="${ nItemCount gt nItemPrintCount}">
+			      			<p> (외 <c:out value="${(nItemCount - 3)}"/> 건)</p> 
+			      		</c:if>
+			      		<c:if test="${ master.arrrgNo ne '00'}">
+			      			<p> * 연체료 산출근거 (공급가액 기준) <br/>
+			      				<c:out value="${master.dlyBillRsn}" /> <br/>
+			      				( 국세징수법에 따라 연체료 3%, 중가산금 1.2%/매월 적용 )
+			      			</p>
+			      		</c:if>
+			      		
 			      		<c:if test="${master.rm!=null}">
-	      				<p>비고 : <c:out value="${master.rm}"/></p>
+	      					<p> * 비고 : <c:out value="${master.rm}"/></p>
 	      				</c:if>
 	      		</div>
         	</div>
