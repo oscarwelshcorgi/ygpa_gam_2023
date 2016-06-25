@@ -142,6 +142,16 @@ public class GamHtldRentNticHistDao  extends YGPAAbstractDAO {
 	}
 
 	/**
+	 * 해당 원고지의 출력여부 조회
+	 * @param GamHtldRentNticHistVO
+	 * @return List
+	 * @exception Exception
+	 */
+	public String selectNticIssueBillPrtYn(GamHtldRentNticHistVO searchVO) throws Exception {
+		return (String) selectByPk("gamHtldRentNticHistDao.selectNticIssueBillPrtYn_S", searchVO);
+	}
+
+	/**
 	 * 해당고지의 연체고지 최대번호 조회
 	 * @param GamHtldRentNticHistVO
 	 * @return String

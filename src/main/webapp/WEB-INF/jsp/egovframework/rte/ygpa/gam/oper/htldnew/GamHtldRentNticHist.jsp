@@ -204,12 +204,12 @@ GamHtldRentNticHistModule.prototype.cancelNticIssue = function() {
 		alert('이력 목록에서 데이터를 선택하세요.');
 		return;
 	}
-	this.doAction('/oper/htldnew/selectHistArrrgNticIssueListCnt.do', this._currentRow, function(module, result) {
+	this.doAction('/oper/htldnew/selectHistNticIssueInfo.do', this._currentRow, function(module, result) {
 		if(result.resultCode == 0) {
 			if(result.arrrgCnt > 0) {
 				module.cancelArrrgNticIssue(); //연체고지취소
 			} else {
-				module.cancelSourceNticIssue(); //원고지취소
+				module.cancelSourceNticIssue(result.billPrtYn); //원고지취소
 			}
 		} else {
 			alert(result.resultMsg);
@@ -223,10 +223,10 @@ GamHtldRentNticHistModule.prototype.cancelNticIssue = function() {
 	즉 화면에 출력표시는 nhtPrtYn으로 하는 것이고 rev_coll_f와 연계되는 출력확인을 하는 것은 billPrtYn으로 해야 함.
 	bilPrtYn은 즉 고지일자별 rev_coll_f의 billPrtYn을 Y로 만드는 스케줄링의 결과값을 담고 있음.
 --%>
-GamHtldRentNticHistModule.prototype.cancelSourceNticIssue = function() {
+GamHtldRentNticHistModule.prototype.cancelSourceNticIssue = function(billPrtYn) {
 	if(!confirm("선택한 건의 고지를 취소 하시겠습니까?")) return;
 	
-	if(this._currentRow.billPrtYn == 'Y') {
+	if(billPrtYn == 'Y') {
 		if(!confirm("포트미스에 연동된 자료를 취소하려고 합니다. 고지 취소를 하려면 먼저 출력을 취소 해야 합니다. 출력을 취소하면 발행된 마이너스 세금계산서가 발행 되고 징수의뢰 자료가 삭제 됩니다. 출력을 취소 하시겠습니까?"))
 			return;
 	}

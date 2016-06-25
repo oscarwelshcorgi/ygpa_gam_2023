@@ -95,6 +95,16 @@ public class GamHtldRentNticHistServiceImpl extends AbstractServiceImpl implemen
 	}
 
 	/**
+	 * 해당 원고지의 출력여부 조회
+	 * @param GamHtldRentNticHistVO
+	 * @return int
+	 * @exception Exception
+	 */
+	public String selectNticIssueBillPrtYn(GamHtldRentNticHistVO searchVO) throws Exception {
+		return gamHtldRentNticHistDao.selectNticIssueBillPrtYn(searchVO);
+	}
+
+	/**
      * 배후단지 원고지 취소 
      * @param GamHtldRentNticHistVO
      * @return

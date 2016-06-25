@@ -26,6 +26,7 @@
 			,#rntfeeNticNo# RNTFEE_NTIC_NO
 			,#nticSeq# NTIC_SEQ
 			,#nticNo# NTIC_NO
+			,(SELECT RM FROM HTLD_NTIC_DTLS_F WHERE ACCNUT_YEAR = #accnutYear# AND RNTFEE_NTIC_NO = #rntfeeNticNo# AND NTIC_SEQ = #nticSeq#) RM
 		FROM 
 			HTLD_RENT_HIST_F 
 		WHERE
@@ -355,6 +356,7 @@
       		ARRRG_TARIFF=TO_NUMBER(#arrrgTariff#),
       		ARRRG_PAY_DATES=#applyPayDates#,
       		PAY_AMT=NVL(SUP_AMT,0)+NVL(VAT,0)+TO_NUMBER(#dbillAmnt#),
+      		RM = #rm#,
       		RCIV_SE='1', <!-- 연체로 기록. -->
       		UPD_USR=#regUsr#,
       		UPDT_DT=SYSDATE

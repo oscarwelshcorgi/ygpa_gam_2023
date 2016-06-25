@@ -27,7 +27,7 @@ function GamHtldRentArrrgNticIssueModule() {}
 <%--
 	EmdModule을 상속하여 모듈 클래스를 정의한다.
 --%>
-GamHtldRentArrrgNticIssueModule.prototype = new EmdModule(740, 480);
+GamHtldRentArrrgNticIssueModule.prototype = new EmdModule(740, 510);
 
 <%--///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	EmdModule Override 및 이벤트 처리 정의 부분 시작	
@@ -361,6 +361,12 @@ var module_instance = new GamHtldRentArrrgNticIssueModule();
 						<th width="10%" height="18">연체납부금액</th>
 						<td>
 							<input type="text" size="15" id="payAmt" class="ygpaNumber" disabled/>&nbsp;원
+						</td>
+					</tr>
+					<tr>
+						<th width="10%" height="18">비고</th>
+						<td colspan="3">
+							<input type="text" size="30" id="rm" />
 						</td>
 					</tr>
 				</table>

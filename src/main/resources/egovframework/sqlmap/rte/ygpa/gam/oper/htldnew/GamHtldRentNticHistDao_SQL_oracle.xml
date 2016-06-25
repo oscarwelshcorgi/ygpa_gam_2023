@@ -396,6 +396,16 @@
             AND FISCAL_YR = #accnutYear#
             AND BILL_NO = #nticNo#
 	</select>
+
+	<!-- 해당 원고지의 출력여부 조회 -->
+	<select id="gamHtldRentNticHistDao.selectNticIssueBillPrtYn_S" parameterClass="gamHtldRentNticHistVO" resultClass="String">
+		SELECT BILL_PRT_YN
+		FROM HTLD_NTIC_DTLS_F
+		WHERE
+			ACCNUT_YEAR = #accnutYear#
+			AND RNTFEE_NTIC_NO = #rntfeeNticNo#
+			AND NTIC_SEQ = #nticSeq#
+	</select>
 	
 	<!-- 해당고지의 연체고지 최대번호 조회 -->
 	<select id="gamHtldRentNticHistDao.selectHistArrrgNticIssueMaxDlySerNo_S" parameterClass="gamHtldRentNticHistVO" resultClass="java.lang.String">

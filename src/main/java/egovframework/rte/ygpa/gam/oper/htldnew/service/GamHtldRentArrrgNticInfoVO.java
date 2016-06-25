@@ -35,6 +35,7 @@ public class GamHtldRentArrrgNticInfoVO extends GamHtldRentNticDefaultVO{
 	private String	arrrgTariff;		/** 연체요율 */
 	private String	arrrgNticAmt; 	/** 연체고지금액 */
 	private String 	dlyBillRsn; 		/** 산출내역 */
+	private String	rm; 				/** 비고 */
 	private String 	regUsr;			/** 등록자 */
 	private String 	updUsr;			/** 수정자 */
 	private String	deptCd;			/** 사용자 정보 */
@@ -149,6 +150,18 @@ public class GamHtldRentArrrgNticInfoVO extends GamHtldRentNticDefaultVO{
 		this.dlyBillRsn = dlyBillRsn;
 	}
 	/**
+	 * @return the rm
+	 */
+	public String getRm() {
+		return rm;
+	}
+	/**
+	 * @param rm the rm to set
+	 */
+	public void setRm(String rm) {
+		this.rm = rm;
+	}
+	/**
 	 * @return the regUsr
 	 */
 	public String getRegUsr() {
@@ -208,5 +221,4 @@ public class GamHtldRentArrrgNticInfoVO extends GamHtldRentNticDefaultVO{
 	public void setEmplNo(String emplNo) {
 		this.emplNo = emplNo;
 	}
-
 }

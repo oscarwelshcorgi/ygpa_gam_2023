@@ -165,13 +165,13 @@ public class GamHtldRentNticHistController {
 
 
     /**
-     * 연체고지상세목록수를 조회한다.
+     * 연체고지상세목록수와 원고지 출력여부를 조회한다.
      * @param searchVO
      * @return map
      * @throws Exception the exception
      */
-	@RequestMapping(value="/oper/htldnew/selectHistArrrgNticIssueListCnt.do", method=RequestMethod.POST)
-	public @ResponseBody Map<String, Object> selectHistArrrgNticIssueListCnt(GamHtldRentNticHistVO searchVO) throws Exception {
+	@RequestMapping(value="/oper/htldnew/selectHistNticIssueInfo.do", method=RequestMethod.POST)
+	public @ResponseBody Map<String, Object> selectHistNticIssueInfo(GamHtldRentNticHistVO searchVO) throws Exception {
     	Map<String, Object> map = new HashMap<String, Object>();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -182,9 +182,11 @@ public class GamHtldRentNticHistController {
     	}
     	
     	int arrrgCnt = gamHtldRentNticHistService.selectHistArrrgNticIssueListCnt(searchVO);
+    	String billPrtYn = gamHtldRentNticHistService.selectNticIssueBillPrtYn(searchVO);
     	
     	map.put("resultCode", 0);
     	map.put("arrrgCnt", arrrgCnt);
+    	map.put("billPrtYn", billPrtYn);
     	
     	return map;
 	}

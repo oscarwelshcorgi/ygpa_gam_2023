@@ -79,6 +79,7 @@ public class GamHtldRentArrrgNticIssueServiceImpl extends AbstractServiceImpl im
 	@SuppressWarnings("unchecked")
 	public void execArrrgNticIssue(GamHtldRentArrrgNticInfoVO arrrgVO) throws Exception {
 		Map<String, Object> map = (Map<String, Object>) gamHtldRentArrrgNticIssueDao.selectArrrgInfo(arrrgVO);
+		map.put("rm", arrrgVO.getRm());
 		gamHtldRentArrrgNticIssueDao.insertArrrgInfo(map);
 		gamHtldRentArrrgNticIssueDao.updateHtldNticDtlsInfo(map);
 	}
