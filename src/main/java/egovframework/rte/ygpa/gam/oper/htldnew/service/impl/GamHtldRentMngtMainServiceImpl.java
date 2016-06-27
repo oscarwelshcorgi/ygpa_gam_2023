@@ -338,7 +338,8 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 				resultFee = getTotalFee(startDate, endDate, applcMonthFee);
 			}
 		}
-
+		
+		resultFee = resultFee.setScale(0, RoundingMode.DOWN);
 		return resultFee;
 	}
 	
