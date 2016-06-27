@@ -241,12 +241,12 @@ GamHtldRentCtrtModule.prototype.initDataRow = function(row) {
 --%>
 GamHtldRentCtrtModule.prototype.setButtons = function() {
 	if(this._mode == 'I') {
-		this.$('#btnEntrpsInfoPopup').enable();
+		//this.$('#btnEntrpsInfoPopup').enable();
 		this.$('#btnEntrpsInfoPopupl').removeClass('ui-state-disabled');
 		this.$('#btnCtrtTerm').hide();
 		this.$('#btnCtrtDelete').hide();
 	} else {
-		this.$('#btnEntrpsInfoPopup').disable({disableClass:"ui-state-disabled"});
+		//this.$('#btnEntrpsInfoPopup').disable({disableClass:"ui-state-disabled"});
 		if(this.$('#termnYn').val() == 'N')  {
 			this.$('#btnCtrtTerm').show();
 			this.$('#btnCtrtDelete').show();
