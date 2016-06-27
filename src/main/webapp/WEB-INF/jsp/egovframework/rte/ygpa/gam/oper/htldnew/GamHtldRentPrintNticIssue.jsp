@@ -863,7 +863,7 @@ div.notice {
 						전라남도 광양시 항만대로 465 월드마린센터 13층
 					</div>
 					<div id="senderPostcode">
-						545-030
+						57771
 					</div>
 					<div class="letterMsg">고 지 서  재 중</div>
 				</div>
@@ -1000,7 +1000,7 @@ div.notice {
       				<div id="nticno"><c:out value="${master.prtAtCode}"/>-<c:out value="${master.feeTp}"/>-<c:out value="${master.fiscalYr}"/>-<c:out value="${master.billNo}"/></div>
       				<div id="nticDate"><c:out value="${master.billDt}"/></div>
       				<div id="payTmlmt"><c:out value="${master.dueDate}"/></div>
-      				<div id="girormk"><c:out value="${master.chrgeKndNm}"/> <c:out value="${master.nticCnt}"/>회차 사용료</div>
+      				<div id="girormk"><c:out value="${master.chrgeKndNm}"/> 사용료</div>
 	       		</div>
 	       		<div id="noticermk">납기가 지난 고지서는 납부할 수 없으며, 금융기관에서는 온라인 수납처리 바랍니다.</div>
 			</div>
