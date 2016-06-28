@@ -10,7 +10,7 @@
  */
 function GamPrtFcltyUsageConfmInqireModule() {}
 
-GamPrtFcltyUsageConfmInqireModule.prototype = new EmdModule(1500, 800);
+GamPrtFcltyUsageConfmInqireModule.prototype = new EmdModule(1600, 800);
 
 //페이지가 호출 되었을때 호출 되는 함수
 GamPrtFcltyUsageConfmInqireModule.prototype.loadComplete = function() {
@@ -25,10 +25,10 @@ GamPrtFcltyUsageConfmInqireModule.prototype.loadComplete = function() {
 	                 {display:'업체명',						name:'',width:150, sortable:false,align:'center'},
 	                 {display:'사업자등록번호',				name:'',width:120, sortable:false,align:'center'},
 	                 {display:'대표자',						name:'',width:80, sortable:false,align:'center'},
-	                 {display:'위치',						name:'',width:150, sortable:false,align:'center'},
-	                 {display:'사용목적',					name:'',width:150, sortable:false,align:'center'},
+	                 {display:'위치',						name:'',width:200, sortable:false,align:'center'},
+	                 {display:'사용목적',					name:'',width:200, sortable:false,align:'center'},
 	                 {display:'종목',						name:'',width:40, sortable:false,align:'center'},
-	                 {display:'사용구분',					name:'',width:40, sortable:false,align:'center'},
+	                 {display:'사용구분',					name:'',width:60, sortable:false,align:'center'},
 	                 {display:'면적',						name:'',width:100, sortable:false,align:'center'},
 	                 {display:'사용료(원)/ 공급가액 기준',	name:'',width:200, sortable:false,align:'center'},
 	                 {display:'최초사용',					name:'',width:80, sortable:false,align:'center'},
