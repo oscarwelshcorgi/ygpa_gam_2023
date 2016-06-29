@@ -3,9 +3,14 @@
  */
 package egovframework.rte.ygpa.gam.oper.gnrl.service.impl;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
+import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyUsageConfmInqireVO;
+import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyUseExprInqireVO;
 
 /**
  *
@@ -26,5 +31,33 @@ import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 
 @Repository("gamPrtFcltyUsageConfmInqireDao")
 public class GamPrtFcltyUsageConfmInqireDao extends YGPAAbstractDAO {
+
+	/**
+	 * @param searchVO
+	 * @return
+	 */
+	public List selectPrtFcltyUsageConfmInqireList(
+			GamPrtFcltyUsageConfmInqireVO searchVO) {
+        return list("gamPrtFcltyUsageConfmInqireDao.selectPrtFcltyUsageConfmInqireList_D", searchVO);
+	}
+
+	/**
+	 * @param searchVO
+	 * @return
+	 */
+	public int selectPrtFcltyUsageConfmInqireListTotCnt(
+			GamPrtFcltyUsageConfmInqireVO searchVO) {
+        return (Integer)getSqlMapClientTemplate().queryForObject("gamPrtFcltyUsageConfmInqireDao.selectPrtFcltyUsageConfmInqireListTotCnt_S", searchVO);
+	}
+
+	/**
+	 * @param searchVO
+	 * @return
+	 */
+	public EgovMap selectPrtFcltyUsageConfmInqireSum(
+			GamPrtFcltyUsageConfmInqireVO searchVO) {
+		return (EgovMap) selectByPk("gamPrtFcltyUsageConfmInqireDao.selectPrtFcltyUsageConfmInqireSum_S", searchVO);
+
+	}
 
 }

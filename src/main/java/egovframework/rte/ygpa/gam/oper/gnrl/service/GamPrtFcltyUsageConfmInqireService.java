@@ -3,6 +3,10 @@
  */
 package egovframework.rte.ygpa.gam.oper.gnrl.service;
 
+import java.util.List;
+
+import egovframework.rte.psl.dataaccess.util.EgovMap;
+
 /**
  *
  * @author Administrator
@@ -21,5 +25,26 @@ package egovframework.rte.ygpa.gam.oper.gnrl.service;
  */
 
 public interface GamPrtFcltyUsageConfmInqireService {
+
+	/**
+	 * 항만시설사용현황 목록을 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return list
+	 * @exception Exception
+	 */
+    List selectPrtFcltyUsageConfmInqireList(GamPrtFcltyUsageConfmInqireVO searchVO) throws Exception;
+
+	/**
+	 * @param searchVO
+	 * @return
+	 */
+	int selectPrtFcltyUsageConfmInqireListTotCnt(
+			GamPrtFcltyUsageConfmInqireVO searchVO);
+
+	/**
+	 * @param searchVO
+	 * @return
+	 */
+	EgovMap selectPrtFcltyUsageConfmInqireSum(GamPrtFcltyUsageConfmInqireVO searchVO);
 
 }

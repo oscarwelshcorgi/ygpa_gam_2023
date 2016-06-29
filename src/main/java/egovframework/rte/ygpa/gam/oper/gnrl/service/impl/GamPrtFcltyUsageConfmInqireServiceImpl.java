@@ -3,12 +3,16 @@
  */
 package egovframework.rte.ygpa.gam.oper.gnrl.service.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyUsageConfmInqireService;
+import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyUsageConfmInqireVO;
 
 /**
  *
@@ -32,6 +36,34 @@ public class GamPrtFcltyUsageConfmInqireServiceImpl extends AbstractServiceImpl 
 
 	@Resource(name="gamPrtFcltyUsageConfmInqireDao")
     private GamPrtFcltyUsageConfmInqireDao gamPrtFcltyUsageConfmInqireDao;
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyUsageConfmInqireService#selectPrtFcltyUsageConfmInqireList(egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyUsageConfmInqireVO)
+	 */
+	@Override
+	public List selectPrtFcltyUsageConfmInqireList(
+			GamPrtFcltyUsageConfmInqireVO searchVO) throws Exception {
+		return gamPrtFcltyUsageConfmInqireDao.selectPrtFcltyUsageConfmInqireList(searchVO);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyUsageConfmInqireService#selectPrtFcltyUsageConfmInqireListTotCnt(egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyUsageConfmInqireVO)
+	 */
+	@Override
+	public int selectPrtFcltyUsageConfmInqireListTotCnt(
+			GamPrtFcltyUsageConfmInqireVO searchVO) {
+		return gamPrtFcltyUsageConfmInqireDao.selectPrtFcltyUsageConfmInqireListTotCnt(searchVO);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyUsageConfmInqireService#selectPrtFcltyUsageConfmInqireSum(egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyUsageConfmInqireVO)
+	 */
+	@Override
+	public EgovMap selectPrtFcltyUsageConfmInqireSum(
+			GamPrtFcltyUsageConfmInqireVO searchVO) {
+		return gamPrtFcltyUsageConfmInqireDao.selectPrtFcltyUsageConfmInqireSum(searchVO);
+
+	}
 
 
 }
