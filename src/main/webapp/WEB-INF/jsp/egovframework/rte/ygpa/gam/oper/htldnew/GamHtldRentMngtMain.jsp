@@ -50,13 +50,14 @@ GamHtldRentMngtMainModule.prototype.loadComplete = function() {
                     {display:'실적평가임대료', name:'aseRntfeeStr',width:90, sortable:false,align:'right'},
                     {display:'실적평가적용기간', name:'asePd',width:170, sortable:false,align:'center'},
                     {display:'구분', name:'paySeNm',width:45, sortable:false,align:'center'},
-    				{display:'임대료', name:'rntfee',width:110, sortable:false,align:'right', displayFormat: 'input-number'},
-    				{display:'분납이자', name:'payinstIntr',width:90, sortable:false,align:'right', displayFormat: 'input-number'},
-    				{display:'공급가액', name:'supAmt',width:110, sortable:false,align:'right', displayFormat: 'number'},
+    				{display:'임대료', name:'rntfee',width:95, sortable:false,align:'right', displayFormat: 'input-number'},
+    				{display:'분납이자', name:'payinstIntr',width:80, sortable:false,align:'right', displayFormat: 'input-number'},
+    				{display:'공급가액', name:'supAmt',width:100, sortable:false,align:'right', displayFormat: 'number'},
     				{display:'부가세', name:'vat',width:90, sortable:false,align:'right', displayFormat: 'number'},
-    				{display:'납부금액', name:'payAmt',width:110, sortable:false,align:'right', displayFormat: 'number'},
-    				{display:'비고', name:'rm',width:180, sortable:false,align:'left', displayFormat: 'input'},
-                    {display:'상태', name:'status',width:60, sortable:false,align:'center'}
+    				{display:'납부금액', name:'payAmt',width:100, sortable:false,align:'right', displayFormat: 'number'},
+    				{display:'비고', name:'rm',width:170, sortable:false,align:'left', displayFormat: 'input'},
+                    {display:'상태', name:'status',width:60, sortable:false,align:'center'},
+                    {display:'출력', name:'prtYn',width:50, sortable:false,align:'center'}
                     ],
         showTableToggleBtn: false,
         height: 'auto',
@@ -345,7 +346,12 @@ GamHtldRentMngtMainModule.prototype.initDataRow = function(row) {
 					row.status = '연체';
 					row.arrrgYn = 'Y';
 				}
-			}
+				if(row.rcivSe == '1') {
+					row.prtYn = (row.dlyBillPrtYn == 'Y') ? '출력' : ''; 
+				} else {
+					row.prtYn = (row.nhtPrtYn == 'Y') ? '출력' : '';
+				}
+			}	
 		}
 	}
 };
