@@ -109,4 +109,34 @@ public class GamHtldRentNticReportDao extends YGPAAbstractDAO {
 	public void updateArrrgPrintState(GamHtldRentNticInfoVO nticInfoVO) throws Exception {
 		update("gamHtldRentNticReportDao.updateArrrgPrintState_S", nticInfoVO);
 	}
+
+	/**
+	 * 원고지 마스터 (산출내역서 엑셀용)
+	 * @param GamHtldRentMngDefaultVO
+	 * @return Map 
+	 * @exception Exception
+	 */
+	public Map<?, ?> selectNticXlsMaster(GamHtldRentNticDefaultVO searchVO) throws Exception {
+		return (Map<?, ?>) selectByPk("gamHtldRentNticReportDao.selectNticXlsMaster_S", searchVO);
+	}
+
+	/**
+	 * 연체고지 마스터 (산출내역서 엑셀용)
+	 * @param GamHtldRentMngDefaultVO
+	 * @return Map 
+	 * @exception Exception
+	 */
+	public Map<?, ?> selectArrrgNticXlsMaster(GamHtldRentNticDefaultVO searchVO) throws Exception {
+		return (Map<?, ?>) selectByPk("gamHtldRentNticReportDao.selectArrrgNticXlsMaster_S", searchVO);
+	}
+	
+	/**
+	 * 고지 상세 리스트 조회 (산출내역서 엑셀용)
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	public List<?> selectNticIssueXlsList(GamHtldRentNticDefaultVO searchVO) throws Exception {
+		return list("gamHtldRentNticReportDao.selectNticIssueXlsList_D", searchVO);
+	}
 }

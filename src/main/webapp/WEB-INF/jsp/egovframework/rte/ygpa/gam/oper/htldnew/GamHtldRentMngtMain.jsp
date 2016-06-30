@@ -74,11 +74,7 @@ GamHtldRentMngtMainModule.prototype.loadComplete = function() {
     // 임대상세목록의 row선택
     this.$("#mainGrid").on('onItemSelected', function(event, module, row, grid, param) {
     	module._currentRow = row;
-    	if(row.arrrgYn == 'Y') {
-    		module.$('#btnArrrgNticIssue').show();
-    	} else {
-    		module.$('#btnArrrgNticIssue').hide();
-    	}
+    	module.setButtons();
     });
 	
     // 해당셀에 더블클릭이 일어났을 때 
@@ -100,6 +96,11 @@ GamHtldRentMngtMainModule.prototype.loadComplete = function() {
 		module.loadData();
 	});
     
+	this.$('#btnArrrgNticIssue').hide();
+	this.$('#btnPrintNticIssue').hide();
+	this.$('#btnDownloadNticIssue').hide();
+	this.$('#btnProcessNticIssue').hide();
+
     this.loadData();
 };
 
@@ -136,6 +137,9 @@ GamHtldRentMngtMainModule.prototype.onButtonClick = function(buttonId) {
 			break;
 		case 'btnProcessNticIssue' : //수납처리
 			this.processNticIssue();
+			break;
+		case 'btnDownloadNticIssue' : //산출내역서 다운로드
+			this.downloadNticIssue();
 			break;
 	}
 };
@@ -347,6 +351,31 @@ GamHtldRentMngtMainModule.prototype.initDataRow = function(row) {
 };
 
 <%-- 
+	setButtons - row의 상태에 따라 버튼을 설정한다.
+--%>
+GamHtldRentMngtMainModule.prototype.setButtons = function() {
+	if(this._currentRow.nticYn != 'Y') { //고지상태가 아니면
+		this.$('#btnNticIssue').show();
+		this.$('#btnArrrgNticIssue').hide();
+		this.$('#btnPrintNticIssue').hide();
+		this.$('#btnDownloadNticIssue').hide();
+		this.$('#btnAddNticIssue').show();
+		this.$('#btnProcessNticIssue').hide();
+	} else {
+		this.$('#btnNticIssue').hide();
+    	if(this._currentRow.arrrgYn == 'Y') {
+    		this.$('#btnArrrgNticIssue').show();
+    	} else {
+    		this.$('#btnArrrgNticIssue').hide();
+    	}
+		this.$('#btnPrintNticIssue').show();
+		this.$('#btnDownloadNticIssue').show();
+		this.$('#btnAddNticIssue').hide();
+		this.$('#btnProcessNticIssue').show();
+	}
+};
+
+<%-- 
 	calcMngGroupData - 소계필드를 계산한다.
 --%>
 GamHtldRentMngtMainModule.prototype.calcMngGroupData = function(mngYear, mngNo, mngSeq) {
@@ -505,7 +534,7 @@ GamHtldRentMngtMainModule.prototype.processNticIssue = function() {
 };
 
 <%--
-printNticIsssue - 고지서 출력
+	printNticIsssue - 고지서 출력
 --%>
 GamHtldRentMngtMainModule.prototype.printNticIssue = function() {
 	if(this._currentRow == void(0)) {
@@ -573,6 +602,21 @@ GamHtldRentMngtMainModule.prototype.printPayNticIssue = function(url, params, re
 };
 
 <%--
+	downloadNticIsssue - 산출내역서 다운로드
+--%>
+GamHtldRentMngtMainModule.prototype.downloadNticIssue = function() {
+	if(this._currentRow == void(0)) {
+		alert('이력 목록에서 데이터를 선택하세요.');
+		return;
+	}
+	var url='/oper/htldnew/downloadXlsNticIssueReport.do';
+	var param=[];
+	param[param.length] = {name:'searchVO', value:JSON.stringify(this._currentRow)};
+	param[param.length] = {name:'fileName', value:'산출내역서.xls'};
+	$.fileDownload(EMD.context_root+url, {data:param, httpMethod:"POST"});
+};
+
+<%--
 	다음 변수는 고정 적으로 정의 해야 함
 	module_instance는 고정 변수 GamHtldRentMngtMainModule은 위에서 EmdModule을 상속 받는 이 윈도우의 모듈 함수로 정의 됨.
 --%>
@@ -631,9 +675,10 @@ var module_instance = new GamHtldRentMngtMainModule();
                        <button id="btnNticIssue">고지</button>
                        <button id="btnArrrgNticIssue">연체고지</button>
                        <button id="btnPrintNticIssue" >고지서출력</button>
+                       <button id="btnDownloadNticIssue" >산출내역서 다운로드</button>
                        <button id="btnAddNticIssue">추가고지</button>
-                       <button id="btnNticIssueHist" >고지이력</button>
                        <button id="btnProcessNticIssue" >수납처리</button>
+                       <button id="btnNticIssueHist" >고지이력</button>
 					</td>
 				</tr>
 			</table>

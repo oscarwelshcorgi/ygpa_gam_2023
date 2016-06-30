@@ -79,5 +79,29 @@ public interface GamHtldRentNticReportService {
 	 * @throws Exception
 	 */
 	void updateArrrgPrintState(GamHtldRentNticInfoVO nticInfoVO) throws Exception;
+
+	/**
+	 * 원고지 마스터 (산출내역서 엑셀용)
+	 * @param GamHtldRentMngDefaultVO
+	 * @return Map 
+	 * @exception Exception
+	 */
+	Map<?, ?> selectNticXlsMaster(GamHtldRentNticDefaultVO searchVO) throws Exception;
+
+	/**
+	 * 연체고지 마스터 (산출내역서 엑셀용)
+	 * @param GamHtldRentMngDefaultVO
+	 * @return Map 
+	 * @exception Exception
+	 */
+	Map<?, ?> selectArrrgNticXlsMaster(GamHtldRentNticDefaultVO searchVO) throws Exception;
+
+	/**
+	 * 고지 상세 리스트 조회 (산출내역서 엑셀용)
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	List<?> selectNticIssueXlsList(GamHtldRentNticDefaultVO searchVO) throws Exception;
 	
 }

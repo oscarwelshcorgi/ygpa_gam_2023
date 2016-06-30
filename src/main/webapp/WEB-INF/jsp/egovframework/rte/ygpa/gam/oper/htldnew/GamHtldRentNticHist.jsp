@@ -108,6 +108,9 @@ GamHtldRentNticHistModule.prototype.onButtonClick = function(buttonId) {
 		case 'btnPrintNticIssue' : //고지서 출력
 			this.printNticIssue();
 			break;
+		case 'btnDownloadNticIssue' : //산출내역서 다운로드
+			this.downloadNticIssue();
+			break;
 	}
 };
 
@@ -324,6 +327,21 @@ GamHtldRentNticHistModule.prototype.printPayNticIssue = function(url, params, re
 };
 
 <%--
+	downloadNticIsssue - 산출내역서 다운로드
+--%>
+GamHtldRentNticHistModule.prototype.downloadNticIssue = function() {
+	if(this._currentRow == void(0)) {
+		alert('이력 목록에서 데이터를 선택하세요.');
+		return;
+	}
+	var url='/oper/htldnew/downloadXlsNticIssueReport.do';
+	var param=[];
+	param[param.length] = {name:'searchVO', value:JSON.stringify(this._currentRow)};
+	param[param.length] = {name:'fileName', value:'산출내역서.xls'};
+	$.fileDownload(EMD.context_root+url, {data:param, httpMethod:"POST"});
+};
+
+<%--
 	다음 변수는 고정 적으로 정의 해야 함
 	module_instance는 고정 변수 GamHtldRentNticHistModule은 위에서 EmdModule을 상속 받는 이 윈도우의 모듈 함수로 정의 됨.
 --%>
@@ -386,6 +404,7 @@ var module_instance = new GamHtldRentNticHistModule();
 					<td style="text-align: right">
                        <button id="btnCancelNticIssue" >고지취소</button>
                        <button id="btnPrintNticIssue" >고지서출력</button>
+                       <button id="btnDownloadNticIssue" >산출내역서 다운로드</button>
 					</td>
 				</tr>
 			</table>

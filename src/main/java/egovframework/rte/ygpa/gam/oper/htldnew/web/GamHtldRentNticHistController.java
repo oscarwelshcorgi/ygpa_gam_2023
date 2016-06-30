@@ -18,7 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.View;
 import org.springmodules.validation.commons.DefaultBeanValidator;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
@@ -343,4 +347,29 @@ public class GamHtldRentNticHistController {
     	return map;
 	}
     
+	@RequestMapping(value="/oper/htldnew/downloadXlsNticIssueReport.do", method=RequestMethod.POST)
+	public @ResponseBody ModelAndView downloadXlsNticIssueReport(@RequestParam Map<String, Object> excelParam) throws Exception {
+    	Map<String, Object> map = new HashMap<String, Object>();
+    	ObjectMapper mapper = new ObjectMapper();
+    	
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return new ModelAndView("htldRentNticReportExcelView", "nticData", map);
+		}
+
+		GamHtldRentNticDefaultVO searchVO = mapper.readValue((String)excelParam.get("searchVO"), GamHtldRentNticDefaultVO.class);
+		
+		Map<?, ?> master = ("00".equals(searchVO.getDlySerNo())) ? 
+    			gamHtldRentNticReportService.selectNticXlsMaster(searchVO) : gamHtldRentNticReportService.selectArrrgNticXlsMaster(searchVO);
+    			
+    	List<?> detailList = gamHtldRentNticReportService.selectNticIssueXlsList(searchVO);
+		
+    	map.put("resultCode", 0);
+    	map.put("master", master);
+    	map.put("detailList", detailList);
+		return new ModelAndView("htldRentNticReportExcelView", "nticData", map);
+	}
+
 }
