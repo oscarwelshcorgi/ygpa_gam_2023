@@ -70,6 +70,11 @@ GamHtldRentMngtMainModule.prototype.loadComplete = function() {
 	     	return data;
 	   	}        
     });
+
+    this.$("#mainGrid").on('onLoadDataComplete', function(event, module, data) {
+    	module._currentRow = null;
+    	module.setButtons();
+    });
     
     // 임대상세목록의 row선택
     this.$("#mainGrid").on('onItemSelected', function(event, module, row, grid, param) {
@@ -96,11 +101,6 @@ GamHtldRentMngtMainModule.prototype.loadComplete = function() {
 		module.loadData();
 	});
     
-	this.$('#btnArrrgNticIssue').hide();
-	this.$('#btnPrintNticIssue').hide();
-	this.$('#btnDownloadNticIssue').hide();
-	this.$('#btnProcessNticIssue').hide();
-
     this.loadData();
 };
 
@@ -354,24 +354,33 @@ GamHtldRentMngtMainModule.prototype.initDataRow = function(row) {
 	setButtons - row의 상태에 따라 버튼을 설정한다.
 --%>
 GamHtldRentMngtMainModule.prototype.setButtons = function() {
-	if(this._currentRow.nticYn != 'Y') { //고지상태가 아니면
-		this.$('#btnNticIssue').show();
+	if(this._currentRow != void(0)) {
+		if(this._currentRow.nticYn != 'Y') { //고지상태가 아니면
+			this.$('#btnNticIssue').show();
+			this.$('#btnArrrgNticIssue').hide();
+			this.$('#btnPrintNticIssue').hide();
+			this.$('#btnDownloadNticIssue').hide();
+			this.$('#btnAddNticIssue').show();
+			this.$('#btnProcessNticIssue').hide();
+		} else {
+			this.$('#btnNticIssue').hide();
+	    	if(this._currentRow.arrrgYn == 'Y') {
+	    		this.$('#btnArrrgNticIssue').show();
+	    	} else {
+	    		this.$('#btnArrrgNticIssue').hide();
+	    	}
+			this.$('#btnPrintNticIssue').show();
+			this.$('#btnDownloadNticIssue').show();
+			this.$('#btnAddNticIssue').hide();
+			this.$('#btnProcessNticIssue').show();
+		}
+	} else {
 		this.$('#btnArrrgNticIssue').hide();
 		this.$('#btnPrintNticIssue').hide();
 		this.$('#btnDownloadNticIssue').hide();
-		this.$('#btnAddNticIssue').show();
 		this.$('#btnProcessNticIssue').hide();
-	} else {
-		this.$('#btnNticIssue').hide();
-    	if(this._currentRow.arrrgYn == 'Y') {
-    		this.$('#btnArrrgNticIssue').show();
-    	} else {
-    		this.$('#btnArrrgNticIssue').hide();
-    	}
-		this.$('#btnPrintNticIssue').show();
-		this.$('#btnDownloadNticIssue').show();
-		this.$('#btnAddNticIssue').hide();
-		this.$('#btnProcessNticIssue').show();
+		this.$('#btnNticIssue').show();
+		this.$('#btnAddNticIssue').show();
 	}
 };
 
@@ -416,26 +425,22 @@ GamHtldRentMngtMainModule.prototype.calcMngGroupData = function(mngYear, mngNo, 
 	addNticIssue - 추가고지
 --%>
 GamHtldRentMngtMainModule.prototype.addNticIssue = function() {
-	var rows = this.$('#mainGrid').selectedRows();
-	if(rows.length < 1) {
-		alert("목록에서 입주기업을 선택하십시오.");
+	if(this._currentRow == void(0)) {
+		alert('목록에서 입주기업을 선택하세요.');
 		return;
 	}
-	var row = rows[0];
-	this.doExecuteDialog('addNticPopup', '배후단지 추가 고지', '/popup/showHtldAddNtic.do', {}, {'searchRow' : row, 'mode' : 'I', 'histDt' : this.$('#histDt').val()} );
+	this.doExecuteDialog('addNticPopup', '배후단지 추가 고지', '/popup/showHtldAddNtic.do', {}, {'searchRow' : this._currentRow, 'mode' : 'I', 'histDt' : this.$('#histDt').val()} );
 };
 
 <%--
 	execNticIssue - 고지
 --%>
 GamHtldRentMngtMainModule.prototype.execNticIssue = function() {
-	var rows = this.$('#mainGrid').selectedRows();
-	if(rows.length < 1) {
-		alert("목록에서 입주기업을 선택하십시오.");
+	if(this._currentRow == void(0)) {
+		alert('목록에서 데이터를 선택하세요.');
 		return;
 	}
-	var row = rows[0];
-	if(row.nticYn == 'Y') {
+	if(this._currentRow.nticYn == 'Y') {
 		alert('이미 고지된 건입니다.');
 		return;
 	}
@@ -444,7 +449,7 @@ GamHtldRentMngtMainModule.prototype.execNticIssue = function() {
 	var feeInsertList = [];
 	for(var i=0; i<gridList.length; i++) {
 		var gridRow = gridList[i];
-		if((gridRow.mngYear == row.mngYear) && (gridRow.mngNo == row.mngNo) && (gridRow.mngSeq == row.mngSeq) && (gridRow.rntfeeSe != '9')) {
+		if((gridRow.mngYear == this._currentRow.mngYear) && (gridRow.mngNo == this._currentRow.mngNo) && (gridRow.mngSeq == this._currentRow.mngSeq) && (gridRow.rntfeeSe != '9')) {
 			if(gridRow._updtId == 'I') {
 				if(gridRow.detailPdBegin > gridRow.nticBeginDt) {
 					gridRow.nticBeginDt = gridRow.detailPdBegin;
@@ -467,7 +472,7 @@ GamHtldRentMngtMainModule.prototype.execNticIssue = function() {
 		if(result.resultCode == 0) {
 			module.loadData();
 			EMD.util.create_window('gamHtldRentNticIssue', '배후단지 고지', '/oper/htldnew/gamHtldRentNticIssue.do', null, 
-					{'searchRow' : row, 'histDt' : module.$('#histDt').val(), 'intrRate' : module.$('#cofixIntrrate').val()}, module);
+					{'searchRow' : module._currentRow, 'histDt' : module.$('#histDt').val(), 'intrRate' : module.$('#cofixIntrrate').val()}, module);
 		} else {
 			alert(result.resultMsg);
 		}
@@ -478,21 +483,18 @@ GamHtldRentMngtMainModule.prototype.execNticIssue = function() {
 	execArrrgNticIssue - 연체고지
 --%>
 GamHtldRentMngtMainModule.prototype.execArrrgNticIssue = function() {
-	var rows = this.$('#mainGrid').selectedRows();
-	
-	if(rows.length < 1) {
-		alert("목록에서 입주기업을 선택하십시오.");
+	if(this._currentRow == void(0)) {
+		alert('목록에서 입주기업을 선택하세요.');
 		return;
 	}
-	var row = rows[0];
 	
-	if(row.arrrgYn != 'Y') {
+	if(this._currentRow.arrrgYn != 'Y') {
 		alert('상태가 연체인 것만 연체고지를 할 수가 있습니다.');
 		return;		
 	} 
 	
 	EMD.util.create_window('gamHtldRentArrrgNticIssue', '배후단지 연체고지', '/oper/htldnew/gamHtldRentArrrgNticIssue.do', null, 
-			{'searchRow' : row, 'histDt' : this.$('#histDt').val()}, this);
+			{'searchRow' : this._currentRow, 'histDt' : this.$('#histDt').val()}, this);
 };
 
 <%--
@@ -515,7 +517,7 @@ GamHtldRentMngtMainModule.prototype.showNticIssueHist = function() {
 --%>
 GamHtldRentMngtMainModule.prototype.processNticIssue = function() {
 	if(this._currentRow == void(0)) {
-		alert('이력 목록에서 데이터를 선택하세요.');
+		alert('목록에서 입주기업을 선택하세요.');
 		return;
 	}
 	
@@ -538,7 +540,7 @@ GamHtldRentMngtMainModule.prototype.processNticIssue = function() {
 --%>
 GamHtldRentMngtMainModule.prototype.printNticIssue = function() {
 	if(this._currentRow == void(0)) {
-		alert('이력 목록에서 데이터를 선택하세요.');
+		alert('목록에서 입주기업을 선택하세요.');
 		return;
 	}
 	if(this._currentRow.nticYn != 'Y') {
@@ -606,7 +608,11 @@ GamHtldRentMngtMainModule.prototype.printPayNticIssue = function(url, params, re
 --%>
 GamHtldRentMngtMainModule.prototype.downloadNticIssue = function() {
 	if(this._currentRow == void(0)) {
-		alert('이력 목록에서 데이터를 선택하세요.');
+		alert('목록에서 입주기업을 선택하세요.');
+		return;
+	}
+	if(this._currentRow.nticYn != 'Y') {
+		alert('미고지 데이터는 출력할 수 없습니다.');
 		return;
 	}
 	var url='/oper/htldnew/downloadXlsNticIssueReport.do';
