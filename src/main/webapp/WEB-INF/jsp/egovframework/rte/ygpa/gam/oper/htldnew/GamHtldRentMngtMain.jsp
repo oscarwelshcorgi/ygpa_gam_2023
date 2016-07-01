@@ -662,6 +662,7 @@ var module_instance = new GamHtldRentMngtMainModule();
                             	<select id="termnYn">
                             		<option value="Y">무</option>
                             		<option value="N">유</option>
+                            		<option value="">전체</option>
                             	</select>	
                             </td>
                             <th width="4%">분납이자율</th>
