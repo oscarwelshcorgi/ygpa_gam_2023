@@ -342,14 +342,14 @@ GamHtldRentMngtMainModule.prototype.initDataRow = function(row) {
 			default : 
 				if(row.payTmlmtYn != 'Y') { //현재 디비시스템 시간이 납부기한을 넘기지 않았을 경우
 					row.status = (row.rcivSe == '1') ? '연체고지' : '고지';
+					if(row.rcivSe == '1') {
+						row.prtYn = (row.dlyBillPrtYn == 'Y') ? '출력' : ''; 
+					} else {
+						row.prtYn = (row.nhtPrtYn == 'Y') ? '출력' : '';
+					}
 				} else  {
 					row.status = '연체';
 					row.arrrgYn = 'Y';
-				}
-				if(row.rcivSe == '1') {
-					row.prtYn = (row.dlyBillPrtYn == 'Y') ? '출력' : ''; 
-				} else {
-					row.prtYn = (row.nhtPrtYn == 'Y') ? '출력' : '';
 				}
 			}	
 		}
