@@ -85,7 +85,7 @@ public class HtldRentNticReportExcelView extends AbstractExcelView {
 		
 		String paySe = (String) master.get("paySe");
 		String quarter = (String) master.get("quarter");
-		BigDecimal intrRate = (BigDecimal) master.get("intrRate");
+		//BigDecimal intrRate = (BigDecimal) master.get("intrRate");
 		String paySeNm = (String) master.get("paySeNm");
 		
 		int currentRow = 5;
@@ -261,7 +261,7 @@ public class HtldRentNticReportExcelView extends AbstractExcelView {
 		sheet.setColumnWidth(4, 5000);
 		sheet.setColumnWidth(5, 3000);
 		sheet.setColumnWidth(6, 5000);
-		sheet.setColumnWidth(7, 25000);
+		sheet.setColumnWidth(7, 20000);
 		sheet.addMergedRegion(new CellRangeAddress(1, 1, 1, 2));
 		sheet.addMergedRegion(new CellRangeAddress(1, 1, 3, 7));
 		sheet.addMergedRegion(new CellRangeAddress(2, 2, 1, 2));
