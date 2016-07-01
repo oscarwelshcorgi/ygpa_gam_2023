@@ -660,9 +660,8 @@ var module_instance = new GamHtldRentMngtMainModule();
                             <th width="4%">계약해지유무</th>
                             <td width="8%">
                             	<select id="termnYn">
-                            		<option value="">전체</option>
-                            		<option value="Y">유</option>
-                            		<option value="N">무</option>
+                            		<option value="Y">무</option>
+                            		<option value="N">유</option>
                             	</select>	
                             </td>
                             <th width="4%">분납이자율</th>

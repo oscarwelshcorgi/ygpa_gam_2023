@@ -100,9 +100,9 @@ public class HtldRentNticReportExcelView extends AbstractExcelView {
 				String rntfeeStr = ((String) detailItem.get("rntfeeStr")).trim() + "원";
 				String calcRsn = "";
 				if("1".equals(priceSe)) {
-					calcRsn = "임대면적(" + rentArStr + ") * 적용단가("  + applcRntfeeStr + ") * 고지기간(월수)" ;
+					calcRsn = "임대면적(" + rentArStr + ") * 적용단가("  + applcRntfeeStr + ") * 고지기간" ;
 				} else {
-					calcRsn = "월사용료(" + applcRntfeeStr + ") * 고지기간(월수)";
+					calcRsn = "월사용료(" + applcRntfeeStr + ") * 고지기간";
 				}
 				setListContentStyle(wb, sheet, currentRow);
 				setContents(sheet, currentRow, nticItem, nticPd, rentArStr, applcRntfeeStr, paySeNm, rntfeeStr, calcRsn);
@@ -114,13 +114,12 @@ public class HtldRentNticReportExcelView extends AbstractExcelView {
 					}
 					if(nticEndDt.compareTo(detailPdEnd) < 0) {
 						currentRow++;
-						String srcRntfeeStr = rntfeeStr;
 						nticItem = "분납이자";
-						nticPd = nticEndDt.plusDays(1).toString() + "~" + detailPdEnd.toString();
+						//nticPd = nticEndDt.plusDays(1).toString() + "~" + detailPdEnd.toString();
 						rntfeeStr = ((String) detailItem.get("payinstIntrStr")).trim() + "원";
-						calcRsn = "임대료(" + srcRntfeeStr + ") * COFIX이자율(" + intrRate + "%) * 고지기간(월수) / 12";
+						//calcRsn = "임대료(" + srcRntfeeStr + ") * COFIX이자율(" + intrRate + "%) * 고지기간 / 12";
 						setListContentStyle(wb, sheet, currentRow);
-						setContents(sheet, currentRow, nticItem, nticPd, rentArStr, applcRntfeeStr, paySeNm, rntfeeStr, calcRsn);					
+						setContents(sheet, currentRow, nticItem, nticPd, "", "", paySeNm, rntfeeStr, "");					
 					}
 				}
 			} else if("1".equals(rntfeeSe)) {
@@ -132,7 +131,7 @@ public class HtldRentNticReportExcelView extends AbstractExcelView {
 				String rntfeeStr = (String) detailItem.get("rntfeeStr") + "원";
 				String calcRsn = "";
 				if("1".equals(priceSe)) {
-					calcRsn = "임대면적(" + rentArStr + ") * 실적평가변동분("  + applcRntfeeStr + ") * 고지기간(월수)" ;
+					calcRsn = "임대면적(" + rentArStr + ") * 실적평가변동분("  + applcRntfeeStr + ") * 고지기간" ;
 				} else {
 					calcRsn = "실적평가변동분(" + applcRntfeeStr + ") * 고지기간(월수)";
 				}				
@@ -144,7 +143,7 @@ public class HtldRentNticReportExcelView extends AbstractExcelView {
 				String rentArStr = ((String) detailItem.get("applcRentArStr")).trim();
 				String applcRntfeeStr = ((String) detailItem.get("appRntfee")).trim() + "원";
 				String rntfeeStr = (String) detailItem.get("rntfeeStr") + "원";
-				String calcRsn = "지적측정변동분(" + rentArStr + ") * 적용단가("  + applcRntfeeStr + ") * 고지기간(월수)" ;
+				String calcRsn = "지적측정변동분(" + rentArStr + ") * 적용단가("  + applcRntfeeStr + ") * 고지기간" ;
 				setListContentStyle(wb, sheet, currentRow);
 				setContents(sheet, currentRow, nticItem, nticPd, rentArStr, applcRntfeeStr, paySeNm, rntfeeStr, calcRsn);
 			} else {
@@ -166,7 +165,7 @@ public class HtldRentNticReportExcelView extends AbstractExcelView {
 		
 		String supAmtStr = ((String) master.get("supAmtStr")).trim() + "원";
 		setListContentStyle(wb, sheet, currentRow);
-		setContents(sheet, currentRow, "공급가액", "", "", "", "", supAmtStr, "위의 고지금액 합계 후 원단위 절사");
+		setContents(sheet, currentRow, "공급가액", "", "", "", "", supAmtStr, "고지금액 합계");
 		currentRow++;
 
 		String vatStr = ((String) master.get("vatStr")).trim() + "원";
@@ -225,7 +224,7 @@ public class HtldRentNticReportExcelView extends AbstractExcelView {
 		setCellText(sheet, 4, 4, "적용단가");
 		setCellText(sheet, 4, 5, "납부구분");
 		setCellText(sheet, 4, 6, "고지금액");
-		setCellText(sheet, 4, 7, "산출공식");
+		setCellText(sheet, 4, 7, "산출공식(비고)");
 	}
 	
 	protected void setContents(HSSFSheet sheet, int row, String nticItem, String nticPd, String rentArStr, String applcRntfeeStr, String paySeNm, String rntfeeStr, String calcRsn) {
