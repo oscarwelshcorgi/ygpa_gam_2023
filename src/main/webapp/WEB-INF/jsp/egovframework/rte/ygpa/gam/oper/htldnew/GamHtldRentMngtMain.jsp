@@ -331,28 +331,32 @@ GamHtldRentMngtMainModule.prototype.initDataRow = function(row) {
 		row._updtId = 'U';
 	}
 	
-	if (row.rntfeeSe != '9') {
-		if(row.nticYn != 'Y') {
-			row.status = '미고지';
-		} else {
-			switch (row.rcivSe) {
-			case '2' : row.status = '연체수납'; break;
-			case '3' : row.status = '수납'; break;
-			case '4' : row.status = '불납'; break;
-			default : 
-				if(row.payTmlmtYn != 'Y') { //현재 디비시스템 시간이 납부기한을 넘기지 않았을 경우
-					row.status = (row.rcivSe == '1') ? '연체고지' : '고지';
-					if(row.rcivSe == '1') {
-						row.prtYn = (row.dlyBillPrtYn == 'Y') ? '출력' : ''; 
-					} else {
-						row.prtYn = (row.nhtPrtYn == 'Y') ? '출력' : '';
+	if (row.termnYn == 'N') {
+		if (row.rntfeeSe != '9') {
+			if(row.nticYn != 'Y') {
+				row.status = '미고지';
+			} else {
+				switch (row.rcivSe) {
+				case '2' : row.status = '연체수납'; break;
+				case '3' : row.status = '수납'; break;
+				case '4' : row.status = '불납'; break;
+				default : 
+					if(row.payTmlmtYn != 'Y') { //현재 디비시스템 시간이 납부기한을 넘기지 않았을 경우
+						row.status = (row.rcivSe == '1') ? '연체고지' : '고지';
+						if(row.rcivSe == '1') {
+							row.prtYn = (row.dlyBillPrtYn == 'Y') ? '출력' : ''; 
+						} else {
+							row.prtYn = (row.nhtPrtYn == 'Y') ? '출력' : '';
+						}
+					} else  {
+						row.status = '연체';
+						row.arrrgYn = 'Y';
 					}
-				} else  {
-					row.status = '연체';
-					row.arrrgYn = 'Y';
-				}
-			}	
+				}	
+			}
 		}
+	} else {
+		row.status = '계약해지';
 	}
 };
 
@@ -660,8 +664,8 @@ var module_instance = new GamHtldRentMngtMainModule();
                             <th width="4%">계약해지유무</th>
                             <td width="8%">
                             	<select id="termnYn">
-                            		<option value="Y">무</option>
-                            		<option value="N">유</option>
+                            		<option value="N">무</option>
+                            		<option value="Y">유</option>
                             		<option value="">전체</option>
                             	</select>	
                             </td>
