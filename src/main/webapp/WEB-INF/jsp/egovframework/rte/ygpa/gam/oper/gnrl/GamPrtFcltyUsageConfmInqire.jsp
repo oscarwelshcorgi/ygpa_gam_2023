@@ -10,7 +10,7 @@
  */
 function GamPrtFcltyUsageConfmInqireModule() {}
 
-GamPrtFcltyUsageConfmInqireModule.prototype = new EmdModule(1600, 800);
+GamPrtFcltyUsageConfmInqireModule.prototype = new EmdModule(1700, 800);
 
 //페이지가 호출 되었을때 호출 되는 함수
 GamPrtFcltyUsageConfmInqireModule.prototype.loadComplete = function() {
@@ -26,17 +26,17 @@ GamPrtFcltyUsageConfmInqireModule.prototype.loadComplete = function() {
 	                 {display:'업체명',						name:'entrpsNm',width:120, sortable:false,align:'center'},
 	                 {display:'사업자등록번호',				name:'bizrno',width:100, sortable:false,align:'center'},
 	                 {display:'대표자',						name:'rprsntvNm',width:60, sortable:false,align:'center'},
-	                 {display:'위치',						name:'gisAssetsLocplc',width:160, sortable:false,align:'center'},
-	                 {display:'사용목적',					name:'usagePurps',width:160, sortable:false,align:'center'},
+	                 {display:'위치',						name:'gisAssetsLocplc',width:160, sortable:false,align:'left'},
+	                 {display:'사용목적',					name:'usagePurps',width:160, sortable:false,align:'left'},
 	                 {display:'종목',						name:'gisAssetsPrprtySeCdNm',width:40, sortable:false,align:'center'},
 	                 {display:'사용구분',					name:'reqstSeCdNm',width:60, sortable:false,align:'center'},
-	                 {display:'면적',						name:'grAr',width:60, sortable:false,align:'right', displayFormat: 'number'},
+	                 {display:'면적',						name:'grAr',width:100, sortable:false,align:'right', displayFormat: 'number'},
 	                 {display:'사용료(원)/ 공급가액 기준',	name:'grFee',width:100, sortable:false,align:'right', displayFormat: 'number'},
-	                 {display:'4년전',	name:'pass4',width:60, sortable:false,align:'right', displayFormat: 'number'},
-	                 {display:'3년전',	name:'pass3',width:60, sortable:false,align:'right', displayFormat: 'number'},
-	                 {display:'2년전',	name:'pass2',width:60, sortable:false,align:'right', displayFormat: 'number'},
-	                 {display:'1년전',	name:'pass1',width:60, sortable:false,align:'right', displayFormat: 'number'},
-	                 {display:'현재년도',	name:'currYearFee',width:60, sortable:false,align:'right', displayFormat: 'number'},
+	                 {display:'4년전',						name:'pass4',width:100, sortable:false,align:'right', displayFormat: 'number'},
+	                 {display:'3년전',						name:'pass3',width:100, sortable:false,align:'right', displayFormat: 'number'},
+	                 {display:'2년전',						name:'pass2',width:100, sortable:false,align:'right', displayFormat: 'number'},
+	                 {display:'1년전',						name:'pass1',width:100, sortable:false,align:'right', displayFormat: 'number'},
+	                 {display:'현재년도',					name:'currYearFee',width:100, sortable:false,align:'right', displayFormat: 'number'},
 	                 {display:'최초사용',					name:'frstUsagePdFrom',width:80, sortable:false,align:'center'},
 	                 {display:'시작',						name:'grUsagePdFrom',width:80, sortable:false,align:'center'},
 	                 {display:'종료',						name:'grUsagePdTo',width:80, sortable:false,align:'center'},
@@ -100,7 +100,8 @@ GamPrtFcltyUsageConfmInqireModule.prototype.onButtonClick = function(buttonId) {
             break;
 
 		case 'btnExcelDownload':	// 엑셀 다운로드
-			this.downloadExcel(buttonId);
+			//this.downloadExcel(buttonId);
+			this.tableToExcel();
 			break;
 
     }
@@ -112,7 +113,7 @@ GamPrtFcltyUsageConfmInqireModule.prototype.loadConfmInqireList = function() {
     this.$('#mainGrid').flexOptions({params:searchOpt}).flexReload();
     // console.log('load rent list');
 };
-
+/*
 GamPrtFcltyUsageConfmInqireModule.prototype.downloadExcel = function() {
 
 	var mainGridRowCount = this.$("#mainGrid").flexRowCount();
@@ -122,6 +123,29 @@ GamPrtFcltyUsageConfmInqireModule.prototype.downloadExcel = function() {
 	}
 	this.$('#mainGrid').flexExcelDown('/oper/gnrl/downloadPrtFcltyUageConfmInqireXlsList.do');
 
+};
+ */
+GamPrtFcltyUsageConfmInqireModule.prototype.tableToExcel = function() {
+	var clone =	this.$('#mainGrid').clone();
+	$(clone).find('th,td').each(function() {
+		if($(this).css('display')=='none') {
+			$(this).remove();
+		}
+		else {
+			$(this).css('border-left', '0.1pt solid black');
+			$(this).css('border-top', '0.1pt solid black');
+			$(this).css('border-right', '0.1pt solid black');
+			$(this).css('border-bottom', '0.1pt solid black');
+		}
+	});
+	clone.find("img").remove();
+	clone.find("tr:eq(0)").remove();
+	clone.find("tr:eq(1)").remove();
+	clone.find("td:eq(0)").css("width","50");
+	clone.find("tr:eq(0) td").css({"font-size":"15px","font-weight":"bold","background-color":"#BDBDBD","height":"35px"});
+	clone.table2excel({
+		filename: "항만시설 사용승낙 현황",
+	});
 };
 
 
@@ -134,7 +158,7 @@ var module_instance = new GamPrtFcltyUsageConfmInqireModule();
 	<!-- 11. SEARCH AREA (조회조건 영역) -->
 	<div id="searchViewStack" class="emdPanel">
 		<form id="searchForm">
-			<table style="width:100%;" class="searchPanel">
+			<table class="searchPanel">
 				<tbody>
 					<tr>
 						<th>항구분</th>
@@ -145,6 +169,7 @@ var module_instance = new GamPrtFcltyUsageConfmInqireModule();
 						<td>
 							<input id="referYear"/>
 						</td>
+						<th style="width:50%;">&nbsp;</th>
 						<td>
 							<button id="searchBtn" class="buttonSearch">조회</button>
 						</td>
