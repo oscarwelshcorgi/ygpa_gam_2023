@@ -131,12 +131,14 @@ GamAssetRentMngtModule.prototype.loadComplete = function(param) {
 
 
     this.$("#assetRentMngtList").on('onLoadDataComplete', function(event, module, data) {
+    	module.selectData();
     	module.setButtonState();
     });
 
     this.$("#assetRentMngtList").on('onItemSelected', function(event, module, row, grid, param) {
     	module._cmd='';
     	module.setButtonState();
+    	module._mainKeyValue = row;
     });
 
     this.$("#assetRentDetailList").on('onItemSelected', function(event, module, row, grid, param) {
@@ -1997,42 +1999,6 @@ GamAssetRentMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
         break;
     }
 };
-GamAssetRentMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
-    switch(newTabId) {
-    case 'tabs1':
-        break;
-    case 'tabs2':
-        var row = this.$('#assetRentMngtList').selectedRows();
-        if(row.length==0) {
-            this.$('#cmd').val('insert');
-        }
-        else {
-            this.$('#cmd').val('modify');
-        }
-
-        if(oldTabId=='tabs1') {
-        	this._deleteDataList=[];    // 삭제 목록 초기화
-        	this._deleteDataFileList=[];    // 파일삭제 목록 초기화
-        }
-        break;
-    case 'tabs3':
-        var row = this.$('#assetRentDetailList').selectedRows();
-        if(row.length==0) {
-            this.$('#detailCmd').val('insert');
-            this._selectAssetsCd={};	// 데이터 추가시 빈 값을 입력 한다.
-        }
-        else {
-            this.$('#detailCmd').val('modify');
-            this._selectAssetsCd=row;
-			this.onApplcMthChange(row[0]['applcMth']);
-        }
-        break;
-
-    case 'tabs4':
-
-        break;
-    }
-};
 
 //팝업이 종료 될때 리턴 값이 오출 된다.
 //popupId : 팝업 대화상자 아이디
@@ -2115,11 +2081,27 @@ GamAssetRentMngtModule.prototype.loadOlnlpList = function(prtFcltyCd) {
    			 event.data.module.$('#olnlp').val($.number($(this).children(':selected').val()));
    			event.data.module.onCalc();
    		 });
-   		olnlplist.find('option:eq(1)').attr("selected","selected");
-   		module.$('#olnlp').val(olnlplist.find('option:eq(1)').val());
+   		//olnlplist.find('option:eq(1)').attr("selected","selected");
+   		//module.$('#olnlp').val(olnlplist.find('option:eq(1)').val());
         }
     });
-}
+};
+
+<%
+/**
+ * @FUNCTION NAME : selectData
+ * @DESCRIPTION   : DATA SELECT
+ * @PARAMETER     : NONE
+**/
+%>
+GamAssetRentMngtModule.prototype.selectData = function() {
+	if(this._param != null && this._param.action != null && this._param.action == "nticDetail"){
+		var rentMngNo = this._rentMngNo;
+		this.$('#assetRentMngtList').selectFilterRow([{col:"rentMngNo", filter:rentMngNo}]);
+		this.$("#assetRentListTab").tabs("option", {active: 1});
+	}
+
+};
 
 // 다음 변수는 고정 적으로 정의 해야 함
 var module_instance = new GamAssetRentMngtModule();
