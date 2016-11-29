@@ -184,6 +184,23 @@
                                   , GAM_GETCODENAME('GAM008', A.NTIC_MTH) AS NTIC_MTH_NM
                                   , GAM_GETCODENAME('GAM043', A.PAY_MTH) PAY_MTH_NM
                                   , (SELECT CD.ORGNZT_NM FROM COMTNORGNZTINFO CD WHERE CD.ORGNZT_ID = A.DEPTCD AND ROWNUM = 1) DEPTCD_NM
+                                  , (select D.GIS_ASSETS_PRT_AT_CODE||'-'||D.GIS_ASSETS_CD||'-'||D.GIS_ASSETS_SUB_CD
+                   						from ASSETS_RENT_DETAIL_F D
+						                  where D.PRT_AT_CODE = A.PRT_AT_CODE
+						                    AND D.MNG_YEAR    = A.MNG_YEAR
+						                    AND D.MNG_CNT     = A.MNG_CNT
+						                    AND ROWNUM = 1
+						             ) GIS_ASSETS
+                                  , (select GIS_ASSETS_NM GIS_ASSETS_NM
+                   						from ASSETS_RENT_DETAIL_F D, GIS_ASSETS_CD_F G
+						                  where G.GIS_ASSETS_PRT_AT_CODE = NVL(D.GIS_ASSETS_PRT_AT_CODE, D.PRT_AT_CODE) 
+						                    AND G.GIS_ASSETS_SUB_CD = D.GIS_ASSETS_SUB_CD 
+						                    AND G.GIS_ASSETS_CD = D.GIS_ASSETS_CD
+						                    AND D.PRT_AT_CODE = A.PRT_AT_CODE
+						                    AND D.MNG_YEAR    = A.MNG_YEAR
+						                    AND D.MNG_CNT     = A.MNG_CNT
+						                    AND ROWNUM = 1
+						             ) GIS_ASSETS_NM                               
                              FROM ASSETS_RENT_F A
                             WHERE A.QUAY_GROUP_CD='T'
 

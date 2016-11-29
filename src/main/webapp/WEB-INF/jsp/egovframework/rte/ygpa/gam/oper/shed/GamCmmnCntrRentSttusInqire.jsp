@@ -36,6 +36,8 @@ GamCmmnCntrRentSttusInqireModule.prototype.loadComplete = function() {
         url: '/oper/shed/gamSelectCmmnCntrRentSttusInqireList.do',
         dataType: 'json',
         colModel : [
+					{display:'자산코드', name:'gisAssets',width:80, sortable:false,align:'center'},
+					{display:'자산명', name:'gisAssetsNm',width:120, sortable:false,align:'center'},
 					{display:'항코드', name:'prtAtCode',width:40, sortable:false,align:'center'},
                     {display:'항코드명', name:'prtAtCodeNm',width:55, sortable:false,align:'center'},
                     {display:'관리번호', name:'rentMngNo',width:80, sortable:false,align:'center'},
