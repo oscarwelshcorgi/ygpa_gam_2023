@@ -68,12 +68,11 @@
     <script src="<c:url value='/js/codebase/dhtmlx.js'/>"></script>
 
     <script type="text/javascript" src="<c:url value="/validator.do"/>"></script>
-    <script src="<c:url value='/js/emf_map.ygpa_gam.js'/>"></script>
+     <script src="<c:url value='/js/emf_map.ygpa_gam.js'/>"></script>
 
     <script src="<c:url value='/js/DynamicMeasure.js'/>"></script>
     <script src="<c:url value='/js/gis_rules.js'/>"></script>
     <script src="<c:url value='/js/emf.map.desktop.js'/>"></script>
-
      <!--
     <script src="<c:url value='/js/codebase/dhtmlxgrid.js'/>"></script>
      -->
@@ -173,6 +172,23 @@
                 </li>
                 <li>
                     <a href="#" data-role="getUserInfo">사용자정보 갱신</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a class="menu_trigger" href="#">매뉴얼</a>
+            <ul class="menu">
+                <li>
+                    <a href="<c:url value='/manual/htld_manual_v2.0.pdf' />">배후단지 매뉴얼</a>
+                </li>
+                <li>
+                    <a href="<c:url value='/manual/oper_gen_v1.5.pdf' />">항만시설운영(일반부두) 매뉴얼</a>
+                </li>
+                <li>
+                    <a href="<c:url value='/manual/fclty_manual_v1.1.pdf' />">시설관리 매뉴얼</a>
+                </li>
+                <li>
+                    <a href="<c:url value='/manual/asset_code_manual.pdf' />">자산코드관리 매뉴얼</a>
                 </li>
             </ul>
         </li>
