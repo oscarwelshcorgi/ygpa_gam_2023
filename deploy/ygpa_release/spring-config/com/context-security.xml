@@ -88,6 +88,7 @@
         class="org.springframework.security.util.RegexUrlPathMatcher" />
 
     <http access-denied-page="/uat/uia/accessDenied.do" path-type="regex" lowercase-comparisons="false">
+		<intercept-url pattern="\A/manual/.*\Z" filters="none" />
 		<intercept-url pattern="\A/js/.*\Z" filters="none" />
 		<intercept-url pattern="\A/image/.*\Z" filters="none" />
 		<intercept-url pattern="\A/css/.*\Z" filters="none" />
