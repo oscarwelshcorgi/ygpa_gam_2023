@@ -1066,7 +1066,7 @@
 		  NTICNO,
 		  NTIC_DT,
 		  PAY_TMLMT,
-		  TO_CHAR(p2mgr.sf_get_wrk_dt@ygpa_portmis(SYSDATE+15), 'YYYY-MM-DD') NEW_PAY_TMLMT,
+		  TO_CHAR(sf_get_wrk_dt(SYSDATE+15), 'YYYY-MM-DD') NEW_PAY_TMLMT,
 		  FEE,
 		  VAT_YN,
 		  VAT,
