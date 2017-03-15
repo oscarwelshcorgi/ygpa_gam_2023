@@ -26,6 +26,7 @@
 			,#rntfeeNticNo# RNTFEE_NTIC_NO
 			,#nticSeq# NTIC_SEQ
 			,#nticNo# NTIC_NO
+			,(SELECT VAT FROM HTLD_NTIC_DTLS_F WHERE ACCNUT_YEAR = #accnutYear# AND RNTFEE_NTIC_NO = #rntfeeNticNo# AND NTIC_SEQ = #nticSeq#) VAT
 			,(SELECT RM FROM HTLD_NTIC_DTLS_F WHERE ACCNUT_YEAR = #accnutYear# AND RNTFEE_NTIC_NO = #rntfeeNticNo# AND NTIC_SEQ = #nticSeq#) RM
 		FROM 
 			HTLD_RENT_HIST_F 

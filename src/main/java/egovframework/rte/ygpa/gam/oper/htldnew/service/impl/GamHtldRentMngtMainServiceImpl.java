@@ -111,6 +111,10 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 			String rentArSeNm = (item.get("rentArSeNm") != null) ? (String)item.get("rentArSeNm") : "";
 			String rentArStr = (item.get("rentArStr") != null) ? (String)item.get("rentArStr") : "";
 			String applcRntfeeStr = (item.get("applcRntfeeStr") != null) ? (String)item.get("applcRntfeeStr") : "";
+			BigDecimal nticVat = (item.get("nticVat") != null) ? (BigDecimal)item.get("nticVat") : new BigDecimal(0);
+			BigDecimal nticPayAmt = (item.get("nticPayAmt") != null) ? (BigDecimal)item.get("nticPayAmt") : new BigDecimal(0);
+			
+			String entrpsNm = (item.get("entrpsNm") != null) ? (String)item.get("entrpsNm") : "";
 			
 			BigDecimal rntFee = new BigDecimal(0),  payinstIntr = new BigDecimal(0), supAmt = new BigDecimal(0),  vat = new BigDecimal(0),  payAmt = new BigDecimal(0);
 			
@@ -207,6 +211,12 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 				item.put("supAmt", null);
 				item.put("vat", null);
 				item.put("payAmt", null);
+			} else {
+				if("Y".equals(nticYn)) {
+					//고지된 단행 데이터
+					item.put("vat", nticVat);
+					item.put("payAmt", nticPayAmt);
+				}
 			}
 			
 			resultList.add(item);
@@ -214,9 +224,15 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 			if((mngGroupCount > 1) && (groupCount == mngGroupCount)) {
 				//합산고지의 소계 레코드에 들어갈 항목 정의
 				totSupAmt = totRntFee.add(totPayinstIntr).setScale(-1, RoundingMode.DOWN);
-				totVat = totSupAmt.divide(new BigDecimal(10));
-				totPayAmt = totSupAmt.add(totVat);
-				
+				if(("0".equals(rntfeeSe)) && ("N".equals(nticYn))) {
+					//고지되지 않은 일반 가상의 데이터면....
+					totVat = totSupAmt.divide(new BigDecimal(10));
+					totPayAmt = totSupAmt.add(totVat);
+				} else {
+					//고지된 데이터라면...
+					totVat = nticVat;
+					totPayAmt = nticPayAmt;
+				}
 				EgovMap totItem = new EgovMap();
 				Iterator<String> it = (Iterator<String>)item.keySet().iterator();
 				while(it.hasNext()) {
