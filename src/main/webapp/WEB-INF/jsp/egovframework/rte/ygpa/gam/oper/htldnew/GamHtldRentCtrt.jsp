@@ -372,7 +372,7 @@ GamHtldRentCtrtModule.prototype.validateData = function() {
 	
 	for(var i=0; i<detailList.length; i++) {
 		row = detailList[i];
-		if(row.applcRntfee <= 0) {
+		if(row.applcRntfee == void(0)) {
 			alert('임대상세의 적용단가가 누락되었습니다.');
 			return false;
 		}

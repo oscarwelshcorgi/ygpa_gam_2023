@@ -114,8 +114,6 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 			BigDecimal nticVat = (item.get("nticVat") != null) ? (BigDecimal)item.get("nticVat") : new BigDecimal(0);
 			BigDecimal nticPayAmt = (item.get("nticPayAmt") != null) ? (BigDecimal)item.get("nticPayAmt") : new BigDecimal(0);
 			
-			String entrpsNm = (item.get("entrpsNm") != null) ? (String)item.get("entrpsNm") : "";
-			
 			BigDecimal rntFee = new BigDecimal(0),  payinstIntr = new BigDecimal(0), supAmt = new BigDecimal(0),  vat = new BigDecimal(0),  payAmt = new BigDecimal(0);
 			
 			int mngGroupCount = getMngGropListCount(feeList, mngYear, mngNo, mngSeq, accnutYear, rntfeeNticNo, nticSeq);
@@ -250,6 +248,8 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 				
 				totItem.put("detailPdStr", "소 계");
 				totItem.put("rentArStr", "");
+				totItem.put("assetsNm", "");
+				totItem.put("assetsCd", "");				
 				totItem.put("applcRntfeeStr", "");
 				totItem.put("aseRntfeeStr", "");
 				totItem.put("asePd", "");

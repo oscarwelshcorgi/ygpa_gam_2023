@@ -457,11 +457,14 @@ GamHtldRentMngtMainModule.prototype.execNticIssue = function() {
 		return;
 	}
 	var gridList = this.$('#mainGrid').flexGetData();
+	var gridRow = null;
 	var feeUpdateList = [];
 	var feeInsertList = [];
+	var totSupAmt = 0;
 	for(var i=0; i<gridList.length; i++) {
-		var gridRow = gridList[i];
-		if((gridRow.mngYear == this._currentRow.mngYear) && (gridRow.mngNo == this._currentRow.mngNo) && (gridRow.mngSeq == this._currentRow.mngSeq) && (gridRow.rntfeeSe != '9')) {
+		gridRow = gridList[i];
+		if((gridRow.mngYear == this._currentRow.mngYear) && (gridRow.mngNo == this._currentRow.mngNo) 
+				&& (gridRow.mngSeq == this._currentRow.mngSeq) && (gridRow.rntfeeSe != '9')) {
 			if(gridRow._updtId == 'I') {
 				if(gridRow.detailPdBegin > gridRow.nticBeginDt) {
 					gridRow.nticBeginDt = gridRow.detailPdBegin;
@@ -473,9 +476,15 @@ GamHtldRentMngtMainModule.prototype.execNticIssue = function() {
 			} else {
 				feeUpdateList[feeUpdateList.length] = gridRow;
 			}
+			totSupAmt += Number(gridRow.rntfee) + Number(gridRow.payinstIntr);			
 		}
 	}
-
+	
+	if(totSupAmt == 0) {
+		alert('공급가액이 0원이므로 고지가 되지 않습니다.');
+		return;
+	}
+	
 	var rentFeeData = {};
 	rentFeeData['feeInsertList'] 			= JSON.stringify(feeInsertList);
 	rentFeeData['feeUpdateList'] 			= JSON.stringify(feeUpdateList);
