@@ -96,4 +96,14 @@ public class LoginDAO extends EgovComAbstractDAO {
     public void updatePassword(LoginVO vo) throws Exception {
     	update("loginDAO.updatePassword", vo);
     }
+
+
+	/**
+	 * @param ssoKey
+	 * @return
+	 */
+	public String gwInfo(String ssoKey) {
+		// TODO Auto-generated method stub
+		return (String) selectByPk("loginDAO.gwInfo", ssoKey);
+	}
 }

@@ -143,7 +143,13 @@
 			]]>
 		</isEqual>
 	</select>
-
+<!-- 전자결재 SSO KEY 체크  -->
+	<select id="loginDAO.gwInfo" parameterClass="String" resultClass="String">
+		SELECT E
+		  from V_GW_INFO
+		 WHERE K = #ssoKey#
+	</select>
+	
 	<select id="loginDAO.ygpaLogin" resultMap="login">
 			SELECT emplyr_id AS id
 			     , user_nm AS name

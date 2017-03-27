@@ -199,4 +199,14 @@ public class EgovLoginServiceImpl extends AbstractServiceImpl implements
 
     	return result;
     }
+
+
+	/* (non-Javadoc)
+	 * @see egovframework.com.uat.uia.service.EgovLoginService#gwInfo(java.lang.String)
+	 */
+	@Override
+	public String gwInfo(String ssoKey) {
+		// TODO Auto-generated method stub
+		return loginDAO.gwInfo(ssoKey);
+	}
 }

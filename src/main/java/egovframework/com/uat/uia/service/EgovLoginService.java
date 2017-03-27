@@ -62,4 +62,10 @@ public interface EgovLoginService {
 	 * @exception Exception
 	 */
     boolean searchPassword(LoginVO vo) throws Exception;
+
+	/**
+	 * @param ssoKey
+	 * @return
+	 */
+	public String gwInfo(String ssoKey);
 }

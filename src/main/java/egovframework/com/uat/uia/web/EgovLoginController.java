@@ -145,30 +145,29 @@ public class EgovLoginController {
     }
 
     @RequestMapping(value="/uat/uia/ygpaLogin.do")
-    public String actionYgpaLogin(HttpServletRequest request,
-    		                   ModelMap model)
-            throws Exception {
+    public String actionYgpaLogin(HttpServletRequest request, ModelMap model) throws Exception {
 
     	LoginVO loginVO = new LoginVO();
 
-        loginVO.setEmplNo(request.getParameter("emplNo"));
+    	String ssoKey = request.getParameter("k");
+    	
+    	loginVO.setEmplNo(loginService.gwInfo(ssoKey));
+    	
+//        loginVO.setEmplNo(request.getParameter("emplNo"));
     	// 1. 일반 로그인 처리
         LoginVO resultVO = loginService.ygpaLogin(loginVO);
 
         if (resultVO != null && resultVO.getId() != null && !resultVO.getId().equals("")) {
-
         	// 2-1. 로그인 정보를 세션에 저장
 //        	request.getSession().setAttribute("loginVO", resultVO);
         	LOG.debug("#### login by spring  = /j_spring_security_check?j_username=" + resultVO.getUserSe() + resultVO.getId() + "&j_password=" + resultVO.getUniqId());
 
         	return "redirect:/j_spring_security_check?j_username=" + resultVO.getUserSe() + resultVO.getId() + "&j_password=" + resultVO.getUniqId();
-
 //    		return "redirect:/uat/uia/actionMain.do";
-
         } else {
-
         	model.addAttribute("message", egovMessageSource.getMessage("fail.common.login"));
-        	return "egovframework/com/uat/uia/EgovLoginUsr";
+//        	return "egovframework/com/uat/uia/EgovLoginUsr";
+        	return "ygpa/gam/main/ssoError";
         }
     }
 
