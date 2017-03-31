@@ -43,6 +43,7 @@ GamPrtFcltyUseSttusInqireModule.prototype.loadComplete = function() {
                     {display:'관리번호', name:'rentMngNo',width:80, sortable:false,align:'center'},
                     {display:'신청업체', name:'entrpscd',width:60, sortable:false,align:'center'},
                     {display:'신청업체명', name:'entrpsNm',width:100, sortable:false,align:'left'},
+                    {display:'요금종류', name:'chrgeKndNm',width:150, sortable:false,align:'left'},
                     {display:'신청구분', name:'reqstSeCdNm',width:55, sortable:false,align:'center'},
                     {display:'고지방법', name:'nticMthNm',width:55, sortable:false,align:'center'},
                     {display:'신청일자', name:'reqstDt',width:80, sortable:false,align:'center'},
