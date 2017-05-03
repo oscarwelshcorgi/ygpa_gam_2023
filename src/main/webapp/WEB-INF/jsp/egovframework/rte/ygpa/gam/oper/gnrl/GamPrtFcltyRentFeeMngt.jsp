@@ -356,7 +356,13 @@ GamAssetRentFeeMngtModule.prototype.cancelSave = function() {
                 	}
                 }
                 */
-
+				if(rows['nticAmt']<3000){
+					alert("항만시설사용료고지 상세를 이용하세요.");
+					this.$("#assetRentFeeListTab").tabs("option", {active: 1});
+					
+					return;
+				}
+                
                 if( rows['nhtIsueYn'] == 'Y' ) {
                 	alert("이미 고지된 건 입니다.");
                 	return;
@@ -418,6 +424,14 @@ GamAssetRentFeeMngtModule.prototype.cancelSave = function() {
                 }
 
                 if( confirm("선택한 건을 고지 하시겠습니까?") ) {
+/* 고지 최소금액 3000원 수정 */
+                	var fee = this.$('#fee').val().replace(/,/g, "")*1;
+                	if(fee < 3000){
+                		alert("최소금액 3,000원으로 청구됩니다.");
+                		this.$('#fee').val(3000);
+                		this.changeFee();
+                	}
+                	
                 	rows['payTmlmt'] = this.$('#payTmlmt').val();
                 	if(this._modifyFee) {
                 		rows['modifyFee'] = "modified";
@@ -445,6 +459,7 @@ GamAssetRentFeeMngtModule.prototype.cancelSave = function() {
                         }
 
                         alert(result.resultMsg);
+                        module.loadData();
                     });
                 }
             } else {
