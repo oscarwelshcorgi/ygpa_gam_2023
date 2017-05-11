@@ -1,0 +1,609 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ygpa.gam.oper.gnrltest">
+
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="gamTestPrtFcltyUseSttusInqireVO" type="egovframework.rte.ygpa.gam.oper.gnrltest.service.GamTestPrtFcltyUseSttusInqireVO"/>
+    <typeAlias alias="gamTestPrtFcltyUseSttusInqireDetailVO" type="egovframework.rte.ygpa.gam.oper.gnrltest.service.GamTestPrtFcltyUseSttusInqireDetailVO"/>
+	
+	<resultMap id="gamTestPrtFcltyUseSttusInqireSumMap" class="egovframework.rte.ygpa.gam.oper.gnrltest.service.GamTestPrtFcltyUseSttusInqireVO">
+        <result property="sumCnt" column="SUM_CNT" columnIndex="1"/>
+        <result property="sumGrAr" column="SUM_GR_AR" columnIndex="2"/>
+        <result property="sumGrFee" column="SUM_GR_FEE" columnIndex="3"/>
+        <result property="sumGrRdcxptFee" column="SUM_GR_RDCXPT_FEE" columnIndex="4"/>
+    </resultMap>
+    
+    
+    <resultMap id="CmmCodeDetail" class="egovframework.com.cmm.service.CmmnDetailCode">
+        <result property="codeId"       column="CODE_ID"    columnIndex="1"/>
+        <result property="code"         column="CODE"       columnIndex="2"/>
+        <result property="codeNm"       column="CODE_NM"    columnIndex="3"/>
+        <result property="codeDc"       column="CODE_DC"    columnIndex="4"/>
+    </resultMap>
+    
+    <resultMap id="gamTestPrtFcltyUseSttusInqireBeforeQuarterInfoMap" class="egovframework.rte.ygpa.gam.oper.gnrltest.service.GamTestPrtFcltyUseSttusInqireVO">
+        <result property="thisYear" column="THIS_YEAR" columnIndex="1"/>
+        <result property="divSt" column="DIV_ST" columnIndex="2"/>
+        <result property="divEnd" column="DIV_END" columnIndex="3"/>
+    </resultMap>
+    
+    <resultMap id="gamTestPrtFcltyUseSttusInqireCofixInfoMap" class="egovframework.rte.ygpa.gam.oper.gnrltest.service.GamTestPrtFcltyUseSttusInqireVO">
+        <result property="objYrmt" column="OBJ_YRMT" columnIndex="1"/>
+        <result property="blceStdrIntrrate" column="BLCE_STDR_INTRRATE" columnIndex="2"/>
+        <result property="blceStdrIntrrateShow" column="BLCE_STDR_INTRRATE_SHOW" columnIndex="3"/>
+        <result property="newManipAmtStdrIntrrate" column="NEW_MANIP_AMT_STDR_INTRRATE" columnIndex="4"/>
+        <result property="annodt" column="ANNODT" columnIndex="5"/>
+    </resultMap>
+
+	<select id="gamTestPrtFcltyUseSttusInqireDao.selectPrtFcltyUseSttusInqireList_D" parameterClass="gamTestPrtFcltyUseSttusInqireVO" resultClass="egovMap">
+           SELECT A.*
+           FROM (
+                   SELECT  ROWNUM RNUM, S.*
+                     FROM (
+                           SELECT 
+                                    A.PRT_AT_CODE
+                                  , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM019' AND CD.CODE = A.PRT_AT_CODE AND ROWNUM = 1) PRT_AT_CODE_NM  
+                                  , A.MNG_YEAR
+                                  , A.MNG_NO
+                                  , A.MNG_CNT
+                                  , A.MNG_YEAR || '-' || A.MNG_NO || '-' || A.MNG_CNT AS RENT_MNG_NO
+                                  , A.ENTRPSCD
+                                  , ( SELECT E.ENTRPS_NM FROM ENTRPS_INFO_F E WHERE E.ENTRPSCD = A.ENTRPSCD AND ROWNUM = 1 ) ENTRPS_NM 
+                                  , A.REQST_SE_CD
+                                  , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM011' AND CD.CODE = A.REQST_SE_CD AND ROWNUM = 1) REQST_SE_CD_NM
+                                  , NVL(A.GR_AR,0) GR_AR
+                                  , NVL(A.GR_FEE,0) GR_FEE
+                                  , A.NTIC_MTH
+                                  , TO_CHAR(A.FRST_PRMISN_DT, 'YYYY-MM-DD') FRST_PRMISN_DT
+                                  , TO_CHAR(A.PRMISN_DT, 'YYYY-MM-DD') PRMISN_DT
+                                  , NVL(A.PRMISN_YN,'N') PRMISN_YN
+                                  , TO_CHAR(A.GR_USAGE_PD_FROM, 'YYYY-MM-DD') GR_USAGE_PD_FROM
+                                  , TO_CHAR(A.GR_USAGE_PD_TO, 'YYYY-MM-DD') GR_USAGE_PD_TO
+                                  , A.DOC_NO
+                                  , A.RM
+                                  , A.CMT
+                                  , A.ETC
+                                  , A.REG_USR
+                                  , TO_CHAR(A.REGIST_DT, 'YYYY-MM-DD') REGIST_DT 
+                                  , A.UPD_USR
+                                  , TO_CHAR(A.UPDT_DT, 'YYYY-MM-DD') UPDT_DT 
+                                  , NVL(A.GR_RDCXPT_FEE, 0) GR_RDCXPT_FEE
+                                  , A.GIS_CD
+                                  , A.DEPTCD
+                                  , A.PAY_MTH
+                                  , TO_CHAR(A.FRST_REQST_DT, 'YYYY-MM-DD') FRST_REQST_DT
+                                  , NVL(A.SANCTN_STTUS,'N') SANCTN_STTUS
+                                  , GAM_GETCODENAME('GAM046', A.SANCTN_STTUS) SANCTN_STTUS_NM
+                                  , A.SANCTNER_EMPL_NO
+                                  , A.QUAY_CD
+                                  , TO_CHAR(A.SANCTN_DT, 'YYYY-MM-DD HH24:MI:SS') SANCTN_DT
+                                  , A.QUAY_GROUP_CD
+                                  , TO_CHAR(A.REQST_DT, 'YYYY-MM-DD') REQST_DT
+                                  , TO_CHAR(NVL(A.PAYINST_INTRRATE,0) * 100) || '%' AS PAYINST_INTRRATE
+                                  , GAM_GETCODENAME('GAM008', A.NTIC_MTH) AS NTIC_MTH_NM
+                                  , GAM_GETCODENAME('GAM043', A.PAY_MTH) PAY_MTH_NM
+                                  , (SELECT CD.ORGNZT_NM FROM COMTNORGNZTINFO CD WHERE CD.ORGNZT_ID = A.DEPTCD AND ROWNUM = 1) DEPTCD_NM
+                                  , (select D.GIS_ASSETS_PRT_AT_CODE||'-'||D.GIS_ASSETS_CD||'-'||D.GIS_ASSETS_SUB_CD
+                   						from ASSETS_RENT_DETAIL_F D
+						                  where D.PRT_AT_CODE = A.PRT_AT_CODE
+						                    AND D.MNG_YEAR    = A.MNG_YEAR
+						                    AND D.MNG_CNT     = A.MNG_CNT
+						                    AND ROWNUM = 1
+						             ) GIS_ASSETS
+                                  , (select GIS_ASSETS_NM GIS_ASSETS_NM
+                   						from ASSETS_RENT_DETAIL_F D, GIS_ASSETS_CD_F G
+						                  where G.GIS_ASSETS_PRT_AT_CODE = NVL(D.GIS_ASSETS_PRT_AT_CODE, D.PRT_AT_CODE) 
+						                    AND G.GIS_ASSETS_SUB_CD = D.GIS_ASSETS_SUB_CD 
+						                    AND G.GIS_ASSETS_CD = D.GIS_ASSETS_CD
+						                    AND D.PRT_AT_CODE = A.PRT_AT_CODE
+						                    AND D.MNG_YEAR    = A.MNG_YEAR
+						                    AND D.MNG_CNT     = A.MNG_CNT
+						                    AND ROWNUM = 1
+						             ) GIS_ASSETS_NM
+                             FROM ASSETS_RENT_F A
+                            WHERE A.QUAY_GROUP_CD = 'G'	<!-- 일반부두 -->
+                            
+                             <isNotEmpty property="sPrtAtCode">
+					             AND A.PRT_AT_CODE = #sPrtAtCode#  
+					         </isNotEmpty>
+					         
+					         <isNotEmpty property="sReqstSeCd">
+					             AND A.REQST_SE_CD = #sReqstSeCd#  
+					         </isNotEmpty>
+					         
+					         <isNotEmpty property="sEntrpscd">
+					             AND A.ENTRPSCD = #sEntrpscd#  
+					         </isNotEmpty>
+					         
+					         <isNotEmpty property="sGrUsagePdFrom"> 
+					             AND A.GR_USAGE_PD_FROM <![CDATA[>=]]> REPLACE(#sGrUsagePdFrom#,'-','')    
+					         </isNotEmpty>
+					         
+					         <isNotEmpty property="sGrUsagePdTo">
+					             AND A.GR_USAGE_PD_FROM <![CDATA[<=]]> REPLACE(#sGrUsagePdTo#,'-','')
+					         </isNotEmpty>
+					         
+					         <isNotEmpty property="sGrAr">
+					             AND A.GR_AR = #sGrAr#
+					         </isNotEmpty>
+					         
+					         <isNotEmpty property="sMngYear">
+					             AND A.MNG_YEAR = #sMngYear#
+					         </isNotEmpty>
+					         
+					         <isNotEmpty property="sMngNo">
+					             AND A.MNG_NO = #sMngNo#
+					         </isNotEmpty>
+					         
+					         <isNotEmpty property="sMngCnt">
+					             AND A.MNG_CNT = #sMngCnt#
+					         </isNotEmpty>
+					         
+					         <isNotEmpty property="sPrmisnYn">
+					             AND A.PRMISN_YN = #sPrmisnYn#
+					         </isNotEmpty>
+                             
+                             <isNotEmpty property="sUsagePrposCd">
+                                 AND (
+                                       (A.PRT_AT_CODE, A.MNG_YEAR, A.MNG_NO, A.MNG_CNT) IN (
+															                         SELECT  PRT_AT_CODE
+															                               , MNG_YEAR
+															                               , MNG_NO
+															                               , MNG_CNT 
+															                           FROM ASSETS_RENT_DETAIL_F
+															                          WHERE USAGE_PRPOS_CD = #sUsagePrposCd#
+															                       )
+								     ) 
+                             </isNotEmpty>
+                             
+                             <isNotEmpty property="sQuayCd">
+                                 AND (
+								       (A.PRT_AT_CODE, A.MNG_YEAR, A.MNG_NO, A.MNG_CNT) IN (
+															                         SELECT  PRT_AT_CODE
+															                               , MNG_YEAR
+															                               , MNG_NO
+															                               , MNG_CNT 
+															                           FROM ASSETS_RENT_DETAIL_F
+															                          WHERE QUAY_CD = #sQuayCd#
+															                       )
+								     ) 
+                             </isNotEmpty>
+                             
+                             <isNotEmpty property="sDateSearchGbn">
+                             <isNotEmpty property="sDateSearchValue">
+					            	<isEqual property="sDateSearchGbn" compareValue="1">
+					            		AND TO_CHAR(A.FRST_REQST_DT, 'YYYYMMDD') = REPLACE(#sDateSearchValue#,'-','')
+					            	</isEqual>
+					            	<isEqual property="sDateSearchGbn" compareValue="2">
+					            		AND TO_CHAR(A.FRST_PRMISN_DT, 'YYYYMMDD') = REPLACE(#sDateSearchValue#,'-','')
+					            	</isEqual>
+					            	<isEqual property="sDateSearchGbn" compareValue="3">
+					            		AND TO_CHAR(A.REQST_DT, 'YYYYMMDD') = REPLACE(#sDateSearchValue#,'-','')
+					            	</isEqual>
+					            	<isEqual property="sDateSearchGbn" compareValue="4">
+					            		AND TO_CHAR(A.PRMISN_DT, 'YYYYMMDD') = REPLACE(#sDateSearchValue#,'-','')
+					            	</isEqual>
+					            </isNotEmpty>
+					            </isNotEmpty>
+                             
+                             <!--  ORDER BY REGIST_DT DESC -->
+                             ORDER BY A.MNG_YEAR DESC, A.MNG_NO DESC, A.MNG_CNT DESC
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+
+    </select>
+    
+    <select id="gamTestPrtFcltyUseSttusInqireDao.selectPrtFcltyUseSttusInqireListTotCnt_S" parameterClass="gamTestPrtFcltyUseSttusInqireVO" resultClass="int">
+            SELECT COUNT(*) TOTCNT
+              FROM ASSETS_RENT_F A
+             WHERE A.QUAY_GROUP_CD = 'G'	<!-- 일반부두 -->
+              
+             <isNotEmpty property="sPrtAtCode">
+                 AND A.PRT_AT_CODE = #sPrtAtCode#  
+             </isNotEmpty>
+             
+             <isNotEmpty property="sReqstSeCd">
+                 AND A.REQST_SE_CD = #sReqstSeCd#  
+             </isNotEmpty>
+             
+             <isNotEmpty property="sEntrpscd">
+                 AND A.ENTRPSCD = #sEntrpscd#  
+             </isNotEmpty>
+             
+             <isNotEmpty property="sGrUsagePdFrom"> 
+                 AND A.GR_USAGE_PD_FROM <![CDATA[>=]]> REPLACE(#sGrUsagePdFrom#,'-','')    
+             </isNotEmpty>
+             
+             <isNotEmpty property="sGrUsagePdTo">
+                 AND A.GR_USAGE_PD_FROM <![CDATA[<=]]> REPLACE(#sGrUsagePdTo#,'-','')
+             </isNotEmpty>
+             
+             <isNotEmpty property="sGrAr">
+                 AND A.GR_AR = #sGrAr#
+             </isNotEmpty>
+             
+             <isNotEmpty property="sMngYear">
+                 AND A.MNG_YEAR = #sMngYear#
+             </isNotEmpty>
+             
+             <isNotEmpty property="sMngNo">
+                 AND A.MNG_NO = #sMngNo#
+             </isNotEmpty>
+             
+             <isNotEmpty property="sMngCnt">
+                 AND A.MNG_CNT = #sMngCnt#
+             </isNotEmpty>
+             
+             <isNotEmpty property="sPrmisnYn">
+                 AND A.PRMISN_YN = #sPrmisnYn#
+             </isNotEmpty>
+             
+             <isNotEmpty property="sUsagePrposCd">
+                 AND (
+                       (A.PRT_AT_CODE, A.MNG_YEAR, A.MNG_NO, A.MNG_CNT) IN (
+                                                                     SELECT  PRT_AT_CODE
+                                                                           , MNG_YEAR
+                                                                           , MNG_NO
+                                                                           , MNG_CNT 
+                                                                       FROM ASSETS_RENT_DETAIL_F
+                                                                      WHERE USAGE_PRPOS_CD = #sUsagePrposCd#
+                                                                   )
+                     ) 
+             </isNotEmpty>
+             
+             <isNotEmpty property="sQuayCd">
+                    AND (
+						  (A.PRT_AT_CODE, A.MNG_YEAR, A.MNG_NO, A.MNG_CNT) IN (
+											                         SELECT  PRT_AT_CODE
+											                               , MNG_YEAR
+											                               , MNG_NO
+											                               , MNG_CNT 
+											                           FROM ASSETS_RENT_DETAIL_F
+											                          WHERE QUAY_CD = #sQuayCd#
+											                       )
+						) 
+              </isNotEmpty>
+              
+              <isNotEmpty property="sDateSearchGbn">
+              <isNotEmpty property="sDateSearchValue">
+	            	<isEqual property="sDateSearchGbn" compareValue="1">
+	            		AND TO_CHAR(A.FRST_REQST_DT, 'YYYYMMDD') = REPLACE(#sDateSearchValue#,'-','')
+	            	</isEqual>
+	            	<isEqual property="sDateSearchGbn" compareValue="2">
+	            		AND TO_CHAR(A.FRST_PRMISN_DT, 'YYYYMMDD') = REPLACE(#sDateSearchValue#,'-','')
+	            	</isEqual>
+	            	<isEqual property="sDateSearchGbn" compareValue="3">
+	            		AND TO_CHAR(A.REQST_DT, 'YYYYMMDD') = REPLACE(#sDateSearchValue#,'-','')
+	            	</isEqual>
+	            	<isEqual property="sDateSearchGbn" compareValue="4">
+	            		AND TO_CHAR(A.PRMISN_DT, 'YYYYMMDD') = REPLACE(#sDateSearchValue#,'-','')
+	            	</isEqual>
+	            </isNotEmpty>
+	            </isNotEmpty>
+             
+    </select>
+    
+    <select id="gamTestPrtFcltyUseSttusInqireDao.selectPrtFcltyUseSttusInqireSum_S" parameterClass="gamTestPrtFcltyUseSttusInqireVO" resultMap="gamTestPrtFcltyUseSttusInqireSumMap">
+         SELECT 
+               TRIM(TO_CHAR(NVL(COUNT(*),0), '999,999,999,999')) SUM_CNT
+               , TRIM(TO_CHAR(NVL(SUM(A.GR_AR),0), '999,999,999,999')) SUM_GR_AR
+               , TRIM(TO_CHAR(NVL(SUM(A.GR_FEE),0), '999,999,999,999')) SUM_GR_FEE
+               , TRIM(TO_CHAR(NVL(SUM(A.GR_RDCXPT_FEE),0), '999,999,999,999')) SUM_GR_RDCXPT_FEE
+          FROM ASSETS_RENT_F A
+         WHERE A.QUAY_GROUP_CD = 'G'	<!-- 일반부두 -->
+              
+         <isNotEmpty property="sPrtAtCode">
+             AND A.PRT_AT_CODE = #sPrtAtCode#  
+         </isNotEmpty>
+         
+         <isNotEmpty property="sReqstSeCd">
+             AND A.REQST_SE_CD = #sReqstSeCd#  
+         </isNotEmpty>
+         
+         <isNotEmpty property="sEntrpscd">
+             AND A.ENTRPSCD = #sEntrpscd#  
+         </isNotEmpty>
+         
+         <isNotEmpty property="sGrUsagePdFrom"> 
+             AND A.GR_USAGE_PD_FROM <![CDATA[>=]]> REPLACE(#sGrUsagePdFrom#,'-','')    
+         </isNotEmpty>
+         
+         <isNotEmpty property="sGrUsagePdTo">
+             AND A.GR_USAGE_PD_FROM <![CDATA[<=]]> REPLACE(#sGrUsagePdTo#,'-','')
+         </isNotEmpty>
+         
+         <isNotEmpty property="sGrAr">
+             AND A.GR_AR = #sGrAr#
+         </isNotEmpty>
+         
+         <isNotEmpty property="sMngYear">
+             AND A.MNG_YEAR = #sMngYear#
+         </isNotEmpty>
+         
+         <isNotEmpty property="sMngNo">
+             AND A.MNG_NO = #sMngNo#
+         </isNotEmpty>
+         
+         <isNotEmpty property="sMngCnt">
+             AND A.MNG_CNT = #sMngCnt#
+         </isNotEmpty>
+         
+         <isNotEmpty property="sPrmisnYn">
+             AND A.PRMISN_YN = #sPrmisnYn#
+         </isNotEmpty>
+         
+         <isNotEmpty property="sUsagePrposCd">
+             AND (
+                   (A.PRT_AT_CODE, A.MNG_YEAR, A.MNG_NO, A.MNG_CNT) IN (
+                                                                 SELECT  PRT_AT_CODE
+                                                                       , MNG_YEAR
+                                                                       , MNG_NO
+                                                                       , MNG_CNT 
+                                                                   FROM ASSETS_RENT_DETAIL_F
+                                                                  WHERE USAGE_PRPOS_CD = #sUsagePrposCd#
+                                                               )
+                 ) 
+         </isNotEmpty>
+         
+         <isNotEmpty property="sQuayCd">
+                  AND (
+				  (A.PRT_AT_CODE, A.MNG_YEAR, A.MNG_NO, A.MNG_CNT) IN (
+									                         SELECT  PRT_AT_CODE
+									                               , MNG_YEAR
+									                               , MNG_NO
+									                               , MNG_CNT 
+									                           FROM ASSETS_RENT_DETAIL_F
+									                          WHERE QUAY_CD = #sQuayCd#
+									                       )
+				) 
+          </isNotEmpty>
+          
+          <isNotEmpty property="sDateSearchGbn">
+          <isNotEmpty property="sDateSearchValue">
+            	<isEqual property="sDateSearchGbn" compareValue="1">
+            		AND TO_CHAR(A.FRST_REQST_DT, 'YYYYMMDD') = REPLACE(#sDateSearchValue#,'-','')
+            	</isEqual>
+            	<isEqual property="sDateSearchGbn" compareValue="2">
+            		AND TO_CHAR(A.FRST_PRMISN_DT, 'YYYYMMDD') = REPLACE(#sDateSearchValue#,'-','')
+            	</isEqual>
+            	<isEqual property="sDateSearchGbn" compareValue="3">
+            		AND TO_CHAR(A.REQST_DT, 'YYYYMMDD') = REPLACE(#sDateSearchValue#,'-','')
+            	</isEqual>
+            	<isEqual property="sDateSearchGbn" compareValue="4">
+            		AND TO_CHAR(A.PRMISN_DT, 'YYYYMMDD') = REPLACE(#sDateSearchValue#,'-','')
+            	</isEqual>
+            </isNotEmpty>
+            </isNotEmpty>
+         
+    </select>
+    
+    <select id="gamTestPrtFcltyUseSttusInqireDao.selectPrtFcltyUseSttusInqireDetailList_D" parameterClass="gamTestPrtFcltyUseSttusInqireVO" resultClass="egovMap">
+           SELECT A.*
+           FROM (
+                   SELECT  ROWNUM RNUM, S.*
+                     FROM (
+                           SELECT 
+                                  A.ASSETS_USAGE_SEQ
+                                , A.GIS_ASSETS_CD
+                                , A.GIS_ASSETS_SUB_CD
+                                , (A.GIS_ASSETS_CD || '-' || A.GIS_ASSETS_SUB_CD) ASSETS_CD_STR
+								, F.GIS_ASSETS_NM
+								, F.GIS_ASSETS_LOCPLC
+								, F.GIS_ASSETS_LNM
+								, F.GIS_ASSETS_LNM_SUB
+								, F.GIS_ASSETS_AR
+								, F.GIS_ASSETS_REAL_RENT_AR
+                                , NVL(A.USAGE_AR,0) USAGE_AR
+                                , TO_CHAR(A.USAGE_PD_FROM,'YYYY-MM-DD') USAGE_PD_FROM
+                                , TO_CHAR(A.USAGE_PD_TO,'YYYY-MM-DD') USAGE_PD_TO
+                                , A.USAGE_PURPS
+                                , A.USAGE_DTLS
+                                , A.USAGE_PRPOS_CD
+                                , A.EXEMPT_SE
+                                , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM009' AND CD.CODE = A.EXEMPT_SE AND ROWNUM = 1) EXEMPT_SE_NM
+                                , A.EXEMPT_RSN_CD
+                                , A.EXEMPT_RSN
+                                , TO_CHAR(A.EXEMPT_PD_FROM,'YYYY-MM-DD') EXEMPT_PD_FROM
+                                , TO_CHAR(A.EXEMPT_PD_TO,'YYYY-MM-DD') EXEMPT_PD_TO
+                                , A.COMPUT_DTLS
+                                , NVL(A.OLNLP, 0) OLNLP
+                                , A.APPLC_TARIFF
+                                , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM023' AND CD.CODE = A.APPLC_TARIFF AND ROWNUM = 1) APPLC_TARIFF_NM
+                                , A.APPLC_MTH
+                                , A.PACK_SE
+                                , A.ENTRPS_SE
+                                , A.FEE_CALC_SE
+                                , A.RDCXPT_FEE_CALC_SE
+                                , NVL(A.RDCXPT_FEE,0) RDCXPT_FEE
+                                , NVL(A.FEE,0) FEE
+                                , TO_CHAR(A.TRMNAT_DT,'YYYY-MM-DD') TRMNAT_DT
+                                , A.TRMNAT_RSN
+                                , A.GIS_CD
+                                , A.REG_USR
+                                , TO_CHAR(A.REGIST_DT,'YYYY-MM-DD') REGIST_DT
+                                , A.UPD_USR
+                                , TO_CHAR(A.UPDT_DT,'YYYY-MM-DD') UPDT_DT
+                                , A.PRT_AT_CODE
+                                , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM019' AND CD.CODE = A.PRT_AT_CODE AND ROWNUM = 1) PRT_AT_CODE_NM
+                                , A.PRT_AT_CODE AS DTL_PRT_AT_CODE
+                                , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM019' AND CD.CODE = A.PRT_AT_CODE AND ROWNUM = 1) DTL_PRT_AT_CODE_NM
+                                , A.GIS_ASSETS_PRT_AT_CODE
+                                , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM019' AND CD.CODE = A.GIS_ASSETS_PRT_AT_CODE AND ROWNUM = 1) GIS_ASSETS_PRT_AT_CODE_NM
+                                , A.MNG_YEAR
+                                , A.MNG_NO
+                                , A.MNG_CNT
+                                , A.QUAY_CD
+                                , A.APPLC_TARIFF APPLC_TARIFF_STR
+                                , GAM_GETCODENAME('GAM003', A.QUAY_CD) QUAY_CD_NM
+                                , GAM_GETCODENAME('GAM017', A.EXEMPT_RSN_CD) EXEMPT_RSN_CD_NM
+                                , GAM_GETCODENAME('GAM014', A.APPLC_MTH) APPLC_MTH_NM
+                            FROM ASSETS_RENT_DETAIL_F A
+							LEFT OUTER JOIN GIS_ASSETS_CD_F F ON (F.GIS_ASSETS_PRT_AT_CODE = NVL(A.GIS_ASSETS_PRT_AT_CODE, A.PRT_AT_CODE) AND
+																	F.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD AND
+																	F.GIS_ASSETS_CD = A.GIS_ASSETS_CD)
+                           WHERE 1 = 1
+                             AND A.PRT_AT_CODE = #prtAtCode#
+                             AND A.MNG_YEAR    = #mngYear#
+                             AND A.MNG_NO      = #mngNo#
+                             AND A.MNG_CNT     = #mngCnt#
+                             
+                           <!-- ORDER BY REGIST_DT DESC  -->
+                           ORDER BY ASSETS_USAGE_SEQ DESC  
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+
+    </select>
+    
+    <select id="gamTestPrtFcltyUseSttusInqireDao.selectPrtFcltyUseSttusInqireDetailListTotCnt_S" parameterClass="gamTestPrtFcltyUseSttusInqireVO" resultClass="int">
+            SELECT COUNT(*) TOTCNT
+              FROM ASSETS_RENT_DETAIL_F A
+             WHERE 1 = 1
+               AND A.PRT_AT_CODE = #prtAtCode#
+               AND A.MNG_YEAR    = #mngYear#
+               AND A.MNG_NO      = #mngNo#
+               AND A.MNG_CNT     = #mngCnt#
+    </select>
+    
+    <select id="gamTestPrtFcltyUseSttusInqireDao.selectPrtFcltyUseSttusInqireFileList_D" parameterClass="gamTestPrtFcltyUseSttusInqireVO" resultClass="egovMap">
+        SELECT A.*
+           FROM (
+                   SELECT  ROWNUM RNUM, S.*
+                     FROM (
+                           
+                           SELECT 
+					                A.PHOTO_SEQ
+					              , A.PHOTO_SJ
+					              , A.FILENM_PHYSICL
+					              , A.FILENM_LOGIC
+					              , TO_CHAR(A.SHOT_DT, 'YYYY-MM-DD') SHOT_DT
+					              , A.REG_USR
+					              , TO_CHAR(A.REGIST_DT, 'YYYY-MM-DD') REGIST_DT 
+					              , A.PRT_AT_CODE
+					              , A.MNG_YEAR
+					              , A.MNG_NO
+					              , A.MNG_CNT
+					              , A.PHOTO_DESC
+					         FROM ASSETS_RENT_PHOTO_F A
+					        WHERE A.PRT_AT_CODE = #prtAtCode#
+					          AND A.MNG_YEAR    = #mngYear#
+					          AND A.MNG_NO      = #mngNo#
+					          AND A.MNG_CNT     = #mngCnt#
+					        ORDER BY A.PHOTO_SEQ DESC
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+        
+    </select>
+    
+    <select id="gamTestPrtFcltyUseSttusInqireDao.selectPrtFcltyUseSttusInqireFileListTotCnt_S" parameterClass="gamTestPrtFcltyUseSttusInqireVO" resultClass="int">
+            SELECT COUNT(*) TOTCNT
+              FROM ASSETS_RENT_PHOTO_F A
+             WHERE PRT_AT_CODE = #prtAtCode#
+               AND MNG_YEAR    = #mngYear#
+               AND MNG_NO      = #mngNo#
+               AND MNG_CNT     = #mngCnt#
+    </select>
+    
+    
+    <select id="gamTestPrtFcltyUseSttusInqireDao.selectOlnlpInfo_S" resultMap="CmmCodeDetail">
+            SELECT
+                '' CODE_ID,
+                OLNLP CODE,
+                (TO_CHAR(BEGIN_DT,'YYYY-MM-DD') || ' ~ ' || TO_CHAR(END_DT,'YYYY-MM-DD') || ' : [' || OLNLP || '원]') CODE_NM,
+                '' CODE_DC
+            FROM
+                OLNLP_F
+            WHERE 1=1
+            ORDER BY BEGIN_DT DESC
+    </select>
+    
+    
+    <select id="gamTestPrtFcltyUseSttusInqireDao.selectCofixInfo_S" resultMap="CmmCodeDetail">
+            SELECT
+                    '' CODE_ID
+                  , TRIM(TO_CHAR(BLCE_STDR_INTRRATE, '0.0000')) CODE
+                  , (TO_CHAR(TO_DATE(OBJ_YRMT, 'YYYY-MM'), 'YYYY-MM') || ' : ' || (BLCE_STDR_INTRRATE * 100) || '% [' || TO_CHAR(ANNODT,'YYYY-MM-DD') || ']') CODE_NM
+                  , '' CODE_DC
+              FROM COFIX_INTRRATE_F
+             ORDER BY OBJ_YRMT DESC
+    </select>
+    
+    
+    <select id="gamTestPrtFcltyUseSttusInqireDao.selectPrtFcltyUseSttusInqireBeforeQuarterInfo_S" parameterClass="gamTestPrtFcltyUseSttusInqireVO" resultMap="gamTestPrtFcltyUseSttusInqireBeforeQuarterInfoMap">
+        SELECT
+                CASE
+                    WHEN CHK_DIV = 'DI_1'
+                    THEN TO_NUMBER(C_YEAR) - 1
+                    ELSE TO_NUMBER(C_YEAR)
+                END THIS_YEAR
+                , CASE
+                    WHEN CHK_DIV = 'DI_1'
+                    THEN '10'
+                    WHEN CHK_DIV = 'DI_2'
+                    THEN '01'
+                    WHEN CHK_DIV = 'DI_3'
+                    THEN '04'
+                    WHEN CHK_DIV = 'DI_4'
+                    THEN '07'
+                    ELSE CHK_DIV
+                END DIV_ST
+                , CASE
+                    WHEN CHK_DIV = 'DI_1'
+                    THEN '12'
+                    WHEN CHK_DIV = 'DI_2'
+                    THEN '03'
+                    WHEN CHK_DIV = 'DI_3'
+                    THEN '06'
+                    WHEN CHK_DIV = 'DI_4'
+                    THEN '09'
+                    ELSE CHK_DIV
+                END DIV_END
+            FROM (
+                SELECT
+                    C_YEAR
+                    , CASE
+                        WHEN C_DIY BETWEEN '01' AND '03'
+                        THEN 'DI_1'
+                        WHEN C_DIY BETWEEN '04' AND '06'
+                        THEN 'DI_2'
+                        WHEN C_DIY BETWEEN '07' AND '09'
+                        THEN 'DI_3'
+                        WHEN C_DIY BETWEEN '10' AND '12'
+                        THEN 'DI_4'
+                        ELSE 'NO'
+                    END CHK_DIV
+                FROM (
+                    SELECT
+                          SUBSTR(#cYear#,1,4) C_YEAR   <!-- 입력받은 스트링 날짜 201403-->
+                        , SUBSTR(#cYear#,5,2) C_DIY    <!-- 입력받은 스트링 날짜 201403 -->
+                    FROM DUAL
+                )
+            )
+    </select>
+    
+    
+    <select id="gamTestPrtFcltyUseSttusInqireDao.selectPrtFcltyUseSttusInqireCofixInfo_S" parameterClass="gamTestPrtFcltyUseSttusInqireVO" resultMap="gamTestPrtFcltyUseSttusInqireCofixInfoMap">
+           SELECT
+                   OBJ_YRMT
+                 , TRIM(TO_CHAR(BLCE_STDR_INTRRATE, '0.0000')) BLCE_STDR_INTRRATE
+                 , TRIM(TO_CHAR(BLCE_STDR_INTRRATE * 100, '0.00')) BLCE_STDR_INTRRATE_SHOW
+                 , NEW_MANIP_AMT_STDR_INTRRATE
+                 , TO_CHAR(ANNODT,'YYYYMMDD') ANNODT
+              FROM (
+                    SELECT
+                             OBJ_YRMT
+                           , BLCE_STDR_INTRRATE
+                           , NEW_MANIP_AMT_STDR_INTRRATE
+                           , ANNODT
+                       FROM COFIX_INTRRATE_F
+                    WHERE SUBSTR(OBJ_YRMT,1,4) = #thisYear# <!-- '2013' -->
+                    AND SUBSTR(OBJ_YRMT,5,2) BETWEEN #divSt# AND #divEnd# <!-- '10' AND '12' -->
+                    ORDER BY OBJ_YRMT DESC
+                  ) WHERE ROWNUM = 1
+    </select>
+
+</sqlMap>

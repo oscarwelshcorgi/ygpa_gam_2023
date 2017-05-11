@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ygpa.gam.asset.rent">
+
+    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="gamTestPrtFcltyPopupInqireVO" type="egovframework.rte.ygpa.gam.oper.gnrltest.service.GamTestPrtFcltyPopupInqireVO"/>
+
+    <select id="gamTestPrtFcltyPopupInqireDao.selectPrtFcltyPopupInqire_S" resultClass="gamTestPrtFcltyPopupInqireVO">
+           SELECT
+			       (
+			        SELECT COUNT(*)
+			          FROM ASSETS_RENT_F F
+			         WHERE F.QUAY_GROUP_CD = 'G'
+			         <![CDATA[
+						AND F.GR_USAGE_PD_FROM < SYSDATE
+                        AND F.GR_USAGE_PD_TO >= SYSDATE
+			         ]]>
+			       ) currentUseCnt
+			      ,(
+			         SELECT COUNT(*)
+			           FROM LEV_REQEST_F L, ASSETS_RENT_F F
+			          WHERE L.PRT_AT_CODE = F.PRT_AT_CODE
+			            AND L.MNG_YEAR    = F.MNG_YEAR
+			            AND L.MNG_NO      = F.MNG_NO
+			            AND L.MNG_CNT     = F.MNG_CNT
+			            AND L.NHT_ISUE_YN='N'
+			            AND F.QUAY_GROUP_CD      = 'G'
+                        AND L.NTIC_PD_FROM <![CDATA[<]]> SYSDATE+15
+                        AND L.SAVE IS NULL OR L.SAVE = 'N' <!-- 투자비보전 상계처리 제외부분 추가 . 2015.12.17 김종민 -->
+			         <!--
+			         WHERE L.NTIC_PD_FROM <![CDATA[>=]]> TO_CHAR(SYSDATE, 'YYYYMMDD')
+			           AND L.CONST_PER_TO <![CDATA[<=]]> TO_CHAR(SYSDATE, 'YYYYMMDD')
+			         -->
+			       ) nticPdCnt
+			      ,(
+                    SELECT COUNT(*)
+                       FROM LEV_REQEST_F L, ASSETS_RENT_F F
+                      WHERE L.PRT_AT_CODE = F.PRT_AT_CODE
+                        AND L.MNG_YEAR    = F.MNG_YEAR
+                        AND L.MNG_NO      = F.MNG_NO
+                        AND L.MNG_CNT     = F.MNG_CNT
+                        AND F.QUAY_GROUP_CD      = 'G'
+					    AND L.NHT_ISUE_YN = 'Y'
+					    AND L.RCIV_SE = '0'
+                   ) overDueCnt
+                   ,(
+                    SELECT COUNT(*)
+                       FROM LEV_REQEST_F L, ASSETS_RENT_F F
+                      WHERE L.PRT_AT_CODE = F.PRT_AT_CODE
+                        AND L.MNG_YEAR    = F.MNG_YEAR
+                        AND L.MNG_NO      = F.MNG_NO
+                        AND L.MNG_CNT     = F.MNG_CNT
+                        AND F.QUAY_GROUP_CD      = 'G'
+					    AND L.NHT_ISUE_YN = 'Y'
+					    AND L.RCIV_SE = '1'
+                   ) overNticCnt
+			      ,(
+			        SELECT COUNT(*)
+                      FROM ASSETS_RENT_F F
+                     WHERE F.QUAY_GROUP_CD      = 'G'
+                     AND F.PRMISN_YN='Y'
+                       AND F.GR_USAGE_PD_TO <![CDATA[>=]]> SYSDATE
+                       AND F.GR_USAGE_PD_TO <![CDATA[<]]> SYSDATE+30
+			       ) closeEndContract
+			 FROM DUAL
+    </select>
+
+</sqlMap>

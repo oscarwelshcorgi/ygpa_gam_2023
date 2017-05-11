@@ -62,6 +62,19 @@
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/oper/gnrl/GamPrtFcltyRentFeeSttusByFeeTpDao_SQL_oracle.xml" />
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/oper/gnrl/GamPrtFcltyUsageConfmInqireDao_SQL_oracle.xml" />
 
+    <sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/oper/gnrltest/GamTestPrtFcltyUseSttusInqireDao_SQL_oracle.xml" />
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/oper/gnrltest/GamTestPrtFcltyRentMngtDao_SQL_oracle.xml" />
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/oper/gnrltest/GamTestPrtFcltyRentFeeMngtDao_SQL_oracle.xml" />
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/oper/gnrltest/GamTestPrtFcltyRentFeePaySttusMngtDao_SQL_oracle.xml" />
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/oper/gnrltest/GamTestPrtFcltyUseExprInqireDao_SQL_oracle.xml" />
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/oper/gnrltest/GamTestPrtFcltyNticArrvlDtaInqireDao_SQL_oracle.xml" />
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/oper/gnrltest/GamTestPrtFcltyMtRentFeeSttusInqireDao_SQL_oracle.xml" />
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/oper/gnrltest/GamTestPrtFcltyEntrpsRentFeeSttusInqireDao_SQL_oracle.xml" />
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/oper/gnrltest/GamTestPrtFcltyPdRentFeeSttusInqireDao_SQL_oracle.xml" />
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/oper/gnrltest/GamTestPrtFcltyPopupInqireDao_SQL_oracle.xml" />
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/oper/gnrltest/GamTestPrtFcltyRentFeeSttusByFeeTpDao_SQL_oracle.xml" />
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/oper/gnrltest/GamTestPrtFcltyUsageConfmInqireDao_SQL_oracle.xml" />
+
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/oper/htld/GamHtldRentSttusInqireDao_SQL_oracle.xml" />
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/oper/htld/GamHtldRentMngtDao_SQL_oracle.xml" />
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/oper/htld/GamHtldRentFeeMngtDao_SQL_oracle.xml" />

@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ygpa.gam.oper.gnrltest">
+
+    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="gamTestPrtFcltyPdRentFeeSttusInqireVO" type="egovframework.rte.ygpa.gam.oper.gnrltest.service.GamTestPrtFcltyPdRentFeeSttusInqireVO"/>
+    
+	<resultMap id="gamTestPrtFcltyPdRentFeeSttusInqireSumMap" class="gamTestPrtFcltyPdRentFeeSttusInqireVO">
+    	<result property="dpTotCnt" column="DP_TOT_CNT" columnIndex="1" javaType="string" jdbcType="VARCHAR"/>
+        <result property="sumTotalFeeSum" column="SUM_TOTAL_FEE_SUM" columnIndex="2" javaType="string" jdbcType="VARCHAR"/>
+        <result property="sumTotalRdcxptFeeSumSum" column="SUM_TOTAL_RDCXPT_FEE_SUM" columnIndex="3" javaType="string" jdbcType="VARCHAR"/>
+    </resultMap>
+    
+    <select id="gamTestPrtFcltyPdRentFeeSttusInqireDao.selectPrtFcltyPdRentFeeSttusInqireList_D" parameterClass="gamTestPrtFcltyPdRentFeeSttusInqireVO" resultClass="egovMap">
+    	SELECT A.*
+           FROM (
+                   SELECT  ROWNUM RNUM, S.*
+                     FROM (
+                           SELECT 
+					    		T1.PRT_AT_CODE,
+								T1.USAGE_YEAR,
+								T1.USAGE_QU,
+								T1.USAGE_MT,
+								MIN(T3.CODE_NM) AS PRT_KOR_NM,
+								NVL(SUM(T1.FEE),0) AS SUM_TOTAL_FEE,
+								NVL(SUM(T1.RDCXPT_FEE),0) AS SUM_TOTAL_RDCXPT_FEE
+							FROM 
+								USAGE_PD_BY_STATS_F T1
+							LEFT OUTER JOIN 
+								COMTCCMMNDETAILCODE T3 
+							ON 
+								('GAM019'=T3.CODE_ID AND T1.PRT_AT_CODE=T3.CODE)
+							WHERE 1 = 1
+							
+								<isNotEmpty property="sPrtAtCode">
+						            AND T1.PRT_AT_CODE = #sPrtAtCode#  
+						        </isNotEmpty>
+						        
+						        <isNotEmpty property="serchStartYr">
+				        			<isNotEmpty property="serchStartMn">
+		                    			<![CDATA[AND T1.USAGE_YRMT >= CONCAT(#serchStartYr#, #serchStartMn#)]]>
+		                    			<isNotEmpty property="serchEndYr">
+		                    				<isNotEmpty property="serchEndMn">
+		                    					<![CDATA[AND T1.USAGE_YRMT <= CONCAT(#serchEndYr#, #serchEndMn#)]]>
+		                    				</isNotEmpty>
+		                    			</isNotEmpty>
+		                    		</isNotEmpty>
+		                		</isNotEmpty>
+						        
+						        <isNotEmpty property="sEntrpscd">
+						            AND T1.REQST_ENTRPS_CD = #sEntrpscd#  
+						        </isNotEmpty>
+						        
+						        <isNotEmpty property="searchAssetsCd">
+						            AND T1.GIS_ASSETS_CD = #searchAssetsCd# 
+						        </isNotEmpty>
+						        
+						        <isNotEmpty property="searchAssetsSubCd">
+						            AND T1.GIS_ASSETS_SUB_CD = #searchAssetsSubCd#  
+						        </isNotEmpty>
+						        
+						        AND T1.QUAY_GROUP_CD='G' 
+						        
+						        GROUP BY T1.PRT_AT_CODE,
+							         T1.USAGE_YEAR,
+							         T1.USAGE_QU,
+							         T1.USAGE_MT
+						        ORDER BY T1.PRT_AT_CODE,
+							         T1.USAGE_YEAR,
+							         T1.USAGE_QU,
+							         T1.USAGE_MT
+                ) S
+             ) A
+    	
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+        
+    </select>
+    
+     <select id="gamTestPrtFcltyPdRentFeeSttusInqireDao.selectPrtFcltyPdRentFeeSttusInqireListTotCnt_S" parameterClass="gamTestPrtFcltyPdRentFeeSttusInqireVO" resultClass="int">
+            
+            SELECT 
+            	COUNT(*) TOTCNT
+            FROM 
+				(
+                   SELECT 
+			    		T1.PRT_AT_CODE,
+						T1.USAGE_YEAR,
+						T1.USAGE_QU,
+						T1.USAGE_MT,
+						MIN(T3.CODE_NM) AS PRT_KOR_NM,
+						NVL(SUM(T1.FEE),0) AS SUM_TOTAL_FEE,
+						NVL(SUM(T1.RDCXPT_FEE),0) AS SUM_TOTAL_RDCXPT_FEE
+					FROM 
+						USAGE_PD_BY_STATS_F T1
+					LEFT OUTER JOIN 
+						COMTCCMMNDETAILCODE T3 
+					ON 
+						('GAM019'=T3.CODE_ID AND T1.PRT_AT_CODE=T3.CODE)
+					WHERE 1 = 1
+					
+						<isNotEmpty property="sPrtAtCode">
+				            AND T1.PRT_AT_CODE = #sPrtAtCode#  
+				        </isNotEmpty>
+				        
+				        <isNotEmpty property="serchStartYr">
+		        			<isNotEmpty property="serchStartMn">
+                    			<![CDATA[AND T1.USAGE_YRMT >= CONCAT(#serchStartYr#, #serchStartMn#)]]>
+                    			<isNotEmpty property="serchEndYr">
+                    				<isNotEmpty property="serchEndMn">
+                    					<![CDATA[AND T1.USAGE_YRMT <= CONCAT(#serchEndYr#, #serchEndMn#)]]>
+                    				</isNotEmpty>
+                    			</isNotEmpty>
+                    		</isNotEmpty>
+                		</isNotEmpty>
+				        
+				        <isNotEmpty property="sEntrpscd">
+				            AND T1.REQST_ENTRPS_CD = #sEntrpscd#  
+				        </isNotEmpty>
+				        
+				        <isNotEmpty property="searchAssetsCd">
+				            AND T1.GIS_ASSETS_CD = #searchAssetsCd# 
+				        </isNotEmpty>
+				        
+				        <isNotEmpty property="searchAssetsSubCd">
+				            AND T1.GIS_ASSETS_SUB_CD = #searchAssetsSubCd#  
+				        </isNotEmpty>
+				        
+				        AND T1.QUAY_GROUP_CD='G' 
+				        
+				        GROUP BY T1.PRT_AT_CODE,
+					         T1.USAGE_YEAR,
+					         T1.USAGE_QU,
+					         T1.USAGE_MT
+                ) S
+    </select>
+    
+    <select id="gamTestPrtFcltyPdRentFeeSttusInqireDao.selectPrtFcltyPdRentFeeSttusInqireSum_S" parameterClass="gamTestPrtFcltyPdRentFeeSttusInqireVO" resultMap="gamTestPrtFcltyPdRentFeeSttusInqireSumMap">
+            SELECT 
+            	TRIM(TO_CHAR(COUNT(*), '999,999,999,999')) AS DP_TOT_CNT  
+            	,TRIM(TO_CHAR(NVL(SUM(S.SUM_TOTAL_FEE),0), '999,999,999,999')) AS SUM_TOTAL_FEE_SUM 
+            	,TRIM(TO_CHAR(NVL(SUM(S.SUM_TOTAL_RDCXPT_FEE),0), '999,999,999,999')) AS SUM_TOTAL_RDCXPT_FEE_SUM 
+            FROM 
+				(
+                   SELECT 
+			    		T1.PRT_AT_CODE,
+						T1.USAGE_YEAR,
+						T1.USAGE_QU,
+						T1.USAGE_MT,
+						MIN(T3.CODE_NM) AS PRT_KOR_NM,
+						NVL(SUM(T1.FEE),0) AS SUM_TOTAL_FEE,
+						NVL(SUM(T1.RDCXPT_FEE),0) AS SUM_TOTAL_RDCXPT_FEE
+					FROM 
+						USAGE_PD_BY_STATS_F T1
+					LEFT OUTER JOIN 
+						COMTCCMMNDETAILCODE T3 
+					ON 
+						('GAM019'=T3.CODE_ID AND T1.PRT_AT_CODE=T3.CODE)
+					WHERE 1 = 1
+					
+						<isNotEmpty property="sPrtAtCode">
+				            AND T1.PRT_AT_CODE = #sPrtAtCode#  
+				        </isNotEmpty>
+				        
+				        <isNotEmpty property="serchStartYr">
+		        			<isNotEmpty property="serchStartMn">
+                    			<![CDATA[AND T1.USAGE_YRMT >= CONCAT(#serchStartYr#, #serchStartMn#)]]>
+                    			<isNotEmpty property="serchEndYr">
+                    				<isNotEmpty property="serchEndMn">
+                    					<![CDATA[AND T1.USAGE_YRMT <= CONCAT(#serchEndYr#, #serchEndMn#)]]>
+                    				</isNotEmpty>
+                    			</isNotEmpty>
+                    		</isNotEmpty>
+                		</isNotEmpty>
+				        
+				        <isNotEmpty property="sEntrpscd">
+				            AND T1.REQST_ENTRPS_CD = #sEntrpscd#  
+				        </isNotEmpty>
+				        
+				        <isNotEmpty property="searchAssetsCd">
+				            AND T1.GIS_ASSETS_CD = #searchAssetsCd# 
+				        </isNotEmpty>
+				        
+				        <isNotEmpty property="searchAssetsSubCd">
+				            AND T1.GIS_ASSETS_SUB_CD = #searchAssetsSubCd#  
+				        </isNotEmpty>
+				        
+				        AND T1.QUAY_GROUP_CD='G' 
+				        
+				        GROUP BY T1.PRT_AT_CODE,
+					         T1.USAGE_YEAR,
+					         T1.USAGE_QU,
+					         T1.USAGE_MT
+                ) S
+    </select>
+    
+</sqlMap>
