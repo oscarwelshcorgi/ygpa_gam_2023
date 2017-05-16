@@ -5,7 +5,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%
   /**
-  * @Class Name : GamPrtFcltyPopupInqire.jsp
+  * @Class Name : GamTestPrtFcltyPopupInqire.jsp
   * @Description : 항만시설정보현황알림
   * @Modification Information
   *
@@ -65,7 +65,7 @@ GamAssetLndValInqireModule.prototype.loadComplete = function() {
 			var d = new Date();
 			d.setDate(d.getDate()+1);
 			d.setHours(0);
-		  	document.cookie = "ygpa_popup_c3=/oper/gnrl/gamPrtFcltyPopupInqire.do; expires=" +d.toUTCString();
+		  	document.cookie = "ygpa_popup_c3=/oper/gnrltest/gamTestPrtFcltyPopupInqire.do; expires=" +d.toUTCString();
 		  	event.data.module.closeWindow();
 		});
 	};
@@ -85,19 +85,19 @@ GamAssetLndValInqireModule.prototype.onButtonClick = function(buttonId) {
          break;
 
      case 'btnPrtFcltyRent':
-    	 EMD.util.create_window('gamPrtFcltyRentMngt', '항만시설 사용 목록 관리', '/oper/gnrl/gamPrtFcltyRentMngt.do', null, {action:'popupInqire'});
+    	 EMD.util.create_window('gamTestPrtFcltyRentMngt', '항만시설 사용 목록 관리', '/oper/gnrltest/gamTestPrtFcltyRentMngt.do', null, {action:'popupInqire'});
     	 break;
      case 'btnPrtFcltyFeeMngt':
-    	 EMD.util.create_window('gamPrtFcltyRentFeeMngt', '항만시설 사용료고지 관리', '/oper/gnrl/gamPrtFcltyRentFeeMngt.do', null, {action:'popupInqire'});
+    	 EMD.util.create_window('gamTestPrtFcltyRentFeeMngt', '항만시설 사용료고지 관리', '/oper/gnrltest/gamTestPrtFcltyRentFeeMngt.do', null, {action:'popupInqire'});
     	 break;
      case 'btnPrtFcltyRentFeePayDtlsMngt':
-    	 EMD.util.create_window('gamPrtFcltyRentFeePaySttusMngt', '항만시설 사용료납부관리', '/oper/gnrl/gamPrtFcltyRentFeePaySttusMngt.do', null, {action:'popupInqire'});
+    	 EMD.util.create_window('gamTestPrtFcltyRentFeePaySttusMngt', '항만시설 사용료납부관리', '/oper/gnrltest/gamTestPrtFcltyRentFeePaySttusMngt.do', null, {action:'popupInqire'});
     	 break;
      case 'btnPrtFcltyRentFeeOverPayDtlsMngt':
-    	 EMD.util.create_window('gamPrtFcltyRentFeePaySttusMngt', '항만시설 사용료납부관리', '/oper/gnrl/gamPrtFcltyRentFeePaySttusMngt.do', null, {action:'popupOverInqire'});
+    	 EMD.util.create_window('gamTestPrtFcltyRentFeePaySttusMngt', '항만시설 사용료납부관리', '/oper/gnrltest/gamTestPrtFcltyRentFeePaySttusMngt.do', null, {action:'popupOverInqire'});
     	 break;
      case 'btnPrtFcltyUseExprInqire':
-    	 EMD.util.create_window('gamPrtFcltyUseExprInqire', '항만시설사용 만기도래자료조회', '/oper/gnrl/gamPrtFcltyUseExprInqire.do', null, {action:'popupInqire'});
+    	 EMD.util.create_window('gamTestPrtFcltyUseExprInqire', '항만시설사용 만기도래자료조회', '/oper/gnrltest/gamTestPrtFcltyUseExprInqire.do', null, {action:'popupInqire'});
     	 break;
  }
 };

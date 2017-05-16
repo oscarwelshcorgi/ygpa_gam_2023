@@ -47,7 +47,7 @@ GamPopupPrtOperRentModule.prototype.onButtonClick = function(buttonId) {
 			var inputVO=this.makeFormArgs('#gamPopupPrmisnForm');
 
 	        //this.doAction('/oper/gnrl/gamInsertPrtFcltyRentMngtPrmisn.do', inputVO, function(module, result) {
-	        this.doAction('/oper/gnrl/gamUpdatePrtFcltyRentMngtPrmisn.do', inputVO, function(module, result) {
+	        this.doAction('/oper/gnrltest/gamUpdatePrtFcltyRentMngtPrmisn.do', inputVO, function(module, result) {
 	            alert(result.resultMsg);
 
 	            module.closeDialog('ok', result.resultCode);

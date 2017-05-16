@@ -35,7 +35,7 @@ GamNticArrrgPopupModule.prototype.loadComplete = function(searchOpt) {
 	// 그리드 설정
     this.$("#fcltyRentFeeArrrgList").flexigrid({
         module: this,
-        url: '/oper/gnrl/selectNticArrrgList.do',
+        url: '/oper/gnrltest/selectNticArrrgList.do',
         dataType: 'json',
         colModel : [
 			{display:'청코드', name:'prtAtCode',width:60, sortable:false,align:'center'},
@@ -97,7 +97,7 @@ GamNticArrrgPopupModule.prototype.onButtonClick = function(buttonId) {
 		if(confirm("조회된 건에 대해서 연체 일괄 고지를 하시겠습니까?")) {
 			var searchOpt=this.makeFormArgs("#gamNticArrrgListVO");
 
-	        this.doAction('/oper/gnrl/insertNticArrrgList.do', searchOpt, function(module, result) {
+	        this.doAction('/oper/gnrltest/insertNticArrrgList.do', searchOpt, function(module, result) {
 
 	            if(result.resultCode=='0') {
 	        		this.loadData();

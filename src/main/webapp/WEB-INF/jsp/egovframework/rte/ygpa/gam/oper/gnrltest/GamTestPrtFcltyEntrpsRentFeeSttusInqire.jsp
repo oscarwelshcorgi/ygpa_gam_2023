@@ -5,7 +5,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%
   /**
-  * @Class Name : GamPrtFcltyEntrpsRentFeeSttusInqire.jsp
+  * @Class Name : GamTestPrtFcltyEntrpsRentFeeSttusInqire.jsp
   * @Description : 항만시설업체별사용료현황조회
   * @Modification Information
   * 
@@ -23,17 +23,17 @@
 /*
  * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
  */
-function GamPrtFcltyEntrpsRentFeeSttusInqireModule() {}
+function GamTestPrtFcltyEntrpsRentFeeSttusInqireModule() {}
 
-GamPrtFcltyEntrpsRentFeeSttusInqireModule.prototype = new EmdModule(1000, 600);
+GamTestPrtFcltyEntrpsRentFeeSttusInqireModule.prototype = new EmdModule(1000, 600);
 
 //페이지가 호출 되었을때 호출 되는 함수
-GamPrtFcltyEntrpsRentFeeSttusInqireModule.prototype.loadComplete = function() {
+GamTestPrtFcltyEntrpsRentFeeSttusInqireModule.prototype.loadComplete = function() {
  
  // 테이블 설정 //       
  this.$("#prtFcltyEntrpsRentFeeSttusInqireList").flexigrid({
      module: this,
-     url: '/oper/gnrl/gamSelectPrtFcltyEntrpsRentFeeSttusInqireList.do',
+     url: '/oper/gnrltest/gamSelectPrtFcltyEntrpsRentFeeSttusInqireList.do',
      dataType: 'json',
      colModel : [
                  {display:'항코드', name:'prtAtCode',width:40, sortable:false,align:'center'},
@@ -92,7 +92,7 @@ this.$("#prtFcltyEntrpsRentFeeSttusInqireList").on("onItemSelected", function(ev
 /**
 * 정의 된 버튼 클릭 시
 */
-GamPrtFcltyEntrpsRentFeeSttusInqireModule.prototype.onButtonClick = function(buttonId) {
+GamTestPrtFcltyEntrpsRentFeeSttusInqireModule.prototype.onButtonClick = function(buttonId) {
 
 	switch(buttonId) {
 	
@@ -107,7 +107,7 @@ GamPrtFcltyEntrpsRentFeeSttusInqireModule.prototype.onButtonClick = function(but
                 alert("사용기간 시작월을 선택하십시오.");
                 return;
             }
-	        var searchOpt=this.makeFormArgs('#gamPrtFcltyEntrpsRentFeeSttusInqireSearchForm');
+	        var searchOpt=this.makeFormArgs('#gamTestPrtFcltyEntrpsRentFeeSttusInqireSearchForm');
 	        this.$('#prtFcltyEntrpsRentFeeSttusInqireList').flexOptions({params:searchOpt}).flexReload();
 	
 	        break;
@@ -133,7 +133,7 @@ GamPrtFcltyEntrpsRentFeeSttusInqireModule.prototype.onButtonClick = function(but
 //popupId : 팝업 대화상자 아이디
 //msg : 팝업에서 전송한 메시지 (취소는 cancel)
 //value : 팝업에서 선택한 데이터 (오브젝트) 선택이 없으면 0
-GamPrtFcltyEntrpsRentFeeSttusInqireModule.prototype.onClosePopup = function(popupId, msg, value) {
+GamTestPrtFcltyEntrpsRentFeeSttusInqireModule.prototype.onClosePopup = function(popupId, msg, value) {
 	
 	switch (popupId) {
 	
@@ -154,19 +154,19 @@ GamPrtFcltyEntrpsRentFeeSttusInqireModule.prototype.onClosePopup = function(popu
 	}     
 };
 
-GamPrtFcltyEntrpsRentFeeSttusInqireModule.prototype.onSubmit = function() {
+GamTestPrtFcltyEntrpsRentFeeSttusInqireModule.prototype.onSubmit = function() {
  //this.showAlert(this.$('#prtCode').val()+'을(를) 조회 하였습니다');
 
  this.loadData();
 };
 
-GamPrtFcltyEntrpsRentFeeSttusInqireModule.prototype.loadData = function() {
- var searchOpt=this.makeFormArgs('#gamPrtFcltyEntrpsRentFeeSttusInqireSearchForm');
+GamTestPrtFcltyEntrpsRentFeeSttusInqireModule.prototype.loadData = function() {
+ var searchOpt=this.makeFormArgs('#gamTestPrtFcltyEntrpsRentFeeSttusInqireSearchForm');
  //this.showAlert(searchOpt);
  this.$('#prtFcltyEntrpsRentFeeSttusInqireList').flexOptions({params:searchOpt}).flexReload();
 };
 
-GamPrtFcltyEntrpsRentFeeSttusInqireModule.prototype.onTabChange = function(newTabId, oldTabId) {
+GamTestPrtFcltyEntrpsRentFeeSttusInqireModule.prototype.onTabChange = function(newTabId, oldTabId) {
  switch(newTabId) {
  case 'tabs1':
      break;
@@ -183,7 +183,7 @@ GamPrtFcltyEntrpsRentFeeSttusInqireModule.prototype.onTabChange = function(newTa
  *   1. buttonId - BUTTON ID
 **/
 %>
-GamPrtFcltyEntrpsRentFeeSttusInqireModule.prototype.downloadExcel = function(buttonId) {
+GamTestPrtFcltyEntrpsRentFeeSttusInqireModule.prototype.downloadExcel = function(buttonId) {
 
 	var gridRowCount = 0;
 	switch (buttonId) {
@@ -199,14 +199,14 @@ GamPrtFcltyEntrpsRentFeeSttusInqireModule.prototype.downloadExcel = function(but
 	}
 	switch (buttonId) {
 		case 'btnExcelDownload':
-			this.$('#prtFcltyEntrpsRentFeeSttusInqireList').flexExcelDown('/oper/gnrl/selectPrtFcltyEntrpsRentFeeSttusInqireListExcel.do');
+			this.$('#prtFcltyEntrpsRentFeeSttusInqireList').flexExcelDown('/oper/gnrltest/selectPrtFcltyEntrpsRentFeeSttusInqireListExcel.do');
 			break;
 	}
 
 };
 
 //다음 변수는 고정 적으로 정의 해야 함
-var module_instance = new GamPrtFcltyEntrpsRentFeeSttusInqireModule();
+var module_instance = new GamTestPrtFcltyEntrpsRentFeeSttusInqireModule();
 </script>
 <!-- 아래는 고정 -->
 <input type="hidden" id="window_id" value='${windowId}' />
@@ -214,7 +214,7 @@ var module_instance = new GamPrtFcltyEntrpsRentFeeSttusInqireModule();
 
     <div id="searchViewStack" class="emdPanel">
         <div class="viewPanel">
-            <form id="gamPrtFcltyEntrpsRentFeeSttusInqireSearchForm">
+            <form id="gamTestPrtFcltyEntrpsRentFeeSttusInqireSearchForm">
                 <table style="width:100%;" class="searchPanel">
                     <tbody>
                         <tr>
