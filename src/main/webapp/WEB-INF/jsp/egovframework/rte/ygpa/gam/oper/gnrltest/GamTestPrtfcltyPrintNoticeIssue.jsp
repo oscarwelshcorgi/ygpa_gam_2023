@@ -733,10 +733,10 @@ div.notice {
   <body>
   <c:if test="${resultCode==0 }">
   <c:if test="${arrrgItem!=null }">
-  	<input id="printUrl" type="hidden" value="<c:url value='/oper/gnrl/printRentFeeSepNoticeIssue.do' />"/>
+  	<input id="printUrl" type="hidden" value="<c:url value='/oper/gnrltest/printRentFeeSepNoticeIssue.do' />"/>
   </c:if>
   <c:if test="${arrrgItem==null }">
-  	<input id="printUrl" type="hidden" value="<c:url value='/oper/gnrl/printRentFeeNoticeIssue.do' />"/>
+  	<input id="printUrl" type="hidden" value="<c:url value='/oper/gnrltest/printRentFeeNoticeIssue.do' />"/>
   </c:if>
   <a id="printButton" href="#">인쇄</a>
 <div class="book">

@@ -101,8 +101,8 @@
     						       , TO_CHAR(A.GR_USAGE_PD_TO, 'YYYY-MM-DD') GR_USAGE_PD_TO
     						       , TO_CHAR(A.PRMISN_DT, 'YYYY-MM-DD') PRMISN_DT
     						       , NVL(A.GR_RDCXPT_FEE,0) GR_RDCXPT_FEE
-							  FROM ASSETS_RENT_F A,
-							       LEV_REQEST_F L
+							  FROM TEMP_ASSETS_RENT_F A,
+							       TEMP_LEV_REQEST_F L
 							 WHERE 1 = 1
 							   AND A.PRT_AT_CODE = L.PRT_AT_CODE
                                AND A.MNG_YEAR = L.MNG_YEAR
@@ -189,7 +189,7 @@
                , SUM(NVL(L.VAT, 0)) SUM_VAT
                , SUM(NVL(L.NTIC_AMT,0)) SUM_NTIC_AMT
                , SUM(DECODE(L.RCIV_SE, '3', L.FEE, 0)) SUM_PAY_AMT
-          FROM ASSETS_RENT_F A, LEV_REQEST_F L
+          FROM TEMP_ASSETS_RENT_F A, TEMP_LEV_REQEST_F L
          WHERE 1 = 1
              AND A.QUAY_GROUP_CD='G'
              	AND A.PRT_AT_CODE=L.PRT_AT_CODE
@@ -261,7 +261,7 @@
     <select id="gamTestPrtFcltyRentFeePaySttusMngtDao.selectPrtFcltyRentFeePaySttusMngtListTotCnt_S" parameterClass="gamTestPrtFcltyRentFeePaySttusMngtVO" resultClass="int">
             SELECT COUNT(*) totcnt FROM
             	(SELECT *
-              FROM ASSETS_RENT_F A, LEV_REQEST_F L
+              FROM TEMP_ASSETS_RENT_F A, TEMP_LEV_REQEST_F L
              WHERE A.QUAY_GROUP_CD='G'
              	AND A.PRT_AT_CODE=L.PRT_AT_CODE
              	AND A.MNG_YEAR=L.MNG_YEAR
@@ -380,8 +380,8 @@
     						       , TO_CHAR(A.PRMISN_DT, 'YYYY-MM-DD') PRMISN_DT
     						       , NVL(A.GR_RDCXPT_FEE,0) GR_RDCXPT_FEE
 							       , GAM_GET_FEE_TP_NM(L.PRT_AT_CODE, 'G', L.CHRGE_KND) CHRGE_KND_NM
-							  FROM ASSETS_RENT_F A,
-							       LEV_REQEST_F L
+							  FROM TEMP_ASSETS_RENT_F A,
+							       TEMP_LEV_REQEST_F L
 							 WHERE 1 = 1
 							   AND A.PRT_AT_CODE = L.PRT_AT_CODE
                                AND A.MNG_YEAR = L.MNG_YEAR
@@ -446,8 +446,8 @@
     						       , TO_CHAR(A.GR_USAGE_PD_TO, 'YYYY-MM-DD') GR_USAGE_PD_TO
     						       , TO_CHAR(A.PRMISN_DT, 'YYYY-MM-DD') PRMISN_DT
     						       , NVL(A.GR_RDCXPT_FEE,0) GR_RDCXPT_FEE
-							  FROM ASSETS_RENT_F A,
-							       LEV_REQEST_F L
+							  FROM TEMP_ASSETS_RENT_F A,
+							       TEMP_LEV_REQEST_F L
 							 WHERE 1 = 1
 							   AND A.PRT_AT_CODE = L.PRT_AT_CODE
                                AND A.MNG_YEAR = L.MNG_YEAR
@@ -486,7 +486,7 @@
 		  GAM_GETCODENAME('GAM026', MAX(U.WORK_CODE)) FEE_TP_KOR_NM ,
 		  GAM_GETENTRPSNM(MAX(U.AGENT_CODE), '1') FIRM_KOR_NM
 		FROM
-			UNPAID_F U
+			TEMP_UNPAID_F U
 		WHERE 1=1
 		<isNotEmpty property="prtAtCode">
 		    AND U.PRT_AT_CODE = #prtAtCode#
@@ -514,8 +514,8 @@
 				                   	SUM(DECODE(L.CHRGE_KND, 'A3', L.FEE, 0)) FEE_A3,
 				                   	SUM(DECODE(L.CHRGE_KND, 'D1', L.FEE, 0)) FEE_D1,
 				                   	SUM(DECODE(L.CHRGE_KND, 'D2', L.FEE, 0)) FEE_D2
-							  FROM ASSETS_RENT_F A,
-							       LEV_REQEST_F L
+							  FROM TEMP_ASSETS_RENT_F A,
+							       TEMP_LEV_REQEST_F L
 							 WHERE 1 = 1
 							   AND A.PRT_AT_CODE = L.PRT_AT_CODE
                                AND A.MNG_YEAR = L.MNG_YEAR
@@ -550,7 +550,7 @@
                    NVL(a.vat_yn,'0') vat_yn,
                    NVL(a.bill_amnt,0) + NVL(a.vat,0) sum_bill_amnt,
                    TO_CHAR(sysdate,'YYYYMMDD') cur_date
-              FROM rev_coll_f a
+              FROM TEMP_REV_COLL_F a
              WHERE prt_at_code = #prt_at_code#
                AND fee_tp      = #fee_tp#
                AND fiscal_yr   = #fiscal_yr#
@@ -613,8 +613,8 @@
                A.ORIGIN_FEE_TP,
                A.ORIGIN_FISCAL_YR,
                A.ORIGIN_BILL_NO
-    FROM REV_COLL_F A, ASSETS_RENT_F AR,
-      LEV_REQEST_F L
+    FROM TEMP_REV_COLL_F A, TEMP_ASSETS_RENT_F AR,
+      TEMP_LEV_REQEST_F L
     WHERE A.PRT_AT_CODE = #prtAtCode#
     AND A.PRT_AT_CODE   = L.PRT_AT_CODE
     AND A.FEE_TP        = GAM_GET_FEE_TP(L.CHRGE_KND)
@@ -715,8 +715,8 @@
                A.ORIGIN_FEE_TP,
                A.ORIGIN_FISCAL_YR,
                A.ORIGIN_BILL_NO
-    FROM REV_COLL_F A,
-      LEV_REQEST_F L
+    FROM TEMP_REV_COLL_F A,
+      TEMP_LEV_REQEST_F L
     WHERE 1=1
     AND A.BILL_PRT_YN='Y'
     AND A.PRT_AT_CODE   = L.PRT_AT_CODE
@@ -736,13 +736,13 @@
           AND A.BILL_AMNT     IS NOT NULL
 
 		) A
-    LEFT OUTER JOIN UNPAID_F U ON A.PRT_AT_CODE=U.PRT_AT_CODE AND A.FEE_TP=U.FEE_TP AND A.FISCAL_YR=U.FISCAL_YR AND A.BILL_NO=U.BILL_NO AND U.DLY_SER_NO='01'
+    LEFT OUTER JOIN TEMP_UNPAID_F U ON A.PRT_AT_CODE=U.PRT_AT_CODE AND A.FEE_TP=U.FEE_TP AND A.FISCAL_YR=U.FISCAL_YR AND A.BILL_NO=U.BILL_NO AND U.DLY_SER_NO='01'
     	]]>
     </select>
 
     <select id="gamTestPrtFcltyRentFeePaySttusMngtDao.selectNticArrrgListTotCnt_S" parameterClass="gamTestFcltyRentArrrgMngtVO" resultClass="int">
           SELECT COUNT(*) totcnt
-				FROM   REV_COLL_F A, ASSETS_RENT_F AR, LEV_REQEST_F L
+				FROM   TEMP_REV_COLL_F A, TEMP_ASSETS_RENT_F AR, TEMP_LEV_REQEST_F L
         WHERE A.PRT_AT_CODE   = #prtAtCode#
           AND A.PRT_AT_CODE = L.PRT_AT_CODE
           AND A.FEE_TP = GAM_GET_FEE_TP(L.CHRGE_KND)
@@ -782,7 +782,7 @@
 
    	<update id="gamTestPrtFcltyRentFeePaySttusMngtDao.updateNticArrrgList">
        	<![CDATA[
-			UPDATE LEV_REQEST_F L
+			UPDATE TEMP_LEV_REQEST_F L
 			SET ARRRG_NO=#arrrgNo#,
 				ARRRG_AMT=#arrrgAmt#,
 				ARRRG_TARIFF=#arrrgTariff#
@@ -831,7 +831,7 @@
 									,GAM_GETCODENAME('GAM025', U.WORK_CODE) FEE_TP_KOR_NM
 									,GAM_GETENTRPSNM(U.AGENT_CODE, '1') FIRM_KOR_NM
 								FROM
-									UNPAID_F U
+									TEMP_UNPAID_F U
 								WHERE 1=1
 									<isNotEmpty property="prtAtCode">
 					                    AND U.PRT_AT_CODE = #prtAtCode#
@@ -859,7 +859,7 @@
 
             SELECT COUNT(*) totcnt
 				FROM
-					UNPAID_F T1
+					TEMP_UNPAID_F T1
 				LEFT OUTER JOIN
 					P2MGR.PRT_AT_CODE_F@YGPA_P2MGR T4
 				ON
@@ -902,7 +902,7 @@
             	TRIM(TO_CHAR(COUNT(*), '999,999,999,999')) AS DP_TOT_CNT
             	,TRIM(TO_CHAR(NVL(SUM(T1.DLY_BILL_AMNT),0), '999,999,999,999')) AS SUM_DLY_BILL_AMNT
 			FROM
-					UNPAID_F T1
+					TEMP_UNPAID_F T1
 				LEFT OUTER JOIN
 					P2MGR.PRT_AT_CODE_F@YGPA_P2MGR T4
 				ON
@@ -1105,15 +1105,15 @@
 			          ARD.GIS_ASSETS_CD,
 			          ARD.GIS_ASSETS_SUB_CD,
 			          ARD.COMPUT_DTLS
-			        FROM ASSETS_RENT_F AR
-			        LEFT JOIN ASSETS_RENT_DETAIL_F ARD
+			        FROM TEMP_ASSETS_RENT_F AR
+			        LEFT JOIN TEMP_ASSETS_RENT_DETAIL_F ARD
 			        ON AR.PRT_AT_CODE = ARD.PRT_AT_CODE
 			        AND AR.MNG_YEAR   = ARD.MNG_YEAR
 			        AND AR.MNG_NO     = ARD.MNG_NO
 			        AND AR.MNG_CNT    = ARD.MNG_CNT
 			        ORDER BY ARD.ASSETS_USAGE_SEQ
 			        ) A,
-			        LEV_REQEST_F L
+			        TEMP_LEV_REQEST_F L
 			      WHERE 1		      = 1
 			      AND A.PRT_AT_CODE   = L.PRT_AT_CODE
 			      AND A.MNG_YEAR      = L.MNG_YEAR
@@ -1301,14 +1301,14 @@
 			          ARD.GIS_ASSETS_CD,
 			          ARD.GIS_ASSETS_SUB_CD,
 			          ARD.COMPUT_DTLS
-			        FROM ASSETS_RENT_F AR
-			        LEFT JOIN ASSETS_RENT_DETAIL_F ARD
+			        FROM TEMP_ASSETS_RENT_F AR
+			        LEFT JOIN TEMP_ASSETS_RENT_DETAIL_F ARD
 			        ON AR.PRT_AT_CODE = ARD.PRT_AT_CODE
 			        AND AR.MNG_YEAR   = ARD.MNG_YEAR
 			        AND AR.MNG_NO     = ARD.MNG_NO
 			        AND AR.MNG_CNT    = ARD.MNG_CNT
 			        ) A,
-			        LEV_REQEST_F L
+			        TEMP_LEV_REQEST_F L
 			      WHERE 1             = 1
 			      AND A.PRT_AT_CODE   = L.PRT_AT_CODE
 			      AND A.MNG_YEAR      = L.MNG_YEAR
@@ -1469,14 +1469,14 @@ FROM
         ARD.GIS_ASSETS_CD,
         ARD.GIS_ASSETS_SUB_CD,
         ARD.COMPUT_DTLS
-      FROM ASSETS_RENT_F AR
-      LEFT JOIN ASSETS_RENT_DETAIL_F ARD
+      FROM TEMP_ASSETS_RENT_F AR
+      LEFT JOIN TEMP_ASSETS_RENT_DETAIL_F ARD
       ON AR.PRT_AT_CODE = ARD.PRT_AT_CODE
       AND AR.MNG_YEAR   = ARD.MNG_YEAR
       AND AR.MNG_NO     = ARD.MNG_NO
       AND AR.MNG_CNT    = ARD.MNG_CNT
       ) A,
-      LEV_REQEST_F L
+      TEMP_LEV_REQEST_F L
     WHERE 1             = 1
     AND A.PRT_AT_CODE   = L.PRT_AT_CODE
     AND A.MNG_YEAR      = L.MNG_YEAR
@@ -1567,14 +1567,14 @@ FROM
         ARD.GIS_ASSETS_CD,
         ARD.GIS_ASSETS_SUB_CD,
         ARD.COMPUT_DTLS
-      FROM ASSETS_RENT_F AR
-      LEFT JOIN ASSETS_RENT_DETAIL_F ARD
+      FROM TEMP_ASSETS_RENT_F AR
+      LEFT JOIN TEMP_ASSETS_RENT_DETAIL_F ARD
       ON AR.PRT_AT_CODE = ARD.PRT_AT_CODE
       AND AR.MNG_YEAR   = ARD.MNG_YEAR
       AND AR.MNG_NO     = ARD.MNG_NO
       AND AR.MNG_CNT    = ARD.MNG_CNT
       ) A,
-      LEV_REQEST_F L
+      TEMP_LEV_REQEST_F L
     WHERE 1             = 1
     AND A.PRT_AT_CODE   = L.PRT_AT_CODE
     AND A.MNG_YEAR      = L.MNG_YEAR
@@ -1593,12 +1593,12 @@ FROM
 
 
   <update id="gamTestPrtFcltyRentFeePaySttusMngtDao.updateRevCollBillPrintYn_S" parameterClass="egovMap">
-        UPDATE REV_COLL_F SET
+        UPDATE TEMP_REV_COLL_F SET
       		BILL_PRT_YN=#nhtPrintYn#
    		WHERE (PRT_AT_CODE, WORK_CODE, FISCAL_YR, BILL_NO)
             IN (
               SELECT PRT_AT_CODE, CHRGE_KND, ACCNUT_YEAR, NTICNO
-              FROM LEV_REQEST_F
+              FROM TEMP_LEV_REQEST_F
               WHERE 1=1
                 AND PRT_AT_CODE=#prtAtCode#
 		      	AND MNG_YEAR=#mngYear#
@@ -1611,12 +1611,12 @@ FROM
   </update>
 
   <update id="gamTestPrtFcltyRentFeePaySttusMngtDao.updateUnpaidBillPrintYn_S" parameterClass="egovMap">
-        UPDATE UNPAID_F SET
+        UPDATE TEMP_UNPAID_F SET
       		DLY_BILL_PRT_YN=#nhtPrintYn#
       		WHERE (PRT_AT_CODE, WORK_CODE, FISCAL_YR, BILL_NO, DLY_SER_NO)
             IN (
               SELECT PRT_AT_CODE, CHRGE_KND, ACCNUT_YEAR, NTICNO, ARRRG_NO
-              FROM LEV_REQEST_F
+              FROM TEMP_LEV_REQEST_F
               WHERE 1=1
                 AND PRT_AT_CODE=#prtAtCode#
 		      	AND MNG_YEAR=#mngYear#
@@ -1671,7 +1671,7 @@ FROM
 		 , R.RCVD_DT
 		 , R.FEE_TP
 		 , R.WORK_CODE
-		FROM LEV_REQEST_F L, REV_COLL_F R
+		FROM TEMP_LEV_REQEST_F L, TEMP_REV_COLL_F R
 		WHERE 1          =1
 		AND L.PRT_AT_CODE=#prtAtCode#
 		AND L.MNG_YEAR   =#mngYear#
@@ -1688,7 +1688,7 @@ FROM
 	</select>
 
     <update id="gamTestPrtFcltyRentFeePaySttusMngtDao.updateLevReqestRcivSe_S" parameterClass="GamTestPrtFcltyRentFeePaySttusMngtVO">
-        UPDATE LEV_REQEST_F SET
+        UPDATE TEMP_LEV_REQEST_F SET
       		RCIV_SE=#rcivSe#,
       		UPDT_DT=SYSDATE,
       		<isNotEmpty property="updUsr">
@@ -1727,7 +1727,7 @@ FROM
   </update>
 
     <update id="gamTestPrtFcltyRentFeePaySttusMngtDao.updateRevCollRcvdTp_S" parameterClass="hashMap">
-        UPDATE REV_COLL_F SET
+        UPDATE TEMP_REV_COLL_F SET
       		RCVD_TP=#rcvdTp#,
      		<isEqual property="rcvdTp" compareValue="3">
       			<isNotEmpty property="rcvdDt">
@@ -1753,7 +1753,7 @@ FROM
    		WHERE (PRT_AT_CODE, WORK_CODE, FISCAL_YR, BILL_NO)
             IN (
               SELECT PRT_AT_CODE, CHRGE_KND, ACCNUT_YEAR, NTICNO
-              FROM LEV_REQEST_F
+              FROM TEMP_LEV_REQEST_F
               WHERE 1=1
                 AND PRT_AT_CODE=#prtAtCode#
 		      	AND MNG_YEAR=#mngYear#
@@ -1774,7 +1774,7 @@ FROM
 		L.CHRGE_KND,
 		R.RCVD_DT,
         R.OCR_DT
-		FROM LEV_REQEST_F L, REV_COLL_F R
+		FROM TEMP_LEV_REQEST_F L, TEMP_REV_COLL_F R
 		WHERE 1          =1
 		AND L.PRT_AT_CODE=#prtAtCode#
 		AND L.MNG_YEAR   =#mngYear#

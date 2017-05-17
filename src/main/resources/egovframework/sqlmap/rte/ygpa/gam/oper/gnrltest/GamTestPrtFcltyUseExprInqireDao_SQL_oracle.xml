@@ -155,7 +155,7 @@
                                   , A.CMT
                                   , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM043' AND CD.CODE = A.PAY_MTH AND ROWNUM = 1) PAY_MTH_NM
                                   , (SELECT CD.ORGNZT_NM FROM COMTNORGNZTINFO CD WHERE CD.ORGNZT_ID = A.DEPTCD AND ROWNUM = 1) DEPTCD_NM
-                             FROM ASSETS_RENT_F A
+                             FROM TEMP_ASSETS_RENT_F A
 		                            WHERE 1 = 1
 		                             AND A.GR_USAGE_PD_TO <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
 		                             AND A.GR_USAGE_PD_TO <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
@@ -188,7 +188,7 @@
 		
 		                             <isNotEmpty property="searchAssetsCd">
 		                                 AND EXISTS (SELECT 'Y'
-		                                               FROM ASSETS_RENT_DETAIL_F
+		                                               FROM TEMP_ASSETS_RENT_DETAIL_F
 		                                             WHERE PRT_AT_CODE = A.PRT_AT_CODE
 		                                              AND MNG_YEAR = A.MNG_YEAR
 		                                              AND MNG_NO = A.MNG_NO
@@ -207,7 +207,7 @@
     
     <select id="gamTestPrtFcltyUseExprInqireDao.selectPrtFcltyUseExprInqireListTotCnt_S" parameterClass="gamTestPrtFcltyUseExprInqireVO" resultClass="int">
             SELECT COUNT(*) TOTCNT
-              FROM ASSETS_RENT_F A
+              FROM TEMP_ASSETS_RENT_F A
                         WHERE 1 = 1
                          AND A.GR_USAGE_PD_TO <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
                          AND A.GR_USAGE_PD_TO <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
@@ -240,7 +240,7 @@
 
              <isNotEmpty property="searchAssetsCd">
                  AND EXISTS (SELECT 'Y'
-                               FROM ASSETS_RENT_DETAIL_F
+                               FROM TEMP_ASSETS_RENT_DETAIL_F
                              WHERE PRT_AT_CODE = A.PRT_AT_CODE
                               AND MNG_YEAR = A.MNG_YEAR
                               AND MNG_NO = A.MNG_NO
@@ -259,7 +259,7 @@
                , TRIM(TO_CHAR(NVL(SUM(A.GR_AR),0), '999,999,999,999')) SUM_GR_AR
                , TRIM(TO_CHAR(NVL(SUM(A.GR_FEE),0), '999,999,999,999')) SUM_GR_FEE
                , TRIM(TO_CHAR(NVL(SUM(A.GR_RDCXPT_FEE),0), '999,999,999,999')) SUM_GR_RDCXPT_FEE
-          FROM ASSETS_RENT_F A
+          FROM TEMP_ASSETS_RENT_F A
                         WHERE 1 = 1
                          AND A.GR_USAGE_PD_TO <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
                          AND A.GR_USAGE_PD_TO <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
@@ -292,7 +292,7 @@
 
              <isNotEmpty property="searchAssetsCd">
                  AND EXISTS (SELECT 'Y'
-                               FROM ASSETS_RENT_DETAIL_F
+                               FROM TEMP_ASSETS_RENT_DETAIL_F
                              WHERE PRT_AT_CODE = A.PRT_AT_CODE
                               AND MNG_YEAR = A.MNG_YEAR
                               AND MNG_NO = A.MNG_NO
@@ -305,7 +305,7 @@
     <select id="gamTestPrtFcltyUseExprInqireDao.selectPrtFcltyUseExprInqireMaxNo_S" parameterClass="gamTestPrtFcltyUseExprInqireVO" resultMap="gamTestPrtFcltyUseExprInqireMaxMngMap">
           SELECT 
                   MAX(MNG_CNT) MAX_MNG_CNT
-           FROM ASSETS_RENT_F A
+           FROM TEMP_ASSETS_RENT_F A
           WHERE A.PRT_AT_CODE = #prtAtCode# 
             AND A.MNG_YEAR    = #mngYear#    
             AND A.MNG_NO      = #mngNo#    
@@ -313,7 +313,7 @@
     </select>       
     
     <insert id="gamTestPrtFcltyUseExprInqireDao.insertPrtFcltyUseExprInqireFirst_S">     
-        INSERT INTO ASSETS_RENT_F (
+        INSERT INTO TEMP_ASSETS_RENT_F (
                                      PRT_AT_CODE
                                    , MNG_YEAR
                                    , MNG_NO
@@ -349,7 +349,7 @@
                                      #prtAtCode#
                                    , TO_CHAR(SYSDATE,'YYYY')
                                    , (SELECT LPAD(NVL(MAX(MNG_NO),0) + 1,'3','0') 
-									     FROM ASSETS_RENT_F
+									     FROM TEMP_ASSETS_RENT_F
 									    WHERE MNG_YEAR = TO_CHAR(SYSDATE,'YYYY'))
                                    , '01'  
                                    , #entrpscd#
@@ -382,7 +382,7 @@
     </insert>
     
     <insert id="gamTestPrtFcltyUseExprInqireDao.insertPrtFcltyUseExprInqireRenew_S">     
-        INSERT INTO ASSETS_RENT_F (
+        INSERT INTO TEMP_ASSETS_RENT_F (
                                      PRT_AT_CODE
                                    , MNG_YEAR
                                    , MNG_NO
@@ -446,7 +446,7 @@
                                  , A.FRST_REQST_DT
                                  , A.QUAY_GROUP_CD
                                  , SYSDATE
-				           FROM ASSETS_RENT_F A
+				           FROM TEMP_ASSETS_RENT_F A
 				          WHERE A.PRT_AT_CODE = #prtAtCode#
 				            AND A.MNG_YEAR    = #mngYear#
 				            AND A.MNG_NO      = #mngNo#
@@ -454,7 +454,7 @@
     </insert>
     
     <update id="gamTestPrtFcltyUseExprInqireDao.updatePrtFcltyUseExprInqire_S">
-        UPDATE ASSETS_RENT_F SET
+        UPDATE TEMP_ASSETS_RENT_F SET
 		         ENTRPSCD         = #entrpscd#
 		       <!-- , REQST_DT    = TO_DATE(#reqstDt#,'YYYY-MM-DD')  -->  
 		       <!-- , REQST_SE_CD      = '3'  -->
@@ -576,7 +576,7 @@
 							         ELSE
 							           ''
 							       END APPLC_TARIFF_STR
-                            FROM ASSETS_RENT_DETAIL_F A
+                            FROM TEMP_ASSETS_RENT_DETAIL_F A
                            WHERE 1=1  
                              AND A.PRT_AT_CODE = #prtAtCode#
                              AND A.MNG_YEAR    = #mngYear#
@@ -592,7 +592,7 @@
     
     <select id="gamTestPrtFcltyUseExprInqireDao.selectPrtFcltyUseExprInqireDetailListTotCnt_S" parameterClass="gamTestPrtFcltyUseExprInqireVO" resultClass="int">
             SELECT COUNT(*) TOTCNT
-              FROM ASSETS_RENT_DETAIL_F A
+              FROM TEMP_ASSETS_RENT_DETAIL_F A
              WHERE 1=1  
                AND A.PRT_AT_CODE = #prtAtCode#
                AND A.MNG_YEAR    = #mngYear#
@@ -602,7 +602,7 @@
     
     <select id="gamTestPrtFcltyUseExprInqireDao.selectPrtFcltyUseExprInqireLevReqestCnt_S" parameterClass="gamTestPrtFcltyUseExprInqireVO" resultClass="int">
 	    SELECT COUNT(*) LEV_REQEST_CNT 
-	      FROM LEV_REQEST_F A
+	      FROM TEMP_LEV_REQEST_F A
 	     WHERE A.PRT_AT_CODE = #prtAtCode#
            AND A.MNG_YEAR    = #mngYear#
            AND A.MNG_NO      = #mngNo#
@@ -610,7 +610,7 @@
     </select>
     
     <delete id="gamTestPrtFcltyUseExprInqireDao.deletePrtFcltyUseExprInqirePhoto_S">
-        DELETE FROM ASSETS_RENT_PHOTO_F
+        DELETE FROM TEMP_ASSETS_RENT_PHOTO_F
          WHERE PRT_AT_CODE = #prtAtCode#
            AND MNG_YEAR    = #mngYear#
            AND MNG_NO      = #mngNo#
@@ -618,7 +618,7 @@
     </delete>
     
     <delete id="gamTestPrtFcltyUseExprInqireDao.deletePrtFcltyUseExprInqireDetail_S">
-        DELETE FROM ASSETS_RENT_DETAIL_F
+        DELETE FROM TEMP_ASSETS_RENT_DETAIL_F
          WHERE PRT_AT_CODE = #prtAtCode#
            AND MNG_YEAR    = #mngYear#
            AND MNG_NO      = #mngNo#
@@ -626,7 +626,7 @@
     </delete>
     
     <delete id="gamTestPrtFcltyUseExprInqireDao.deletePrtFcltyUseExprInqire_S">
-        DELETE FROM ASSETS_RENT_F
+        DELETE FROM TEMP_ASSETS_RENT_F
          WHERE PRT_AT_CODE = #prtAtCode#
            AND MNG_YEAR    = #mngYear#
            AND MNG_NO      = #mngNo#
@@ -634,7 +634,7 @@
     </delete>
     
     <insert id="gamTestPrtFcltyUseExprInqireDao.insertPrtFcltyUseExprInqireDetail_S">
-        INSERT INTO ASSETS_RENT_DETAIL_F (
+        INSERT INTO TEMP_ASSETS_RENT_DETAIL_F (
 		                                     ASSETS_USAGE_SEQ
 		                                   , MNG_YEAR
                                            , MNG_NO
@@ -667,7 +667,7 @@
 		                                 ) 
 		                          VALUES (
 		                                     ( SELECT NVL(MAX(ASSETS_USAGE_SEQ),0) + 1
-											     FROM ASSETS_RENT_DETAIL_F
+											     FROM TEMP_ASSETS_RENT_DETAIL_F
 											    WHERE MNG_YEAR    = #detailMngYear#
 											      AND MNG_NO      = #detailMngNo#
 											      AND MNG_CNT     = #detailMngCnt#
@@ -704,7 +704,7 @@
     </insert>
     
     <update id="gamTestPrtFcltyUseExprInqireDao.updatePrtFcltyUseExprInqireDetail_S">
-        UPDATE ASSETS_RENT_DETAIL_F SET
+        UPDATE TEMP_ASSETS_RENT_DETAIL_F SET
 		         GIS_ASSETS_CD          = #gisAssetsCd#
 		       , GIS_ASSETS_SUB_CD      = #gisAssetsSubCd#
 		       , USAGE_AR               = #usageAr#
@@ -743,7 +743,7 @@
     </update>
     
     <delete id="gamTestPrtFcltyUseExprInqireDao.deletePrtFcltyUseExprInqireDetail2_S">
-        DELETE FROM ASSETS_RENT_DETAIL_F
+        DELETE FROM TEMP_ASSETS_RENT_DETAIL_F
          WHERE ASSETS_USAGE_SEQ = #assetsUsageSeq#
            AND MNG_YEAR         = #mngYear#
            AND MNG_NO           = #mngNo#
@@ -782,7 +782,7 @@
                , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM043' AND CD.CODE = A.PAY_MTH AND ROWNUM = 1) PAY_MTH_NM
                , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM008' AND CD.CODE = A.NTIC_MTH AND ROWNUM = 1) NTIC_MTH_NM
                , (SELECT CD.ORGNZT_NM FROM COMTNORGNZTINFO CD WHERE CD.ORGNZT_ID = A.DEPTCD AND ROWNUM = 1) DEPTCD_NM
-          FROM ASSETS_RENT_F A
+          FROM TEMP_ASSETS_RENT_F A
          WHERE 1=1 
            AND A.MNG_YEAR         = #mngYear#
            AND A.MNG_NO           = #mngNo#
@@ -791,7 +791,7 @@
     </select>
     
     <update id="gamTestPrtFcltyUseExprInqireDao.updatePrtFcltyUseExprInqirePrmisn_S">
-        UPDATE ASSETS_RENT_F SET
+        UPDATE TEMP_ASSETS_RENT_F SET
              
                 <isEqual property="reqstSeCd" compareValue="1">
                     FRST_PRMISN_DT = SYSDATE,
@@ -806,7 +806,7 @@
     </update>
     
     <insert id="gamTestPrtFcltyUseExprInqireDao.insertPrtFcltyUseExprInqireLevReqest_S">
-        INSERT INTO LEV_REQEST_F (
+        INSERT INTO TEMP_LEV_REQEST_F (
                              NTIC_CNT
                            , FCLTY_SE
                            , CHRGE_KND
@@ -879,7 +879,7 @@
     </insert>
     
     <update id="gamTestPrtFcltyUseExprInqireDao.updatePrtFcltyUseExprInqirePrmisnCancel_S">
-        UPDATE ASSETS_RENT_F SET
+        UPDATE TEMP_ASSETS_RENT_F SET
                 PRMISN_DT     = SYSDATE
               , PRMISN_YN     = #prmisnYn# 
         WHERE  PRT_AT_CODE   = #prtAtCode#
@@ -898,7 +898,7 @@
         SELECT 
 		       <!-- (MAX(A.MNG_CNT)) MNG_CNT -->
 		       LPAD((MAX(A.MNG_CNT)+ 1),'2','0') MNG_CNT
-		  FROM ASSETS_RENT_F A
+		  FROM TEMP_ASSETS_RENT_F A
 		 WHERE A.PRT_AT_CODE = #prtAtCode#
 		   AND A.MNG_YEAR    = #mngYear#
 		   AND A.MNG_NO      = #mngNo#
@@ -947,7 +947,7 @@
              , A.MNG_NO
              , A.MNG_CNT
              , A.QUAY_CD
-         FROM ASSETS_RENT_DETAIL_F A
+         FROM TEMP_ASSETS_RENT_DETAIL_F A
         WHERE 1=1  
           AND A.PRT_AT_CODE = #prtAtCode#
           AND A.MNG_YEAR    = #mngYear#
@@ -959,14 +959,14 @@
 	    <selectKey keyProperty="maxAssetsUsageSeq" resultClass="int">
 	       SELECT 
 	              (NVL(MAX(ASSETS_USAGE_SEQ),0) + 1) MAX_ASSETS_USAGE_SEQ
-             FROM ASSETS_RENT_DETAIL_F
+             FROM TEMP_ASSETS_RENT_DETAIL_F
             WHERE MNG_YEAR    = #mngYear#
               AND MNG_NO      = #mngNo#
               AND MNG_CNT     = #mngCnt#
               AND PRT_AT_CODE = #prtAtCode#
 	    </selectKey>
 	    
-	    INSERT INTO ASSETS_RENT_DETAIL_F (
+	    INSERT INTO TEMP_ASSETS_RENT_DETAIL_F (
                                              ASSETS_USAGE_SEQ
                                            , GIS_ASSETS_CD
                                            , GIS_ASSETS_SUB_CD
@@ -1077,7 +1077,7 @@
 					              , A.MNG_NO
 					              , A.MNG_CNT
 					              , A.PHOTO_DESC
-					         FROM ASSETS_RENT_PHOTO_F A
+					         FROM TEMP_ASSETS_RENT_PHOTO_F A
 					        WHERE PRT_AT_CODE = #prtAtCode#
 					          AND MNG_YEAR    = #mngYear#
 					          AND MNG_NO      = #mngNo#
@@ -1090,7 +1090,7 @@
     
     <select id="gamTestPrtFcltyUseExprInqireDao.selectPrtFcltyUseExprInqireFileListTotCnt_S" parameterClass="gamTestPrtFcltyUseExprInqireVO" resultClass="int">
             SELECT COUNT(*) TOTCNT
-              FROM ASSETS_RENT_PHOTO_F A
+              FROM TEMP_ASSETS_RENT_PHOTO_F A
              WHERE PRT_AT_CODE = #prtAtCode#
                AND MNG_YEAR    = #mngYear#
                AND MNG_NO      = #mngNo#
@@ -1098,7 +1098,7 @@
     </select>
     
     <insert id="gamTestPrtFcltyUseExprInqireDao.insertPrtFcltyUseExprInqireFile_S">
-        INSERT INTO ASSETS_RENT_PHOTO_F (
+        INSERT INTO TEMP_ASSETS_RENT_PHOTO_F (
                                              PHOTO_SEQ
                                            , PHOTO_SJ
                                            , FILENM_PHYSICL
@@ -1114,7 +1114,7 @@
                                         ) 
                                  VALUES (
                                              (SELECT LPAD(NVL(MAX(PHOTO_SEQ),0) + 1,'2','0')
-												FROM ASSETS_RENT_PHOTO_F AF
+												FROM TEMP_ASSETS_RENT_PHOTO_F AF
 												WHERE  PRT_AT_CODE = #prtAtCode#
 												AND    MNG_YEAR    = #mngYear#
 												AND    MNG_NO      = #mngNo#
@@ -1134,7 +1134,7 @@
     </insert>
     
     <update id="gamTestPrtFcltyUseExprInqireDao.updatePrtFcltyUseExprInqireFile_S">
-        UPDATE ASSETS_RENT_PHOTO_F SET
+        UPDATE TEMP_ASSETS_RENT_PHOTO_F SET
 		       PHOTO_SJ       = #photoSj#,
 		       <!-- FILENM_PHYSICL = :FILENM_PHYSICL,
 		       FILENM_LOGIC   = :FILENM_LOGIC, -->
@@ -1150,7 +1150,7 @@
     </update>
     
     <delete id="gamTestPrtFcltyUseExprInqireDao.deletePrtFcltyUseExprInqirePhotoSingle_S">
-        DELETE FROM ASSETS_RENT_PHOTO_F
+        DELETE FROM TEMP_ASSETS_RENT_PHOTO_F
          WHERE PHOTO_SEQ   = #photoSeq#
            AND PRT_AT_CODE = #prtAtCode#
            AND MNG_YEAR    = #mngYear#
@@ -1162,14 +1162,14 @@
         SELECT 
                 TO_CHAR(SYSDATE,'YYYY') MNG_YEAR
 		       , (SELECT LPAD(NVL(MAX(MNG_NO),0) + 1,'3','0') 
-		             FROM ASSETS_RENT_F
+		             FROM TEMP_ASSETS_RENT_F
 		            WHERE MNG_YEAR = TO_CHAR(SYSDATE,'YYYY')) MNG_NO
 		       , '01' MNG_CNT
 		FROM DUAL
     </select>
     
     <update id="gamTestPrtFcltyUseExprInqireDao.updatePrtFcltyUseExprInqireComment_S">
-        UPDATE ASSETS_RENT_F SET
+        UPDATE TEMP_ASSETS_RENT_F SET
 		       CMT = #cmt#      
 		WHERE PRT_AT_CODE = #prtAtCode#
 		 AND MNG_YEAR    = #mngYear#
@@ -1184,7 +1184,7 @@
 		       , SUM(NVL(FEE,0))      GR_FEE
 		       , SUM(NVL(USAGE_AR,0)) GR_AR
 		       , SUM(NVL(RDCXPT_FEE,0)) GR_RDCXPT_FEE
-		  FROM ASSETS_RENT_DETAIL_F
+		  FROM TEMP_ASSETS_RENT_DETAIL_F
 		 WHERE PRT_AT_CODE = #prtAtCode#
 		   AND MNG_YEAR    = #mngYear#
 		   AND MNG_NO      = #mngNo#
@@ -1192,7 +1192,7 @@
     </select>
     
     <update id="gamTestPrtFcltyUseExprInqireDao.updatePrtFcltyUseExprInqireRenewInfo_S">
-        UPDATE ASSETS_RENT_F SET
+        UPDATE TEMP_ASSETS_RENT_F SET
 		       GR_AR            = #grAr#
 		     , GR_FEE           = #grFee# 
 		     , GR_RDCXPT_FEE    = #grRdcxptFee#
@@ -1211,7 +1211,7 @@
                , SUM(NVL(FEE,0))      GR_FEE
                , SUM(NVL(USAGE_AR,0)) GR_AR
                , SUM(NVL(RDCXPT_FEE,0)) GR_RDCXPT_FEE 
-          FROM ASSETS_RENT_DETAIL_F
+          FROM TEMP_ASSETS_RENT_DETAIL_F
          WHERE PRT_AT_CODE = #prtAtCode#
            AND MNG_YEAR    = #mngYear#
            AND MNG_NO      = #mngNo#
@@ -1225,14 +1225,14 @@
              , MNG_NO
              , MNG_CNT 
              , QUAY_CD
-		  FROM ASSETS_RENT_DETAIL_F
+		  FROM TEMP_ASSETS_RENT_DETAIL_F
 		 WHERE PRT_AT_CODE = #prtAtCode#
 		   AND MNG_YEAR    = #mngYear#
 		   AND MNG_NO      = #mngNo#
 		   AND MNG_CNT     = #maxMngCnt#
 		   AND ASSETS_USAGE_SEQ = (  
 		                            SELECT MIN(ASSETS_USAGE_SEQ)
-		                              FROM ASSETS_RENT_DETAIL_F
+		                              FROM TEMP_ASSETS_RENT_DETAIL_F
 		                             WHERE PRT_AT_CODE = #prtAtCode#
 		                               AND MNG_YEAR    = #mngYear#
 		                               AND MNG_NO      = #mngNo#
@@ -1241,7 +1241,7 @@
     </select>
     
     <update id="gamTestPrtFcltyUseExprInqireDao.updatePrtFcltyUseExprInqireQuaycd_S">
-        UPDATE ASSETS_RENT_F SET
+        UPDATE TEMP_ASSETS_RENT_F SET
                QUAY_CD    = #quayCd#
         WHERE PRT_AT_CODE = #prtAtCode#
           AND MNG_YEAR    = #mngYear#

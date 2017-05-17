@@ -151,8 +151,8 @@
     						       , TO_CHAR(A.PRMISN_DT, 'YYYY-MM-DD') PRMISN_DT
     						       , NVL(A.GR_RDCXPT_FEE,0) GR_RDCXPT_FEE
     						       , ADIT_NTIC_YN
-							  FROM ASSETS_RENT_F A,
-							       LEV_REQEST_F L
+							  FROM TEMP_ASSETS_RENT_F A,
+							       TEMP_LEV_REQEST_F L
 							  WHERE 1 = 1
 								   AND A.PRT_AT_CODE = L.PRT_AT_CODE
 	                               AND A.MNG_YEAR = L.MNG_YEAR
@@ -170,7 +170,7 @@
 								                                                                     , R.MNG_YEAR
 								                                                                     , R.MNG_NO
 								                                                                     , R.MNG_CNT
-								                                                                FROM ASSETS_RENT_F R
+								                                                                FROM TEMP_ASSETS_RENT_F R
 								                                                               WHERE R.REQST_SE_CD = #sReqstSeCd#
 								                                                             )
 								       )
@@ -228,7 +228,7 @@
 								                                                                    , D.MNG_YEAR
 								                                                                    , D.MNG_NO
 								                                                                    , D.MNG_CNT
-								                                                                FROM ASSETS_RENT_DETAIL_F D
+								                                                                FROM TEMP_ASSETS_RENT_DETAIL_F D
 								                                                               WHERE D.USAGE_PRPOS_CD = #sUsagePrposCd#
 								                                                               GROUP BY D.PRT_AT_CODE, D.MNG_YEAR, D.MNG_NO, D.MNG_CNT
 								                                                             )
@@ -252,7 +252,7 @@
 								                                                                     , R.MNG_YEAR
 								                                                                     , R.MNG_NO
 								                                                                     , R.MNG_CNT
-								                                                                FROM ASSETS_RENT_F R
+								                                                                FROM TEMP_ASSETS_RENT_F R
 								                                                               WHERE R.PRMISN_YN = #sPrmisnYn#
 								                                                             )
 								       )
@@ -303,7 +303,7 @@
     <select id="gamTestPrtFcltyRentFeeMngtDao.selectPrtFcltyRentFeeMngtListTotCnt_S" parameterClass="gamTestPrtFcltyRentFeeMngtVO" resultClass="int">
            SELECT COUNT(*) totcnt FROM
             	(SELECT *
-              FROM ASSETS_RENT_F A, LEV_REQEST_F L
+              FROM TEMP_ASSETS_RENT_F A, TEMP_LEV_REQEST_F L
              WHERE A.QUAY_GROUP_CD='G'
              	AND A.PRT_AT_CODE=L.PRT_AT_CODE
              	AND A.MNG_YEAR=L.MNG_YEAR
@@ -321,7 +321,7 @@
                                                                                      , R.MNG_YEAR
                                                                                      , R.MNG_NO
                                                                                      , R.MNG_CNT
-                                                                                FROM ASSETS_RENT_F R
+                                                                                FROM TEMP_ASSETS_RENT_F R
                                                                                WHERE R.REQST_SE_CD = #sReqstSeCd#
                                                                              )
                        )
@@ -381,7 +381,7 @@
                                                                                     , D.MNG_YEAR
                                                                                     , D.MNG_NO
                                                                                     , D.MNG_CNT
-                                                                                FROM ASSETS_RENT_DETAIL_F D
+                                                                                FROM TEMP_ASSETS_RENT_DETAIL_F D
                                                                                WHERE D.USAGE_PRPOS_CD = #sUsagePrposCd#
                                                                                GROUP BY D.PRT_AT_CODE, D.MNG_YEAR, D.MNG_NO, D.MNG_CNT
                                                                              )
@@ -442,7 +442,7 @@
                ,   TRIM(TO_CHAR(SUM(NVL((CASE WHEN L.NHT_ISUE_YN = 'Y' THEN L.NTIC_AMT END), 0)) , '999,999,999,999')) SUM_NHT_ISUE_AMT
                , TRIM(TO_CHAR(SUM(NVL(L.VAT, 0)), '999,999,999,999')) SUM_VAT
                , TRIM(TO_CHAR(SUM(NVL(L.NTIC_AMT,0)), '999,999,999,999')) SUM_NTIC_AMT
-          FROM ASSETS_RENT_F A, LEV_REQEST_F L
+          FROM TEMP_ASSETS_RENT_F A, TEMP_LEV_REQEST_F L
          WHERE 1 = 1
              AND A.QUAY_GROUP_CD='G'
              	AND A.PRT_AT_CODE=L.PRT_AT_CODE
@@ -460,7 +460,7 @@
                                                                                , R.MNG_YEAR
                                                                                , R.MNG_NO
                                                                                , R.MNG_CNT
-                                                                          FROM ASSETS_RENT_F R
+                                                                          FROM TEMP_ASSETS_RENT_F R
                                                                          WHERE R.REQST_SE_CD = #sReqstSeCd#
                                                                        )
                  )
@@ -481,7 +481,7 @@
                                                                               , D.MNG_YEAR
                                                                               , D.MNG_NO
                                                                               , D.MNG_CNT
-                                                                          FROM ASSETS_RENT_DETAIL_F D
+                                                                          FROM TEMP_ASSETS_RENT_DETAIL_F D
                                                                          WHERE D.USAGE_PRPOS_CD = #sUsagePrposCd#
                                                                          GROUP BY D.PRT_AT_CODE, D.MNG_YEAR, D.MNG_NO, D.MNG_CNT
                                                                        )
@@ -564,7 +564,7 @@
 
 	<!-- 투자비보전 상계처리  2015.12.17 김종민 -->
     <update id="gamTestPrtFcltyRentFeeMngtDao.updatePrtFcltyRentFeeSaveSingle_S">
-        UPDATE LEV_REQEST_F SET
+        UPDATE TEMP_LEV_REQEST_F SET
 		       SAVE     = 'Y'
 		     , OFFSET_DT     = SYSDATE
 		     , OFFSET_AMT = #nticAmt#
@@ -580,7 +580,7 @@
 
 	<!-- 투자비보전 상계취소  2015.12.17 김종민 -->
     <update id="gamTestPrtFcltyRentFeeMngtDao.cancelPrtFcltyRentFeeSaveSingle_S">
-        UPDATE LEV_REQEST_F SET
+        UPDATE TEMP_LEV_REQEST_F SET
 		       SAVE     = NULL
 		     , OFFSET_DT     = NULL
 		     , OFFSET_AMT = NULL
@@ -595,7 +595,7 @@
     </update>
 
     <update id="gamTestPrtFcltyRentFeeMngtDao.updatePrtFcltyRentFeeMngt_S">
-        UPDATE LEV_REQEST_F SET
+        UPDATE TEMP_LEV_REQEST_F SET
 		       FCLTY_SE     = #fcltySe#
 		     , ENTRPSCD     = #entrpscd#
 		     , ENTRPS_NM    = #entrpsNm#
@@ -632,7 +632,7 @@
     </update>
 
     <update id="gamTestPrtFcltyRentFeeMngtDao.updatePrtFcltyRentFeeModifyFee_S" parameterClass="gamTestPrtFcltyRentFeeMngtVO" >
-        UPDATE LEV_REQEST_F SET
+        UPDATE TEMP_LEV_REQEST_F SET
 		     NTIC_AMT          = #nticAmt#
 		     , FEE          = #fee#
 		     , VAT          = #vat#
@@ -686,7 +686,7 @@
                , L.MNG_NO
                , L.MNG_CNT
                , L.MNG_YEAR || '-' || L.MNG_NO || '-' || L.MNG_CNT AS RENT_MNG_NO
-			FROM ASSETS_RENT_F A, LEV_REQEST_F L
+			FROM TEMP_ASSETS_RENT_F A, TEMP_LEV_REQEST_F L
              WHERE A.QUAY_GROUP_CD='G'
              	AND A.PRT_AT_CODE=L.PRT_AT_CODE
              	AND A.MNG_YEAR=L.MNG_YEAR
@@ -702,7 +702,7 @@
 
     <select id="gamTestPrtFcltyRentFeeMngtDao.selectAnlrveLevCnt_S" parameterClass="gamTestPrtFcltyRentFeeMngtVO" resultClass="int">
         SELECT COUNT(*) totcnt
-          FROM ANLRVE_LEV_F A
+          FROM TEMP_ANLRVE_LEV_F A
          WHERE 1=1
            AND NTICNO      = #nticno#
 		   AND ACCNUT_YEAR = #accnutYear#
@@ -715,7 +715,7 @@
     </select>
 
     <insert id="gamTestPrtFcltyRentFeeMngtDao.insertAnlrveLev_S">
-        INSERT INTO ANLRVE_LEV_F (
+        INSERT INTO TEMP_ANLRVE_LEV_F (
 		                            CHRGE_KND
 		                          , ACCNUT_YEAR
 		                          , NTICNO
@@ -828,7 +828,7 @@
     </insert>
 
     <delete id="gamTestPrtFcltyRentFeeMngtDao.deletePrtFcltyRentFeeMngt_S">
-         DELETE FROM LEV_REQEST_F
+         DELETE FROM TEMP_LEV_REQEST_F
           WHERE NTIC_CNT    = #nticCnt#
             AND PRT_AT_CODE = #prtAtCode#
             AND MNG_YEAR    = #mngYear#
@@ -838,7 +838,7 @@
     </delete>
 
 	<insert id="gamTestPrtFcltyRentFeeMngtDao.insertPrtFcltyRentFeeMngtLevReqest_S">
-        INSERT INTO LEV_REQEST_F (
+        INSERT INTO TEMP_LEV_REQEST_F (
                              NTIC_CNT
                            , FCLTY_SE
                            , CHRGE_KND
@@ -1077,15 +1077,15 @@
 			          ARD.GIS_ASSETS_CD,
 			          ARD.GIS_ASSETS_SUB_CD,
 			          ARD.COMPUT_DTLS
-			        FROM ASSETS_RENT_F AR
-			        LEFT JOIN ASSETS_RENT_DETAIL_F ARD
+			        FROM TEMP_ASSETS_RENT_F AR
+			        LEFT JOIN TEMP_ASSETS_RENT_DETAIL_F ARD
 			        ON AR.PRT_AT_CODE = ARD.PRT_AT_CODE
 			        AND AR.MNG_YEAR   = ARD.MNG_YEAR
 			        AND AR.MNG_NO     = ARD.MNG_NO
 			        AND AR.MNG_CNT    = ARD.MNG_CNT
 			        ORDER BY ARD.ASSETS_USAGE_SEQ
 			        ) A,
-			        LEV_REQEST_F L
+			        TEMP_LEV_REQEST_F L
 			      WHERE 1             = 1
 			      AND A.PRT_AT_CODE   = L.PRT_AT_CODE
 			      AND A.MNG_YEAR      = L.MNG_YEAR
@@ -1272,14 +1272,14 @@
 			          ARD.GIS_ASSETS_CD,
 			          ARD.GIS_ASSETS_SUB_CD,
 			          ARD.COMPUT_DTLS
-			        FROM ASSETS_RENT_F AR
-			        LEFT JOIN ASSETS_RENT_DETAIL_F ARD
+			        FROM TEMP_ASSETS_RENT_F AR
+			        LEFT JOIN TEMP_ASSETS_RENT_DETAIL_F ARD
 			        ON AR.PRT_AT_CODE = ARD.PRT_AT_CODE
 			        AND AR.MNG_YEAR   = ARD.MNG_YEAR
 			        AND AR.MNG_NO     = ARD.MNG_NO
 			        AND AR.MNG_CNT    = ARD.MNG_CNT
 			        ) A,
-			        LEV_REQEST_F L
+			        TEMP_LEV_REQEST_F L
 			      WHERE 1             = 1
 			      AND A.PRT_AT_CODE   = L.PRT_AT_CODE
 			      AND A.MNG_YEAR      = L.MNG_YEAR
@@ -1470,14 +1470,14 @@
 			          ARD.GIS_ASSETS_CD,
 			          ARD.GIS_ASSETS_SUB_CD,
 			          ARD.COMPUT_DTLS
-			        FROM ASSETS_RENT_F AR
-			        LEFT JOIN ASSETS_RENT_DETAIL_F ARD
+			        FROM TEMP_ASSETS_RENT_F AR
+			        LEFT JOIN TEMP_ASSETS_RENT_DETAIL_F ARD
 			        ON AR.PRT_AT_CODE = ARD.PRT_AT_CODE
 			        AND AR.MNG_YEAR   = ARD.MNG_YEAR
 			        AND AR.MNG_NO     = ARD.MNG_NO
 			        AND AR.MNG_CNT    = ARD.MNG_CNT
 			        ) A,
-			        LEV_REQEST_F L
+			        TEMP_LEV_REQEST_F L
 			      WHERE 1		      = 1
 			      AND A.PRT_AT_CODE   = L.PRT_AT_CODE
 			      AND A.MNG_YEAR      = L.MNG_YEAR
@@ -1610,14 +1610,14 @@
 			          ARD.GIS_ASSETS_CD,
 			          ARD.GIS_ASSETS_SUB_CD,
 			          ARD.COMPUT_DTLS
-			        FROM ASSETS_RENT_F AR
-			        LEFT JOIN ASSETS_RENT_DETAIL_F ARD
+			        FROM TEMP_ASSETS_RENT_F AR
+			        LEFT JOIN TEMP_ASSETS_RENT_DETAIL_F ARD
 			        ON AR.PRT_AT_CODE = ARD.PRT_AT_CODE
 			        AND AR.MNG_YEAR   = ARD.MNG_YEAR
 			        AND AR.MNG_NO     = ARD.MNG_NO
 			        AND AR.MNG_CNT    = ARD.MNG_CNT
 			        ) A,
-			        LEV_REQEST_F L
+			        TEMP_LEV_REQEST_F L
 			      WHERE 1             = 1
 			      AND A.PRT_AT_CODE   = L.PRT_AT_CODE
 			      AND A.MNG_YEAR      = L.MNG_YEAR
@@ -1699,8 +1699,8 @@
 							       , TO_CHAR(A.PRMISN_DT, 'YYYY-MM-DD') PRMISN_DT
 							       , NVL(A.GR_RDCXPT_FEE,0) GR_RDCXPT_FEE
 							       , L.REIM_FEE
-				  FROM ASSETS_RENT_F A,
-				       LEV_REQEST_F L
+				  FROM TEMP_ASSETS_RENT_F A,
+				       TEMP_LEV_REQEST_F L
 				 WHERE 1 = 1
 				   AND A.PRT_AT_CODE = L.PRT_AT_CODE
 	                           AND A.MNG_YEAR = L.MNG_YEAR
@@ -1770,8 +1770,8 @@
 		       , NVL(L.REIM_FEE, 0) REIM_FEE
 		       , NVL(L.INTR_AMNT, 0) INTR_AMNT
 		       , NVL(L.PAYINST_INTRRATE, 0) PAYINST_INTRRATE
-		  FROM ASSETS_RENT_F A,
-		       LEV_REQEST_F L
+		  FROM TEMP_ASSETS_RENT_F A,
+		       TEMP_LEV_REQEST_F L
 		 WHERE 1 = 1
 		   AND A.PRT_AT_CODE = L.PRT_AT_CODE
                           AND A.MNG_YEAR = L.MNG_YEAR
@@ -1797,7 +1797,7 @@
                 , SUM(NVL(L.NTIC_AMT, 0)) SUM_NHT_ISUE_AMT
                , SUM(NVL(L.VAT, 0)) SUM_VAT
                , SUM(NVL(L.NTIC_AMT,0)) SUM_NTIC_AMT
-          FROM ASSETS_RENT_F A, LEV_REQEST_F L
+          FROM TEMP_ASSETS_RENT_F A, TEMP_LEV_REQEST_F L
 		 WHERE 1 = 1
 		   AND A.PRT_AT_CODE = L.PRT_AT_CODE
                           AND A.MNG_YEAR = L.MNG_YEAR
@@ -1812,7 +1812,7 @@
     </select>
 
     <update id="gamTestPrtFcltyRentFeeMngtDao.updateAssetRentFeeMngtListDetail_S">
-        UPDATE LEV_REQEST_F SET
+        UPDATE TEMP_LEV_REQEST_F SET
 		     RM     = #rm#
 		     , UPD_USR      = #updUsr#
 		     , UPDT_DT      = SYSDATE
@@ -1840,7 +1840,7 @@
     </update>
 
       <update id="gamTestPrtFcltyRentFeeMngtDao.updateLevReqestNhtPrintYn_S">
-        UPDATE LEV_REQEST_F SET
+        UPDATE TEMP_LEV_REQEST_F SET
       		NHT_PRINT_YN=#nhtPrintYn#
       		WHERE
 			PRT_AT_CODE=#prtAtCode#
