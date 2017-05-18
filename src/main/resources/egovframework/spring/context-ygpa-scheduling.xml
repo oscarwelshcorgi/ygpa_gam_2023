@@ -29,6 +29,31 @@
 	</bean>
 
 
+	<!-- 포트미스 납부확인 작업 정의(일반부두 테스트용)  -->
+	<bean id="updateTestRentFeePaySttusRefresh"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="gamTestNticRequestMngtService" />
+		<property name="targetMethod" value="updateRentFeePaySttusRefresh" />
+		<property name="concurrent" value="false" />
+	</bean>
+
+	<!-- 포트미스 납부확인 트리거(일반부두 테스트용)  -->
+	<bean id="updateTestRentFeePaySttusRefreshTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="updateTestRentFeePaySttusRefresh" />
+		<property name="startDelay" value="60000" />
+		<property name="cronExpression" value="0 0 10 ? * *" />
+	</bean>
+
+	<!-- 포트미스 납부확인 스케줄(일반부두 테스트용)  -->
+	<bean id="updateTestAssetRentFeePayDtlsMngtScheduler"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="updateTestRentFeePaySttusRefreshTrigger" />
+			</list>
+		</property>
+	</bean>
+
 	<!-- 배후단지용 포트미스 납부확인 작업 정의  -->
 	<bean id="updateHtldRentNticIssueStatusRefresh"
 		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">

@@ -356,6 +356,12 @@ GamAssetRentFeeMngtModule.prototype.cancelSave = function() {
                 	}
                 }
                 */
+				if(rows['nticAmt']<3000){
+					alert("항만시설사용료고지 상세를 이용하세요.");
+					this.$("#assetRentFeeListTab").tabs("option", {active: 1});
+					
+					return;
+				}
 
                 if( rows['nhtIsueYn'] == 'Y' ) {
                 	alert("이미 고지된 건 입니다.");

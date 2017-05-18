@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.oper.gnrltest.service.GamTestFcltyRentArrrgMngtVO;
-import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamNticRequestMngtService;
+import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamTestNticRequestMngtService;
 import egovframework.rte.ygpa.gam.oper.gnrltest.service.GamTestPrtFcltyRentFeePaySttusMngtService;
 import egovframework.rte.ygpa.gam.oper.gnrltest.service.GamTestPrtFcltyRentFeePaySttusMngtVO;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentArrrgMngtVO;
@@ -40,8 +40,8 @@ import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtV
 
 public class GamTestPrtFcltyRentFeePaySttusMngtServiceImpl  extends AbstractServiceImpl implements GamTestPrtFcltyRentFeePaySttusMngtService {
 
-	@Resource(name="gamNticRequestMngtService")
-    private GamNticRequestMngtService gamNticRequestMngtService;
+	@Resource(name="gamTestNticRequestMngtService")
+    private GamTestNticRequestMngtService gamTestNticRequestMngtService;
 
 	@Resource(name="gamTestPrtFcltyRentFeePaySttusMngtDao")
     private GamTestPrtFcltyRentFeePaySttusMngtDao gamTestPrtFcltyRentFeePaySttusMngtDao;

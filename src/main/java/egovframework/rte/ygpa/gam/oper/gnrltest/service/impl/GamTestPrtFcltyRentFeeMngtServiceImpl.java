@@ -197,7 +197,7 @@ public class GamTestPrtFcltyRentFeeMngtServiceImpl  extends AbstractServiceImpl 
 	}
 
 	/* (non-Javadoc)
-	 * @see egovframework.rte.ygpa.gam.cmmn.fclty.service.GamNticRequestMngtService#updateNticPrintYn(java.util.Map)
+	 * @see egovframework.rte.ygpa.gam.cmmn.fclty.service.GamTestNticRequestMngtService#updateNticPrintYn(java.util.Map)
 	 */
 //	@Override
 //	public void updateNticPrintState(GamTestPrtFcltyRentFeeMngtVO vo) throws Exception {

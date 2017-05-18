@@ -47,13 +47,17 @@ GamPopupLevReqestAditModule.prototype.loadComplete = function() {
 GamPopupLevReqestAditModule.prototype.onButtonClick = function(buttonId) {
 	switch(buttonId) {
 	case 'btnLevReqestExec':
+		if( this.$('#fee').val()==0) {
+			alert("부과금액을 입력 하십시오");
+			return;
+		}
 		if( this.$('#chrgeKnd').val() == '' ) {
             alert("요금종류를 선택하십시오.");
             return;
         }
-		if( this.$('#fee').val()===0) {
-			alert("부과금액을 입력 하십시오");
-			return;
+		if( this.$('#fee').val()<3000) {
+			this.$('#fee').val(3000);
+			alert("최소금액 3,000원으로 청구됩니다.");
 		}
 
 		if( confirm("부과금액을 등록 하시겠습니까?") ) {

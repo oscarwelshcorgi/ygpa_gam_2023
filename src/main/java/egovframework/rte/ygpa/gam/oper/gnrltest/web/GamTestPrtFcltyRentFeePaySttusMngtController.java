@@ -31,7 +31,7 @@ import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.erp.code.service.ErpAssetCdDefaultVO;
-import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamNticRequestMngtService;
+import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamTestNticRequestMngtService;
 import egovframework.rte.ygpa.gam.popup.service.GamPopupGisAssetsCdVO;
 import egovframework.rte.ygpa.gam.oper.gnrltest.service.GamTestFcltyRentArrrgMngtVO;
 import egovframework.rte.ygpa.gam.oper.gnrltest.service.GamTestPrtFcltyRentFeePaySttusMngtService;
@@ -72,8 +72,8 @@ public class GamTestPrtFcltyRentFeePaySttusMngtController {
     @Resource(name="EgovCmmUseService")
     private EgovCmmUseService cmmUseService;
 
-    @Resource(name="gamNticRequestMngtService")
-    private GamNticRequestMngtService gamNticRequestMngtService;
+    @Resource(name="gamTestNticRequestMngtService")
+    private GamTestNticRequestMngtService gamTestNticRequestMngtService;
 
     @Resource(name = "gamTestPrtFcltyRentFeePaySttusMngtService")
     private GamTestPrtFcltyRentFeePaySttusMngtService gamTestPrtFcltyRentFeePaySttusMngtService;
@@ -261,7 +261,7 @@ public class GamTestPrtFcltyRentFeePaySttusMngtController {
 
 //    		paramMap.put("updUsr", loginVo.getId());
 
-    		int result=gamNticRequestMngtService.updateRentFeePaySttusRefresh();
+    		int result=gamTestNticRequestMngtService.updateRentFeePaySttusRefresh();
 
 	        resultCode = 0;
 	 		resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.
@@ -366,7 +366,7 @@ public class GamTestPrtFcltyRentFeePaySttusMngtController {
 			nticArg.put("arrrgRate", searchVO.getArrrgRate());
 		}
 
-		gamNticRequestMngtService.sendMultiUnpaidRequest(gamNticArrrgList);
+		gamTestNticRequestMngtService.sendMultiUnpaidRequest(gamNticArrrgList);
 
         map.put("resultCode", 0);
 		map.put("resultMsg", egovMessageSource.getMessage("success.common.unpaidlist"));
@@ -405,7 +405,7 @@ public class GamTestPrtFcltyRentFeePaySttusMngtController {
 		nticVo.put("emplNo", loginVO.getEmplNo());
 		nticVo.put("userName", loginVO.getName());
 
-		gamNticRequestMngtService.sendUnpaidRequest(nticVo);
+		gamTestNticRequestMngtService.sendUnpaidRequest(nticVo);
 
         map.put("resultCode", 0);
 		map.put("resultMsg", egovMessageSource.getMessage("success.common.unpaid"));
@@ -436,7 +436,7 @@ public class GamTestPrtFcltyRentFeePaySttusMngtController {
 		nticVo.put("emplNo", loginVO.getEmplNo());
 		nticVo.put("userName", loginVO.getName());
 
-		gamNticRequestMngtService.sendUnpaidRequest(nticVo);
+		gamTestNticRequestMngtService.sendUnpaidRequest(nticVo);
 
         map.put("resultCode", 0);
 		map.put("resultMsg", egovMessageSource.getMessage("success.common.unpaid"));
@@ -473,7 +473,7 @@ public class GamTestPrtFcltyRentFeePaySttusMngtController {
 		nticVo.put("emplNo", loginVO.getEmplNo());
 		nticVo.put("userName", loginVO.getName());
 
-		gamNticRequestMngtService.cancelUnpaidRequest(nticVo);
+		gamTestNticRequestMngtService.cancelUnpaidRequest(nticVo);
 
         map.put("resultCode", 0);
 		map.put("resultMsg", egovMessageSource.getMessage("success.common.unpaid"));
@@ -509,7 +509,7 @@ public class GamTestPrtFcltyRentFeePaySttusMngtController {
 		nticVo.put("deptCd",loginVO.getDeptCd());
 		nticVo.put("emplNo", loginVO.getEmplNo());
 
-		gamNticRequestMngtService.cancelUnpaidRequestPk(nticVo);
+		gamTestNticRequestMngtService.cancelUnpaidRequestPk(nticVo);
 
         map.put("resultCode", 0);
 		map.put("resultMsg", egovMessageSource.getMessage("success.common.unpaid"));

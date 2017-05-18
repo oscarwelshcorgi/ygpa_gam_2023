@@ -31,7 +31,7 @@ import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeeMngtVO;
-import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamNticRequestMngtService;
+import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamTestNticRequestMngtService;
 import egovframework.rte.ygpa.gam.oper.gnrltest.service.GamTestPrtFcltyRentFeeMngtService;
 import egovframework.rte.ygpa.gam.oper.gnrltest.service.GamTestPrtFcltyRentFeeMngtVO;
 import egovframework.rte.ygpa.gam.oper.gnrltest.service.GamTestPrtFcltyRentFeePaySttusMngtVO;
@@ -76,8 +76,8 @@ public class GamTestPrtFcltyRentFeeMngtController {
     @Resource(name = "gamTestPrtFcltyRentFeeMngtService")
     private GamTestPrtFcltyRentFeeMngtService gamTestPrtFcltyRentFeeMngtService;
 
-    @Resource(name = "gamNticRequestMngtService")
-    private GamNticRequestMngtService gamNticRequestMngtService;
+    @Resource(name = "gamTestNticRequestMngtService")
+    private GamTestNticRequestMngtService gamTestNticRequestMngtService;
 
 
     /**
@@ -879,7 +879,7 @@ public class GamTestPrtFcltyRentFeeMngtController {
 	 		paramMap.put("fee", gamAssetRentFeeMngtVO.getIntrAmnt());
 	 		paramMap.put("intrAmnt", gamAssetRentFeeMngtVO.getIntrAmnt());
 	 		paramMap.put("vat", gamAssetRentFeeMngtVO.getVat());
-	 		gamNticRequestMngtService.sendNticRequest(paramMap);
+	 		gamTestNticRequestMngtService.sendNticRequest(paramMap);
 
 	        resultCode = 0;
 	 		resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.
@@ -934,7 +934,7 @@ public class GamTestPrtFcltyRentFeeMngtController {
 	 		paramMap.put("chrgeKnd", gamAssetRentFeeMngtVO.getChrgeKnd());
 	 		paramMap.put("deptCd", loginVo.getDeptCd());
 
-	 		gamNticRequestMngtService.cancelNticRequest(paramMap);
+	 		gamTestNticRequestMngtService.cancelNticRequest(paramMap);
 
 	        resultCode = 0;
 	 		resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.
@@ -1178,7 +1178,7 @@ public class GamTestPrtFcltyRentFeeMngtController {
 	    		map.put("chrgeKnd", vo.getChrgeKnd());
 	    		map.put("nhtPrintYn", vo.getNhtPrintYn());
 
-	    		gamNticRequestMngtService.updateNticPrintState(map);
+	    		gamTestNticRequestMngtService.updateNticPrintState(map);
 		         resultCode = 0;
 		 		 resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.
 	    	}
@@ -1227,7 +1227,7 @@ public class GamTestPrtFcltyRentFeeMngtController {
 	    		map.put("chrgeKnd", vo.getChrgeKnd());
 	    		map.put("nhtPrintYn", vo.getNhtPrintYn());
 
-	    		gamNticRequestMngtService.updateNticPrintState2(map);
+	    		gamTestNticRequestMngtService.updateNticPrintState2(map);
 		         resultCode = 0;
 		 		 resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.
 	    	}
