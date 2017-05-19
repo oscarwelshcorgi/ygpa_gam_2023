@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="rte.ygpa.gam.cmmn.fclty">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+
+
+	<update id="gamTestAssetsUsePermMngtDao.confirmAssetsUsePerm" parameterClass="hashMap">
+		<![CDATA[
+			UPDATE TEMP_ASSETS_RENT_F
+			SET PRMISN_DT=SYSDATE
+				, PRMISN_YN='Y'
+				, PRMISN_USR=#updUsr#
+				, UPD_USR=#updUsr#
+				, UPDT_DT=SYSDATE
+			WHERE PRT_AT_CODE=#prtAtCode#
+				AND MNG_YEAR=#mngYear#
+				AND MNG_NO=#mngNo#
+				AND MNG_CNT=#mngCnt#
+		]]>
+	</update>
+
+	<update id="gamTestAssetsUsePermMngtDao.cancelAssetsUsePerm" parameterClass="hashMap">
+		<![CDATA[
+			UPDATE TEMP_ASSETS_RENT_F
+			SET PRMISN_DT=''
+				, PRMISN_USR=''
+				, PRMISN_YN='N'
+				, UPD_USR=#updUsr#
+				, UPDT_DT=SYSDATE
+			WHERE PRT_AT_CODE=#prtAtCode#
+				AND MNG_YEAR=#mngYear#
+				AND MNG_NO=#mngNo#
+				AND MNG_CNT=#mngCnt#
+		]]>
+	</update>
+
+	<delete id="gamTestAssetsUsePermMngtDao.deleteAssetsUsagePdByStats_D" parameterClass="hashMap">
+		<![CDATA[
+			DELETE FROM TEMP_USAGE_PD_BY_STATS_F
+			WHERE PRT_AT_CODE=#prtAtCode#
+				AND MNG_YEAR=#mngYear#
+				AND MNG_NO=#mngNo#
+				AND MNG_CNT=#mngCnt#
+		]]>
+	</delete>
+
+	<insert id="gamTestAssetsUsePermMngtDao.insertAssetsUsagePdByStats_D" parameterClass="hashMap">
+		<![CDATA[
+		INSERT INTO TEMP_USAGE_PD_BY_STATS_F (
+				PRT_AT_CODE, MNG_YEAR, MNG_NO, MNG_CNT, ASSETS_USAGE_SEQ,
+				USAGE_YEAR, USAGE_QU, USAGE_MT, USAGE_YRMT,
+				GIS_ASSETS_CD, GIS_ASSETS_SUB_CD,
+				QUAY_GROUP_CD,
+				USAGE_PRPOS_CD, REQST_ENTRPS_CD,
+				USAGE_CND, USAGE_PD_FROM, USAGE_PD_TO,
+				EXEMPT_SE, FEE, RDCXPT_FEE,
+				UPD_USR, UPDT_DT
+		)
+		SELECT
+    PRT_AT_CODE,
+    MNG_YEAR,
+    MNG_NO,
+    MNG_CNT,
+    ASSETS_USAGE_SEQ,
+    TO_CHAR(START_DATE, 'YYYY') USAGE_YEAR,
+    (
+      CASE
+        WHEN TO_CHAR(START_DATE, 'MM') < 4
+        THEN '1'
+        WHEN TO_CHAR(START_DATE, 'MM') < 7
+        THEN '2'
+        WHEN TO_CHAR(START_DATE, 'MM') < 10
+        THEN '3'
+        ELSE '4'
+      END
+    ) AS USAGE_QU,
+    TO_CHAR(START_DATE, 'MM') USAGE_MT,
+    TO_CHAR(START_DATE, 'YYYYMM') USAGE_YRMT,
+    GIS_ASSETS_CD, GIS_ASSETS_SUB_CD,
+    QUAY_GROUP_CD,
+				USAGE_PRPOS_CD, REQST_ENTRPS_CD,
+				USAGE_CND, USAGE_PD_FROM, USAGE_PD_TO,
+				EXEMPT_SE,
+        FEE,
+        RDCXPT_FEE,
+				UPD_USR, UPDT_DT
+  FROM
+    (SELECT ROWNUM                                                                                                                                              AS NTIC_CNT,
+    A.PRT_AT_CODE,
+    A.MNG_YEAR,
+    A.MNG_NO,
+    A.MNG_CNT,
+    A.ASSETS_USAGE_SEQ,
+        A.GIS_ASSETS_CD, A.GIS_ASSETS_SUB_CD,
+        (SELECT QUAY_GROUP_CD FROM TEMP_ASSETS_RENT_F WHERE A.PRT_AT_CODE=PRT_AT_CODE AND
+    A.MNG_YEAR=MNG_YEAR  AND
+    A.MNG_NO=MNG_NO  AND
+    A.MNG_CNT=MNG_CNT ) QUAY_GROUP_CD,
+  a.usage_prpos_cd,
+          (SELECT entrpscd FROM TEMP_ASSETS_RENT_F WHERE A.PRT_AT_CODE=PRT_AT_CODE AND
+    A.MNG_YEAR=MNG_YEAR  AND
+    A.MNG_NO=MNG_NO  AND
+    A.MNG_CNT=MNG_CNT ) reqst_entrps_cd,
+    '' usage_cnd, A.usage_pd_from, A.USAGE_PD_TO,
+    a.exempt_se,
+      TRUNC(A.FEE                                                         / (TRUNC(MONTHS_BETWEEN(a.usage_pd_to, a.usage_pd_from) / 1)+1), -1)                            AS FEE,
+      TRUNC(A.RDCXPT_FEE                                                         / (TRUNC(MONTHS_BETWEEN(a.usage_pd_to, a.usage_pd_from) / 1)+1), -1)                            AS RDCXPT_FEE,
+      TRUNC(A.FEE                                                         - ((A.FEE/(TRUNC(MONTHS_BETWEEN(a.usage_pd_to, a.usage_pd_from) / 1)+1)) * (ROWNUM-1)), -1) AS REFE,
+      ADD_MONTHS(a.usage_pd_from, '1'                      * (ROWNUM-1))                                                                                                                             AS START_DATE,
+      DECODE(ROWNUM, 1, 0, ADD_MONTHS(a.usage_pd_from, '1' * (ROWNUM-1))-ADD_MONTHS(a.usage_pd_from, 1 * (ROWNUM-1)-1))                                                         AS RATE_DAY,
+      LAG(ADD_MONTHS(a.usage_pd_from, '1'                  * (ROWNUM-1))+14) OVER (ORDER BY ROWNUM)                                                                                                  AS PREV_DUE_DATE,
+      ADD_MONTHS(a.usage_pd_from, '1'                      * (ROWNUM-1))+14                                                                                                                          AS DUE_DATE,
+      (
+      CASE
+        WHEN a.usage_pd_to < ADD_MONTHS(a.usage_pd_from, 1 * ROWNUM) - 1
+        THEN a.usage_pd_to
+        ELSE ADD_MONTHS(a.usage_pd_from, 1 * ROWNUM) - 1
+      END ) AS END_DATE,
+      				#updUsr# UPD_USR, SYSDATE UPDT_DT
+    FROM TEMP_ASSETS_RENT_DETAIL_F A LEFT OUTER JOIN COMTCCMMNDETAILCODE ON
+    	A.PRT_AT_CODE=#prtAtCode#
+				AND A.MNG_YEAR=#mngYear#
+				AND A.MNG_NO=#mngNo#
+				AND A.MNG_CNT=#mngCnt#
+    WHERE ROWNUM <= (TRUNC(MONTHS_BETWEEN(a.usage_pd_to, a.usage_pd_from) / 1)+1)
+            	AND A.PRT_AT_CODE=#prtAtCode#
+				AND A.MNG_YEAR=#mngYear#
+				AND A.MNG_NO=#mngNo#
+				AND A.MNG_CNT=#mngCnt#
+
+    ) B
+
+		]]>
+	</insert>
+
+	<delete id="gamTestAssetsUsePermMngtDao.deleteLevRequest_D" parameterClass="hashMap">
+		<![CDATA[
+			DELETE FROM TEMP_LEV_REQEST_F
+			WHERE PRT_AT_CODE=#prtAtCode#
+				AND MNG_YEAR=#mngYear#
+				AND MNG_NO=#mngNo#
+				AND MNG_CNT=#mngCnt#
+		]]>
+	</delete>
+
+	<delete id="gamTestAssetsUsePermMngtDao.deleteLevRequest_S" parameterClass="hashMap">
+		<![CDATA[
+			DELETE FROM TEMP_LEV_REQEST_F
+			WHERE PRT_AT_CODE=#prtAtCode#
+				AND MNG_YEAR=#mngYear#
+				AND MNG_NO=#mngNo#
+				AND MNG_CNT=#mngCnt#
+				AND NTIC_CNT=#nticCnt#
+		]]>
+	</delete>
+
+	<select id="gamTestAssetsUsePermMngtDao.selectAssetRentByPk_S" parameterClass="hashMap" resultClass="egovMap">
+		SELECT
+				AR.PRT_AT_CODE
+				, AR.MNG_YEAR
+				, AR.MNG_NO
+				, AR.MNG_CNT
+				, AR.ENTRPSCD
+				, (SELECT ENTRPS_NM FROM ENTRPS_INFO_F WHERE AR.ENTRPSCD=ENTRPSCD) AS ENTRPS_NM
+				, AR.REQST_SE_CD
+				, AR.GR_AR
+				, AR.GR_FEE
+				, AR.NTIC_MTH
+				, AR.PAY_MTH
+				, AR.PAYINST_INTRRATE
+				, TO_CHAR(AR.FRST_PRMISN_DT, 'yyyy-mm-dd') FRST_PRMISN_DT
+				, TO_CHAR(AR.PRMISN_DT, 'yyyy-mm-dd') PRMISN_DT
+				, AR.PRMISN_YN
+				, AR.RM
+				, AR.DOC_NO
+				, TO_CHAR(AR.GR_USAGE_PD_FROM, 'yyyy-mm-dd') GR_USAGE_PD_FROM
+				, TO_CHAR(AR.GR_USAGE_PD_TO, 'yyyy-mm-dd') GR_USAGE_PD_TO
+				, AR.REG_USR
+				, AR.UPD_USR
+			FROM TEMP_ASSETS_RENT_F AR
+			WHERE  PRT_AT_CODE=#prtAtCode#
+				AND MNG_YEAR=#mngYear#
+				AND MNG_NO=#mngNo#
+				AND MNG_CNT=#mngCnt#
+	</select>
+
+    <!-- 승낙 처리 (징수의뢰 일괄생성 insert) -->
+     <insert id="gamTestAssetsUsePermMngtDao.insertBillCreateOnce" parameterClass="hashMap">
+		INSERT INTO TEMP_LEV_REQEST_F (
+				PRT_AT_CODE, MNG_YEAR, MNG_NO, MNG_CNT, NTIC_CNT, FCLTY_SE, CHRGE_KND, ENTRPSCD, ENTRPS_NM,
+				NTIC_PD_FROM, NTIC_PD_TO, PAY_TMLMT, NTICNO, NTIC_DT, RCIV_SE, NHT_ISUE_YN,
+				 OLNLP, FEE, VAT, VAT_YN, NTIC_AMT, RM, NTIC_MTH, REG_USR, REGIST_DT,DEPTCD,
+				 INTR_AMNT
+		)
+		SELECT
+			AR.PRT_AT_CODE, AR.MNG_YEAR, AR.MNG_NO, AR.MNG_CNT, '01',  '1',
+		  #chrgeKnd#,
+		  MAX(AR.ENTRPSCD),
+		  MAX(EI.ENTRPS_NM),
+			  MIN(AR.GR_USAGE_PD_FROM),
+			  MAX(AR.GR_USAGE_PD_TO),
+			  <!--
+		  <isEqual property="payMth" compareValue="Aft">
+		  	MAX(AR.GR_USAGE_PD_TO),
+		  </isEqual>
+		  <isEqual property="payMth" compareValue="Pre">
+		  	MIN(AR.GR_USAGE_PD_FROM),
+		  </isEqual>
+		   -->
+		   null,
+		  (SELECT MAX(NTICNO)+1 FROM TEMP_LEV_REQEST_F) NTICNO,
+		  '',
+		  '0',
+		  'N',
+		  MAX(PFUD.OLNLP),
+		  MAX(AR.GR_FEE),
+		  case
+		  when MAX(AR.TAXT_SE)='2' THEN trunc(MAX(AR.GR_FEE)/10, -1)
+		  else 0
+		  END,
+		  MAX(AR.TAXT_SE),
+		  case
+		  when MAX(AR.TAXT_SE)='2' THEN MAX(AR.GR_FEE)+trunc(MAX(AR.GR_FEE)/10, -1)
+		  else MAX(AR.GR_FEE)
+		  END,
+		  MAX(AR.RM),
+		  MAX(AR.NTIC_MTH), #regUsr#, SYSDATE,#deptcd#,
+		  '0'
+		FROM   TEMP_ASSETS_RENT_F AR, TEMP_ASSETS_RENT_DETAIL_F PFUD, ENTRPS_INFO_F EI
+		WHERE AR.PRT_AT_CODE=PFUD.PRT_AT_CODE
+			AND AR.MNG_YEAR=PFUD.MNG_YEAR
+			AND AR.MNG_NO=PFUD.MNG_NO
+			AND AR.MNG_CNT=PFUD.MNG_CNT
+			AND AR.ENTRPSCD=EI.ENTRPSCD
+			AND AR.PRT_AT_CODE=#prtAtCode#
+			AND AR.MNG_YEAR=#mngYear#
+			AND AR.MNG_NO=#mngNo#
+			AND AR.MNG_CNT=#mngCnt#
+		GROUP BY AR.PRT_AT_CODE, AR.MNG_YEAR, AR.MNG_NO, AR.MNG_CNT
+    </insert>
+
+    <!-- 승낙 처리 (징수의뢰 분납생성 insert) -->
+    <insert id="gamTestAssetsUsePermMngtDao.insertBillCreateMore" parameterClass="hashMap">
+		<![CDATA[
+		INSERT INTO TEMP_LEV_REQEST_F (
+				PRT_AT_CODE, MNG_YEAR, MNG_NO, MNG_CNT, NTIC_CNT, FCLTY_SE, CHRGE_KND, ENTRPSCD,ENTRPS_NM,
+				NTIC_PD_FROM, NTIC_PD_TO,
+				NTICNO, RCIV_SE, NHT_ISUE_YN, PAY_TMLMT,
+				 OLNLP, FEE, VAT, VAT_YN, NTIC_AMT, RM,
+				  NTIC_MTH, REG_USR, REGIST_DT,
+				  INTR_AMNT, PAYINST_INTRRATE
+		)
+		SELECT
+		#prtAtCode#, #mngYear#, #mngNo#, #mngCnt#, LPAD(NTIC_CNT, 2, '0'), '1', FEE_TP, #entrpscd# ENTRPSCD, (SELECT ENTRPS_NM FROM ENTRPS_INFO_F WHERE ENTRPSCD=#entrpscd#),
+		START_DATE NTIC_PD_FROM, END_DATE NTIC_PD_TO,
+		'' NTICNO, '0', 'N',
+		]]>
+			null,
+		<!--
+		  <isEqual property="payMth" compareValue="Pre">
+			START_DATE,
+			</isEqual>
+		  <isEqual property="payMth" compareValue="Aft">
+			END_DATE,
+			</isEqual>
+			 -->
+		<![CDATA[
+		(SELECT MAX(OLNLP) FROM TEMP_ASSETS_RENT_DETAIL_F WHERE PRT_AT_CODE=#prtAtCode# AND MNG_YEAR=#mngYear# AND MNG_NO=#mngNo# AND MNG_CNT=#mngCnt#) OLNLP, RNTFEE, FLOOR((RNTFEE+INTR_AMNT)/10), #taxtSe#,TRUNC(RNTFEE+INTR_AMNT + FLOOR((RNTFEE+INTR_AMNT) / 10), -1), #rm#,
+		#nticMth#, #regUsr#, SYSDATE,
+		INTR_AMNT, INTR_RATE
+		from (
+			SELECT FEE_TP, NTIC_CNT, DECODE(FEE_TP, #chrgeKnd#, RNTFEE, 'A3', TRUNC(REFE*(#blTpNum#)/12*RATE)) RNTFEE, REFE, START_DATE, PREV_DUE_DATE, DUE_DATE, END_DATE, #payinstIntrrate# INTR_RATE, CEIL(REFE*(END_DATE-START_DATE+1)/(TO_DATE(#grUsagePdTo#,'YYYY-MM-DD')-TO_DATE(#grUsagePdFrom#,'YYYY-MM-DD')+1)*(#payinstIntrrate#)) INTR_AMNT
+			FROM (
+			SELECT ROWNUM  as NTIC_CNT, #chrgeKnd# FEE_TP, 1 RATE,
+				  TRUNC(#grFee# / (TRUNC(MONTHS_BETWEEN(TO_DATE(#grUsagePdTo#,'YYYY-MM-DD'), TO_DATE(#grUsagePdFrom#,'YYYY-MM-DD')) / #blTpNum#)+1)) as RNTFEE,
+				  TRUNC(#grFee# - ((#grFee#/(TRUNC(MONTHS_BETWEEN(TO_DATE(#grUsagePdTo#,'YYYY-MM-DD'), TO_DATE(#grUsagePdFrom#,'YYYY-MM-DD')) / #blTpNum#)+1)) * (ROWNUM))) as REFE,
+				  ADD_MONTHS(TO_DATE(#grUsagePdFrom#,'YYYY-MM-DD'), #blTpNum#     * (ROWNUM-1))                            AS START_DATE,
+	        DECODE(ROWNUM, 1, 0, ADD_MONTHS(TO_DATE(#grUsagePdFrom#,'YYYY-MM-DD'), #blTpNum#     * (ROWNUM-1))-ADD_MONTHS(TO_DATE(#grUsagePdFrom#,'YYYY-MM-DD'), #blTpNum#     * (ROWNUM-1)-1)) AS RATE_DAY,
+	          LAG(ADD_MONTHS(TO_DATE(#grUsagePdFrom#,'YYYY-MM-DD'), #blTpNum# * (ROWNUM-1))+14) OVER (ORDER BY ROWNUM) AS PREV_DUE_DATE,
+				  ADD_MONTHS(TO_DATE(#grUsagePdFrom#,'YYYY-MM-DD'), #blTpNum#     * (ROWNUM-1))+14 AS DUE_DATE,
+				  (
+				    CASE
+				      WHEN TO_DATE(#grUsagePdTo#,'YYYY-MM-DD') < ADD_MONTHS(TO_DATE(#grUsagePdFrom#,'YYYY-MM-DD'), #blTpNum# * ROWNUM) - 1 THEN
+				          TO_DATE(#grUsagePdTo#,'YYYY-MM-DD')
+				    ELSE
+				          ADD_MONTHS(TO_DATE(#grUsagePdFrom#,'YYYY-MM-DD'), #blTpNum# * ROWNUM) - 1
+				     END
+				   ) as END_DATE
+				FROM COMTCCMMNDETAILCODE
+				WHERE ROWNUM <= (TRUNC(MONTHS_BETWEEN(TO_DATE(#grUsagePdTo#,'YYYY-MM-DD'), TO_DATE(#grUsagePdFrom#,'YYYY-MM-DD')) / #blTpNum#)+1)
+	      )
+		)
+		WHERE RNTFEE<>0
+		]]>
+    </insert>
+
+	<!-- 추가고지 -->
+     <insert id="gamTestAssetsUsePermMngtDao.insertBillCreateAdit" parameterClass="hashMap">
+		INSERT INTO TEMP_LEV_REQEST_F (
+				PRT_AT_CODE, MNG_YEAR, MNG_NO, MNG_CNT, NTIC_CNT,
+				FCLTY_SE,
+				CHRGE_KND, ENTRPSCD, ENTRPS_NM,
+				NTIC_PD_FROM, NTIC_PD_TO, PAY_TMLMT, NTICNO, NTIC_DT, RCIV_SE, NHT_ISUE_YN,
+				 OLNLP, FEE, VAT, VAT_YN, NTIC_AMT, RM, NTIC_MTH,
+				 ADIT_NTIC_YN, REG_USR, REGIST_DT
+		)
+		SELECT
+			AR.PRT_AT_CODE, AR.MNG_YEAR, AR.MNG_NO, AR.MNG_CNT, (SELECT LPAD(NVL(MAX(NTIC_CNT), 0)+1, 2, '0') FROM TEMP_LEV_REQEST_F WHERE AR.PRT_AT_CODE=PRT_AT_CODE AND AR.MNG_YEAR=MNG_YEAR AND AR.MNG_NO=MNG_NO AND AR.MNG_CNT=MNG_CNT),
+			'1',
+		  #chrgeKnd#,
+		  AR.ENTRPSCD,
+		  EI.ENTRPS_NM,
+			  AR.GR_USAGE_PD_FROM,
+			  AR.GR_USAGE_PD_TO,
+			  TO_DATE(#payTmlmt#, 'YYYY-MM-DD'),
+		  '',
+		  '',
+		  '0',
+		  'N',
+		  '0',
+		  #fee#,
+		  #vat#,
+		  #vatYn#,
+		  #fee#+#vat#,
+		  #rm#,
+		  '1',
+		  'Y',
+		  #regUsr#, SYSDATE
+		FROM   TEMP_ASSETS_RENT_F AR, ENTRPS_INFO_F EI
+		WHERE AR.ENTRPSCD=EI.ENTRPSCD
+			AND AR.PRT_AT_CODE=#prtAtCode#
+			AND AR.MNG_YEAR=#mngYear#
+			AND AR.MNG_NO=#mngNo#
+			AND AR.MNG_CNT=#mngCnt#
+    </insert>
+
+</sqlMap>
+

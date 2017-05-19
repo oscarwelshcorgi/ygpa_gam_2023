@@ -575,7 +575,7 @@ GamAssetRentFeeMngtModule.prototype.cancelSave = function() {
 
             if(rows.length>=1) {
                 if( confirm("선택한 추가사용료 항목을 삭제 하시겠습니까?") ) {
-                    this.doAction('/cmmn/fclty/gamDeleteLevreqestAdit.do', row, function(module, result) {
+                    this.doAction('/cmmn/fclty/gamTestDeleteLevreqestAdit.do', row, function(module, result) {
 
                         if(result.resultCode=='0') {
                             var searchOpt=module.makeFormArgs('#gamAssetRentFeeSearchForm');

@@ -43,7 +43,7 @@ import egovframework.rte.ygpa.gam.oper.gnrltest.service.GamTestPrtFcltyRentMngtL
 import egovframework.rte.ygpa.gam.oper.gnrltest.service.GamTestPrtFcltyRentMngtService;
 import egovframework.rte.ygpa.gam.oper.gnrltest.service.GamTestPrtFcltyRentMngtVO;
 import egovframework.rte.ygpa.gam.asset.service.GamAssetDisUseMngtVO;
-import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamAssetsUsePermMngtService;
+import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamTestAssetsUsePermMngtService;
 import egovframework.rte.ygpa.gam.cmmn.service.GamFileServiceVo;
 import egovframework.rte.ygpa.gam.cmmn.service.GamFileUploadUtil;
 
@@ -83,8 +83,8 @@ public class GamTestPrtFcltyRentMngtController {
     @Resource(name = "gamTestPrtFcltyRentMngtService")
     private GamTestPrtFcltyRentMngtService gamTestPrtFcltyRentMngtService;
 
-    @Resource(name = "gamAssetsUsePermMngtService")
-    private GamAssetsUsePermMngtService gamAssetsUsePermMngtService;
+    @Resource(name = "gamTestAssetsUsePermMngtService")
+    private GamTestAssetsUsePermMngtService gamTestAssetsUsePermMngtService;
 
     @Resource(name="gamRentFileIdGnrService")
     EgovTableIdGnrService gamRentFileIdGnrService;
@@ -1141,14 +1141,14 @@ public class GamTestPrtFcltyRentMngtController {
          paramMap.put("taxtSe", gamTestPrtFcltyRentMngtVO.getTaxtSe());
 
          //승낙 서비스 클래스 호출
-         //gamAssetsUsePermMngtService.confirmAssetsRentUsePerm(paramMap); //승낙
+         //gamTestAssetsUsePermMngtService.confirmAssetsRentUsePerm(paramMap); //승낙
 
          if(!paramMap.containsKey("prtAtCode") || !paramMap.containsKey("mngYear") || !paramMap.containsKey("mngNo") || !paramMap.containsKey("mngCnt")) {
              resultCode = 2;
         	 resultMsg = egovMessageSource.getMessage("gam.asset.rent.err.exceptional");
          }
          else {
-        	 gamAssetsUsePermMngtService.confirmAssetsRentUsePerm(paramMap);
+        	 gamTestAssetsUsePermMngtService.confirmAssetsRentUsePerm(paramMap);
 
 	         resultCode = 0;
 	 		 resultMsg  = egovMessageSource.getMessage("gam.asset.rent.prmisn.exec");
@@ -1248,7 +1248,7 @@ public class GamTestPrtFcltyRentMngtController {
         	 resultMsg = egovMessageSource.getMessage("gam.asset.rent.err.exceptional");
          }
          else {
-        	 gamAssetsUsePermMngtService.cancelAssetsRentUsePerm(paramMap);
+        	 gamTestAssetsUsePermMngtService.cancelAssetsRentUsePerm(paramMap);
 
 	         resultCode = 0;
 	 		 resultMsg  = egovMessageSource.getMessage("gam.asset.rent.prmisn.exec");
