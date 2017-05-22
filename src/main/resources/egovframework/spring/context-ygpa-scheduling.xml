@@ -41,7 +41,7 @@
 	<bean id="updateTestRentFeePaySttusRefreshTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="updateTestRentFeePaySttusRefresh" />
 		<property name="startDelay" value="60000" />
-		<property name="cronExpression" value="0 0 10 ? * *" />
+		<property name="cronExpression" value="0 0 11 ? * *" />
 	</bean>
 
 	<!-- 포트미스 납부확인 스케줄(일반부두 테스트용)  -->
