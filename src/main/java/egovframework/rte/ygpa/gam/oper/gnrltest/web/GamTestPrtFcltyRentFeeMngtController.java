@@ -1109,7 +1109,8 @@ public class GamTestPrtFcltyRentFeeMngtController {
 	     */
 	    @RequestMapping(value="/oper/gnrltest/printRentFeeNotice.do")
 	    String printRentFeeNotice(GamTestPrtFcltyRentFeeMngtVO approvalOpt, ModelMap model) throws Exception {
-	    	String report = "ygpa/gam/oper/gnrltest/GamTestPrtFcltyPrintNoticeIssue";
+	    	String report = "ygpa/gam/oper/gnrltest/GamTestPrtFcltyPrintNoticeIssue"; //"ygpa/gam/oper/gnrl/GamPrtfcltyPrintNoticeIssue";
+	    	
 	    	model.addAttribute("searchOpt", approvalOpt);
 
 	    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();

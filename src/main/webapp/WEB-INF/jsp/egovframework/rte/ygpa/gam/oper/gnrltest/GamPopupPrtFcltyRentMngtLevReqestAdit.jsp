@@ -92,39 +92,39 @@ var popup_instance = new GamPopupLevReqestAditModule();
 <div class="dialog">
 	<div class="emdPanel">
 		<form id="gamPopupLevReqestAditForm">
-		    <input type="hidden" id="prtAtCode" value="<c:out value="${gamPrtFcltyRentMngtInfo.prtAtCode }"/>"/>
-		    <input type="hidden" id="mngYear" value="<c:out value="${gamPrtFcltyRentMngtInfo.mngYear }"/>"/>
-		    <input type="hidden" id="mngNo" value="<c:out value="${gamPrtFcltyRentMngtInfo.mngNo }"/>"/>
-		    <input type="hidden" id="mngCnt" value="<c:out value="${gamPrtFcltyRentMngtInfo.mngCnt }"/>"/>
-		    <input type="hidden" id="taxtSe" value="<c:out value="${gamPrtFcltyRentMngtInfo.taxtSe }"/>"/>
+		    <input type="hidden" id="prtAtCode" value="<c:out value="${gamTestPrtFcltyRentMngtInfo.prtAtCode }"/>"/>
+		    <input type="hidden" id="mngYear" value="<c:out value="${gamTestPrtFcltyRentMngtInfo.mngYear }"/>"/>
+		    <input type="hidden" id="mngNo" value="<c:out value="${gamTestPrtFcltyRentMngtInfo.mngNo }"/>"/>
+		    <input type="hidden" id="mngCnt" value="<c:out value="${gamTestPrtFcltyRentMngtInfo.mngCnt }"/>"/>
+		    <input type="hidden" id="taxtSe" value="<c:out value="${gamTestPrtFcltyRentMngtInfo.taxtSe }"/>"/>
 
 			<table class="editForm">
 				<tbody>
 					<tr>
                         <th>신청업체</th>
                         <td colspan="5">
-                        	<c:out value="${gamPrtFcltyRentMngtInfo.entrpsNm}" />
+                        	<c:out value="${gamTestPrtFcltyRentMngtInfo.entrpsNm}" />
                         </td>
                      </tr>
 					<tr>
                         <th>사용기간</th>
                         <td colspan="5">
-                        	<c:out value="${gamPrtFcltyRentMngtInfo.grUsagePdFrom}" /> ~
-                        	<c:out value="${gamPrtFcltyRentMngtInfo.grUsagePdTo}" />
+                        	<c:out value="${gamTestPrtFcltyRentMngtInfo.grUsagePdFrom}" /> ~
+                        	<c:out value="${gamTestPrtFcltyRentMngtInfo.grUsagePdTo}" />
                         </td>
                      </tr>
 					<tr>
                         <th>사용면적</th>
                         <td>
-                        	<fmt:formatNumber type="number" maxIntegerDigits="15" value="${gamPrtFcltyRentMngtInfo.grAr}" /> m<sup>2</sup>
+                        	<fmt:formatNumber type="number" maxIntegerDigits="15" value="${gamTestPrtFcltyRentMngtInfo.grAr}" /> m<sup>2</sup>
                         </td>
                         <th>총사용료</th>
                         <td>
-                        	<fmt:formatNumber type="number" maxIntegerDigits="15" value="${gamPrtFcltyRentMngtInfo.grFee}" /> 원
+                        	<fmt:formatNumber type="number" maxIntegerDigits="15" value="${gamTestPrtFcltyRentMngtInfo.grFee}" /> 원
                         </td>
                         <th>면제금액</th>
                         <td>
-                        	<fmt:formatNumber type="number" maxIntegerDigits="15" value="${gamPrtFcltyRentMngtInfo.grRdcxptFee}" /> 원
+                        	<fmt:formatNumber type="number" maxIntegerDigits="15" value="${gamTestPrtFcltyRentMngtInfo.grRdcxptFee}" /> 원
                         </td>
                      </tr>
 					<tr>

@@ -7,6 +7,8 @@
     <sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/cmmn/fclty/GamNticRequestMngtDao_SQL_Oracle.xml"/>
     <sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/cmmn/fclty/GamEApprovalRequestDao_SQL_oracle.xml"/>
     <sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/cmmn/fclty/GamAssetsUsePermMngtDao_SQL_Oracle.xml" />
+    <sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/cmmn/fclty/GamTestNticRequestMngtDao_SQL_Oracle.xml"/>
+    <sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/cmmn/fclty/GamTestAssetsUsePermMngtDao_SQL_Oracle.xml" />
     <sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/eap/EapGwCall_fwd_SQL.xml"/>
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/cmmn/sms/GamSmsMngtDao_SQL_oracle.xml" />
     <sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/maps/GamMapsAssetCodeMngtDao_SQL_oracle.xml"/>
