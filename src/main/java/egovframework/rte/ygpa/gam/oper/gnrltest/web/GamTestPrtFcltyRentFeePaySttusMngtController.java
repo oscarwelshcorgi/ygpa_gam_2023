@@ -619,7 +619,7 @@ public class GamTestPrtFcltyRentFeePaySttusMngtController {
      */
     @RequestMapping(value="/oper/gnrltest/printPrtFcltyRentFeePayNotice.do")
     String printAssetRentFeePayNotice(@RequestParam Map<String, Object> approvalOpt, ModelMap model) throws Exception {
-    	String report = "ygpa/gam/oper/gnrltest/GamTestPrtFcltyPrintNoticeIssue";
+    	String report = "ygpa/gam/oper/gnrltest/GamTestPrtfcltyPrintNoticeIssue";
     	model.addAttribute("searchOpt", approvalOpt);
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -640,7 +640,7 @@ public class GamTestPrtFcltyRentFeePaySttusMngtController {
 
     		if("11076".equals(loginVo.getEmplNo()) || "14010".equals(loginVo.getEmplNo())) {
 //    			log.debug("new paper selected");
-    			report = "ygpa/gam/oper/gnrltest/GamTestPrtFcltyPrintNoticeIssue2";	// 신규 고지서
+    			report = "ygpa/gam/oper/gnrltest/GamTestPrtfcltyPrintNoticeIssue2";	// 신규 고지서
     		}
 //    		model.addAttribute("emplyrNo", loginVo.getEmplNo());
 
@@ -662,7 +662,7 @@ public class GamTestPrtFcltyRentFeePaySttusMngtController {
      */
     @RequestMapping(value="/oper/gnrltest/printPrtFcltyRentFeePayNotice2.do")
     String printAssetRentFeePayNotice2(@RequestParam Map<String, Object> approvalOpt, ModelMap model) throws Exception {
-    	String report = "ygpa/gam/oper/gnrltest/GamTestPrtFcltyPrintNoticeIssue";
+    	String report = "ygpa/gam/oper/gnrltest/GamTestPrtfcltyPrintNoticeIssue";
     	model.addAttribute("searchOpt", approvalOpt);
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -677,7 +677,7 @@ public class GamTestPrtFcltyRentFeePaySttusMngtController {
 
     		if("11076".equals(loginVo.getEmplNo()) || "14010".equals(loginVo.getEmplNo())) {
 //    			log.debug("new paper selected");
-    			report = "ygpa/gam/oper/gnrltest/GamTestPrtFcltyPrintNoticeIssue2";	// 신규 고지서
+    			report = "ygpa/gam/oper/gnrltest/GamTestPrtfcltyPrintNoticeIssue2";	// 신규 고지서
     		}
 
 //    		model.addAttribute("emplyrNo", loginVo.getEmplNo());

@@ -1109,8 +1109,8 @@ public class GamTestPrtFcltyRentFeeMngtController {
 	     */
 	    @RequestMapping(value="/oper/gnrltest/printRentFeeNotice.do")
 	    String printRentFeeNotice(GamTestPrtFcltyRentFeeMngtVO approvalOpt, ModelMap model) throws Exception {
-	    	String report = "ygpa/gam/oper/gnrltest/GamTestPrtFcltyPrintNoticeIssue"; //"ygpa/gam/oper/gnrl/GamPrtfcltyPrintNoticeIssue";
-	    	
+	    	String report = "ygpa/gam/oper/gnrltest/GamTestPrtfcltyPrintNoticeIssue"; //"ygpa/gam/oper/gnrltest/GamTestPrtFcltyPrintNoticeIssue";
+	
 	    	model.addAttribute("searchOpt", approvalOpt);
 
 	    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -1131,7 +1131,7 @@ public class GamTestPrtFcltyRentFeeMngtController {
 	    		}
 	    		if("ORGNZT_0000000000007".equals(loginVo.getOrgnztId()) || "14010".equals(loginVo.getEmplNo())) {
 //	    			log.debug("new paper selected");
-	    			report = "ygpa/gam/oper/gnrltest/GamTestPrtFcltyPrintNoticeIssue2";	// 신규 고지서
+	    			report = "ygpa/gam/oper/gnrltest/GamTestPrtfcltyPrintNoticeIssue2";	// 신규 고지서
 	    		}
 //	    		model.addAttribute("emplyrNo", loginVo.getEmplNo());
 
