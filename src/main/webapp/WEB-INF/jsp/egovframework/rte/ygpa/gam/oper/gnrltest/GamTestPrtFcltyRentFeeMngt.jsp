@@ -621,7 +621,7 @@ GamAssetRentFeeMngtModule.prototype.cancelSave = function() {
             			nticVo:{ prtAtCode: rows[0].prtAtCode, mngYear: rows[0].mngYear, mngNo: rows[0].mngNo, mngCnt: rows[0].mngCnt, nticCnt: rows[0].mngCnt }
             	};
             }
-       	 	EMD.util.create_window('gamPrtFcltyRentFeePaySttusMngt', '항만시설납부현황관리', '/oper/gnrltest/gamPrtFcltyRentFeePaySttusMngt.do', null, opts);
+       	 	EMD.util.create_window('gamTestPrtFcltyRentFeePaySttusMngt', '항만시설납부현황관리', '/oper/gnrltest/gamTestPrtFcltyRentFeePaySttusMngt.do', null, opts);
         	break;
         case 'btnPrtFcltyUseDetail': //고지상세
         	var row = this.$('#assetRentFeeList').selectedRows()[0];
@@ -634,7 +634,7 @@ GamAssetRentFeeMngtModule.prototype.cancelSave = function() {
 	               			mngCnt: row.mngCnt,
         				}
         	};
-       	 	EMD.util.create_window('gamPrtFcltyRentMngt', '항만시설사용목록관리', '/oper/gnrltest/gamPrtFcltyRentMngt.do', null, opt);
+       	 	EMD.util.create_window('gamTestPrtFcltyRentMngt', '항만시설사용목록관리', '/oper/gnrltest/gamTestPrtFcltyRentMngt.do', null, opt);
 			break;
     }
 };
