@@ -97,6 +97,7 @@
 						                  where D.PRT_AT_CODE = A.PRT_AT_CODE
 						                    AND D.MNG_YEAR    = A.MNG_YEAR
 						                    AND D.MNG_CNT     = A.MNG_CNT
+						                    AND D.MNG_NO      = A.MNG_NO		
 						                    AND ROWNUM = 1
 						             ) GIS_ASSETS
                                   , (select GIS_ASSETS_NM GIS_ASSETS_NM
@@ -107,6 +108,7 @@
 						                    AND D.PRT_AT_CODE = A.PRT_AT_CODE
 						                    AND D.MNG_YEAR    = A.MNG_YEAR
 						                    AND D.MNG_CNT     = A.MNG_CNT
+						                    AND D.MNG_NO      = A.MNG_NO
 						                    AND ROWNUM = 1
 						             ) GIS_ASSETS_NM
                              FROM ASSETS_RENT_F A

@@ -56,6 +56,18 @@
 		<result property="mngYear" column="MNG_YEAR" columnIndex="31"/>
 		<result property="mngNo" column="MNG_NO" columnIndex="32"/>
 		<result property="mngCnt" column="MNG_CNT" columnIndex="33"/>
+		<result property="gisAssets" column="GIS_ASSETS" columnIndex="34"/>
+		<result property="gisAssetsNm" column="GIS_ASSETS_NM" columnIndex="35"/>
+		<result property="gisAssetsLocplc" column="GIS_ASSETS_NM" columnIndex="36"/>
+		
+		<result property="olnlp" column="OLNLP" columnIndex="37"/>
+		<result property="usageAr" column="USAGE_AR" columnIndex="38"/>
+		<result property="usagePd" column="USAGE_PD" columnIndex="39"/>
+		
+
+                    
+                    
+		
     </resultMap>
 
 
@@ -98,7 +110,13 @@
                    	S.GR_USAGE_PD_FROM,
                    	S.GR_USAGE_PD_TO,
                    	S.PRMISN_DT,
-      				S.ADIT_NTIC_YN
+      				S.ADIT_NTIC_YN,
+      				S.GIS_ASSETS,
+                    S.GIS_ASSETS_NM,
+                    S.GIS_ASSETS_LOCPLC,
+                    S.OLNLP,
+                    S.USAGE_AR,
+                    S.USAGE_PD
                      FROM (
                            SELECT
 							         L.NTIC_CNT
@@ -116,7 +134,6 @@
 							       , L.SANCTNER_EMPL_NO
 							       , TO_CHAR(L.SANCTN_DT) SANCTN_DT
 							       , GAM_GETCODENAME('GAM046', L.SANCTN_STTUS) SANCTN_STTUS_NM
-							       , NVL(L.OLNLP,0) OLNLP
 							       , NVL(L.FEE,0) FEE
 							       , L.VAT_YN
 							       , NVL(L.VAT,0) VAT
@@ -151,7 +168,26 @@
     						       , TO_CHAR(A.PRMISN_DT, 'YYYY-MM-DD') PRMISN_DT
     						       , NVL(A.GR_RDCXPT_FEE,0) GR_RDCXPT_FEE
     						       , ADIT_NTIC_YN
-							  FROM ASSETS_RENT_F A,
+    						       , A.GIS_ASSETS_PRT_AT_CODE||'-'||A.GIS_ASSETS_CD||'-'||A.GIS_ASSETS_SUB_CD AS GIS_ASSETS
+									,(select GIS_ASSETS_NM GIS_ASSETS_NM
+										from GIS_ASSETS_CD_F G
+										where G.GIS_ASSETS_PRT_AT_CODE = A.GIS_ASSETS_PRT_AT_CODE
+										AND G.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD
+										AND G.GIS_ASSETS_CD = A.GIS_ASSETS_CD
+										AND ROWNUM = 1) AS GIS_ASSETS_NM
+
+									,(select GIS_ASSETS_LOCPLC||' '||gis_assets_lnm||nvl2(gis_assets_lnm_sub,'-'||gis_assets_lnm_sub,null)
+										from GIS_ASSETS_CD_F G
+										where G.GIS_ASSETS_PRT_AT_CODE = A.GIS_ASSETS_PRT_AT_CODE
+										AND G.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD
+										AND G.GIS_ASSETS_CD = A.GIS_ASSETS_CD
+
+										AND ROWNUM = 1) AS GIS_ASSETS_LOCPLC
+									, NVL(A.OLNLP, 0) OLNLP
+									, A.USAGE_AR
+									, A.USAGE_PD_FROM||'~'||A.USAGE_PD_TO AS USAGE_PD
+									
+							  FROM (SELECT A.*, ARD.GIS_ASSETS_PRT_AT_CODE, ARD.GIS_ASSETS_CD, ARD.GIS_ASSETS_SUB_CD, ARD.OLNLP, ARD.USAGE_AR, ARD.USAGE_PD_FROM, ARD.USAGE_PD_TO FROM ASSETS_RENT_F A LEFT OUTER JOIN ASSETS_RENT_DETAIL_F ARD ON A.PRT_AT_CODE=ARD.PRT_AT_CODE AND A.MNG_YEAR=ARD.MNG_YEAR AND A.MNG_CNT=ARD.MNG_CNT AND A.MNG_NO=ARD.MNG_NO AND ARD.ASSETS_USAGE_SEQ=1) A,
 							       LEV_REQEST_F L
 							  WHERE 1 = 1
 								   AND A.PRT_AT_CODE = L.PRT_AT_CODE

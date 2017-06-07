@@ -38,6 +38,14 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
         colModel : [
 //					{display:'항코드', name:'prtAtCode',width:40, sortable:false,align:'center'},
 //                    {display:'항코드명', name:'prtAtCodeNm',width:55, sortable:false,align:'center'},
+                    {display:'자산번호', name:'gisAssets',width:96, sortable:false,align:'center'},
+                    {display:'자산명', name:'gisAssetsNm',width:96, sortable:false,align:'center'},
+                    
+                    {display:'공시지가', name:'olnlp',width:70, sortable:false,align:'right',displayFormat: 'number'},
+                    {display:'사용면적', name:'usageAr',width:70, sortable:false,align:'right',displayFormat: 'number'},
+                    {display:'사용기간', name:'usagePd',width:120, sortable:false,align:'center'},
+                    
+                    {display:'주소', name:'gisAssetsLocplc',width:96, sortable:false,align:'center'},
                     {display:'관리번호', name:'rentMngNo',width:96, sortable:false,align:'center'},
                     {display:'횟수', name:'nticCnt',width:40, sortable:false,align:'center'},
                     {display:'고지업체명', name:'entrpsNm',width:140, sortable:false,align:'left'},

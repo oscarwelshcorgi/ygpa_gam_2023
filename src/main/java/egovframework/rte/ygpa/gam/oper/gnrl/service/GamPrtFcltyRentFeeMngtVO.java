@@ -112,7 +112,86 @@ public class GamPrtFcltyRentFeeMngtVO extends ComDefaultVO {
     private String intrAmnt;
 
 
+    private String gisAssets;
+    private String gisAssetsNm;
+    private String gisAssetsLocplc;
+    
+    private String usageAr;
+    private String usagePd;
+    
+    
+    
     /**
+	 * @return the usageAr
+	 */
+	public String getUsageAr() {
+		return usageAr;
+	}
+
+	/**
+	 * @param usageAr the usageAr to set
+	 */
+	public void setUsageAr(String usageAr) {
+		this.usageAr = usageAr;
+	}
+
+	/**
+	 * @return the usagePd
+	 */
+	public String getUsagePd() {
+		return usagePd;
+	}
+
+	/**
+	 * @param usagePd the usagePd to set
+	 */
+	public void setUsagePd(String usagePd) {
+		this.usagePd = usagePd;
+	}
+
+	/**
+	 * @return the gisAssets
+	 */
+	public String getGisAssets() {
+		return gisAssets;
+	}
+
+	/**
+	 * @param gisAssets the gisAssets to set
+	 */
+	public void setGisAssets(String gisAssets) {
+		this.gisAssets = gisAssets;
+	}
+
+	/**
+	 * @return the gisAssetsNm
+	 */
+	public String getGisAssetsNm() {
+		return gisAssetsNm;
+	}
+
+	/**
+	 * @param gisAssetsNm the gisAssetsNm to set
+	 */
+	public void setGisAssetsNm(String gisAssetsNm) {
+		this.gisAssetsNm = gisAssetsNm;
+	}
+
+	/**
+	 * @return the gisAssetsLocplc
+	 */
+	public String getGisAssetsLocplc() {
+		return gisAssetsLocplc;
+	}
+
+	/**
+	 * @param gisAssetsLocplc the gisAssetsLocplc to set
+	 */
+	public void setGisAssetsLocplc(String gisAssetsLocplc) {
+		this.gisAssetsLocplc = gisAssetsLocplc;
+	}
+
+	/**
 	 * @return the frstPayTmlmt
 	 */
 	public String getFrstPayTmlmt() {

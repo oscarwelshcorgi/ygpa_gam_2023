@@ -38,7 +38,7 @@ GamAssetLndValInqireModule.prototype.loadComplete = function() {
      colModel : [
                  {display:'항코드', name:'gisAssetsPrtAtCode',width:40, sortable:false,align:'center'},
 	             {display:'항코드명', name:'gisAssetsPrtAtCodeNm',width:55, sortable:false,align:'center'},
-                 {display:'자산코드', name:'gisAssetsCode',width:50, sortable:false,align:'center'},
+                 {display:'자산코드', name:'gisAssetsCdStr',width:50, sortable:false,align:'center'},
                  {display:'자산명', name:'gisAssetsNm',width:150, sortable:false,align:'left'},
                  {display:'자산소재지', name:'gisAssetsLocplc',width:150, sortable:false,align:'left'},
                  {display:'지번', name:'gisAssetsLnmCode',width:60, sortable:false,align:'center'},
@@ -60,8 +60,8 @@ GamAssetLndValInqireModule.prototype.loadComplete = function() {
     		this.gisAssetsCode = this.gisAssetsCd+"-"+this.gisAssetsSubCd;
     		this.gisAssetsLnmCode = this.gisAssetsLnm;
     		if(this.gisAssetsLnm!=null && this.gisAssetsLnmSub) this.gisAssetsLnmCode+="-"+this.gisAssetsLnmSub;
-    	}); 
-    	
+    	});
+
         module.$('#sumCnt').val(data.sumCnt);
         module.$('#sumArOlnlp').val(data.sumArOlnlp);
         module.$('#sumGisAssetsAcqPri').val(data.sumGisAssetsAcqPri);
