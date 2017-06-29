@@ -35,6 +35,7 @@ SELECT * FROM ( SELECT rownum rn, TB.* FROM (
         MNG_FCLTY_CD "mngFcltyCd"
     FROM    COMTNEMPLYRINFO
         WHERE 1=1
+          AND EMPLYR_STTUS_CODE <> 'D'
         <isNotEqual prepend="AND" property="sbscrbSttus" compareValue="0">
             EMPLYR_STTUS_CODE = #sbscrbSttus#
         </isNotEqual>
