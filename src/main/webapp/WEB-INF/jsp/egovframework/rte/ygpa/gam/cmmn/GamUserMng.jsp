@@ -53,6 +53,8 @@ GamUserMngListModule.prototype.loadComplete = function() {
 	});
 
 	this.$('#userMngList').on("onItemSelected", function(event, module, row) {
+		var _uniqId = row["uniqId"];
+		module.$("#uniqId").val(_uniqId);
 		module._mode="modify";
 		module.setButtonState();
 	});
