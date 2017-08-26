@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="ygpa.gam.oper.ocr">
+	
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    
+	<typeAlias alias="gamOcrRecvInquireVO" type="egovframework.rte.ygpa.gam.oper.ocr.service.GamOcrRecvInquireVO"/>
+		
+	<select id="gamOcrRecvInquireDao.selectOcrRecvInquireList_D" parameterClass="gamOcrRecvInquireVO" resultClass="egovMap">
+		SELECT A.*
+        FROM (
+        	SELECT  ROWNUM RNUM, S.*
+            FROM (
+				SELECT 
+					PRT_AT_CODE,
+		       		FEE_TP,
+		       		FISCAL_YR,
+		       		BILL_NO,
+		       		DLY_SER_NO,
+		       		TO_CHAR(BILL_DT,'YYYY-MM-DD') BILL_DT,
+		       		TO_CHAR(OCR_DT,'YYYY-MM-DD') OCR_DT,
+		       		TO_CHAR(DUE_DATE,'YYYY-MM-DD') DUE_DATE,
+		       		TO_CHAR(RCVD_DT,'YYYY-MM-DD') RCVD_DT,
+		       		AGENT_NAME,
+		       		RCVD_AMNT,
+		       		COMMISSION,
+		       		CUSTOMER_NUM,
+		       		REV_RESULT,
+		       		REV_RESULT_NM,
+		       		RET_MSG,
+		       		'' VACCT_NO,
+		       		'' RCVD_TP,
+		       		'' GUBUN,
+		       		'' FILE_GUBUN
+				FROM 
+					( 
+						SELECT 
+							PRT_AT_CODE,
+			               	FEE_TP,
+			               	FISCAL_YR,
+			               	BILL_NO,
+			               	DLY_SER_NO,
+			               	CASE
+			                	WHEN SIGN( NVL(TO_NUMBER(DLY_SER_NO), 0) - 0 ) = 0
+			                    	THEN
+			                        	(
+			                               	SELECT BILL_DT
+			                               	FROM    GAM.REV_COLL_F
+			                               	WHERE   PRT_AT_CODE = A.PRT_AT_CODE
+			                               	AND     FEE_TP      = A.FEE_TP
+			                               	AND     FISCAL_YR   = A.FISCAL_YR
+			                               	AND     BILL_NO     = A.BILL_NO
+			                            )
+			                    	ELSE
+			                            (
+			                        		SELECT DLY_BILL_DT
+			                             	FROM    GAM.UNPAID_F
+			                             	WHERE   PRT_AT_CODE = A.PRT_AT_CODE
+			                             	AND     FEE_TP      = A.FEE_TP
+			                             	AND     FISCAL_YR   = A.FISCAL_YR
+			                             	AND     BILL_NO     = A.BILL_NO
+			                             	AND     DLY_SER_NO  = A.DLY_SER_NO
+			                            )
+			               	END BILL_DT,
+			               	ICHE_DT OCR_DT,
+			               	RECEIVE_DT RCVD_DT,
+			               	(
+			               		SELECT AGENT_NAME
+			               		FROM    GAM.REV_COLL_F
+			               		WHERE   PRT_AT_CODE = A.PRT_AT_CODE
+			               		AND     FEE_TP      = A.FEE_TP
+			               		AND     FISCAL_YR   = A.FISCAL_YR
+			               		AND     BILL_NO     = A.BILL_NO
+			               	) AGENT_NAME,
+			               	CASE
+			                	WHEN SIGN(NVL(TO_NUMBER(DLY_SER_NO), 0) - 0) = 0
+			                    	THEN
+			                        	(
+			                        		SELECT DUE_DATE
+			                               	FROM    GAM.REV_COLL_F
+			                               	WHERE   PRT_AT_CODE = A.PRT_AT_CODE
+			                               	AND     FEE_TP      = A.FEE_TP
+			                               	AND     FISCAL_YR   = A.FISCAL_YR
+			                               	AND     BILL_NO     = A.BILL_NO
+			                            )
+			                       	ELSE
+			                        	(
+			                        		SELECT DLY_DUE_DT
+			                             	FROM    GAM.UNPAID_F
+			                             	WHERE   PRT_AT_CODE = A.PRT_AT_CODE
+			                             	AND     FEE_TP      = A.FEE_TP
+			                             	AND     FISCAL_YR   = A.FISCAL_YR
+			                             	AND     BILL_NO     = A.BILL_NO
+			                             	AND     DLY_SER_NO  = A.DLY_SER_NO
+			                         	)
+			               	END DUE_DATE,
+			               	AMOUNT RCVD_AMNT,
+			               	COMMISSION,
+			               	CUSTOMER_NUM,
+			               	REV_RESULT,
+			               	DECODE(REV_RESULT, '1','수납','2','수납오류',
+			               				'3','수납금액 불일치','4','수납자료 미존재','5','수납고지서 미출력',
+			               				'6','연체수납','7','연체수납오류','8','연체수납 불일치',
+			               				'9','연체수납 미존재','A','현체수납고지서 미출력','B','이중수납',
+			               				'C','연체이중수납') REV_RESULT_NM,
+			               	RET_MSG
+			       		FROM    
+			       			(
+			       				SELECT 
+			       					CUSTOMER_NUM,
+			                       	SUBSTR(TRIM(LEADING '0' FROM CUSTOMER_NUM), 1,3) PRT_AT_CODE,
+			                       	CHR(SUBSTR(TRIM(LEADING '0' FROM CUSTOMER_NUM), 4,2))
+			                               || SUBSTR(TRIM(LEADING '0' FROM CUSTOMER_NUM), 6,1) FEE_TP,
+			                       	SUBSTR(TRIM(LEADING '0' FROM CUSTOMER_NUM), 7,4) FISCAL_YR,
+			                       	SUBSTR(TRIM(LEADING '0' FROM CUSTOMER_NUM), 11,6) BILL_NO,
+			                       	DECODE(SIGN(LENGTH(TRIM(LEADING '0' FROM CUSTOMER_NUM)) - 18 ), -1, NULL, 
+			                       		SUBSTR(TRIM(LEADING '0' FROM CUSTOMER_NUM), 17,2)) DLY_SER_NO,
+			                       	ICHE_DT,
+			                       	RECEIVE_DT,
+			                       	AMOUNT,
+			                       	COMMISSION,
+			                      	RET_MSG,
+			                       	REV_RESULT
+			               		FROM 
+			               			PAYEOSU.OCR_RESULT@YGPA_PORTMIS B
+			               		WHERE   
+			               			1=1
+			               			<isNotEmpty property="sRcvdPdFrom">
+			               				<![CDATA[ AND     RECEIVE_DT >= TO_DATE(#sRcvdPdFrom#,'YYYY-MM-DD') ]]>
+			               			</isNotEmpty>
+			               			<isNotEmpty property="sRcvdPdTo">
+			               				<![CDATA[ AND     RECEIVE_DT < TO_DATE(#sRcvdPdTo#,'YYYY-MM-DD') + 1 ]]>
+			               			</isNotEmpty>
+			               			<isNotEmpty property="sOcrPdFrom">
+			               				<![CDATA[ AND     ICHE_DT >= TO_DATE(#sOcrPdFrom#,'YYYY-MM-DD') ]]>
+			               			</isNotEmpty>
+			               			<isNotEmpty property="sOcrPdTo">
+			               				<![CDATA[ AND     ICHE_DT < TO_DATE(#sOcrPdTo#,'YYYY-MM-DD') + 1 ]]>
+			               			</isNotEmpty>
+		               				AND     SYS_GUBUN='G'
+		               		) A
+	       				)
+					WHERE  
+						1=1
+						<isNotEmpty property="sPrtAtCode">
+							AND PRT_AT_CODE = #sPrtAtCode#
+						</isNotEmpty>
+						<isNotEmpty property="sFiscalYr">
+							AND FISCAL_YR = #sFiscalYr#
+						</isNotEmpty>
+						<isNotEmpty property="sFeeTp">
+							AND FEE_TP = #sFeeTp#
+						</isNotEmpty>
+						<isNotEmpty property="sBillNo">
+							AND BILL_NO = #sBillNo#
+						</isNotEmpty>
+				) S
+     		) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+	</select>
+
+	<select id="gamOcrRecvInquireDao.selectOcrRecvInquireListCnt_S" parameterClass="gamOcrRecvInquireVO" resultClass="int">
+				SELECT 
+					COUNT(*)
+				FROM 
+					( 
+						SELECT 
+							PRT_AT_CODE,
+			               	FEE_TP,
+			               	FISCAL_YR,
+			               	BILL_NO,
+			               	DLY_SER_NO,
+			               	CASE
+			                	WHEN SIGN( NVL(TO_NUMBER(DLY_SER_NO), 0) - 0 ) = 0
+			                    	THEN
+			                        	(
+			                               	SELECT BILL_DT
+			                               	FROM    GAM.REV_COLL_F
+			                               	WHERE   PRT_AT_CODE = A.PRT_AT_CODE
+			                               	AND     FEE_TP      = A.FEE_TP
+			                               	AND     FISCAL_YR   = A.FISCAL_YR
+			                               	AND     BILL_NO     = A.BILL_NO
+			                            )
+			                    	ELSE
+			                            (
+			                        		SELECT DLY_BILL_DT
+			                             	FROM    GAM.UNPAID_F
+			                             	WHERE   PRT_AT_CODE = A.PRT_AT_CODE
+			                             	AND     FEE_TP      = A.FEE_TP
+			                             	AND     FISCAL_YR   = A.FISCAL_YR
+			                             	AND     BILL_NO     = A.BILL_NO
+			                             	AND     DLY_SER_NO  = A.DLY_SER_NO
+			                            )
+			               	END BILL_DT,
+			               	ICHE_DT OCR_DT,
+			               	RECEIVE_DT RCVD_DT,
+			               	(
+			               		SELECT AGENT_NAME
+			               		FROM    GAM.REV_COLL_F
+			               		WHERE   PRT_AT_CODE = A.PRT_AT_CODE
+			               		AND     FEE_TP      = A.FEE_TP
+			               		AND     FISCAL_YR   = A.FISCAL_YR
+			               		AND     BILL_NO     = A.BILL_NO
+			               	) AGENT_NAME,
+			               	CASE
+			                	WHEN SIGN(NVL(TO_NUMBER(DLY_SER_NO), 0) - 0) = 0
+			                    	THEN
+			                        	(
+			                        		SELECT DUE_DATE
+			                               	FROM    GAM.REV_COLL_F
+			                               	WHERE   PRT_AT_CODE = A.PRT_AT_CODE
+			                               	AND     FEE_TP      = A.FEE_TP
+			                               	AND     FISCAL_YR   = A.FISCAL_YR
+			                               	AND     BILL_NO     = A.BILL_NO
+			                            )
+			                       	ELSE
+			                        	(
+			                        		SELECT DLY_DUE_DT
+			                             	FROM    GAM.UNPAID_F
+			                             	WHERE   PRT_AT_CODE = A.PRT_AT_CODE
+			                             	AND     FEE_TP      = A.FEE_TP
+			                             	AND     FISCAL_YR   = A.FISCAL_YR
+			                             	AND     BILL_NO     = A.BILL_NO
+			                             	AND     DLY_SER_NO  = A.DLY_SER_NO
+			                         	)
+			               	END DUE_DATE,
+			               	AMOUNT RCVD_AMNT,
+			               	COMMISSION,
+			               	CUSTOMER_NUM,
+			               	REV_RESULT,
+			               	DECODE(REV_RESULT, '1','수납','2','수납오류',
+			               				'3','수납금액 불일치','4','수납자료 미존재','5','수납고지서 미출력',
+			               				'6','연체수납','7','연체수납오류','8','연체수납 불일치',
+			               				'9','연체수납 미존재','A','현체수납고지서 미출력','B','이중수납',
+			               				'C','연체이중수납') REV_RESULT_NM,
+			               	RET_MSG
+			       		FROM    
+			       			(
+			       				SELECT 
+			       					CUSTOMER_NUM,
+			                       	SUBSTR(TRIM(LEADING '0' FROM CUSTOMER_NUM), 1,3) PRT_AT_CODE,
+			                       	CHR(SUBSTR(TRIM(LEADING '0' FROM CUSTOMER_NUM), 4,2))
+			                               || SUBSTR(TRIM(LEADING '0' FROM CUSTOMER_NUM), 6,1) FEE_TP,
+			                       	SUBSTR(TRIM(LEADING '0' FROM CUSTOMER_NUM), 7,4) FISCAL_YR,
+			                       	SUBSTR(TRIM(LEADING '0' FROM CUSTOMER_NUM), 11,6) BILL_NO,
+			                       	DECODE(SIGN(LENGTH(TRIM(LEADING '0' FROM CUSTOMER_NUM)) - 18 ), -1, NULL, 
+			                       		SUBSTR(TRIM(LEADING '0' FROM CUSTOMER_NUM), 17,2)) DLY_SER_NO,
+			                       	ICHE_DT,
+			                       	RECEIVE_DT,
+			                       	AMOUNT,
+			                       	COMMISSION,
+			                      	RET_MSG,
+			                       	REV_RESULT
+			               		FROM 
+			               			PAYEOSU.OCR_RESULT@YGPA_PORTMIS B
+			               		WHERE   
+			               			1=1
+			               			<isNotEmpty property="sRcvdPdFrom">
+			               				<![CDATA[ AND     RECEIVE_DT >= TO_DATE(#sRcvdPdFrom#,'YYYY-MM-DD') ]]>
+			               			</isNotEmpty>
+			               			<isNotEmpty property="sRcvdPdTo">
+			               				<![CDATA[ AND     RECEIVE_DT < TO_DATE(#sRcvdPdTo#,'YYYY-MM-DD') + 1 ]]>
+			               			</isNotEmpty>
+			               			<isNotEmpty property="sOcrPdFrom">
+			               				<![CDATA[ AND     ICHE_DT >= TO_DATE(#sOcrPdFrom#,'YYYY-MM-DD') ]]>
+			               			</isNotEmpty>
+			               			<isNotEmpty property="sOcrPdTo">
+			               				<![CDATA[ AND     ICHE_DT < TO_DATE(#sOcrPdTo#,'YYYY-MM-DD') + 1 ]]>
+			               			</isNotEmpty>
+		               				AND     SYS_GUBUN='G'
+		               		) A
+	       				)
+					WHERE  
+						1=1
+						AND PRT_AT_CODE LIKE NVL('621', '%')
+	</select>
+	 
+</sqlMap>

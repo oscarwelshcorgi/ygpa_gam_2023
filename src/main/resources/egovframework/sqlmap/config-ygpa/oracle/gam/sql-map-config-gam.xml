@@ -146,6 +146,8 @@
     <sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/oper/center/GamMarineCenterRentArStsReportDao_SQL_oracle.xml"/>
     <sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/oper/center/GamMarineCenterPopupInqireDao_SQL_oracle.xml"/>
 
+    <sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/oper/ocr/GamOcrRecvInquireDao_SQL_oracle.xml"/>
+
     <sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/port_mis/GamFcltyUseSttusInqireDao_SQL_oracle.xml"/>
     <sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/port_mis/GamCustTpSalesSttutsCreatDao_SQL_oracle.xml"/>
 
