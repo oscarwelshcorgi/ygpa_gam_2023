@@ -48,10 +48,13 @@ public class GamOcrRecvInquireVO extends ComDefaultVO{
 	private String	gubun;
 	private String 	fileGubun;
 	
-	private String 	sRcvdPdFrom;
+/*	private String 	sRcvdPdFrom;
 	private String 	sRcvdPdTo;
 	private String	sOcrPdFrom;
 	private String	sOcrPdTo;
+*/
+	private String	sFrom;
+	private String	sTo;
 	private String 	sPrtAtCode;
 	private String	sFiscalYr;
 	private String	sFeeTp;
@@ -297,54 +300,6 @@ public class GamOcrRecvInquireVO extends ComDefaultVO{
 		this.fileGubun = fileGubun;
 	}
 	/**
-	 * @return the sRcvdPdFrom
-	 */
-	public String getsRcvdPdFrom() {
-		return sRcvdPdFrom;
-	}
-	/**
-	 * @param sRcvdPdFrom the sRcvdPdFrom to set
-	 */
-	public void setsRcvdPdFrom(String sRcvdPdFrom) {
-		this.sRcvdPdFrom = sRcvdPdFrom;
-	}
-	/**
-	 * @return the sRcvdPdTo
-	 */
-	public String getsRcvdPdTo() {
-		return sRcvdPdTo;
-	}
-	/**
-	 * @param sRcvdPdTo the sRcvdPdTo to set
-	 */
-	public void setsRcvdPdTo(String sRcvdPdTo) {
-		this.sRcvdPdTo = sRcvdPdTo;
-	}
-	/**
-	 * @return the sOcrPdFrom
-	 */
-	public String getsOcrPdFrom() {
-		return sOcrPdFrom;
-	}
-	/**
-	 * @param sOcrPdFrom the sOcrPdFrom to set
-	 */
-	public void setsOcrPdFrom(String sOcrPdFrom) {
-		this.sOcrPdFrom = sOcrPdFrom;
-	}
-	/**
-	 * @return the sOcrPdTo
-	 */
-	public String getsOcrPdTo() {
-		return sOcrPdTo;
-	}
-	/**
-	 * @param sOcrPdTo the sOcrPdTo to set
-	 */
-	public void setsOcrPdTo(String sOcrPdTo) {
-		this.sOcrPdTo = sOcrPdTo;
-	}
-	/**
 	 * @return the sPrtAtCode
 	 */
 	public String getsPrtAtCode() {
@@ -397,5 +352,29 @@ public class GamOcrRecvInquireVO extends ComDefaultVO{
 	 */
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+	/**
+	 * @return the sTo
+	 */
+	public String getsTo() {
+		return sTo;
+	}
+	/**
+	 * @param sTo the sTo to set
+	 */
+	public void setsTo(String sTo) {
+		this.sTo = sTo;
+	}
+	/**
+	 * @return the sFrom
+	 */
+	public String getsFrom() {
+		return sFrom;
+	}
+	/**
+	 * @param sFrom the sFrom to set
+	 */
+	public void setsFrom(String sFrom) {
+		this.sFrom = sFrom;
 	}
 }

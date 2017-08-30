@@ -52,8 +52,8 @@ GamOcrRecvInquireModule.prototype.loadComplete = function() {
 					{display:'거래처', name:'agentName',width:150, sortable:false,align:'center'},
 					{display:'납부기한', name:'dueDate',width:80, sortable:false,align:'center'},
 					{display:'수납일자', name:'rcvdDt',width:80, sortable:false,align:'center'},
-					{display:'금액', name:'grFee',width:100, sortable:false,align:'right', displayFormat: 'number'},
-					{display:'수수료', name:'grFee',width:50, sortable:false,align:'right', displayFormat: 'number'},
+					{display:'금액', name:'rcvdAmnt',width:100, sortable:false,align:'right', displayFormat: 'number'},
+					{display:'수수료', name:'commission',width:50, sortable:false,align:'right', displayFormat: 'number'},
 					{display:'세입처리결과', name:'revResultNm',width:100, sortable:false,align:'center'},
 					{display:'수납처리결과', name:'retMsg',width:390, sortable:false,align:'center'}
                     ],
@@ -64,8 +64,8 @@ GamOcrRecvInquireModule.prototype.loadComplete = function() {
 	   	}        
     });
 
-    this.$('#sRcvdPdFrom').val(EMD.util.getDate());
-    this.$('#sRcvdPdTo').val(EMD.util.getDate());
+    this.$('#sFrom').val(EMD.util.getDate());
+    this.$('#sTo').val(EMD.util.getDate());
     	        
     this.loadData();
 };
@@ -112,37 +112,34 @@ var module_instance = new GamOcrRecvInquireModule();
                 <table style="width:100%;" class="searchPanel">
                     <tbody>
                         <tr>
-                            <th>수납기간</th>
-                            <td width="300px">
-                              <input id="sRcvdPdFrom" type="text" class="emdcal"
-                                size="8" readonly> ~ <input id="sRcvdPdTo" type="text"
-                                class="emdcal" size="8" readonly>
+                            <th>구분</th>
+                            <td style="width: 350px;">
+                            	<select id="searchCondition">
+                                    <option value="sRcvdPd" selected="selected">수납기간</option>
+                                    <option value="sOcrPd">이체일자</option>
+                                </select>
+                              <input id="sFrom" type="text" class="emdcal"
+                                size="8" > ~ <input id="sTo" type="text"
+                                class="emdcal" size="8" >
                             </td>
+                            
                             <th>항코드</th>
                             <td>
                                 <input id="sPrtAtCode" type="text" size="4" maxlength="3"/>
-                            </td>
-                            <th>회계년도</th>
-                            <td>
-                                <input id="sFiscalYr" type="text" size="4" maxlength="4"/>
-                            </td>
-                            <td rowSpan="2"><button id="btnSearch" class="submit buttonSearch">조회</button></td>
-                        </tr>
-                        <tr>
-                            <th>이체기간</th>
-                            <td>
-                              <input id="sOcrPdFrom" type="text" class="emdcal"
-                                size="8" readonly> ~ <input id="sOcrPdTo" type="text"
-                                class="emdcal" size="8" readonly>
                             </td>
                             <th>요금종류</th>
                             <td>
                                 <input id="sFeeTp" type="text" size="4" maxlength="2"/>
                             </td>
+                            <th>회계년도</th>
+                            <td>
+                                <input id="sFiscalYr" type="text" size="4" maxlength="4"/>
+                            </td>
                             <th>고지번호</th>
                             <td>
                                 <input id="sBillNo" type="text" size="6" maxlength="6"/>
                             </td>
+                            <td rowSpan="2"><button id="btnSearch" class="submit buttonSearch">조회</button></td>
                         </tr>
                     </tbody>
                 </table>

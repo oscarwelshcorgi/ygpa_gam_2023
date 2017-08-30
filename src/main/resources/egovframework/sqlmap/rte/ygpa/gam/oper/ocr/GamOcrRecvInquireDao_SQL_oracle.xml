@@ -127,18 +127,22 @@
 			               			PAYEOSU.OCR_RESULT@YGPA_PORTMIS B
 			               		WHERE   
 			               			1=1
-			               			<isNotEmpty property="sRcvdPdFrom">
-			               				<![CDATA[ AND     RECEIVE_DT >= TO_DATE(#sRcvdPdFrom#,'YYYY-MM-DD') ]]>
-			               			</isNotEmpty>
-			               			<isNotEmpty property="sRcvdPdTo">
-			               				<![CDATA[ AND     RECEIVE_DT < TO_DATE(#sRcvdPdTo#,'YYYY-MM-DD') + 1 ]]>
-			               			</isNotEmpty>
-			               			<isNotEmpty property="sOcrPdFrom">
-			               				<![CDATA[ AND     ICHE_DT >= TO_DATE(#sOcrPdFrom#,'YYYY-MM-DD') ]]>
-			               			</isNotEmpty>
-			               			<isNotEmpty property="sOcrPdTo">
-			               				<![CDATA[ AND     ICHE_DT < TO_DATE(#sOcrPdTo#,'YYYY-MM-DD') + 1 ]]>
-			               			</isNotEmpty>
+			               			<isEqual property="searchCondition" compareValue="sRcvdPd">
+				               			<isNotEmpty property="sFrom">
+				               				<![CDATA[ AND     RECEIVE_DT >= TO_DATE(#sFrom#,'YYYY-MM-DD') ]]>
+				               			</isNotEmpty>
+				               			<isNotEmpty property="sTo">
+				               				<![CDATA[ AND     RECEIVE_DT < TO_DATE(#sTo#,'YYYY-MM-DD') + 1 ]]>
+				               			</isNotEmpty>
+				               		</isEqual>
+			               			<isEqual property="searchCondition" compareValue="sOcrPd">
+				               			<isNotEmpty property="sFrom">
+				               				<![CDATA[ AND     ICHE_DT >= TO_DATE(#sFrom#,'YYYY-MM-DD') ]]>
+				               			</isNotEmpty>
+				               			<isNotEmpty property="sTo">
+				               				<![CDATA[ AND     ICHE_DT < TO_DATE(#sTo#,'YYYY-MM-DD') + 1 ]]>
+				               			</isNotEmpty>
+				               		</isEqual>
 		               				AND     SYS_GUBUN='G'
 		               		) A
 	       				)
@@ -156,6 +160,7 @@
 						<isNotEmpty property="sBillNo">
 							AND BILL_NO = #sBillNo#
 						</isNotEmpty>
+						AND 	FEE_TP NOT IN ('L0','R0')
 				) S
      		) A
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
@@ -257,24 +262,28 @@
 			               			PAYEOSU.OCR_RESULT@YGPA_PORTMIS B
 			               		WHERE   
 			               			1=1
-			               			<isNotEmpty property="sRcvdPdFrom">
-			               				<![CDATA[ AND     RECEIVE_DT >= TO_DATE(#sRcvdPdFrom#,'YYYY-MM-DD') ]]>
-			               			</isNotEmpty>
-			               			<isNotEmpty property="sRcvdPdTo">
-			               				<![CDATA[ AND     RECEIVE_DT < TO_DATE(#sRcvdPdTo#,'YYYY-MM-DD') + 1 ]]>
-			               			</isNotEmpty>
-			               			<isNotEmpty property="sOcrPdFrom">
-			               				<![CDATA[ AND     ICHE_DT >= TO_DATE(#sOcrPdFrom#,'YYYY-MM-DD') ]]>
-			               			</isNotEmpty>
-			               			<isNotEmpty property="sOcrPdTo">
-			               				<![CDATA[ AND     ICHE_DT < TO_DATE(#sOcrPdTo#,'YYYY-MM-DD') + 1 ]]>
-			               			</isNotEmpty>
+			               			<isEqual property="searchCondition" compareValue="sRcvdPd">
+				               			<isNotEmpty property="sFrom">
+				               				<![CDATA[ AND     RECEIVE_DT >= TO_DATE(#sFrom#,'YYYY-MM-DD') ]]>
+				               			</isNotEmpty>
+				               			<isNotEmpty property="sTo">
+				               				<![CDATA[ AND     RECEIVE_DT < TO_DATE(#sTo#,'YYYY-MM-DD') + 1 ]]>
+				               			</isNotEmpty>
+				               		</isEqual>
+			               			<isEqual property="searchCondition" compareValue="sOcrPd">
+				               			<isNotEmpty property="sFrom">
+				               				<![CDATA[ AND     ICHE_DT >= TO_DATE(#sFrom#,'YYYY-MM-DD') ]]>
+				               			</isNotEmpty>
+				               			<isNotEmpty property="sTo">
+				               				<![CDATA[ AND     ICHE_DT < TO_DATE(#sTo#,'YYYY-MM-DD') + 1 ]]>
+				               			</isNotEmpty>
+				               		</isEqual>
 		               				AND     SYS_GUBUN='G'
 		               		) A
 	       				)
 					WHERE  
 						1=1
-						AND PRT_AT_CODE LIKE NVL('621', '%')
+						AND 	FEE_TP NOT IN ('L0','R0')
 	</select>
 	 
 </sqlMap>
