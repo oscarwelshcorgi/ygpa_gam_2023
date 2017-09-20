@@ -137,7 +137,7 @@
     <select id="gamPrtFcltyRentMngtDao.selectPrtFcltyRentMngtList_D" parameterClass="gamPrtFcltyRentMngtVO" resultClass="egovMap">
            SELECT A.*
            FROM (
-                   SELECT  ROWNUM RNUM, S.*
+                   SELECT  ROWNUM RNUM, S.*, S.PRT_AT_CODE||' ['||S.PRT_AT_CODE_NM||']' AS PRT_AT_CODE_NM_STR
                      FROM (
                            SELECT
                                     A.PRT_AT_CODE
