@@ -197,10 +197,9 @@ GamHtldRentArrrgNticIssueModule.prototype.onCalcPay = function() {
 		}
 		supAmt = rntfee + payinstIntr;  
 		supAmt = Math.floor(supAmt*0.1) * 10;
-		//var vat = (supAmt >= 0) ? supAmt / 10 : 0;
-		var vat = Number(this.$('#vat').val());
+		var vat = (supAmt >= 0) ? supAmt / 10 : 0;
 		this.$('#supAmt').val(supAmt);
-		//this.$('#vat').val(vat);
+		this.$('#vat').val(vat);
 		this.displayArrrg(supAmt, vat);
 	} else {
 		this.$('#supAmt').val(0);

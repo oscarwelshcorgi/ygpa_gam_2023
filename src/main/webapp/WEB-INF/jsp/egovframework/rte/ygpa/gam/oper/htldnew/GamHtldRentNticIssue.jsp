@@ -73,10 +73,6 @@ GamHtldRentNticIssueModule.prototype.loadComplete = function(params) {
 		module.onCalcPay();
 	});
 
-	this.$('#vat').on('keyup', {module: this}, function(e) {
-		e.data.module.onCalcNticPay();
-	});
-	
 	if(params != null) {
 		this.$('#mngYear').val(params.searchRow.mngYear);
 		this.$('#mngNo').val(params.searchRow.mngNo);
@@ -215,14 +211,6 @@ GamHtldRentNticIssueModule.prototype.onCalcPay = function() {
 };
 
 <%--
-	onCalcNticPay - 부가세 변경시 고지금액을 계산
---%>
-GamHtldRentNticIssueModule.prototype.onCalcNticPay = function() {
-	if(this._nticIssue == 'Y') return;
-	this.$('#payAmt').val(Number(this.$('#supAmt').val()) + Number(this.$('#vat').val()));
-};
-
-<%--
 	execNticIssue - 고지
 --%>
 GamHtldRentNticIssueModule.prototype.execNticIssue = function() {
@@ -316,7 +304,7 @@ var module_instance = new GamHtldRentNticIssueModule();
 						</td>
 						<th width="10%" height="18">부가세</th>
 						<td>
-							<input type="text" size="15" id="vat" class="ygpaNumber" />&nbsp;원
+							<input type="text" size="15" id="vat" class="ygpaNumber" disabled/>&nbsp;원
 						</td>
 					</tr>
 					<tr>

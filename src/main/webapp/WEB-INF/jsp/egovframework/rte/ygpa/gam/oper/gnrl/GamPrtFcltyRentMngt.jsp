@@ -1214,8 +1214,6 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
             this.$('#frstReqstDt').val(EMD.util.getDate());
             this.$('#reqstDt').val(EMD.util.getDate());
 
-            /* 2017.02.20 최초신청 항코드 enable*/
-            this.$('#prtAtCode').enable();
 
             if( this.$("#loginUserId").val()=='11076'){
             	this.$('#prtAtCode').val('622');
@@ -2012,10 +2010,7 @@ GamAssetRentMngtModule.prototype.onTabChangeBefore = function(newTabId, oldTabId
 	    	if(this._cmd!='insert') {
 	    		if(this._param!=null && (this._param.action=='prtFcltyInqire' || this._param.action=="nticDetail")) break;
 				var row = this.$('#assetRentMngtList').selectedRows();
-				/* 2017.02.20 항코드 disable*/
-				this.$('#prtAtCode').disable();
-		        
-				if(row.length==0) {
+		        if(row.length==0) {
 		        	alert('항목을 먼저 선택해주세요.');
 					return false;
 		        }

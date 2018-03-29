@@ -40,11 +40,11 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
 //                    {display:'항코드명', name:'prtAtCodeNm',width:55, sortable:false,align:'center'},
                     {display:'자산번호', name:'gisAssets',width:96, sortable:false,align:'center'},
                     {display:'자산명', name:'gisAssetsNm',width:96, sortable:false,align:'center'},
-                    
+
                     {display:'공시지가', name:'olnlp',width:70, sortable:false,align:'right',displayFormat: 'number'},
                     {display:'사용면적', name:'usageAr',width:70, sortable:false,align:'right',displayFormat: 'number'},
                     {display:'사용기간', name:'usagePd',width:120, sortable:false,align:'center'},
-                    
+
                     {display:'주소', name:'gisAssetsLocplc',width:96, sortable:false,align:'center'},
                     {display:'관리번호', name:'rentMngNo',width:96, sortable:false,align:'center'},
                     {display:'횟수', name:'nticCnt',width:40, sortable:false,align:'center'},
@@ -122,7 +122,8 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
 		event.data.module.changeFee();
     });
 
-    this.$('#payinstIntrrate,#intrAmnt').on("change", {module: this}, function(event) {
+/* 월이자 체크 추가 */
+    this.$('#payinstIntrrate,#intrAmnt,#monthIntrAmnt').on("change", {module: this}, function(event) {
 		event.data.module.changeInterest();
     });
 
@@ -209,7 +210,7 @@ GamAssetRentFeeMngtModule.prototype.changeFee = function() {
 };
 
 <%--
-	납부 이자율 변경
+납부 이자율 변경(월,일 체크)
 --%>
 GamAssetRentFeeMngtModule.prototype.changeInterest = function() {
 	var intrAmnt=0;
@@ -222,11 +223,23 @@ GamAssetRentFeeMngtModule.prototype.changeInterest = function() {
 	var ydays = (eod.getTime() - sod.getTime()) / 1000 / 60 / 60 / 24;
 	var ndFromDt = new Date(ndFrom[0], ndFrom[1], ndFrom[2]);
 	var ndToDt = new Date(ndTo[0], ndTo[1], ndTo[2]);
-	var betweenDay = (ndToDt.getTime() - ndFromDt.getTime()) / 1000 / 60 / 60 / 24+1;
-	intrAmnt=bal*payinstIntrrate*betweenDay/ydays;
+
+	if(this.$('#monthIntrAmnt').attr('checked')=="checked") {
+		var start = ndFrom[1];
+		var end = ndTo[1];
+		var betweenMonth =  (Number(end)-Number(start))+1;
+		intrAmnt=bal*payinstIntrrate*betweenMonth/12;
+		console.log('calc Month = '+betweenMonth);
+		console.log('12'+' Months');
+	}
+	else{
+		var betweenDay = (ndToDt.getTime() - ndFromDt.getTime()) / 1000 / 60 / 60 / 24+1;
+		intrAmnt=bal*payinstIntrrate*betweenDay/ydays;
+		console.log('calc day = '+betweenDay);
+		console.log(ydays+' days');
+	}
+
 	intrAmnt=Math.ceil(intrAmnt);
-	console.log('calc day = '+betweenDay);
-	console.log(ydays+' days');
 	this.$('#intrAmnt').val($.number(intrAmnt));
 	this.changeFee();
 
@@ -367,10 +380,10 @@ GamAssetRentFeeMngtModule.prototype.cancelSave = function() {
 				if(rows['nticAmt']<3000){
 					alert("항만시설사용료고지 상세를 이용하세요.");
 					this.$("#assetRentFeeListTab").tabs("option", {active: 1});
-					
+
 					return;
 				}
-                
+
                 if( rows['nhtIsueYn'] == 'Y' ) {
                 	alert("이미 고지된 건 입니다.");
                 	return;
@@ -439,7 +452,7 @@ GamAssetRentFeeMngtModule.prototype.cancelSave = function() {
                 		this.$('#fee').val(3000);
                 		this.changeFee();
                 	}
-                	
+
                 	rows['payTmlmt'] = this.$('#payTmlmt').val();
                 	if(this._modifyFee) {
                 		rows['modifyFee'] = "modified";
@@ -998,6 +1011,7 @@ var module_instance = new GamAssetRentFeeMngtModule();
                                         </c:forEach>
                                 </select>
                             	<button id="cofixMngt" data-role="openWindow" data-url="/code/gamCofixIntrrateMngt.do" data-title="COFIX 이자율 관리">이자율관리</button>
+                            	<input id="monthIntrAmnt" type="checkbox" class="skipValue"> 월이자
                             </td>
                         	<th><span class="label">이자</span></th>
                             <td>

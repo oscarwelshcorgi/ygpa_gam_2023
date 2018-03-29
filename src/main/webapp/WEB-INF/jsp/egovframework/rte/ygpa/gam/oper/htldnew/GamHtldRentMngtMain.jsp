@@ -30,7 +30,7 @@ function GamHtldRentMngtMainModule() {}
 GamHtldRentMngtMainModule.prototype = new EmdModule(1820, 810);
 
 <%--///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	EmdModule Override 및 이벤트 처리 정의 부분 시작	
+	EmdModule Override 및 이벤트 처리 정의 부분 시작
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////--%>
 
 <%--
@@ -45,8 +45,8 @@ GamHtldRentMngtMainModule.prototype.loadComplete = function() {
                     {display:'구역', name:'boundNm',width:120, sortable:false,align:'center'},
                     {display:'입주기업', name:'entrpsNm',width:170, sortable:false,align:'center'},
                     {display:'임대차계약', name:'detailPdStr',width:150, sortable:false,align:'center'},
-                    {display:'자산명', name:'assetsNm',width:150, sortable:false,align:'center'},
                     {display:'자산코드', name:'assetsCd',width:60, sortable:false,align:'center'},
+                    {display:'자산명', name:'assetsNm',width:150, sortable:false,align:'center'},
                     {display:'입주면적(㎡)', name:'rentArStr',width:125, sortable:false,align:'right'},
                     {display:'적용임대료', name:'applcRntfeeStr',width:120, sortable:false,align:'right'},
                     {display:'실적평가임대료', name:'aseRntfeeStr',width:90, sortable:false,align:'right'},
@@ -71,39 +71,39 @@ GamHtldRentMngtMainModule.prototype.loadComplete = function() {
 				module.initDataRow(this);
 	     	});
 	     	return data;
-	   	}        
+	   	}
     });
 
     this.$("#mainGrid").on('onLoadDataComplete', function(event, module, data) {
     	module._currentRow = null;
     	module.setButtons();
     });
-    
+
     // 임대상세목록의 row선택
     this.$("#mainGrid").on('onItemSelected', function(event, module, row, grid, param) {
     	module._currentRow = row;
     	module.setButtons();
     });
-	
-    // 해당셀에 더블클릭이 일어났을 때 
+
+    // 해당셀에 더블클릭이 일어났을 때
 	this.$('#mainGrid')[0].dgrid.attachEvent('onRowDblClicked', function(rid, ind) {
 		var module = this.p.module;
 		var cid = this.getColumnId(ind);
 		module.onMainGridSelectedRowCell(module._currentRow, rid, cid);
 	});
-    
+
 	// 셀 편집이 이루어졌을 때
     this.$("#mainGrid").on('onCellEdited', function(event, module, row, rid, cid) {
     	module.onMainGrildCellEdited(row, rid, cid);
     });
 
     this.$('#histDt').val(EMD.util.getDate());
-    
+
 	this.$('#histDt').on('change', {module:this}, function(e) {
 		var module=e.data.module;
 		module.loadData();
 	});
-    
+
     this.loadData();
 };
 
@@ -176,7 +176,7 @@ GamHtldRentMngtMainModule.prototype.closeChildWindow = function(module, message)
 };
 
 <%--
-	그리드의 row를 선택한 후 해당 cell을 더블클릭할 때 호출 된다. 
+	그리드의 row를 선택한 후 해당 cell을 더블클릭할 때 호출 된다.
 		row : 선택 row
 		rid : 선택된 row id
 		cid : 선택된 cell id
@@ -228,8 +228,8 @@ GamHtldRentMngtMainModule.prototype.onMainGrildCellEdited = function (row, rid, 
 		row.rm = row.oldRm;
 		this.$('#mainGrid').flexUpdateRow(rid, row);
 		return;
-	} 
-	
+	}
+
 	if(row.rntfeeSe == '9') {
 		alert('소계는 수정할 수 없습니다.');
 		row.rntfee = row.oldRntfee;
@@ -241,7 +241,7 @@ GamHtldRentMngtMainModule.prototype.onMainGrildCellEdited = function (row, rid, 
 		this.$('#mainGrid').flexUpdateRow(rid, row);
 		return;
 	}
-	
+
 	if((row.mngGroupCount > 1) && ((cid == 'supAmt') || (cid == 'vat') || (cid == 'payAmt'))) {
 		alert('소계가 있는 항목의 공급가액, 부가세, 납부금액은 입력을 할 수 없습니다.');
 		row.supAmt = row.oldSupAmt;
@@ -250,7 +250,7 @@ GamHtldRentMngtMainModule.prototype.onMainGrildCellEdited = function (row, rid, 
 		this.$('#mainGrid').flexUpdateRow(rid, row);
 		return;
 	}
-	
+
 	var calcTot = false;
 	switch(cid) {
 		case 'rntfee':
@@ -286,7 +286,7 @@ GamHtldRentMngtMainModule.prototype.onMainGrildCellEdited = function (row, rid, 
 			}
 			break;
 	}
-	
+
 	row.oldRntfee = row.rntfee;
 	row.oldPayinstIntr = row.payinstIntr;
 	row.oldSupAmt = row.supAmt;
@@ -294,7 +294,7 @@ GamHtldRentMngtMainModule.prototype.onMainGrildCellEdited = function (row, rid, 
 	row.oldPayAmt = row.payAmt;
 
 	this.$('#mainGrid').flexUpdateRow(rid, row);
-	
+
 	if(calcTot) {
 		this.calcMngGroupData(row.mngYear, row.mngNo, row.mngSeq);
 	}
@@ -332,7 +332,7 @@ GamHtldRentMngtMainModule.prototype.initDataRow = function(row) {
 	} else if (row.rntfeeSe != '9') { //소계가 아니라면 (즉 실적평가, 지적평가, 추가정산)
 		row._updtId = 'U';
 	}
-	
+
 	if (row.termnYn == 'N') {
 		if (row.rntfeeSe != '9') {
 			if(row.nticYn != 'Y') {
@@ -342,11 +342,11 @@ GamHtldRentMngtMainModule.prototype.initDataRow = function(row) {
 				case '2' : row.status = '연체수납'; break;
 				case '3' : row.status = '수납'; break;
 				case '4' : row.status = '불납'; break;
-				default : 
+				default :
 					if(row.payTmlmtYn != 'Y') { //현재 디비시스템 시간이 납부기한을 넘기지 않았을 경우
 						row.status = (row.rcivSe == '1') ? '연체고지' : '고지';
 						if(row.rcivSe == '1') {
-							row.prtYn = (row.dlyBillPrtYn == 'Y') ? '출력' : ''; 
+							row.prtYn = (row.dlyBillPrtYn == 'Y') ? '출력' : '';
 						} else {
 							row.prtYn = (row.nhtPrtYn == 'Y') ? '출력' : '';
 						}
@@ -354,7 +354,7 @@ GamHtldRentMngtMainModule.prototype.initDataRow = function(row) {
 						row.status = '연체';
 						row.arrrgYn = 'Y';
 					}
-				}	
+				}
 			}
 		}
 	} else {
@@ -362,7 +362,7 @@ GamHtldRentMngtMainModule.prototype.initDataRow = function(row) {
 	}
 };
 
-<%-- 
+<%--
 	setButtons - row의 상태에 따라 버튼을 설정한다.
 --%>
 GamHtldRentMngtMainModule.prototype.setButtons = function() {
@@ -396,7 +396,7 @@ GamHtldRentMngtMainModule.prototype.setButtons = function() {
 	}
 };
 
-<%-- 
+<%--
 	calcMngGroupData - 소계필드를 계산한다.
 --%>
 GamHtldRentMngtMainModule.prototype.calcMngGroupData = function(mngYear, mngNo, mngSeq) {
@@ -404,7 +404,7 @@ GamHtldRentMngtMainModule.prototype.calcMngGroupData = function(mngYear, mngNo, 
 	var totRow = null;
 	var sumRntfee = 0;
 	var sumPayinstIntr = 0;
-	
+
 	for(var i=0; i<rows.length; i++) {
 		var row = rows[i];
 		if((row.mngYear == mngYear) && (row.mngNo == mngNo) && (row.mngSeq == mngSeq) && (row.rntfeeSe == '9')) {
@@ -414,7 +414,7 @@ GamHtldRentMngtMainModule.prototype.calcMngGroupData = function(mngYear, mngNo, 
 			sumPayinstIntr += Number(row.payinstIntr);
 		}
 	}
-	
+
 	totRow.rntfee = sumRntfee;
 	totRow.payinstIntr = sumPayinstIntr;
 	var supAmt = sumRntfee + sumPayinstIntr;
@@ -427,7 +427,7 @@ GamHtldRentMngtMainModule.prototype.calcMngGroupData = function(mngYear, mngNo, 
 	totRow.oldSupAmt = totRow.supAmt;
 	totRow.oldVat = totRow.vat;
 	totRow.oldPayAmt = totRow.payAmt;
-	
+
 	this.$('#mainGrid').flexEmptyData();
 	var dataList = {resultList: rows};
 	this.$('#mainGrid').flexAddData(dataList);
@@ -457,42 +457,33 @@ GamHtldRentMngtMainModule.prototype.execNticIssue = function() {
 		return;
 	}
 	var gridList = this.$('#mainGrid').flexGetData();
-	var gridRow = null;
 	var feeUpdateList = [];
 	var feeInsertList = [];
-	var totSupAmt = 0;
 	for(var i=0; i<gridList.length; i++) {
-		gridRow = gridList[i];
-		if((gridRow.mngYear == this._currentRow.mngYear) && (gridRow.mngNo == this._currentRow.mngNo) 
-				&& (gridRow.mngSeq == this._currentRow.mngSeq) && (gridRow.rntfeeSe != '9')) {
+		var gridRow = gridList[i];
+		if((gridRow.mngYear == this._currentRow.mngYear) && (gridRow.mngNo == this._currentRow.mngNo) && (gridRow.mngSeq == this._currentRow.mngSeq) && (gridRow.rntfeeSe != '9')) {
 			if(gridRow._updtId == 'I') {
 				if(gridRow.detailPdBegin > gridRow.nticBeginDt) {
 					gridRow.nticBeginDt = gridRow.detailPdBegin;
-				} 
+				}
 				if(gridRow.detailPdEnd < gridRow.nticEndDt) {
 					gridRow.nticEndDt = gridRow.detailPdEnd;
-				} 
-				feeInsertList[feeInsertList.length] = gridRow;	
+				}
+				feeInsertList[feeInsertList.length] = gridRow;
 			} else {
 				feeUpdateList[feeUpdateList.length] = gridRow;
 			}
-			totSupAmt += Number(gridRow.rntfee) + Number(gridRow.payinstIntr);			
 		}
 	}
-	
-	if(totSupAmt == 0) {
-		alert('공급가액이 0원이므로 고지가 되지 않습니다.');
-		return;
-	}
-	
+
 	var rentFeeData = {};
 	rentFeeData['feeInsertList'] 			= JSON.stringify(feeInsertList);
 	rentFeeData['feeUpdateList'] 			= JSON.stringify(feeUpdateList);
-	
+
 	this.doAction('/oper/htldnew/updateHtldRntfee.do', rentFeeData, function(module, result) {
 		if(result.resultCode == 0) {
 			module.loadData();
-			EMD.util.create_window('gamHtldRentNticIssue', '배후단지 고지', '/oper/htldnew/gamHtldRentNticIssue.do', null, 
+			EMD.util.create_window('gamHtldRentNticIssue', '배후단지 고지', '/oper/htldnew/gamHtldRentNticIssue.do', null,
 					{'searchRow' : module._currentRow, 'histDt' : module.$('#histDt').val(), 'intrRate' : module.$('#cofixIntrrate').val()}, module);
 		} else {
 			alert(result.resultMsg);
@@ -508,13 +499,13 @@ GamHtldRentMngtMainModule.prototype.execArrrgNticIssue = function() {
 		alert('목록에서 입주기업을 선택하세요.');
 		return;
 	}
-	
+
 	if(this._currentRow.arrrgYn != 'Y') {
 		alert('상태가 연체인 것만 연체고지를 할 수가 있습니다.');
-		return;		
-	} 
-	
-	EMD.util.create_window('gamHtldRentArrrgNticIssue', '배후단지 연체고지', '/oper/htldnew/gamHtldRentArrrgNticIssue.do', null, 
+		return;
+	}
+
+	EMD.util.create_window('gamHtldRentArrrgNticIssue', '배후단지 연체고지', '/oper/htldnew/gamHtldRentArrrgNticIssue.do', null,
 			{'searchRow' : this._currentRow, 'histDt' : this.$('#histDt').val()}, this);
 };
 
@@ -541,7 +532,7 @@ GamHtldRentMngtMainModule.prototype.processNticIssue = function() {
 		alert('목록에서 입주기업을 선택하세요.');
 		return;
 	}
-	
+
 	//지로 수납된 건인지 체크한다.
 	this.doAction('/oper/htldnew/selectCheckOcrResult.do', this._currentRow, function(module, result) {
 		if(result.resultCode == 0) {
@@ -553,7 +544,7 @@ GamHtldRentMngtMainModule.prototype.processNticIssue = function() {
 		} else {
 			alert(result.resultMsg);
 		}
-	});	
+	});
 };
 
 <%--
@@ -609,11 +600,11 @@ GamHtldRentMngtMainModule.prototype.printPayNticIssue = function(url, params, re
 	$(form).append(dlySerNo);
 	$(form).attr("action", EMD.context_root+url);
 	$('#__tempDiv').append(form);
-	
+
 	var win = window.open("","payNotice","width=800, height=600, menubar=no,status=no,scrollbars=yes");
-	
+
 	var module=this;
-	
+
 	win[win.addEventListener ? 'addEventListener' : 'attachEvent'](
 			  (win.attachEvent ? 'on' : '') + 'load', function(e){
 				  console.log('debug listener');
@@ -678,7 +669,7 @@ var module_instance = new GamHtldRentMngtMainModule();
                             		<option value="N">무</option>
                             		<option value="Y">유</option>
                             		<option value="">전체</option>
-                            	</select>	
+                            	</select>
                             </td>
                             <th width="4%">분납이자율</th>
                             <td width="8%"><input type="text" size="6" class="ygpaNumber" data-decimal-point="2" id="cofixIntrrate" disabled/>&nbsp; %</td>

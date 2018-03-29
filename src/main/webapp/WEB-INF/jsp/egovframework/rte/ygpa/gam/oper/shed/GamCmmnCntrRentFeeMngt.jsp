@@ -56,7 +56,8 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
 //                    {display:'사용면적', name:'grAr',width:80, sortable:false,align:'right', displayFormat: 'number'},
 //                    {display:'고지대상기간', name:'nticPdDate',width:140, sortable:false,align:'center'},
                     {display:'허가일자', name:'prmisnDt',width:80, sortable:false,align:'center'},
-                    {display:'사용기간', name:'grUsagePd',width:140, sortable:false,align:'center'}
+                    {display:'사용기간From', name:'grUsagePdFrom',width:80, sortable:false,align:'center'},
+                    {display:'사용기간To', name:'grUsagePdTo',width:80, sortable:false,align:'center'}
                     ],
         showTableToggleBtn: false,
         height: 'auto',
@@ -64,7 +65,6 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
 
         	$.each(data.resultList, function() {
         		this.nticPdDate = this.nticPdFrom+ '~'+ this.nticPdTo;
-        		this.grUsagePd = this.grUsagePdFrom+ '~'+ this.grUsagePdTo;
         		this.nhtIsueYnStr = this.nhtIsueYn=="Y"?"고지":"";
         		this.nhtPrintYnStr = this.nhtPrintYn=="Y"?"출력":"";
         	});
@@ -204,7 +204,7 @@ GamAssetRentFeeMngtModule.prototype.changeFee = function() {
                 	if(!confirm("결재완료 되지 않았습니다. 결재 처리 되지 않은 자료를 고지 하시겠습니까?")) {
                         return;
                 	}
-                	
+
                 } */
 
                 if( rows['nhtIsueYn'] == 'Y' ) {
@@ -248,7 +248,7 @@ GamAssetRentFeeMngtModule.prototype.changeFee = function() {
                 	if(!confirm("결재완료 되지 않았습니다. 결재 처리 되지 않은 자료를 고지 하시겠습니까?")) {
                         return;
                 	}
-                	
+
                 } */
 
                 if( rows['nhtIsueYn'] == 'Y' ) {
@@ -316,7 +316,7 @@ GamAssetRentFeeMngtModule.prototype.changeFee = function() {
 
                              var searchOpt=module.makeFormArgs('#gamAssetRentFeeSearchForm');
                             module.$("#assetRentFeeListTab").tabs("option", {active: 0});    // 탭을 전환 한다.
-                            module.$('#assetRentFeeList').flexOptions({params:searchOpt}).flexReload(); 
+                            module.$('#assetRentFeeList').flexOptions({params:searchOpt}).flexReload();
                         }
 
                         alert(result.resultMsg);
@@ -860,4 +860,3 @@ var module_instance = new GamAssetRentFeeMngtModule();
 	    </div>
 	</div>
 </div>
- 

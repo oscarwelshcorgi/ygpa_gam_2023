@@ -1964,7 +1964,7 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
             			nticVo:{ prtAtCode: rows[0].prtAtCode, mngYear: rows[0].mngYear, mngNo: rows[0].mngNo, mngCnt: rows[0].mngCnt }
             	};
             }
-       	 	EMD.util.create_window('gamPrtFcltyRentFeeMngt', '항만시설사용료관리', '/oper/gnrltest/gamPrtFcltyRentFeeMngt.do', null, opts);
+       	 	EMD.util.create_window('gamPrtFcltyRentFeeMngt', '항만시설사용료관리(테스트용)', '/oper/gnrltest/gamTestPrtFcltyRentFeeMngt.do', null, opts);
         	break;
     }
 };
@@ -2014,7 +2014,7 @@ GamAssetRentMngtModule.prototype.onTabChangeBefore = function(newTabId, oldTabId
 				var row = this.$('#assetRentMngtList').selectedRows();
 				/* 2017.02.20 항코드 disable*/
 				this.$('#prtAtCode').disable();
-		        
+
 				if(row.length==0) {
 		        	alert('항목을 먼저 선택해주세요.');
 					return false;

@@ -55,7 +55,8 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
                     {display:'고지번호', name:'nticno',width:60, sortable:false,align:'center'},
                     {display:'부서명', name:'deptcdNm',width:100, sortable:false,align:'left'},
                     {display:'사용면적', name:'grAr',width:80, sortable:false,align:'right', displayFormat: 'number'},
-                    {display:'사용기간', name:'grUsagePd',width:140, sortable:false,align:'center'},
+                    {display:'사용기간From', name:'grUsagePdFrom',width:80, sortable:false,align:'center'},
+                    {display:'사용기간To', name:'grUsagePdTo',width:80, sortable:false,align:'center'},
                     {display:'허가일자', name:'prmisnDt',width:80, sortable:false,align:'center'}
                     ],
         showTableToggleBtn: false,
@@ -64,7 +65,6 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
 
         	$.each(data.resultList, function() {
         		this.nticPdDate = this.nticPdFrom+ '~'+ this.nticPdTo;
-        		this.grUsagePd = this.grUsagePdFrom+ '~'+ this.grUsagePdTo;
         	});
 
         	module.makeDivValues('#summaryTable', data);
