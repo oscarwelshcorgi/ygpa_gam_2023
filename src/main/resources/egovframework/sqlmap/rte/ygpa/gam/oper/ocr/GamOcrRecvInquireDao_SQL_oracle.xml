@@ -124,7 +124,7 @@
 			                      	RET_MSG,
 			                       	REV_RESULT
 			               		FROM 
-			               			PAYEOSU.OCR_RESULT@YGPA_PORTMIS B
+			               			OCR_RESULT B
 			               		WHERE   
 			               			1=1
 			               			<isEqual property="searchCondition" compareValue="sRcvdPd">
@@ -259,7 +259,7 @@
 			                      	RET_MSG,
 			                       	REV_RESULT
 			               		FROM 
-			               			PAYEOSU.OCR_RESULT@YGPA_PORTMIS B
+			               			OCR_RESULT B
 			               		WHERE   
 			               			1=1
 			               			<isEqual property="searchCondition" compareValue="sRcvdPd">
