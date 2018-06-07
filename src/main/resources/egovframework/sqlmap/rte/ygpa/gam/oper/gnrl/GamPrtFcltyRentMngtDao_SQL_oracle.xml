@@ -659,6 +659,14 @@
 		       , DEPTCD           = #deptcd#
 		       , PAY_MTH          = #payMth#
 		       , TAXT_SE = #taxtSe#
+				
+			   <!--
+					일시 : 2018.06.05
+               		요청자 : 항만운영팀 조현성
+               		내용 : 신청일자 수정되도록 수정 요청
+               		처리 : 업데이트 컬럼 추가 REQST_DT = TO_DATE(#reqstDt#,'YYYY-MM-DD')			
+			   -->
+		       , REQST_DT = TO_DATE(#reqstDt#,'YYYY-MM-DD')
 
 		       <isEmpty property="payinstIntrrate">
 		       , PAYINST_INTRRATE = 0

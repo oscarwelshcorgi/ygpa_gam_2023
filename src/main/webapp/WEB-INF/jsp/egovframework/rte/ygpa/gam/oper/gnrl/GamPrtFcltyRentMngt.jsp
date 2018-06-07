@@ -1337,14 +1337,20 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
                 // 데이터를 저장 하고 난 뒤 리스트를 다시 로딩 한다.
                 this.doAction('/oper/gnrl/gamSavePrtFcltyRentMngt.do', inputVO, function(module, result) {
                     if(result.resultCode == 0){
-                    	module.loadData();
-                    	module.$('#assetRentFileList').flexReload();
+                    	/*
+	                		일시 : 2018.06.05
+	                		요청자 : 항만운영팀 조현성
+	                		내용 : 항만시설사용 신청저장 버튼 클릭시 기존탭 유지
+	                		처리 : 
+	                			1. 주석 처리
+	                			2. this.$("#assetRentListTab").tabs("option", {active: 1}); => active: 0으로 소스 수정
+                		*/
+                    	//module.loadData();
+                    	//module.$('#assetRentFileList').flexReload();
                     }
                     alert(result.resultMsg);
                 });
-
-
-                this.$("#assetRentListTab").tabs("option", {active: 0});  // 탭을 전환 한다.
+                this.$("#assetRentListTab").tabs("option", {active: 1});  // 탭을 전환 한다.
             }
 
             break;

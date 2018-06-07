@@ -144,6 +144,9 @@ GamHtldRentMngtMainModule.prototype.onButtonClick = function(buttonId) {
 		case 'btnDownloadNticIssue' : //산출내역서 다운로드
 			this.downloadNticIssue();
 			break;
+		case 'btnExcelDownload':
+			this.tableToExcel();
+			break;
 	}
 };
 
@@ -562,6 +565,39 @@ GamHtldRentMngtMainModule.prototype.printNticIssue = function() {
 	this.printPayNticIssue('/oper/htldnew/printNticIssue.do', this._currentRow);
 };
 
+<%
+/**
+ * @FUNCTION NAME : tableToExcel
+ * @DESCRIPTION   : TABLE EXCEL DOWNLOAD
+ * @PARAMETER     :
+**/
+
+/*
+	일시 : 2018.06.07
+	요청자 : 물류단지팀 조보라
+	내용 : 정보조회 화면에서 엑셀다운로드 기능추가
+	처리 : 엑셀다운로드 기능추가
+	특이사항 : 셀병합이 안되어있음(POI등 엑셀다운로드 방법 변경 필요)
+*/
+%>
+GamHtldRentMngtMainModule.prototype.tableToExcel = function() {
+	var clone =	this.$('#mainGrid').clone();
+	$(clone).find('th,td').each(function() {
+	
+			$(this).css('border-left', '0.1pt solid black');
+			$(this).css('border-top', '0.1pt solid black');
+			$(this).css('border-right', '0.1pt solid black');
+			$(this).css('border-bottom', '0.1pt solid black');
+			});
+	clone.find("tr:eq(0)").remove();
+	clone.find("tr:eq(1)").remove();
+	clone.find("tr:eq(0) td").css({"font-size":"15px","font-weight":"bold","background-color":"#BDBDBD","height":"35px"});
+
+	clone.table2excel({
+		filename: "배후단지임대관리 목록",
+	});
+};
+
 GamHtldRentMngtMainModule.prototype.printPayNticIssue = function(url, params, retfunc) {
 	$('#__tempDiv').empty();
 	var form = document.createElement("form");
@@ -697,6 +733,7 @@ var module_instance = new GamHtldRentMngtMainModule();
                        <button id="btnAddNticIssue">추가고지</button>
                        <button id="btnProcessNticIssue" >수납처리</button>
                        <button id="btnNticIssueHist" >고지이력</button>
+                       <button id="btnExcelDownload" class="buttonExcel">엑셀 다운로드</button>
 					</td>
 				</tr>
 			</table>

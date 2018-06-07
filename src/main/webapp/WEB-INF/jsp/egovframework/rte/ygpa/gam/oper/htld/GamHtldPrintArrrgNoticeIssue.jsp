@@ -846,6 +846,33 @@ div.notice {
 	                else alert(data.resultMsg);
 			});
 		});
+		
+	/* 
+ 		일시 : 2018.06.07
+		요청자 : 항만운영팀 조현성
+		내용 : 본사/사업소 주소 표기시 선택하여 적용되도록 개선
+		처리 : 본사/사업소 선택 select 컴포넌트 추가
+  	*/
+	//여수, 광양 selectBox체인지 이벤트
+	$('#sPrtAtCode').change(function(){
+		
+		var sPrtAtCode = $('#sPrtAtCode').val();
+		var text1 = "";
+		var text2 = "";
+		
+		if(sPrtAtCode == '001'){//여수
+			text1 = "전라남도 여수시 봉계4길 10 (여수사업소 1층)";
+			text2 = "59631";
+		}else if(sPrtAtCode == '002'){//광양
+			text1 = "전라남도 광양시 항만대로 465 월드마린센터 1층";
+			text2 = "57771";
+		}
+		
+		$('#senderAddress').text(text1);
+		$('#senderPostcode').text(text2);
+		
+	});
+		
 	});
 	</script>
   </head>
@@ -860,6 +887,19 @@ div.notice {
         <div class="subpage">
         <input id='leftPrintPadding' type="text" value="" class="notprint" style="position:fixed; left: 20px; top: 60px; width: 120px; z-index: 999;" placeholder="가로 보정치 mm">
         <input id='topPrintPadding' type="text" value="" class="notprint" style="position:fixed; left: 20px; top: 90px; width: 120px; z-index: 999;" placeholder="세로 보정치 mm">
+        
+        <!-- 
+        	일시 : 2018.06.07
+       		요청자 : 항만운영팀 조현성
+       		내용 : 본사/사업소 주소 표기시 선택하여 적용되도록 개선
+       		처리 : 본사/사업소 선택 select 컴포넌트 추가
+         -->
+        <select id="sPrtAtCode" style="position:fixed; left: 20px; top: 120px; width: 120px; z-index: 999;" class="notprint">
+			<option value="001" >여수</option>
+			<option value="002" selected="selected">광양</option>
+		</select>
+        
+        
         	<div class="postPage">
 				<div class="sender">
 					<div id="senderAddress">

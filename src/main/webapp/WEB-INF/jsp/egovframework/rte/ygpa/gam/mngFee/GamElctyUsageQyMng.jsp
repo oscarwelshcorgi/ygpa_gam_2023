@@ -581,8 +581,18 @@ GamElctyUsageQyMngModule.prototype.tableToExcel = function() {
 	clone.find("img").parent().css({"font-weight":"bold","height":"30px"});
 	clone.find("tr:eq(0)").remove();
 	clone.find("tr:eq(1)").remove();
-	clone.find(".ev_dhx_skyblue").find("td:eq(0)").text("");
-	clone.find(".odd_dhx_skyblue").find("td:eq(0)").text("");
+	
+	/*
+		일시 : 2018.06.05
+		요청자 : 항만시설팀 이재승
+		내용 : 사용년도 공백처리 되어 있는 현상 수정
+		처리 : 주석 처리
+	*/
+	/*
+		clone.find(".ev_dhx_skyblue").find("td:eq(0)").text("");
+		clone.find(".odd_dhx_skyblue").find("td:eq(0)").text("");
+	*/
+	
 	clone.find("td:eq(0)").css("width","90");
 	clone.find("tr:eq(0) td").css({"font-size":"15px","font-weight":"bold","background-color":"#BDBDBD","height":"35px"});
 	clone.find("td:eq(1)").css("width","200");
