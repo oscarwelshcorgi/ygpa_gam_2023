@@ -197,4 +197,13 @@ public class GamElectyFcltySpecMngServiceImpl extends AbstractServiceImpl implem
 		return gamElectyFcltySpecMngDao.selectElectyFcltySpecMngMntnRprDtlsList(searchVO);
 	}
 
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.fclty.service.GamElectyFcltySpecMngService#updateElectyFcltySpecMngAtchFileDirChage(egovframework.rte.ygpa.gam.fclty.service.GamAtchFileDirMngVO)
+	 */
+	@Override
+	public void updateElectyFcltySpecMngAtchFileDirChage(GamAtchFileDirMngVO gamAtchFileDirMngVO) {
+		// TODO Auto-generated method stub
+		gamElectyFcltySpecMngDao.updateElectyFcltySpecMngAtchFileDirChage(gamAtchFileDirMngVO);
+	}
+
 }

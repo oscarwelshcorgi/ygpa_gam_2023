@@ -112,6 +112,19 @@ GamCvlEngFcltyDrwList.prototype.loadComplete = function(params) {
 	this.$('#dirQueryOption').on('change',{module:this}, function(event){
 		event.data.module.displayAtchFileDirectory("");
 		event.data.module.displayAtchFileList("");
+
+		if($(this).val() == "C"){
+			event.data.module.$("#btnDirAdd").enable();
+			event.data.module.$('#btnDirAdd').removeClass('ui-state-disabled');
+			event.data.module.$("#btnDirRename").enable();
+			event.data.module.$('#btnDirRename').removeClass('ui-state-disabled');
+			event.data.module.$("#btnDirRemove").enable();
+			event.data.module.$('#btnDirRemove').removeClass('ui-state-disabled');
+		}else{
+			event.data.module.$("#btnDirAdd").disable({disableClass:"ui-state-disabled"});
+			event.data.module.$("#btnDirRename").disable({disableClass:"ui-state-disabled"});
+			event.data.module.$("#btnDirRemove").disable({disableClass:"ui-state-disabled"});
+		}
 	});
 
 	this._atchFilePreview = false;
@@ -278,12 +291,35 @@ GamCvlEngFcltyDrwList.prototype.displayAtchFileDirectory = function(argDirNo) {
 					atchFileDirTreeItems[atchFileDirTreeItems.length] = [atchFileDir.dirNo, atchFileDir.dirUpperNo, atchFileDir.dirNm];
 				}
 				module.tree = new dhtmlXTreeObject(atchFileDirTreeNode.attr('id'), "100%", "100%", 0);
+				if(module.$('#dirQueryOption').val() == "C"){
+					module.tree.enableDragAndDrop(true);
+					module.tree.setDragBehavior("complex");
+				}
 				module.tree.setImagePath("<c:url value='/js/codebase/imgs/dhxtree_skyblue/'/>");
 				module.tree.loadJSArray(atchFileDirTreeItems);
 				module.tree.setUserData('module', module);
  				module.tree.openItem(1);
 				module.tree.module = module;
 				module.tree.setOnClickHandler(module.onAtchFileDirTreeItemClick);
+
+				module.tree.attachEvent("onDrop", function(id, pId, index){
+					if(pId == "0" || module.$('#dirQueryOption').val() != "C"){
+						module.displayAtchFileDirectory("");
+						module.displayAtchFileList("");
+						alert("다른 시설담당자가 생성한 디렉토리입니다. (이동 불가능)");
+						return false;
+					}
+					var treeData = {
+		    				'dirNo':id,
+		    				'dirUpperNo':pId,
+		    				'depthSort':this.getIndexById(id),
+							'dirFcltsJobSe':module.$('#dirQueryOption').val()
+
+		            };
+		            module.treeUpdate(treeData);
+
+				});
+
 				if (argDirNo != "") {
 					module.tree.selectItem(argDirNo);
 					module.tree.focusItem(argDirNo);
@@ -293,6 +329,24 @@ GamCvlEngFcltyDrwList.prototype.displayAtchFileDirectory = function(argDirNo) {
 		}
 	});
 
+};
+
+<%
+/**
+ * @FUNCTION NAME : treeUpdate
+ * @DESCRIPTION   : 트리구조 변경 수정 추가
+ * @PARAMETER     :
+**/
+%>
+GamCvlEngFcltyDrwList.prototype.treeUpdate = function(treeData) {
+
+	this.doAction('/fclty/gamUpdateCvlEngFcltySpecMngAtchFileDirChage.do', treeData, function(module, result){
+		if (result.resultCode == "1") {
+			module.displayAtchFileDirectory("");
+			module.displayAtchFileList("");
+			alert(result.resultMsg);
+		}
+    });
 };
 
 <%
@@ -930,28 +984,18 @@ GamCvlEngFcltyDrwList.prototype.enableFileButtonItem = function() {
 	var dirNo = this.$('#dirNo').val();
 	var atchFileNo = this.$('#atchFileNo').val();
 	if (dirNo != "") {
-		if (atchFileNo != "") {
-			this.$('#btnFileAllSelect').enable();
-			this.$('#btnFileAllSelect').removeClass('ui-state-disabled');
+		this.$('#btnFileAllSelect').enable();
+		this.$('#btnFileAllSelect').removeClass('ui-state-disabled');
+		this.$('#btnFileDownload').enable();
+		this.$('#btnFileDownload').removeClass('ui-state-disabled');
+		this.$('#btnFilePreview').enable();
+		this.$('#btnFilePreview').removeClass('ui-state-disabled');
+
+		if(this.$('#dirQueryOption').val() == "C"){
 			this.$('#btnFileUpload').enable();
 			this.$('#btnFileUpload').removeClass('ui-state-disabled');
-			this.$('#btnFileDownload').enable();
-			this.$('#btnFileDownload').removeClass('ui-state-disabled');
 			this.$('#btnFileRemove').enable();
 			this.$('#btnFileRemove').removeClass('ui-state-disabled');
-			this.$('#btnFilePreview').enable();
-			this.$('#btnFilePreview').removeClass('ui-state-disabled');
-		} else {
-			this.$('#btnFileAllSelect').enable();
-			this.$('#btnFileAllSelect').removeClass('ui-state-disabled');
-			this.$('#btnFileUpload').enable();
-			this.$('#btnFileUpload').removeClass('ui-state-disabled');
-			this.$('#btnFileDownload').enable();
-			this.$('#btnFileDownload').removeClass('ui-state-disabled');
-			this.$('#btnFileRemove').enable();
-			this.$('#btnFileRemove').removeClass('ui-state-disabled');
-			this.$('#btnFilePreview').enable();
-			this.$('#btnFilePreview').removeClass('ui-state-disabled');
 		}
 	} else {
 		this.$('#btnFileAllSelect').disable({disableClass:"ui-state-disabled"});

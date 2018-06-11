@@ -335,4 +335,12 @@ public class GamElectyFcltySpecMngDao extends YGPAAbstractDAO {
 		return list("gamElectyFcltySpecMngDao.selectElectyFcltySpecMngMntnRprDtlsList_D", searchVO);
 	}
 
+	/**
+	 * @param gamAtchFileDirMngVO
+	 */
+	public void updateElectyFcltySpecMngAtchFileDirChage(GamAtchFileDirMngVO gamAtchFileDirMngVO) {
+		// TODO Auto-generated method stub
+		update("gamElectyFcltySpecMngDao.updateElectyFcltySpecMngAtchFileDirChage_S", gamAtchFileDirMngVO);
+	}
+
 }

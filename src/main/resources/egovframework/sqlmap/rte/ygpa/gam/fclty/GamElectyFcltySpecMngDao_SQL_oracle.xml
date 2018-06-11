@@ -915,4 +915,14 @@
 		]]>
 	</select>
 
+	<update id="gamElectyFcltySpecMngDao.updateElectyFcltySpecMngAtchFileDirChage_S" parameterClass="gamAtchFileDirMngVO">
+		UPDATE ATCH_FILE_DIR_F SET
+			DIR_PATH = nvl((select DIR_PATH from ATCH_FILE_DIR_F where dir_no = TO_NUMBER(REPLACE(#dirUpperNo#,',','')) and rownum = 1),'/')||(select DIR_NM from ATCH_FILE_DIR_F where dir_no = TO_NUMBER(REPLACE(#dirNo#,',','')) and rownum = 1)||'/'
+			,DIR_UPPER_NO = TO_NUMBER(REPLACE(#dirUpperNo#,',',''))
+			,DEPTH_SORT= nvl((select DEPTH_SORT+1 from ATCH_FILE_DIR_F where dir_no = TO_NUMBER(REPLACE(#dirUpperNo#,',',''))),1)
+			,UPD_USR = #updUsr#
+			,UPDT_DT = SYSDATE
+		WHERE DIR_NO = TO_NUMBER(REPLACE(#dirNo#,',',''))
+	</update>
+
 </sqlMap>

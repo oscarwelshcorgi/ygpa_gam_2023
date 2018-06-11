@@ -241,4 +241,9 @@ public interface GamInfoCommFcltySpecMngService {
 	 */
 	List selectInfoCommFcltySpecMngMntnRprDtlsList(GamMntnRprDtlsVO searchVO) throws Exception;
 
+	/**
+	 * @param gamAtchFileDirMngVO
+	 */
+	void updateInfoCommFcltySpecMngAtchFileDirChage(GamAtchFileDirMngVO gamAtchFileDirMngVO);
+
 }

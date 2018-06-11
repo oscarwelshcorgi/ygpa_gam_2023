@@ -929,4 +929,38 @@ public class GamMachFcltySpecMngController {
 		return map;
 
 	}
+
+	/**
+	 *     수정일			   수정자				수정내용
+	 * ------------		--------	---------------------------
+	 * 2018.06.07.		김재철		트리뷰 이동
+	 *
+	 * @param gamAtchFileDirMngVO
+	 * @return map
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/fclty/gamUpdateMachFcltySpecMngAtchFileDirChage.do")
+	@ResponseBody Map gamUpdateMachFcltySpecMngAtchFileDirChage(GamAtchFileDirMngVO gamAtchFileDirMngVO) throws Exception {
+
+		Map map = new HashMap();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+		if(!"M".equals(gamAtchFileDirMngVO.getDirFcltsJobSe())){
+			map.put("resultCode", 1);
+			map.put("resultMsg","다른 시설담당자가 생성한 디렉토리입니다. (이동 불가능)");
+			return map;
+		}
+
+		gamMachFcltySpecMngService.updateMachFcltySpecMngAtchFileDirChage(gamAtchFileDirMngVO);
+
+		map.put("resultCode", 0);
+
+		return map;
+
+	}
 }

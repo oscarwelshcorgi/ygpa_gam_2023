@@ -391,4 +391,12 @@ public class GamMachFcltySpecMngDao extends YGPAAbstractDAO {
 		return list("gamMachFcltySpecMngDao.selectMachFcltySpecMngMntnRprDtlsList_D", searchVO);
 	}
 
+	/**
+	 * @param gamAtchFileDirMngVO
+	 */
+	public void updateMachFcltySpecMngAtchFileDirChage(GamAtchFileDirMngVO gamAtchFileDirMngVO) {
+		// TODO Auto-generated method stub
+		update("gamMachFcltySpecMngDao.updateMachFcltySpecMngAtchFileDirChage_S", gamAtchFileDirMngVO);
+	}
+
 }

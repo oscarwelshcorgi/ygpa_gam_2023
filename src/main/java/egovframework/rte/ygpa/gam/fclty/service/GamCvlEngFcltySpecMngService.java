@@ -236,4 +236,9 @@ public interface GamCvlEngFcltySpecMngService {
 	 */
 	List selectCvlEngFcltySpecMngMntnRprDtlsList(GamMntnRprDtlsVO searchVO) throws Exception;
 
+	/**
+	 * @param gamAtchFileDirMngVO
+	 */
+	void updateCvlEngFcltySpecMngAtchFileDirChage(GamAtchFileDirMngVO gamAtchFileDirMngVO);
+
 }

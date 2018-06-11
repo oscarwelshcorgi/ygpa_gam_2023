@@ -233,4 +233,9 @@ public interface GamElectyFcltySpecMngService {
 	 */
 	List selectElectyFcltySpecMngMntnRprDtlsList(GamMntnRprDtlsVO searchVO) throws Exception;
 
+	/**
+	 * @param gamAtchFileDirMngVO
+	 */
+	void updateElectyFcltySpecMngAtchFileDirChage(GamAtchFileDirMngVO gamAtchFileDirMngVO);
+
 }
