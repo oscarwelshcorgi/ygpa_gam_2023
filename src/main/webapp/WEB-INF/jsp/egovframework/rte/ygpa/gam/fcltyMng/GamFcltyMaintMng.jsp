@@ -249,7 +249,12 @@ GamFcltyMaintMngModule.prototype.loadComplete = function(params) {
 	this.getMapInfoList(params);
 
 	console.log('debug');
-
+	
+	this.$('#sFcltsJobSe').on('change',{module:this}, function(event){
+		event.data.module.$("#sFcltyCd").val("");
+	});
+	
+	
 };
 
 <%
@@ -1081,6 +1086,7 @@ GamFcltyMaintMngModule.prototype.setDefaultParam = function(){
 
 	this.$('#planHistSe').val('H');
 	/* this.$('#planHistSe').disable(); */
+	
 };
 
 
@@ -1896,14 +1902,8 @@ var module_instance = new GamFcltyMaintMngModule();
 						<tr>
 							<th>시설물업무구분</th>
 							<td>
-								<select id="sFcltsJobSe" title="시설물업무구분검색조건">
-									<option value="">선택</option>
-									<option value="E">전기시설물</option>
-									<option value="M">기계시설물</option>
-									<option value="C">토목시설물</option>
-									<option value="A">건축시설물</option>
-									<option value="I">정보통신시설물</option>
-								</select>
+								<input id="sFcltsJobSe" data-column-id="sFcltsJobSe" type="text" class="ygpaCmmnCd" data-code-id="GAM065" data-default-prompt="전체분류 " size="8" data-required="true">
+								<input id="sFcltyCd" data-column-id="sFcltyCd" type="text" class="ygpaFilterCode" data-filter="sFcltsJobSe" data-url="/cmmn/selectCmmnCdFilterList.do" data-default-prompt="전체시설 " size="8" data-required="true">
 							</td>
 							<th>유지보수공사명</th>
 							<td><input type="text" id="sMntnRprCnstNm" size="49" title="유지보수공사명검색조건" /></td>

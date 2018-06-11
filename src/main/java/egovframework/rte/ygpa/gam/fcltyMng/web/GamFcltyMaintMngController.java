@@ -123,6 +123,11 @@ public class GamFcltyMaintMngController {
 		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+		
+		if(searchVO.getsFcltsJobSe().endsWith("*"))
+		{
+			searchVO.setsFcltsJobSe("");
+		}
 
 		/** List Data */
 		List<?> fcltyMaintMngList = gamFcltyMaintMngService.selectFcltyMaintMngList(searchVO);

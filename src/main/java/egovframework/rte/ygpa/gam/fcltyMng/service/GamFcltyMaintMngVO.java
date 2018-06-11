@@ -41,6 +41,9 @@ public class GamFcltyMaintMngVO extends ComDefaultVO {
 
 	/** 시설물업무구분 */
 	private String sFcltsJobSe;
+	
+	/** 전체시설 */
+	private String sFcltyCd;
 
 	/** 유지보수공사명 */
 	private String sMntnRprCnstNm;
@@ -297,6 +300,20 @@ public class GamFcltyMaintMngVO extends ComDefaultVO {
 	 */
 	public void setCodeId(String codeId) {
 		this.codeId = codeId;
+	}
+
+	/**
+	 * @return the sFcltyCd
+	 */
+	public String getsFcltyCd() {
+		return sFcltyCd;
+	}
+
+	/**
+	 * @param sFcltyCd the sFcltyCd to set
+	 */
+	public void setsFcltyCd(String sFcltyCd) {
+		this.sFcltyCd = sFcltyCd;
 	}
 
 

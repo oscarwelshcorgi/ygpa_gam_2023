@@ -48,9 +48,30 @@
 							, M.ENFORCE_YEAR
 						FROM
 							MNTN_RPR_DTLS_F M
+						LEFT OUTER JOIN
+						(
+						    SELECT
+						        G.PRT_FCLTY_SE, G.FCLTS_MNG_GROUP_NO, MNTN_RPR_SEQ, GIS_PRT_FCLTY_CD
+						    FROM GIS_PRT_FCLTY_CD_F G
+						    LEFT OUTER JOIN
+						        MNTN_RPR_OBJ_FCLTS_F O
+						    ON  O.FCLTS_MNG_GROUP_NO = G.FCLTS_MNG_GROUP_NO
+						    AND O.FCLTS_MNG_NO = G.FCLTS_MNG_NO
+						    WHERE <![CDATA[ 1<>1 ]]>
+						    <isNotEmpty property="sFcltsJobSe">
+						    OR (
+						    	G.PRT_FCLTY_SE = #sFcltsJobSe#
+						    <isNotEmpty property="sFcltyCd">
+						    	AND G.GIS_PRT_FCLTY_CD = #sFcltyCd#
+						    </isNotEmpty>
+						    )
+						    </isNotEmpty>
+						    GROUP BY G.PRT_FCLTY_SE, G.FCLTS_MNG_GROUP_NO, MNTN_RPR_SEQ, GIS_PRT_FCLTY_CD
+						)S
+						ON  M.FCLTS_JOB_SE = S.PRT_FCLTY_SE
+						AND M.FCLTS_MNG_GROUP_NO = S.FCLTS_MNG_GROUP_NO
 						WHERE
 							1 = 1
-
 						<isNotEmpty property="sFcltsMngGroupNo">
 	           				AND M.FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
 	           			</isNotEmpty>
@@ -91,6 +112,9 @@
 										 AND MNTN_RPR_SEQ = M.MNTN_RPR_SEQ
 										 AND FCLTS_MNG_NO = #sMapFcltsMngNo#)
 						</isNotEmpty>
+						<isNotEmpty property="sFcltyCd">
+						    	AND S.GIS_PRT_FCLTY_CD = #sFcltyCd#
+						</isNotEmpty>
 
 						ORDER BY
 							MNTN_FCLTS_CNST_INFO ASC
@@ -106,6 +130,28 @@
 			, NVL(SUM(M.MNTN_RPR_BDGT),0) AS SUM_MNTN_RPR_BDGT
 		FROM
 			MNTN_RPR_DTLS_F M
+		LEFT OUTER JOIN
+		(
+		    SELECT
+		        G.PRT_FCLTY_SE, G.FCLTS_MNG_GROUP_NO, MNTN_RPR_SEQ, GIS_PRT_FCLTY_CD
+		    FROM GIS_PRT_FCLTY_CD_F G
+		    LEFT OUTER JOIN
+		        MNTN_RPR_OBJ_FCLTS_F O
+		    ON  O.FCLTS_MNG_GROUP_NO = G.FCLTS_MNG_GROUP_NO
+		    AND O.FCLTS_MNG_NO = G.FCLTS_MNG_NO
+		    WHERE <![CDATA[ 1<>1 ]]>
+		    <isNotEmpty property="sFcltsJobSe">
+		    OR (
+		    	G.PRT_FCLTY_SE = #sFcltsJobSe#
+		    <isNotEmpty property="sFcltyCd">
+		    	AND G.GIS_PRT_FCLTY_CD = #sFcltyCd#
+		    </isNotEmpty>
+		    )
+		    </isNotEmpty>
+		    GROUP BY G.PRT_FCLTY_SE, G.FCLTS_MNG_GROUP_NO, MNTN_RPR_SEQ, GIS_PRT_FCLTY_CD
+		)S
+		ON  M.FCLTS_JOB_SE = S.PRT_FCLTY_SE
+		AND M.FCLTS_MNG_GROUP_NO = S.FCLTS_MNG_GROUP_NO
 		WHERE
 			1 = 1
 
@@ -128,8 +174,8 @@
 		<isNotEmpty property="sMntnRprSe">
 			AND M.MNTN_RPR_SE = #sMntnRprSe#
 		</isNotEmpty>
-
 		<isNotEmpty property="sMntnRprCnstStartDtFr">
+		<isEmpty property="sMapFcltsMngNo">
 			AND
 			(
 				<![CDATA[ M.MNTN_RPR_CNST_START_DT >= #sMntnRprCnstStartDtFr# ]]>
@@ -137,7 +183,9 @@
 				<![CDATA[ AND M.MNTN_RPR_CNST_START_DT <= #sMntnRprCnstStartDtTo# ]]>
 			</isNotEmpty>
 			)
+		</isEmpty>
 		</isNotEmpty>
+		
 
 		<isNotEmpty property="sMapFcltsMngNo">
 			AND EXISTS (SELECT 'Y'
@@ -146,6 +194,9 @@
 						 AND FCLTS_JOB_SE = M.FCLTS_JOB_SE
 						 AND MNTN_RPR_SEQ = M.MNTN_RPR_SEQ
 						 AND FCLTS_MNG_NO = #sMapFcltsMngNo#)
+		</isNotEmpty>
+		<isNotEmpty property="sFcltyCd">
+		    	AND S.GIS_PRT_FCLTY_CD = #sFcltyCd#
 		</isNotEmpty>
 
 	</select>
