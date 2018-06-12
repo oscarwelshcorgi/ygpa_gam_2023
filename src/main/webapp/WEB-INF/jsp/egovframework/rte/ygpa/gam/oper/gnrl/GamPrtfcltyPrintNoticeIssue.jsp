@@ -55,6 +55,7 @@
 
 .page {
     width: 21cm;
+   /* min-height: 28.7cm;*/
     min-height: 28.7cm;
     padding: 0cm;
     margin: 0cm auto;
@@ -280,7 +281,8 @@ div.notice {
   div.giro {
 	position: absolute;
 	left: 5.8cm;
-	top: 0.07cm;
+	top: 0.526cm;
+	/*top: 0.026cm;*/
 	width: 14.8cm;
 	height: 8.8cm;
 	font-size: 0.4cm;
@@ -290,7 +292,7 @@ div.notice {
  #totalAmount {
 	position: absolute;
 	left: 9.8cm;
-	top: 1.5cm;
+	top: 1.614cm;
 	width: 4.6cm;
 	height: 0.65cm;
 	font-size: 0.4cm;
@@ -302,7 +304,7 @@ div.notice {
  #elecPayNo {
 	position: absolute;
 	left: 7.8cm;
-	top: 4.4cm;
+	top: 4.445cm;
 	width: 6.8cm;
 	height: 0.8cm;
 	font-size: 0.4cm;
@@ -314,7 +316,7 @@ div.notice {
  .girocode {
 	position: absolute;
 	left: 0.7cm;
-	top: 3.2cm;
+	top: 3.307cm;
 	width: 13.2cm;
 	height: 0.4cm;
 	font-size: 0.4cm;
@@ -350,7 +352,7 @@ div.notice {
  .giroDetail {
 	position: absolute;
 	left: 2.85cm;
-	top: 5.4cm;
+	top: 5.6cm;
 	width: 11.9cm;
 	height: 1.3cm;
 	font-size: 0.35cm;
@@ -359,7 +361,7 @@ div.notice {
  #girobizrno {
 	position: absolute;
 	left: 0cm;
-	top: 0cm;
+	top: 0.026cm;
 	width: 4.5cm;
 	height: 0.5cm;
 	padding: 0.04cm;
@@ -557,7 +559,8 @@ div.notice {
 
 	  div.giro {
 		left: 5.8cm;
-		top: 0.07cm;
+		top: 0.27cm;\
+		/*top: 0.07cm;*/
 		width: 14.8cm;
 		height: 8.8cm;
 	 }
@@ -602,7 +605,7 @@ div.notice {
 	 }
 
 	 .giroDetail {
-		top: 5.2cm;
+		top: 5.3cm;
 	 }
 
 	 #girobizrno {
@@ -664,7 +667,7 @@ div.notice {
 }
 
      </style>
-	<script src="<c:url value='/js/jquery-1.10.2.min.js'/>"></script>
+<script src="<c:url value='/js/jquery-1.10.2.min.js'/>"></script>
 	<script src="<c:url value='/js/jquery-migrate-1.2.1.min.js'/>"></script>
 	<script src="<c:url value='/js/jquery-ui.min.js'/>"></script>
 	<script>
@@ -727,7 +730,7 @@ div.notice {
 	                else alert(data.resultMsg);
 			});
 		});
-		
+
 		/* 
 	 		일시 : 2018.06.07
 			요청자 : 항만운영팀 조현성
@@ -753,7 +756,6 @@ div.notice {
 			$('#senderPostcode').text(text2);
 			
 		});
-		
 	});
 	</script>
   </head>
@@ -771,7 +773,7 @@ div.notice {
         <div class="subpage">
         <input id='leftPrintPadding' type="text" value="" class="notprint" style="position:fixed; left: 20px; top: 60px; width: 120px; z-index: 999;" placeholder="가로 보정치 mm">
         <input id='topPrintPadding' type="text" value="" class="notprint" style="position:fixed; left: 20px; top: 90px; width: 120px; z-index: 999;" placeholder="세로 보정치 mm">
-        
+
         <!-- 
         	일시 : 2018.06.07
        		요청자 : 항만운영팀 조현성
@@ -782,7 +784,7 @@ div.notice {
 			<option value="001" selected="selected">여수</option>
 			<option value="002" >광양</option>
 		</select>
-		
+
         	<div class="subpage1">
 				<div class="sender">
 					<div id="senderAddress">
@@ -874,9 +876,9 @@ div.notice {
 	      				<div id="payTmlmt"><c:out value="${result.payTmlmt}"/></div>
 	      				<div id="girormk">항코드 : <c:out value="${result.prtAtcode}"/> 관리번호 : <c:out value="${result.mngYear}"/>-<c:out value="${result.mngNo}"/>-<c:out value="${result.mngCnt}"/> 고지회차 : <c:out value="${result.nticCnt}"/>회차</div>
 		       		</div>
-		       		<div id="noticermk">납기가 지난 고지서는 납부할 수 없으며, 금융기관에서는 온라인 수납처리 바랍니다.</div>
+		       		<div id="noticermk">납기가 지난 고지서는 납부할 수 없으며, 금융기관에서는 온라인 수납처리 바랍니다..</div>
 				</div>
-			</div>
+		  </div>
         </div>
     </div>
     <c:if test="${arrrgItem!=null }">
