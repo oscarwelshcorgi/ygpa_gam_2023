@@ -64,7 +64,7 @@ public class GamFcltyMaintMngController {
 	/** Validator */
 	@Autowired
 	private DefaultBeanValidator beanValidator;
-
+ 
 	/** EgovPropertyService */
     @Resource(name = "propertiesService")
     protected EgovPropertyService propertiesService;

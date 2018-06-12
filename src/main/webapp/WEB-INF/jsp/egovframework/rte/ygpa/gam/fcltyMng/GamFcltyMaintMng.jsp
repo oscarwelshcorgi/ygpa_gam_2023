@@ -1929,7 +1929,7 @@ var module_instance = new GamFcltyMaintMngModule();
 					</tbody>
 				</table>
 			</form>
-		</div>
+		</div> 
 	</div>
 
 	<div class="emdPanel fillHeight">

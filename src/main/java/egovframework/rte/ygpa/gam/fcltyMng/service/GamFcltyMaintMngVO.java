@@ -43,7 +43,7 @@ public class GamFcltyMaintMngVO extends ComDefaultVO {
 	private String sFcltsJobSe;
 	
 	/** 전체시설 */
-	private String sFcltyCd;
+	private String sFcltyCd; 
 
 	/** 유지보수공사명 */
 	private String sMntnRprCnstNm;
