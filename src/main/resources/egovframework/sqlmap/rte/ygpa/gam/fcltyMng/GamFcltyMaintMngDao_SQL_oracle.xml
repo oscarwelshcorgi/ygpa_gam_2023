@@ -48,6 +48,12 @@
 							, M.ENFORCE_YEAR
 						FROM 
 							MNTN_RPR_DTLS_F M
+							
+						<!-- 
+							일자 : 2018. 06. 11
+							요청자 : 항만개발팀 엄상현
+							내   용 : 연도별유지보수이력(방충재, 계선주) 관리대장 추가-조회조건 추가
+						 -->	
 						LEFT OUTER JOIN
 						(
 						    SELECT
@@ -71,6 +77,8 @@
 						ON  M.FCLTS_JOB_SE = S.PRT_FCLTY_SE
 						AND M.FCLTS_MNG_GROUP_NO = S.FCLTS_MNG_GROUP_NO
 						AND M.MNTN_RPR_SEQ = S.MNTN_RPR_SEQ
+						
+						
 						WHERE
 							1 = 1
 						<isNotEmpty property="sFcltsMngGroupNo">
@@ -131,6 +139,13 @@
 			, NVL(SUM(M.MNTN_RPR_BDGT),0) AS SUM_MNTN_RPR_BDGT
 		FROM
 			MNTN_RPR_DTLS_F M
+			
+			
+		<!-- 
+			일자 : 2018. 06. 11
+			요청자 : 항만개발팀 엄상현
+			내   용 : 연도별유지보수이력(방충재, 계선주) 관리대장 추가-조회조건 추가
+		 -->	
 		LEFT OUTER JOIN
 		(
 		    SELECT
@@ -154,6 +169,8 @@
 		ON  M.FCLTS_JOB_SE = S.PRT_FCLTY_SE
 		AND M.FCLTS_MNG_GROUP_NO = S.FCLTS_MNG_GROUP_NO
 		AND M.MNTN_RPR_SEQ = S.MNTN_RPR_SEQ
+		
+		
 		WHERE
 			1 = 1
 

@@ -124,6 +124,12 @@ public class GamFcltyMaintMngController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 		
+		
+		/*
+		  	일자 : 2018. 06. 11
+			요청자 : 항만개발팀 엄상현
+			내   용 : 연도별유지보수이력(방충재, 계선주) 관리대장 추가-조회조건 추가
+		*/
 		if(searchVO.getsFcltsJobSe().endsWith("*"))
 		{
 			searchVO.setsFcltsJobSe("");

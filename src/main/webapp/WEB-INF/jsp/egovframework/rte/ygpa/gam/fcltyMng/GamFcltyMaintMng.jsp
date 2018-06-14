@@ -1902,6 +1902,11 @@ var module_instance = new GamFcltyMaintMngModule();
 						<tr>
 							<th>시설물업무구분</th>
 							<td>
+								<!-- 
+									일자 : 2018. 06. 11
+									요청자 : 항만개발팀 엄상현
+									내   용 : 연도별유지보수이력(방충재, 계선주) 관리대장 추가-조회조건 추가
+								 -->
 								<input id="sFcltsJobSe" data-column-id="sFcltsJobSe" type="text" class="ygpaCmmnCd" data-code-id="GAM065" data-default-prompt="전체분류 " size="8" data-required="true">
 								<input id="sFcltyCd" data-column-id="sFcltyCd" type="text" class="ygpaFilterCode" data-filter="sFcltsJobSe" data-url="/cmmn/selectCmmnCdFilterList.do" data-default-prompt="전체시설 " size="8" data-required="true">
 							</td>
