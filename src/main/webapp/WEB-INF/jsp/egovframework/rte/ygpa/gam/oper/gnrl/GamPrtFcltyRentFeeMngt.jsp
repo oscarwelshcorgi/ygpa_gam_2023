@@ -115,7 +115,7 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
     });
 
     this.$('#vat').on("keyup change", {module: this}, function(event) {
-		event.data.module._modifyFee=true;
+    	event.data.module.changeVat();
     });
 
     this.$('#roundVat').on("change", {module: this}, function(event) {
@@ -206,6 +206,27 @@ GamAssetRentFeeMngtModule.prototype.changeFee = function() {
 		this.$('#nticAmt').text($.number(fee+vat));
 	}
 
+	this._modifyFee=true;
+};
+
+<%--
+부가세 요금 변경
+--%>
+GamAssetRentFeeMngtModule.prototype.changeVat = function() {
+	var fee = this.$('#fee').val().replace(/,/g, "")*1;
+	var vat = this.$('#vat').val().replace(/,/g, "")*1;
+	var intrAmnt = 0;
+	if(this.nticMth!='1' && this.nticMth!='6') {
+		intrAmnt=Number(this.$('#intrAmnt').val()||0);
+		fee+=intrAmnt;
+		this.$('#totPrice').text($.number(fee));
+
+		this.$('#nticAmt').text($.number(Math.ceil(fee+vat)));
+	}
+	else {
+		this.$('#nticAmt').text($.number(fee+vat));
+	}
+	console.log("12121221");
 	this._modifyFee=true;
 };
 
