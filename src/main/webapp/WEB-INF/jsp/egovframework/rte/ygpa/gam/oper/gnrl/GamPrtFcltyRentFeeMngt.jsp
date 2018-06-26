@@ -501,7 +501,8 @@ GamAssetRentFeeMngtModule.prototype.cancelSave = function() {
                         }
 
                         alert(result.resultMsg);
-                        module.loadData();
+                        rows['nhtIsueYn']="Y";
+//                        module.loadData();
                     });
                 }
             } else {
