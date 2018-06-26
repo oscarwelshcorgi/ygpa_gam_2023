@@ -75,10 +75,7 @@
 						    GROUP BY G.PRT_FCLTY_SE, G.FCLTS_MNG_GROUP_NO
 						)S
 						ON  M.FCLTS_JOB_SE = S.PRT_FCLTY_SE
-						AND M.FCLTS_MNG_GROUP_NO = S.FCLTS_MNG_GROUP_NO
-						AND M.MNTN_RPR_SEQ = S.MNTN_RPR_SEQ
-						
-						
+						AND M.FCLTS_MNG_GROUP_NO = S.FCLTS_MNG_GROUP_NO						
 						WHERE
 							1 = 1
 						<isNotEmpty property="sFcltsMngGroupNo">
@@ -168,7 +165,6 @@
 		)S
 		ON  M.FCLTS_JOB_SE = S.PRT_FCLTY_SE
 		AND M.FCLTS_MNG_GROUP_NO = S.FCLTS_MNG_GROUP_NO
-		AND M.MNTN_RPR_SEQ = S.MNTN_RPR_SEQ
 		
 		
 		WHERE
