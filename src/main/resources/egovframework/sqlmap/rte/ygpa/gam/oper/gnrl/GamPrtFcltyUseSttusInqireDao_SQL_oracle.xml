@@ -131,7 +131,7 @@
 					         </isNotEmpty>
 					         
 					         <isNotEmpty property="sGrUsagePdTo">
-					             AND A.GR_USAGE_PD_FROM <![CDATA[<=]]> REPLACE(#sGrUsagePdTo#,'-','')
+					             AND A.GR_USAGE_PD_TO <![CDATA[<=]]> REPLACE(#sGrUsagePdTo#,'-','')
 					         </isNotEmpty>
 					         
 					         <isNotEmpty property="sGrAr">
@@ -227,7 +227,7 @@
              </isNotEmpty>
              
              <isNotEmpty property="sGrUsagePdTo">
-                 AND A.GR_USAGE_PD_FROM <![CDATA[<=]]> REPLACE(#sGrUsagePdTo#,'-','')
+                 AND A.GR_USAGE_PD_TO <![CDATA[<=]]> REPLACE(#sGrUsagePdTo#,'-','')
              </isNotEmpty>
              
              <isNotEmpty property="sGrAr">
