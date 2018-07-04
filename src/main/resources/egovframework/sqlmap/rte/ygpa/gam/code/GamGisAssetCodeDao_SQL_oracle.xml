@@ -209,7 +209,12 @@
 			</isNotNull>
 				UPDTDT=SYSDATE
 			WHERE
-				GIS_ASSETS_PRT_AT_CODE=#beforeGisAssetsPrtAtCode#
+							<!-- 
+				일자 : 2018.07.04
+				내용 : 없는 파라미터
+				#beforeGisAssetsPrtAtCode# -> #gisAssetsPrtAtCode# 
+				-->
+				GIS_ASSETS_PRT_AT_CODE=#gisAssetsPrtAtCode#
 				AND GIS_ASSETS_SUB_CD=#gisAssetsSubCd#
 				AND GIS_ASSETS_CD=UPPER(#gisAssetsCd#)
 	</update>
