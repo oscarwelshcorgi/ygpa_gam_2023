@@ -84,7 +84,9 @@
 					#drwLstSeq#,
 					TO_NUMBER(REPLACE(#gisAssetsValAmt#, ',', '')),
 					TO_DATE(#gisAssetsValInqireDt#, 'YYYY-MM-DD'),
-					#erpAssetsSeCd#,
+
+					#erpAssetsCls#,
+					
 					#erpAssetsNo#,
 					#erpAssetsNoSeq#,
 					#erpAssetsDisuseRegistYn#,
@@ -92,6 +94,12 @@
 					#gisAssetsQuayCd#
  )
 		]]>
+<!-- 
+일자 : 2018.07.04
+내용 : 없는 파라미터
+#erpAssetsSeCd# -> #erpAssetsCls# 
+-->
+
 	</insert>
 
 	<update id="gamGisAssetCodeDao.updateAssetCode_S">
