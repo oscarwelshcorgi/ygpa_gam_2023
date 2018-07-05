@@ -143,6 +143,13 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 	});
 
 	this.$("#assetCodeList").on('onItemSelected', function(event, module, row, grid, param) {
+		/*
+			일자 : 2018.07.05
+			내용 : 신규가아닐경우 항구분 수정 하지 못하도록
+		*/
+		module.$('#gisAssetsPrtAtCode_select').attr('disabled', 'disabled');
+		module.$('#gisAssetsPrtAtCode').attr('disabled', 'disabled');
+		
 		module.makeFormValues('#editGisAssetCode', row);
 		module._editData=module.getFormValues('#editGisAssetCode', row);
 		module._editRow=module.$('#assetCodeList').selectedRowIds()[0];
@@ -267,6 +274,12 @@ GamAssetCodeModule.prototype.addGisAssetItem = function() {
 	this.$('#itemName').disable();
 
 	this.$('#gisAssetsPrtAtCode').enable();
+	
+	/*
+		일자 : 2018.07.05
+		내용 : 기본값 사용(Y)으로 지정
+	*/
+	this.$('#gisAssetsUsageYn').val("Y");
 
 	this._editData=this.getFormValues('#editGisAssetCode', {_updtId:'I'});	// 데이터 추가
 	this._editRow=null;
@@ -301,9 +314,21 @@ GamAssetCodeModule.prototype.saveGisAssetItem = function() {
 	    this.doAction('/asset/mergeGamErpGisAssetCodeMngt.do', inputVO, function(module, result) {
 	        if(result.resultCode == 0){
 	            var searchOpt=module.makeFormArgs('#searchGisAssetCode');
+	            console.log("searchOpt: " + searchOpt);
 	            module.$('#assetCodeList').flexOptions({params:searchOpt}).flexReload();
 	        }
-	        alert(result.resultMsg);
+	        
+	        
+			/*
+				일자 : 2018.07.05
+				내용 : 신규가아닐경우 항구분 수정 하지 못하도록
+			*/
+	        if(result.resultCode == 0)
+	        {
+	    		module.$('#gisAssetsPrtAtCode_select').attr('disabled', 'disabled');
+	    		module.$('#gisAssetsPrtAtCode').attr('disabled', 'disabled');
+	        }
+	        
 	        module._edited=false;
 	    });
 	}
@@ -907,8 +932,7 @@ var module_instance = new GamAssetCodeModule();
 						<td colspan="3"><textarea cols="60" rows="1" id="gisAssetsRm"></textarea></td>
 						<th><span class="label">사용여부</span></th>
 						<td>
-							<select id="gisAssetsUsageYn">
-									<option value="" selected="selected">선택</option>
+							<select id="gisAssetsUsageYn" data-required="true"> 
 									<option value="Y">사용</option>
 									<option value="N">사용안함</option>
 							</select>
