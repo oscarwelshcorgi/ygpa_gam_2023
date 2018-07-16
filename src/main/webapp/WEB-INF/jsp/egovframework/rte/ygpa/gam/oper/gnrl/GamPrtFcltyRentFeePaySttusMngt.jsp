@@ -152,7 +152,7 @@ GamPrtFcltyRentFeePaySttusMngtModule.prototype.loadComplete = function(params) {
         this.$('#sUsagePdTo').val(EMD.util.getDate(EMD.util.addMonths(1)));	// 현재 일자부터 1개월 이후 까지 조회 기본 값으로 입력 한다.
     	*/
     }
-     
+
 	this.$("#searchCondition").on('change', {module: this}, function(event) {
 		var module = event.data.module;
 		var opt = $(event.target).val();
@@ -174,7 +174,7 @@ GamPrtFcltyRentFeePaySttusMngtModule.prototype.loadComplete = function(params) {
 			break;
 		}
 	});
-    
+
     console.log('loadCompleted');
 };
 
@@ -623,22 +623,22 @@ GamPrtFcltyRentFeePaySttusMngtModule.prototype.calculateArrrgFee = function() {
  		iTermDay   = 1800;
  	}
 
- 	// 연체기간 1개월 미만의 사용료 12%
+ 	// 연체기간 1개월 미만의 사용료 7%
  	if(iTermMonth < 1){
- 		fBasicRate = 0.12;
- 		strText    = " 12%";
+ 		fBasicRate = 0.07;
+ 		strText    = " 7%";
  	}else if(iTermMonth < 3){
- 		// 연체기간 1개월 - 3개월 미만의 사용료 13%
- 		fBasicRate = 0.13;
- 		strText    = " 13%";
+ 		// 연체기간 1개월 - 3개월 미만의 사용료 8%
+ 		fBasicRate = 0.08;
+ 		strText    = " 8%";
  	}else if(iTermMonth < 6){
- 		// 연체기간 3개월 - 6개월 미만의 사용료 14%
- 		fBasicRate = 0.14;
- 		strText    = " 14%";
+ 		// 연체기간 3개월 - 6개월 미만의 사용료 9%
+ 		fBasicRate = 0.09;
+ 		strText    = " 9%";
  	}else{
- 		// 연체기간 6개월 - 60개월 까지의 사용료 15%
- 		fBasicRate = 0.15;
- 		strText    = " 15%";
+ 		// 연체기간 6개월 - 60개월 까지의 사용료 10%
+ 		fBasicRate = 0.10;
+ 		strText    = " 10%";
  	}
  //alert("계산61==>"+iTermMonth+"::"+iTermDay+"::"+fBasicRate+"::"+strText);
 	 this.fBasicRate = fBasicRate;
@@ -748,7 +748,7 @@ var module_instance = new GamPrtFcltyRentFeePaySttusMngtModule();
                                 <input id="sMngNo" type="text" class="mngNo">
                                 <input id="sMngCnt" type="text" class="mngCnt">
                             </td>
-<!-- 
+<!--
                             <th>고지일자</th>
                             <td>
                             	<input id="sNticDtFrom" data-column-id="nticPdFrom" type="text" class="emdcal"size="8">

@@ -572,22 +572,22 @@ GamAssetRentFeePayDtlsMngtModule.prototype.calculateArrrgFee = function() {
  		iTermDay   = 1800;
  	}
 
- 	// 연체기간 1개월 미만의 사용료 12%
+ 	// 연체기간 1개월 미만의 사용료 7%
  	if(iTermMonth < 1){
- 		fBasicRate = 0.12;
- 		strText    = " 12%";
+ 		fBasicRate = 0.07;
+ 		strText    = " 7%";
  	}else if(iTermMonth < 3){
- 		// 연체기간 1개월 - 3개월 미만의 사용료 13%
- 		fBasicRate = 0.13;
- 		strText    = " 13%";
+ 		// 연체기간 1개월 - 3개월 미만의 사용료 8%
+ 		fBasicRate = 0.08;
+ 		strText    = " 8%";
  	}else if(iTermMonth < 6){
- 		// 연체기간 3개월 - 6개월 미만의 사용료 14%
- 		fBasicRate = 0.14;
- 		strText    = " 14%";
+ 		// 연체기간 3개월 - 6개월 미만의 사용료 9%
+ 		fBasicRate = 0.09;
+ 		strText    = " 9%";
  	}else{
- 		// 연체기간 6개월 - 60개월 까지의 사용료 15%
- 		fBasicRate = 0.15;
- 		strText    = " 15%";
+ 		// 연체기간 6개월 - 60개월 까지의 사용료 10%
+ 		fBasicRate = 0.10;
+ 		strText    = " 10%";
  	}
  //alert("계산61==>"+iTermMonth+"::"+iTermDay+"::"+fBasicRate+"::"+strText);
 	 this.fBasicRate = fBasicRate;
