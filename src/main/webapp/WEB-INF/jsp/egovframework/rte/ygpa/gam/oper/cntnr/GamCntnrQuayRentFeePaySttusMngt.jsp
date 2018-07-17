@@ -561,28 +561,52 @@ GamCntnrQuayRentFeePaySttusMngtModule.prototype.calculateArrrgFee = function() {
 	var iTermMonth    = iTerm[0];
 	var iTermDay = this.getDayInterval(payTmlmt,dlyBillDt);
 
+	var checkDate = EMD.util.strToDate("2018-06-26");
+
  	if((iTermMonth > 60) || (iTermDay >= 1800)){
  		iTermMonth = 60;
  		iTermDay   = 1800;
  	}
 
- 	// 연체기간 1개월 미만의 사용료 7%
- 	if(iTermMonth < 1){
- 		fBasicRate = 0.07;
- 		strText    = " 7%";
- 	}else if(iTermMonth < 3){
- 		// 연체기간 1개월 - 3개월 미만의 사용료 8%
- 		fBasicRate = 0.08;
- 		strText    = " 8%";
- 	}else if(iTermMonth < 6){
- 		// 연체기간 3개월 - 6개월 미만의 사용료 9%
- 		fBasicRate = 0.09;
- 		strText    = " 9%";
- 	}else{
- 		// 연체기간 6개월 - 60개월 까지의 사용료 10%
- 		fBasicRate = 0.10;
- 		strText    = " 10%";
- 	}
+/* 2018-06-26 이전 이후 연체 이자율 조정 */
+	if(this.getDayInterval(checkDate,payTmlmt)>0){
+	 	// 연체기간 1개월 미만의 사용료 7%
+	 	if(iTermMonth < 1){
+	 		fBasicRate = 0.07;
+	 		strText    = " 7%";
+	 	}else if(iTermMonth < 3){
+	 		// 연체기간 1개월 - 3개월 미만의 사용료 8%
+	 		fBasicRate = 0.08;
+	 		strText    = " 8%";
+	 	}else if(iTermMonth < 6){
+	 		// 연체기간 3개월 - 6개월 미만의 사용료 9%
+	 		fBasicRate = 0.09;
+	 		strText    = " 9%";
+	 	}else{
+	 		// 연체기간 6개월 - 60개월 까지의 사용료 10%
+	 		fBasicRate = 0.10;
+	 		strText    = " 10%";
+	 	}
+	}
+	else{
+	 	// 연체기간 1개월 미만의 사용료 12%
+	 	if(iTermMonth < 1){
+	 		fBasicRate = 0.12;
+	 		strText    = " 12%";
+	 	}else if(iTermMonth < 3){
+	 		// 연체기간 1개월 - 3개월 미만의 사용료 13%
+	 		fBasicRate = 0.13;
+	 		strText    = " 13%";
+	 	}else if(iTermMonth < 6){
+	 		// 연체기간 3개월 - 6개월 미만의 사용료 14%
+	 		fBasicRate = 0.14;
+	 		strText    = " 14%";
+	 	}else{
+	 		// 연체기간 6개월 - 60개월 까지의 사용료 15%
+	 		fBasicRate = 0.15;
+	 		strText    = " 15%";
+	 	}
+	}
  //alert("계산61==>"+iTermMonth+"::"+iTermDay+"::"+fBasicRate+"::"+strText);
 	 this.fBasicRate = fBasicRate;
  	// 산출내역 뿌려줌.
