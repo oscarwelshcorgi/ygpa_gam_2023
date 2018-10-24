@@ -4,6 +4,7 @@
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
 <%
   /**
   * @Class Name : ygpaMapMain.jsp
@@ -21,9 +22,9 @@
   */
 %>
 <!DOCTYPE html>
-<html lang="ko" xml:lang="ko">
+<html>
   <head>
-    <title>여수광양항만공사 - GIS기반 자산관리 시스템 (RELEASE)</title>
+    <title>여수광양항만공사 - GIS기반 자산관리 시스템 (LOCAL)</title>
 	<meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
@@ -39,11 +40,20 @@
 
 <link rel="stylesheet" href="<c:url value='/js/codebase/dhtmlx.css'/>">
 
-<!--[if lt IE 9]>
+<%-- <link rel="stylesheet" href="<c:url value='/css/jtree/themes/default/style.min.css'/>">
+ --%><!--[if lt IE 9]>
 <link rel="stylesheet" href="<c:url value='/css/ygpa/gam/ie.css'/>" />
 <![endif]-->
 
-    <script src="<c:url value='/js/OpenLayers.js'/>"></script>
+    <style>
+/*       html, body, #map-canvas {
+        height: 100%;
+        margin: 0px;
+        padding: 0px
+      }
+ */    </style>
+
+    <script src="<c:url value='/js/OpenLayers.debug.js'/>"></script>
     <script src="<c:url value='/js/jquery-1.10.2.min.js'/>"></script>
     <script src="<c:url value='/js/jquery-migrate-1.2.1.min.js'/>"></script>
     <script src="<c:url value='/js/jquery-ui.min.js'/>"></script>
@@ -53,50 +63,60 @@
 	<script src="<c:url value='/js/Proj4js/proj4js.js'/>"></script>
 <%-- 	<script src="<c:url value='/js/Proj4js/defs/EPSG5181.js'/>"></script>
 	<script src="<c:url value='/js/Proj4js/defs/EPSG5186.js'/>"></script>
+	<script src="<c:url value='/js/Proj4js/defs/EPSG4326.js'/>"></script>
  --%>
     <script src="<c:url value='/js/codebase/dhtmlx.js'/>"></script>
 
     <script type="text/javascript" src="<c:url value="/validator.do"/>"></script>
+     <script src="<c:url value='/js/emf_map.ygpa_gam.js'/>"></script>
+
+    <script src="<c:url value='/js/DynamicMeasure.js'/>"></script>
     <script src="<c:url value='/js/gis_rules.js'/>"></script>
-    <script src="<c:url value='/js/emf_map.ygpa_gam.js'/>"></script>
+    <script src="<c:url value='/js/emf.map.desktop.js'/>"></script>
+     <!--
+    <script src="<c:url value='/js/codebase/dhtmlxgrid.js'/>"></script>
+     -->
+    <script src="<c:url value='/js/dhtmlx.flexigrid.ygpa.js'/>"></script>
+
 
     <script type="text/javascript">
 	var $DEBUG=false;
-	var wikiUrl="http://192.168.0.71:8100/wiki/Wiki.jsp?";
+	var wikiUrl="http://192.168.200.61:8100/wiki/Wiki.jsp?";
 
-       jQuery(document).ready(function() {
-    	   var frmwrkMenu=null;
-    	   Proj4js.libPath = '${pageContext.request.contextPath}/js/Proj4js/';
+    jQuery(document).ready(function() {
+ 	   var frmwrkMenu=null;
+ 	   Proj4js.libPath = '${pageContext.request.contextPath}/js/Proj4js/';
 	    	<c:if test="${frmwrkMenu!=null}">
 	   	   	frmwrkMenu = [
 					<c:forEach items="${frmwrkMenu }" var="menuItem" varStatus="menuStatus">
-					{
-						menuNo: '<c:out value="${menuItem.menuNo }"/>',
-						menuNm: '<c:out value="${menuItem.menuNm }"/>',
-						url: '<c:out value="${menuItem.url }"/>',
-						progrmFileNm: '<c:out value="${menuItem.progrmFileNm }"/>',
-						<c:if test="${fn:contains(menuItem, 'submenu')}">
-						submenu: [
-									<c:forEach items="${menuItem.submenu }" var="subMenu" varStatus="status">
-									{
-										menuNo: '<c:out value="${subMenu.menuNo }"/>',
-										menuNm: '<c:out value="${subMenu.menuNm }"/>',
-										url: '<c:out value="${subMenu.url }"/>',
-										progrmFileNm: '<c:out value="${menuItem.progrmFileNm }"/>',
-										progrmStrePath: '<c:out value="${subMenu.progrmStrePath }"/>'
-									}
-									<c:if test="${!status.last}">,</c:if>
-									</c:forEach>
-						          ]
-						</c:if>
-					}
+						{
+							menuNo: '<c:out value="${menuItem.menuNo }"/>',
+							menuNm: '<c:out value="${menuItem.menuNm }"/>',
+							url: '<c:out value="${menuItem.url }"/>',
+							progrmFileNm: '<c:out value="${menuItem.progrmFileNm }"/>',
+							<c:if test="${fn:contains(menuItem, 'submenu')}">
+							submenu: [
+										<c:forEach items="${menuItem.submenu }" var="subMenu" varStatus="status">
+										{
+											menuNo: '<c:out value="${subMenu.menuNo }"/>',
+											menuNm: '<c:out value="${subMenu.menuNm }"/>',
+											url: '<c:out value="${subMenu.url }"/>',
+											progrmFileNm: '<c:out value="${menuItem.progrmFileNm }"/>',
+											progrmStrePath: '<c:out value="${subMenu.progrmStrePath }"/>'
+										}
+										<c:if test="${!status.last}">,</c:if>
+										</c:forEach>
+							          ]
+							</c:if>
+						}
 						<c:if test="${!menuStatus.last}">,</c:if>
 					</c:forEach>
 				];
 	   	   </c:if>
-	    	EMD.go("${pageContext.request.contextPath}", "http://192.168.0.71:8092/G2DataService/2d/Base/201310", "http://192.168.0.71:8092/G2DataService/GService?", "${pageContext.request.scheme}://${pageContext.request.serverName}", frmwrkMenu);
-    	 });
-
+//	    	EMD.go("${pageContext.request.contextPath}", "http://192.168.0.71:8092/G2DataService/2d/Base/201310", "http://192.168.0.71:8092/G2DataService/GService?", "${pageContext.request.scheme}://${pageContext.request.serverName}", frmwrkMenu);
+	    	EMD.go("${pageContext.request.contextPath}", "http://xdworld.vworld.kr:8080/2d/Base/201310", "http://192.168.100.70:8080/G2DataService/GService?", "${pageContext.request.scheme}://${pageContext.request.serverName}", frmwrkMenu);
+//	    	EMD.go("${pageContext.request.contextPath}", "http://192.168.0.71:8092/G2DataService/2d/Base/201310", "http://192.168.0.71:8092/G2DataService/GService?", "${pageContext.request.scheme}://${pageContext.request.serverName}", frmwrkMenu);
+ 	 });
     </script>
   </head>
   <body>
@@ -149,6 +169,9 @@
                 </li>
                 <li>
                     <a href="#" data-role="logout">로그아웃</a>
+                </li>
+                <li>
+                    <a href="#" data-role="getUserInfo">사용자정보 갱신</a>
                 </li>
             </ul>
         </li>
@@ -220,9 +243,9 @@
 <div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls" data-filter=":even">
     <div class="slides"></div>
     <h3 class="title"></h3>
-    <a class="prev"><span class="ui-icon ui-icon-carat-1-w" /></a>
-    <a class="next"><span class="ui-icon ui-icon-carat-1-e" /></a>
-    <a class="close"><span class="ui-icon ui-icon-close" /></a>
+    <a class="prev"><span class="ui-icon ui-icon-carat-1-w"></span></a>
+    <a class="next"><span class="ui-icon ui-icon-carat-1-e"></span></a>
+    <a class="close"><span class="ui-icon ui-icon-close"></span></a>
     <a class="play-pause"></a>
     <ol class="indicator"></ol>
 </div>
@@ -314,9 +337,9 @@
 <div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls" data-filter=":even">
     <div class="slides"></div>
     <h3 class="title"></h3>
-    <a class="prev"><span class="ui-icon ui-icon-carat-1-w" /></a>
-    <a class="next"><span class="ui-icon ui-icon-carat-1-e" /></a>
-    <a class="close"><span class="ui-icon ui-icon-close" /></a>
+    <a class="prev"><span class="ui-icon ui-icon-carat-1-w"></span></a>
+    <a class="next"><span class="ui-icon ui-icon-carat-1-e"></span></a>
+    <a class="close"><span class="ui-icon ui-icon-close"></span></a>
     <a class="play-pause"></a>
     <ol class="indicator"></ol>
 </div>
