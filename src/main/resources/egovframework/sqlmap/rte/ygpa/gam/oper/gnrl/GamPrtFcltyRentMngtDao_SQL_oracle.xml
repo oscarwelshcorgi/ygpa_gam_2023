@@ -743,7 +743,7 @@
                                 , A.APPLC_TARIFF APPLC_TARIFF_STR
                                 , GAM_GETCODENAME('GAM003', A.QUAY_CD) QUAY_CD_NM
                                 , NVL(USAGE_PD_CHK,'N')  AS USAGE_PD_CHK
-                                , GAM_GET_OLD_OLNLP(A.PRT_AT_CODE, A.GIS_ASSETS_CD, A.GIS_ASSETS_SUB_CD) AS OLD_OLNLP
+                                , GAM_GET_OLD_APPLC_PRICE(A.PRT_AT_CODE, A.MNG_YEAR, A.MNG_NO) AS OLD_APPLC_PRICE
                             FROM ASSETS_RENT_DETAIL_F A
 							LEFT OUTER JOIN GIS_ASSETS_CD_F F ON (F.GIS_ASSETS_PRT_AT_CODE = NVL(A.GIS_ASSETS_PRT_AT_CODE, A.PRT_AT_CODE) AND
 																	F.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD AND
