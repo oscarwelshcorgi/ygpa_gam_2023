@@ -761,6 +761,8 @@ GamAssetRentMngtModule.prototype.calcNationAssetLaw = function() {
     ) {
     	console.log('debug');
         var calFee      = 0;  //계산된 사용료
+        var oldOlnlp       = 0;  //이전공시지가 jckim 2018.11.15 추가
+        var overOlnlp = 0;//공시지가 9% 이상 체크 jckim 2018.11.15 추가
         var olnlp       = 0;  //공시지가
         var usageAr     = 0;  //사용면적
         var applcTariff = 0;  //적용요율(계산용)
@@ -774,6 +776,7 @@ GamAssetRentMngtModule.prototype.calcNationAssetLaw = function() {
         var exemptCnt   = 0;      // 면제일수
         var exemptSe    = ""; //면제구분 0:면제없음, 1:일부면제, 2:전체면제
 
+        oldOlnlp = this.$('#oldOlnlp').val().replace(/,/g, '')*1;
         olnlp = this.$('#olnlp').val().replace(/,/g, '')*1;
         usageAr = Number(this.$('#usageAr').val().replace(/,/g, ''));
         applcTariff = Number(this.$('#applcTariff').val().replace(/,/g, ''));
@@ -783,6 +786,24 @@ GamAssetRentMngtModule.prototype.calcNationAssetLaw = function() {
         exemptPdFrom = this.$('#exemptPdFrom').val();
         exemptPdTo = this.$('#exemptPdTo').val();
         exemptSe = this.$('#exemptSe').val();
+
+
+        var rows = this.$('#assetRentMngtList').selectedRows();
+		if(rows.length>0) {
+			if(rows[0].prmisnYn!='Y') {
+		        /* 공시지가 9% 체크 */
+		        console.log("공시지가 9% 체크");
+		        if(oldOlnlp!=0 && oldOlnlp < olnlp){
+			    	overOlnlp = (olnlp-oldOlnlp)/oldOlnlp*100;
+		        }
+		        if(overOlnlp > 9){
+		        	alert("공시지가가 9% 이상 변경되었습니다.");
+		            this.$('#exemptRsn').val("(입력 공시지가 : "+$.number(olnlp)+", 적용 공시지가:"+$.number(Math.floor(oldOlnlp*1.09))+")");
+		            this.$('#olnlp').val($.number(Math.floor(oldOlnlp*1.09)));
+		            olnlp = Math.floor(oldOlnlp*1.09);
+		        }
+			}
+		}
 
         var monfee = olnlp*applcTariff/12;
 
@@ -874,6 +895,7 @@ GamAssetRentMngtModule.prototype.calcNationAssetLaw = function() {
 			calcStr += " 면제 금액 : "+$.number(rdcxptFee, false)+"원)";
         }
         calcStr += " )";
+
     	this.$('#computDtls').val(calcStr);
 
 /*         calFee = Math.floor(calFee/10)*10;
@@ -1341,7 +1363,7 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
 	                		일시 : 2018.06.05
 	                		요청자 : 항만운영팀 조현성
 	                		내용 : 항만시설사용 신청저장 버튼 클릭시 기존탭 유지
-	                		처리 : 
+	                		처리 :
 	                			1. 주석 처리
 	                			2. this.$("#assetRentListTab").tabs("option", {active: 1}); => active: 0으로 소스 수정
                 		*/
@@ -2484,6 +2506,7 @@ var module_instance = new GamAssetRentMngtModule();
                 <!-- <div class="emdControlPanel"><button id="btnSaveItemDetail">저장</button></div>  -->
                     <form id="gamAssetRentDetailForm">
                         <input type="hidden" id="detailPrtAtCode" data-column-id="prtAtCode"/>
+                        <input type="hidden" id="oldOlnlp" data-column-id="oldOlnlp"/>
 
                         <input type="hidden" id="detailPrmisnYn"/>
                         <table class="editForm">
