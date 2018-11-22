@@ -121,12 +121,12 @@
     	<c:if test="${menuItem.submenu!=null }">
 	    	<c:forEach items="${menuItem.submenu }" var="menuItem2">
           	<li>
-          		<a href="#" data-role="LoadModule" data-progrm-file-nm="${menuItem2.progrmFileNm }" data-url="${menuItem2.url }"><c:out value="${menuItem2.menuNm }"/></a>
+          		<a href="#" data-role="LoadModule" data-progrm-file-nm="${menuItem2.progrmFileNm }" data-url="${menuItem2.url }" data-nav="${menuItem.menuNm } > ${menuItem2.menuNm }"><c:out value="${menuItem2.menuNm }"/></a>
     			<c:if test="${menuItem2.submenu!=null }">
     				<ul class="submenu">
 			    		<c:forEach items="${menuItem2.submenu }" var="menuItem3">
 			                <li>
-			                	<a href="#" data-role="LoadModule" data-progrm-file-nm="${menuItem3.progrmFileNm }" data-url="<c:out value='${menuItem3.url }' />" ><c:out value="${menuItem3.menuNm }"/></a>
+			                	<a href="#" data-role="LoadModule" data-progrm-file-nm="${menuItem3.progrmFileNm }" data-url="<c:out value='${menuItem3.url }' />" data-nav="${menuItem.menuNm } > ${menuItem2.menuNm } > ${menuItem3.menuNm }" ><c:out value="${menuItem3.menuNm }"/></a>
 		                	</li>
 	                    </c:forEach>
                     </ul>
