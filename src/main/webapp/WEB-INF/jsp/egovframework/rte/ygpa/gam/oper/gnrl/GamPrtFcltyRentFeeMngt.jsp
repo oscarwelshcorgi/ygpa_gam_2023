@@ -260,7 +260,8 @@ GamAssetRentFeeMngtModule.prototype.changeInterest = function() {
 		console.log(ydays+' days');
 	}
 
-	intrAmnt=Math.ceil(intrAmnt);
+/* 2018-12-17 조현성 요청사항(소숫점 버림 처리)*/
+	intrAmnt=Math.floor(intrAmnt);
 	this.$('#intrAmnt').val($.number(intrAmnt));
 	this.changeFee();
 
