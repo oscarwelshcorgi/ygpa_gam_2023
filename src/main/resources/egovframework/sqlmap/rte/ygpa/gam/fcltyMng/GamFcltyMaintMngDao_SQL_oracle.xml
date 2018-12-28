@@ -46,14 +46,15 @@
 							, M.CNSTRTR
 							, M.RESPON_ENGINEER
 							, M.ENFORCE_YEAR
-						FROM 
+							, TO_CHAR(M.MNTN_RPR_CNST_END_DT+1095, 'YYYY-MM-DD') AS MATURITY_DT
+						FROM
 							MNTN_RPR_DTLS_F M
-							
-						<!-- 
+
+						<!--
 							일자 : 2018. 06. 11
 							요청자 : 항만개발팀 엄상현
 							내   용 : 연도별유지보수이력(방충재, 계선주) 관리대장 추가-조회조건 추가
-						 -->	
+						 -->
 						LEFT OUTER JOIN
 						(
 						    SELECT
@@ -75,7 +76,7 @@
 						    GROUP BY G.PRT_FCLTY_SE, G.FCLTS_MNG_GROUP_NO
 						)S
 						ON  M.FCLTS_JOB_SE = S.PRT_FCLTY_SE
-						AND M.FCLTS_MNG_GROUP_NO = S.FCLTS_MNG_GROUP_NO						
+						AND M.FCLTS_MNG_GROUP_NO = S.FCLTS_MNG_GROUP_NO
 						WHERE
 							1 = 1
 						<isNotEmpty property="sFcltsMngGroupNo">
@@ -136,13 +137,13 @@
 			, NVL(SUM(M.MNTN_RPR_BDGT),0) AS SUM_MNTN_RPR_BDGT
 		FROM
 			MNTN_RPR_DTLS_F M
-			
-			
-		<!-- 
+
+
+		<!--
 			일자 : 2018. 06. 11
 			요청자 : 항만개발팀 엄상현
 			내   용 : 연도별유지보수이력(방충재, 계선주) 관리대장 추가-조회조건 추가
-		 -->	
+		 -->
 		LEFT OUTER JOIN
 		(
 		    SELECT
@@ -165,8 +166,8 @@
 		)S
 		ON  M.FCLTS_JOB_SE = S.PRT_FCLTY_SE
 		AND M.FCLTS_MNG_GROUP_NO = S.FCLTS_MNG_GROUP_NO
-		
-		
+
+
 		WHERE
 			1 = 1
 
@@ -200,7 +201,7 @@
 			)
 		</isEmpty>
 		</isNotEmpty>
-		
+
 
 		<isNotEmpty property="sMapFcltsMngNo">
 			AND EXISTS (SELECT 'Y'

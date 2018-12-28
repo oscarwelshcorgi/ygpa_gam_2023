@@ -64,7 +64,7 @@ public class GamFcltyMaintMngController {
 	/** Validator */
 	@Autowired
 	private DefaultBeanValidator beanValidator;
- 
+
 	/** EgovPropertyService */
     @Resource(name = "propertiesService")
     protected EgovPropertyService propertiesService;
@@ -123,8 +123,8 @@ public class GamFcltyMaintMngController {
 		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-		
-		
+
+
 		/*
 		  	일자 : 2018. 06. 11
 			요청자 : 항만개발팀 엄상현
@@ -853,7 +853,45 @@ public class GamFcltyMaintMngController {
 
 
 
+	/**
+     * 방충재 유지보수현황 출력한다.
+     * @param approvalOpt
+     * @param model
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/fcltyMng/gamFcltyMaintMngPrint.do")
+    String gamFcltyMaintMngPrint(GamFcltyMaintMngVO searchVO, ModelMap model) throws Exception {
+    	String report = "ygpa/gam/fcltyMng/GamFcltyMaintMngPrint";
+    	model.addAttribute("searchVO", searchVO);
 
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+    		model.addAttribute("resultCode", 1);
+    		model.addAttribute("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+    	}
+    	else {
+    		searchVO.setFirstIndex(0);
+    		searchVO.setLastIndex(3000);
+    		searchVO.setRecordCountPerPage(3000);
+
+    		//Map printInfo = gamPrtFcltyRentFeeMngtService.selectNpticPrintInfo(approvalOpt);
+    		List printList = gamFcltyMaintMngService.selectFcltyMaintMngList(searchVO);
+    		Map printInfo = null;
+    		int etcCnt = 0;
+    		if(printList.size() > 0) {
+    			printInfo = (Map) printList.get(0);
+    			etcCnt = printList.size() - 1;
+    		}
+
+    		model.addAttribute("printList", printList);
+    		model.addAttribute("resultCode", 0);
+    		model.addAttribute("result", printInfo);
+    		model.addAttribute("etcCnt", etcCnt);
+    		model.addAttribute("resultMsg", "");
+    	}
+    	return report;
+	}
 
 
 

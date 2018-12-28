@@ -374,7 +374,7 @@ public class GamFcltyQcwWrtMngController {
     	Map map = new HashMap();
 		ObjectMapper mapper = new ObjectMapper();
 		List<HashMap<String,String>> deleteList = null;
-		   	
+
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
 	        map.put("resultCode", 1);
@@ -384,7 +384,7 @@ public class GamFcltyQcwWrtMngController {
 
 		deleteList = mapper.readValue((String)deleteOpt.get("deleteList"),
     		    new TypeReference<List<HashMap<String,String>>>(){});
-    	
+
     	try {
     		gamFcltyQcwWrtMngService.deleteSelectedQcMngDtls(deleteList);
 
@@ -869,7 +869,7 @@ public class GamFcltyQcwWrtMngController {
 
 		try {
 			sNewSeq = gamFcltyQcwWrtMngService.selectFcltyQcwWrtMngQcMngAtchFileNewSeq(gamQcMngAtchFileMngVO);
-			
+
 			gamQcMngAtchFileMngVO.setAtchFileSeq(sNewSeq);
 			gamQcMngAtchFileMngVO.setRegUsr((String)user.getId());
 			gamFcltyQcwWrtMngService.insertFcltyQcwWrtMngQcMngAtchFile(gamQcMngAtchFileMngVO);
@@ -1022,7 +1022,7 @@ public class GamFcltyQcwWrtMngController {
 		return map;
 
 	}
-	
+
 	/**
 	 * 안전점검결과 한글 문서 다운로드 - 김종민 추가 작업 2015.10.28
 	 * @param map
@@ -1043,13 +1043,13 @@ public class GamFcltyQcwWrtMngController {
 		}
 
 		searchVO = mapper.convertValue(qcPrintOpt, GamFcltyQcwWrtMngVO.class);
-		
+
 		searchVO.setsFcltsMngGroupNo(searchVO.getFcltsMngGroupNo());
 		searchVO.setsFcltsJobSe(searchVO.getFcltsJobSe());
 		searchVO.setsQcMngSeq(searchVO.getQcMngSeq());
-		
+
 		String hwpML = gamFcltyQcwWrtMngService.selectSafetyQcReportHWPML(searchVO);
-		
+
 		model.addAttribute("resultCode", 0);
 		model.addAttribute("resultMsg", "");
 		model.addAttribute("hwpML", hwpML);
@@ -1061,8 +1061,8 @@ public class GamFcltyQcwWrtMngController {
 		}
 
 		return "/ygpa/gam/fcltyMng/GamFcltyQcMngResultListReportHwp";
-	}	
-		
+	}
+
     /**
      * 선택된 안전점검결과 리스트 한글파일 문서 출력 - 김종민 추가 작업 2015.11.6
      *
@@ -1074,7 +1074,7 @@ public class GamFcltyQcwWrtMngController {
 	public String downloadSelectedSafetyQcResult(@RequestParam Map<String, Object> reportOpt , ModelMap model) throws Exception {
 		ObjectMapper mapper = new ObjectMapper();
 		List<HashMap<String,String>> reportList = null;
-		
+
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
 
 		if(!isAuthenticated) {
@@ -1085,9 +1085,9 @@ public class GamFcltyQcwWrtMngController {
 
 		reportList = mapper.readValue((String)reportOpt.get("downList"),
     		    new TypeReference<List<HashMap<String,String>>>(){});
-		
+
 		String hwpML = gamFcltyQcwWrtMngService.selectSafetyQcReportListHWPML(reportList);
-		
+
 		model.addAttribute("resultCode", 0);
 		model.addAttribute("resultMsg", "");
 		model.addAttribute("hwpML", hwpML);
@@ -1160,13 +1160,13 @@ public class GamFcltyQcwWrtMngController {
 		}
 
 		searchVO = mapper.convertValue(qcPrintOpt, GamFcltyQcwWrtMngVO.class);
-		
+
 		searchVO.setsFcltsMngGroupNo(searchVO.getFcltsMngGroupNo());
 		searchVO.setsFcltsJobSe(searchVO.getFcltsJobSe());
 		searchVO.setsQcMngSeq(searchVO.getQcMngSeq());
-		
+
 		String hwpML = gamFcltyQcwWrtMngService.selectQcMngResultListReportHWPML(searchVO);
-		
+
 		model.addAttribute("resultCode", 0);
 		model.addAttribute("resultMsg", "");
 		model.addAttribute("hwpML", hwpML);
@@ -1190,7 +1190,7 @@ public class GamFcltyQcwWrtMngController {
 	public String downloadSelectedResultList(@RequestParam Map<String, Object> reportOpt , ModelMap model) throws Exception {
 		ObjectMapper mapper = new ObjectMapper();
 		List<HashMap<String,String>> reportList = null;
-		
+
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
 
 		if(!isAuthenticated) {
@@ -1203,7 +1203,7 @@ public class GamFcltyQcwWrtMngController {
     		    new TypeReference<List<HashMap<String,String>>>(){});
 
 		String hwpML = gamFcltyQcwWrtMngService.selectSelectedReportListHWPML(reportList);
-		
+
 		model.addAttribute("resultCode", 0);
 		model.addAttribute("resultMsg", "");
 		model.addAttribute("hwpML", hwpML);
@@ -1216,5 +1216,47 @@ public class GamFcltyQcwWrtMngController {
 
 		return "/ygpa/gam/fcltyMng/GamFcltyQcMngResultListReportHwp";
 	}
-		
+
+
+    /**
+     * 방충재 점검기록 출력한다.
+     * @param approvalOpt
+     * @param model
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/fcltyMng/gamFcltyQcwWrtMngPrint.do")
+    String gamCvlEngFcltySpecMngPrint(GamFcltyQcwWrtMngVO searchVO, ModelMap model) throws Exception {
+    	String report = "/ygpa/gam/fcltyMng/GamFcltyQcwWrtMngPrint";
+    	model.addAttribute("searchVO", searchVO);
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+    		model.addAttribute("resultCode", 1);
+    		model.addAttribute("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+    	}
+    	else {
+    		searchVO.setFirstIndex(0);
+    		searchVO.setLastIndex(3000);
+    		searchVO.setRecordCountPerPage(3000);
+
+    		//Map printInfo = gamPrtFcltyRentFeeMngtService.selectNpticPrintInfo(approvalOpt);
+    		List printList = gamFcltyQcwWrtMngService.selectQcMngDtlsList(searchVO);
+    		Map printInfo = null;
+    		int etcCnt = 0;
+    		if(printList.size() > 0) {
+    			printInfo = (Map) printList.get(0);
+    			etcCnt = printList.size() - 1;
+    		}
+
+    		model.addAttribute("printList", printList);
+    		model.addAttribute("resultCode", 0);
+    		model.addAttribute("result", printInfo);
+    		model.addAttribute("etcCnt", etcCnt);
+    		model.addAttribute("resultMsg", "");
+    	}
+    	return report;
+	}
+
+
 }

@@ -3004,6 +3004,7 @@ var module_instance = new GamCvlEngFcltySpecMngModule();
 									<button id="btnAdd" class="buttonAdd">추가</button>
 									<button id="btnDelete" class="buttonDelete">삭제</button>
 	                                <button id="btnExcelDownload" class="buttonExcel">엑셀 다운로드</button>
+	                                <button data-role="printPage" data-search-option="searchForm" data-url="/fclty/gamCvlEngFcltySpecMngPrint.do">인쇄</button>
 									<button id="btnShowMap" data-role="showMap" data-gis-layer="gisCivilFclty" data-flexi-grid="mainGrid" data-style="default">맵조회</button>
 									<button id="btnEditMap" data-role="editMap" data-gis-layer="gisCivilFclty">맵편집</button>
 									<button id="btnSaveMap">맵지정</button>

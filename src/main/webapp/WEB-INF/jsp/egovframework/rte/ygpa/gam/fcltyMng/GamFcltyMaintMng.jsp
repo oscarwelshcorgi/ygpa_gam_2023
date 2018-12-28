@@ -223,8 +223,8 @@ GamFcltyMaintMngModule.prototype.loadComplete = function(params) {
 	if (EMD.userinfo.mngFcltyCd != null && EMD.userinfo.mngFcltyCd != "*") {
 		this.$('#sFcltsJobSe').val(EMD.userinfo.mngFcltyCd);
 	}
-	
-/* 	
+
+/*
 	this.$('#mntnRprBdgt').bind("keyup", {module: this}, function(event) {
 		var bdgt = event.data.module.$('#mntnRprBdgt').val();
 		var cnstAmt = event.data.module.$('#mntnRprCnstAmt').val();
@@ -242,19 +242,19 @@ GamFcltyMaintMngModule.prototype.loadComplete = function(params) {
 		}
 	});
  */
-	
+
 	// 기본값 셋팅
 	this.setDefaultParam();
 	this.applySelectYear();
 	this.getMapInfoList(params);
 
 	console.log('debug');
-	
+
 	this.$('#sFcltsJobSe').on('change',{module:this}, function(event){
 		event.data.module.$("#sFcltyCd").val("");
 	});
-	
-	
+
+
 };
 
 <%
@@ -1086,7 +1086,7 @@ GamFcltyMaintMngModule.prototype.setDefaultParam = function(){
 
 	this.$('#planHistSe').val('H');
 	/* this.$('#planHistSe').disable(); */
-	
+
 };
 
 
@@ -1902,7 +1902,7 @@ var module_instance = new GamFcltyMaintMngModule();
 						<tr>
 							<th>시설물업무구분</th>
 							<td>
-								<!-- 
+								<!--
 									일자 : 2018. 06. 11
 									요청자 : 항만개발팀 엄상현
 									내   용 : 연도별유지보수이력(방충재, 계선주) 관리대장 추가-조회조건 추가
@@ -1934,7 +1934,7 @@ var module_instance = new GamFcltyMaintMngModule();
 					</tbody>
 				</table>
 			</form>
-		</div> 
+		</div>
 	</div>
 
 	<div class="emdPanel fillHeight">
@@ -1959,6 +1959,7 @@ var module_instance = new GamFcltyMaintMngModule();
 							<th>유지보수예산</th>
 							<td><input type="text" id="sumMntnRprBdgt" style="width:100px;text-align:right;" readonly="readonly"></td>
 							<td style="text-align:right;">
+								<button data-role="printPage" data-search-option="searchFcltyMaintMngForm" data-url="/fcltyMng/gamFcltyMaintMngPrint.do">인쇄</button>
 								<button id="btnExcelDownload" class="buttonExcel">엑셀 다운로드</button>
 								<button id="addBtn" class="buttonAdd">　　추　가　　</button>
 								<button id="deleteBtn" class="buttonDelete">　　삭　제　　</button>

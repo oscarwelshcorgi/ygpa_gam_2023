@@ -59,7 +59,7 @@ GamFcltyQcwWrtMngModule.prototype.loadComplete = function(params) {
 					{display:'선택<div id="'+this.getId('title_chkRole')+'" style="padding-right:3px"></div>',name:'chkRole', width:40, sortable:false, align:'center', displayFormat: 'checkbox', skipxls: true},
 					{display:"관리그룹",		name:"fcltsMngGroupNm",		width:150,		sortable:false,		align:"left"},
 					{display:"업무구분",		name:"fcltsJobSeNm",		width:90,		sortable:false,		align:"center"},
-					{display:"점검관리명", 	    name:"qcMngNm",				width:200,		sortable:false,		align:"left"},
+					{display:"점검관리명", 	name:"qcMngNm",				width:200,		sortable:false,		align:"left"},
 					{display:"시행년도",		name:"enforceYear",			width:60,		sortable:false,		align:"center"},
 					{display:"점검구분",    	name:"qcSeNm",				width:90,		sortable:false,		align:"center"},
 					{display:"점검진단자",    	name:"qcInspTpNm",			width:90,		sortable:false,		align:"center"},
@@ -103,7 +103,7 @@ GamFcltyQcwWrtMngModule.prototype.loadComplete = function(params) {
 			module.setSelectStatusAllMainList(module._allMainListSelected);
 		}
 	});
-	
+
 	this.$('#mainGrid').on('onItemDoubleClick', function(event, module, row, grid, param) {
 		module._mainmode = 'modify';
 		module._mainFcltsMngGroupNo = row.fcltsMngGroupNo;
@@ -1093,7 +1093,7 @@ GamFcltyQcwWrtMngModule.prototype.deleteData = function() {
 		alert('삭제할 항목을 선택 하십시요');
 		return;
 	}
-	
+
 	if(confirm('삭제하시겠습니까?')) {
 		var param = {};
 		param['deleteList'] = JSON.stringify(deleteList);
@@ -1781,7 +1781,7 @@ GamFcltyQcwWrtMngModule.prototype.downloadSelectedResultList = function() {
 		alert('다운로드할 항목을 선택 하십시요');
 		return;
 	}
-	
+
 	var url = '/fcltyMng/downloadSelectedResultList.do';
 	var param = {};
 	param['downList'] = JSON.stringify(downList);
@@ -2189,6 +2189,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 									<button id="btnAdd" class="buttonAdd">　　추　가　　</button>
 									<button id="btnDelete" class="buttonDelete">　　삭　제　　</button>
 	                                <button id="btnExcelDownload" class="buttonExcel">엑셀　다운로드</button>
+	                                <button data-role="printPage" data-search-option="searchForm" data-url="/fcltyMng/gamFcltyQcwWrtMngPrint.do">인쇄</button>
 									<button id="btnSelectedResultListHwp" >선택 점검표 다운로드</button>
 									<button id="btnSelectedSafetyQcResultHwp" >선택 안전점검결과 다운로드</button>
 								</td>

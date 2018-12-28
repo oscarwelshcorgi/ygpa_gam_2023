@@ -3,6 +3,7 @@
  */
 package egovframework.rte.ygpa.gam.fclty.web;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +33,7 @@ import egovframework.rte.ygpa.gam.fclty.service.GamCvlEngFcltySpecMngService;
 import egovframework.rte.ygpa.gam.fclty.service.GamCvlEngFcltySpecMngVO;
 import egovframework.rte.ygpa.gam.fclty.service.GamFcltsAtchFileMngVO;
 import egovframework.rte.ygpa.gam.fclty.service.GamMntnRprDtlsVO;
+import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeeMngtVO;
 
 /**
  *
@@ -800,6 +802,47 @@ public class GamCvlEngFcltySpecMngController {
 
 		return map;
 
+	}
+
+
+	/**
+     * 방충재 설비현황 출력한다.
+     * @param approvalOpt
+     * @param model
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/fclty/gamCvlEngFcltySpecMngPrint.do")
+    String gamCvlEngFcltySpecMngPrint(GamCvlEngFcltySpecMngVO searchVO, ModelMap model) throws Exception {
+    	String report = "ygpa/gam/fclty/GamCvlEngFcltySpecMngPrint";
+    	model.addAttribute("searchVO", searchVO);
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+    		model.addAttribute("resultCode", 1);
+    		model.addAttribute("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+    	}
+    	else {
+    		searchVO.setFirstIndex(0);
+    		searchVO.setLastIndex(3000);
+    		searchVO.setRecordCountPerPage(3000);
+
+    		//Map printInfo = gamPrtFcltyRentFeeMngtService.selectNpticPrintInfo(approvalOpt);
+    		List printList = gamCvlEngFcltySpecMngService.selectCvlEngFcltySpecMngList(searchVO);
+    		Map printInfo = null;
+    		int etcCnt = 0;
+    		if(printList.size() > 0) {
+    			printInfo = (Map) printList.get(0);
+    			etcCnt = printList.size() - 1;
+    		}
+
+    		model.addAttribute("printList", printList);
+    		model.addAttribute("resultCode", 0);
+    		model.addAttribute("result", printInfo);
+    		model.addAttribute("etcCnt", etcCnt);
+    		model.addAttribute("resultMsg", "");
+    	}
+    	return report;
 	}
 
 }
