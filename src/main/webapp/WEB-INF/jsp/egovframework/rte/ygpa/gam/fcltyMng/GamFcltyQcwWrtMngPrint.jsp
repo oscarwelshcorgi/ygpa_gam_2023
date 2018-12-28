@@ -100,14 +100,14 @@
 			 <table>
 				<thead>
 					<tr>
-						<th>연도</th>
-						<th>관리그룹</th>
-						<th>점검일자</th>
-						<th>점검관리명 </th>
-						<th>점검구분 </th>
-						<th>작성자 </th>
+						<th style="width: 7%;>연도</th>
+						<th style="width: 11%;>관리그룹</th>
+						<th style="width: 11%;>점검일자</th>
+						<th style="width: 13%;>점검관리명 </th>
+						<th style="width: 11%;>점검구분 </th>
+						<th style="width: 9%;>작성자 </th>
 						<th>점검내역 </th>
-						<th>상태평가 등급 </th>
+						<th style="width: 11%;>상태평가 등급 </th>
 					</tr>
 				</thead>
 				<tbody>
