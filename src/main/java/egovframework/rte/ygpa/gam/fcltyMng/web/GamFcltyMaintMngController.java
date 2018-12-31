@@ -876,7 +876,7 @@ public class GamFcltyMaintMngController {
     		searchVO.setRecordCountPerPage(3000);
 
     		//Map printInfo = gamPrtFcltyRentFeeMngtService.selectNpticPrintInfo(approvalOpt);
-    		List printList = gamFcltyMaintMngService.selectFcltyMaintMngList(searchVO);
+    		List printList = gamFcltyMaintMngService.selectFcltyMaintMngListPrint(searchVO);
     		Map printInfo = null;
     		int etcCnt = 0;
     		if(printList.size() > 0) {

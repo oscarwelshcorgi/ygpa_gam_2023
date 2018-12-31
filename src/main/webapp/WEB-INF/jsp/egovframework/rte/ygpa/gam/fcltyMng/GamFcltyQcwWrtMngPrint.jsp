@@ -45,13 +45,19 @@
 		th, td {
 			border: 1px solid #444444;
 			padding: 10px;
+			font-size: 12px;
 		}
 
 		th{
 			text-align: center;
 		    background: #efefef;
+		    font-size: 14px;
 		}
-
+		.print-name{
+			font-size: 20px;
+		    text-align: center;
+		    margin-bottom: 20px;
+	    }
 
 		@page {
 		    size: A4;
@@ -95,19 +101,25 @@
 	<c:if test="${resultCode==0 }">
   	<a id="printButton" href="#">인쇄</a>
 	    <div class="page">
+	    	<div class="print-name">
+	    		<B>방충재 정기점검<B>
+	    	</div>
 <%-- 			<c:forEach var="item" items="${printList }" begin="1" end="100" step="1" varStatus="status" >
  --%>
 			 <table>
 				<thead>
 					<tr>
-						<th style="width: 7%;>연도</th>
-						<th style="width: 11%;>관리그룹</th>
-						<th style="width: 11%;>점검일자</th>
-						<th style="width: 13%;>점검관리명 </th>
-						<th style="width: 11%;>점검구분 </th>
-						<th style="width: 9%;>작성자 </th>
+						<th style="width: 7%;">연도</th>
+						<th style="width: 15%;">시설명</th>
+						<th style="width: 11%;">준공일</th>
+						<th style="width: 11%;">시공사</th>
+						<th style="width: 11%;">점검일자</th>
+<!-- 						<th style="width: 13%;">점검관리명 </th>
+ -->
+						<th style="width: 11%;">점검구분 </th>
+						<th style="width: 9%;">작성자 </th>
 						<th>점검내역 </th>
-						<th style="width: 11%;>상태평가 등급 </th>
+						<th style="width: 11%;">상태평가 등급 </th>
 					</tr>
 				</thead>
 				<tbody>
@@ -115,8 +127,11 @@
 						<tr>
 							<td >${item.enforceYear} </td>
 							<td >${item.fcltsMngGroupNm} </td>
+							<td >${item.bldDt} </td>
+							<td >${item.cnstrtr} </td>
 							<td >${item.qcInspDt} </td>
-							<td >${item.qcMngNm} </td>
+<%-- 							<td >${item.qcMngNm} </td>
+ --%>
 							<td >${item.qcSeNm} </td>
 							<td >${item.wrtUsr} </td>
 							<td >${item.actionCn} </td>

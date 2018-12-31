@@ -45,16 +45,22 @@
 		th, td {
 			border: 1px solid #444444;
 			padding: 10px;
+			font-size: 11px;
 		}
 
 		th{
 			text-align: center;
 		    background: #efefef;
+		    font-size: 12px;
 		}
-
+		.print-name{
+			font-size: 20px;
+		    text-align: center;
+		    margin-bottom: 20px;
+	    }
 
 		@page {
-		    size: A4;
+		    size: landscape;
 		/*     margin: 0; */
 		}
 		@media print {
@@ -67,8 +73,6 @@
 			}
 
 			.page {
-			    width: 21cm;
-			    height: 28.7cm;
 			    padding: 0cm;
 			    margin: 0cm auto;
 			    background: none;
@@ -95,19 +99,28 @@
 	<c:if test="${resultCode==0 }">
   	<a id="printButton" href="#">인쇄</a>
 	    <div class="page">
+ 		    <div class="print-name">
+	    		<B>방충재 유지보수<B>
+	    	</div>
 <%-- 			<c:forEach var="item" items="${printList }" begin="1" end="100" step="1" varStatus="status" >
  --%>
 			 <table>
 				<thead>
 					<tr>
-						<th>연도	</th>
-						<th>시설물 종류	</th>
-						<th>공사명 </th>
-						<th>공사기간 </th>
-						<th>시공자 </th>
-						<th>사업책임자 </th>
-						<th>공사비 </th>
-						<th>만기 도례 </th>
+						<th style="width: 5%;">연도	</th>
+						<th style="width: 12%;">시설명</th>
+						<th style="width: 8%;">준공일</th>
+						<th style="width: 6%;">시공사</th>
+						<th style="width: 11%;">재원</th>
+						<th style="width: 9%;">규격</th>
+						<th style="width: 3%;">수량</th>
+
+						<th style="width: 7%;">공사명 </th>
+						<th style="width: 10%;">공사기간 </th>
+						<th style="width: 9%;">시공자 </th>
+						<th style="width: 7%;">사업<br>책임자 </th>
+						<th style="width: 8%;">공사비 </th>
+						<th style="width: 8%;">내구연한  </th>
 					</tr>
 				</thead>
 				<tbody>
@@ -115,12 +128,19 @@
 						<tr>
 							<td >${item.enforceYear} </td>
 							<td >${item.fcltsMngGroupNm} </td>
+							<td >${item.bldDt} </td>
+							<td >${item.cnstrtr} </td>
+							<td >${item.prtFcltyNm} </td>
+							<td >${item.prtFcltyStndrd} </td>
+							<td >${item.prtPrtFcltyCnt} </td>
+
 							<td >${item.mntnRprCnstNm} </td>
-							<td >${item.mntnRprCnstStartDt}~${item.mntnRprCnstEndDt} </td>
+							<td >${item.mntnRprCnstStartDt}<br>~${item.mntnRprCnstEndDt} </td>
 							<td >${item.cnstrtr} </td>
 							<td >${item.cnstChargNm} </td>
-							<td class="ygpaNumber">${item.mntnRprCnstAmt} </td>
+							<td >${item.mntnRprCnstAmt} </td>
 							<td >${item.maturityDt} </td>
+
 						</tr>
 					</c:forEach>
 

@@ -45,13 +45,19 @@
 		th, td {
 			border: 1px solid #444444;
 			padding: 10px;
+			font-size: 12px;
 		}
 
 		th{
 			text-align: center;
 		    background: #efefef;
+		    font-size: 14px;
 		}
-
+		.print-name{
+			font-size: 20px;
+		    text-align: center;
+		    margin-bottom: 20px;
+	    }
 
 		@page {
 		    size: A4;
@@ -95,28 +101,31 @@
 	<c:if test="${resultCode==0 }">
   	<a id="printButton" href="#">인쇄</a>
 	    <div class="page">
+	    	<div class="print-name">
+	    		<B>방충재 설비 현황<B>
+	    	</div>
 <%-- 			<c:forEach var="item" items="${printList }" begin="1" end="100" step="1" varStatus="status" >
  --%>
 			 <table>
 				<thead>
 					<tr>
-						<th>시설물 종류	</th>
-						<th>준공일</th>
-						<th>시공사</th>
-						<th>담당자</th>
-						<th>재원</th>
-						<th>규격</th>
-						<th>수량</th>
+						<th style="width: 9%;">시설물<br>종류	</th>
+						<th style="width: 16%;">시설명</th>
+						<th style="width: 11%;">준공일</th>
+						<th style="width: 14%;">시공사</th>
+						<th style="width: 28%;">재원</th>
+						<th style="width: 18%;">규격</th>
+						<th style="width: 4%;">수량</th>
 					</tr>
 				</thead>
 				<tbody>
 					<c:forEach var="item" items="${printList }" varStatus="status" >
 						<tr>
 							<td >${item.gisPrtFcltyCdNm} </td>
-							<td >${item.prtFcltyInstlDt} </td>
-							<td >${item.prtFcltyMngEntrpsNm} </td>
-							<td >${item.prtPrtFcltyMnger} </td>
-							<td >${item.fenderFmt} </td>
+							<td >${item.fcltsMngGroupNm} </td>
+							<td >${item.bldDt} </td>
+							<td >${item.cnstrtr} </td>
+							<td >${item.prtFcltyNm} </td>
 							<td >${item.prtFcltyStndrd} </td>
 							<td >${item.prtPrtFcltyCnt} </td>
 						</tr>
@@ -131,7 +140,6 @@
 				    </c:if>
 				</tbody>
 			 </table>
-
 	    </div>
   </c:if>
   </body>

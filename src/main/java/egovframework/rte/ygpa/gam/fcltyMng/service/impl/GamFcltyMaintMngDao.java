@@ -353,5 +353,15 @@ public class GamFcltyMaintMngDao extends YGPAAbstractDAO {
 	}
 
 
+	/**
+	 * @param searchVO
+	 * @return
+	 */
+	public List<?> selectFcltyMaintMngListPrint(GamFcltyMaintMngVO searchVO) {
+		// TODO Auto-generated method stub
+		return list("gamFcltyMaintMngDao.selectFcltyMaintMngListPrint_D", searchVO);
+	}
+
+
 
 }

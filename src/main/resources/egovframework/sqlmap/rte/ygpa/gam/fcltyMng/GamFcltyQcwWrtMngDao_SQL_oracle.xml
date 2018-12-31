@@ -43,6 +43,11 @@
 							, GAM_GET_PLAN_HIST_SE_NM(Q.PLAN_HIST_SE) PLAN_HIST_SE_NM
 							, Q.MECH_FCLTS_SE
 							, Q.ACTION_CN
+
+
+							,TO_CHAR(F.BLD_DT,'YYYY-MM-DD') AS BLD_DT
+                			,F.CNSTRTR AS CNSTRTR
+
 						FROM
 							QC_MNG_DTLS_F Q
 			            INNER JOIN

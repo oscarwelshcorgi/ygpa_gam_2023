@@ -46,7 +46,6 @@
 							, M.CNSTRTR
 							, M.RESPON_ENGINEER
 							, M.ENFORCE_YEAR
-							, TO_CHAR(M.MNTN_RPR_CNST_END_DT+1095, 'YYYY-MM-DD') AS MATURITY_DT
 						FROM
 							MNTN_RPR_DTLS_F M
 
@@ -859,6 +858,148 @@
 		<![CDATA[
 		WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
 		]]>
+	</select>
+
+
+
+
+
+
+    <!-- 유지보수내역 출력 -->
+	<select id="gamFcltyMaintMngDao.selectFcltyMaintMngListPrint_D" parameterClass="gamFcltyMaintMngVO" resultClass="egovMap">
+        SELECT A.*, T1.*
+           FROM (
+                SELECT ROWNUM RNUM, S.*
+                	FROM (
+						SELECT
+							M.MNTN_RPR_CNST_NM
+							, GAM_GET_MNTN_FCLTS_CNST_INFO(M.CTRT_NO, M.MNTN_RPR_CNST_NM) MNTN_FCLTS_CNST_INFO
+							, M.PLANNER_NM
+							, M.CNST_CHARG_NM
+							, TO_CHAR(M.MNTN_RPR_CNST_START_DT,'YYYY-MM-DD') MNTN_RPR_CNST_START_DT
+							, TO_CHAR(M.MNTN_RPR_CNST_END_DT,'YYYY-MM-DD') MNTN_RPR_CNST_END_DT
+							, TO_CHAR(M.MNTN_RPR_CNST_AMT, '99,999,990') AS MNTN_RPR_CNST_AMT
+							, M.RM
+							, M.REG_USR
+							, M.REGIST_DT
+							, M.UPD_USR
+							, M.UPDT_DT
+							, M.CTRT_NO
+							, (SELECT I.CTRT_NM FROM CTRT_INFO_F I WHERE I.CTRT_NO = M.CTRT_NO) CTRT_NM
+							, M.FCLTS_JOB_SE
+							, M.FCLTS_MNG_GROUP_NO
+							, (SELECT G.FCLTS_MNG_GROUP_NM FROM FCLTS_MNG_GROUP_F G WHERE G.FCLTS_MNG_GROUP_NO = M.FCLTS_MNG_GROUP_NO) FCLTS_MNG_GROUP_NM
+							, M.MNTN_RPR_SEQ
+							, M.MNTN_RPR_SE
+							, M.MNTN_SUB_RPR_SE
+							, GAM_GET_MNTN_RPR_SE_NM(M.MNTN_RPR_SE) MNTN_RPR_SE_NM
+							, GAM_GET_MNTN_RPR_SE_NM(M.MNTN_SUB_RPR_SE) MNTN_SUB_RPR_SE_NM
+							, M.MNTN_RPR_PART
+							, M.MNTN_RPR_CN
+							, M.MNTN_RPR_BDGT
+							, M.CNSTRTR
+							, M.RESPON_ENGINEER
+							, M.ENFORCE_YEAR
+							, TO_CHAR(M.MNTN_RPR_CNST_END_DT+3650, 'YYYY-MM-DD') AS MATURITY_DT
+
+						FROM
+							MNTN_RPR_DTLS_F M
+
+						<!--
+							일자 : 2018. 06. 11
+							요청자 : 항만개발팀 엄상현
+							내   용 : 연도별유지보수이력(방충재, 계선주) 관리대장 추가-조회조건 추가
+						 -->
+						LEFT OUTER JOIN
+						(
+						    SELECT
+						        G.PRT_FCLTY_SE, G.FCLTS_MNG_GROUP_NO, MAX(MNTN_RPR_SEQ) AS MNTN_RPR_SEQ ,  MAX(GIS_PRT_FCLTY_CD) AS GIS_PRT_FCLTY_CD
+						    FROM GIS_PRT_FCLTY_CD_F G
+						    LEFT OUTER JOIN
+						        MNTN_RPR_OBJ_FCLTS_F O
+						    ON  O.FCLTS_MNG_GROUP_NO = G.FCLTS_MNG_GROUP_NO
+						    AND O.FCLTS_MNG_NO = G.FCLTS_MNG_NO
+						    WHERE <![CDATA[ 1<>1 ]]>
+						    <isNotEmpty property="sFcltsJobSe">
+						    OR (
+						    	G.PRT_FCLTY_SE = #sFcltsJobSe#
+						    <isNotEmpty property="sFcltyCd">
+						    	AND G.GIS_PRT_FCLTY_CD = #sFcltyCd#
+						    </isNotEmpty>
+						    )
+						    </isNotEmpty>
+						    GROUP BY G.PRT_FCLTY_SE, G.FCLTS_MNG_GROUP_NO
+						)S
+						ON  M.FCLTS_JOB_SE = S.PRT_FCLTY_SE
+						AND M.FCLTS_MNG_GROUP_NO = S.FCLTS_MNG_GROUP_NO
+						WHERE
+							1 = 1
+						<isNotEmpty property="sFcltsMngGroupNo">
+	           				AND M.FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
+	           			</isNotEmpty>
+
+	           			<isNotEmpty property="sCtrtNo">
+	           				AND M.CTRT_NO = #sCtrtNo#
+	           			</isNotEmpty>
+
+						<isNotEmpty property="sFcltsJobSe">
+	           				AND M.FCLTS_JOB_SE = #sFcltsJobSe#
+	           			</isNotEmpty>
+
+	           			<isNotEmpty property="sMntnRprCnstNm">
+	           				AND M.MNTN_RPR_CNST_NM LIKE '%' || #sMntnRprCnstNm# || '%'
+	           			</isNotEmpty>
+
+	           			<isNotEmpty property="sMntnRprSe">
+	           				AND M.MNTN_RPR_SE = #sMntnRprSe#
+	           			</isNotEmpty>
+
+	           			<isNotEmpty property="sMntnRprCnstStartDtFr">
+	           			<isEmpty property="sMapFcltsMngNo">
+	           				AND
+	           				(
+	           					<![CDATA[ M.MNTN_RPR_CNST_START_DT >= #sMntnRprCnstStartDtFr# ]]>
+	           				<isNotEmpty property="sMntnRprCnstStartDtTo">
+		           				<![CDATA[ AND M.MNTN_RPR_CNST_START_DT <= #sMntnRprCnstStartDtTo# ]]>
+		           			</isNotEmpty>
+		           			)
+	           			</isEmpty>
+	           			</isNotEmpty>
+
+						<isNotEmpty property="sMapFcltsMngNo">
+							AND EXISTS (SELECT 'Y'
+											FROM MNTN_RPR_OBJ_FCLTS_F
+										WHERE FCLTS_MNG_GROUP_NO = M.FCLTS_MNG_GROUP_NO
+										 AND FCLTS_JOB_SE = M.FCLTS_JOB_SE
+										 AND MNTN_RPR_SEQ = M.MNTN_RPR_SEQ
+										 AND FCLTS_MNG_NO = #sMapFcltsMngNo#)
+						</isNotEmpty>
+						<isNotEmpty property="sFcltyCd">
+						    	AND S.GIS_PRT_FCLTY_CD = #sFcltyCd#
+						</isNotEmpty>
+
+						ORDER BY
+							MNTN_FCLTS_CNST_INFO ASC
+                ) S
+             ) A INNER JOIN ( SELECT F.FCLTS_JOB_SE, F.FCLTS_MNG_GROUP_NO, F.MNTN_RPR_SEQ, T.PRT_FCLTY_NM, T.BLD_DT, T.CNSTRTR, T.PRT_FCLTY_STNDRD, T.PRT_PRT_FCLTY_CNT
+                           FROM MNTN_RPR_OBJ_FCLTS_F F
+                           LEFT OUTER JOIN (						SELECT
+                                        G1.FCLTS_MNG_NO
+                                        ,G1.FCLTS_MNG_GROUP_NO
+                                        ,G1.PRT_FCLTY_NM
+                                        ,TO_CHAR(F1.BLD_DT,'YYYY-MM-DD') AS BLD_DT
+                                        ,F1.CNSTRTR AS CNSTRTR
+                                        ,G1.PRT_FCLTY_STNDRD AS PRT_FCLTY_STNDRD
+                                        ,G1.PRT_PRT_FCLTY_CNT AS PRT_PRT_FCLTY_CNT
+                                      FROM GIS_PRT_FCLTY_CD_F G1
+                                      INNER JOIN FCLTS_MNG_GROUP_F F1
+                                        ON G1.FCLTS_MNG_GROUP_NO = F1.FCLTS_MNG_GROUP_NO) T
+                           ON F.FCLTS_MNG_GROUP_NO = T.FCLTS_MNG_GROUP_NO
+                           AND F.FCLTS_MNG_NO=T.FCLTS_MNG_NO) T1
+             ON  T1.FCLTS_JOB_SE = A.FCLTS_JOB_SE
+             AND T1.FCLTS_MNG_GROUP_NO = A.FCLTS_MNG_GROUP_NO
+             AND T1.MNTN_RPR_SEQ = A.MNTN_RPR_SEQ
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
 	</select>
 
 </sqlMap>

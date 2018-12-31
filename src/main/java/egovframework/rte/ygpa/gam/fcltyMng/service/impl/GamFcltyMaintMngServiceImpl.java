@@ -284,4 +284,14 @@ public class GamFcltyMaintMngServiceImpl extends AbstractServiceImpl implements 
 		return gamFcltyMaintMngDao.selectMaintMngMntnRprDtlsList(searchVO);
 	}
 
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyMaintMngService#selectFcltyMaintMngListPrint(egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyMaintMngVO)
+	 */
+	@Override
+	public List selectFcltyMaintMngListPrint(GamFcltyMaintMngVO searchVO) {
+		// TODO Auto-generated method stub
+		return (List<?>)gamFcltyMaintMngDao.selectFcltyMaintMngListPrint(searchVO);
+	}
+
 }

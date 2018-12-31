@@ -224,4 +224,11 @@ public interface GamFcltyMaintMngService {
 	List selectMaintMngMntnRprDtlsList(GamMntnRprDtlsVO searchVO) throws Exception;
 
 
+	/**
+	 * @param searchVO
+	 * @return
+	 */
+	List selectFcltyMaintMngListPrint(GamFcltyMaintMngVO searchVO);
+
+
 }
