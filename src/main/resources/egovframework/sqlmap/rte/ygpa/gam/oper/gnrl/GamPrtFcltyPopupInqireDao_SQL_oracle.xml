@@ -63,6 +63,13 @@
                      AND F.PRMISN_YN='Y'
                        AND F.GR_USAGE_PD_TO <![CDATA[>=]]> SYSDATE
                        AND F.GR_USAGE_PD_TO <![CDATA[<]]> SYSDATE+30
+                       AND TO_NUMBER(F.MNG_CNT) = (SELECT MAX(TO_NUMBER(MNG_CNT))
+							                       FROM ASSETS_RENT_F
+							                      WHERE PRT_AT_CODE = F.PRT_AT_CODE
+							                        AND MNG_YEAR = F.MNG_YEAR
+							                        AND MNG_NO = F.MNG_NO
+							                        AND PRMISN_YN = 'Y'
+							                        )
 			       ) closeEndContract
 			 FROM DUAL
     </select>
