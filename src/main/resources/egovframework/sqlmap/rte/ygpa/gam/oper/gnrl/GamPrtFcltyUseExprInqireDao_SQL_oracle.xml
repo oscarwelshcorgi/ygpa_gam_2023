@@ -219,7 +219,13 @@
                          AND A.GR_USAGE_PD_TO <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
                          AND A.QUAY_GROUP_CD = 'G'
                          AND A.PRMISN_YN = 'Y'
-
+				         AND TO_NUMBER(A.MNG_CNT) = (SELECT MAX(TO_NUMBER(MNG_CNT))
+				                       FROM ASSETS_RENT_F
+				                      WHERE PRT_AT_CODE = A.PRT_AT_CODE
+				                        AND MNG_YEAR = A.MNG_YEAR
+				                        AND MNG_NO = A.MNG_NO
+				                        AND PRMISN_YN = 'Y'
+				                        )
              <isNotEmpty property="sPrtAtCode">
 	             AND A.PRT_AT_CODE = #sPrtAtCode#
 	         </isNotEmpty>
