@@ -53,31 +53,16 @@
       }
  */    </style>
 
-    <script src="<c:url value='/js/OpenLayers.debug.js'/>"></script>
     <script src="<c:url value='/js/jquery-1.10.2.min.js'/>"></script>
     <script src="<c:url value='/js/jquery-migrate-1.2.1.min.js'/>"></script>
     <script src="<c:url value='/js/jquery-ui.min.js'/>"></script>
     <script src="<c:url value='/js/jquery.sidr.min.js'/>"></script>
     <script src="<c:url value='/js/jquery.table2excel.js'/>"></script>
 
-	<script src="<c:url value='/js/Proj4js/proj4js.js'/>"></script>
-<%-- 	<script src="<c:url value='/js/Proj4js/defs/EPSG5181.js'/>"></script>
-	<script src="<c:url value='/js/Proj4js/defs/EPSG5186.js'/>"></script>
-	<script src="<c:url value='/js/Proj4js/defs/EPSG4326.js'/>"></script>
- --%>
-    <script src="<c:url value='/js/codebase/dhtmlx.js'/>"></script>
-
     <script type="text/javascript" src="<c:url value="/validator.do"/>"></script>
-     <script src="<c:url value='/js/emf_map.ygpa_gam.js'/>"></script>
 
-    <script src="<c:url value='/js/DynamicMeasure.js'/>"></script>
-    <script src="<c:url value='/js/gis_rules.js'/>"></script>
-    <script src="<c:url value='/js/emf.map.desktop.js'/>"></script>
-     <!--
-    <script src="<c:url value='/js/codebase/dhtmlxgrid.js'/>"></script>
-     -->
-    <script src="<c:url value='/js/dhtmlx.flexigrid.ygpa.js'/>"></script>
-
+    <script src="<c:url value='/js/codebase/dhtmlx.js'/>"></script>
+    <script src="<c:url value='/js/emf_map.ygpa_gam_2019.js'/>"></script>
 
     <script type="text/javascript">
 	var $DEBUG=false;
@@ -85,7 +70,6 @@
 
     jQuery(document).ready(function() {
  	   var frmwrkMenu=null;
- 	   Proj4js.libPath = '${pageContext.request.contextPath}/js/Proj4js/';
 	    	<c:if test="${frmwrkMenu!=null}">
 	   	   	frmwrkMenu = [
 					<c:forEach items="${frmwrkMenu }" var="menuItem" varStatus="menuStatus">
