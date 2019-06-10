@@ -1,5 +1,6 @@
 package egovframework.com.ygpa.uat.uia.web;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,10 +11,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import egovframework.com.cmm.EgovMessageSource;
@@ -21,6 +24,9 @@ import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.service.Globals;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.com.uat.uia.service.EgovLoginService;
+import egovframework.com.ygpa.uat.uia.service.GamUserCfgService;
+import egovframework.com.ygpa.uat.uia.service.GamUserCfgVo;
+import egovframework.rte.fdl.property.EgovPropertyService;
 
 @Controller
 public class YGLoginController {
@@ -39,6 +45,13 @@ public class YGLoginController {
 
     private String LOGINJSP = "ygpa/cmm/uat/uia/YGSLoginUsr";
     private String MAINURL = "/main/gamMain.do";
+
+	/** EgovPropertyService */
+    @Resource(name = "propertiesService")
+    protected EgovPropertyService propertiesService;
+
+    @Autowired
+    private GamUserCfgService gamUserCfgService;
 
 	/**
      * 로그인 화면
@@ -198,9 +211,6 @@ public class YGLoginController {
 
     	Map <String, Object> map = new HashMap();
 
-    	// 1. Spring Security 사용자권한 처리
-    	logger.debug("##### getUserInfo access auth : "+EgovUserDetailsHelper.class.toString());
-
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
     		map.put("resultCode", 1);
@@ -218,8 +228,53 @@ public class YGLoginController {
     	map.put("userInfo", user);
     	map.put("authorities", authorities);
 
+    	GamUserCfgVo vo = new GamUserCfgVo();
+    	GamUserCfgVo userCfg = null;
+    	vo.setUserId(user.getId());
+    	userCfg = gamUserCfgService.selectUserCfgPk(vo );
+
+    	if(userCfg==null) {
+    		BigDecimal startLat = new BigDecimal(propertiesService.getString("ygam.userCfg.startLat"));
+    		BigDecimal startLon = new BigDecimal(propertiesService.getString("ygam.userCfg.startLon"));
+    		BigDecimal startZoom = new BigDecimal(propertiesService.getString("ygam.userCfg.startZoom"));
+    		vo.setStartLat(startLat);
+    		vo.setStartLon(startLon);
+    		vo.setStartZoom(startZoom);
+    		gamUserCfgService.insertUserCfgPk(vo);
+    		userCfg=vo;
+    	}
+
+    	map.put("userCfg", userCfg);
+
     	return map;
 	}
+
+    @RequestMapping(value="/main/storeUserPos.do")
+    public @ResponseBody Map<String, Object> storeUserPos(@RequestParam String lat, @RequestParam String lon, @RequestParam String zoom)
+    		throws Exception {
+
+    	Map <String, Object> map = new HashMap();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+    		map.put("resultCode", 1);
+    		map.put("message", egovMessageSource.getMessage("fail.common.login"));
+    		return map;
+    	}
+
+    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+
+    	GamUserCfgVo vo = new GamUserCfgVo();
+		vo.setStartLat(new BigDecimal(lat));
+		vo.setStartLon(new BigDecimal(lon));
+		vo.setStartZoom(new BigDecimal(zoom));
+		vo.setUserId(user.getId());
+		gamUserCfgService.updateUserCfgPk(vo);
+
+    	map.put("resultCode", 0);
+
+    	return map;
+    }
 
     /**
      * 로그아웃 페이지 뷰
