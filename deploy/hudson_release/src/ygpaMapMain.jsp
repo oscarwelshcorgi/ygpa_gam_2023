@@ -22,7 +22,7 @@
   */
 %>
 <!DOCTYPE html>
-<html lang="ko">
+<html>
   <head>
     <title>여수광양항만공사 - GIS기반 자산관리 시스템 (LOCAL)</title>
 	<meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
@@ -186,6 +186,9 @@
 
         <ul id="dock">
         </ul>
+        <a class="float_right" href="#" id="store_map" title="지도저장" data-role="StoreMap">
+        지도저장
+        </a>
     </div>
     <div class="abs" id="cat_menu">
         <a class="button" href="#" data-role="popup-searchAddr">주소 검색</a>
