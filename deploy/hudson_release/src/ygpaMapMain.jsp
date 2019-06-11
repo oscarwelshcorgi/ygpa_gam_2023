@@ -22,7 +22,7 @@
   */
 %>
 <!DOCTYPE html>
-<html lang="ko" xml:lang="ko">
+<html>
   <head>
     <title>여수광양항만공사 - GIS기반 자산관리 시스템 (LOCAL)</title>
 	<meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
@@ -53,22 +53,16 @@
       }
  */    </style>
 
-    <script src="<c:url value='/js/OpenLayers.debug.js'/>"></script>
     <script src="<c:url value='/js/jquery-1.10.2.min.js'/>"></script>
     <script src="<c:url value='/js/jquery-migrate-1.2.1.min.js'/>"></script>
     <script src="<c:url value='/js/jquery-ui.min.js'/>"></script>
     <script src="<c:url value='/js/jquery.sidr.min.js'/>"></script>
-
-	<script src="<c:url value='/js/Proj4js/proj4js.js'/>"></script>
-	<script src="<c:url value='/js/Proj4js/defs/EPSG5181.js'/>"></script>
-	<script src="<c:url value='/js/Proj4js/defs/EPSG5186.js'/>"></script>
-	<script src="<c:url value='/js/Proj4js/defs/EPSG4326.js'/>"></script>
-
-    <script src="<c:url value='/js/codebase/dhtmlx.js'/>"></script>
+    <script src="<c:url value='/js/jquery.table2excel.js'/>"></script>
 
     <script type="text/javascript" src="<c:url value="/validator.do"/>"></script>
-    <script src="<c:url value='/js/gis_rules.js'/>"></script>
-    <script src="<c:url value='/js/emf_map.ygpa_gam.js'/>"></script>
+
+    <script src="<c:url value='/js/codebase/dhtmlx.js'/>"></script>
+    <script src="<c:url value='/js/emf_map.ygpa_gam_2019.js'/>"></script>
 
     <script type="text/javascript">
 	var $DEBUG=false;
@@ -76,30 +70,29 @@
 
     jQuery(document).ready(function() {
  	   var frmwrkMenu=null;
- 	   Proj4js.libPath = '${pageContext.request.contextPath}/js/Proj4js/';
 	    	<c:if test="${frmwrkMenu!=null}">
 	   	   	frmwrkMenu = [
 					<c:forEach items="${frmwrkMenu }" var="menuItem" varStatus="menuStatus">
-					{
-						menuNo: '<c:out value="${menuItem.menuNo }"/>',
-						menuNm: '<c:out value="${menuItem.menuNm }"/>',
-						url: '<c:out value="${menuItem.url }"/>',
-						progrmFileNm: '<c:out value="${menuItem.progrmFileNm }"/>',
-						<c:if test="${fn:contains(menuItem, 'submenu')}">
-						submenu: [
-									<c:forEach items="${menuItem.submenu }" var="subMenu" varStatus="status">
-									{
-										menuNo: '<c:out value="${subMenu.menuNo }"/>',
-										menuNm: '<c:out value="${subMenu.menuNm }"/>',
-										url: '<c:out value="${subMenu.url }"/>',
-										progrmFileNm: '<c:out value="${menuItem.progrmFileNm }"/>',
-										progrmStrePath: '<c:out value="${subMenu.progrmStrePath }"/>'
-									}
-									<c:if test="${!status.last}">,</c:if>
-									</c:forEach>
-						          ]
-						</c:if>
-					}
+						{
+							menuNo: '<c:out value="${menuItem.menuNo }"/>',
+							menuNm: '<c:out value="${menuItem.menuNm }"/>',
+							url: '<c:out value="${menuItem.url }"/>',
+							progrmFileNm: '<c:out value="${menuItem.progrmFileNm }"/>',
+							<c:if test="${fn:contains(menuItem, 'submenu')}">
+							submenu: [
+										<c:forEach items="${menuItem.submenu }" var="subMenu" varStatus="status">
+										{
+											menuNo: '<c:out value="${subMenu.menuNo }"/>',
+											menuNm: '<c:out value="${subMenu.menuNm }"/>',
+											url: '<c:out value="${subMenu.url }"/>',
+											progrmFileNm: '<c:out value="${menuItem.progrmFileNm }"/>',
+											progrmStrePath: '<c:out value="${subMenu.progrmStrePath }"/>'
+										}
+										<c:if test="${!status.last}">,</c:if>
+										</c:forEach>
+							          ]
+							</c:if>
+						}
 						<c:if test="${!menuStatus.last}">,</c:if>
 					</c:forEach>
 				];
@@ -132,12 +125,12 @@
     	<c:if test="${menuItem.submenu!=null }">
 	    	<c:forEach items="${menuItem.submenu }" var="menuItem2">
           	<li>
-          		<a href="#" data-role="LoadModule" data-progrm-file-nm="${menuItem2.progrmFileNm }" data-url="${menuItem2.url }"><c:out value="${menuItem2.menuNm }"/></a>
+          		<a href="#" data-role="LoadModule" data-progrm-file-nm="${menuItem2.progrmFileNm }" data-url="${menuItem2.url }" data-nav="${menuItem.menuNm } > ${menuItem2.menuNm }"><c:out value="${menuItem2.menuNm }"/></a>
     			<c:if test="${menuItem2.submenu!=null }">
     				<ul class="submenu">
 			    		<c:forEach items="${menuItem2.submenu }" var="menuItem3">
 			                <li>
-			                	<a href="#" data-role="LoadModule" data-progrm-file-nm="${menuItem3.progrmFileNm }" data-url="<c:out value='${menuItem3.url }' />" ><c:out value="${menuItem3.menuNm }"/></a>
+			                	<a href="#" data-role="LoadModule" data-progrm-file-nm="${menuItem3.progrmFileNm }" data-url="<c:out value='${menuItem3.url }'/>" data-nav="${menuItem.menuNm } > ${menuItem2.menuNm } > ${menuItem3.menuNm }" ><c:out value="${menuItem3.menuNm }"/></a>
 		                	</li>
 	                    </c:forEach>
                     </ul>
@@ -166,6 +159,23 @@
                 </li>
             </ul>
         </li>
+        <li>
+            <a class="menu_trigger" href="#">매뉴얼</a>
+            <ul class="menu">
+                <li>
+                    <a href="<c:url value='/manual/htld_manual_v2.0.pdf' />">배후단지 매뉴얼</a>
+                </li>
+                <li>
+                    <a href="<c:url value='/manual/oper_gen_v1.5.pdf' />">항만시설운영(일반부두) 매뉴얼</a>
+                </li>
+                <li>
+                    <a href="<c:url value='/manual/fclty_manual_v1.1.pdf' />">시설관리 매뉴얼</a>
+                </li>
+                <li>
+                    <a href="<c:url value='/manual/asset_code_manual.pdf' />">자산코드관리 매뉴얼</a>
+                </li>
+            </ul>
+        </li>
         </ul>
   </div>
     <div class="abs" id="bar_bottom">
@@ -176,6 +186,9 @@
 
         <ul id="dock">
         </ul>
+        <a class="float_right" href="#" id="store_map" title="지도저장" data-role="StoreMap">
+        지도저장
+        </a>
     </div>
     <div class="abs" id="cat_menu">
         <a class="button" href="#" data-role="popup-searchAddr">주소 검색</a>
@@ -217,9 +230,9 @@
 <div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls" data-filter=":even">
     <div class="slides"></div>
     <h3 class="title"></h3>
-    <a class="prev"><span class="ui-icon ui-icon-carat-1-w" /></a>
-    <a class="next"><span class="ui-icon ui-icon-carat-1-e" /></a>
-    <a class="close"><span class="ui-icon ui-icon-close" /></a>
+    <a class="prev"><span class="ui-icon ui-icon-carat-1-w"></span></a>
+    <a class="next"><span class="ui-icon ui-icon-carat-1-e"></span></a>
+    <a class="close"><span class="ui-icon ui-icon-close"></span></a>
     <a class="play-pause"></a>
     <ol class="indicator"></ol>
 </div>
@@ -311,9 +324,9 @@
 <div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls" data-filter=":even">
     <div class="slides"></div>
     <h3 class="title"></h3>
-    <a class="prev"><span class="ui-icon ui-icon-carat-1-w" /></a>
-    <a class="next"><span class="ui-icon ui-icon-carat-1-e" /></a>
-    <a class="close"><span class="ui-icon ui-icon-close" /></a>
+    <a class="prev"><span class="ui-icon ui-icon-carat-1-w"></span></a>
+    <a class="next"><span class="ui-icon ui-icon-carat-1-e"></span></a>
+    <a class="close"><span class="ui-icon ui-icon-close"></span></a>
     <a class="play-pause"></a>
     <ol class="indicator"></ol>
 </div>

@@ -13,8 +13,24 @@
 	http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
     <mvc:annotation-driven>
+	    <mvc:message-converters>
+	        <!-- @ResponseBody로 JSON String 처리할때 한글처리 -->
+	        <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+	            <property name="supportedMediaTypes">
+	                <list>
+	                    <value>text/plain;charset=UTF-8</value>
+	                </list>
+	            </property>
+	        </bean>
+	        <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+	            <property name="supportedMediaTypes">
+	                <list>
+	                    <value>text/plain;charset=UTF-8</value>
+	                </list>
+	            </property>
+	        </bean>
+	    </mvc:message-converters>
     </mvc:annotation-driven>
-
 	<!-- The controllers are autodetected POJOs labeled with the @Controller annotation. -->
 	<context:component-scan base-package="egovframework">
 		<context:include-filter expression="org.springframework.stereotype.Controller" type="annotation"/>
@@ -23,6 +39,7 @@
 	</context:component-scan>
 
 	<!-- For Pagination Tag -->
+	<!--
 	<bean class="egovframework.com.cmm.ImagePaginationRenderer" id="imageRenderer"/>
 
 	<bean class="egovframework.rte.ptl.mvc.tags.ui.pagination.DefaultPaginationManager" id="paginationManager">
@@ -32,6 +49,7 @@
 			</map>
 		</property>
 	</bean>
+ -->
 
 	<!--
 		- The form-based controllers within this application provide @RequestMapping
@@ -70,8 +88,6 @@
 		<!-- 인증 체크가 필요 없는 URL 리스트 -->
 		<property name="permittedURL">
 			<set>
-				<value>/fcltyMng/fdown/[a-zA-Z]+\.do</value>
-				<value>/cmm/getPfImage.do</value>
 				<value>/uat/uia/[a-zA-Z]+\.do</value>
 				<value>/code404.do</value>
 				<value>/code500.do</value>
