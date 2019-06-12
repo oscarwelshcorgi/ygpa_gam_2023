@@ -829,7 +829,15 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-war-plugin</artifactId>
+
 						<configuration>
+<!--
+특정 폴더 및 파일 제외
+			                <packagingexcludes>
+ 			                    **/*.exerd,
+			                    **/*.exdic
+			                </packagingexcludes>
+-->
 							<webResources>
 									<resource>
 										<directory>deploy/ygpa_release/config</directory>
