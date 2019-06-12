@@ -797,7 +797,7 @@ var module_instance = new GamAssetCodeModule();
 							<tbody>
 								<tr>
 									<th>ERP 자산코드</th>
-									<td><input id="searchGisAssetErpAssetsCls" data-column-id="erpAssetsSeCd" type="text" size="1" maxlength="1">
+									<td><input id="searchGisAssetErpAssetsCls" data-column-id="erpAssetsCls" type="text" size="1" maxlength="1">
 										-<input id="searchGisAssetErpAssetsNo" data-column-id="erpAssetsNo" type="text" size="4" maxlength="4">
 										-<input id="searchGisAssetErpAssetsNoSeq" data-column-id="erpAssetsNoSeq" type="text" size="2" maxlength="2"></td>
 									<td><button id="selectGisAssetCode" class="buttonSearch">조회</button></td>
