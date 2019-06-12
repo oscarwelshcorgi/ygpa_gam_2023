@@ -422,6 +422,7 @@ th.shrink {
   text-shadow: #000 0 1px 1px;
   height: 30px;
   bottom: 0;
+  background-color: #15678e;
 }
 
 /* `Bar >> Links
@@ -544,7 +545,7 @@ ul.submenu li:hover ul {
 }
 
 #bar_bottom li a {
-  background: #03C4D0;
+  background: #2196F3;
 }
 
 #bar_bottom a {
@@ -561,13 +562,22 @@ ul.submenu li:hover ul {
 }
 
 #bar_bottom a:hover {
-  background: #000;
+  background: #FF9800;
 }
 
-#bar_bottom a:active {
+#bar_bottom a.active {
   background: #c60;
   border: 1px solid #fff;
   padding: 0 9px;
+}
+
+a#store_map  {
+	background-color: #9E9E9E;
+}
+
+a#store_map:hover  {
+	background-color: white;
+	color: black;
 }
 
 #bar_bottom li a img {

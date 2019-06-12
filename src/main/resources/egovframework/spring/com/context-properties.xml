@@ -9,7 +9,10 @@
          <map>
             <entry key="pageUnit" value="999"/>
             <entry key="pageSize" value="10"/>
-         </map>
+            <entry key="ygam.userCfg.startLat" value="257195"/>
+            <entry key="ygam.userCfg.startLon" value="260673"/>
+            <entry key="ygam.userCfg.startZoom" value="15"/>
+          </map>
       </property>
 	</bean>
 

@@ -24,7 +24,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>여수광양항만공사 - GIS기반 자산관리 시스템 (LOCAL)</title>
+    <title>여수광양항만공사 - GIS기반 자산관리 시스템 (RELEASE)</title>
 	<meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
@@ -45,14 +45,6 @@
 <link rel="stylesheet" href="<c:url value='/css/ygpa/gam/ie.css'/>" />
 <![endif]-->
 
-    <style>
-/*       html, body, #map-canvas {
-        height: 100%;
-        margin: 0px;
-        padding: 0px
-      }
- */    </style>
-
     <script src="<c:url value='/js/jquery-1.10.2.min.js'/>"></script>
     <script src="<c:url value='/js/jquery-migrate-1.2.1.min.js'/>"></script>
     <script src="<c:url value='/js/jquery-ui.min.js'/>"></script>
@@ -66,7 +58,7 @@
 
     <script type="text/javascript">
 	var $DEBUG=false;
-	var wikiUrl="http://192.168.200.61:8100/wiki/Wiki.jsp?";
+	var wikiUrl="http://192.168.0.71:8100/wiki/Wiki.jsp?";
 
     jQuery(document).ready(function() {
  	   var frmwrkMenu=null;
@@ -97,10 +89,9 @@
 					</c:forEach>
 				];
 	   	   </c:if>
-//	    	EMD.go("${pageContext.request.contextPath}", "http://192.168.0.71:8092/G2DataService/2d/Base/201310", "http://192.168.0.71:8092/G2DataService/GService?", "${pageContext.request.scheme}://${pageContext.request.serverName}", frmwrkMenu);
-	    	EMD.go("${pageContext.request.contextPath}", "http://xdworld.vworld.kr:8080/2d/Base/201310", "http://192.168.100.70:8080/G2DataService/GService?", "${pageContext.request.scheme}://${pageContext.request.serverName}", frmwrkMenu);
-//	    	EMD.go("${pageContext.request.contextPath}", "http://192.168.0.71:8092/G2DataService/2d/Base/201310", "http://192.168.0.71:8092/G2DataService/GService?", "${pageContext.request.scheme}://${pageContext.request.serverName}", frmwrkMenu);
- 	 });
+	    	EMD.go("${pageContext.request.contextPath}", "http://192.168.0.71:8092/G2DataService/2d/Base/201310", "http://192.168.0.71:8092/G2DataService/GService?", "${pageContext.request.scheme}://${pageContext.request.serverName}", frmwrkMenu);
+    	 });
+
     </script>
   </head>
   <body>
@@ -153,9 +144,6 @@
                 </li>
                 <li>
                     <a href="#" data-role="logout">로그아웃</a>
-                </li>
-                <li>
-                    <a href="#" data-role="getUserInfo">사용자정보 갱신</a>
                 </li>
             </ul>
         </li>
