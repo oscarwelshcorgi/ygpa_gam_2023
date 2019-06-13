@@ -221,6 +221,7 @@ SELECT * FROM (
 								TO_CHAR(UPDATE_DATE, 'YYYY-MM-DD') UPDATE_DATE
 						FROM EGMISDB.EGMFA1000
 				WHERE 1=1
+				  AND ASSET_CLS IN ('1','2','4')
 					<isNotEmpty prepend="AND" property="searchAssetCls">
 						ASSET_CLS = #searchAssetCls#
 					</isNotEmpty>
@@ -268,6 +269,7 @@ SELECT * FROM (
 			SELECT COUNT(*) totcnt
 			FROM EGMISDB.EGMFA1000
 			WHERE 1=1
+			  AND ASSET_CLS IN ('1','2','4')
 					<isNotEmpty prepend="AND" property="searchAssetCls">
 						ASSET_CLS = #searchAssetCls#
 					</isNotEmpty>
