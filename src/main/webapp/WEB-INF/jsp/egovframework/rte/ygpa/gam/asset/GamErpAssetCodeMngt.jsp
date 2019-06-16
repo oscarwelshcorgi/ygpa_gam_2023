@@ -43,6 +43,7 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 		url: '/asset/selectErpAssetCodeList.do',
 		dataType: 'json',
 		colModel : [
+			{display:'자산<br>등록', name:'gisAssetsFlag', width:45, sortable:false, align:'center' },
 			{display:'ERP자산코드', name:'erpAssetCode', width:80, sortable:true, align:'center'},
 			{display:'자산관리번호', name:'assetMngtNo', width:80, sortable:true, align:'left'},
 			{display:'품목', name:'itemCls', width:50, sortable:true, align:'center'},
@@ -69,12 +70,17 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 			{display:'변동구분', name:'changeCls', width:60, sortable:true, align:'center'}
 			],
 		height: 'auto',
-/* 		preProcess: function(module, data) {
+
+		/* GIS 등록여부 추가(2019-06-16 jckim) */
+		preProcess: function(module, data) {
 			$.each(data.resultList, function() {
-				this.erpAssetCode=this.assetCls+'-'+this.assetNo+'-'+this.assetNoSeq;
+				/* this.erpAssetCode=this.assetCls+'-'+this.assetNo+'-'+this.assetNoSeq; */
+
+				this.gisAssetsFlag=this.gisAssetsCnt>0?'등록':'미등록';
 			});
 			return data;
-		} */
+		}
+
 	});
 
 	this.$("#erpAssetCodeList").on('onItemDoubleClick', function(event, module, row, grid, param) {
@@ -103,6 +109,7 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 		module: this,
 		url: '/asset/selectGisAssetCodeList.do',
 		colModel : [
+					{display:'', name:'gisFlag', width:24, sortable:false, align:'center', displayFormat: 'jqimg', skipxls: true},
 					{display:'ERP자산코드', name:'erpAssets', width:80, sortable:true, align:'center'},
 					{display:'항코드', name:'gisAssetsPrtAtCode', width:40, sortable:true, align:'center'},
 					{display:'항코드명', name:'prtAtCodeNm', width:55, sortable:true, align:'center'},
@@ -122,6 +129,29 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 					{display:'준공년도', name:'gisAssetsBlddate', width:50, sortable:true, align:'center'},
 					{display:'준공일자', name:'gisAssetsBldDt', width:80, sortable:true, align:'center'},
 					{display:'사용', name:'gisAssetsUsageYn', width:40, sortable:true, align:'center'}
+
+
+/* 					{display:'지목', name:'lndcgr', width:40, sortable:true, align:'center'},
+					{display:'구매용도', name:'gisAssetsPrpos', width:40, sortable:true, align:'center'},
+					{display:'품목구분코드', name:'prdlstSe', width:40, sortable:true, align:'center'},
+					{display:'품목구분', name:'prdlstSeNm', width:40, sortable:true, align:'center'},
+					{display:'회계구분코드', name:'fsse', width:40, sortable:true, align:'center'},
+					{display:'회계구분', name:'fsseNm', width:40, sortable:true, align:'center'},
+					{display:'대장가액', name:'regstrAmount', width:40, sortable:true, align:'center'},
+					{display:'현재 대장가액', name:'nowRegstrAmount', width:40, sortable:true, align:'center'},
+					{display:'출자금액', name:'invstmntAmount', width:40, sortable:true, align:'center'},
+					{display:'시가표준액', name:'mktcStdAm', width:40, sortable:true, align:'center'},
+					{display:'공시지가', name:'olnlp', width:40, sortable:true, align:'center'},
+					{display:'연면적', name:'totar', width:40, sortable:true, align:'center'},
+					{display:'수량', name:'qy', width:40, sortable:true, align:'center'},
+					{display:'단위', name:'unit', width:40, sortable:true, align:'center'},
+					{display:'주요시설', name:'mainFclts', width:40, sortable:true, align:'center'},
+					{display:'당초 허가기간 시작', name:'bgnnPrmisnPdBegin', width:40, sortable:true, align:'center'},
+					{display:'당초 허가기간 종료', name:'bgnnPrmisnPdEnd', width:40, sortable:true, align:'center'},
+					{display:'변경 허가기간 시작', name:'changePrmisnPdBegin', width:40, sortable:true, align:'center'},
+					{display:'변경 허가기간 종료', name:'changePrmisnPdEnd', width:40, sortable:true, align:'center'}
+ */
+
 			],
 		height: 'auto',
 		preProcess: function(module, data) {
@@ -137,6 +167,10 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 					if(module._leftBuyPrice>0) module._leftBuyPrice=0;
 				}
 				this.assetCodeObj = {gisAssetsPrtAtcode: this.gisAssetsPrtAtcode, gisAssetsCd: this.gisAssetsCd, gisAssetsSubCd: this.gisAssetsSubCd};	// for show map
+
+				/* GIS 등록여부 추가(2019-06-16 jckim) */
+				this.gisFlag=this.gisStat>0?'flag':null;
+
 			});
 			return data;
 		}
@@ -147,12 +181,16 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 			일자 : 2018.07.05
 			내용 : 신규가아닐경우 항구분 수정 하지 못하도록
 		*/
+		console.log("assetCodeList_onItemSelected");
 		module.$('#gisAssetsPrtAtCode_select').attr('disabled', 'disabled');
 		module.$('#gisAssetsPrtAtCode').attr('disabled', 'disabled');
-		
+
 		module.makeFormValues('#editGisAssetCode', row);
 		module._editData=module.getFormValues('#editGisAssetCode', row);
 		module._editRow=module.$('#assetCodeList').selectedRowIds()[0];
+
+		gisAssetsSeCdChange(row.gisAssetsSeCd);
+
 	});
 
 	this.$("#assetCodeList").on('onLoadDataComplete', function(event, module, data, grid, param) {
@@ -236,6 +274,24 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 	});
 
 	this.$('#searchStartDt').val(EMD.util.getDate(EMD.util.addMonths(-1)));
+
+	/**
+	* 일자 : 2019-06-13
+	* 작업 내용 : 자산등록 컬럼 초기화
+	* 작업자 : jckim
+	*/
+	$('.gisAssetsSeCd2').hide();
+	$('.gisAssetsSeCd1_hidden').hide();
+	$('.mktcStdAm').hide();
+	$('.invstmntAmount').hide();
+	$('.qy').hide();
+	$('.unit').hide();
+	$('.totar').hide();
+	$('.gisAssetsSeCd3').hide();
+
+
+
+
 };
 
 // 사용자 설정 함수 추가
@@ -258,6 +314,7 @@ GamAssetCodeModule.prototype.calcLeftBuyPrice = function() {
 };
 
 GamAssetCodeModule.prototype.addGisAssetItem = function() {
+	console.log("addGisAssetItem");
 	this._edited=true;
 
 	this.$('#editGisAssetCode :input').val('');
@@ -274,7 +331,35 @@ GamAssetCodeModule.prototype.addGisAssetItem = function() {
 	this.$('#itemName').disable();
 
 	this.$('#gisAssetsPrtAtCode').enable();
-	
+
+
+	/**
+	* 일자 : 2019-06-14
+	* 작업 내용 : 자산구분, 품목구분, 회계구분, 구매용도 값 자동 입력
+	* 작업자 : jckim
+	*/
+	/* 자산구분*/
+	this.$('#gisAssetsSeCd').val(this.$('#erpAssetCodeList').selectedRows()[0].assetCls);
+	/* 품목구분 */
+	var _itemCls=this.$('#erpAssetCodeList').selectedRows()[0].itemCls;
+	switch(_itemCls){
+		case '000001':
+		case '000002':
+		case '002001':
+		case '002002':
+		case '002003':
+		case '002004':
+			this.$('#prdlstSe').val(_itemCls);
+			break;
+		default :
+			this.$('#prdlstSe').val('');
+	}
+	/* 회계구문 */
+	this.$('#fsse').val(this.$('#erpAssetCodeList').selectedRows()[0].accUnitCls);
+	/* 구매용도 */
+	this.$('#gisAssetsPrpos').val(this.$('#erpAssetCodeList').selectedRows()[0].purPurpose);
+
+
 	/*
 		일자 : 2018.07.05
 		내용 : 기본값 사용(Y)으로 지정
@@ -317,8 +402,8 @@ GamAssetCodeModule.prototype.saveGisAssetItem = function() {
 	            console.log("searchOpt: " + searchOpt);
 	            module.$('#assetCodeList').flexOptions({params:searchOpt}).flexReload();
 	        }
-	        
-	        
+
+
 			/*
 				일자 : 2018.07.05
 				내용 : 신규가아닐경우 항구분 수정 하지 못하도록
@@ -328,7 +413,7 @@ GamAssetCodeModule.prototype.saveGisAssetItem = function() {
 	    		module.$('#gisAssetsPrtAtCode_select').attr('disabled', 'disabled');
 	    		module.$('#gisAssetsPrtAtCode').attr('disabled', 'disabled');
 	        }
-	        
+
 	        module._edited=false;
 	    });
 	}
@@ -424,13 +509,17 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 		if(this.$('#erpAssetCodeList').selectedRowIds()>0) {
 			var row = this.$('#erpAssetCodeList').selectedRows()[0];
 			this.$("#assetManageTab").tabs("option", {active: 1});	// 탭을 전환 한다.
-			this.$('#searchGisErpAssetCls').val(row['assetCls']);
-			this.$('#searchGisErpAssetNo').val(row['assetNo']);
-			this.$('#searchGisErpAssetNoSeq').val(row['assetNoSeq']);
+
+/* flexReload 2회 호출로 탭전환시에만 조회하는 걸로 사용(2019-06-13) jckim */
+/* 			this.$('#searchGisAssetErpAssetsCls').val(row['assetCls']);
+			this.$('#searchGisAssetErpAssetsNo').val(row['assetNo']);
+			this.$('#searchGisAssetErpAssetsNoSeq').val(row['assetNoSeq']);
+
 			// 해당하는 자산 목록을 불러온다/
 			var searchOpt=this.makeFormArgs('#searchForm');
 			//this.showAlert(searchOpt);
 		 	this.$('#assetCodeList').flexOptions({params:searchOpt}).flexReload();
+ */
 			this._itemNameAsset = row['itemNameAsset'];// 자산명 저장
 		 	this.addGisAssetItem();
 		}
@@ -696,6 +785,7 @@ GamAssetCodeModule.prototype.onTabChange = function(newTabId, oldTabId) {
 			this.$('#searchGisAssetErpAssetsCls').val(row['assetCls']);
 			this.$('#searchGisAssetErpAssetsNo').val(row['assetNo']);
 			this.$('#searchGisAssetErpAssetsNoSeq').val(row['assetNoSeq']);
+
 			this._buyPrice = row['buyPrice'];
 			this._leftBuyPrice = this._buyPrice;
 			// console.log('price : '+this._leftBuyPrice);
@@ -705,7 +795,10 @@ GamAssetCodeModule.prototype.onTabChange = function(newTabId, oldTabId) {
 			var searchOpt=this.makeFormArgs('#searchGisAssetCode');
 			//this.showAlert(searchOpt);
 		 	this.$('#assetCodeList').flexOptions({params:searchOpt}).flexReload();
+
 		}
+
+
 		break;
 	case 'tabs3':
 		this.$('#searchViewStack')[0].changePanelId(2);	// 조회 조건 변경
@@ -757,6 +850,81 @@ GamAssetCodeModule.prototype.loadData = function() {
  	this.$('#assetCodeList').flexOptions({params:searchOpt}).flexReload();
 //	this.$('#assetList').flexOptions(searchOpt).flexReload();
 };
+
+
+/**
+* 일자 : 2019-06-13
+* 작업 내용 : 자산구분 셀렉트 박스 체인지 이벤트 추가
+* 작업자 : jckim
+*/
+$('#gisAssetsSeCd').change(function(){
+	gisAssetsSeCdChange($(this).val());
+});
+
+function gisAssetsSeCdChange(item){
+	switch(item) {
+/* 		case '1':
+			$('.gisAssetsSeCd1').show();
+			$('.gisAssetsAr').show();
+			$('.gisAssetsSeCd2').hide();
+			$('.gisAssetsSeCd1_hidden').hide();
+			$('.mktcStdAm').hide();
+			$('.invstmntAmount').hide();
+			$('.qy').hide();
+			$('.unit').hide();
+			$('.gisAssetsStndrd').show();
+			$('.totar').hide();
+			$('.gisAssetsSeCd3').hide();
+			break;
+ */
+		case '2':
+			$('.gisAssetsSeCd1_hidden').show();
+			$('.gisAssetsSeCd1').hide();
+			$('.gisAssetsAr').hide();
+			$('.gisAssetsSeCd2').show();
+			$('.mktcStdAm').show();
+			$('.invstmntAmount').show();
+			$('.qy').show();
+			$('.unit').show();
+			$('.gisAssetsStndrd').show();
+			$('.totar').show();
+			$('.gisAssetsSeCd3').hide();
+			break;
+
+		case '4':
+			$('.gisAssetsSeCd1_hidden').show();
+			$('.gisAssetsSeCd1').hide();
+			$('.gisAssetsAr').show();
+			$('.qy').hide();
+			$('.unit').hide();
+			$('.gisAssetsStndrd').hide();
+			$('.totar').hide();
+			$('.invstmntAmount').hide();
+			$('.mktcStdAm').show();
+			$('.gisAssetsSeCd3').show();
+			break;
+
+		default :
+			$('.gisAssetsSeCd1').show();
+			$('.gisAssetsAr').show();
+			$('.gisAssetsSeCd2').hide();
+			$('.gisAssetsSeCd1_hidden').hide();
+			$('.mktcStdAm').hide();
+			$('.invstmntAmount').hide();
+			$('.qy').hide();
+			$('.unit').hide();
+			$('.gisAssetsStndrd').show();
+			$('.totar').hide();
+			$('.gisAssetsSeCd3').hide();
+			break;
+	}
+
+/* 	this.$('.gisAssetsSeCd1').hide();
+	this.$('.clean').text('');
+ */
+
+}
+
 
 // 다음 변수는 고정 적으로 정의 해야 함
 var module_instance = new GamAssetCodeModule();
@@ -858,6 +1026,24 @@ var module_instance = new GamAssetCodeModule();
 						<col width="120" />
 						<col width="200" />
 					</colGroup>
+					<tr>
+						<th><span class="label">자산구분</span></th>
+						<td>
+							<input id="gisAssetsSeCd" class="ygpaCmmnCd" data-code-id='GAM013' data-column-label-id='prtAtCodeNm'>
+						</td>
+						<th><span class="label">품목 구분</span></th>
+						<td>
+							<input id="prdlstSe" class="ygpaCmmnCd" data-code-id='GAM073'>
+						</td>
+						<th><span class="label">회계 구분</span></th>
+						<td>
+							<input id="fsse" class="ygpaCmmnCd" data-code-id='GAM072'>
+						</td>
+
+
+					</tr>
+
+
 
 					<tr>
 						<th><span class="label">항구분</span></th>
@@ -865,17 +1051,20 @@ var module_instance = new GamAssetCodeModule();
 							<input id="gisAssetsPrtAtCode" class="ygpaCmmnCd" data-required='true' data-code-id='GAM019' data-column-label-id='prtAtCodeNm' data-display-value='N'  disabled="disabled" size='3' />
 						</td>
 						<th><span class="label">자산코드</span></th>
-						<td colspan="3"><input type="text" size="3"  id="gisAssetsCd" disabled="disabled">-<input type="text" size="2"  id="gisAssetsSubCd" disabled="disabled"></td>
-					</tr>
-					<tr>
-					</tr>
-					<tr>
+						<td><input type="text" size="3"  id="gisAssetsCd" disabled="disabled">-<input type="text" size="2"  id="gisAssetsSubCd" disabled="disabled"></td>
 						<th><span class="label">ERP자산코드</span></th>
 						<td><input type="text" size="1" id="erpAssetsCls" data-column-id="erpAssetsCls" readonly="readonly">-<input type="text" size="8" id="erpAssetsNo" readonly="readonly">-<input type="text" size="2" id="erpAssetsNoSeq" readonly="readonly"></td>
+					</tr>
+					<tr>
+					</tr>
+					<tr>
+
 						<th><span class="label">ERP자산명</span></th>
 						<td><input type="text" size="32" id="itemName" data-column-id="itemName" readonly="readonly"></td>
-						<th><span class="label">ERP구매용도</span></th>
-						<td><input type="text" size="32" id="purPurpose" data-column-id="purPurpose" readonly="readonly"></td>
+						<th><span class="label">구매용도</span></th>
+						<td><input type="text" size="32" id="gisAssetsPrpos" data-column-id="gisAssetsPrpos" ></td>
+						<th><span class="label">지목</span></th>
+						<td><input type="text" size="32" id="gisAssetsLndcgr" data-column-id="gisAssetsLndcgr" ></td>
 					</tr>
 					<tr>
 						<th><span class="label">재산구분</span></th>
@@ -901,38 +1090,103 @@ var module_instance = new GamAssetCodeModule();
 						<th><span class="label">지번</span></th>
 						<td><input type="text" size="4" id="gisAssetsLnm" maxlength="4">-<input type="text" size="3" id="gisAssetsLnmSub" maxlength="4"></td>
 					</tr>
-					<tr>
-					</tr>
-					<tr>
-						<th><span class="label">자산구분</span></th>
-						<td>
-							<input id="gisAssetsSeCd" class="ygpaCmmnCd" data-code-id='GAM013'>
+
+					<tr class="">
+						<th>
+							<span class="label gisAssetsAr">면적(m²)</span>
+							<span class="label qy">수량</span>
+						</th>
+						<td class="">
+							<input type="text" size="8" class="ygpaNumber gisAssetsAr" id="gisAssetsAr" data-column-id="gisAssetsAr" data-decimal-point="2">
+							<input type="text" size="8" class="ygpaNumber qy" id="qy" data-column-id="qy" >
 						</td>
-						<th><span class="label">취득가액</span></th>
-						<td colspan="3"><input type="text" size="16" id="gisAssetsAcqPri" class="ygpaCurrency" class="ygpaCurrency"> 원</td>
+
+						<th>
+							<span class="label gisAssetsSeCd1">실제 임대 면적(m²)</span>
+							<span class="label unit">단위</span>
+							<span class="label gisAssetsSeCd3">대장가액</span>
+						</th>
+						<td class="">
+							<input type="text" size="8" id="gisAssetsRealRentAr" class="ygpaNumber gisAssetsSeCd1" data-decimal-point="2">
+							<input type="text" size="8" id="unit" class="unit">
+							<input type="text" size="16" id="regstrAmount" class="ygpaCurrency gisAssetsSeCd3" >
+						</td>
+
+
+						<th>
+							<span class="label gisAssetsStndrd">자산규격</span>
+							<span class="label gisAssetsSeCd3">대장가액</span>
+						</th>
+						<td>
+							<input type="text" size="20" id="gisAssetsStndrd" class="gisAssetsStndrd">
+							<input type="text" size="16" id="nowRegstrAmount" class="ygpaCurrency gisAssetsSeCd3" >
+						</td>
+
 					</tr>
-					<tr>
-						<th><span class="label">면적</span></th>
-						<td><input type="text" size="8" class="ygpaNumber" id="gisAssetsAr" data-column-id="gisAssetsAr" data-decimal-point="2"> m²</td>
-						<th><span class="label">실제 임대 면적</span></th>
-						<td><input type="text" size="8" id="gisAssetsRealRentAr" class="ygpaNumber" data-decimal-point="2"> m²</td>
-						<th><span class="label">자산규격</span></th>
-						<td><input type="text" size="20" id="gisAssetsStndrd"></td>
+
+
+					<tr class="">
+						<th>
+							<span class="label gisAssetsSeCd1">취득가액(원)</span>
+							<span class="label totar">연면적(m²)</span>
+							<span class="label gisAssetsSeCd3">당초 허가기간</span>
+
+						</th>
+						<td class="">
+							<input type="text" size="16" id="gisAssetsAcqPri" class="ygpaCurrency gisAssetsSeCd1" >
+							<input type="text" size="8" class="ygpaNumber totar" id="totar" data-column-id=totar data-decimal-point="2">
+							<span class="gisAssetsSeCd3"><input type="" size="10" class="emdcal " id="bgnnPrmisnPdBegin">~<input type="text" size="10" class="emdcal " id="bgnnPrmisnPdEnd"></span>
+
+						</td>
+
+						<th>
+							<span class="label invstmntAmount">출자금액(원)</span></span>
+							<span class="label gisAssetsSeCd3">변경(연장) 허가기간</span>
+						</th>
+						<td>
+							<input type="text" size="16" id="invstmntAmount" class="ygpaCurrency invstmntAmount" >
+							<span class="gisAssetsSeCd3"><input type="text" size="10" class="emdcal " id="changePrmisnPdBegin">~<input type="text" size="10" class="emdcal " id="changePrmisnPdEnd"></span>
+						</td>
+
+
+
+
+
+						<th><span class="label mktcStdAm">시가표준액(원)</span></th>
+						<td><input type="text" size="16" id="mktcStdAm" class="ygpaCurrency mktcStdAm" ></td>
+
 					</tr>
-					<tr>
+
+
+					<tr class="gisAssetsSeCd1_hidden">
+						<th><span class="label olnlp">공시지가(원)</span></th>
+						<td><input type="text" size="16" id="olnlp" class="ygpaCurrency olnlp" ></td>
+						<th><span class="label gisAssetsSeCd3">주요시설</span></th>
+						<td><input type="text" size="30" id="mainFclts" class="gisAssetsSeCd3" ></td>
+						<th></th>
+						<td></td>
+					</tr>
+
+
+					<tr class="gisAssetsSeCd1">
 						<th><span class="label">관리부서</span></th>
 						<td><input type="text" id="gisAssetsMngDeptCd" class="ygpaDeptSelect" data-default-prompt="없음" data-column-label-id="mngDeptNm"></td>
 						<th><span class="label">운영부서</span></th>
-						<td><input type="text" id="gisAssetsOperDeptCd" class="ygpaDeptSelect" data-default-prompt="없음" data-column-label-id="operDeptNm"></td>
+						<td><input type="text" id="gisAssetsOperDeptCd" class="ygpaDeptSelect"  data-default-prompt="없음" data-column-label-id="operDeptNm"></td>
 						<th><span class="label">준공일자</span></th>
 						<td ><input type="text" size="16" class="emdcal" id="gisAssetsBldDt"></td>
 					</tr>
-					<tr>
+
+
+
+
+
+					<tr >
 						<th><span class="label">비고</span></th>
 						<td colspan="3"><textarea cols="60" rows="1" id="gisAssetsRm"></textarea></td>
 						<th><span class="label">사용여부</span></th>
 						<td>
-							<select id="gisAssetsUsageYn" data-required="true"> 
+							<select id="gisAssetsUsageYn" data-required="true">
 									<option value="Y">사용</option>
 									<option value="N">사용안함</option>
 							</select>

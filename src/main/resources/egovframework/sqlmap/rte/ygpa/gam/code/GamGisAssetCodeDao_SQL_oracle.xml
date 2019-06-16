@@ -28,10 +28,7 @@
 					GIS_ASSETS_BLDDATE,
 					GIS_ASSETS_BLD_DT,
 					GIS_ASSETS_RM,
-					REG_USR,
-					REGISTDT,
-					UPD_USR,
-					UPDTDT,
+
 					GIS_ASSETS_BUPJUNGDONG_CD,
 					GIS_ASSETS_QUAY_GROUP_CD,
 					GIS_ASSETS_LOC_CD,
@@ -49,7 +46,30 @@
 					ERP_ASSETS_NO_SEQ,
 					ERP_ASSETS_DISUSE_REGIST_YN,
 					ERP_ASSETS_DISUSE_RSN,
-					GIS_ASSETS_QUAY_CD
+					GIS_ASSETS_QUAY_CD,
+					GIS_ASSETS_LNDCGR,
+					GIS_ASSETS_PRPOS,
+					PRDLST_SE,
+					FSSE,
+					REGSTR_AMOUNT,
+					NOW_REGSTR_AMOUNT,
+					INVSTMNT_AMOUNT,
+					MKTC_STD_AM,
+					OLNLP,
+					TOTAR,
+					QY,
+					UNIT,
+					MAIN_FCLTS,
+					BGNN_PRMISN_PD_BEGIN,
+					BGNN_PRMISN_PD_END,
+					CHANGE_PRMISN_PD_BEGIN,
+					CHANGE_PRMISN_PD_END,
+
+					REG_USR,
+					REGISTDT,
+					UPD_USR,
+					UPDTDT
+
 				 )
 			VALUES (
 					#gisAssetsPrtAtCode#,
@@ -68,10 +88,6 @@
 					#gisAssetsBlddate#,
 					TO_DATE(#gisAssetsBldDt#, 'YYYY-MM-DD'),
 					#gisAssetsRm#,
-					#regUsr#,
-					#registdt#,
-					#updUsr#,
-					#updtdt#,
 					#gisAssetsBupjungdongCd#,
 					#gisAssetsQuayGroupCd#,
 					#gisAssetsLocCd#,
@@ -86,18 +102,41 @@
 					TO_DATE(#gisAssetsValInqireDt#, 'YYYY-MM-DD'),
 
 					#erpAssetsCls#,
-					
+
 					#erpAssetsNo#,
 					#erpAssetsNoSeq#,
 					#erpAssetsDisuseRegistYn#,
 					#erpAssetsDisuseRsn#,
-					#gisAssetsQuayCd#
+					#gisAssetsQuayCd#,
+
+					#gisAssetsLndcgr#,
+					#gisAssetsPrpos#,
+					#prdlstSe#,
+					#fsse#,
+					TO_NUMBER(REPLACE(#regstrAmount#, ',', '')),
+					TO_NUMBER(REPLACE(#nowRegstrAmount#, ',', '')),
+					TO_NUMBER(REPLACE(#invstmntAmount#, ',', '')),
+					TO_NUMBER(REPLACE(#mktcStdAm#, ',', '')),
+					TO_NUMBER(REPLACE(#olnlp#, ',', '')),
+					TO_NUMBER(REPLACE(#totar#, ',', '')),
+					TO_NUMBER(REPLACE(#qy#, ',', '')),
+					#unit#,
+					#mainFclts#,
+					TO_DATE(#bgnnPrmisnPdBegin#, 'YYYY-MM-DD'),
+					TO_DATE(#bgnnPrmisnPdEnd#, 'YYYY-MM-DD'),
+					TO_DATE(#changePrmisnPdBegin#, 'YYYY-MM-DD'),
+					TO_DATE(#changePrmisnPdEnd#, 'YYYY-MM-DD'),
+
+					#regUsr#,
+					sysdate,
+					#updUsr#,
+					#updtdt#
  )
 		]]>
-<!-- 
+<!--
 일자 : 2018.07.04
 내용 : 없는 파라미터
-#erpAssetsSeCd# -> #erpAssetsCls# 
+#erpAssetsSeCd# -> #erpAssetsCls#
 -->
 
 	</insert>
@@ -207,12 +246,66 @@
 			<isNotNull property="gisAssetsPrtAtCode">
 				GIS_ASSETS_PRT_AT_CODE=#gisAssetsPrtAtCode#,
 			</isNotNull>
+
+
+			<isNotNull property="gisAssetsLndcgr">
+				GIS_ASSETS_LNDCGR=#gisAssetsLndcgr#,
+			</isNotNull>
+			<isNotNull property="gisAssetsPrpos">
+				GIS_ASSETS_PRPOS=#gisAssetsPrpos#,
+			</isNotNull>
+			<isNotNull property="prdlstSe">
+				PRDLST_SE=#prdlstSe#,
+			</isNotNull>
+			<isNotNull property="fsse">
+				FSSE=#fsse#,
+			</isNotNull>
+			<isNotNull property="regstrAmount">
+				REGSTR_AMOUNT=TO_NUMBER(REPLACE(#regstrAmount#, ',', '')),
+			</isNotNull>
+			<isNotNull property="nowRegstrAmount">
+				NOW_REGSTR_AMOUNT=TO_NUMBER(REPLACE(#nowRegstrAmount#, ',', '')),
+			</isNotNull>
+			<isNotNull property="invstmntAmount">
+				INVSTMNT_AMOUNT=TO_NUMBER(REPLACE(#invstmntAmount#, ',', '')),
+			</isNotNull>
+			<isNotNull property="mktcStdAm">
+				MKTC_STD_AM=TO_NUMBER(REPLACE(#mktcStdAm#, ',', '')),
+			</isNotNull>
+			<isNotNull property="olnlp">
+				OLNLP=TO_NUMBER(REPLACE(#olnlp#, ',', '')),
+			</isNotNull>
+			<isNotNull property="totar">
+				TOTAR=TO_NUMBER(REPLACE(#totar#, ',', '')),
+			</isNotNull>
+			<isNotNull property="qy">
+				QY=TO_NUMBER(REPLACE(#qy#, ',', '')),
+			</isNotNull>
+			<isNotNull property="unit">
+				UNIT=#unit#,
+			</isNotNull>
+			<isNotNull property="mainFclts">
+				MAIN_FCLTS=#mainFclts#,
+			</isNotNull>
+			<isNotNull property="bgnnPrmisnPdBegin">
+				BGNN_PRMISN_PD_BEGIN=TO_DATE(#bgnnPrmisnPdBegin#, 'YYYY-MM-DD'),
+			</isNotNull>
+			<isNotNull property="bgnnPrmisnPdEnd">
+				BGNN_PRMISN_PD_END=TO_DATE(#bgnnPrmisnPdEnd#, 'YYYY-MM-DD'),
+			</isNotNull>
+			<isNotNull property="changePrmisnPdBegin">
+				CHANGE_PRMISN_PD_BEGIN=TO_DATE(#changePrmisnPdBegin#, 'YYYY-MM-DD'),
+			</isNotNull>
+			<isNotNull property="changePrmisnPdEnd">
+				CHANGE_PRMISN_PD_END=TO_DATE(#changePrmisnPdEnd#, 'YYYY-MM-DD'),
+			</isNotNull>
+
 				UPDTDT=SYSDATE
 			WHERE
-							<!-- 
+							<!--
 				일자 : 2018.07.04
 				내용 : 없는 파라미터
-				#beforeGisAssetsPrtAtCode# -> #gisAssetsPrtAtCode# 
+				#beforeGisAssetsPrtAtCode# -> #gisAssetsPrtAtCode#
 				GIS_ASSETS_CD -> UPPER(GIS_ASSETS_CD)
 				-->
 				GIS_ASSETS_PRT_AT_CODE=#gisAssetsPrtAtCode#
@@ -376,13 +469,13 @@
 						GIS_ASSETS_PRPRTY_SE_CD,
 						GAM_GETCODENAME('GAM001', GIS_ASSETS_PRPRTY_SE_CD) GIS_ASSETS_PRPRTY_NM,
 						GIS_ASSETS_LOC_CD,
-						<!-- 
+						<!--
 						일자 : 2018.07.06
 						내용 : GAM_GETLOCCDNAME(GIS_ASSETS_PRT_AT_CODE, GIS_ASSETS_LOC_CD) ->  GAM_GETCODENAME('GAM002', GIS_ASSETS_LOC_CD)
 						 -->
 						GAM_GETCODENAME('GAM002', GIS_ASSETS_LOC_CD) AS GIS_ASSETS_LOC_NM,
 						GIS_ASSETS_QUAY_CD,
-						<!-- 
+						<!--
 						일자 : 2018.07.06
 						내용 : GAM_GETQUAYCDNAME(GIS_ASSETS_PRT_AT_CODE, GIS_ASSETS_LOC_CD, GAM_GETCODENAME('GAM003', GIS_ASSETS_QUAY_CD)
 						 -->
@@ -412,6 +505,31 @@
 						ERP_ASSETS_NO_SEQ,
 						ERP_ASSETS_DISUSE_REGIST_YN,
 						ERP_ASSETS_DISUSE_RSN,
+
+
+						GIS_ASSETS_LNDCGR,
+						GIS_ASSETS_PRPOS,
+
+						PRDLST_SE,
+						GAM_GETCODENAME('GAM073', GIS_ASSETS_QUAY_CD) as PRDLST_SE_NM,
+						FSSE,
+						GAM_GETCODENAME('GAM072', GIS_ASSETS_QUAY_CD) as FSSE_NM,
+
+
+						REGSTR_AMOUNT,
+						NOW_REGSTR_AMOUNT,
+						INVSTMNT_AMOUNT,
+						MKTC_STD_AM,
+						OLNLP,
+						TOTAR,
+						QY,
+						UNIT,
+						MAIN_FCLTS,
+						TO_CHAR(BGNN_PRMISN_PD_BEGIN, 'YYYY-MM-DD') AS BGNN_PRMISN_PD_BEGIN,
+						TO_CHAR(BGNN_PRMISN_PD_END, 'YYYY-MM-DD') AS BGNN_PRMISN_PD_END,
+						TO_CHAR(CHANGE_PRMISN_PD_BEGIN, 'YYYY-MM-DD') AS CHANGE_PRMISN_PD_BEGIN,
+						TO_CHAR(CHANGE_PRMISN_PD_END, 'YYYY-MM-DD') AS CHANGE_PRMISN_PD_END,
+
 						(SELECT ITEM_NAME_ASSET FROM EGMISDB.EGMFA1000 WHERE ASSET_CLS=ERP_ASSETS_CLS AND ASSET_NO=ERP_ASSETS_NO AND ASSET_NO_SEQ=ERP_ASSETS_NO_SEQ) ITEM_NAME,
 						(SELECT count(*) FROM GIS_ASSETS_CD_E WHERE PRT_CD=GIS_ASSETS_PRT_AT_CODE AND ASSETS_CD=GIS_ASSETS_CD AND ASSETS_SCD=GIS_ASSETS_SUB_CD) GIS_STAT
 					FROM GIS_ASSETS_CD_F

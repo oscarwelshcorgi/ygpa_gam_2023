@@ -797,6 +797,9 @@ GamCvlEngFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 				this.deleteData();
 			}
 			break;
+		case 'btnExcelFormDownload':
+			window.open("<c:url value='/form/gamCvlEngFcltySpecMng.xlsx' />", '_blank');
+			break;
 		case 'btnExcelDownload':
 			this.downloadExcel(buttonId);
 			break;
@@ -2995,14 +2998,15 @@ var module_instance = new GamCvlEngFcltySpecMngModule();
 						<table style="width:100%;">
 							<tr>
 								<th style="width:8%; height:20; text-align:center;">자료수</th>
-								<td><input type="text" size="6" id="totalCount" class="ygpaNumber" disabled="disabled"/></td>
+								<td><input type="text" size="4" id="totalCount" class="ygpaNumber" disabled="disabled"/></td>
 								<th style="width:8%; height:20; text-align:center;">야적장 면적</th>
-								<td><input type="text" size="18" id="sumYardAr" class="ygpaNumber" disabled="disabled"/></td>
+								<td><input type="text" size="12" id="sumYardAr" class="ygpaNumber" disabled="disabled"/></td>
 								<th style="width:8%; height:20; text-align:center;">선석</th>
-								<td><input type="text" size="18" id="sumBerth" class="ygpaNumber" disabled="disabled"/></td>
+								<td><input type="text" size="12" id="sumBerth" class="ygpaNumber" disabled="disabled"/></td>
 								<td style="text-align:right;">
 									<button id="btnAdd" class="buttonAdd">추가</button>
 									<button id="btnDelete" class="buttonDelete">삭제</button>
+									<button id="btnExcelFormDownload" class="buttonExcel">양식 다운로드</button>
 	                                <button id="btnExcelDownload" class="buttonExcel">엑셀 다운로드</button>
 	                                <button data-role="printPage" data-search-option="searchForm" data-url="/fclty/gamCvlEngFcltySpecMngPrint.do">인쇄</button>
 									<button id="btnShowMap" data-role="showMap" data-gis-layer="gisCivilFclty" data-flexi-grid="mainGrid" data-style="default">맵조회</button>

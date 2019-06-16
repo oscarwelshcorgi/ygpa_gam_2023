@@ -143,6 +143,43 @@ public class GamGisAssetCodeVO implements Serializable {
     /** GIS 자산 명(조회조건) */
     private String sGisAssetsNm;
 
+
+/* 2019-06-13 jckim */
+
+    /** 품목구분 */
+    private String prdlstSe;
+    /** 회계구분 */
+    private String fsse;
+    /** 대장가액 */
+    private String regstrAmount;
+    /** 현재 대장가액 */
+    private String nowRegstrAmount;
+    /** 출자금액 */
+    private String invstmntAmount;
+    /** 시가표준액 */
+    private String mktcStdAm;
+    /** 공시지가 */
+    private String olnlp;
+    /** 연면적 */
+    private String totar;
+    /** 수량 */
+    private String qy;
+    /** 단위 */
+    private String unit;
+    /** 주요 시설물 */
+    private String mainFclts;
+    /** 당초 허가기간 시작 */
+    private String bgnnPrmisnPdBegin;
+    /** 당초 허가기간 종료 */
+    private String bgnnPrmisnPdEnd;
+    /** 변경 허가기간 시작 */
+    private String changePrmisnPdBegin;
+    /** 변경 허가기간 종료 */
+    private String changePrmisnPdEnd;
+
+    /** 지목 */
+    private String gisAssetsLndcgr;
+
     private String gisAssetsBupjungdongCd;
 
 	/**
@@ -720,5 +757,230 @@ public class GamGisAssetCodeVO implements Serializable {
 	public void setGisAssetsBupjungdongCd(String gisAssetsBupjungdongCd) {
 		this.gisAssetsBupjungdongCd = gisAssetsBupjungdongCd;
 	}
+
+	/**
+	 * @return the prdlstSe
+	 */
+	public String getPrdlstSe() {
+		return prdlstSe;
+	}
+
+	/**
+	 * @param prdlstSe the prdlstSe to set
+	 */
+	public void setPrdlstSe(String prdlstSe) {
+		this.prdlstSe = prdlstSe;
+	}
+
+	/**
+	 * @return the fsse
+	 */
+	public String getFsse() {
+		return fsse;
+	}
+
+	/**
+	 * @param fsse the fsse to set
+	 */
+	public void setFsse(String fsse) {
+		this.fsse = fsse;
+	}
+
+	/**
+	 * @return the regstrAmount
+	 */
+	public String getRegstrAmount() {
+		return regstrAmount;
+	}
+
+	/**
+	 * @param regstrAmount the regstrAmount to set
+	 */
+	public void setRegstrAmount(String regstrAmount) {
+		this.regstrAmount = regstrAmount;
+	}
+
+	/**
+	 * @return the nowRegstrAmount
+	 */
+	public String getNowRegstrAmount() {
+		return nowRegstrAmount;
+	}
+
+	/**
+	 * @param nowRegstrAmount the nowRegstrAmount to set
+	 */
+	public void setNowRegstrAmount(String nowRegstrAmount) {
+		this.nowRegstrAmount = nowRegstrAmount;
+	}
+
+	/**
+	 * @return the invstmntAmount
+	 */
+	public String getInvstmntAmount() {
+		return invstmntAmount;
+	}
+
+	/**
+	 * @param invstmntAmount the invstmntAmount to set
+	 */
+	public void setInvstmntAmount(String invstmntAmount) {
+		this.invstmntAmount = invstmntAmount;
+	}
+
+	/**
+	 * @return the mktcStdAm
+	 */
+	public String getMktcStdAm() {
+		return mktcStdAm;
+	}
+
+	/**
+	 * @param mktcStdAm the mktcStdAm to set
+	 */
+	public void setMktcStdAm(String mktcStdAm) {
+		this.mktcStdAm = mktcStdAm;
+	}
+
+	/**
+	 * @return the olnlp
+	 */
+	public String getOlnlp() {
+		return olnlp;
+	}
+
+	/**
+	 * @param olnlp the olnlp to set
+	 */
+	public void setOlnlp(String olnlp) {
+		this.olnlp = olnlp;
+	}
+
+	/**
+	 * @return the totar
+	 */
+	public String getTotar() {
+		return totar;
+	}
+
+	/**
+	 * @param totar the totar to set
+	 */
+	public void setTotar(String totar) {
+		this.totar = totar;
+	}
+
+	/**
+	 * @return the qy
+	 */
+	public String getQy() {
+		return qy;
+	}
+
+	/**
+	 * @param qy the qy to set
+	 */
+	public void setQy(String qy) {
+		this.qy = qy;
+	}
+
+	/**
+	 * @return the unit
+	 */
+	public String getUnit() {
+		return unit;
+	}
+
+	/**
+	 * @param unit the unit to set
+	 */
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
+
+	/**
+	 * @return the mainFclts
+	 */
+	public String getMainFclts() {
+		return mainFclts;
+	}
+
+	/**
+	 * @param mainFclts the mainFclts to set
+	 */
+	public void setMainFclts(String mainFclts) {
+		this.mainFclts = mainFclts;
+	}
+
+	/**
+	 * @return the bgnnPrmisnPdBegin
+	 */
+	public String getBgnnPrmisnPdBegin() {
+		return bgnnPrmisnPdBegin;
+	}
+
+	/**
+	 * @param bgnnPrmisnPdBegin the bgnnPrmisnPdBegin to set
+	 */
+	public void setBgnnPrmisnPdBegin(String bgnnPrmisnPdBegin) {
+		this.bgnnPrmisnPdBegin = bgnnPrmisnPdBegin;
+	}
+
+	/**
+	 * @return the bgnnPrmisnPdEnd
+	 */
+	public String getBgnnPrmisnPdEnd() {
+		return bgnnPrmisnPdEnd;
+	}
+
+	/**
+	 * @param bgnnPrmisnPdEnd the bgnnPrmisnPdEnd to set
+	 */
+	public void setBgnnPrmisnPdEnd(String bgnnPrmisnPdEnd) {
+		this.bgnnPrmisnPdEnd = bgnnPrmisnPdEnd;
+	}
+
+	/**
+	 * @return the changePrmisnPdBegin
+	 */
+	public String getChangePrmisnPdBegin() {
+		return changePrmisnPdBegin;
+	}
+
+	/**
+	 * @param changePrmisnPdBegin the changePrmisnPdBegin to set
+	 */
+	public void setChangePrmisnPdBegin(String changePrmisnPdBegin) {
+		this.changePrmisnPdBegin = changePrmisnPdBegin;
+	}
+
+	/**
+	 * @return the changePrmisnPdEnd
+	 */
+	public String getChangePrmisnPdEnd() {
+		return changePrmisnPdEnd;
+	}
+
+	/**
+	 * @param changePrmisnPdEnd the changePrmisnPdEnd to set
+	 */
+	public void setChangePrmisnPdEnd(String changePrmisnPdEnd) {
+		this.changePrmisnPdEnd = changePrmisnPdEnd;
+	}
+
+	/**
+	 * @return the gisAssetsLndcgr
+	 */
+	public String getGisAssetsLndcgr() {
+		return gisAssetsLndcgr;
+	}
+
+	/**
+	 * @param gisAssetsLndcgr the gisAssetsLndcgr to set
+	 */
+	public void setGisAssetsLndcgr(String gisAssetsLndcgr) {
+		this.gisAssetsLndcgr = gisAssetsLndcgr;
+	}
+
 
 }
