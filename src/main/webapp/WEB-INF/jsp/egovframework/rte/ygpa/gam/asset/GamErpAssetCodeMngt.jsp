@@ -541,6 +541,11 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 		this.saveGisAssetItem();
 		break;
 	case 'btnApplyGisAssetsCode':
+		if(this.$('#gisAssetsSeCd').val()=='4'){
+			this.$('#qy').val(this.$('#qy1').val());
+			this.$('#unit').val(this.$('#unit1').val());
+		}
+
 		if(this._editRow==null && (this._editData==null || this._editData._updtId!='I')) {
 
 			return;	// no action;
@@ -1089,6 +1094,28 @@ var module_instance = new GamAssetCodeModule();
 						<td colspan="3"><input type="text" size="60" id="gisAssetsLocplc" readonly><button id="selectAddr" class="popupButton">주소조회</button></td>
 						<th><span class="label">지번</span></th>
 						<td><input type="text" size="4" id="gisAssetsLnm" maxlength="4">-<input type="text" size="3" id="gisAssetsLnmSub" maxlength="4"></td>
+					</tr>
+
+					<tr class="gisAssetsSeCd3">
+						<th>
+							<span class="label">수량</span>
+						</th>
+						<td class="">
+							<input type="text" size="8" class="ygpaNumber" id="qy1" >
+						</td>
+
+						<th>
+							<span class="label">단위</span>
+						</th>
+						<td class="">
+							<input type="text" size="8" id="unit1" class="">
+						</td>
+
+
+						<th>
+						</th>
+						<td>
+						</td>
 					</tr>
 
 					<tr class="">
