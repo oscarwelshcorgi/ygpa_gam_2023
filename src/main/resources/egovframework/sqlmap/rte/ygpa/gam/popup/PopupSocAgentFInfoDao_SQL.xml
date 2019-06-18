@@ -6,15 +6,15 @@
     <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="gamPopupSocAgentFInfoVO" type="egovframework.rte.ygpa.gam.popup.service.GamPopupSocAgentFInfoVO"/>
-    
+
 
     <select id="gamPopupSocAgentFInfoDao.selectSocAgentFInfoList_S" parameterClass="gamPopupSocAgentFInfoVO" resultClass="egovMap">
            SELECT A.*
            FROM (
                    SELECT  ROWNUM RNUM, S.*
                      FROM (
-                           SELECT 
-					        		F.PRT_AT_CODE
+                           SELECT  SE
+					        	  ,	F.PRT_AT_CODE
 					              , A.PRT_KOR_NM AS PRT_AT_KOR_NM
 					              , F.CMPL_YR
 					              , F.CONST_NO
@@ -58,26 +58,30 @@
 					        	  , F.BZ_RGST_ID
 					        	  , F.UPDT_UID
 					        	  , TO_CHAR(F.UPDT_DATE,'YYYY-MM-DD') AS UPDT_DATE
-					        FROM 
-					        	P2MGR.SOC_AGENT_F@YGPA_P2MGR F
-					        LEFT OUTER JOIN 
-					        	P2MGR.PRT_AT_CODE_F@YGPA_P2MGR A 
-					        ON 
-					        	(A.PRT_AT_CODE=F.PRT_AT_CODE) 
-					        LEFT OUTER JOIN 
-					        	P2MGR.PRT_AT_CODE_F@YGPA_P2MGR B 
-					        ON 
-					        	(B.PRT_AT_CODE=F.SOC_PRT_AT_CODE) 
+					        FROM
+					        	V_SOC_AGENT_F F
+					        LEFT OUTER JOIN
+					        	P2MGR.PRT_AT_CODE_F@YGPA_P2MGR A
+					        ON
+					        	(A.PRT_AT_CODE=F.PRT_AT_CODE)
+					        LEFT OUTER JOIN
+					        	P2MGR.PRT_AT_CODE_F@YGPA_P2MGR B
+					        ON
+					        	(B.PRT_AT_CODE=F.SOC_PRT_AT_CODE)
                             WHERE 1=1
-					
+
+						         <isNotEmpty property="sSe">
+						             AND F.SE = #sSe#
+						         </isNotEmpty>
+
 						         <isNotEmpty property="sPrtAtCode">
 						             AND F.PRT_AT_CODE = #sPrtAtCode#
 						         </isNotEmpty>
-							         
+
 						         <isNotEmpty property="sAgentCode">
-						             AND F.AGENT_CODE LIKE #sAgentCode#||'%' 
+						             AND F.AGENT_CODE LIKE #sAgentCode#||'%'
 						         </isNotEmpty>
-						        
+
 						         <isNotEmpty property="sAgentName">
 						             AND F.AGENT_NAME LIKE '%'||#sAgentName#||'%'
 						         </isNotEmpty>
@@ -88,31 +92,34 @@
              ) A
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
-    
+
     <select id="gamPopupSocAgentFInfoDao.selectSocAgentFInfoListTotCnt_S" parameterClass="gamPopupSocAgentFInfoVO" resultClass="int">
-    
-        SELECT 
+
+        SELECT
         		COUNT(*) AS TOTAL_CNT
-        FROM 
-        	P2MGR.SOC_AGENT_F@YGPA_P2MGR F
-        LEFT OUTER JOIN 
-        	P2MGR.PRT_AT_CODE_F@YGPA_P2MGR A 
-        ON 
-        	(A.PRT_AT_CODE=F.PRT_AT_CODE) 
-        LEFT OUTER JOIN 
-        	P2MGR.PRT_AT_CODE_F@YGPA_P2MGR B 
-        ON 
-        	(B.PRT_AT_CODE=F.SOC_PRT_AT_CODE) 
+        FROM
+        	V_SOC_AGENT_F F
+        LEFT OUTER JOIN
+        	P2MGR.PRT_AT_CODE_F@YGPA_P2MGR A
+        ON
+        	(A.PRT_AT_CODE=F.PRT_AT_CODE)
+        LEFT OUTER JOIN
+        	P2MGR.PRT_AT_CODE_F@YGPA_P2MGR B
+        ON
+        	(B.PRT_AT_CODE=F.SOC_PRT_AT_CODE)
                        WHERE 1=1
 
+	         <isNotEmpty property="sSe">
+	             AND F.SE = #sSe#
+	         </isNotEmpty>
 	         <isNotEmpty property="sPrtAtCode">
 	             AND F.PRT_AT_CODE = #sPrtAtCode#
 	         </isNotEmpty>
-		         
+
 	         <isNotEmpty property="sAgentCode">
-	             AND F.AGENT_CODE LIKE #sAgentCode#||'%' 
+	             AND F.AGENT_CODE LIKE #sAgentCode#||'%'
 	         </isNotEmpty>
-	        
+
 	         <isNotEmpty property="sAgentName">
 	             AND F.AGENT_NAME LIKE '%'||#sAgentName#||'%'
 	         </isNotEmpty>

@@ -50,20 +50,20 @@ GamSocAgentMngtModule.prototype.loadComplete = function() {
         showTableToggleBtn: false,
         height: 'auto',
         preProcess: function(module,data) {
-        	
+
         	module._socAgentInfo = data.socAgentInfo;
-        	
+
         	//그리드 상단 입력창에 정보 입력
         	if(data.socAgentInfo){
         		if(data.resultCode == '0'){
 	        		module.makeFormValues('#form1',data.socAgentInfo);
-		        	
+
 		        	//항만공사시행허가원부II 정보입력
 	        		module.makeFormValues('#gamSocAgentForm',data.socAgentInfo);
         		}
-	        	
+
         		module.$("#cmd").val("modify");
-        		
+
        		}else{
        			//console.log('debug');
        			if(data.resultCode == '0'){
@@ -72,9 +72,9 @@ GamSocAgentMngtModule.prototype.loadComplete = function() {
 	        		module.makeFormValues('#gamSocAgentForm',{});
        			}
 	        	module.$("#cmd").val("insert");
-       			
+
        		}
-        	
+
 			//자료수, 합산금액 입력
             module.$('#totalCount').val($.number(data.totalCount));
             module.$('#sumTotalAmnt').val($.number(data.sumTotalAmnt));
@@ -83,38 +83,38 @@ GamSocAgentMngtModule.prototype.loadComplete = function() {
             return data;
         }
     });
-    
-    
+
+
 	// 연도 셀렉트 옵션에 뿌리기
 	this.addSelectOption();
 
 };
 
 GamSocAgentMngtModule.prototype.addSelectOption = function() {
-	
+
 	var toDate = new Date();
 	var toYear = toDate.getFullYear();
-	
+
 	var option = "";
 	for(var i = 2000;i<=toYear;i++){
 		option = option + "<option value='" + i + "'>" + i + "년</option>";
 	}
 	this.$("#sCmplYr").append(option);
-	
+
 	this.$("#cmplYr").append(option);
 
 };
 
 
 GamSocAgentMngtModule.prototype.makeRegiFormat = function() {
-	
+
 	this.makeFormValues('#gamSocAgentMngtSearchForm',{});
     this.makeFormValues('#form1',{});
     this.makeFormValues('#form2',{});
     this.makeFormValues('#gamSocAgentForm',{});
-    
+
     this.$('#socAgentMngtList').flexEmptyData();
-    
+
     this.$("#cmd").val("insert");
 
 };
@@ -124,17 +124,17 @@ GamSocAgentMngtModule.prototype.makeRegiFormat = function() {
 /**
  * @FUNCTION NAME : validateDuration
  * @DESCRIPTION   : 유효성 있는 기간 체크
- * @PARAMETER     : 
-	 1. startDate   : 시작일 문자열, 
-	 2. endDate     : 종료일 문자열, 
-	 3. startTitle  : 시작일 제목, 
-	 4. endTitle    : 종료일 제목, 
-	 5. startIgnore : 
+ * @PARAMETER     :
+	 1. startDate   : 시작일 문자열,
+	 2. endDate     : 종료일 문자열,
+	 3. startTitle  : 시작일 제목,
+	 4. endTitle    : 종료일 제목,
+	 5. startIgnore :
 		 5-1. true  : 시작일 필수입력사항 미체크,
-		 5-2. false : 시작일 필수입력사항 체크 
-	 6. endIgnore : 
+		 5-2. false : 시작일 필수입력사항 체크
+	 6. endIgnore :
 		 6-1. true  : 종료일 필수입력사항 미체크,
-		 6-2. false : 종료일 필수입력사항 체크 
+		 6-2. false : 종료일 필수입력사항 체크
 	 7. equals      :
 		 7-1. true  : 종료일이 시작일 보다 크거나 같으면 허용
 		 7-2. false : 종료일이 시작일 보다 커야 허용
@@ -181,8 +181,8 @@ GamSocAgentMngtModule.prototype.validateDuration = function(startDate, endDate, 
 	}
 	startDate = EMD.util.strToDate(startDate);
 	endDate = EMD.util.strToDate(endDate);
-	var compareResult = (startDate.getTime() > endDate.getTime()) ? -1 : 
-							(startDate.getTime() == endDate.getTime()) ? 0 : 1;	
+	var compareResult = (startDate.getTime() > endDate.getTime()) ? -1 :
+							(startDate.getTime() == endDate.getTime()) ? 0 : 1;
 	result = (equals) ? (compareResult >= 0) : (compareResult > 0);
 	if(!result) {
 		alert(endTitle +'은(는) ' + startTitle + ((equals) ? '보다 같거나 커야합니다.' : '보다 커야합니다.'));
@@ -192,31 +192,31 @@ GamSocAgentMngtModule.prototype.validateDuration = function(startDate, endDate, 
 
 
 GamSocAgentMngtModule.prototype.saveItem = function() {
-	
-	if(!validateGamSocAgentDetail(this.$('#form1')[0])){ 		
+
+	if(!validateGamSocAgentDetail(this.$('#form1')[0])){
 		return;
 	}
-	
-	if(!this.validateDuration(this.$('#aprvDt').val(), this.$('#cmplDt').val(),  
+
+	if(!this.validateDuration(this.$('#aprvDt').val(), this.$('#cmplDt').val(),
 			'공사승인일자', '공사준공일자', false, false, false)) {
 		return;
 	}
-	
-	if(!this.validateDuration(this.$('#perfDt').val(), this.$('#cmplDt').val(),  
+
+	if(!this.validateDuration(this.$('#perfDt').val(), this.$('#cmplDt').val(),
 			'공사허가일자', '공사준공일자', false, false, false)) {
 		return;
 	}
 
 	var inputVO = [];
-	
+
 	var all_rows = JSON.stringify(this.$('#socAgentMngtList').flexGetData());
 	var updateData = JSON.stringify(this.getFormValues("#form1"));
 	var updateData1 = JSON.stringify(this.getFormValues("#gamSocAgentForm"));
-	
+
 	inputVO[inputVO.length] = {name: 'updateList',value: all_rows};
 	inputVO[inputVO.length] = {name: 'updateData',value: updateData};
 	inputVO[inputVO.length] = {name: 'updateData1',value: updateData1};
-	
+
 	if(this.$("#cmd").val() == "insert") {
 	 	this.doAction('/soc/gamInsertSocAgentList.do', inputVO, function(module, result) {
 	 		if(result.resultCode == "0"){
@@ -239,11 +239,11 @@ GamSocAgentMngtModule.prototype.saveItem = function() {
 
 
 GamSocAgentMngtModule.prototype.removeItem = function() {
-	
-	if(!validateGamSocAgent(this.$('#gamSocAgentMngtSearchForm')[0])){ 		
+
+	if(!validateGamSocAgent(this.$('#gamSocAgentMngtSearchForm')[0])){
 		return;
 	}
-	
+
 	var inputVO = [];
 	var searchData = JSON.stringify(this.getFormValues("#form1"));
 
@@ -264,15 +264,15 @@ GamSocAgentMngtModule.prototype.removeItem = function() {
  * 정의 된 버튼 클릭 시
  */
  GamSocAgentMngtModule.prototype.onButtonClick = function(buttonId) {
-	
+
 	var opts = null;
     switch(buttonId) {
-            
+
 		// 등록포맷으로 변환 -- 초기화 및 상태값 변경
 		case 'btnRegiItem':
 			this.makeRegiFormat();
 			break;
-       
+
         // 신청저장
         case 'btnSaveItem':
 			this.saveItem();
@@ -280,25 +280,34 @@ GamSocAgentMngtModule.prototype.removeItem = function() {
 
         //신청삭제
         case 'btnRemoveItem':
-        	if( confirm("삭제하시겠습니까?") ) {
-        		this.removeItem();
-        	}
+			if(this.$('#se').val() == 'GIS'){
+	        	if( confirm("삭제하시겠습니까?") ) {
+	        		this.removeItem();
+	        	}
+			}
+			else{
+				alert("포트미스 데이터는 삭제 할 수 없습니다.")
+			}
             break;
-            
+
         case 'popupSocAgentFInfo': // 허가원부선택 팝업을 호출한다.(조회)
             this.doExecuteDialog('selectSocAgentFInfoPopup', '허가원부선택', '/popup/showSocAgentFInfo.do', opts);
             break;
 
         case 'popupEntrpsInfo': // 업체선택 팝업을 호출한다.(조회)
-            
+
             this.doExecuteDialog('selectSocEntrpsInfoPopup', '업체 선택', '/popup/showSocEntrpsInfo.do', opts);
             break;
-            
-        case 'btnPopupSaveSocAgent':
-    		var all_rows = this.$('#socAgentMngtList').flexGetData();
-    		this.doExecuteDialog("addSocAgentPopup", "항만공사시행허가원부추가", '/popup/showSocAgent.do', {},all_rows);
-            break;
 
+        case 'btnPopupSaveSocAgent':
+        	if(this.$('#se').val() == 'GIS'){
+	    		var all_rows = this.$('#socAgentMngtList').flexGetData();
+	    		this.doExecuteDialog("addSocAgentPopup", "항만공사시행허가원부추가", '/popup/showSocAgent.do', {},all_rows);
+        	}
+			else{
+				alert("포트미스 데이터는 삭제 할 수 없습니다.")
+			}
+			break;
     }
 };
 
@@ -308,8 +317,8 @@ GamSocAgentMngtModule.prototype.onSubmit = function() {
 };
 
 GamSocAgentMngtModule.prototype.loadData = function() {
-	
-	if(!validateGamSocAgent(this.$('#gamSocAgentMngtSearchForm')[0])){ 		
+
+	if(!validateGamSocAgent(this.$('#gamSocAgentMngtSearchForm')[0])){
 		return;
 	}
     this.$("#socAgentListTab").tabs("option", {active: 0});
@@ -340,6 +349,7 @@ GamSocAgentMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
 			    this.$('#sPrtAtCode').val(value.prtAtCode);
 			    this.$('#sCmplYr').val(value.cmplYr);
 			    this.$('#sConstNo').val(value.constNo);
+			    this.$('#sSe').val(value.se);
 				this.loadData();
 			} else {
 			    alert('취소 되었습니다');
@@ -351,16 +361,16 @@ GamSocAgentMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
 			}
 			this.$("#socAgentMngtList").flexEmptyData();
 			this.$("#socAgentMngtList").flexAddData({resultList: value, socAgentInfo:this._socAgentInfo });
-			
+
 			var all_rows = this.$('#socAgentMngtList').flexGetData();
-			
+
 			var sumAccFee = 0;
 			for(var i=0;i<all_rows.length;i++){
 				sumAccFee = parseInt(sumAccFee) + parseInt(all_rows[i]["accFee"]);
 			}
-			
+
 			this.$('#accFee').val($.number(sumAccFee));
-			 
+
 			break;
 		default:
 			alert('알수없는 팝업 이벤트가 호출 되었습니다.');
@@ -380,7 +390,7 @@ var module_instance = new GamSocAgentMngtModule();
     <div id="searchViewStack" class="emdPanel">
         <div class="viewPanel">
             <form id="gamSocAgentMngtSearchForm">
-            
+
                 <table style="width:100%;" class="searchPanel">
                     <tbody>
                         <tr>
@@ -403,6 +413,10 @@ var module_instance = new GamSocAgentMngtModule();
                             <th>공사일련번호</th>
                             <td>
                             	<input id="sConstNo" type="text" size="15">
+                            </td>
+                            <th>구분</th>
+                            <td>
+                                <input id="sSe" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM074" />
                             </td>
                             <td style="text-align:right;">
 				                <button id="popupSocAgentFInfo" class="popupButton">허가원부선택</button>
@@ -428,6 +442,7 @@ var module_instance = new GamSocAgentMngtModule();
                  <div class="emdControlPanel">
 					<form id="form1">
 						<input type="hidden" id="cmd" value="insert" />
+						<input type="hidden" id="se" />
     	               	<table class="detailForm"  style="width:100%;">
     	               		<tr>
 	                            <th>*항코드</th>
@@ -509,9 +524,9 @@ var module_instance = new GamSocAgentMngtModule();
 						</table>
 					</form>
                 </div>
-                
+
                 <table id="socAgentMngtList" style="display:none" class="fillHeight"></table>
-                
+
                 <div id="agentListSum" class="emdControlPanel">
 					<form id="form2">
     	               	<table style="width:100%;" class="summaryPanel">

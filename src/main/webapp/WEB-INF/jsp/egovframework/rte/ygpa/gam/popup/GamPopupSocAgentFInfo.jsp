@@ -39,6 +39,7 @@ GamPopupSocAgentFModule.prototype.loadComplete = function() {
 		url: '/popup/selectSocAgentFInfoList.do',
 		dataType: "json",
 		colModel : [
+					{display:"구분",				name:"se", 				width:30, 		sortable:true, 		align:"center"},
 					{display:"공사관리청코드",		name:"prtAtCode", 		width:150, 		sortable:true, 		align:"center"},
 					{display:"공사관리청",			name:"prtAtKorNm", 		width:100, 		sortable:true, 		align:"center"},
 					{display:"준공년도",			name:"cmplYr", 			width:100, 		sortable:true, 		align:"center"},
@@ -60,7 +61,7 @@ GamPopupSocAgentFModule.prototype.loadComplete = function() {
 		// 이벤트내에선 모듈에 대해 선택한다.
 		module.closeDialog("ok", row);
 	});
-	
+
 	// 페이지로딩시 디폴트 데이타 로딩
 	this.onLoadData();
 
@@ -80,7 +81,7 @@ GamPopupSocAgentFModule.prototype.onLoadData = function() {
 };
 
 
-// 사용자 설정 함수 추가 
+// 사용자 설정 함수 추가
 GamPopupSocAgentFModule.prototype.onButtonClick = function(buttonId) {
 	switch(buttonId) {
 
@@ -95,7 +96,7 @@ GamPopupSocAgentFModule.prototype.onButtonClick = function(buttonId) {
 			break;
 		case "cancel":
 			this.cancelDialog();
-			
+
 	}
 };
 
@@ -135,6 +136,10 @@ var popup_instance = new GamPopupSocAgentFModule();
                         <td>
                            	<input id="sAgentName" type="text" size="15">
                         </td>
+                        <th>구분</th>
+                            <td>
+                                <input id="sSe" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM074" />
+                            </td>
 						<td>
 							<button class="buttonSearch">조회</button>
 						</td>
