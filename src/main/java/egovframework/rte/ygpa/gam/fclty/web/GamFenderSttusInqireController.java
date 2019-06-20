@@ -133,10 +133,10 @@ public class GamFenderSttusInqireController {
     	// 내역 조회
 
 		/** List Data */
-		List mntnRprObjFcltsFList = gamFenderSttusInqireService.selectFenderSttusInqireList(searchVO);
+		List fenderSttusInqireList = gamFenderSttusInqireService.selectFenderSttusInqireList(searchVO);
 
 		map.put("resultCode", 0);			// return ok
-    	map.put("resultList", mntnRprObjFcltsFList);
+    	map.put("resultList", fenderSttusInqireList);
 
     	return map;
 
@@ -162,11 +162,11 @@ public class GamFenderSttusInqireController {
     	fenderMng = mapper.convertValue(searchOpt, GamFenderMngGroupVO.class);
     	searchVO.setsFcltsMngGroupNo(fenderMng.getFcltsMngGroupNo());
 
-		List gamFenderMngGroupList = gamFenderSttusInqireService.selectFenderSttusInqireList(searchVO);
+		List fenderSttusInqireList = gamFenderSttusInqireService.selectFenderSttusInqireList(searchVO);
 
     	model.addAttribute("resultCode", 0);	// return ok
     	model.addAttribute("fenderMng", fenderMng);
-    	model.addAttribute("gamFenderMngGroupList", gamFenderMngGroupList);
+    	model.addAttribute("fenderSttusInqireList", fenderSttusInqireList);
 
     	return "ygpa/gam/fclty/GamFenderSttusInqirePrint";
     }

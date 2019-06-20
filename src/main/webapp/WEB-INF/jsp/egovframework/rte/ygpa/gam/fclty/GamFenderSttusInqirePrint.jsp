@@ -163,7 +163,7 @@
 		</table>
 
 
-	<c:if test="${fn:length(gamFenderMngGroupList) == 0}">
+	<c:if test="${fn:length(fenderSttusInqireList) == 0}">
 		<table class="rpr_main_table">
 	  		<thead>
 	  			<tr>
@@ -198,7 +198,7 @@
 			       				</tr>
 			        		</thead>
 			        		<tbody>
-    <c:forEach var="result" items="${gamFenderMngGroupList }" varStatus="resultStatus">
+    <c:forEach var="result" items="${fenderSttusInqireList }" varStatus="resultStatus">
 <%--            			<c:if test="${resultStatus.index%18==0 }"> <% /*  페이지 당 출력 갯수 */ %>
            				<c:if test="${resultStatus.index!=0 }">	<% /*  페이지 구분*/ %>
 			        		</tbody>
