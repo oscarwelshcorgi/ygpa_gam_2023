@@ -29,21 +29,20 @@ import egovframework.rte.ygpa.gam.fclty.service.GamFenderSttusInqireService;
 import egovframework.rte.ygpa.gam.fclty.service.GamFenderSttusInqireVO;
 
 /**
- *
- * @author ACEWOLF
- * @since 2015. 2. 17.
- * @version 1.0
- * @see
- * <pre>
- * << 개정이력(Modification Information) >>
- *
- *   수정일 		 수정자		 수정내용
- *  -------		--------	---------------------------
- *  2015. 2. 17.		ACEWOLF		최초 생성
- *
- * Copyright (C) 2013 by LFIT  All right reserved.
- * </pre>
- */
+*
+* @author LFIT
+* @since 2019. 6. 19.
+* @version 1.0
+* @see
+* <pre>
+* << 개정이력(Modification Information) >>
+*
+*   수정일 		 수정자		 수정내용
+*  -------		--------	---------------------------
+*  2019.6.19.		LFIT		최초 생성
+*
+* </pre>
+*/
 
 @Controller
 public class GamFenderSttusInqireController {
@@ -77,7 +76,7 @@ public class GamFenderSttusInqireController {
 
 
 	/**
-	 * 방충재 시설 조회
+	 * 방충재 그룹 시설 조회
 	 * @param searchVO
 	 * @return map
 	 * @throws Exception
@@ -118,6 +117,12 @@ public class GamFenderSttusInqireController {
     	return map;
     }
 
+	/**
+	 * 방충재 시설 조회
+	 * @param searchVO
+	 * @return map
+	 * @throws Exception
+	 */	
 	@RequestMapping(value="/fclty/gamFenderSttusInqireList.do")
 	@ResponseBody Map<String, Object> gamFenderSttusInqireList(GamFenderSttusInqireVO searchVO) throws Exception {
 
@@ -142,7 +147,12 @@ public class GamFenderSttusInqireController {
 
 	}
 
-
+	/**
+	 * 방충재 시설 출력
+	 * @param searchOpt
+	 * @return String
+	 * @throws Exception
+	 */	
 
     @RequestMapping(value="/fclty/fenderSttusInqirePrint.do")
     public String gamFenderSttusInqirePrint(@RequestParam Map<String, Object> searchOpt, ModelMap model) throws Exception {

@@ -6,18 +6,17 @@
 <%@ taglib prefix="validator" uri="/WEB-INF/tlds/emf-validator.tld" %>
 <%
 /**
- * @Class Name : GamFcltsMngGroupMng.jsp
- * @Description : 시설물 관리 그룹 화면
+ * @Class Name : GamFenderSttusInqire.jsp
+ * @Description : 방충재 현황
  * @Modification Information
  *
  *   수정일         수정자                   수정내용
  *  -------    --------    ---------------------------
- *  2014.12.10  	 김종민          화면단 최초 생성
+ *  2019.06.19  	 김재철          화면단 최초 생성
  *
- * author 김종민
- * since 2014.12.10
+ * author 김재철
+ * since 2016.06.19
  *
- * Copyright (C) 2013 by LFIT  All right reserved.
 **/
 %>
 <%

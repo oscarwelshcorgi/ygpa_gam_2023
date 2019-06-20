@@ -12,21 +12,20 @@ import egovframework.rte.ygpa.gam.fclty.service.GamFenderMngGroupVO;
 import egovframework.rte.ygpa.gam.fclty.service.GamFenderSttusInqireVO;
 
 /**
- *
- * @author LFIT
- * @since 2015. 3. 9.
- * @version 1.0
- * @see
- * <pre>
- * << 개정이력(Modification Information) >>
- *
- *   수정일 		 수정자		 수정내용
- *  -------		--------	---------------------------
- *  2015. 3. 9.		LFIT		최초 생성
- *
- * Copyright (C) 2013 by LFIT  All right reserved.
- * </pre>
- */
+*
+* @author LFIT
+* @since 2019. 6. 19.
+* @version 1.0
+* @see
+* <pre>
+* << 개정이력(Modification Information) >>
+*
+*   수정일 		 수정자		 수정내용
+*  -------		--------	---------------------------
+*  2019.6.19.		LFIT		최초 생성
+*
+* </pre>
+*/
 
 @Repository("gamFenderSttusInqireDao")
 public class GamFenderSttusInqireDao extends YGPAAbstractDAO {

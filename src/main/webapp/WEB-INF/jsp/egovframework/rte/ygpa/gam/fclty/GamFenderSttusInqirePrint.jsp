@@ -6,20 +6,19 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%
-  /**
-  * @Class Name : GamAssetSttusInqirePrint.jsp
-  * @Description : 인쇄 화면
-  * @Modification Information
-  *
-  *   수정일         수정자                   수정내용
-  *  -------    --------    ---------------------------
-  *  2014.10.10  eunsungj          최초 생성
-  *
-  * author eunsungj
-  * since 2014.10.10
-  *
-  * Copyright (C) 2013 by LFIT  All right reserved.
-  */
+/**
+ * @Class Name : GamFenderSttusInqire.jsp
+ * @Description : 방충재 현황
+ * @Modification Information
+ *
+ *   수정일         수정자                   수정내용
+ *  -------    --------    ---------------------------
+ *  2019.06.19  	 김재철          화면단 최초 생성
+ *
+ * author 김재철
+ * since 2016.06.19
+ *
+**/
 %>
 <html lang="ko" xml:lang="ko">
   <head>
