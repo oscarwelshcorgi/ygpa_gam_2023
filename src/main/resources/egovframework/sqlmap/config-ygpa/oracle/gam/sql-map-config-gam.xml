@@ -21,6 +21,9 @@
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/code/GamFcltsClCdMngDao_SQL_oracle.xml" />
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/code/GamFcltsMngGroupMngDao_SQL_oracle.xml" />
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/code/GamQcItemCdMngDao_SQL_oracle.xml" />
+	
+	<!-- 건축물시가표준액 -->
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/code/GamBuldMktcStdAmManageDAO_SQL_oracle.xml" />
 
     <sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/cmmn/itgrn/GamNticPayListDao_SQL_oracle.xml"/>
 
