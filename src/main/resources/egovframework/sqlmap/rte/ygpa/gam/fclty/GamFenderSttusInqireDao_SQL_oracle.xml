@@ -52,7 +52,7 @@
 								AND FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
 							</isNotEmpty>
 							<isNotEmpty property="sFcltsMngGroupNm">
-								AND FCLTS_MNG_GROUP_NM = #sFcltsMngGroupNm#
+								AND FCLTS_MNG_GROUP_NM like '%'||#sFcltsMngGroupNm#||'%'
 							</isNotEmpty>
 							ORDER BY PRT_AT_CODE DESC
 				) S

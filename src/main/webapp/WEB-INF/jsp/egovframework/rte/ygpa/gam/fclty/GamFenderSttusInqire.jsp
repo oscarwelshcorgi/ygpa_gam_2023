@@ -246,7 +246,7 @@ var module_instance = new GamFenderSttusInqireModule();
 				<table style="width:100%;" class="searchPanel">
 					<tbody>
 						<tr>
-							<th>시설물　관리　그룹　번호</th>
+							<th>시설물 종류</th>
 							<td>
 								<select id="sFcltsGbn" data-column-id="sFcltsGbn">
 										<option value="" selected>선택</option>
