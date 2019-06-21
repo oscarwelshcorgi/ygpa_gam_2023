@@ -1,19 +1,19 @@
 /**
- * 
+ *
  */
 package egovframework.rte.ygpa.gam.soc.service;
 
 import egovframework.com.cmm.ComDefaultVO;
 
 /**
- * 
+ *
  * @author HNJ
  * @since 2014. 9. 23.
  * @version 1.0
  * @see
  * <pre>
  * << 개정이력(Modification Information) >>
- *   
+ *
  *   수정일 		 수정자		 수정내용
  *  -------		--------	---------------------------
  *  2014. 9. 23.		HNJ		최초 생성
@@ -23,161 +23,168 @@ import egovframework.com.cmm.ComDefaultVO;
  */
 
 public class GamSocAgentVO extends ComDefaultVO {
-	
+
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
 
-	/** 검색항코드 */
+	/** 검색구분 */
+    private String sSe;
+
+    /** 검색항코드 */
     private String sPrtAtCode;
-    
+
     /** 공사준공년도 */
     private String sCmplYr;
-    
+
     /** 공사일련번호 */
     private String sConstNo;
-    
+
+
+    /** 검색구분 */
+    private String se;
+
     /** 공사항만코드 */
     private String prtAtCode;
-    
+
     /** 대표자 */
     private String agentOwner;
-    
+
     /** 공사명 */
     private String socCnstNm;
-    
+
     /** 공사승인일자 */
     private String aprvDt;
-    
+
     /** 위치 */
     private String cnstLoc;
-    
+
     /** 공사허가일자 */
     private String perfDt;
-    
+
     /** 업체코드 */
     private String agentCode;
-    
+
     /** 업체명 */
     private String agentName;
-    
+
     /** 공사준공일자 */
     private String cmplDt;
-    
+
     /** 주소 */
     private String agentAddr;
-    
+
     /** 목적 */
     private String socObj;
-    
+
     /** 시행기간 */
     private String socGigian;
-    
+
     /** 국가비귀속 대상시설 */
     private String socPrivate;
-    
+
     /** 국가귀속 대상시설 */
     private String socNation;
-    
+
     /** 시행면적 */
     private String socWidth;
-    
+
     /** 조사비 */
     private String reserachAmnt;
-    
+
     /** 순공사비 */
     private String pureAmnt;
-    
+
     /** 기타비용1 */
     private String extraAmnt1;
-    
+
     /** 기타비용2 */
     private String extraAmnt2;
-    
+
     /** 기타비용3 */
     private String extraAmnt3;
-    
+
     /** 주요허가조건 */
     private String primeTxt;
-    
+
     /** 변경사항 */
     private String modifyTxt;
-    
+
     /** 착공일 */
     private String startDt;
-    
+
     /** 변경일자 */
     private String modifyDt1;
-    
+
     /** 무상사용허가기간 시작 */
     private String freefrDt;
-    
+
     /** 무상사용허가기간 끝 */
     private String freetoDt;
-    
+
     /** 시설관리권등록일 */
     private String manageDt;
-    
+
     /** 무상사용승인일 */
     private String freeuseDt;
-    
+
     /** 재산귀속일 */
     private String assetDt;
-    
+
     /** 타인사용징수승인일 */
     private String otherDt;
-    
-    
-    
+
+
+
     /** 공사준공년도 */
     private String cmplYr;
-    
+
     /** 허가원부일련번호 */
     private String constNo;
-    
+
     /** 공사지역항만코드 */
     private String socPrtAtCode;
-    
+
     /** 공사변경일자2 */
     private String modifyDt2;
-    
+
     /** 총사업비보전금액 */
     private String totalAmnt;
-    
+
     /** 보전누계액 */
     private String accFee;
-    
+
     /** 기타비용4 */
     private String extraAmnt4;
-    
+
     /** 특이사항 */
     private String remark;
-    
+
     /** 항만시설 및 사용료 징수범위 */
     private String range;
-    
+
     /** 사업자등록번호 */
     private String bzRgstId;
-    
+
     /** 등록자 */
     private String updtUid;
-    
+
     /** 수정일시 */
     private String updtDate;
-    
-    
-    
+
+
+
     /** 총갯수 */
     private int totalCnt;
-    
+
     /** 총보전처리대상금액 */
     private long sumTotalAmnt;
-    
+
     /** 총보전처리누계액 */
     private long sumAccFee;
-    
+
 
 
 	/**
@@ -855,6 +862,34 @@ public class GamSocAgentVO extends ComDefaultVO {
 		this.sumAccFee = sumAccFee;
 	}
 
-	
+	/**
+	 * @return the sSe
+	 */
+	public String getsSe() {
+		return sSe;
+	}
+
+	/**
+	 * @param sSe the sSe to set
+	 */
+	public void setsSe(String sSe) {
+		this.sSe = sSe;
+	}
+
+	/**
+	 * @return the se
+	 */
+	public String getSe() {
+		return se;
+	}
+
+	/**
+	 * @param se the se to set
+	 */
+	public void setSe(String se) {
+		this.se = se;
+	}
+
+
 
 }

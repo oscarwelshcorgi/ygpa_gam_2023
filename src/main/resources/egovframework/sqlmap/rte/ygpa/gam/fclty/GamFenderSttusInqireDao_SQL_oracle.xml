@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<!-- SQL MAP 정의 -->
+<sqlMap namespace="ygpa.gam.fclty">
+	<!-- TYPE ALIAS 정의 -->
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+
+	<typeAlias alias="gamFenderMngGroupVO" type="egovframework.rte.ygpa.gam.fclty.service.GamFenderMngGroupVO" />
+	<typeAlias alias="gamFenderSttusInqireVO" type="egovframework.rte.ygpa.gam.fclty.service.GamFenderSttusInqireVO" />
+
+	<!-- RESULT MAP 정의 -->
+<!-- 	<resultMap id="gamInfoCommFcltySpecInqireSumMap" class="GamInfoCommFcltySpecInqireVO">
+		<result property="totalCount" column="TOTAL_COUNT" columnIndex="1"/>
+		<result property="sumQy" column="SUM_QY" columnIndex="2"/>
+		<result property="sumAcqAmt" column="SUM_ACQ_AMT" columnIndex="3"/>
+	</resultMap>
+ -->
+
+	<select id="gamFenderSttusInqireDao.selectFenderMngGroupList" parameterClass="gamFenderMngGroupVO" resultClass="egovMap">
+		SELECT T.*
+			FROM (
+				SELECT  ROWNUM RNUM, S.*
+					FROM (
+							SELECT
+									FCLTS_MNG_GROUP_NO
+									,PRT_AT_CODE
+									,GAM_GETCODENAME('GAM019',PRT_AT_CODE) AS PRT_AT_CODE_NM
+									,FCLTS_MNG_GROUP_NM
+					                ,FCLTS_GBN
+					                ,GAM_GET_FCLTS_GBN_NM(FCLTS_GBN) AS FCLTS_GBN_NM
+					                ,FCLTS_SE
+									,GAM_GET_FCLTS_SE_NM(FCLTS_SE) AS FCLTS_SE_NM
+	                				,FCLTS_KND
+									,GAM_GET_FCLTS_KND_NM(FCLTS_KND) AS FCLTS_KND_NM
+									,TO_CHAR(CNST_BEGIN_DT,'YYYY-MM-DD')||'~'||TO_CHAR(CNST_END_DT,'YYYY-MM-DD') AS CNST_DT
+					                ,TO_CHAR(BLD_DT,'YYYY-MM-DD') AS BLD_DT
+					                ,OWNER
+					                ,CNSTRTR
+					                ,LOC
+								FROM FCLTS_MNG_GROUP_F
+	             				 INNER JOIN (SELECT DISTINCT FCLTS_MNG_GROUP_NO
+					                            FROM GIS_PRT_FCLTY_CD_F
+					                           WHERE GIS_PRT_FCLTY_CD = 'C1'
+					                             AND FCLTS_MNG_GROUP_NO IS NOT NULL)
+					              USING (FCLTS_MNG_GROUP_NO)
+							WHERE 1 = 1
+							<isNotEmpty property="sFcltsGbn">
+								AND FCLTS_GBN = #sFcltsGbn#
+							</isNotEmpty>
+							<isNotEmpty property="sFcltsMngGroupNo">
+								AND FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
+							</isNotEmpty>
+							<isNotEmpty property="sFcltsMngGroupNm">
+								AND FCLTS_MNG_GROUP_NM like '%'||#sFcltsMngGroupNm#||'%'
+							</isNotEmpty>
+							ORDER BY PRT_AT_CODE DESC
+				) S
+		) T
+		<![CDATA[
+		WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
+		]]>
+	</select>
+
+	<select id="gamFenderSttusInqireDao.selectFenderSttusInqireList" parameterClass="gamFenderSttusInqireVO" resultClass="egovMap">
+		SELECT ROWNUM RNUM, S.*
+		  FROM(
+			SELECT
+					T1.PRT_FCLTY_NM AS PRT_FCLTY_NM
+					,T2.STRCT_FMT AS STRCT_FMT
+					,LTRIM(TO_CHAR(NVL(T2.BERTH,0),'99,990')) AS BERTH
+					,T1.PRT_FCLTY_STNDRD AS PRT_FCLTY_STNDRD
+					,T1.PRT_FCLTY_UNIT AS PRT_FCLTY_UNIT
+					,T1.PRT_PRT_FCLTY_CNT AS PRT_PRT_FCLTY_CNT
+					,T2.FENDER_KND_CD AS FENDER_KND_CD
+					,T2.FENDER_PMNT_ITV AS FENDER_PMNT_ITV
+					,T2.FENDER_FMT AS FENDER_FMT
+			  FROM GIS_PRT_FCLTY_CD_F T1
+			  LEFT OUTER JOIN CVL_ENG_FCLTY_SPEC_F T2 ON (T1.FCLTS_MNG_NO=T2.FCLTS_MNG_NO)
+			  LEFT OUTER JOIN GIS_ASSETS_CD_F T3 ON (T1.GIS_ASSETS_PRT_AT_CODE=T3.GIS_ASSETS_PRT_AT_CODE AND T1.GIS_ASSETS_CD=T3.GIS_ASSETS_CD AND T1.GIS_ASSETS_SUB_CD=T3.GIS_ASSETS_SUB_CD)
+			 WHERE 1=1
+			   AND T1.PRT_FCLTY_SE = 'C'
+			   AND T1.GIS_PRT_FCLTY_CD = 'C1'
+			   AND T1.FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
+			ORDER BY GIS_PRT_FCLTY_SEQ) S
+
+	</select>
+
+</sqlMap>

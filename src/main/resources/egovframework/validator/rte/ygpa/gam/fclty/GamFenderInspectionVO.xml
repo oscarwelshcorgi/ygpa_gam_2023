@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE form-validation PUBLIC
+    "-//Apache Software Foundation//DTD Commons Validator Rules Configuration 1.1//EN"
+    "http://jakarta.apache.org/commons/dtds/validator_1_1.dtd">
+
+<form-validation>
+
+    <formset>
+        <form name="gamFenderInspectionVO">
+            <field property="year" depends="required">
+                <arg0 key="연도" resource="false"/>
+            </field>
+            <field property="fcltsMngGroupNo" depends="required">
+                <arg0 key="시설물 관리 그룹 코드" resource="false"/>
+            </field>
+        </form>
+    </formset>
+</form-validation>

@@ -549,6 +549,11 @@ GamArchFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 				this.deleteData();
 			}
 			break;
+		case 'btnExcelFormDownload':
+/* 			$(location).attr("href","<c:url value='/form/gamArchFcltySpecMng.xlsx' />");
+ */
+			window.open("<c:url value='/form/gamArchFcltySpecMng.xlsx' />", '_blank');
+			break;
 		case 'btnExcelDownload':
 			this.downloadExcel(buttonId);
 			break;
@@ -1158,7 +1163,7 @@ GamArchFcltySpecMngModule.prototype.saveData = function() {
 	var planEndDt = this.$('#planEndDt').val();
 	var cnstrctBeginDt = this.$('#cnstrctBeginDt').val();
 	var cnstrctEndDt = this.$('#cnstrctEndDt').val();
-	
+
 	if (gisAssetsPrtAtCode == "" || gisAssetsCd == "" || gisAssetsSubCd == "") {
 		alert('GIS 자산 코드가 부정확합니다.');
 		return;
@@ -2052,14 +2057,15 @@ var module_instance = new GamArchFcltySpecMngModule();
 						<table style="width:100%;">
 							<tr>
 								<th style="width:8%; height:20; text-align:center;">자료수</th>
-								<td><input type="text" size="8" id="totalCount" class="ygpaNumber" disabled="disabled"/></td>
+								<td><input type="text" size="4" id="totalCount" class="ygpaNumber" disabled="disabled"/></td>
 								<th style="width:8%; height:20; text-align:center;">연면적</th>
-								<td><input type="text" size="18" id="sumAr" class="ygpaNumber" disabled="disabled"/></td>
+								<td><input type="text" size="12" id="sumAr" class="ygpaNumber" disabled="disabled"/></td>
 								<th style="width:8%; height:20; text-align:center;">건물 면적</th>
-								<td><input type="text" size="18" id="sumArchAr" class="ygpaNumber" disabled="disabled"/></td>
+								<td><input type="text" size="12" id="sumArchAr" class="ygpaNumber" disabled="disabled"/></td>
 								<td style="text-align:right;">
 									<button id="btnAdd" class="buttonAdd">추가</button>
 									<button id="btnDelete" class="buttonDelete">삭제</button>
+	                                <button id="btnExcelFormDownload" class="buttonExcel">양식 다운로드</button>
 	                                <button id="btnExcelDownload" class="buttonExcel">엑셀 다운로드</button>
 									<button id="btnShowMap" data-role="showMap" data-gis-layer="gisArchFclty" data-flexi-grid="mainGrid" data-style="default">맵조회</button>
 									<button id="btnEditMap" data-role="editMap" data-gis-layer="gisArchFclty">맵편집</button>

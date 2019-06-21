@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd"> 
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
 <sqlMap namespace="ygpa.gam.soc">
 
     <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="gamSocAgentVO" type="egovframework.rte.ygpa.gam.soc.service.GamSocAgentVO"/>
-    
+
     <resultMap id="selectSocAgentInfoMap" class="gamSocAgentVO">
 		<result property="prtAtCode" column="PRT_AT_CODE" columnIndex="1"/>
 		<result property="cmplYr" column="CMPL_YR" columnIndex="2"/>
@@ -49,17 +49,18 @@
 		<result property="bzRgstId" column="BZ_RGST_ID" columnIndex="40"/>
 		<result property="updtUid" column="UPDT_UID" columnIndex="41"/>
 		<result property="updtDate" column="UPDT_DATE" columnIndex="42"/>
+		<result property="se" column="SE" columnIndex="43"/>
 	</resultMap>
-	
+
 	<resultMap id="selectSocAgentInfoSumMap" class="gamSocAgentVO">
 		<result property="totalCnt" column="TOTAL_CNT" columnIndex="1" javaType="int"/>
         <result property="sumTotalAmnt" column="SUM_TOTAL_AMNT" columnIndex="2" javaType="java.lang.Long"/>
         <result property="sumAccFee" column="SUM_ACC_FEE" columnIndex="3" javaType="java.lang.Long"/>
     </resultMap>
-    
+
     <select id="gamSocAgentDao.selectSocAgentInfo_D" parameterClass="gamSocAgentVO" resultMap="selectSocAgentInfoMap">
-        SELECT 
-        		PRT_AT_CODE
+        SELECT  SE
+        	  ,	PRT_AT_CODE
               , CMPL_YR
               , CONST_NO
               , AGENT_CODE
@@ -101,34 +102,38 @@
         	  , BZ_RGST_ID
         	  , UPDT_UID
         	  , TO_CHAR(UPDT_DATE,'YYYY-MM-DD') AS UPDT_DATE
-        FROM P2MGR.SOC_AGENT_F@YGPA_P2MGR
-        
+        FROM V_SOC_AGENT_F
+
 			 <![CDATA[  WHERE 1<>1 ]]>
 
 	         <isNotEmpty property="sPrtAtCode">
 	             OR (PRT_AT_CODE = #sPrtAtCode#
-	             
+
 	             <isNotEmpty property="sCmplYr">
 		             AND CMPL_YR = #sCmplYr#
 		         </isNotEmpty>
-		         
+
 		         <isNotEmpty property="sConstNo">
 		             AND CONST_NO = #sConstNo#
 		         </isNotEmpty>
-		         
+
+		         <isNotEmpty property="sSe">
+		             AND SE = #sSe#
+		         </isNotEmpty>
+
 		         )
 	         </isNotEmpty>
 
-	         
+
     </select>
-    
+
     <select id="gamSocAgentDao.selectSocAgentList_D" parameterClass="gamSocAgentVO" resultClass="egovMap">
         SELECT A.*
            FROM (
                    SELECT  ROWNUM RNUM, S.*
                      FROM (
-                           SELECT
-                                    D.PRT_AT_CODE
+                           SELECT  SE
+                                  , D.PRT_AT_CODE
                                   , D.CMPL_YR
                                   , D.CONST_NO
                                   , D.AGENT_CODE
@@ -138,31 +143,34 @@
                                   , D.UPDT_UID
                                   , D.UPDT_DATE
                                   , A.FIRM_KOR_NM
-                             FROM 
-                             	P2MGR.SOC_AGENT_DETAIL_F@YGPA_P2MGR D
-                             LEFT OUTER JOIN 
-                             	P2MGR.SHP_OWOP_F@YGPA_P2MGR A 
-                             ON 
+                             FROM
+                             	V_SOC_AGENT_DETAIL_F D
+                             LEFT OUTER JOIN
+                             	P2MGR.SHP_OWOP_F@YGPA_P2MGR A
+                             ON
                              	(
-                             	D.AGENT_CODE = A.AGENT_CODE 
+                             	D.AGENT_CODE = A.AGENT_CODE
                              	)
                             <![CDATA[  WHERE 1<>1 ]]>
 
                              <isNotEmpty property="sPrtAtCode">
 					             OR (D.PRT_AT_CODE = #sPrtAtCode#
-					             
+
 					             <isNotEmpty property="sCmplYr">
 						             AND D.CMPL_YR = #sCmplYr#
 						         </isNotEmpty>
-						         
+
 						         <isNotEmpty property="sConstNo">
 						             AND D.CONST_NO = #sConstNo#
 						         </isNotEmpty>
-						         
+		         		         <isNotEmpty property="sSe">
+						             AND D.SE = #sSe#
+						         </isNotEmpty>
+
 						         )
 					         </isNotEmpty>
 
-					         
+
 
                              <!-- ORDER BY REGIST_DT DESC -->
                              ORDER BY D.CMPL_YR DESC, D.UPDT_DATE DESC
@@ -170,42 +178,45 @@
              ) A
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
-    
+
     <select id="gamSocAgentDao.selectSocAgentInfoSum_S" parameterClass="gamSocAgentVO" resultMap="selectSocAgentInfoSumMap">
-        SELECT 
+        SELECT
         		COUNT(*) AS TOTAL_CNT
         		, NVL(SUM(D.TOTAL_AMNT),0) AS SUM_TOTAL_AMNT
         		, NVL(SUM(D.ACC_FEE),0) AS SUM_ACC_FEE
-              FROM 
-              	P2MGR.SOC_AGENT_DETAIL_F@YGPA_P2MGR D
-              LEFT OUTER JOIN 
-              	P2MGR.SHP_OWOP_F@YGPA_P2MGR A 
-              ON 
+              FROM
+              	V_SOC_AGENT_DETAIL_F D
+              LEFT OUTER JOIN
+              	P2MGR.SHP_OWOP_F@YGPA_P2MGR A
+              ON
               	(
-              	D.AGENT_CODE = A.AGENT_CODE 
+              	D.AGENT_CODE = A.AGENT_CODE
               	)
              <![CDATA[  WHERE 1<>1 ]]>
 
 	         <isNotEmpty property="sPrtAtCode">
 	             OR (D.PRT_AT_CODE = #sPrtAtCode#
-	             
+
 	             <isNotEmpty property="sCmplYr">
 		             AND D.CMPL_YR = #sCmplYr#
 		         </isNotEmpty>
-		         
+
 		         <isNotEmpty property="sConstNo">
 		             AND D.CONST_NO = #sConstNo#
 		         </isNotEmpty>
-		         
+				 <isNotEmpty property="sSe">
+		             AND D.SE = #sSe#
+		         </isNotEmpty>
+
 		         )
 	         </isNotEmpty>
     </select>
-    
-    
+
+
     <insert id="gamSocAgentDao.insertSocAgentData">
   		<![CDATA[
 		INSERT
-		  INTO P2MGR.SOC_AGENT_F@YGPA_P2MGR 
+		  INTO P2MGR.SOC_AGENT_F@YGPA_P2MGR
 		       (
 		           PRT_AT_CODE
 	              , CMPL_YR
@@ -297,12 +308,12 @@
 		        )
         ]]>
     </insert>
-    
+
     <insert id="gamSocAgentDao.insertNewSocAgentList">
-    
+
     	<![CDATA[
 		INSERT
-		  INTO P2MGR.SOC_AGENT_DETAIL_F@YGPA_P2MGR 
+		  INTO P2MGR.SOC_AGENT_DETAIL_F@YGPA_P2MGR
 		       (
 		           PRT_AT_CODE
 	              , CMPL_YR
@@ -314,7 +325,7 @@
 	        	  , UPDT_UID
 	        	  , UPDT_DATE
 		       )
-		       VALUES 
+		       VALUES
 		       (
 		           #prtAtCode# ,
 		           #cmplYr# ,
@@ -327,115 +338,115 @@
 		           SYSDATE
 		        )
         ]]>
-  		
+
     </insert>
-    
-    
+
+
     <update id="gamSocAgentDao.updateSocAgentData">
-    
+
     	<![CDATA[
-            UPDATE P2MGR.SOC_AGENT_F@YGPA_P2MGR 
-            SET  
-              AGENT_CODE = #agentCode# ,   
+            UPDATE P2MGR.SOC_AGENT_F@YGPA_P2MGR
+            SET
+              AGENT_CODE = #agentCode# ,
               SOC_PRT_AT_CODE = #socPrtAtCode# ,
-              SOC_CNST_NM = #socCnstNm# ,   
-              CNST_LOC = #cnstLoc# ,     
-              AGENT_NAME = #agentName# ,   
-              AGENT_ADDR = #agentAddr# ,   
-        	  AGENT_OWNER = #agentOwner# ,  
-        	  SOC_OBJ = #socObj# ,      
-        	  SOC_GIGIAN = #socGigian# ,   
-        	  SOC_WIDTH = #socWidth# ,    
-        	  SOC_NATION = #socNation# ,   
-        	  SOC_PRIVATE = #socPrivate# ,  
-        	  APRV_DT = #aprvDt# ,      
-        	  PERF_DT = #perfDt# ,      
-        	  CMPL_DT = #cmplDt# ,      
-        	  START_DT = #startDt# ,     
-        	  MODIFY_DT1 = #modifyDt1# ,   
-        	  MODIFY_DT2 = #modifyDt2# ,   
-        	  MODIFY_TXT = #modifyTxt# ,   
-        	  PRIME_TXT = #primeTxt# ,    
-        	  TOTAL_AMNT = REPLACE(#totalAmnt#,',','') ,   
-        	  ACC_FEE = REPLACE(#accFee#,',','') ,      
+              SOC_CNST_NM = #socCnstNm# ,
+              CNST_LOC = #cnstLoc# ,
+              AGENT_NAME = #agentName# ,
+              AGENT_ADDR = #agentAddr# ,
+        	  AGENT_OWNER = #agentOwner# ,
+        	  SOC_OBJ = #socObj# ,
+        	  SOC_GIGIAN = #socGigian# ,
+        	  SOC_WIDTH = #socWidth# ,
+        	  SOC_NATION = #socNation# ,
+        	  SOC_PRIVATE = #socPrivate# ,
+        	  APRV_DT = #aprvDt# ,
+        	  PERF_DT = #perfDt# ,
+        	  CMPL_DT = #cmplDt# ,
+        	  START_DT = #startDt# ,
+        	  MODIFY_DT1 = #modifyDt1# ,
+        	  MODIFY_DT2 = #modifyDt2# ,
+        	  MODIFY_TXT = #modifyTxt# ,
+        	  PRIME_TXT = #primeTxt# ,
+        	  TOTAL_AMNT = REPLACE(#totalAmnt#,',','') ,
+        	  ACC_FEE = REPLACE(#accFee#,',','') ,
         	  RESERACH_AMNT = REPLACE(#reserachAmnt#,',','') ,
-        	  PURE_AMNT = REPLACE(#pureAmnt#,',','') ,    
-        	  EXTRA_AMNT1 = REPLACE(#extraAmnt1#,',','') ,  
-        	  EXTRA_AMNT2 = REPLACE(#extraAmnt2#,',','') ,  
-        	  EXTRA_AMNT3 = REPLACE(#extraAmnt3#,',','') ,  
-        	  EXTRA_AMNT4 = REPLACE(#extraAmnt4#,',','') ,  
-        	  REMARK = #remark# ,      
-        	  MANAGE_DT = #manageDt# ,    
-        	  ASSET_DT = #assetDt# ,     
-        	  FREEUSE_DT = #freeuseDt# ,   
-        	  OTHER_DT = #otherDt# ,     
-        	  FREEFR_DT = #freefrDt# ,    
-        	  FREETO_DT = #freetoDt# ,    
-        	  RANGE = #range# ,       
-        	  BZ_RGST_ID = #bzRgstId# ,    
-        	  UPDT_UID = #updtUid# ,     
-        	  UPDT_DATE = SYSDATE         
-		       
+        	  PURE_AMNT = REPLACE(#pureAmnt#,',','') ,
+        	  EXTRA_AMNT1 = REPLACE(#extraAmnt1#,',','') ,
+        	  EXTRA_AMNT2 = REPLACE(#extraAmnt2#,',','') ,
+        	  EXTRA_AMNT3 = REPLACE(#extraAmnt3#,',','') ,
+        	  EXTRA_AMNT4 = REPLACE(#extraAmnt4#,',','') ,
+        	  REMARK = #remark# ,
+        	  MANAGE_DT = #manageDt# ,
+        	  ASSET_DT = #assetDt# ,
+        	  FREEUSE_DT = #freeuseDt# ,
+        	  OTHER_DT = #otherDt# ,
+        	  FREEFR_DT = #freefrDt# ,
+        	  FREETO_DT = #freetoDt# ,
+        	  RANGE = #range# ,
+        	  BZ_RGST_ID = #bzRgstId# ,
+        	  UPDT_UID = #updtUid# ,
+        	  UPDT_DATE = SYSDATE
+
 			WHERE 1<>1
         ]]>
-        
+
 	         <isNotEmpty property="prtAtCode">
 	             OR (PRT_AT_CODE = #prtAtCode#
-	             
+
 	             <isNotEmpty property="cmplYr">
 		             AND CMPL_YR = #cmplYr#
 		         </isNotEmpty>
-		         
+
 		         <isNotEmpty property="constNo">
 		             AND CONST_NO = #constNo#
 		         </isNotEmpty>
-		         
+
 		         )
 	         </isNotEmpty>
-        
+
     </update>
-    
+
     <delete id="gamSocAgentDao.deleteSocAgentData">
-    
+
     	<![CDATA[
             DELETE
-			  FROM P2MGR.SOC_AGENT_F@YGPA_P2MGR 
+			  FROM P2MGR.SOC_AGENT_F@YGPA_P2MGR
 			 WHERE 1<>1
-		]]>	 
+		]]>
 			<isNotEmpty property="prtAtCode">
 	             OR (PRT_AT_CODE = #prtAtCode#
-	             
+
 	             <isNotEmpty property="cmplYr">
 		             AND CMPL_YR = #cmplYr#
 		         </isNotEmpty>
-		         
+
 		         <isNotEmpty property="constNo">
 		             AND CONST_NO = #constNo#
 		         </isNotEmpty>
-		         
+
 		         )
 	         </isNotEmpty>
     </delete>
-    
-    
+
+
     <delete id="gamSocAgentDao.deleteOldSocAgentList">
-    
+
     	<![CDATA[
             DELETE
-			  FROM P2MGR.SOC_AGENT_DETAIL_F@YGPA_P2MGR 
+			  FROM P2MGR.SOC_AGENT_DETAIL_F@YGPA_P2MGR
 			 WHERE 1<>1
-		]]>	 
+		]]>
 			<isNotEmpty property="prtAtCode">
 	             OR (PRT_AT_CODE = #prtAtCode#
-	             
+
 	             <isNotEmpty property="cmplYr">
 		             AND CMPL_YR = #cmplYr#
 		         </isNotEmpty>
-		         
+
 		         <isNotEmpty property="constNo">
 		             AND CONST_NO = #constNo#
 		         </isNotEmpty>
-		         
+
 		         )
 	         </isNotEmpty>
 
