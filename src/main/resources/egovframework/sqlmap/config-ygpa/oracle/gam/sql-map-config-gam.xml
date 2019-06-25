@@ -215,6 +215,7 @@
 
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/fclty/GamFenderSttusInqireDao_SQL_oracle.xml" />
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/fclty/GamFenderInspectionDao_SQL_oracle.xml" />
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/fclty/GamFenderMaintenanceDao_SQL_oracle.xml" />
 
 
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/fcltyMng/GamFcltyMaintMngDao_SQL_oracle.xml" />
