@@ -132,7 +132,7 @@ GamFenderSttusInqireModule.prototype.loadComplete = function() {
 
 	this.$("#fcltsGbn").disable();
 
-};
+}
 
 GamFenderSttusInqireModule.prototype.onButtonClick = function(buttonId) {
 
@@ -163,7 +163,7 @@ GamFenderSttusInqireModule.prototype.onTabChange = function(newTabId, oldTabId) 
 			break;
 	}
 
-};
+}
 
 <%
 /**
@@ -175,7 +175,7 @@ GamFenderSttusInqireModule.prototype.onTabChange = function(newTabId, oldTabId) 
 GamFenderSttusInqireModule.prototype.onSubmit = function() {
 	this.$("#sFcltsMngGroupNo").val('');
 	this.loadData();
-};
+}
 
 <%
 /**
@@ -190,7 +190,7 @@ GamFenderSttusInqireModule.prototype.loadData = function() {
 	var searchOpt=this.makeFormArgs('#searchForm');
 	this.$('#mainGrid').flexOptions({params:searchOpt}).flexReload();
 
-};
+}
 
 <%
 /**
@@ -221,7 +221,7 @@ GamFenderSttusInqireModule.prototype.loadDetail = function(tabId) {
 		this.$('#fenderSttusInqireList').flexOptions({params:searchOpt}).flexReload();
 	}
 
-};
+}
 
 var module_instance = new GamFenderSttusInqireModule();
 

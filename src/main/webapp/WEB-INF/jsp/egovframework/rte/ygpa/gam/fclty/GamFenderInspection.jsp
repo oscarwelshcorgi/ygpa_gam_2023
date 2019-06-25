@@ -99,7 +99,7 @@ GamFenderInspectionModule.prototype.loadComplete = function() {
 	}
 	
 
-};
+}
 
 <%
 /**
@@ -142,7 +142,7 @@ GamFenderInspectionModule.prototype.onTabChange = function(newTabId, oldTabId) {
 			break;
 	}
 
-};
+}
 
 <%
 /**
@@ -221,7 +221,7 @@ GamFenderInspectionModule.prototype.onClosePopup = function(popupId, msg, value)
  GamFenderInspectionModule.prototype.onSubmit = function() {
 	this.$("#sFcltsMngGroupNo").val('');
 	this.loadData();
-};
+}
 
 <%
 /**
@@ -236,7 +236,7 @@ GamFenderInspectionModule.prototype.onClosePopup = function(popupId, msg, value)
 	var searchOpt=this.makeFormArgs('#searchForm');	// searchOpt = {"sYear":"", "sFcltsGbn":"", "sFcltsMngGroupNm":""}
 	this.$('#mainGrid').flexOptions({params:searchOpt}).flexReload();	// 그리드 설정된 내용으로 로딩
 
-};
+}
 
 <%
 /**
@@ -260,7 +260,7 @@ GamFenderInspectionModule.prototype.loadDetail = function(tabId) {
 
 	}
 
-};
+}
 
 <%
 /**
