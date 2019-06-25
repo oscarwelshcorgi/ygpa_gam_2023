@@ -24,6 +24,8 @@
 %>
 <validator:javascript formName="gamFenderInspectionVO" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
 
+<script type="text/javascript" src="<c:url value='js/egovframework/com/cmm/fms/EgovMultiFile.js'/>" ></script>
+ 
 <script>
 
 <%
@@ -388,8 +390,8 @@ var module_instance = new GamFenderInspectionModule();
 		<div id="mainTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
 			<!-- 211. TAB 정의 -->
 			<ul>
-				<li><a href="#listTab" class="emdTab">방중재 현황 목록</a></li>
-				<li><a href="#detailTab" class="emdTab">방충재 현황 상세</a></li>
+				<li><a href="#listTab" class="emdTab">방중재 정기점검 목록</a></li>
+				<li><a href="#detailTab" class="emdTab">방충재 정기점검 상세</a></li>
 			</ul>
 			<!-- 212. TAB 1 AREA (LIST) -->
 			<div id="listTab" class="emdTabPage fillHeight" style="overflow:hidden;" >
@@ -411,7 +413,7 @@ var module_instance = new GamFenderInspectionModule();
 			<!-- 213. TAB 2 AREA (DETAIL) -->
 			<div id="detailTab" class="emdTabPage" style="overflow:scroll;">
 				<div class="emdControlPanel">
-					<form id="detailForm">
+					<form id="detailForm" enctype="multipart/form-data" >
 						<table class="summaryPanel" style="width:100%;">
 							<tr>
 								<th style="font-weight:bold; height:20px;">시설물 현황</th>
@@ -552,25 +554,25 @@ var module_instance = new GamFenderInspectionModule();
 							<tr>
 								<th style="width:11%; height:18px;">사진</th>
 								<td >
-									<input type="text" id="photoOne" data-column-id="photoOne" tabindex=6 size="35" />
+									<input type="file" id="photoOne" data-column-id="photoOne" tabindex=6 size="35" />
 								</td>
 								<td >
-									<input type="text" id="photoTwo" data-column-id="photoTwo" tabindex=12 size="35" />
+									<input type="file" id="photoTwo" data-column-id="photoTwo" tabindex=12 size="35" />
 								</td>
 								<td >
-									<input type="text" id="photoThree" data-column-id="photoThree" tabindex=18 size="35" />
+									<input type="file" id="photoThree" data-column-id="photoThree" tabindex=18 size="35" />
 								</td>
 							</tr>
 							<tr>
 								<th style="width:11%; height:18px;">점검표</th>
 								<td >
-									<input type="text" id="chckTableOne" data-column-id="chckTableOne" tabindex=7 size="35" />
+									<input type="file" id="chckTableOne" data-column-id="chckTableOne" tabindex=7 size="35" />
 								</td>
 								<td >
-									<input type="text" id="chckTableTwo" data-column-id="chckTableTwo" tabindex=13 size="35" />
+									<input type="file" id="chckTableTwo" data-column-id="chckTableTwo" tabindex=13 size="35" />
 								</td>
 								<td >
-									<input type="text" id="chckTableThree" data-column-id="chckTableThree" tabindex=19 size="35" />
+									<input type="file" id="chckTableThree" data-column-id="chckTableThree" tabindex=19 size="35" />
 								</td>
 							</tr>
 						</table>

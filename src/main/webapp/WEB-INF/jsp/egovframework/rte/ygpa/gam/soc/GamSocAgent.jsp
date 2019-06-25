@@ -217,6 +217,12 @@ GamSocAgentMngtModule.prototype.saveItem = function() {
 	inputVO[inputVO.length] = {name: 'updateData',value: updateData};
 	inputVO[inputVO.length] = {name: 'updateData1',value: updateData1};
 
+	if(this.$('#se').val() != 'GIS'){
+		alert("자산정보 데이터만 저장 가능합니다.")
+		return
+	}
+	
+	
 	if(this.$("#cmd").val() == "insert") {
 	 	this.doAction('/soc/gamInsertSocAgentList.do', inputVO, function(module, result) {
 	 		if(result.resultCode == "0"){
@@ -305,7 +311,7 @@ GamSocAgentMngtModule.prototype.removeItem = function() {
 	    		this.doExecuteDialog("addSocAgentPopup", "항만공사시행허가원부추가", '/popup/showSocAgent.do', {},all_rows);
         	}
 			else{
-				alert("포트미스 데이터는 삭제 할 수 없습니다.")
+				alert("포트미스 데이터는 추가/삭제 할 수 없습니다.")
 			}
 			break;
     }
