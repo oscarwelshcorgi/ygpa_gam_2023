@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<!-- SQL MAP 정의 -->
+<sqlMap namespace="ygpa.gam.fclty">
+	<!-- TYPE ALIAS 정의 -->
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+
+	<typeAlias alias="gamFenderDurabilityVO" type="egovframework.rte.ygpa.gam.fclty.service.GamFenderDurabilityVO" />
+
+	<select id="GamFenderDurabilityDao.selectFenderDurabilityList" parameterClass="gamFenderDurabilityVO" resultClass="egovMap">
+		<![CDATA[
+			SELECT ROWNUM RN, S.*, CASE WHEN CHECK_YEAR < 9 THEN '7~8년' WHEN S.CHECK_YEAR = 9  THEN '9년' WHEN S.CHECK_YEAR > 9 THEN '10년 이상' ELSE '오류' END AS YEAR        
+			  FROM (
+			        SELECT A.*, TRUNC(MONTHS_BETWEEN(TRUNC(SYSDATE), TRUNC(A.CHECK_DT) )/12) AS CHECK_YEAR
+			          FROM (
+			                SELECT 
+			                      T1.FCLTS_MNG_GROUP_NO
+			                      ,GAM_GETCODENAME('GAM019',T1.PRT_AT_CODE) AS PRT_AT_CODE_NM
+			                      ,T1.FCLTS_MNG_GROUP_NM
+			                      ,GAM_GET_FCLTS_GBN_NM(T1.FCLTS_GBN) AS FCLTS_GBN_NM
+			                      ,GAM_GET_FCLTS_SE_NM(T1.FCLTS_SE) AS FCLTS_SE_NM
+			                      ,T1.BLD_DT
+			                      ,T1.OWNER
+			                      ,T1.CNSTRTR
+			                      ,T1.LOC
+			                      ,T2.FCLTS_MNG_NO
+			                      ,T2.PRT_FCLTY_NM
+			                      ,T2.PRT_FCLTY_STNDRD
+			                      ,T2.PRT_FCLTY_INSTL_DT
+			                      ,T3.CNTRWK_END
+			                      ,NVL(T3.CNTRWK_END, NVL(T2.PRT_FCLTY_INSTL_DT,T1.BLD_DT)) AS CHECK_DT
+			                  FROM FCLTS_MNG_GROUP_F T1
+			                  INNER JOIN GIS_PRT_FCLTY_CD_F T2
+			                  ON(T1.FCLTS_MNG_GROUP_NO = T2.FCLTS_MNG_GROUP_NO
+			                     AND T2.PRT_FCLTY_SE = 'C'
+			                     AND T2.GIS_PRT_FCLTY_CD = 'C1'
+			]]>
+			                     
+								<isNotEmpty property="sFcltsMngGroupNm">
+			                     	AND T1.FCLTS_MNG_GROUP_NM like '%'||#sFcltsMngGroupNm#||'%'
+			                     </isNotEmpty>
+			<![CDATA[
+			                     )
+			                  LEFT OUTER JOIN(SELECT T2.FCLTS_MNG_NO, MAX(CNTRWK_END) AS CNTRWK_END
+			                                    FROM FENDER_MAINTENANCE T1
+			                                    INNER JOIN FENDER_MAINTENANCE_LIST T2
+			                                    USING(YEAR, SN, FCLTS_MNG_GROUP_NO)
+			                                    GROUP BY T2.FCLTS_MNG_NO) T3
+			                    ON(T2.FCLTS_MNG_NO = T3.FCLTS_MNG_NO)
+			                    
+			                 WHERE 1=1
+			                 ORDER BY T1.FCLTS_MNG_GROUP_NM, T2.FCLTS_MNG_NO
+			              ) A
+			      ) S
+			  WHERE S.CHECK_YEAR >6
+			  ]]>
+	</select>
+
+
+</sqlMap>

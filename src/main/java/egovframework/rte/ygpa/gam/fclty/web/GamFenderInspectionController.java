@@ -213,7 +213,7 @@ public class GamFenderInspectionController {
 	 */	
 
     @RequestMapping(value="/fclty/fenderInspectionPrint.do")
-    public String gamFenderSttusInqirePrint(GamFenderInspectionPrintVO printVo, ModelMap model) throws Exception {
+    public String gamFenderInspectionPrint(GamFenderInspectionPrintVO printVo, ModelMap model) throws Exception {
     	Map map = new HashMap();
 
 		ObjectMapper mapper = new ObjectMapper();

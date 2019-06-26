@@ -23,7 +23,9 @@
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/code/GamQcItemCdMngDao_SQL_oracle.xml" />
 	
 	<!-- 건축물시가표준액 -->
+<!-- 
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/code/GamBuldMktcStdAmManageDAO_SQL_oracle.xml" />
+ -->
 
     <sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/cmmn/itgrn/GamNticPayListDao_SQL_oracle.xml"/>
 
@@ -212,10 +214,11 @@
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/fclty/GamElectyFcltySpecInqireDao_SQL_oracle.xml" />
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/fclty/GamFcltsChargerMngDao_SQL_oracle.xml" />
 
-
+<!-- 방충재 현황/정기점검/유지보수/만기도래 -->
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/fclty/GamFenderSttusInqireDao_SQL_oracle.xml" />
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/fclty/GamFenderInspectionDao_SQL_oracle.xml" />
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/fclty/GamFenderMaintenanceDao_SQL_oracle.xml" />
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/fclty/GamFenderDurabilityDao_SQL_oracle.xml" />
 
 
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/fcltyMng/GamFcltyMaintMngDao_SQL_oracle.xml" />
