@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ygpa.gam.code">
+
+	<typeAlias alias="gamBuldMktcStdAmVO" type="egovframework.rte.ygpa.gam.code.service.GamBuldMktcStdAmVO"/>
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+
+	<select id="gamBuldMktcStdAmManageDAO.selectBuldMktcStdAmList" parameterClass="gamBuldMktcStdAmVO"  resultClass="egovMap">
+	       SELECT  ROWNUM RNUM, S.*
+		   FROM (
+				SELECT
+						STDYY
+						,SN
+						,BULD_STLE
+						,BULD_PRPOS
+						,BULD_RESCUE
+						,BULD_LC
+						,BULD_RF
+						,ADSTRD_CODE
+						,ADRES
+						,LNM
+						,SLNO
+						,BULDDONG
+						,BDH
+						,THING_PAPR_ADRES
+						,TOTAR
+						,PRVUSE_AR
+						,CMNUSE_AR
+						,COMPET_DE
+						,STUDY_UPPT_LNDCGR
+						,LAD_AR
+						,MKTC_STD_AM
+						,MGC_NM
+						,DATA_STDR_DE
+						
+					FROM BD_VAL_STD_PRICE
+			) S
+	</select>
+
+	<select id="gamBuldMktcStdAmManageDAO.selectBuldMktcStdAmListTotCnt" parameterClass="gamBuldMktcStdAmVO" resultClass="java.lang.Integer">
+		SELECT count(*) totCnt
+		FROM BD_VAL_STD_PRICE
+	</select>
+	
+	
+	<insert id="gamBuldMktcStdAmManageDAO.insertBuldMktcStdAmList" parameterClass="gamBuldMktcStdAmVO" >
+	INSERT INTO BD_VAL_STD_PRICE
+	<![CDATA[
+				( 
+						STDYY,
+						SN,
+						BULD_STLE,
+						BULD_PRPOS,
+						BULD_RESCUE,
+						BULD_LC,
+						BULD_RF,
+						ADSTRD_CODE,
+						ADRES,
+						LNM,
+						SLNO,
+						BULDDONG,
+						BDH,THING_PAPR_ADRES,						
+						TOTAR,
+						PRVUSE_AR,
+						CMNUSE_AR,
+						COMPET_DE,
+						STUDY_UPPT_LNDCGR,
+						LAD_AR,
+						MKTC_STD_AM,
+						MGC_NM,
+						DATA_STDR_DE
+				 )
+				 
+			VALUES ( 
+							#stdyy#,
+							#sn#,
+							#buldStle#,
+							#buldPrpos#,
+							#buldRescue#,
+							#buldLc#,
+							#buldRf#,
+							#adstrdCode#,
+							#adres#,
+							#lnm#,
+							#slno#,
+							#bulddong#,
+							#bdh#,
+							#thingPaprAdres#,
+							#totar#,
+							#prvuseAr#,
+							#cmnuseAr#,
+							#competDe#,
+							#studyUpptLndcgr#,
+							#ladAr#,
+							#mktcStdAm#,
+							#mgcNm#,
+							#dataStdrDe#
+	
+						 )
+
+		]]>
+</insert>
+
+
+<update id="gamBuldMktcStdAmManageDAO.updateBuldMktcStdAm" parameterClass="gamBuldMktcStdAmVO" >
+<![CDATA[
+	
+		UPDATE 
+			BD_VAL_STD_PRICE
+		SET
+		STDYY = #stdyy#,
+		SN = #sn#,
+		BULD_STLE = #buldStle#,
+		BULD_PRPOS = #buldPrpos#,
+		BULD_RESCUE = #buldRescue#,
+		BULD_LC = #buldLc#,
+		BULD_RF = #buldRf#,
+		ADSTRD_CODE = #adstrdCode#,
+		LNM = #lnm#,
+		SLNO = #slno#,
+		BULDDONG = #bulddong#,
+		BDH = #bdh#,
+		THING_PAPR_ADRES = #thingPaprAdres#,
+		TOTAR = #totar#,
+		PRVUSE_AR = #prvuseAr#,
+		CMNUSE_AR = #cmnuseAr#,
+		COMPET_DE = #competDe#,
+		STUDY_UPPT_LNDCGR = #studyUpptLndcgr#,
+		LAD_AR = #ladAr#,
+		MKTC_STD_AM = #mktcStdAm#,
+		MGC_NM = #mgcNm#,
+		DATA_STDR_DE = #dataStdrDe#
+		WHERE ADRES=#adres#
+		]]>
+</update>
+
+
+
+<delete id="gamBuldMktcStdAmManageDAO.deleteBuldMktcStdAm" parameterClass="gamBuldMktcStdAmVO">
+DELETE from BD_VAL_STD_PRICE
+		 WHERE ADRES = #adres#
+
+</delete>
+</sqlMap>
