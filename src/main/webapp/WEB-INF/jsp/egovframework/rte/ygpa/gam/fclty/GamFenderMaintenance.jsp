@@ -510,8 +510,8 @@ var module_instance = new GamFenderInspectionModule();
 										<tr>
 											<th style="width:20%; height:18px;" >공　　사　　기　　간</th>
 											<td>
-												<input type="text" id="cntrwkBegin" size="25" class="emdcal" />~
-												<input type="text" id="cntrwkEnd" size="25" class="emdcal" />
+												<input type="text" id="cntrwkBegin" size="11" class="emdcal" />~
+												<input type="text" id="cntrwkEnd" size="11" class="emdcal" />
 											</td>
 										</tr>
 										<tr>
