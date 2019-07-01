@@ -32,14 +32,14 @@ public interface GamBuldMktcStdAmManageService {
 	 * @param buldMktcStdAm
 	 * @throws Exception
 	 */
-	void insertBuldMktcStdAm(GamBuldMktcStdAmVO inputVO) throws Exception;
+	void insertBuldMktcStdAmList(GamBuldMktcStdAmVO inputVO) throws Exception;
 
 	/**
 	 * 건축물시가표준액를 수정한다.
 	 * @param buldMktcStdAm
 	 * @throws Exception
 	 */
-	void updateBuldMktcStdAm(GamBuldMktcStdAmVO inputVO) throws Exception;
+	void updateBuldMktcStdAmList(GamBuldMktcStdAmVO inputVO) throws Exception;
     
 	/**
 	 * 건축물시가표준액를 삭제한다.

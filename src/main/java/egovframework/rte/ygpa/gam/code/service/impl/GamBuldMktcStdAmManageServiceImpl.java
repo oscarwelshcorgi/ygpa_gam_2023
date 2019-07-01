@@ -42,15 +42,15 @@ public class GamBuldMktcStdAmManageServiceImpl extends AbstractServiceImpl imple
 	/** 
 	 * 건축물시가표준액을 등록한다.
 	 */
-	public void insertBuldMktcStdAm(GamBuldMktcStdAmVO insertVO) throws Exception {
-		gamBuldMktcStdAmManageDAO.insertBuldMktcStdAm(insertVO);
+	public void insertBuldMktcStdAmList(GamBuldMktcStdAmVO inputVO) throws Exception {
+		gamBuldMktcStdAmManageDAO.insertBuldMktcStdAmList(inputVO);
 		
 	}
 	/** 
 	 * 건축물시가표준액을 수정한다.
 	 */
-	public void updateBuldMktcStdAm(GamBuldMktcStdAmVO updateVO) throws Exception {
-		gamBuldMktcStdAmManageDAO.updateBuldMktcStdAm(updateVO);		
+	public void updateBuldMktcStdAmList(GamBuldMktcStdAmVO inputVO) throws Exception {
+		gamBuldMktcStdAmManageDAO.updateBuldMktcStdAmList(inputVO);		
 	}
 
 	/** 
@@ -60,4 +60,7 @@ public class GamBuldMktcStdAmManageServiceImpl extends AbstractServiceImpl imple
 	public void deleteBuldMktcStdAm(GamBuldMktcStdAmVO deleteVO) throws Exception {
 		gamBuldMktcStdAmManageDAO.deleteBuldMktcStdAm(deleteVO);		
 	}
+
+
+
 }

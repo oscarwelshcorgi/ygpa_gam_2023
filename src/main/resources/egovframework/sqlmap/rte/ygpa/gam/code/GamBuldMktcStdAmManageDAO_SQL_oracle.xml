@@ -4,6 +4,7 @@
 <sqlMap namespace="ygpa.gam.code">
 
 	<typeAlias alias="gamBuldMktcStdAmVO" type="egovframework.rte.ygpa.gam.code.service.GamBuldMktcStdAmVO"/>
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
 	<typeAlias alias="hashMap" type="java.util.HashMap"/>
 
 	<select id="gamBuldMktcStdAmManageDAO.selectBuldMktcStdAmList" parameterClass="gamBuldMktcStdAmVO"  resultClass="egovMap">
@@ -27,13 +28,12 @@
 						,TOTAR
 						,PRVUSE_AR
 						,CMNUSE_AR
-						,COMPET_DE
+						,TO_CHAR(COMPET_DE,'YYYY-MM-DD') AS COMPET_DE
 						,STUDY_UPPT_LNDCGR
 						,LAD_AR
 						,MKTC_STD_AM
 						,MGC_NM
-						,DATA_STDR_DE
-						
+						,TO_CHAR(DATA_STDR_DE,'YYYY-MM-DD') AS DATA_STDR_DE
 					FROM BD_VAL_STD_PRICE
 			) S
 	</select>
@@ -60,7 +60,8 @@
 						LNM,
 						SLNO,
 						BULDDONG,
-						BDH,THING_PAPR_ADRES,						
+						BDH,
+						THING_PAPR_ADRES,						
 						TOTAR,
 						PRVUSE_AR,
 						CMNUSE_AR,
@@ -74,7 +75,7 @@
 				 
 			VALUES ( 
 							#stdyy#,
-							#sn#,
+							(SELECT NVL(MAX(SN), 0)+1 FROM BD_VAL_STD_PRICE WHERE STDYY=#stdyy#),
 							#buldStle#,
 							#buldPrpos#,
 							#buldRescue#,
@@ -90,20 +91,18 @@
 							#totar#,
 							#prvuseAr#,
 							#cmnuseAr#,
-							#competDe#,
+							TO_DATE(#competDe#, 'YYYY-MM-DD'),
 							#studyUpptLndcgr#,
 							#ladAr#,
 							#mktcStdAm#,
 							#mgcNm#,
 							#dataStdrDe#
-	
 						 )
-
 		]]>
 </insert>
 
 
-<update id="gamBuldMktcStdAmManageDAO.updateBuldMktcStdAm" parameterClass="gamBuldMktcStdAmVO" >
+<update id="gamBuldMktcStdAmManageDAO.updateBuldMktcStdAmList" parameterClass="gamBuldMktcStdAmVO" >
 <![CDATA[
 	
 		UPDATE 
@@ -125,7 +124,7 @@
 		TOTAR = #totar#,
 		PRVUSE_AR = #prvuseAr#,
 		CMNUSE_AR = #cmnuseAr#,
-		COMPET_DE = #competDe#,
+		COMPET_DE = TO_DATE(#competDe#, 'YYYY-MM-DD'),
 		STUDY_UPPT_LNDCGR = #studyUpptLndcgr#,
 		LAD_AR = #ladAr#,
 		MKTC_STD_AM = #mktcStdAm#,

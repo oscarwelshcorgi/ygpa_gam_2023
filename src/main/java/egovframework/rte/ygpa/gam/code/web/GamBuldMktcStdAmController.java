@@ -91,8 +91,8 @@ public class GamBuldMktcStdAmController{
            	return map;
    }
   
-       	// 내역 조회
-       	/** pageing */
+/*       	// 내역 조회
+       	*//** pageing *//*
     	PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
 		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
@@ -101,7 +101,7 @@ public class GamBuldMktcStdAmController{
 		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());       	
-       	  	
+       	  	*/
        	
        	List<?> BuldMktcStdAmList = gamBuldMktcStdAmManageService.selectBuldMktcStdAmList(searchVO);
 		int totCnt = gamBuldMktcStdAmManageService.selectBuldMktcStdAmListTotCnt(searchVO);
@@ -140,7 +140,7 @@ public class GamBuldMktcStdAmController{
 		
 		try {
 			//inputVO.setAdres(user.getId());
-			gamBuldMktcStdAmManageService.insertBuldMktcStdAm(inputVO);
+			gamBuldMktcStdAmManageService.insertBuldMktcStdAmList(inputVO);
 
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
@@ -158,7 +158,7 @@ public class GamBuldMktcStdAmController{
     * @throws Exception
     */
    @RequestMapping(value="/code/gamBuldMktcStdAmUpdateList.do")
-   @ResponseBody Map<String, Object> updateBuldMktcStdAm(GamBuldMktcStdAmVO inputVO) throws Exception {
+   @ResponseBody Map<String, Object> updateBuldMktcStdAmList(GamBuldMktcStdAmVO inputVO) throws Exception {
 	   
 	   Map<String, Object> map = new HashMap<String, Object>();
 	   
@@ -173,7 +173,7 @@ public class GamBuldMktcStdAmController{
 		
 		try {
 			//inputVO.setRegister(user.getId());
-			gamBuldMktcStdAmManageService.updateBuldMktcStdAm (inputVO);
+			gamBuldMktcStdAmManageService.updateBuldMktcStdAmList(inputVO);
 			
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));

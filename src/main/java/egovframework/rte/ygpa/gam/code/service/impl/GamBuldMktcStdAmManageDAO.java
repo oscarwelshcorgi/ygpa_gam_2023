@@ -45,7 +45,7 @@ public class GamBuldMktcStdAmManageDAO extends YGPAAbstractDAO {
 	 * @param inputVO
 	 * @throws Exception
 	 */
-	public void insertBuldMktcStdAm(GamBuldMktcStdAmVO inputVO) throws Exception {
+	public void insertBuldMktcStdAmList(GamBuldMktcStdAmVO inputVO) throws Exception {
 		insert("gamBuldMktcStdAmManageDAO.insertBuldMktcStdAmList", inputVO);
 	}
 
@@ -54,8 +54,8 @@ public class GamBuldMktcStdAmManageDAO extends YGPAAbstractDAO {
 	 * @param inputVO
 	 * @throws Exception
 	 */
-	public void updateBuldMktcStdAm(GamBuldMktcStdAmVO inputVO) {
-		update("gamBuldMktcStdAmManageDAO.updateBuldMktcStdAm", inputVO);		
+	public void updateBuldMktcStdAmList(GamBuldMktcStdAmVO inputVO) {
+		update("gamBuldMktcStdAmManageDAO.updateBuldMktcStdAmList", inputVO);		
 	}
 
 	/**
