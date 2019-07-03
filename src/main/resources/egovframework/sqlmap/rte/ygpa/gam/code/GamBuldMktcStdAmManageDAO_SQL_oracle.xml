@@ -20,6 +20,7 @@
 						,BULD_RF
 						,ADSTRD_CODE
 						,ADRES
+						,ADRES ||' '||RTRIM(LNM) ||NVL2(RTRIM(SLNO), '-'||SLNO, '') AS FULL_ADRES
 						,LNM
 						,SLNO
 						,BULDDONG
@@ -35,12 +36,32 @@
 						,MGC_NM
 						,TO_CHAR(DATA_STDR_DE,'YYYY-MM-DD') AS DATA_STDR_DE
 					FROM BD_VAL_STD_PRICE
+		         WHERE 1=1
+		        <isNotEmpty prepend="AND" property="sAdres">
+		           ADRES LIKE '%'||#sAdres#||'%'
+				</isNotEmpty>
+		        <isNotEmpty prepend="AND" property="sLnm">
+		           RTRIM(LNM) = #sLnm#
+				</isNotEmpty>
+		        <isNotEmpty prepend="AND" property="sSlno">
+		           RTRIM(SLNO) = #sSlno#
+				</isNotEmpty>		            
 			) S
 	</select>
 
 	<select id="gamBuldMktcStdAmManageDAO.selectBuldMktcStdAmListTotCnt" parameterClass="gamBuldMktcStdAmVO" resultClass="java.lang.Integer">
 		SELECT count(*) totCnt
-		FROM BD_VAL_STD_PRICE
+		  FROM BD_VAL_STD_PRICE
+         WHERE 1=1
+        <isNotEmpty prepend="AND" property="sAdres">
+           ADRES LIKE '%'||#sAdres#||'%'
+		</isNotEmpty>
+        <isNotEmpty prepend="AND" property="sLnm">
+            RTRIM(LNM) = #sLnm#
+		</isNotEmpty>
+        <isNotEmpty prepend="AND" property="sSlno">
+           RTRIM(SLNO) = #sSlno#
+		</isNotEmpty>			
 	</select>
 	
 	
@@ -108,37 +129,38 @@
 		UPDATE 
 			BD_VAL_STD_PRICE
 		SET
-		STDYY = #stdyy#,
-		SN = #sn#,
-		BULD_STLE = #buldStle#,
-		BULD_PRPOS = #buldPrpos#,
-		BULD_RESCUE = #buldRescue#,
-		BULD_LC = #buldLc#,
-		BULD_RF = #buldRf#,
-		ADSTRD_CODE = #adstrdCode#,
-		LNM = #lnm#,
-		SLNO = #slno#,
-		BULDDONG = #bulddong#,
-		BDH = #bdh#,
-		THING_PAPR_ADRES = #thingPaprAdres#,
-		TOTAR = #totar#,
-		PRVUSE_AR = #prvuseAr#,
-		CMNUSE_AR = #cmnuseAr#,
-		COMPET_DE = TO_DATE(#competDe#, 'YYYY-MM-DD'),
-		STUDY_UPPT_LNDCGR = #studyUpptLndcgr#,
-		LAD_AR = #ladAr#,
-		MKTC_STD_AM = #mktcStdAm#,
-		MGC_NM = #mgcNm#,
-		DATA_STDR_DE = #dataStdrDe#
-		WHERE ADRES=#adres#
+			BULD_STLE = #buldStle#,
+			BULD_PRPOS = #buldPrpos#,
+			BULD_RESCUE = #buldRescue#,
+			BULD_LC = #buldLc#,
+			BULD_RF = #buldRf#,
+			ADSTRD_CODE = #adstrdCode#,
+			ADRES=#adres#,
+			LNM = #lnm#,
+			SLNO = #slno#,
+			BULDDONG = #bulddong#,
+			BDH = #bdh#,
+			THING_PAPR_ADRES = #thingPaprAdres#,
+			TOTAR = #totar#,
+			PRVUSE_AR = #prvuseAr#,
+			CMNUSE_AR = #cmnuseAr#,
+			COMPET_DE = TO_DATE(#competDe#, 'YYYY-MM-DD'),
+			STUDY_UPPT_LNDCGR = #studyUpptLndcgr#,
+			LAD_AR = #ladAr#,
+			MKTC_STD_AM = #mktcStdAm#,
+			MGC_NM = #mgcNm#,
+			DATA_STDR_DE = #dataStdrDe#
+		WHERE STDYY = #stdyy#
+		  AND SN = #sn#
 		]]>
 </update>
 
 
 
 <delete id="gamBuldMktcStdAmManageDAO.deleteBuldMktcStdAm" parameterClass="gamBuldMktcStdAmVO">
-DELETE from BD_VAL_STD_PRICE
-		 WHERE ADRES = #adres#
+	DELETE FROM BD_VAL_STD_PRICE
+		WHERE STDYY = #stdyy#,
+		  AND SN = #sn#
 
 </delete>
 </sqlMap>

@@ -28,7 +28,7 @@
  */
 function GamBuldMktcStdAmModule() {}
 
-GamBuldMktcStdAmModule.prototype = new EmdModule(800, 500);
+GamBuldMktcStdAmModule.prototype = new EmdModule(800, 525);
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamBuldMktcStdAmModule.prototype.loadComplete = function() {
@@ -37,11 +37,13 @@ GamBuldMktcStdAmModule.prototype.loadComplete = function() {
 		url: '/code/gamBuldMktcStdAmList.do',
 		dataType: "json",
 		colModel : [	
-			{display:"연도", 			name:"stdyy",				width:80, 	sortable:false,	 align:"center"},
-			{display:"주소", 			name:"adres",				width:200, 	sortable:false,	 align:"center"},
-			{display:"물건지", 			name:"thingPaprAdres",		width:100, 	sortable:false,	 align:"right"},
-			{display:"시가표준액(원)", 	name:"mktcStdAm",			width:100, 	sortable:false,	 align:"right"},
-			{display:"연면적(m2)",		name:"totar",				width:100, 	sortable:false,	 align:"right"}
+			{display:"연도", 			name:"stdyy",			width:60, 	sortable:false,	 align:"center"},
+			{display:"주소", 			name:"fullAdres",		width:250, 	sortable:false,	 align:"center"},
+			{display:"건물동 ", 		name:"bulddong",		width:60, 	sortable:false,	 align:"center"},
+			{display:"건물호 ", 		name:"bdh",				width:60, 	sortable:false,	 align:"center"},
+			{display:"시가표준액(원)", 	name:"mktcStdAm",		width:100, 	sortable:false,	 align:"right",	displayFormat: 'number'},
+			{display:"실축년도", 		name:"competDe",		width:100, 	sortable:false,	 align:"center"},
+			{display:"전용면적(m2)", 	name:"prvuseAr",		width:100, 	sortable:false,	 align:"right",	displayFormat: 'number'},
 			],
 			showTableToggleBtn : false,
 			height: 'auto',		
@@ -167,7 +169,7 @@ GamBuldMktcStdAmModule.prototype.onClosePopup = function(popupId, msg, value){
 	switch (popupId){
 	case 'selectAddrPopup':
 	if (msg == 'ok') {
-		console.log("test");
+		this.$('#adstrdCode').val(value.bupjungdongCd);		
 		this.$('#adres').val(value.bupjungdongNm);		
 	}
 	break;
@@ -335,33 +337,34 @@ var module_instance = new GamBuldMktcStdAmModule();
 			<!-- 213. TAB 2 AREA (DETAIL) -->
 			<div id="detailTab" class="emdTabPage" style="overflow: scroll">
 				<form id="detailForm">
-								<input type="hidden"  id="sn" data-column-id="sn" />
-				<table class="detailPanel">
-					<tr>
-					<th width="20%" height="23" class="required_text">기준년도</th>
- 							<td colspan="3">
- 								<select id="stdyy" data-column-id="stdyy">
-								</select>
- 							</td>
-					</tr>
-
-					<tr>
-						<th width="20%" height="23" class="required_text">주소</th>
-						<td colspan="3">
-						<input type="text" size="80" id="adres" data-column-id="adres" maxlength="80"/>
-						<button id="selectAddr" class="popupButton">주소</button>
-						</td>
-						</td>
-					</tr>		
-					<tr>
-						<th width="20%" height="23" class="required_text">지번</th>
-						<td colspan="3">
-							<input type="text" size="4" id="lnm" data-column-id="lnm" maxlength="5" />
-							-
-							<input type="text" size="4" id="slno" data-column-id="slno" maxlength="5" />
-						</td>
-					</tr>		
-									
+					<input type="hidden"  id="sn" data-column-id="sn" />
+					<input type="hidden"  id="adstrdCode" data-column-id="adstrdCode" />
+					<table class="detailPanel">
+						<tr>
+						<th width="20%" height="23" class="required_text">기준년도</th>
+	 							<td colspan="3">
+	 								<select id="stdyy" data-column-id="stdyy">
+									</select>
+	 							</td>
+						</tr>
+	
+						<tr>
+							<th width="20%" height="23" class="required_text">주소</th>
+							<td colspan="3">
+							<input type="text" size="80" id="adres" data-column-id="adres" maxlength="80"/>
+							<button id="selectAddr" class="popupButton">주소</button>
+							</td>
+							</td>
+						</tr>		
+						<tr>
+							<th width="20%" height="23" class="required_text">지번</th>
+							<td colspan="3">
+								<input type="text" size="4" id="lnm" data-column-id="lnm" maxlength="5" />
+								-
+								<input type="text" size="4" id="slno" data-column-id="slno" maxlength="5" />
+							</td>
+						</tr>		
+										
 						<tr>
 							<th width="20%" height="23" class="required_text">특수번지</th> <!-- 건물위치  -->
 							<td colspan="3">								
@@ -467,15 +470,20 @@ var module_instance = new GamBuldMktcStdAmModule();
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">전용면적(m2)</th> 
-							<td colspan="3"><input type="text" size="20" id="prvuseAr" data-column-id="prvuseAr" maxlength="20" /></td>
+							<td colspan="3"><input type="text" id="prvuseAr" data-column-id="prvuseAr" class="ygpaNumber" size="20" maxlength="20" /></td>
 						</tr>
+						<tr>
+							<th width="20%" height="23" class="required_text">시가표준액(원)</th> 
+							<td colspan="3"><input type="text" id="mktcStdAm" data-column-id="mktcStdAm" class="ygpaNumber" size="20" maxlength="20" /></td>
+						</tr>
+						
 				</table>
 				
 				<div style="vertical-align: bottom; text-align: right;">
 					<button id="btnSave">저장</button>					
 					<button id="btnDelete">삭제</button>
 				</div>
-				</form>				
+			</form>				
 		</div>
 	</div>
 </div>

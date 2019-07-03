@@ -81,7 +81,7 @@ GamFenderSttusInqireModule.prototype.loadComplete = function() {
 			{display:"항만시설 명",			name:"prtFcltyNm",				width:200,		sortable:false,		align:"left"},
 			{display:"규격",				name:"prtFcltyStndrd",			width:150,		sortable:false,		align:"left"},
 			{display:"단위",	 			name:"prtFcltyUnit",			width:40,		sortable:false,		align:"left"},
-			{display:"수량",	 			name:"prtPrtFcltyCnt",			width:40,		sortable:false,		align:"left"},
+			{display:"수량",	 			name:"prtPrtFcltyCnt",			width:40,		sortable:false,		align:"right",	displayFormat: 'number'},
 			{display:"구조 형식",	 		name:"strctFmt",				width:150,		sortable:false,		align:"left"},
 			{display:"선석",				name:"berth",					width:40,		sortable:false,		align:"left"},
 			{display:"방충재 종류",		 	name:"fenderKndCd",				width:100,		sortable:false,		align:"left"},
@@ -348,19 +348,19 @@ var module_instance = new GamFenderSttusInqireModule();
 										<tr>
 											<th style="width:20%; height:18px;">수　　　　  　　　 량</th>
 											<td >
-												<input type="text" id="qy" data-column-id="qy" class="ygpaNumber" size="10" disabled="disabled" />
+												<input type="text" id="qy" data-column-id="qy" class="ygpaNumber" style="text-align: right;" size="10" disabled="disabled" />
 											</td>
 										</tr>
 										<tr>
 											<th style="width:20%; height:18px;">기　　타　　규　　격</th>
 											<td >
-												<input type="text" id="etcStndrd" data-column-id="etcStndrd" size="35" disabled="disabled" />
+												<input type="text" id="etcStndrd" data-column-id="etcStndrd"  size="35" disabled="disabled" />
 											</td>
 										</tr>
 										<tr>
 											<th style="width:20%; height:18px;">기　　타　　수　　량</th>
 											<td >
-												<input type="text" id="etcQy" data-column-id="etcQy" class="" style="text-align: right;" size="10" disabled="disabled" />
+												<input type="text" id="etcQy" data-column-id="etcQy" class="ygpaNumber" style="text-align: right;" size="10" disabled="disabled" />
 											</td>
 										</tr>
 									</table>

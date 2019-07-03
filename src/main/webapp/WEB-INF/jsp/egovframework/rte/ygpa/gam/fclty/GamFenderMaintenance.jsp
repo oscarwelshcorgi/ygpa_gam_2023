@@ -72,7 +72,7 @@ GamFenderInspectionModule.prototype.loadComplete = function() {
 			{display:"항만시설 명",			name:"prtFcltyNm",				width:200,		sortable:false,		align:"left"},
 			{display:"규격",				name:"prtFcltyStndrd",			width:150,		sortable:false,		align:"left"},
 			{display:"단위",	 			name:"prtFcltyUnit",			width:40,		sortable:false,		align:"left"},
-			{display:"수량",	 			name:"prtPrtFcltyCnt",			width:40,		sortable:false,		align:"left"},
+			{display:"수량",	 			name:"prtPrtFcltyCnt",			width:40,		sortable:false,		align:"right",	displayFormat: 'number'},
 			{display:"구조 형식",	 		name:"strctFmt",				width:150,		sortable:false,		align:"left"},
 			{display:"선석",				name:"berth",					width:40,		sortable:false,		align:"left"},
 			{display:"방충재 종류",		 	name:"fenderKndCd",				width:100,		sortable:false,		align:"left"},
@@ -435,18 +435,16 @@ var module_instance = new GamFenderInspectionModule();
 			<!-- 212. TAB 1 AREA (LIST) -->
 			<div id="listTab" class="emdTabPage fillHeight" style="overflow:hidden;" >
 				<table id="mainGrid" style="display:none;" class="fillHeight"></table>
-				<div id="listSumPanel" class="emdControlPanel">
-					<form id="listSumForm">
-						<table style="width:100%;">
-							<tr>
-								<td style="text-align:right;">
+				<div class="emdControlPanel">
+					<table style="width:100%;">
+						<tr>
+							<td style="text-align:right;">
 <!-- 	                                <button id="btnExcelDownload" class="buttonExcel">엑셀 다운로드</button> -->
-									<button id="btnAdd" class="buttonAdd">추가</button>
-									<button id="btnDelete" class="buttonDelete">삭제</button>
-								</td>
-							</tr>
-						</table>
-					</form>
+								<button id="btnAdd" class="buttonAdd">추가</button>
+								<button id="btnDelete" class="buttonDelete">삭제</button>
+							</td>
+						</tr>
+					</table>
 				</div>
 			</div>
 			<!-- 213. TAB 2 AREA (DETAIL) -->

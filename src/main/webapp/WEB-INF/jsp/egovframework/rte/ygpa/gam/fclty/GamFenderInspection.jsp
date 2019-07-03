@@ -52,7 +52,7 @@ GamFenderInspectionModule.prototype.loadComplete = function() {
 					{display:"관리 그룹 명",			name:"fcltsMngGroupNm",			width:150,		sortable:true,	align:"left"},
 					{display:"종별",					name:"fcltsGbnNm",				width:80,		sortable:true,	align:"center"},
 					{display:"규격",					name:"prtFcltyStndrd",			width:150,		sortable:true,	align:"center"},
-					{display:"수량",					name:"prtPrtFcltyCnt",			width:60,		sortable:true,	align:"center"},
+					{display:"수량",					name:"prtPrtFcltyCnt",			width:60,		sortable:true,	align:"right",	displayFormat: 'number'},
 					{display:"구분",					name:"fcltsSeNm",				width:80,		sortable:true,	align:"center"},
 					{display:"종류",					name:"fcltsKndNm",				width:80,		sortable:true,	align:"center"},
 					{display:"공사 일자",				name:"cnstDt",					width:80,		sortable:true,	align:"center"},
@@ -396,18 +396,16 @@ var module_instance = new GamFenderInspectionModule();
 			<!-- 212. TAB 1 AREA (LIST) -->
 			<div id="listTab" class="emdTabPage fillHeight" style="overflow:hidden;" >
 				<table id="mainGrid" style="display:none;" class="fillHeight"></table>
-				<div id="listSumPanel" class="emdControlPanel">
-					<form id="listSumForm">
-						<table style="width:100%;">
-							<tr>
-								<td style="text-align:right;">
+				<div class="emdControlPanel">
+					<table style="width:100%;">
+						<tr>
+							<td style="text-align:right;">
 <!-- 	                                <button id="btnExcelDownload" class="buttonExcel">엑셀 다운로드</button> -->
-									<button id="btnAdd" class="buttonAdd">추가</button>
-									<button id="btnDelete" class="buttonDelete">삭제</button>
-								</td>
-							</tr>
-						</table>
-					</form>
+								<button id="btnAdd" class="buttonAdd">추가</button>
+								<button id="btnDelete" class="buttonDelete">삭제</button>
+							</td>
+						</tr>
+					</table>
 				</div>
 			</div>
 			<!-- 213. TAB 2 AREA (DETAIL) -->
@@ -486,7 +484,7 @@ var module_instance = new GamFenderInspectionModule();
 								</td>
 								<th style="width:15%; height:18px;">수　　　　  　　　 량</th>
 								<td >
-									<input type="text" id="prtPrtFcltyCnt" data-column-id="prtPrtFcltyCnt" class="" size="10" disabled="disabled" />
+									<input type="text" id="prtPrtFcltyCnt" data-column-id="prtPrtFcltyCnt" class="ygpaNumber" size="10" disabled="disabled" />
 								</td>
 							</tr>
 						</table>
