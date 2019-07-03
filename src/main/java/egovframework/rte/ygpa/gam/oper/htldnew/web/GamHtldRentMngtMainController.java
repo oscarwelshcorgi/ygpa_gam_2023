@@ -3,6 +3,7 @@
  */
 package egovframework.rte.ygpa.gam.oper.htldnew.web;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +29,8 @@ import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.service.EgovCmmUseService;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
+import egovframework.rte.ygpa.gam.code.service.GamCofixIntrrateVO;
+import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldQuGtqyVO;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentMngtMainService;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentMngtMainVO;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentRntfeeVO;
@@ -158,5 +161,119 @@ public class GamHtldRentMngtMainController {
     	return map;
 	}
 
+    /**
+     * 전년도 배후단지임대계약 복사.
+     *
+     * @param 
+     * @return map
+     * @throws Exception the exception
+     */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/oper/htldnew/gamCopyAllRentContract.do", method=RequestMethod.POST)
+	public @ResponseBody Map gamCopyAllRentContract(@RequestParam Map<String, String> param) throws Exception {
+    	Map map = new HashMap();
+    	
+    	String year = String.valueOf(Calendar.getInstance().get(Calendar.YEAR) );
+    	
+    	String nowYear = param.get("nowYear");
+    	String oldYear = param.get("oldYear");
+
+    	/* 파라메터 검증*/
+    	if(!year.equals(nowYear)) {
+    		map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.request.msg")); 
+    	}
+    	
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+    	
+    	try {
+    		gamHtldRentMngtMainService.insertCopyAllRentContract(nowYear, oldYear);
+
+    		map.put("resultCode", 0);
+    		map.put("resultMsg", egovMessageSource.getMessage("success.request.msg"));
+    	}catch(Exception e) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.request.msg")); 
+    	}
+    	
+    	return map;
+	}
 	
+	
+    /**
+     * 배후단지 물동량 조회.
+     *
+     * @param 
+     * @return map
+     * @throws Exception the exception
+     */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/oper/htldnew/gamHtldQuGtqyList.do", method=RequestMethod.POST)
+	public @ResponseBody Map gamHtldQuGtqyList(GamHtldQuGtqyVO searchVO) throws Exception {
+    	Map map = new HashMap();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+    	
+    	List resultList = gamHtldRentMngtMainService.selectHtldQuGtqyList(searchVO);
+    	
+    	map.put("resultCode", 0);
+    	map.put("resultList", resultList);
+    	
+    	return map;
+	}
+	
+    /**
+     * 배후단지 물동량 등록/수정/삭제.
+     *
+     * @param 
+     * @return map
+     * @throws Exception the exception
+     */
+    @RequestMapping(value="/oper/htldnew/updateHtldQuGtqyList.do" , method=RequestMethod.POST)
+    public @ResponseBody Map updateHtldQuGtqyList(@RequestParam Map<String, Object> intrrateList) throws Exception {
+
+     	 Map map = new HashMap();
+         ObjectMapper mapper = new ObjectMapper();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	try {
+        	List<GamHtldQuGtqyVO> createList=null, updateList=null, deleteList=null;
+        	if(intrrateList.containsKey("_cList")) {
+    	    	createList = mapper.readValue((String)intrrateList.get("_cList"), TypeFactory.defaultInstance().constructCollectionType(List.class, GamHtldQuGtqyVO.class));
+        	}
+        	if(intrrateList.containsKey("_uList")) {
+    	    	updateList = mapper.readValue((String)intrrateList.get("_uList"), TypeFactory.defaultInstance().constructCollectionType(List.class,GamHtldQuGtqyVO.class));
+        	}
+        	if(intrrateList.containsKey("_dList")) {
+        		deleteList = mapper.readValue((String)intrrateList.get("_dList"), TypeFactory.defaultInstance().constructCollectionType(List.class,GamHtldQuGtqyVO.class));
+        	}
+
+        	gamHtldRentMngtMainService.updateHtldQuGtqyList(createList, updateList, deleteList);
+
+	     	 map.put("resultCode", 0);
+	         map.put("resultMsg", egovMessageSource.getMessage("gam.asset.proc"));
+    	}
+    	catch(Exception e) {
+	     	 map.put("resultCode", 1);
+	         map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
+    	}
+
+ 		return map;
+     }
 }

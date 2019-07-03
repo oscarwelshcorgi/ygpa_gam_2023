@@ -18,6 +18,13 @@
 
   Copyright (C) 2013 by LFIT  All right reserved.
 --%>
+<style>
+ table tbody tr td{
+	text-align: center
+}
+
+</style>
+
 <script>
 <%--
  	아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
@@ -48,9 +55,13 @@ GamHtldRentMngtMainModule.prototype.loadComplete = function() {
                     {display:'자산코드', name:'assetsCd',width:60, sortable:false,align:'center'},
                     {display:'자산명', name:'assetsNm',width:150, sortable:false,align:'center'},
                     {display:'입주면적(㎡)', name:'rentArStr',width:125, sortable:false,align:'right'},
-                    {display:'적용임대료', name:'applcRntfeeStr',width:120, sortable:false,align:'right'},
-                    {display:'실적평가임대료', name:'aseRntfeeStr',width:90, sortable:false,align:'right'},
+                    {display:'적용임대료', name:'applcRntfeeStr',width:120, sortable:false,align:'right', displayFormat: 'input-number'},
+                    {display:'실적평가임대료', name:'aseRntfeeStr',width:90, sortable:false,align:'right', displayFormat: 'input'},
+                    {display:'실적평가시작', name:'aseApplcBegin',width:80, sortable:false,align:'center', displayFormat: 'cal'},
+                    {display:'실적평가종료', name:'aseApplcEnd',width:80, sortable:false,align:'center', displayFormat: 'cal'},
+/* 
                     {display:'실적평가적용기간', name:'asePd',width:150, sortable:false,align:'center'},
+ */
                     {display:'구분', name:'paySeNm',width:45, sortable:false,align:'center'},
     				{display:'임대료', name:'rntfee',width:85, sortable:false,align:'right', displayFormat: 'input-number'},
     				{display:'분납이자', name:'payinstIntr',width:70, sortable:false,align:'right', displayFormat: 'input-number'},
@@ -97,6 +108,49 @@ GamHtldRentMngtMainModule.prototype.loadComplete = function() {
     	module.onMainGrildCellEdited(row, rid, cid);
     });
 
+	
+	this.$("#detailGrid").flexigrid({
+		module: this,
+		url: '/oper/htldnew/gamHtldQuGtqyList.do',
+		dataType: 'json',
+		colModel : [
+ 		            {display:'연도',		name:'year',			width:100,	sortable:false,	align:'center',	displayFormat: 'input' },
+ 		            {display:'1분기',		groupDisplay:'일반 화물',		name:'oneQuGnrl',		width:100,	sortable:false,	align:'right',	displayFormat: 'input-number' },
+		            {display:'#cspan',	groupDisplay:'컨테이너  화물',	name:'oneQuCntanr',		width:110,	sortable:false,	align:'right',	displayFormat: 'input-number'},
+		            {display:'2분기',		groupDisplay:'일반 화물',		name:'twoQuGnrl',		width:100,	sortable:false,	align:'right',	displayFormat: 'input-number'},
+		            {display:'#cspan',	groupDisplay:'컨테이너  화물',	name:'twoQuCntanr',		width:110,	sortable:false,	align:'right',	displayFormat: 'input-number'},
+		            {display:'3분기',		groupDisplay:'일반 화물',		name:'threeQuGnrl',		width:100,	sortable:false,	align:'right',	displayFormat: 'input-number'},
+		            {display:'#cspan',	groupDisplay:'컨테이너  화물',	name:'threeQuCntanr',		width:110,	sortable:false,	align:'right',	displayFormat: 'input-number'},
+		            {display:'4분기',		groupDisplay:'일반 화물',		name:'fourGnrl',	width:100,	sortable:false,	align:'right',	displayFormat: 'input-number'},
+		            {display:'#cspan',	groupDisplay:'컨테이너  화물',	name:'fourQuCntanr',	width:110,	sortable:false,	align:'right',	displayFormat: 'input-number'}
+		            ],
+		showTableToggleBtn: false,
+		height: 'auto'
+	});
+	this.$("#detailGrid")[0].dgrid.attachHeader('#rspan,일반 화물,컨테이너 화물,일반 화물,컨테이너 화물,일반 화물,컨테이너 화물,일반 화물,컨테이너 화물');
+	
+	this.$("#detailGrid").on('onLoadDataComplete', function(event, module, data) {
+		module._deleteItem=[];
+	});
+
+	this.$("#detailGrid").on('onItemSelected', function(event, module, row, grid, param) {
+		module._selectedItem=row;
+	});
+
+	this.$("#detailGrid").on('onItemUnSelected', function(event, module, row, grid, param) {
+		module._selectedItem=null;
+	});
+    this.$("#detailGrid").on('onCellEdited', function(event, module, row, rid, cid, oldVal) {
+/*         if((cid == 'fourQuCntanr') {
+        	var dateStr = String(row['annodt']);
+        	row['objYrmt'] = dateStr.substring(0,4)+dateStr.substring(5,7);
+        	module.$("#detailGrid").flexUpdateRow(rid, row);
+        }
+*/
+    	if(row._updtId!="I") row._updtId="U";
+    });
+    
+    
     this.$('#histDt').val(EMD.util.getDate());
 
 	this.$('#histDt').on('change', {module:this}, function(e) {
@@ -106,6 +160,28 @@ GamHtldRentMngtMainModule.prototype.loadComplete = function() {
 
     this.loadData();
 };
+
+<%
+/**
+ * @FUNCTION NAME : onTabChange
+ * @DESCRIPTION   : 탭이 변경 될때 호출된다. (태그로 정의 되어 있음)
+ * @PARAMETER     :
+ *   1. newTabId - NEW TAB ID
+ *   2. oldTabId - OLD TAB ID
+**/
+%>
+ GamHtldRentMngtMainModule.prototype.onTabChange = function(newTabId, oldTabId) {
+	console.log("onTabChange");
+	switch (newTabId) {
+		case 'listTab':
+			break;
+		case 'detailTab':
+			this.$('#detailGrid').flexReload();
+			break;
+	}
+
+}
+
 
 <%--
 	버튼 클릭에 대한 이벤트 핸들러 (EmdModule에서 Overriding 된 함수임 모듈에서 자동으로 호출 됨)
@@ -147,6 +223,42 @@ GamHtldRentMngtMainModule.prototype.onButtonClick = function(buttonId) {
 		case 'btnExcelDownload':
 			this.tableToExcel();
 			break;
+		case 'btnCopyAllRentContract':
+			this.copyAllRentContract();
+			break;
+			
+			
+			
+		case 'btnSave':
+			// 변경된 자료를 저장한다.
+			
+			var inputVO=[];
+	 		inputVO[inputVO.length]={name: '_uList', value :JSON.stringify(this.$('#detailGrid').selectFilterData([{col: '_updtId', filter: 'U'}])) };
+			inputVO[inputVO.length]={name: '_cList', value: JSON.stringify(this.$('#detailGrid').selectFilterData([{col: '_updtId', filter: 'I'}])) };
+			inputVO[inputVO.length]={name: '_dList', value: JSON.stringify(this._deleteItem) };
+			// 데이터를 저장 하고 난 뒤 리스트를 다시 로딩 한다.
+
+		 	this.doAction('/oper/htldnew/updateHtldQuGtqyList.do', inputVO, function(module, result) {
+		 		if(result.resultCode == 0){
+		 			module.$('#detailGrid').flexReload();
+		 		}
+		 		alert(result.resultMsg);
+//		 		module.closeDialog("ok", null);
+	 		});
+			break;
+		case 'btnAddItem':
+			this.$('#detailGrid').flexAddRow({_updtId:'I'});
+			break;
+		case 'btnDelItem':
+			var rows=this.$('#detailGrid').selectedRowIds();
+			if(rows.length>0) {
+				for(var k in rows) {
+					this._deleteItem[this._deleteItem.length] = this.$('#detailGrid').flexGetRow(rows[k]);
+					this.$('#detailGrid').flexRemoveRow(rows[k]);
+				}
+			}
+			
+			
 	}
 };
 
@@ -222,6 +334,7 @@ GamHtldRentMngtMainModule.prototype.onMainGridSelectedRowCell = function(row, ri
 --%>
 GamHtldRentMngtMainModule.prototype.onMainGrildCellEdited = function (row, rid, cid) {
 	if(row.nticYn == 'Y') {
+		console.log("onMainGrildCellEdited");
 		alert('고지된 데이터는 수정할 수 없습니다.');
 		row.rntfee = row.oldRntfee;
 		row.payinstIntr = row.oldPayinstIntr;
@@ -229,19 +342,28 @@ GamHtldRentMngtMainModule.prototype.onMainGrildCellEdited = function (row, rid, 
 		row.vat = row.oldVat;
 		row.payAmt = row.oldPayAmt;
 		row.rm = row.oldRm;
+		row.aseApplcBegin = row.oldAseApplcBegin||'';
+		row.aseApplcEnd = row.oldAseApplcEnd||'';
 		this.$('#mainGrid').flexUpdateRow(rid, row);
 		return;
 	}
 
 	if(row.rntfeeSe == '9') {
 		alert('소계는 수정할 수 없습니다.');
+		
+		row.applcRntfeeStr=row.oldApplcRntfeeStr;
+		row.aseRntfeeStr=row.oldAseRntfeeStr;
+		
 		row.rntfee = row.oldRntfee;
 		row.payinstIntr = row.oldPayinstIntr;
 		row.supAmt = row.oldSupAmt;
 		row.vat = row.oldVat;
 		row.payAmt = row.oldPayAmt;
 		row.rm = row.oldRm;
+		row.aseApplcBegin = row.oldAseApplcBegin||'';
+		row.aseApplcEnd = row.oldAseApplcEnd||'';
 		this.$('#mainGrid').flexUpdateRow(rid, row);
+			
 		return;
 	}
 
@@ -288,6 +410,21 @@ GamHtldRentMngtMainModule.prototype.onMainGrildCellEdited = function (row, rid, 
 				row.payAmt = row.oldPayAmt;
 			}
 			break;
+
+		/* 접용 임대료 추가 */
+		case 'applcRntfeeStr':
+			console.log("applcRntfeeStr");
+			var inputVO=row;
+			// 데이터를 저장 하고 난 뒤 리스트를 다시 로딩 한다.
+/* 
+		 	this.doAction('/oper/htldnew/updateHtldRentCtrt.do', inputVO, function(module, result) {
+		 		if(result.resultCode == 0){
+		 			module.$('#detailGrid').flexReload();
+		 		}
+		 		alert(result.resultMsg);
+	 		});
+ */			
+			break;
 	}
 
 	row.oldRntfee = row.rntfee;
@@ -295,6 +432,11 @@ GamHtldRentMngtMainModule.prototype.onMainGrildCellEdited = function (row, rid, 
 	row.oldSupAmt = row.supAmt;
 	row.oldVat = row.vat;
 	row.oldPayAmt = row.payAmt;
+	row.oldAseApplcBegin = row.aseApplcBegin;
+	row.oldAseApplcEnd = row.aseApplcEnd;
+	
+	row.oldApplcRntfeeStr=row.applcRntfeeStr;
+	row.oldAseRntfeeStr=row.aseRntfeeStr;
 
 	this.$('#mainGrid').flexUpdateRow(rid, row);
 
@@ -325,7 +467,13 @@ GamHtldRentMngtMainModule.prototype.initDataRow = function(row) {
 	row.oldSupAmt = row.supAmt;
 	row.oldVat = row.vat;
 	row.oldPayAmt = row.payAmt;
+	row.oldAseApplcBegin = row.aseApplcBegin;
+	row.oldAseApplcEnd = row.aseApplcEnd;
+	row.oldApplcRntfeeStr=row.applcRntfeeStr;
+	row.oldAseRntfeeStr=row.aseRntfeeStr;
+	
 	row.oldRm = (row.rm != void(0)) ? row.rm : '';
+
 	if(row.rntfeeSe == '0') { //일반임대료 데이터라면
 		if(row.rntfeeSeq == void(0)) { //임대료순번이 없을 경우.
 			row._updtId = 'I';
@@ -430,6 +578,11 @@ GamHtldRentMngtMainModule.prototype.calcMngGroupData = function(mngYear, mngNo, 
 	totRow.oldSupAmt = totRow.supAmt;
 	totRow.oldVat = totRow.vat;
 	totRow.oldPayAmt = totRow.payAmt;
+	totRow.oldAseApplcBegin = totRow.aseApplcBegin;
+	totRow.oldAseApplcEnd = totRow.aseApplcEnd;
+	
+	totRow.oldApplcRntfeeStr=row.applcRntfeeStr;
+	totRow.oldAseRntfeeStr=row.aseRntfeeStr;
 
 	this.$('#mainGrid').flexEmptyData();
 	var dataList = {resultList: rows};
@@ -671,6 +824,52 @@ GamHtldRentMngtMainModule.prototype.downloadNticIssue = function() {
 };
 
 <%--
+copyAllRentContract - 전년도 데이터 복사
+--%>
+GamHtldRentMngtMainModule.prototype.copyAllRentContract = function() {
+	var toDate = new Date();
+
+	var nowYear = toDate.getFullYear();
+	var oldYear = toDate.getFullYear()-1; 
+	
+	
+	if (confirm(nowYear+"년의 모든 데이터를 삭제 후 "+oldYear+"년 데이터로 새로 생성 됩니다.\n진행 하시겠습니까?")) {
+		//var deleteVO = row[0];
+		var dataVO = {"nowYear":nowYear, "oldYear":oldYear};
+		
+		this.doAction('/oper/htldnew/gamCopyAllRentContract.do', dataVO, function(module, result) {
+/* 			if (result.resultCode == "0") {
+			}
+ */
+			alert(result.resultMsg);
+		});
+	}
+	
+};
+
+<%--
+copyAllRentContract - 물동량 저장
+--%>
+GamHtldRentMngtMainModule.prototype.cargoSave = function() {
+	
+};
+
+<%--
+copyAllRentContract - 물동량 추가
+--%>
+GamHtldRentMngtMainModule.prototype.cargoDelete = function() {
+	
+};
+
+<%--
+copyAllRentContract - 물동량 삭제
+--%>
+GamHtldRentMngtMainModule.prototype.cargoDelete = function() {
+	
+};
+
+
+<%--
 	다음 변수는 고정 적으로 정의 해야 함
 	module_instance는 고정 변수 GamHtldRentMngtMainModule은 위에서 EmdModule을 상속 받는 이 윈도우의 모듈 함수로 정의 됨.
 --%>
@@ -719,24 +918,49 @@ var module_instance = new GamHtldRentMngtMainModule();
         </div>
     </div>
 
+
+	<!-- 2. DATA AREA (자료 영역) -->
 	<div class="emdPanel fillHeight">
-	<table id="mainGrid" style="display:none" class="fillHeight"></table>
- 		<div class="emdControlPanel">
-			<table style="width:100%;">
-				<tr>
-					<td style="text-align: right">
-                       <button id="btnAddRentContract">계약등록</button>
-                       <button id="btnNticIssue">고지</button>
-                       <button id="btnArrrgNticIssue">연체고지</button>
-                       <button id="btnPrintNticIssue" >고지서출력</button>
-                       <button id="btnDownloadNticIssue" >산출내역서 다운로드</button>
-                       <button id="btnAddNticIssue">추가고지</button>
-                       <button id="btnProcessNticIssue" >수납처리</button>
-                       <button id="btnNticIssueHist" >고지이력</button>
-                       <button id="btnExcelDownload" class="buttonExcel">엑셀 다운로드</button>
-					</td>
-				</tr>
-			</table>
+		<!-- 21. TAB AREA (탭 영역) -->
+		<div id="mainTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
+			<!-- 211. TAB 정의 -->
+			<ul>
+				<li><a href="#listTab" class="emdTab">배후단지 임대관리</a></li>
+				<li><a href="#detailTab" class="emdTab">분기별 물동량</a></li>
+			</ul>
+			<!-- 212. TAB 1 AREA (LIST) -->
+			<div id="listTab" class="emdTabPage fillHeight" style="overflow:hidden;" >
+				<table id="mainGrid" style="display:none;" class="fillHeight"></table>
+				<div class="emdControlPanel">
+					<table style="width:100%; height: 80%;">
+						<tr>
+							<td style="text-align: left">
+		                       <button id="btnCopyAllRentContract">전체계약 복사</button>
+		                    </td>
+							<td style="text-align: right">
+		                       <button id="btnAddRentContract">계약등록</button>
+		                       <button id="btnNticIssue">고지</button>
+		                       <button id="btnArrrgNticIssue">연체고지</button>
+		                       <button id="btnPrintNticIssue" >고지서출력</button>
+		                       <button id="btnDownloadNticIssue" >산출내역서 다운로드</button>
+		                       <button id="btnAddNticIssue">추가고지</button>
+		                       <button id="btnProcessNticIssue" >수납처리</button>
+		                       <button id="btnNticIssueHist" >고지이력</button>
+		                       <button id="btnExcelDownload" class="buttonExcel">엑셀 다운로드</button>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div id="detailTab" class="emdTabPage" style="overflow:hidden;">
+				<table id="detailGrid" style="display:none;" class="fillHeight "></table>
+				
+				<div style="vertical-align: bottom; text-align: right;">
+					<button id="btnAddItem">추가</button>
+					<button id="btnDelItem">삭제</button>
+					<button id="btnSave">저장</button>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

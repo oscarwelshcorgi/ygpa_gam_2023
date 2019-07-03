@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -18,8 +19,13 @@ import org.joda.time.LocalDate;
 import org.joda.time.Months;
 import org.springframework.stereotype.Service;
 
+import egovframework.com.cmm.LoginVO;
+import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
+import egovframework.rte.ygpa.gam.code.service.GamCofixIntrrateVO;
+import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldQuGtqyVO;
+import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentCtrtVO;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentMngtMainService;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentMngtMainVO;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentRntfeeVO;
@@ -45,6 +51,9 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 	
 	@Resource(name="gamHtldRentMngtMainDao")
     private GamHtldRentMngtMainDao gamHtldRentMngtMainDao;
+
+	@Resource(name="gamHtldRentCtrtDao")
+	private GamHtldRentCtrtDao gamHtldRentCtrtDao;
 
 	protected Log log = LogFactory.getLog(this.getClass());
 	
@@ -488,6 +497,77 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 			item.setRegUsr(id);
 			item.setRntfeeSeq(gamHtldRentMngtMainDao.selectNextRntfeeSeq(item));
 			gamHtldRentMngtMainDao.insertHtldRntfee(item);
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentMngtMainService#insertCopyAllRentContract(java.lang.String, java.lang.String)
+	 */
+	@Override
+	public void insertCopyAllRentContract(String nowYear, String oldYear) throws Exception {
+		// TODO Auto-generated method stub
+		
+		
+		List rentContractList = gamHtldRentMngtMainDao.selectRentContractList(oldYear);
+		
+
+		if(rentContractList.size()>0) {
+			gamHtldRentMngtMainDao.deleteHtldRentDetailData(nowYear);
+			gamHtldRentMngtMainDao.deleteHtldRentData(nowYear);
+			
+			for(int i=0; i < rentContractList.size(); i++) {
+				//새로운 키 생성
+				GamHtldRentCtrtVO mngKey = gamHtldRentCtrtDao.selectMngKeyValues();
+				Map map = (Map)rentContractList.get(i);
+				
+				map.put("mngYear", mngKey.getMngYear());
+				map.put("mngNo", mngKey.getMngNo());
+				map.put("mngSeq", mngKey.getMngSeq());
+				
+				gamHtldRentMngtMainDao.inserHtldRentData(map);
+				gamHtldRentMngtMainDao.inserHtldRentDetailData(map);
+				
+			}
+		}
+		
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentMngtMainService#selectHtldQuGtqyList(egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldQuGtqyVO)
+	 */
+	@Override
+	public List selectHtldQuGtqyList(GamHtldQuGtqyVO searchVO) throws Exception {
+		// TODO Auto-generated method stub
+		return gamHtldRentMngtMainDao.selectHtldQuGtqyList(searchVO);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentMngtMainService#updateHtldQuGtqyList(java.util.List, java.util.List, java.util.List)
+	 */
+	@Override
+	public void updateHtldQuGtqyList(List<GamHtldQuGtqyVO> createList, List<GamHtldQuGtqyVO> updateList, List<GamHtldQuGtqyVO> deleteList) throws Exception {
+		// TODO Auto-generated method stub
+		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+		
+		GamHtldQuGtqyVO vo=null;
+		Map map;
+		
+		String usr = loginVO.getId();
+		
+		for(int i=0; i<deleteList.size(); i++) {
+			vo = deleteList.get(i);
+			gamHtldRentMngtMainDao.deleteHtldQuGtqyList(vo);
+		}
+		for(int i=0; i<updateList.size(); i++) {
+			vo = updateList.get(i);
+			vo.setUpdusr(usr);
+			gamHtldRentMngtMainDao.updateHtldQuGtqyList(vo);
+		}
+		for(int i=0; i<createList.size(); i++) {
+			vo = createList.get(i);
+			vo.setRegister(usr);
+			gamHtldRentMngtMainDao.insertHtldQuGtqyList(vo);
 		}
 	}
 

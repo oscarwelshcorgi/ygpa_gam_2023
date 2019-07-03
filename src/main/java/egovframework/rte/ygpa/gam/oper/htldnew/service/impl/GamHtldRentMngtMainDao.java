@@ -4,10 +4,13 @@
 package egovframework.rte.ygpa.gam.oper.htldnew.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
+import egovframework.rte.ygpa.gam.code.service.GamCofixIntrrateVO;
+import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldQuGtqyVO;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentMngtMainVO;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentRntfeeVO;
 
@@ -79,5 +82,84 @@ public class GamHtldRentMngtMainDao extends YGPAAbstractDAO {
 	public String selectNextRntfeeSeq(GamHtldRentRntfeeVO searchVO) throws Exception {
 		return (String) getSqlMapClientTemplate().queryForObject("gamHtldRentMngtMainDao.selectNextRntfeeSeq_S", searchVO);
 	}
+
+	/**
+	 * @param oldYear
+	 * @return
+	 */
+	public List selectRentContractList(String oldYear) {
+		// TODO Auto-generated method stub
+		return list("gamHtldRentMngtMainDao.selectRentContractList", oldYear);
+	}
+
+	/**
+	 * @param nowYear
+	 */
+	public void deleteHtldRentData(String oldYear) {
+		// TODO Auto-generated method stub
+		delete("gamHtldRentMngtMainDao.deleteHtldRentData", oldYear);
+	}
+
+	/**
+	 * @param nowYear
+	 */
+	public void deleteHtldRentDetailData(String oldYear) {
+		// TODO Auto-generated method stub
+		delete("gamHtldRentMngtMainDao.deleteHtldRentDetailData", oldYear);
+	}
+	
+	/**
+	 * @param nowYear
+	 */
+	public void inserHtldRentData(Map param) {
+		// TODO Auto-generated method stub
+		insert("gamHtldRentMngtMainDao.inserHtldRentData", param);
+		
+	}
+
+	/**
+	 * @param nowYear
+	 */
+	public void inserHtldRentDetailData(Map param) {
+		// TODO Auto-generated method stub
+		insert("gamHtldRentMngtMainDao.inserHtldRentDetailData", param);
+		
+	}
+
+	/**
+	 * @param searchVO
+	 * @return
+	 */
+	public List selectHtldQuGtqyList(GamHtldQuGtqyVO searchVO) {
+		// TODO Auto-generated method stub
+		return list("gamHtldRentMngtMainDao.selectHtldQuGtqyList", searchVO);
+	}
+
+	/**
+	 * @param vo
+	 */
+	public void deleteHtldQuGtqyList(GamHtldQuGtqyVO vo) {
+		// TODO Auto-generated method stub
+		delete("gamHtldRentMngtMainDao.deleteHtldQuGtqyList", vo);
+	}
+
+	/**
+	 * @param vo
+	 */
+	public void updateHtldQuGtqyList(GamHtldQuGtqyVO vo) {
+		// TODO Auto-generated method stub
+		update("gamHtldRentMngtMainDao.updateHtldQuGtqyList", vo);
+	}
+
+	/**
+	 * @param vo
+	 */
+	public void insertHtldQuGtqyList(GamHtldQuGtqyVO vo) {
+		// TODO Auto-generated method stub
+		insert("gamHtldRentMngtMainDao.insertHtldQuGtqyList", vo);
+	}
+
+
+
 
 }

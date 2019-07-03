@@ -5,6 +5,8 @@ package egovframework.rte.ygpa.gam.oper.htldnew.service;
 
 import java.util.List;
 
+import egovframework.rte.ygpa.gam.code.service.GamCofixIntrrateVO;
+
 /**
  * 
  * @author Jongmin
@@ -47,5 +49,24 @@ public interface GamHtldRentMngtMainService {
 	 * @param id
 	 */
 	void updateHtldRntfee(List<GamHtldRentRntfeeVO> feeInsertList, List<GamHtldRentRntfeeVO> feeUpdateList, String id) throws Exception;
+
+	/**
+	 * @param nowYear
+	 * @param oldYear
+	 */
+	void insertCopyAllRentContract(String nowYear, String oldYear) throws Exception;
+
+	/**
+	 * @param searchVO
+	 * @return
+	 */
+	List selectHtldQuGtqyList(GamHtldQuGtqyVO searchVO) throws Exception;
+
+	/**
+	 * @param createList
+	 * @param updateList
+	 * @param deleteList
+	 */
+	void updateHtldQuGtqyList(List<GamHtldQuGtqyVO> createList, List<GamHtldQuGtqyVO> updateList,	List<GamHtldQuGtqyVO> deleteList) throws Exception;
 	
 }

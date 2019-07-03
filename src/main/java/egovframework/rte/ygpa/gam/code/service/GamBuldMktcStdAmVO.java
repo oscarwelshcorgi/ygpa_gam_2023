@@ -8,8 +8,11 @@ import egovframework.com.cmm.ComDefaultVO;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GamBuldMktcStdAmVO extends ComDefaultVO{
+	// 검색 조건
+	private String sAdres;
+	private String sLnm;
+	private String sSlno;
 	
-
 	//기준년
 	private String stdyy;
 	//순번
@@ -331,6 +334,42 @@ public class GamBuldMktcStdAmVO extends ComDefaultVO{
 	 */
 	public void setDataStdrDe(String dataStdrDe) {
 		this.dataStdrDe = dataStdrDe;
+	}
+	/**
+	 * @return the sAdres
+	 */
+	public String getsAdres() {
+		return sAdres;
+	}
+	/**
+	 * @param sAdres the sAdres to set
+	 */
+	public void setsAdres(String sAdres) {
+		this.sAdres = sAdres;
+	}
+	/**
+	 * @return the sLnm
+	 */
+	public String getsLnm() {
+		return sLnm;
+	}
+	/**
+	 * @param sLnm the sLnm to set
+	 */
+	public void setsLnm(String sLnm) {
+		this.sLnm = sLnm;
+	}
+	/**
+	 * @return the sSlno
+	 */
+	public String getsSlno() {
+		return sSlno;
+	}
+	/**
+	 * @param sSlno the sSlno to set
+	 */
+	public void setsSlno(String sSlno) {
+		this.sSlno = sSlno;
 	}
 	
 
