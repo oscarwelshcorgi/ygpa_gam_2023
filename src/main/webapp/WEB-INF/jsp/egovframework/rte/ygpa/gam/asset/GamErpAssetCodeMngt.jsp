@@ -32,7 +32,6 @@ GamAssetCodeModule.prototype = new EmdModule(1000, 600);
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamAssetCodeModule.prototype.loadComplete = function() {
-
 	this._edited=false;	// 편집 상태를 저장 한다.
 
 	this.$('#prtAtCode').val('620');	// 기본 항코드 설정s
@@ -338,27 +337,29 @@ GamAssetCodeModule.prototype.addGisAssetItem = function() {
 	* 작업 내용 : 자산구분, 품목구분, 회계구분, 구매용도 값 자동 입력
 	* 작업자 : jckim
 	*/
-	/* 자산구분*/
-	this.$('#gisAssetsSeCd').val(this.$('#erpAssetCodeList').selectedRows()[0].assetCls);
-	/* 품목구분 */
-	var _itemCls=this.$('#erpAssetCodeList').selectedRows()[0].itemCls;
-	switch(_itemCls){
-		case '000001':
-		case '000002':
-		case '002001':
-		case '002002':
-		case '002003':
-		case '002004':
-			this.$('#prdlstSe').val(_itemCls);
-			break;
-		default :
-			this.$('#prdlstSe').val('');
+	if(this.$('#erpAssetCodeList').selectedRows().length > 0){
+		/* 자산구분*/
+		this.$('#gisAssetsSeCd').val(this.$('#erpAssetCodeList').selectedRows()[0].assetCls);
+		/* 품목구분 */
+		var _itemCls=this.$('#erpAssetCodeList').selectedRows()[0].itemCls;
+		
+		switch(_itemCls){
+			case '000001':
+			case '000002':
+			case '002001':
+			case '002002':
+			case '002003':
+			case '002004':
+				this.$('#prdlstSe').val(_itemCls);
+				break;
+			default :
+				this.$('#prdlstSe').val('');
+		}
+		/* 회계구문 */
+		this.$('#fsse').val(this.$('#erpAssetCodeList').selectedRows()[0].accUnitCls);
+		/* 구매용도 */
+		this.$('#gisAssetsPrpos').val(this.$('#erpAssetCodeList').selectedRows()[0].purPurpose);
 	}
-	/* 회계구문 */
-	this.$('#fsse').val(this.$('#erpAssetCodeList').selectedRows()[0].accUnitCls);
-	/* 구매용도 */
-	this.$('#gisAssetsPrpos').val(this.$('#erpAssetCodeList').selectedRows()[0].purPurpose);
-
 
 	/*
 		일자 : 2018.07.05
@@ -672,6 +673,18 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 	case 'popupFcltyCd':
         this.doExecuteDialog('selectAssetsCdPopup', '시설 선택', '/popup/showAssetsCd.do', []);
 		break;
+	/* 건축물 시가표준액 */
+	case 'selectMktcStdAm':
+		
+		if(this.$('#gisAssetsBupjungdongCd').val() == '' || this.$('#gisAssetsLnm').val() == ''){
+			alert("주소, 지번을 선택해 주세요.")
+			break;
+		}
+		var searchOpt = {"sAdstrdCode" : this.$('#gisAssetsBupjungdongCd').val(), "sLnm" : this.$('#gisAssetsLnm').val(),"sSlno" : this.$('#gisAssetsLnmSub').val()}
+		
+	    this.doExecuteDialog('selectMktcStdAm', '건축물 시가표준액', '/asset/showPopupBuldMktcStdAm.do', searchOpt);
+	break;
+
 	}
 };
 
@@ -745,6 +758,13 @@ GamAssetCodeModule.prototype.onClosePopup = function(popupId, msg, value) {
              this.$('#prtAtCodeNm').val(value.gisAssetsPrtAtCodeNm);
              this.$('#quayCd').val(value.gisAssetsQuayCd);
              this.$('#assetsCdStr').val(value.gisAssetsCd + "-" + value.gisAssetsSubCd);
+         } else {
+             alert('취소 되었습니다');
+         }
+         break;
+     case 'selectMktcStdAm':
+         if (msg != 'cancel') {
+             this.$('#mktcStdAm').val(value.mktcStdAm);
          } else {
              alert('취소 되었습니다');
          }
@@ -1174,13 +1194,11 @@ var module_instance = new GamAssetCodeModule();
 							<input type="text" size="16" id="invstmntAmount" class="ygpaCurrency invstmntAmount" >
 							<span class="gisAssetsSeCd3"><input type="text" size="10" class="emdcal " id="changePrmisnPdBegin">~<input type="text" size="10" class="emdcal " id="changePrmisnPdEnd"></span>
 						</td>
-
-
-
-
-
 						<th><span class="label mktcStdAm">시가표준액(원)</span></th>
-						<td><input type="text" size="16" id="mktcStdAm" class="ygpaCurrency mktcStdAm" ></td>
+						<td>
+							<input type="text" size="16" id="mktcStdAm" class="ygpaCurrency mktcStdAm" >
+							<button id="selectMktcStdAm" class="popupButton mktcStdAm">선택</button></td>
+						</td>
 
 					</tr>
 

@@ -25,7 +25,7 @@
  */
 function GamPrtFcltyNticArrvlDtaInqireModule() {}
 
-GamPrtFcltyNticArrvlDtaInqireModule.prototype = new EmdModule(1000, 600);
+GamPrtFcltyNticArrvlDtaInqireModule.prototype = new EmdModule(1000, 625);
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamPrtFcltyNticArrvlDtaInqireModule.prototype.loadComplete = function() {
@@ -490,6 +490,10 @@ var module_instance = new GamPrtFcltyNticArrvlDtaInqireModule();
                                 </td>
 								<th width="15%" height="23">자산명</th>
                                 <td><span data-column-id="gisAssetsNm"></span></td>
+                            </tr>
+                            <tr>
+								<th width="15%" height="23">주소</th>
+                                <td colspan="5"><span data-column-id="gisAssetsAddr"></span></td>
                             </tr>
                             <tr>
 								<th width="15%" height="23">사용시작</th>

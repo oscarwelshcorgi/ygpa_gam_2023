@@ -566,7 +566,7 @@
     <select id="gamPrtFcltyNticArrvlDtaInqireDao.selectPrtFcltyNticArrvlDtaInqireDetailList_D" parameterClass="gamPrtFcltyNticArrvlDtaInqireVO" resultClass="egovMap">
            SELECT A.*
            FROM (
-                   SELECT  ROWNUM RNUM, S.*
+                   SELECT  ROWNUM RNUM, S.*, S.GIS_ASSETS_LOCPLC ||' '|| GIS_ASSETS_LNM || NVL2(GIS_ASSETS_LNM_SUB,'-'||GIS_ASSETS_LNM_SUB,'') AS GIS_ASSETS_ADDR
                      FROM (
                            SELECT
                                   A.ASSETS_USAGE_SEQ

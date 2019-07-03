@@ -12,6 +12,7 @@ public class GamBuldMktcStdAmVO extends ComDefaultVO{
 	private String sAdres;
 	private String sLnm;
 	private String sSlno;
+	private String sAdstrdCode;
 	
 	//기준년
 	private String stdyy;
@@ -370,6 +371,18 @@ public class GamBuldMktcStdAmVO extends ComDefaultVO{
 	 */
 	public void setsSlno(String sSlno) {
 		this.sSlno = sSlno;
+	}
+	/**
+	 * @return the sAdstrdCode
+	 */
+	public String getsAdstrdCode() {
+		return sAdstrdCode;
+	}
+	/**
+	 * @param sAdstrdCode the sAdstrdCode to set
+	 */
+	public void setsAdstrdCode(String sAdstrdCode) {
+		this.sAdstrdCode = sAdstrdCode;
 	}
 	
 

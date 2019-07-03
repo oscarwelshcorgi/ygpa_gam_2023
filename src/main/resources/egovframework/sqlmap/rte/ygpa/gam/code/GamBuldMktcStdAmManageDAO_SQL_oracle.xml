@@ -46,6 +46,9 @@
 		        <isNotEmpty prepend="AND" property="sSlno">
 		           RTRIM(SLNO) = #sSlno#
 				</isNotEmpty>		            
+		        <isNotEmpty prepend="AND" property="sAdstrdCode">
+		           ADSTRD_CODE = #sAdstrdCode#
+				</isNotEmpty>		            
 			) S
 	</select>
 
@@ -61,7 +64,10 @@
 		</isNotEmpty>
         <isNotEmpty prepend="AND" property="sSlno">
            RTRIM(SLNO) = #sSlno#
-		</isNotEmpty>			
+		</isNotEmpty>	
+		<isNotEmpty prepend="AND" property="sAdstrdCode">
+           ADSTRD_CODE = #sAdstrdCode#
+		</isNotEmpty>		
 	</select>
 	
 	
