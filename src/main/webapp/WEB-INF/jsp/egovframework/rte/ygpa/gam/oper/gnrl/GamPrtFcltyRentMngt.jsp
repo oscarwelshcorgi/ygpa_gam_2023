@@ -2170,7 +2170,11 @@ GamAssetRentMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
         	 
  	        this.doAction('/oper/gnrl/gamUpdatePrtFcltyRentMngtPrmisn.do', inputVO, function(module, result) {
  	        	if(result.resultCode == 0){
-					module.loadData();
+/* 전자결재 화면 호출(꼭 호출 해야 한다고 함.) */
+ 	        		var url = "http://192.168.0.32/jsp/call/UcheckSancData.jsp?T="+result.elctrnSanctnMap.tNo+"&E="+result.elctrnSanctnMap.empCd;
+ 	        		window.open(url, "showGwcallFwdIf", "width=800, height=600, menubar=no,status=no,scrollbars=yes")
+ 	        		
+ 	        		module.loadData();
  		        }
  	        	alert(result.resultMsg);
 	        });

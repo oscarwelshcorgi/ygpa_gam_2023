@@ -1237,6 +1237,7 @@ public class GamPrtFcltyRentMngtController {
 	 		 resultMsg  = egovMessageSource.getMessage("gam.asset.rent.prmisn.exec");
          }
 */
+         map.put("elctrnSanctnMap", elctrnSanctnMap);
      	 map.put("resultCode", resultCode);
          map.put("resultMsg", resultMsg);
 
