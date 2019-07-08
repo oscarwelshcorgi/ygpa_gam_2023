@@ -335,6 +335,113 @@
 			AND AR.MNG_NO=#mngNo#
 			AND AR.MNG_CNT=#mngCnt#
     </insert>
+    
+    
+    <select id="gamAssetsUsePermMngtDao.selectElctrnSanctnPk" resultClass="egovMap">
+    	SELECT TO_CHAR(SYSDATE, 'YYYY') AS YEAR
+    			, NVL(MAX(SN),0)+1 AS SN
+    			, TO_CHAR(SYSDATE,'YYYYMMDDHH24MISS') AS T_NO
+		  FROM ELCTRN_SANCTN
+		 WHERE YEAR = TO_CHAR(SYSDATE, 'YYYY')  
+    
+    </select>
+    
+    <!--PRMISN_REQUST : 1.승낙, 2.승낙 취소  -->
+    <insert id="gamAssetsUsePermMngtDao.insertElctrnSanctn" parameterClass="hashMap">
+		<selectKey keyProperty="co" resultClass="java.lang.String">
+        	SELECT NVL(MAX(CO),0)+1 
+        	  FROM ELCTRN_SANCTN 
+        	 WHERE YEAR = #year# 
+        	   AND SN = #sn#
+  		</selectKey>
+    
+    	INSERT INTO ELCTRN_SANCTN( YEAR
+									, SN
+									, CO
+									, MISKEY
+									, PRT_AT_CODE
+									, MNG_YEAR
+									, MNG_NO
+									, MNG_CNT
+									, PRMISN_REQUST
+									, ENTRPS_NM
+									, PD
+									, PURPS
+									, AR
+									, RNTFEE
+									, VAT
+									, TOT_PAYAMT
+									, PAY_TMLMT
+									, SANCTN_STTUS
+									, RGSDE
+									, REGISTER
+								)
+							VALUES ( #year#
+									, #sn#
+									, #co#
+									, #miskey#
+									, #prtAtCode#
+									, #mngYear#
+									, #mngNo#
+									, #mngCnt#
+									, '1'
+									, #entrpsNm#
+									, #pd#
+									, #purps#
+									, TO_NUMBER(replace(#ar#,',',''))
+									, TO_NUMBER(replace(#rntfee#,',',''))
+									, TO_NUMBER(replace(#vat#,',',''))
+									, TO_NUMBER(replace(#totPayamt#,',',''))
+									, #payTmlmt#
+									, '2'
+									, sysdate
+									, #regUsr#
+																
+							)
+
+    </insert>
+    
+        <insert id="gamAssetsUsePermMngtDao.insertGwcallFwdIf" parameterClass="hashMap">
+    	INSERT INTO GWCALL_FWD_IF(  T_NO
+									, EMP_CD
+									, SYS_ID
+									, DOC_ID
+									, MISKEY
+									, M_CNT
+									, M_DATA_VALUE1
+									, M_DATA_VALUE2
+									, M_DATA_VALUE3
+									, M_DATA_VALUE4
+									, M_DATA_VALUE5
+									, IP
+
+								)
+							VALUES ( #tNo#
+									, #empCd#
+									, #sysId#
+									, #docId#
+									, #miskey#
+									, TO_NUMBER(#mCnt#)
+									, #mDataValue1#
+									, #mDataValue2#
+									, #mDataValue3#
+									, #mDataValue4#
+									, #mDataValue5#
+									, '1.1.1.1'
+							)
+
+    </insert>
+    
+    <update id="gamAssetsUsePermMngtDao.updateAssetsRentF" parameterClass="hashMap">
+    	UPDATE ASSETS_RENT_F
+			SET SANCTN_YEAR  = #year#
+				, SANCTN_SN = #sn#
+				, SANCTN_CO = #co#
+			WHERE PRT_AT_CODE=#prtAtCode#
+				AND MNG_YEAR=#mngYear#
+				AND MNG_NO=#mngNo#
+				AND MNG_CNT=#mngCnt#
+    </update>
 
 </sqlMap>
 

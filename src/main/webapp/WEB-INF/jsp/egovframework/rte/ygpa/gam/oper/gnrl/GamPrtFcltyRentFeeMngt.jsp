@@ -152,6 +152,12 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
             this.$('#assetRentFeeList').flexOptions({params:searchOpt}).flexReload();
     	}
     } else {
+		var today = new Date();
+		today.setMonth(today.getMonth()-1);	// 최근 1개월 조회
+
+		this.$('#sUsagePdFrom').val(EMD.util.getDate(today));
+		this.$('#sUsagePdTo').val(EMD.util.getDate());
+    	
         var searchOpt=this.makeFormArgs('#gamAssetRentFeeSearchForm');
         this.$('#assetRentFeeList').flexOptions({params:searchOpt}).flexReload();
     }

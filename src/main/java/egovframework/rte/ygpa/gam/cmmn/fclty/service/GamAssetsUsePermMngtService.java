@@ -65,4 +65,27 @@ public interface GamAssetsUsePermMngtService {
 	 * @throws Exception
 	 */
 	public void deleteBillAdit(Map<String, Object> vo) throws Exception;
+
+	/**
+	 * 전자결재 이력 키값 생성 한다.
+	 * @param vo (prtAtCode:항코드, mngYear:관리번호, mngNo:관리 순번, mngCnt:관리 횟수, chrgeKnd: 요금종류, nticCnt: 고지 횟수)
+	 * @throws Exception
+	 */
+	public Map selectElctrnSanctnPk() throws Exception;
+
+	/**
+	 * @param paramMap
+	 * @return 
+	 */
+	public String insertElctrnSanctn(Map paramMap) throws Exception;
+
+	/**
+	 * @param paramMap
+	 */
+	public void insertGwcallFwdIf(Map paramMap) throws Exception;
+
+	/**
+	 * @param paramMap
+	 */
+	public void updateAssetsRentF(Map paramMap) throws Exception;
 }

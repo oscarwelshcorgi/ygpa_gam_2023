@@ -25,7 +25,7 @@
  */
 function GamPopupPrtOperRentModule() {} GamPopupPrtOperRentModule
 
-GamPopupPrtOperRentModule.prototype = new EmdPopupModule(380, 100);
+GamPopupPrtOperRentModule.prototype = new EmdPopupModule(450, 120);
 
 // 팝업이 호출 되었을때 호출 되는 함수
 GamPopupPrtOperRentModule.prototype.loadComplete = function() {
@@ -38,20 +38,26 @@ GamPopupPrtOperRentModule.prototype.loadComplete = function() {
 GamPopupPrtOperRentModule.prototype.onButtonClick = function(buttonId) {
 	switch(buttonId) {
 	case 'btnPrmisnExec':
+		if( this.$('#title').val() == '' ) {
+            alert("전자결재 제목을 입력하십시오.");
+            return;
+        }
 		if( this.$('#chrgeKnd').val() == '' ) {
             alert("요금종류를 선택하십시오.");
             return;
         }
 
 		if( confirm("승낙 하시겠습니까?") ) {
-			var inputVO=this.makeFormArgs('#gamPopupPrmisnForm');
+			
+			this.closeDialog('ok', {'title':this.$('#title').val(), 'chrgeKnd':this.$('#chrgeKnd').val()} );
+/* 			var inputVO=this.makeFormArgs('#gamPopupPrmisnForm');
 
 	        //this.doAction('/oper/gnrl/gamInsertPrtFcltyRentMngtPrmisn.do', inputVO, function(module, result) {
 	        this.doAction('/oper/gnrl/gamUpdatePrtFcltyRentMngtPrmisn.do', inputVO, function(module, result) {
 	            alert(result.resultMsg);
 
 	            module.closeDialog('ok', result.resultCode);
-	        });
+	        }); */
 	    }
 
 		break;
@@ -84,6 +90,12 @@ var popup_instance = new GamPopupPrtOperRentModule();
 
 			<table class="searchPanel">
 				<tbody>
+					<tr>
+                        <th>전자결재 제목</th>
+                        <td colspan="3">
+							<input type="text" id="title" size="50" />
+                        </td>
+					</tr>
 					<tr>
                         <th>요금종류</th>
                         <td>

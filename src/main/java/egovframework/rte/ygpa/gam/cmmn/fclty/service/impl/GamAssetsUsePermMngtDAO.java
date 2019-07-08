@@ -143,4 +143,37 @@ public class GamAssetsUsePermMngtDAO extends YGPAAbstractDAO {
         return (String)insert("gamAssetsUsePermMngtDao.insertBillCreateAdit", vo);
     }
 
+	/**
+	 * @return
+	 */
+	public Map selectElctrnSanctnPk() {
+		// TODO Auto-generated method stub
+		return (EgovMap) selectByPk("gamAssetsUsePermMngtDao.selectElctrnSanctnPk", null);
+	}
+
+	/**
+	 * @param paramMap
+	 * @return 
+	 */
+	public String insertElctrnSanctn(Map paramMap) {
+		// TODO Auto-generated method stub
+		return (String)insert("gamAssetsUsePermMngtDao.insertElctrnSanctn", paramMap);
+	}
+
+	/**
+	 * @param paramMap
+	 */
+	public void insertGwcallFwdIf(Map paramMap) {
+		// TODO Auto-generated method stub
+		insert("gamAssetsUsePermMngtDao.insertGwcallFwdIf", paramMap);
+	}
+
+	/**
+	 * @param paramMap
+	 */
+	public void updateAssetsRentF(Map paramMap) {
+		// TODO Auto-generated method stub
+		update("gamAssetsUsePermMngtDao.updateAssetsRentF", paramMap);
+	}
+
 }

@@ -93,7 +93,9 @@ public class GamAssetsUsePermMngtServiceImpl extends AbstractServiceImpl impleme
 		gamAssetsUsePermMngtDAO.deleteAssetsUsagePdByStats(vo);	// 이전 통계 정보를 삭제한다.
 		gamAssetsUsePermMngtDAO.insertAssetsUsagePdByStats(vo);	// 새로운 통계 정보를 생성한다.
 
-		gamAssetsUsePermMngtDAO.confirmAssetUsePerm(vo);
+// 전자결재 승인 후 처리 예정(주석 처리)		
+//		gamAssetsUsePermMngtDAO.confirmAssetUsePerm(vo);
+
 	}
 
 	/* (non-Javadoc)
@@ -142,4 +144,39 @@ public class GamAssetsUsePermMngtServiceImpl extends AbstractServiceImpl impleme
 		gamAssetsUsePermMngtDAO.deleteLevRequestSingle(vo);
 	}
 
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.cmmn.fclty.service.GamAssetsUsePermMngtService#selectElctrnSanctnPk()
+	 */
+	@Override
+	public Map selectElctrnSanctnPk() {
+		// TODO Auto-generated method stub
+		return gamAssetsUsePermMngtDAO.selectElctrnSanctnPk();
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.cmmn.fclty.service.GamAssetsUsePermMngtService#insertElctrnSanctn(java.util.Map)
+	 */
+	@Override
+	public String insertElctrnSanctn(Map paramMap) {
+		// TODO Auto-generated method stub
+		return gamAssetsUsePermMngtDAO.insertElctrnSanctn(paramMap);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.cmmn.fclty.service.GamAssetsUsePermMngtService#insertGwcallFwdIf(java.util.Map)
+	 */
+	@Override
+	public void insertGwcallFwdIf(Map paramMap) {
+		// TODO Auto-generated method stub
+		gamAssetsUsePermMngtDAO.insertGwcallFwdIf(paramMap);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.cmmn.fclty.service.GamAssetsUsePermMngtService#updateAssetsRentF(java.util.Map)
+	 */
+	@Override
+	public void updateAssetsRentF(Map paramMap) {
+		// TODO Auto-generated method stub
+		gamAssetsUsePermMngtDAO.updateAssetsRentF(paramMap);
+	}
 }

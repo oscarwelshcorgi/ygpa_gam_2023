@@ -137,7 +137,7 @@
     <select id="gamPrtFcltyRentMngtDao.selectPrtFcltyRentMngtList_D" parameterClass="gamPrtFcltyRentMngtVO" resultClass="egovMap">
            SELECT A.*
            FROM (
-                   SELECT  ROWNUM RNUM, S.*, S.PRT_AT_CODE||' ['||S.PRT_AT_CODE_NM||']' AS PRT_AT_CODE_NM_STR
+                   SELECT  ROWNUM RNUM, S.*, S.PRT_AT_CODE||' ['||S.PRT_AT_CODE_NM||']' AS PRT_AT_CODE_NM_STR, GAM_GETCODENAME('GAM046', S.SANCTN_STTUS) SANCTN_STTUS_NM
                      FROM (
                            SELECT
                                     A.PRT_AT_CODE
@@ -173,8 +173,6 @@
                                   , A.DEPTCD
                                   , A.PAY_MTH
                                   , TO_CHAR(A.FRST_REQST_DT, 'YYYY-MM-DD') FRST_REQST_DT
-                                  , A.SANCTN_STTUS
-                                  , GAM_GETCODENAME('GAM046', A.SANCTN_STTUS) SANCTN_STTUS_NM
                                   , A.SANCTNER_EMPL_NO
                                   , A.QUAY_CD
                                   , TO_CHAR(A.SANCTN_DT, 'YYYY-MM-DD HH24:MI:SS') SANCTN_DT
@@ -186,6 +184,7 @@
                                   , GAM_GETCODENAME('GAM043', A.PAY_MTH) PAY_MTH_NM
                                   , (SELECT CD.ORGNZT_NM FROM COMTNORGNZTINFO CD WHERE CD.ORGNZT_ID = A.DEPTCD AND ROWNUM = 1) DEPTCD_NM
                                   , CHARGER_NO
+                                  ,(SELECT SANCTN_STTUS FROM ELCTRN_SANCTN WHERE YEAR = A.SANCTN_YEAR AND SN = A.SANCTN_SN AND CO = A.SANCTN_CO) AS SANCTN_STTUS
                              FROM ASSETS_RENT_F A
                             WHERE A.QUAY_GROUP_CD='G'
 

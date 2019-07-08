@@ -45,6 +45,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function(param) {
         url: '/oper/gnrl/gamSelectPrtFcltyRentMngtList.do',
         dataType: 'json',
         colModel : [
+        			{display:"선택",	name:"chkRole",	width:40, sortable:false, align:"center", displayFormat:"checkbox"},
                     {display:'항구분', name:'prtAtCodeNmStr',width:80, sortable:false,align:'center'},
                     {display:'관리번호', name:'rentMngNo',width:80, sortable:false,align:'center'},
                     {display:'신청업체명', name:'entrpsNm',width:140, sortable:false,align:'left'},
@@ -52,9 +53,9 @@ GamAssetRentMngtModule.prototype.loadComplete = function(param) {
                     {display:'구분', name:'reqstSeCdNm',width:55, sortable:false,align:'center'},
                     {display:'고지', name:'nticMthNm',width:55, sortable:false,align:'center'},
                     {display:'신청일자', name:'reqstDt',width:80, sortable:false,align:'center'},
+                    {display:'결재상태', name:'sanctnSttusNm',width:60, sortable:false,align:'center'},
                     {display:'승낙', name:'prmisnYn',width:55, sortable:false,align:'center'},
                     {display:'승낙일자', name:'prmisnDt',width:80, sortable:false,align:'center'},
-//                    {display:'결재상태', name:'sanctnSttusNm',width:60, sortable:false,align:'center'},
                     {display:'총사용시작일', name:'grUsagePdFrom',width:80, sortable:false,align:'center'},
                     {display:'총사용종료일', name:'grUsagePdTo',width:80, sortable:false,align:'center'},
                     {display:'총면적', name:'grAr',width:80, sortable:false,align:'right', displayFormat: 'number', displayOption: '0,000.00'},
@@ -1448,6 +1449,7 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
 
             this.doAction('/oper/gnrl/gamUpdatePrtFcltyRentMngtComment.do', inputVO, function(module, result) {
                 if(result.resultCode=='0') {
+                	 module.loadData();
                 }
 
                 alert(result.resultMsg);
@@ -1660,7 +1662,11 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
         case 'btnPrmisn': // 사용승낙
             var rows = this.$('#assetRentMngtList').selectedRows();
             var row = rows[0];
-
+			
+/**
+* 체크박스 승인된 데이 있는지 확인 필요(최대 입력 가능 행 5행)
+*/
+            
             if(rows.length>=1) {
             	if( row['prmisnYn'] == 'Y' ) {
                     alert("이미 사용승낙된 상태 입니다.");
@@ -1677,14 +1683,14 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
                     return; */
                 //}
 
-            	var opts = {
+             	var opts = {
                     'prtAtCode': rows[0]['prtAtCode'],
                     'mngYear': rows[0]['mngYear'],
                     'mngNo': rows[0]['mngNo'],
                     'mngCnt': rows[0]['mngCnt'],
                     'taxtSe': rows[0]['taxtSe']
                 };
-
+ 
                 this.doExecuteDialog('insertAssetRentPrmisnPopup', '승낙', '/oper/gnrl/popup/showPrtFcltyRentMngtPrmisn.do', opts);
 
             } else {
@@ -2157,9 +2163,18 @@ GamAssetRentMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
          break;
      case 'insertAssetRentPrmisnPopup':
          if (msg != 'cancel') {
-             if( value == "0" ) {
-					this.loadData();
-             }
+        	 var inputVO = []; 
+        	 inputVO[inputVO.length] = {name: 'title', value : value.title };
+        	 inputVO[inputVO.length] = {name: 'chrgeKnd', value : value.chrgeKnd };
+        	 inputVO[inputVO.length] = {name: 'assetRentMngtList', value :JSON.stringify(this.$('#assetRentMngtList').selectFilterData([{col: 'chkRole', filter: true}])) };
+        	 
+ 	        this.doAction('/oper/gnrl/gamUpdatePrtFcltyRentMngtPrmisn.do', inputVO, function(module, result) {
+ 	        	if(result.resultCode == 0){
+					module.loadData();
+ 		        }
+ 	        	alert(result.resultMsg);
+	        });
+        	 
          } else {
              alert('취소 되었습니다');
          }

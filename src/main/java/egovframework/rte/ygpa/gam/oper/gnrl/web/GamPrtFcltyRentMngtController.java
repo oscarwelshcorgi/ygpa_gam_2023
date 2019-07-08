@@ -1,5 +1,6 @@
 package egovframework.rte.ygpa.gam.oper.gnrl.web;
 
+import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +13,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -26,7 +26,6 @@ import org.springmodules.validation.commons.DefaultBeanValidator;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import egovframework.com.cmm.ComDefaultCodeVO;
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.service.EgovCmmUseService;
@@ -37,15 +36,12 @@ import egovframework.com.utl.fcc.service.EgovStringUtil;
 import egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrService;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
-import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeePaySttusMngtVO;
-import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtDetailVO;
-import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtLevReqestVO;
-import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtService;
-import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtVO;
-import egovframework.rte.ygpa.gam.asset.service.GamAssetDisUseMngtVO;
 import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamAssetsUsePermMngtService;
 import egovframework.rte.ygpa.gam.cmmn.service.GamFileServiceVo;
 import egovframework.rte.ygpa.gam.cmmn.service.GamFileUploadUtil;
+import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtDetailVO;
+import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtService;
+import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtVO;
 
 /**
  * @Class Name : GamPrtFcltyRentMngtController.java
@@ -1111,15 +1107,17 @@ public class GamPrtFcltyRentMngtController {
      * @throws Exception
      */
     @RequestMapping(value="/oper/gnrl/gamUpdatePrtFcltyRentMngtPrmisn.do")
-    public @ResponseBody Map updatePrtFcltyRentMngtPrmisn(
-     	   @ModelAttribute("gamPrtFcltyRentMngtVO") GamPrtFcltyRentMngtVO gamPrtFcltyRentMngtVO,
-     	   BindingResult bindingResult)
-            throws Exception {
+    public @ResponseBody Map updatePrtFcltyRentMngtPrmisn(@RequestParam Map inputVO) throws Exception {
 
      	 Map map = new HashMap();
      	 Map paramMap = new HashMap();
+     	 Map elctrnSanctnMap = new HashMap();
+     	 Map elctrnSanctnPk = new HashMap();
          String resultMsg = "";
          int resultCode = 1;
+         
+        ObjectMapper mapper = new ObjectMapper();
+     	List<HashMap<String,String>> assetRentMngtList=null;
 
      	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
      	if(!isAuthenticated) {
@@ -1130,7 +1128,92 @@ public class GamPrtFcltyRentMngtController {
 
          LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
-         //prtAtCode:항코드, mngYear:관리번호, mngNo:관리 순번, mngCnt:관리 횟수, chrgeKnd: 요금종류
+         String chrgeKnd = (String)inputVO.get("chrgeKnd");
+         String title = (String)inputVO.get("title");
+         String grFee = "";
+         String vat = "";
+         String TotGrFee = "";
+         assetRentMngtList = mapper.readValue((String)inputVO.get("assetRentMngtList"), new TypeReference<List<HashMap<String,String>>>(){});
+         
+         String mDataValue1 = title;
+         String mDataValue2 = "";
+         String mDataValue3 = "";
+         String mDataValue4 = "";
+         String mDataValue5 = "";
+         
+         elctrnSanctnPk = gamAssetsUsePermMngtService.selectElctrnSanctnPk();
+
+         String miskey =  elctrnSanctnPk.get("year").toString()+elctrnSanctnPk.get("sn").toString()+elctrnSanctnPk.get("tNo").toString();
+         
+         for(HashMap<String, String> gamPrtFcltyRentMngtVO : assetRentMngtList) {
+        	 paramMap.clear();
+        	 
+        	 paramMap.put("year", elctrnSanctnPk.get("year"));
+        	 paramMap.put("sn", elctrnSanctnPk.get("sn"));
+        	 paramMap.put("miskey", miskey);
+        	 paramMap.put("prtAtCode", gamPrtFcltyRentMngtVO.get("prtAtCode") );
+        	 paramMap.put("mngYear", gamPrtFcltyRentMngtVO.get("mngYear"));
+        	 paramMap.put("mngNo", gamPrtFcltyRentMngtVO.get("mngNo"));
+        	 paramMap.put("mngCnt", gamPrtFcltyRentMngtVO.get("mngCnt"));
+        	 paramMap.put("regUsr", loginVO.getId());
+        	 paramMap.put("deptcd", loginVO.getOrgnztId());
+        	 paramMap.put("chrgeKnd", chrgeKnd);
+        	 paramMap.put("taxtSe", gamPrtFcltyRentMngtVO.get("taxtSe"));
+        	 
+        	 
+//        	 grFee = NumberFormat.getInstance().format(gamPrtFcltyRentMngtVO.get("grFee"));
+        	 grFee = String.format("%,d", Integer.parseInt(gamPrtFcltyRentMngtVO.get("grFee")) );
+        	 vat = String.format("%,d", (int) (Integer.parseInt(gamPrtFcltyRentMngtVO.get("grFee"))*0.1) );
+        	 TotGrFee = String.format("%,d", (int) (Integer.parseInt(gamPrtFcltyRentMngtVO.get("grFee"))*1.1) );
+        	  
+        	 paramMap.put("entrpsNm", gamPrtFcltyRentMngtVO.get("entrpsNm"));
+        	 paramMap.put("pd", gamPrtFcltyRentMngtVO.get("grUsagePdFrom")+'~'+gamPrtFcltyRentMngtVO.get("grUsagePdTo"));
+        	 paramMap.put("purps", gamPrtFcltyRentMngtVO.get("cmt"));
+        	 paramMap.put("ar", gamPrtFcltyRentMngtVO.get("grAr"));
+        	 paramMap.put("rntfee", grFee);
+        	 paramMap.put("vat", vat);
+        	 paramMap.put("totPayamt", TotGrFee);
+        	 paramMap.put("payTmlmt", "");
+        	 
+        	 mDataValue1=mDataValue1+"|"+gamPrtFcltyRentMngtVO.get("entrpsNm")+"|"+gamPrtFcltyRentMngtVO.get("grUsagePdFrom")+'~'+gamPrtFcltyRentMngtVO.get("grUsagePdTo")+"|"+gamPrtFcltyRentMngtVO.get("cmt") +"|"+gamPrtFcltyRentMngtVO.get("grAr") +"|"+grFee+""+"("+vat+")" +"|"+TotGrFee +"|"+" ";
+        	 
+        	 /* 전자 결재 히스토리 저장 */
+        	 String co = gamAssetsUsePermMngtService.insertElctrnSanctn(paramMap);
+        	 paramMap.put("co", co);
+        	 /* 자산 임대 히스토리 키값 입력*/
+        	 gamAssetsUsePermMngtService.updateAssetsRentF(paramMap);
+        	 
+        	 if(!paramMap.containsKey("prtAtCode") || !paramMap.containsKey("mngYear") || !paramMap.containsKey("mngNo") || !paramMap.containsKey("mngCnt")) {
+        		 resultCode = 2;
+        		 resultMsg = egovMessageSource.getMessage("gam.asset.rent.err.exceptional");
+        	 }
+        	 else {
+        		 gamAssetsUsePermMngtService.confirmAssetsRentUsePerm(paramMap);
+        		 
+        		 resultCode = 0;
+        		 resultMsg  = egovMessageSource.getMessage("gam.asset.rent.prmisn.exec");
+        	 }
+         }
+         
+         
+         elctrnSanctnMap.put("tNo", elctrnSanctnPk.get("tNo"));
+         elctrnSanctnMap.put("empCd", "12345");
+         elctrnSanctnMap.put("sysId", "MIS");
+         elctrnSanctnMap.put("docId", "MIS001");
+         elctrnSanctnMap.put("miskey", miskey);
+         elctrnSanctnMap.put("mCnt", "1");
+
+         
+         /* 전자 결재 데이터 전송 */
+         elctrnSanctnMap.put("mDataValue1", mDataValue1);
+         elctrnSanctnMap.put("mDataValue2", mDataValue2);
+         elctrnSanctnMap.put("mDataValue3", mDataValue3);
+         elctrnSanctnMap.put("mDataValue4", mDataValue4);
+         elctrnSanctnMap.put("mDataValue5", mDataValue5);
+    	 
+         gamAssetsUsePermMngtService.insertGwcallFwdIf(elctrnSanctnMap);
+
+ /*        //prtAtCode:항코드, mngYear:관리번호, mngNo:관리 순번, mngCnt:관리 횟수, chrgeKnd: 요금종류
          paramMap.put("prtAtCode", gamPrtFcltyRentMngtVO.getPrtAtCode());
          paramMap.put("mngYear", gamPrtFcltyRentMngtVO.getMngYear());
          paramMap.put("mngNo", gamPrtFcltyRentMngtVO.getMngNo());
@@ -1153,7 +1236,7 @@ public class GamPrtFcltyRentMngtController {
 	         resultCode = 0;
 	 		 resultMsg  = egovMessageSource.getMessage("gam.asset.rent.prmisn.exec");
          }
-
+*/
      	 map.put("resultCode", resultCode);
          map.put("resultMsg", resultMsg);
 
