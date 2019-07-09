@@ -1158,7 +1158,6 @@ public class GamPrtFcltyRentFeeMngtController {
 	    		model.addAttribute("resultMsg", egovMessageSource.getMessage("fail.common.login"));
 	    	}
 
-	    	
 	    	String hwpML = gamNticRequestMngtService.selectRentFeeListHWPML(approvalOpt);
 	    	
 			model.addAttribute("resultCode", 0);

@@ -21,6 +21,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
 
+import egovframework.com.cmm.LoginVO;
+import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamNticRequestMngtService;
@@ -948,18 +950,14 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
 	public String selectRentFeeListHWPML(GamPrtFcltyRentFeeMngtVO approvalOpt) throws Exception {
 		// TODO Auto-generated method stub
     	StringBuilder result =  new StringBuilder(); //HWPML 처리 문자열 버퍼
-    	
     	//HWPML용 인스턴스 생성
     	MakeRentFeeCheckReportHWPML reportHWP = new MakeRentFeeCheckReportHWPML();
     	
 		//Head Element 구성 처리
 		result.append(reportHWP.getXmlRentFeeCheckReportHead());
-		
 		//Body Element 구성 처리
-		
 		result.append(reportHWP.getXmlRentFeeCheckReportBody(approvalOpt));
 		
-    	
 		return result.toString();
 	}
 	
@@ -1077,10 +1075,40 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
 		
 		/**HWPML 용 산정조서 엘리먼트를 문자열로 가져온다.
 		 * @throws Exception */
+		@SuppressWarnings("deprecation")
 		public StringBuilder getXmlRentFeeCheckReportBody(GamPrtFcltyRentFeeMngtVO approvalOpt) throws Exception {
 			StringBuilder sb = new StringBuilder();
 			
-			List printList = gamPrtFcltyRentFeeMngtDao.selectNpticPrintInfo(approvalOpt);  
+			LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+			Map rentFeeDate = gamNticRequestMngtDAO.selectRentFeeCheckReport(approvalOpt);  
+			
+			SimpleDateFormat beforeFormat = new SimpleDateFormat("yyyyMMdd");
+			SimpleDateFormat afterFormat = new SimpleDateFormat("yy.MM.dd.");
+			
+			Date from =  beforeFormat.parse(rentFeeDate.get("nticPdFrom").toString());
+			Date to =  beforeFormat.parse(rentFeeDate.get("nticPdTo").toString());
+
+			String nticPdFrom = afterFormat.format(from);
+			String nticPdTo = afterFormat.format(to);
+			
+			int months = 0;
+			Date dtCurr = from;
+			Date dtTo = to;
+			dtTo.setDate(dtTo.getDate()+1);	// 날짜를 하루 뒤로 계산 한다.
+			dtCurr.setMonth(dtCurr.getMonth()+1);
+			
+			while(dtCurr.compareTo(dtTo) <= 0) {
+				months++;
+				dtCurr.setMonth(dtCurr.getMonth()+1);
+			}
+			
+			Calendar calendar = Calendar.getInstance();
+			calendar.set(dtCurr.getYear(), dtCurr.getMonth(), 1);
+			int lastMonthDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+
+			dtCurr.setMonth(dtCurr.getMonth()-1);
+
+			int day = (int) Math.floor(Math.abs((dtTo.getTime() - dtCurr.getTime())/(1000*60*60*24)));
 			
 			sb.append("<BODY>\n");
 			sb.append("<SECTION Id=\"0\">\n");
@@ -1125,7 +1153,7 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
 			sb.append("</P>\n");
 			sb.append("<P ParaShape=\"3\" Style=\"0\">\n");
 			sb.append("<TEXT CharShape=\"6\">\n");
-			sb.append("<CHAR>□ {업체이름}</CHAR>\n");
+			sb.append("<CHAR>□ "+rentFeeDate.get("entrpsNm")+"</CHAR>\n");
 			sb.append("</TEXT>\n");
 			sb.append("</P>\n");
 			sb.append("<P ParaShape=\"3\" Style=\"0\">\n");
@@ -1138,17 +1166,17 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
 			sb.append("</P>\n");
 			sb.append("<P InstId=\"2147689445\" ParaShape=\"12\" Style=\"2\">\n");
 			sb.append("<TEXT CharShape=\"6\">\n");
-			sb.append("<CHAR>{근거1}</CHAR>\n");
+			sb.append("<CHAR>여수광양항만공사의 항만시설 사용 및 사용료 등에 관한 규정 제6조</CHAR>\n");
 			sb.append("</TEXT>\n");
 			sb.append("</P>\n");
 			sb.append("<P ParaShape=\"12\" Style=\"2\">\n");
 			sb.append("<TEXT CharShape=\"6\">\n");
-			sb.append("<CHAR>{근거2}</CHAR>\n");
+			sb.append("<CHAR>국유재산법 시행령 제29조</CHAR>\n");
 			sb.append("</TEXT>\n");
 			sb.append("</P>\n");
 			sb.append("<P ParaShape=\"12\" Style=\"2\">\n");
 			sb.append("<TEXT CharShape=\"6\">\n");
-			sb.append("<CHAR>{근거3}</CHAR>\n");
+			sb.append("<CHAR>기타</CHAR>\n");
 			sb.append("</TEXT>\n");
 			sb.append("</P>\n");
 			sb.append("<P ParaShape=\"3\" Style=\"0\">\n");
@@ -1156,7 +1184,11 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
 			sb.append("</P>\n");
 			sb.append("<P ParaShape=\"3\" Style=\"0\">\n");
 			sb.append("<TEXT CharShape=\"6\">\n");
-			sb.append("<CHAR>나. 사용 기간 : {사용기간} ({사용}개월)</CHAR>\n");
+			if(day>0) {
+				sb.append("<CHAR>나. 사용 기간 : '"+nticPdFrom+" ~ '"+nticPdTo+" ("+months+"개월/"+day+"일)</CHAR>\n");
+			}else {
+				sb.append("<CHAR>나. 사용 기간 : '"+nticPdFrom+" ~ '"+nticPdTo+" ("+months+"개월)</CHAR>\n");
+			}
 			sb.append("</TEXT>\n");
 			sb.append("</P>\n");
 			sb.append("<P ParaShape=\"3\" Style=\"0\">\n");
@@ -1164,7 +1196,7 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
 			sb.append("</P>\n");
 			sb.append("<P ParaShape=\"3\" Style=\"0\">\n");
 			sb.append("<TEXT CharShape=\"6\">\n");
-			sb.append("<CHAR>다 사용지역 : {주소}</CHAR>\n");
+			sb.append("<CHAR>다. 사용지역 : "+rentFeeDate.get("gisAssetsLocplc")+" "+rentFeeDate.get("gisAssetsLnm")+" "+rentFeeDate.get("gisAssetsNm")+"</CHAR>\n");
 			sb.append("</TEXT>\n");
 			sb.append("</P>\n");
 			sb.append("<P ParaShape=\"3\" Style=\"0\">\n");
@@ -1172,7 +1204,7 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
 			sb.append("</P>\n");
 			sb.append("<P ParaShape=\"3\" Style=\"0\">\n");
 			sb.append("<TEXT CharShape=\"6\">\n");
-			sb.append("<CHAR>라. 사용면적 : {납부금액} ㎡</CHAR>\n");
+			sb.append("<CHAR>라. 사용면적 : "+rentFeeDate.get("usageAr")+"㎡</CHAR>\n");
 			sb.append("</TEXT>\n");
 			sb.append("</P>\n");
 			sb.append("<P ParaShape=\"3\" Style=\"0\">\n");
@@ -1186,18 +1218,24 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
 			
 			sb.append("<P ParaShape=\"12\" Style=\"2\">\n");
 			sb.append("<TEXT CharShape=\"6\">\n");
-			sb.append("<CHAR>산출기준 : 사용면적 × 개별공시지가 × 요율  × 사용기간</CHAR>\n");
+			sb.append("<CHAR>산출기준 : 사용면적×개별공시지가×요율×사용기간</CHAR>\n");
 			sb.append("</TEXT>\n");
 			sb.append("</P>\n");
 			
 			sb.append("<P ParaShape=\"12\" Style=\"2\">\n");
 			sb.append("<TEXT CharShape=\"6\">\n");
-			sb.append("<CHAR>사 용 료 : {사용면적} ㎡ × {개별공시지가} 원 × {요율} × {사용개월}/12개월 = {금액} 원</CHAR>\n");
+			
+			if(day>0) {
+				sb.append("<CHAR>사 용 료 : "+rentFeeDate.get("usageAr")+"㎡×"+rentFeeDate.get("olnlp")+"원×"+rentFeeDate.get("applcTariff")+"×("+months+"개월/"+day+"일)/12개월="+rentFeeDate.get("fee")+"원</CHAR>\n");
+			}else {
+				sb.append("<CHAR>사 용 료 : "+rentFeeDate.get("usageAr")+"㎡×"+rentFeeDate.get("olnlp")+"원×"+rentFeeDate.get("applcTariff")+"×"+months+"/12개월="+rentFeeDate.get("fee")+"원</CHAR>\n");
+			}
+			
 			sb.append("</TEXT>\n");
 			sb.append("</P>\n");
 			sb.append("<P ParaShape=\"3\" Style=\"0\">\n");
 			sb.append("<TEXT CharShape=\"8\">\n");
-			sb.append("<CHAR>  ※ 공시지가 확인은 </CHAR>\n");
+			sb.append("<CHAR>  ※ 공시지가 확인은 \"개별공시지가 - 전라남도청\" 홈페이지 확인.  </CHAR>\n");
 			sb.append("</TEXT>\n");
 			sb.append("</P>\n");
 			sb.append("<P ParaShape=\"3\" Style=\"0\">\n");
@@ -1205,17 +1243,17 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
 			sb.append("</P>\n");
 			sb.append("<P ParaShape=\"3\" Style=\"0\">\n");
 			sb.append("<TEXT CharShape=\"6\">\n");
-			sb.append("<CHAR>바. 총 납부금액 : {총 납부금액} 원</CHAR>\n");
+			sb.append("<CHAR>바. 총 납부금액 : "+rentFeeDate.get("nticAmt")+"원</CHAR>\n");
 			sb.append("</TEXT>\n");
 			sb.append("</P>\n");
 			sb.append("<P ParaShape=\"12\" Style=\"2\">\n");
 			sb.append("<TEXT CharShape=\"6\">\n");
-			sb.append("<CHAR>사 용 료 : {사용료} 원</CHAR>\n");
+			sb.append("<CHAR>사 용 료 : "+rentFeeDate.get("fee")+"원</CHAR>\n");
 			sb.append("</TEXT>\n");
 			sb.append("</P>\n");
 			sb.append("<P ParaShape=\"12\" Style=\"2\">\n");
 			sb.append("<TEXT CharShape=\"6\">\n");
-			sb.append("<CHAR>부 가 세 : {부가세} 원</CHAR>\n");
+			sb.append("<CHAR>부 가 세 : "+rentFeeDate.get("vat")+"원</CHAR>\n");
 			sb.append("</TEXT>\n");
 			sb.append("</P>\n");
 			sb.append("<P ParaShape=\"3\" Style=\"0\">\n");
@@ -1228,12 +1266,12 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
 			sb.append("</P>\n");
 			sb.append("<P ParaShape=\"11\" Style=\"0\">\n");
 			sb.append("<TEXT CharShape=\"7\">\n");
-			sb.append("<CHAR>{날짜}</CHAR>\n");
+			sb.append("<CHAR>"+rentFeeDate.get("outptDe")+"</CHAR>\n");
 			sb.append("</TEXT>\n");
 			sb.append("</P>\n");
 			sb.append("<P ParaShape=\"11\" Style=\"0\">\n");
 			sb.append("<TEXT CharShape=\"7\">\n");
-			sb.append("<CHAR>위 산출자 항만운영팀 {이름}</CHAR>\n");
+			sb.append("<CHAR>위 산출자 항만운영팀 "+loginVo.getName()+"</CHAR>\n");
 			sb.append("</TEXT>\n");
 			sb.append("</P>\n");
 			sb.append("</SECTION>\n");

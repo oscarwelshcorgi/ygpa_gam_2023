@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
+import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeeMngtVO;
 
 /**
  *
@@ -288,6 +289,15 @@ public class GamNticRequestMngtDAO extends YGPAAbstractDAO {
 
 	public int updateAssetRentFeePayDtlsMngtArrrgList() throws Exception {
         return update("gamNticRequestMngtDAO.updateAssetRentFeePayDtlsMngtArrrgList", null);
+	}
+
+	/**
+	 * @param approvalOpt
+	 * @return
+	 */
+	public Map selectRentFeeCheckReport(GamPrtFcltyRentFeeMngtVO approvalOpt) {
+		// TODO Auto-generated method stub
+		return (EgovMap) selectByPk("gamNticRequestMngtDAO.selectRentFeeCheckReport", approvalOpt);
 	}
 
 }
