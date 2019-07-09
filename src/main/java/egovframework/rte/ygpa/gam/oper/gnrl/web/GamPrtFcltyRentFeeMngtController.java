@@ -22,8 +22,8 @@ import org.springmodules.validation.commons.DefaultBeanValidator;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.star.bridge.oleautomation.Date;
 
-import egovframework.com.cmm.ComDefaultCodeVO;
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.service.EgovCmmUseService;
@@ -34,7 +34,6 @@ import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeeMngtVO;
 import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamNticRequestMngtService;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeeMngtService;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeeMngtVO;
-import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeePaySttusMngtVO;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtService;
 
 /**
@@ -1143,6 +1142,33 @@ public class GamPrtFcltyRentFeeMngtController {
 	    	return report;
     	}
 
+		/**
+	     * 산정조서를 출력한다.
+	     * @param approvalOpt
+	     * @param model
+	     * @return
+	     * @throws Exception
+	     */
+	    @RequestMapping(value="/oper/gnrl/RentFeeReportHwp.do")
+	    String RentFeeReportHwp(GamPrtFcltyRentFeeMngtVO approvalOpt, ModelMap model) throws Exception {
+	    	
+	    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+	    	if(!isAuthenticated) {
+	    		model.addAttribute("resultCode", 1);
+	    		model.addAttribute("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+	    	}
+
+	    	
+	    	String hwpML = gamNticRequestMngtService.selectRentFeeListHWPML(approvalOpt);
+	    	
+			model.addAttribute("resultCode", 0);
+			model.addAttribute("resultMsg", "");
+			model.addAttribute("hwpML", hwpML);
+			model.addAttribute("isHwp", true);
+			model.addAttribute("filename", "산정보서.hwp");
+			
+	    	return "ygpa/gam/oper/gnrl/GamPrtfcltyPrintReportHwp";
+    	}
 
 	    /**
 	     * 인쇄 상태를 업데이트 한다.

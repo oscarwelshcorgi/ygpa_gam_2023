@@ -3,6 +3,7 @@
  */
 package egovframework.rte.ygpa.gam.cmmn.fclty.service.impl;
 
+import java.io.FileInputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
@@ -10,10 +11,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
@@ -21,6 +24,8 @@ import org.springframework.stereotype.Service;
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamNticRequestMngtService;
+import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeeMngtVO;
+import egovframework.rte.ygpa.gam.oper.gnrl.service.impl.GamPrtFcltyRentFeeMngtDao;
 
 /**
  *
@@ -92,6 +97,9 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
 
     @Resource(name="gamNticRequestMngtDAO")
     private GamNticRequestMngtDAO gamNticRequestMngtDAO;
+    
+    @Resource(name="gamPrtFcltyRentFeeMngtDao")
+    private GamPrtFcltyRentFeeMngtDao gamPrtFcltyRentFeeMngtDao;
 
 	/* (non-Javadoc)
 	 * @see egovframework.rte.ygpa.gam.cmmn.fclty.service.GamNticRequestMngtService#sendNticRequest(java.util.Map)
@@ -931,6 +939,315 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
 	public int updateRentFeePaySttusRefresh() throws Exception {
 		int ret = gamNticRequestMngtDAO.updateAssetRentFeePayDtlsMngtList();
 		return ret+gamNticRequestMngtDAO.updateAssetRentFeePayDtlsMngtArrrgList();
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.cmmn.fclty.service.GamNticRequestMngtService#selectRentFeeCheckReportListHWPML(egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeeMngtVO)
+	 */
+	@Override
+	public String selectRentFeeListHWPML(GamPrtFcltyRentFeeMngtVO approvalOpt) throws Exception {
+		// TODO Auto-generated method stub
+    	StringBuilder result =  new StringBuilder(); //HWPML 처리 문자열 버퍼
+    	
+    	//HWPML용 인스턴스 생성
+    	MakeRentFeeCheckReportHWPML reportHWP = new MakeRentFeeCheckReportHWPML();
+    	
+		//Head Element 구성 처리
+		result.append(reportHWP.getXmlRentFeeCheckReportHead());
+		
+		//Body Element 구성 처리
+		
+		result.append(reportHWP.getXmlRentFeeCheckReportBody(approvalOpt));
+		
+    	
+		return result.toString();
+	}
+	
+	/*******
+	 * 여기서 부터는 HWPML의 엘리먼트를 구성하기 위한 INNER CLASS
+	 */
+	class MakeRentFeeCheckReportHWPML {
+		protected int instanceId = 2038414160;
+		protected int zOrder = 0;
+	
+		/** InstId속성와 ZOrder 쓰는 엘리먼트들의 값을 변경시킨다.*/
+		protected int getInstanceId() {
+			return instanceId++;
+		}
+		protected int getZOrder() {
+			return zOrder++;
+		}
+		
+		/**파일을  BASE64엔코딩 문자열로 변환시킨다 */
+		protected String fileToBase64(String fileName) throws Exception {
+			FileInputStream fis = new FileInputStream(fileName);
+			long fileSize = fis.getChannel().size();
+			byte[] fileData = new byte[(int) fileSize];
+			fis.read(fileData);
+			fis.close();
+			return new String(Base64.encodeBase64(fileData));
+		}
+		
+		
+		/**HWPML 용 산정조서 HEAD 엘리먼트 구성을 문자열로 가져온다.*/
+		public StringBuilder getXmlRentFeeCheckReportHead() {
+			StringBuilder sb = new StringBuilder();
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy년 MM일 dd일 HH시 mm분 ss초", Locale.KOREA);
+			String today = formatter.format(new Date());
+			
+			sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>\n");
+			sb.append("<HWPML Style=\"embed\" SubVersion=\"8.0.0.0\" Version=\"2.8\">\n");
+			sb.append("<HEAD SecCnt=\"1\">\n");
+			sb.append("<DOCSUMMARY><TITLE>항만시설 사용료 산출내역</TITLE><AUTHOR>항만시설팀</AUTHOR><DATE>"+ today +"</DATE></DOCSUMMARY>\n");
+			sb.append("<DOCSETTING><BEGINNUMBER Endnote=\"1\" Equation=\"1\" Footnote=\"1\" Page=\"1\" Picture=\"1\" Table=\"1\"/><CARETPOS List=\"0\" Para=\"7\" Pos=\"4\"/></DOCSETTING>\n");
+			sb.append("<MAPPINGTABLE>\n");
+			sb.append("<FACENAMELIST>\n");
+			sb.append("<FONTFACE Count=\"2\" Lang=\"Hangul\"><FONT Id=\"0\" Name=\"함초롬돋움\" Type=\"ttf\"><TYPEINFO ArmStyle=\"1\" Contrast=\"0\" FamilyType=\"2\" Letterform=\"1\" Midline=\"1\" Proportion=\"4\" StrokeVariation=\"1\" Weight=\"6\" XHeight=\"1\"/></FONT><FONT Id=\"1\" Name=\"함초롬바탕\" Type=\"ttf\"><TYPEINFO ArmStyle=\"1\" Contrast=\"0\" FamilyType=\"2\" Letterform=\"1\" Midline=\"1\" Proportion=\"4\" StrokeVariation=\"1\" Weight=\"6\" XHeight=\"1\"/></FONT></FONTFACE>\n");
+			sb.append("<FONTFACE Count=\"2\" Lang=\"Latin\"><FONT Id=\"0\" Name=\"함초롬돋움\" Type=\"ttf\"><TYPEINFO ArmStyle=\"1\" Contrast=\"0\" FamilyType=\"2\" Letterform=\"1\" Midline=\"1\" Proportion=\"4\" StrokeVariation=\"1\" Weight=\"6\" XHeight=\"1\"/></FONT><FONT Id=\"1\" Name=\"함초롬바탕\" Type=\"ttf\"><TYPEINFO ArmStyle=\"1\" Contrast=\"0\" FamilyType=\"2\" Letterform=\"1\" Midline=\"1\" Proportion=\"4\" StrokeVariation=\"1\" Weight=\"6\" XHeight=\"1\"/></FONT></FONTFACE>\n");
+			sb.append("<FONTFACE Count=\"2\" Lang=\"Hanja\"><FONT Id=\"0\" Name=\"함초롬돋움\" Type=\"ttf\"><TYPEINFO ArmStyle=\"1\" Contrast=\"0\" FamilyType=\"2\" Letterform=\"1\" Midline=\"1\" Proportion=\"4\" StrokeVariation=\"1\" Weight=\"6\" XHeight=\"1\"/></FONT><FONT Id=\"1\" Name=\"함초롬바탕\" Type=\"ttf\"><TYPEINFO ArmStyle=\"1\" Contrast=\"0\" FamilyType=\"2\" Letterform=\"1\" Midline=\"1\" Proportion=\"4\" StrokeVariation=\"1\" Weight=\"6\" XHeight=\"1\"/></FONT></FONTFACE>\n");
+			sb.append("<FONTFACE Count=\"2\" Lang=\"Japanese\"><FONT Id=\"0\" Name=\"함초롬돋움\" Type=\"ttf\"><TYPEINFO ArmStyle=\"1\" Contrast=\"0\" FamilyType=\"2\" Letterform=\"1\" Midline=\"1\" Proportion=\"4\" StrokeVariation=\"1\" Weight=\"6\" XHeight=\"1\"/></FONT><FONT Id=\"1\" Name=\"함초롬바탕\" Type=\"ttf\"><TYPEINFO ArmStyle=\"1\" Contrast=\"0\" FamilyType=\"2\" Letterform=\"1\" Midline=\"1\" Proportion=\"4\" StrokeVariation=\"1\" Weight=\"6\" XHeight=\"1\"/></FONT></FONTFACE>\n");
+			sb.append("<FONTFACE Count=\"2\" Lang=\"Other\"><FONT Id=\"0\" Name=\"함초롬돋움\" Type=\"ttf\"><TYPEINFO ArmStyle=\"1\" Contrast=\"0\" FamilyType=\"2\" Letterform=\"1\" Midline=\"1\" Proportion=\"4\" StrokeVariation=\"1\" Weight=\"6\" XHeight=\"1\"/></FONT><FONT Id=\"1\" Name=\"함초롬바탕\" Type=\"ttf\"><TYPEINFO ArmStyle=\"1\" Contrast=\"0\" FamilyType=\"2\" Letterform=\"1\" Midline=\"1\" Proportion=\"4\" StrokeVariation=\"1\" Weight=\"6\" XHeight=\"1\"/></FONT></FONTFACE>\n");
+			sb.append("<FONTFACE Count=\"2\" Lang=\"Symbol\"><FONT Id=\"0\" Name=\"함초롬돋움\" Type=\"ttf\"><TYPEINFO ArmStyle=\"1\" Contrast=\"0\" FamilyType=\"2\" Letterform=\"1\" Midline=\"1\" Proportion=\"4\" StrokeVariation=\"1\" Weight=\"6\" XHeight=\"1\"/></FONT><FONT Id=\"1\" Name=\"함초롬바탕\" Type=\"ttf\"><TYPEINFO ArmStyle=\"1\" Contrast=\"0\" FamilyType=\"2\" Letterform=\"1\" Midline=\"1\" Proportion=\"4\" StrokeVariation=\"1\" Weight=\"6\" XHeight=\"1\"/></FONT></FONTFACE>\n");
+			sb.append("<FONTFACE Count=\"2\" Lang=\"User\"><FONT Id=\"0\" Name=\"함초롬돋움\" Type=\"ttf\"><TYPEINFO ArmStyle=\"1\" Contrast=\"0\" FamilyType=\"2\" Letterform=\"1\" Midline=\"1\" Proportion=\"4\" StrokeVariation=\"1\" Weight=\"6\" XHeight=\"1\"/></FONT><FONT Id=\"1\" Name=\"함초롬바탕\" Type=\"ttf\"><TYPEINFO ArmStyle=\"1\" Contrast=\"0\" FamilyType=\"2\" Letterform=\"1\" Midline=\"1\" Proportion=\"4\" StrokeVariation=\"1\" Weight=\"6\" XHeight=\"1\"/></FONT></FONTFACE>\n");
+			sb.append("</FACENAMELIST>\n");
+			sb.append("<BORDERFILLLIST Count=\"2\">\n");
+			sb.append("<BORDERFILL BackSlash=\"0\" BreakCellSeparateLine=\"0\" CenterLine=\"0\" CounterBackSlash=\"0\" CounterSlash=\"0\" CrookedSlash=\"0\" Id=\"1\" Shadow=\"false\" Slash=\"0\" ThreeD=\"false\"><LEFTBORDER Type=\"None\" Width=\"0.1mm\"/><RIGHTBORDER Type=\"None\" Width=\"0.1mm\"/><TOPBORDER Type=\"None\" Width=\"0.1mm\"/><BOTTOMBORDER Type=\"None\" Width=\"0.1mm\"/><DIAGONAL Type=\"Solid\" Width=\"0.1mm\"/></BORDERFILL>\n");
+			sb.append("<BORDERFILL BackSlash=\"0\" BreakCellSeparateLine=\"0\" CenterLine=\"0\" CounterBackSlash=\"0\" CounterSlash=\"0\" CrookedSlash=\"0\" Id=\"2\" Shadow=\"false\" Slash=\"0\" ThreeD=\"false\"><LEFTBORDER Type=\"None\" Width=\"0.1mm\"/><RIGHTBORDER Type=\"None\" Width=\"0.1mm\"/><TOPBORDER Type=\"None\" Width=\"0.1mm\"/><BOTTOMBORDER Type=\"None\" Width=\"0.1mm\"/><DIAGONAL Type=\"Solid\" Width=\"0.1mm\"/><FILLBRUSH><WINDOWBRUSH Alpha=\"0\" FaceColor=\"4294967295\" HatchColor=\"4278190080\"/></FILLBRUSH></BORDERFILL>\n");
+			sb.append("</BORDERFILLLIST>\n");
+			sb.append("<CHARSHAPELIST Count=\"8\">\n");
+			sb.append("<CHARSHAPE BorderFillId=\"2\" Height=\"1000\" Id=\"0\" ShadeColor=\"4294967295\" SymMark=\"0\" TextColor=\"0\" UseFontSpace=\"false\" UseKerning=\"false\"><FONTID Hangul=\"1\" Hanja=\"1\" Japanese=\"1\" Latin=\"1\" Other=\"1\" Symbol=\"1\" User=\"1\"/><RATIO Hangul=\"100\" Hanja=\"100\" Japanese=\"100\" Latin=\"100\" Other=\"100\" Symbol=\"100\" User=\"100\"/><CHARSPACING Hangul=\"0\" Hanja=\"0\" Japanese=\"0\" Latin=\"0\" Other=\"0\" Symbol=\"0\" User=\"0\"/><RELSIZE Hangul=\"100\" Hanja=\"100\" Japanese=\"100\" Latin=\"100\" Other=\"100\" Symbol=\"100\" User=\"100\"/><CHAROFFSET Hangul=\"0\" Hanja=\"0\" Japanese=\"0\" Latin=\"0\" Other=\"0\" Symbol=\"0\" User=\"0\"/></CHARSHAPE>\n");
+			sb.append("<CHARSHAPE BorderFillId=\"2\" Height=\"1000\" Id=\"1\" ShadeColor=\"4294967295\" SymMark=\"0\" TextColor=\"0\" UseFontSpace=\"false\" UseKerning=\"false\"><FONTID Hangul=\"0\" Hanja=\"0\" Japanese=\"0\" Latin=\"0\" Other=\"0\" Symbol=\"0\" User=\"0\"/><RATIO Hangul=\"100\" Hanja=\"100\" Japanese=\"100\" Latin=\"100\" Other=\"100\" Symbol=\"100\" User=\"100\"/><CHARSPACING Hangul=\"0\" Hanja=\"0\" Japanese=\"0\" Latin=\"0\" Other=\"0\" Symbol=\"0\" User=\"0\"/><RELSIZE Hangul=\"100\" Hanja=\"100\" Japanese=\"100\" Latin=\"100\" Other=\"100\" Symbol=\"100\" User=\"100\"/><CHAROFFSET Hangul=\"0\" Hanja=\"0\" Japanese=\"0\" Latin=\"0\" Other=\"0\" Symbol=\"0\" User=\"0\"/></CHARSHAPE>\n");
+			sb.append("<CHARSHAPE BorderFillId=\"2\" Height=\"900\" Id=\"2\" ShadeColor=\"4294967295\" SymMark=\"0\" TextColor=\"0\" UseFontSpace=\"false\" UseKerning=\"false\"><FONTID Hangul=\"0\" Hanja=\"0\" Japanese=\"0\" Latin=\"0\" Other=\"0\" Symbol=\"0\" User=\"0\"/><RATIO Hangul=\"100\" Hanja=\"100\" Japanese=\"100\" Latin=\"100\" Other=\"100\" Symbol=\"100\" User=\"100\"/><CHARSPACING Hangul=\"0\" Hanja=\"0\" Japanese=\"0\" Latin=\"0\" Other=\"0\" Symbol=\"0\" User=\"0\"/><RELSIZE Hangul=\"100\" Hanja=\"100\" Japanese=\"100\" Latin=\"100\" Other=\"100\" Symbol=\"100\" User=\"100\"/><CHAROFFSET Hangul=\"0\" Hanja=\"0\" Japanese=\"0\" Latin=\"0\" Other=\"0\" Symbol=\"0\" User=\"0\"/></CHARSHAPE>\n");
+			sb.append("<CHARSHAPE BorderFillId=\"2\" Height=\"900\" Id=\"3\" ShadeColor=\"4294967295\" SymMark=\"0\" TextColor=\"0\" UseFontSpace=\"false\" UseKerning=\"false\"><FONTID Hangul=\"1\" Hanja=\"1\" Japanese=\"1\" Latin=\"1\" Other=\"1\" Symbol=\"1\" User=\"1\"/><RATIO Hangul=\"100\" Hanja=\"100\" Japanese=\"100\" Latin=\"100\" Other=\"100\" Symbol=\"100\" User=\"100\"/><CHARSPACING Hangul=\"0\" Hanja=\"0\" Japanese=\"0\" Latin=\"0\" Other=\"0\" Symbol=\"0\" User=\"0\"/><RELSIZE Hangul=\"100\" Hanja=\"100\" Japanese=\"100\" Latin=\"100\" Other=\"100\" Symbol=\"100\" User=\"100\"/><CHAROFFSET Hangul=\"0\" Hanja=\"0\" Japanese=\"0\" Latin=\"0\" Other=\"0\" Symbol=\"0\" User=\"0\"/></CHARSHAPE>\n");
+			sb.append("<CHARSHAPE BorderFillId=\"2\" Height=\"900\" Id=\"4\" ShadeColor=\"4294967295\" SymMark=\"0\" TextColor=\"0\" UseFontSpace=\"false\" UseKerning=\"false\"><FONTID Hangul=\"0\" Hanja=\"0\" Japanese=\"0\" Latin=\"0\" Other=\"0\" Symbol=\"0\" User=\"0\"/><RATIO Hangul=\"100\" Hanja=\"100\" Japanese=\"100\" Latin=\"100\" Other=\"100\" Symbol=\"100\" User=\"100\"/><CHARSPACING Hangul=\"-5\" Hanja=\"-5\" Japanese=\"-5\" Latin=\"-5\" Other=\"-5\" Symbol=\"-5\" User=\"-5\"/><RELSIZE Hangul=\"100\" Hanja=\"100\" Japanese=\"100\" Latin=\"100\" Other=\"100\" Symbol=\"100\" User=\"100\"/><CHAROFFSET Hangul=\"0\" Hanja=\"0\" Japanese=\"0\" Latin=\"0\" Other=\"0\" Symbol=\"0\" User=\"0\"/></CHARSHAPE>\n");
+			sb.append("<CHARSHAPE BorderFillId=\"2\" Height=\"2000\" Id=\"5\" ShadeColor=\"4294967295\" SymMark=\"0\" TextColor=\"0\" UseFontSpace=\"false\" UseKerning=\"false\"><FONTID Hangul=\"1\" Hanja=\"1\" Japanese=\"1\" Latin=\"1\" Other=\"1\" Symbol=\"1\" User=\"1\"/><RATIO Hangul=\"100\" Hanja=\"100\" Japanese=\"100\" Latin=\"100\" Other=\"100\" Symbol=\"100\" User=\"100\"/><CHARSPACING Hangul=\"0\" Hanja=\"0\" Japanese=\"0\" Latin=\"0\" Other=\"0\" Symbol=\"0\" User=\"0\"/><RELSIZE Hangul=\"100\" Hanja=\"100\" Japanese=\"100\" Latin=\"100\" Other=\"100\" Symbol=\"100\" User=\"100\"/><CHAROFFSET Hangul=\"0\" Hanja=\"0\" Japanese=\"0\" Latin=\"0\" Other=\"0\" Symbol=\"0\" User=\"0\"/><BOLD/><UNDERLINE Color=\"0\" Shape=\"Solid\" Type=\"Bottom\"/></CHARSHAPE>\n");
+			sb.append("<CHARSHAPE BorderFillId=\"2\" Height=\"1200\" Id=\"6\" ShadeColor=\"4294967295\" SymMark=\"0\" TextColor=\"0\" UseFontSpace=\"false\" UseKerning=\"false\"><FONTID Hangul=\"1\" Hanja=\"1\" Japanese=\"1\" Latin=\"1\" Other=\"1\" Symbol=\"1\" User=\"1\"/><RATIO Hangul=\"100\" Hanja=\"100\" Japanese=\"100\" Latin=\"100\" Other=\"100\" Symbol=\"100\" User=\"100\"/><CHARSPACING Hangul=\"0\" Hanja=\"0\" Japanese=\"0\" Latin=\"0\" Other=\"0\" Symbol=\"0\" User=\"0\"/><RELSIZE Hangul=\"100\" Hanja=\"100\" Japanese=\"100\" Latin=\"100\" Other=\"100\" Symbol=\"100\" User=\"100\"/><CHAROFFSET Hangul=\"0\" Hanja=\"0\" Japanese=\"0\" Latin=\"0\" Other=\"0\" Symbol=\"0\" User=\"0\"/></CHARSHAPE>\n");
+			sb.append("<CHARSHAPE BorderFillId=\"2\" Height=\"1200\" Id=\"7\" ShadeColor=\"4294967295\" SymMark=\"0\" TextColor=\"0\" UseFontSpace=\"false\" UseKerning=\"false\"><FONTID Hangul=\"1\" Hanja=\"1\" Japanese=\"1\" Latin=\"1\" Other=\"1\" Symbol=\"1\" User=\"1\"/><RATIO Hangul=\"100\" Hanja=\"100\" Japanese=\"100\" Latin=\"100\" Other=\"100\" Symbol=\"100\" User=\"100\"/><CHARSPACING Hangul=\"0\" Hanja=\"0\" Japanese=\"0\" Latin=\"0\" Other=\"0\" Symbol=\"0\" User=\"0\"/><RELSIZE Hangul=\"100\" Hanja=\"100\" Japanese=\"100\" Latin=\"100\" Other=\"100\" Symbol=\"100\" User=\"100\"/><CHAROFFSET Hangul=\"0\" Hanja=\"0\" Japanese=\"0\" Latin=\"0\" Other=\"0\" Symbol=\"0\" User=\"0\"/><BOLD/></CHARSHAPE>\n");
+			sb.append("<CHARSHAPE BorderFillId=\"2\" Height=\"1200\" Id=\"8\" ShadeColor=\"4294967295\" SymMark=\"0\" TextColor=\"255\" UseFontSpace=\"false\" UseKerning=\"false\"><FONTID Hangul=\"1\" Hanja=\"1\" Japanese=\"1\" Latin=\"1\" Other=\"1\" Symbol=\"1\" User=\"1\"/><RATIO Hangul=\"100\" Hanja=\"100\" Japanese=\"100\" Latin=\"100\" Other=\"100\" Symbol=\"100\" User=\"100\"/><CHARSPACING Hangul=\"0\" Hanja=\"0\" Japanese=\"0\" Latin=\"0\" Other=\"0\" Symbol=\"0\" User=\"0\"/><RELSIZE Hangul=\"100\" Hanja=\"100\" Japanese=\"100\" Latin=\"100\" Other=\"100\" Symbol=\"100\" User=\"100\"/><CHAROFFSET Hangul=\"0\" Hanja=\"0\" Japanese=\"0\" Latin=\"0\" Other=\"0\" Symbol=\"0\" User=\"0\"/></CHARSHAPE>\n");
+			sb.append("</CHARSHAPELIST>\n");
+			sb.append("<TABDEFLIST Count=\"2\">\n");
+			sb.append("<TABDEF AutoTabLeft=\"false\" AutoTabRight=\"false\" Id=\"0\"/>\n");
+			sb.append("<TABDEF AutoTabLeft=\"true\" AutoTabRight=\"false\" Id=\"1\"/>\n");
+			sb.append("</TABDEFLIST>\n");
+			sb.append("<NUMBERINGLIST Count=\"1\">\n");
+			sb.append("<NUMBERING Id=\"1\" Start=\"0\"><PARAHEAD Alignment=\"Left\" AutoIndent=\"true\" Level=\"1\" NumFormat=\"Digit\" Start=\"1\" TextOffset=\"50\" TextOffsetType=\"percent\" UseInstWidth=\"true\" WidthAdjust=\"0\">^1.</PARAHEAD><PARAHEAD Alignment=\"Left\" AutoIndent=\"true\" Level=\"2\" NumFormat=\"HangulSyllable\" Start=\"1\" TextOffset=\"50\" TextOffsetType=\"percent\" UseInstWidth=\"true\" WidthAdjust=\"0\">^2.</PARAHEAD><PARAHEAD Alignment=\"Left\" AutoIndent=\"true\" Level=\"3\" NumFormat=\"Digit\" Start=\"1\" TextOffset=\"50\" TextOffsetType=\"percent\" UseInstWidth=\"true\" WidthAdjust=\"0\">^3)</PARAHEAD><PARAHEAD Alignment=\"Left\" AutoIndent=\"true\" Level=\"4\" NumFormat=\"HangulSyllable\" Start=\"1\" TextOffset=\"50\" TextOffsetType=\"percent\" UseInstWidth=\"true\" WidthAdjust=\"0\">^4)</PARAHEAD><PARAHEAD Alignment=\"Left\" AutoIndent=\"true\" Level=\"5\" NumFormat=\"Digit\" Start=\"1\" TextOffset=\"50\" TextOffsetType=\"percent\" UseInstWidth=\"true\" WidthAdjust=\"0\">(^5)</PARAHEAD><PARAHEAD Alignment=\"Left\" AutoIndent=\"true\" Level=\"6\" NumFormat=\"HangulSyllable\" Start=\"1\" TextOffset=\"50\" TextOffsetType=\"percent\" UseInstWidth=\"true\" WidthAdjust=\"0\">(^6)</PARAHEAD><PARAHEAD Alignment=\"Left\" AutoIndent=\"true\" Level=\"7\" NumFormat=\"CircledDigit\" Start=\"1\" TextOffset=\"50\" TextOffsetType=\"percent\" UseInstWidth=\"true\" WidthAdjust=\"0\">^7</PARAHEAD></NUMBERING>\n");
+			sb.append("</NUMBERINGLIST>\n");
+			sb.append("<BULLETLIST Count=\"1\">\n");
+			sb.append("<BULLET Char=\"◯\" Id=\"1\"><PARAHEAD Alignment=\"Left\" AutoIndent=\"true\" TextOffset=\"50\" TextOffsetType=\"percent\" UseInstWidth=\"false\" WidthAdjust=\"0\"/></BULLET>\n");
+			sb.append("</BULLETLIST>\n");
+			sb.append("<PARASHAPELIST Count=\"13\">\n");
+			sb.append("<PARASHAPE Align=\"Left\" AutoSpaceEAsianEng=\"false\" AutoSpaceEAsianNum=\"false\" BreakLatinWord=\"KeepWord\" BreakNonLatinWord=\"false\" Condense=\"0\" FontLineHeight=\"false\" HeadingType=\"None\" Id=\"0\" KeepLines=\"false\" KeepWithNext=\"false\" Level=\"0\" LineWrap=\"Break\" PageBreakBefore=\"false\" SnapToGrid=\"true\" TabDef=\"0\" VerAlign=\"Baseline\" WidowOrphan=\"false\"><PARAMARGIN Indent=\"0\" Left=\"0\" LineSpacing=\"130\" LineSpacingType=\"Percent\" Next=\"0\" Prev=\"0\" Right=\"0\"/><PARABORDER BorderFill=\"2\" Connect=\"false\" IgnoreMargin=\"false\"/></PARASHAPE>\n");
+			sb.append("<PARASHAPE Align=\"Justify\" AutoSpaceEAsianEng=\"false\" AutoSpaceEAsianNum=\"false\" BreakLatinWord=\"KeepWord\" BreakNonLatinWord=\"true\" Condense=\"0\" FontLineHeight=\"false\" HeadingType=\"None\" Id=\"1\" KeepLines=\"false\" KeepWithNext=\"false\" Level=\"0\" LineWrap=\"Break\" PageBreakBefore=\"false\" SnapToGrid=\"true\" TabDef=\"0\" VerAlign=\"Baseline\" WidowOrphan=\"false\"><PARAMARGIN Indent=\"-2620\" Left=\"0\" LineSpacing=\"130\" LineSpacingType=\"Percent\" Next=\"0\" Prev=\"0\" Right=\"0\"/><PARABORDER BorderFill=\"2\" Connect=\"false\" IgnoreMargin=\"false\"/></PARASHAPE>\n");
+			sb.append("<PARASHAPE Align=\"Justify\" AutoSpaceEAsianEng=\"false\" AutoSpaceEAsianNum=\"false\" BreakLatinWord=\"KeepWord\" BreakNonLatinWord=\"false\" Condense=\"0\" FontLineHeight=\"false\" HeadingType=\"None\" Id=\"2\" KeepLines=\"false\" KeepWithNext=\"false\" Level=\"0\" LineWrap=\"Break\" PageBreakBefore=\"false\" SnapToGrid=\"true\" TabDef=\"0\" VerAlign=\"Baseline\" WidowOrphan=\"false\"><PARAMARGIN Indent=\"0\" Left=\"0\" LineSpacing=\"150\" LineSpacingType=\"Percent\" Next=\"0\" Prev=\"0\" Right=\"0\"/><PARABORDER BorderFill=\"2\" Connect=\"false\" IgnoreMargin=\"false\"/></PARASHAPE>\n");
+			sb.append("<PARASHAPE Align=\"Justify\" AutoSpaceEAsianEng=\"false\" AutoSpaceEAsianNum=\"false\" BreakLatinWord=\"KeepWord\" BreakNonLatinWord=\"true\" Condense=\"0\" FontLineHeight=\"false\" HeadingType=\"None\" Id=\"3\" KeepLines=\"false\" KeepWithNext=\"false\" Level=\"0\" LineWrap=\"Break\" PageBreakBefore=\"false\" SnapToGrid=\"true\" TabDef=\"0\" VerAlign=\"Baseline\" WidowOrphan=\"false\"><PARAMARGIN Indent=\"0\" Left=\"0\" LineSpacing=\"160\" LineSpacingType=\"Percent\" Next=\"0\" Prev=\"0\" Right=\"0\"/><PARABORDER BorderFill=\"2\" Connect=\"false\" IgnoreMargin=\"false\"/></PARASHAPE>\n");
+			sb.append("<PARASHAPE Align=\"Justify\" AutoSpaceEAsianEng=\"false\" AutoSpaceEAsianNum=\"false\" BreakLatinWord=\"KeepWord\" BreakNonLatinWord=\"true\" Condense=\"20\" FontLineHeight=\"false\" HeadingType=\"Outline\" Id=\"4\" KeepLines=\"false\" KeepWithNext=\"false\" Level=\"6\" LineWrap=\"Break\" PageBreakBefore=\"false\" SnapToGrid=\"true\" TabDef=\"1\" VerAlign=\"Baseline\" WidowOrphan=\"false\"><PARAMARGIN Indent=\"0\" Left=\"14000\" LineSpacing=\"160\" LineSpacingType=\"Percent\" Next=\"0\" Prev=\"0\" Right=\"0\"/><PARABORDER BorderFill=\"2\" Connect=\"false\" IgnoreMargin=\"false\"/></PARASHAPE>\n");
+			sb.append("<PARASHAPE Align=\"Justify\" AutoSpaceEAsianEng=\"false\" AutoSpaceEAsianNum=\"false\" BreakLatinWord=\"KeepWord\" BreakNonLatinWord=\"true\" Condense=\"20\" FontLineHeight=\"false\" HeadingType=\"Outline\" Id=\"5\" KeepLines=\"false\" KeepWithNext=\"false\" Level=\"5\" LineWrap=\"Break\" PageBreakBefore=\"false\" SnapToGrid=\"true\" TabDef=\"1\" VerAlign=\"Baseline\" WidowOrphan=\"false\"><PARAMARGIN Indent=\"0\" Left=\"12000\" LineSpacing=\"160\" LineSpacingType=\"Percent\" Next=\"0\" Prev=\"0\" Right=\"0\"/><PARABORDER BorderFill=\"2\" Connect=\"false\" IgnoreMargin=\"false\"/></PARASHAPE>\n");
+			sb.append("<PARASHAPE Align=\"Justify\" AutoSpaceEAsianEng=\"false\" AutoSpaceEAsianNum=\"false\" BreakLatinWord=\"KeepWord\" BreakNonLatinWord=\"true\" Condense=\"20\" FontLineHeight=\"false\" HeadingType=\"Outline\" Id=\"6\" KeepLines=\"false\" KeepWithNext=\"false\" Level=\"4\" LineWrap=\"Break\" PageBreakBefore=\"false\" SnapToGrid=\"true\" TabDef=\"1\" VerAlign=\"Baseline\" WidowOrphan=\"false\"><PARAMARGIN Indent=\"0\" Left=\"10000\" LineSpacing=\"160\" LineSpacingType=\"Percent\" Next=\"0\" Prev=\"0\" Right=\"0\"/><PARABORDER BorderFill=\"2\" Connect=\"false\" IgnoreMargin=\"false\"/></PARASHAPE>\n");
+			sb.append("<PARASHAPE Align=\"Justify\" AutoSpaceEAsianEng=\"false\" AutoSpaceEAsianNum=\"false\" BreakLatinWord=\"KeepWord\" BreakNonLatinWord=\"true\" Condense=\"20\" FontLineHeight=\"false\" HeadingType=\"Outline\" Id=\"7\" KeepLines=\"false\" KeepWithNext=\"false\" Level=\"3\" LineWrap=\"Break\" PageBreakBefore=\"false\" SnapToGrid=\"true\" TabDef=\"1\" VerAlign=\"Baseline\" WidowOrphan=\"false\"><PARAMARGIN Indent=\"0\" Left=\"8000\" LineSpacing=\"160\" LineSpacingType=\"Percent\" Next=\"0\" Prev=\"0\" Right=\"0\"/><PARABORDER BorderFill=\"2\" Connect=\"false\" IgnoreMargin=\"false\"/></PARASHAPE>\n");
+			sb.append("<PARASHAPE Align=\"Justify\" AutoSpaceEAsianEng=\"false\" AutoSpaceEAsianNum=\"false\" BreakLatinWord=\"KeepWord\" BreakNonLatinWord=\"true\" Condense=\"20\" FontLineHeight=\"false\" HeadingType=\"Outline\" Id=\"8\" KeepLines=\"false\" KeepWithNext=\"false\" Level=\"2\" LineWrap=\"Break\" PageBreakBefore=\"false\" SnapToGrid=\"true\" TabDef=\"1\" VerAlign=\"Baseline\" WidowOrphan=\"false\"><PARAMARGIN Indent=\"0\" Left=\"6000\" LineSpacing=\"160\" LineSpacingType=\"Percent\" Next=\"0\" Prev=\"0\" Right=\"0\"/><PARABORDER BorderFill=\"2\" Connect=\"false\" IgnoreMargin=\"false\"/></PARASHAPE>\n");
+			sb.append("<PARASHAPE Align=\"Justify\" AutoSpaceEAsianEng=\"false\" AutoSpaceEAsianNum=\"false\" BreakLatinWord=\"KeepWord\" BreakNonLatinWord=\"true\" Condense=\"20\" FontLineHeight=\"false\" HeadingType=\"Outline\" Id=\"9\" KeepLines=\"false\" KeepWithNext=\"false\" Level=\"1\" LineWrap=\"Break\" PageBreakBefore=\"false\" SnapToGrid=\"true\" TabDef=\"1\" VerAlign=\"Baseline\" WidowOrphan=\"false\"><PARAMARGIN Indent=\"0\" Left=\"4000\" LineSpacing=\"160\" LineSpacingType=\"Percent\" Next=\"0\" Prev=\"0\" Right=\"0\"/><PARABORDER BorderFill=\"2\" Connect=\"false\" IgnoreMargin=\"false\"/></PARASHAPE>\n");
+			sb.append("<PARASHAPE Align=\"Justify\" AutoSpaceEAsianEng=\"false\" AutoSpaceEAsianNum=\"false\" BreakLatinWord=\"KeepWord\" BreakNonLatinWord=\"true\" Condense=\"0\" FontLineHeight=\"false\" HeadingType=\"None\" Id=\"10\" KeepLines=\"false\" KeepWithNext=\"false\" Level=\"0\" LineWrap=\"Break\" PageBreakBefore=\"false\" SnapToGrid=\"true\" TabDef=\"0\" VerAlign=\"Baseline\" WidowOrphan=\"false\"><PARAMARGIN Indent=\"0\" Left=\"3000\" LineSpacing=\"160\" LineSpacingType=\"Percent\" Next=\"0\" Prev=\"0\" Right=\"0\"/><PARABORDER BorderFill=\"2\" Connect=\"false\" IgnoreMargin=\"false\"/></PARASHAPE>\n");
+			sb.append("<PARASHAPE Align=\"Center\" AutoSpaceEAsianEng=\"false\" AutoSpaceEAsianNum=\"false\" BreakLatinWord=\"KeepWord\" BreakNonLatinWord=\"false\" Condense=\"0\" FontLineHeight=\"false\" HeadingType=\"None\" Id=\"11\" KeepLines=\"false\" KeepWithNext=\"false\" Level=\"0\" LineWrap=\"Break\" PageBreakBefore=\"false\" SnapToGrid=\"true\" TabDef=\"0\" VerAlign=\"Baseline\" WidowOrphan=\"false\"><PARAMARGIN Indent=\"0\" Left=\"0\" LineSpacing=\"160\" LineSpacingType=\"Percent\" Next=\"0\" Prev=\"0\" Right=\"0\"/><PARABORDER BorderFill=\"2\" Connect=\"false\" IgnoreMargin=\"false\"/></PARASHAPE>\n");
+			sb.append("<PARASHAPE Align=\"Justify\" AutoSpaceEAsianEng=\"false\" AutoSpaceEAsianNum=\"false\" BreakLatinWord=\"KeepWord\" BreakNonLatinWord=\"true\" Condense=\"20\" FontLineHeight=\"false\" Heading=\"1\" HeadingType=\"Bullet\" Id=\"12\" KeepLines=\"false\" KeepWithNext=\"false\" Level=\"0\" LineWrap=\"Break\" PageBreakBefore=\"false\" SnapToGrid=\"true\" TabDef=\"1\" VerAlign=\"Baseline\" WidowOrphan=\"false\"><PARAMARGIN Indent=\"0\" Left=\"2000\" LineSpacing=\"160\" LineSpacingType=\"Percent\" Next=\"0\" Prev=\"0\" Right=\"0\"/><PARABORDER BorderFill=\"2\" Connect=\"false\" IgnoreMargin=\"false\"/></PARASHAPE>\n");
+			sb.append("</PARASHAPELIST>\n");
+			sb.append("<STYLELIST Count=\"14\">\n");
+			sb.append("<STYLE CharShape=\"0\" EngName=\"Normal\" Id=\"0\" LangId=\"1042\" LockForm=\"0\" Name=\"바탕글\" NextStyle=\"0\" ParaShape=\"3\" Type=\"Para\"/>\n");
+			sb.append("<STYLE CharShape=\"0\" EngName=\"Body\" Id=\"1\" LangId=\"1042\" LockForm=\"0\" Name=\"본문\" NextStyle=\"1\" ParaShape=\"10\" Type=\"Para\"/>\n");
+			sb.append("<STYLE CharShape=\"0\" EngName=\"Outline 1\" Id=\"2\" LangId=\"1042\" LockForm=\"0\" Name=\"개요 1\" NextStyle=\"2\" ParaShape=\"12\" Type=\"Para\"/>\n");
+			sb.append("<STYLE CharShape=\"0\" EngName=\"Outline 2\" Id=\"3\" LangId=\"1042\" LockForm=\"0\" Name=\"개요 2\" NextStyle=\"3\" ParaShape=\"9\" Type=\"Para\"/>\n");
+			sb.append("<STYLE CharShape=\"0\" EngName=\"Outline 3\" Id=\"4\" LangId=\"1042\" LockForm=\"0\" Name=\"개요 3\" NextStyle=\"4\" ParaShape=\"8\" Type=\"Para\"/>\n");
+			sb.append("<STYLE CharShape=\"0\" EngName=\"Outline 4\" Id=\"5\" LangId=\"1042\" LockForm=\"0\" Name=\"개요 4\" NextStyle=\"5\" ParaShape=\"7\" Type=\"Para\"/>\n");
+			sb.append("<STYLE CharShape=\"0\" EngName=\"Outline 5\" Id=\"6\" LangId=\"1042\" LockForm=\"0\" Name=\"개요 5\" NextStyle=\"6\" ParaShape=\"6\" Type=\"Para\"/>\n");
+			sb.append("<STYLE CharShape=\"0\" EngName=\"Outline 6\" Id=\"7\" LangId=\"1042\" LockForm=\"0\" Name=\"개요 6\" NextStyle=\"7\" ParaShape=\"5\" Type=\"Para\"/>\n");
+			sb.append("<STYLE CharShape=\"0\" EngName=\"Outline 7\" Id=\"8\" LangId=\"1042\" LockForm=\"0\" Name=\"개요 7\" NextStyle=\"8\" ParaShape=\"4\" Type=\"Para\"/>\n");
+			sb.append("<STYLE CharShape=\"1\" EngName=\"Page Number\" Id=\"9\" LangId=\"1042\" LockForm=\"0\" Name=\"쪽 번호\" NextStyle=\"0\" Type=\"Char\"/>\n");
+			sb.append("<STYLE CharShape=\"2\" EngName=\"Header\" Id=\"10\" LangId=\"1042\" LockForm=\"0\" Name=\"머리말\" NextStyle=\"10\" ParaShape=\"2\" Type=\"Para\"/>\n");
+			sb.append("<STYLE CharShape=\"3\" EngName=\"Footnote\" Id=\"11\" LangId=\"1042\" LockForm=\"0\" Name=\"각주\" NextStyle=\"11\" ParaShape=\"1\" Type=\"Para\"/>\n");
+			sb.append("<STYLE CharShape=\"3\" EngName=\"Endnote\" Id=\"12\" LangId=\"1042\" LockForm=\"0\" Name=\"미주\" NextStyle=\"12\" ParaShape=\"1\" Type=\"Para\"/>\n");
+			sb.append("<STYLE CharShape=\"4\" EngName=\"Memo\" Id=\"13\" LangId=\"1042\" LockForm=\"0\" Name=\"메모\" NextStyle=\"13\" ParaShape=\"0\" Type=\"Para\"/>\n");
+			sb.append("</STYLELIST>\n");
+			sb.append("</MAPPINGTABLE>\n");
+			sb.append("<COMPATIBLEDOCUMENT TargetProgram=\"None\">\n");
+			sb.append("<LAYOUTCOMPATIBILITY AdjustBaselineInFixedLinespacing=\"false\" AdjustBaselineOfObjectToBottom=\"false\" AdjustLineheightToFont=\"false\" AdjustMarginFromAdjustLineheight=\"false\" AdjustParaBorderOffsetWithBorder=\"false\" AdjustParaBorderfillToSpacing=\"false\" AdjustVertPosOfLine=\"false\" ApplyAtLeastToPercent100Pct=\"false\" ApplyCharSpacingToCharGrid=\"false\" ApplyExtendHeaderFooterEachSection=\"false\" ApplyFontWeightToBold=\"false\" ApplyFontspaceToLatin=\"false\" ApplyMinColumnWidthTo1mm=\"false\" ApplyNextspacingOfLastPara=\"false\" ApplyParaBorderToOutside=\"false\" ApplyPrevspacingBeneathObject=\"false\" ApplyTabPosBasedOnSegment=\"false\" BaseCharUnitOfIndentOnFirstChar=\"false\" BaseCharUnitOnEAsian=\"false\" BaseLinespacingOnLinegrid=\"false\" BreakTabOverLine=\"false\" ConnectParaBorderfillOfEqualBorder=\"false\" DoNotAdjustEmptyAnchorLine=\"false\" DoNotAdjustWordInJustify=\"false\" DoNotAlignLastForbidden=\"false\" DoNotAlignLastPeriod=\"false\" DoNotAlignWhitespaceOnRight=\"false\" DoNotApplyAutoSpaceEAsianEng=\"false\" DoNotApplyAutoSpaceEAsianNum=\"false\" DoNotApplyColSeparatorAtNoGap=\"false\" DoNotApplyExtensionCharCompose=\"false\" DoNotApplyGridInHeaderFooter=\"false\" DoNotApplyHeaderFooterAtNoSpace=\"false\" DoNotApplyImageEffect=\"false\" DoNotApplyLinegridAtNoLinespacing=\"false\" DoNotApplyShapeComment=\"false\" DoNotApplyStrikeoutWithUnderline=\"false\" DoNotApplyVertOffsetOfForward=\"false\" DoNotApplyWhiteSpaceHeight=\"false\" DoNotFormattingAtBeneathAnchor=\"false\" DoNotHoldAnchorOfTable=\"false\" ExtendLineheightToOffset=\"false\" ExtendLineheightToParaBorderOffset=\"false\" ExtendVertLimitToPageMargins=\"false\" FixedUnderlineWidth=\"false\" OverlapBothAllowOverlap=\"false\" TreatQuotationAsLatin=\"false\" UseInnerUnderline=\"false\" UseLowercaseStrikeout=\"false\"/>\n");
+			sb.append("</COMPATIBLEDOCUMENT>\n");
+			sb.append("</HEAD>\n");
+			
+			return sb;
+		}
+		
+		/**HWPML 용 산정조서 엘리먼트를 문자열로 가져온다.
+		 * @throws Exception */
+		public StringBuilder getXmlRentFeeCheckReportBody(GamPrtFcltyRentFeeMngtVO approvalOpt) throws Exception {
+			StringBuilder sb = new StringBuilder();
+			
+			List printList = gamPrtFcltyRentFeeMngtDao.selectNpticPrintInfo(approvalOpt);  
+			
+			sb.append("<BODY>\n");
+			sb.append("<SECTION Id=\"0\">\n");
+			sb.append("<P ColumnBreak=\"false\" InstId=\"2147689424\" PageBreak=\"false\" ParaShape=\"11\" Style=\"0\">\n");
+			sb.append("<TEXT CharShape=\"5\">\n");
+			sb.append("<SECDEF CharGrid=\"0\" FirstBorder=\"false\" FirstFill=\"false\" LineGrid=\"0\" OutlineShape=\"1\" SpaceColumns=\"1134\" TabStop=\"8000\" TextDirection=\"0\" TextVerticalWidthHead=\"0\">\n");
+			sb.append("<STARTNUMBER Equation=\"0\" Figure=\"0\" Page=\"0\" PageStartsOn=\"Both\" Table=\"0\"/>\n");
+			sb.append("<HIDE Border=\"false\" EmptyLine=\"false\" Fill=\"false\" Footer=\"false\" Header=\"false\" MasterPage=\"false\" PageNumPos=\"false\"/>\n");
+			sb.append("<PAGEDEF GutterType=\"LeftOnly\" Height=\"84188\" Landscape=\"0\" Width=\"59528\">\n");
+			sb.append("<PAGEMARGIN Bottom=\"4252\" Footer=\"4252\" Gutter=\"0\" Header=\"4252\" Left=\"8504\" Right=\"8504\" Top=\"5668\"/>\n");
+			sb.append("</PAGEDEF>\n");
+			sb.append("<FOOTNOTESHAPE>\n");
+			sb.append("<AUTONUMFORMAT SuffixChar=\")\" Superscript=\"false\" Type=\"Digit\"/>\n");
+			sb.append("<NOTELINE Length=\"5cm\" Type=\"Solid\" Width=\"0.12mm\"/>\n");
+			sb.append("<NOTESPACING AboveLine=\"850\" BelowLine=\"567\" BetweenNotes=\"283\"/>\n");
+			sb.append("<NOTENUMBERING NewNumber=\"1\" Type=\"Continuous\"/>\n");
+			sb.append("<NOTEPLACEMENT BeneathText=\"false\" Place=\"EachColumn\"/>\n");
+			sb.append("</FOOTNOTESHAPE>\n");
+			sb.append("<ENDNOTESHAPE>\n");
+			sb.append("<AUTONUMFORMAT SuffixChar=\")\" Superscript=\"false\" Type=\"Digit\"/>\n");
+			sb.append("<NOTELINE Length=\"14692344\" Type=\"Solid\" Width=\"0.12mm\"/>\n");
+			sb.append("<NOTESPACING AboveLine=\"850\" BelowLine=\"567\" BetweenNotes=\"0\"/>\n");
+			sb.append("<NOTENUMBERING NewNumber=\"1\" Type=\"Continuous\"/>\n");
+			sb.append("<NOTEPLACEMENT BeneathText=\"false\" Place=\"EndOfDocument\"/>\n");
+			sb.append("</ENDNOTESHAPE>\n");
+			sb.append("<PAGEBORDERFILL BorferFill=\"1\" FillArea=\"Paper\" FooterInside=\"false\" HeaderInside=\"false\" TextBorder=\"true\" Type=\"Both\">\n");
+			sb.append("<PAGEOFFSET Bottom=\"1417\" Left=\"1417\" Right=\"1417\" Top=\"1417\"/>\n");
+			sb.append("</PAGEBORDERFILL>\n");
+			sb.append("<PAGEBORDERFILL BorferFill=\"1\" FillArea=\"Paper\" FooterInside=\"false\" HeaderInside=\"false\" TextBorder=\"true\" Type=\"Even\">\n");
+			sb.append("<PAGEOFFSET Bottom=\"1417\" Left=\"1417\" Right=\"1417\" Top=\"1417\"/>\n");
+			sb.append("</PAGEBORDERFILL>\n");
+			sb.append("<PAGEBORDERFILL BorferFill=\"1\" FillArea=\"Paper\" FooterInside=\"false\" HeaderInside=\"false\" TextBorder=\"true\" Type=\"Odd\">\n");
+			sb.append("<PAGEOFFSET Bottom=\"1417\" Left=\"1417\" Right=\"1417\" Top=\"1417\"/>\n");
+			sb.append("</PAGEBORDERFILL>\n");
+			sb.append("</SECDEF>\n");
+			sb.append("<COLDEF Count=\"1\" Layout=\"Left\" SameGap=\"0\" SameSize=\"true\" Type=\"Newspaper\"/>\n");
+			sb.append("<CHAR>항만시설 사용료 산출내역</CHAR>\n");
+			sb.append("</TEXT>\n");
+			sb.append("</P>\n");
+			sb.append("<P ParaShape=\"3\" Style=\"0\">\n");
+			sb.append("<TEXT CharShape=\"6\"/>\n");
+			sb.append("</P>\n");
+			sb.append("<P ParaShape=\"3\" Style=\"0\">\n");
+			sb.append("<TEXT CharShape=\"6\">\n");
+			sb.append("<CHAR>□ {업체이름}</CHAR>\n");
+			sb.append("</TEXT>\n");
+			sb.append("</P>\n");
+			sb.append("<P ParaShape=\"3\" Style=\"0\">\n");
+			sb.append("<TEXT CharShape=\"6\"/>\n");
+			sb.append("</P>\n");
+			sb.append("<P ParaShape=\"3\" Style=\"0\">\n");
+			sb.append("<TEXT CharShape=\"6\">\n");
+			sb.append("<CHAR>가. 근거</CHAR>\n");
+			sb.append("</TEXT>\n");
+			sb.append("</P>\n");
+			sb.append("<P InstId=\"2147689445\" ParaShape=\"12\" Style=\"2\">\n");
+			sb.append("<TEXT CharShape=\"6\">\n");
+			sb.append("<CHAR>{근거1}</CHAR>\n");
+			sb.append("</TEXT>\n");
+			sb.append("</P>\n");
+			sb.append("<P ParaShape=\"12\" Style=\"2\">\n");
+			sb.append("<TEXT CharShape=\"6\">\n");
+			sb.append("<CHAR>{근거2}</CHAR>\n");
+			sb.append("</TEXT>\n");
+			sb.append("</P>\n");
+			sb.append("<P ParaShape=\"12\" Style=\"2\">\n");
+			sb.append("<TEXT CharShape=\"6\">\n");
+			sb.append("<CHAR>{근거3}</CHAR>\n");
+			sb.append("</TEXT>\n");
+			sb.append("</P>\n");
+			sb.append("<P ParaShape=\"3\" Style=\"0\">\n");
+			sb.append("<TEXT CharShape=\"6\"/>\n");
+			sb.append("</P>\n");
+			sb.append("<P ParaShape=\"3\" Style=\"0\">\n");
+			sb.append("<TEXT CharShape=\"6\">\n");
+			sb.append("<CHAR>나. 사용 기간 : {사용기간} ({사용}개월)</CHAR>\n");
+			sb.append("</TEXT>\n");
+			sb.append("</P>\n");
+			sb.append("<P ParaShape=\"3\" Style=\"0\">\n");
+			sb.append("<TEXT CharShape=\"6\"/>\n");
+			sb.append("</P>\n");
+			sb.append("<P ParaShape=\"3\" Style=\"0\">\n");
+			sb.append("<TEXT CharShape=\"6\">\n");
+			sb.append("<CHAR>다 사용지역 : {주소}</CHAR>\n");
+			sb.append("</TEXT>\n");
+			sb.append("</P>\n");
+			sb.append("<P ParaShape=\"3\" Style=\"0\">\n");
+			sb.append("<TEXT CharShape=\"6\"/>\n");
+			sb.append("</P>\n");
+			sb.append("<P ParaShape=\"3\" Style=\"0\">\n");
+			sb.append("<TEXT CharShape=\"6\">\n");
+			sb.append("<CHAR>라. 사용면적 : {납부금액} ㎡</CHAR>\n");
+			sb.append("</TEXT>\n");
+			sb.append("</P>\n");
+			sb.append("<P ParaShape=\"3\" Style=\"0\">\n");
+			sb.append("<TEXT CharShape=\"6\"/>\n");
+			sb.append("</P>\n");
+			sb.append("<P ParaShape=\"3\" Style=\"0\">\n");
+			sb.append("<TEXT CharShape=\"6\">\n");
+			sb.append("<CHAR>마. 사용료 산출(항만부지 사용료)</CHAR>\n");
+			sb.append("</TEXT>\n");
+			sb.append("</P>\n");
+			
+			sb.append("<P ParaShape=\"12\" Style=\"2\">\n");
+			sb.append("<TEXT CharShape=\"6\">\n");
+			sb.append("<CHAR>산출기준 : 사용면적 × 개별공시지가 × 요율  × 사용기간</CHAR>\n");
+			sb.append("</TEXT>\n");
+			sb.append("</P>\n");
+			
+			sb.append("<P ParaShape=\"12\" Style=\"2\">\n");
+			sb.append("<TEXT CharShape=\"6\">\n");
+			sb.append("<CHAR>사 용 료 : {사용면적} ㎡ × {개별공시지가} 원 × {요율} × {사용개월}/12개월 = {금액} 원</CHAR>\n");
+			sb.append("</TEXT>\n");
+			sb.append("</P>\n");
+			sb.append("<P ParaShape=\"3\" Style=\"0\">\n");
+			sb.append("<TEXT CharShape=\"8\">\n");
+			sb.append("<CHAR>  ※ 공시지가 확인은 </CHAR>\n");
+			sb.append("</TEXT>\n");
+			sb.append("</P>\n");
+			sb.append("<P ParaShape=\"3\" Style=\"0\">\n");
+			sb.append("<TEXT CharShape=\"6\"/>\n");
+			sb.append("</P>\n");
+			sb.append("<P ParaShape=\"3\" Style=\"0\">\n");
+			sb.append("<TEXT CharShape=\"6\">\n");
+			sb.append("<CHAR>바. 총 납부금액 : {총 납부금액} 원</CHAR>\n");
+			sb.append("</TEXT>\n");
+			sb.append("</P>\n");
+			sb.append("<P ParaShape=\"12\" Style=\"2\">\n");
+			sb.append("<TEXT CharShape=\"6\">\n");
+			sb.append("<CHAR>사 용 료 : {사용료} 원</CHAR>\n");
+			sb.append("</TEXT>\n");
+			sb.append("</P>\n");
+			sb.append("<P ParaShape=\"12\" Style=\"2\">\n");
+			sb.append("<TEXT CharShape=\"6\">\n");
+			sb.append("<CHAR>부 가 세 : {부가세} 원</CHAR>\n");
+			sb.append("</TEXT>\n");
+			sb.append("</P>\n");
+			sb.append("<P ParaShape=\"3\" Style=\"0\">\n");
+			sb.append("<TEXT CharShape=\"6\"/>\n");
+			sb.append("</P>\n");
+			sb.append("<P ParaShape=\"11\" Style=\"0\">\n");
+			sb.append("<TEXT CharShape=\"7\">\n");
+			sb.append("<CHAR>위와 같이 산출함.</CHAR>\n");
+			sb.append("</TEXT>\n");
+			sb.append("</P>\n");
+			sb.append("<P ParaShape=\"11\" Style=\"0\">\n");
+			sb.append("<TEXT CharShape=\"7\">\n");
+			sb.append("<CHAR>{날짜}</CHAR>\n");
+			sb.append("</TEXT>\n");
+			sb.append("</P>\n");
+			sb.append("<P ParaShape=\"11\" Style=\"0\">\n");
+			sb.append("<TEXT CharShape=\"7\">\n");
+			sb.append("<CHAR>위 산출자 항만운영팀 {이름}</CHAR>\n");
+			sb.append("</TEXT>\n");
+			sb.append("</P>\n");
+			sb.append("</SECTION>\n");
+			sb.append("</BODY>\n");
+			sb.append("<TAIL>\n");
+			sb.append("<SCRIPTCODE Type=\"JScrip\" Version=\"1.0\"><SCRIPTHEADER>var Documents = XHwpDocuments;\n");
+			sb.append("var Document = Documents.Active_XHwpDocument;\n");
+			sb.append("</SCRIPTHEADER><SCRIPTSOURCE>function OnDocument_New() { }\n");
+			sb.append("</SCRIPTSOURCE></SCRIPTCODE>\n");
+			sb.append("</TAIL>\n");
+			sb.append("</HWPML>\n");
+
+			return sb;
+		}
 	}
 
 }

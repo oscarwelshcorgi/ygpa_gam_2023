@@ -6,6 +6,8 @@ package egovframework.rte.ygpa.gam.cmmn.fclty.service;
 import java.util.List;
 import java.util.Map;
 
+import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeeMngtVO;
+
 /**
  *
  * @author EUNSUNGJ
@@ -86,5 +88,11 @@ public interface GamNticRequestMngtService {
 	public void egiroPrint(Map map) throws Exception;
 
 	public void egiroPrintCancel(Map map) throws Exception;
+
+	/**
+	 * @param approvalOpt
+	 * @return
+	 */
+	public String selectRentFeeListHWPML(GamPrtFcltyRentFeeMngtVO approvalOpt) throws Exception;
 
 }

@@ -582,6 +582,29 @@ GamAssetRentFeeMngtModule.prototype.cancelSave = function() {
             	return;
             }
         	break;
+        
+        case 'btnReportHwp':	// 산정조서 다운로드
+            if(this.$('#assetRentFeeList').selectedRowCount()>0) {
+                var rows = this.$('#assetRentFeeList').selectedRows()[0];
+
+                if( rows['save'] == 'Y' ) {
+                	alert("투자비보전 상계가 되었기에 출력을 할 수 없습니다.");
+                	return;
+                }
+
+                if( rows['nhtIsueYn'] != 'Y' ) {
+                	alert("해당 건은 아직 고지되지 않았습니다.");
+                	return;
+                }
+				
+                $.fileDownload(EMD.context_root+'/oper/gnrl/RentFeeReportHwp.do', {data:rows, httpMethod:"POST"});
+                
+            } else {
+            	alert("다운로드할 목록에서 선택하십시오.");
+            	return;
+            }
+        	break;
+        	
         case 'btnTaxPrint':	// 계산서 출력
         case 'btnTaxPrint2':	// 계산서 출력
             if(this.$('#assetRentFeeList').selectedRowCount()>0) {
@@ -1112,6 +1135,7 @@ var module_instance = new GamAssetRentFeeMngtModule();
 								<button id="btnExecNticIssue2">고지</button>
 								<button id="btnCancelNticIssue2">고지취소</button>
 								<button id="btnNticIssuePrint2">고지서출력</button>
+								<button id="btnReportHwp">산정조서 다운로드</button>
 								<!--
 								<button id="btnTaxPrint2">계산서출력</button>
 								-->
