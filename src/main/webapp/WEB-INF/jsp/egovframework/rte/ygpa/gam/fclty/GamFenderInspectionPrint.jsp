@@ -98,52 +98,52 @@
 	
 			<table class="fenderInspection" style="width:100%;">
 				<tr>
-					<th style="width:15%; height:18px;" >연도</th>
-					<td  style="width:20%; height:18px;">
+					<th style="width:20%; height:18px;" >연도</th>
+					<td  style="width:40%; height:18px;">
 						<c:out value="${printVo.year }" />
 						</select>
 					</td>
-					<th style="width:15%; height:18px;">시설물관리그룹</th>
-					<td >
+					<th style="width:20%; height:18px;">시설물관리그룹</th>
+					<td style="width:20%; height:18px;">
 						<c:out value="${printVo.fcltsMngGroupNm }" />
 					</td>
 				</tr>
 				<tr>
-					<th style="width:15%; height:18px;">위　　　　　　　　치</th>
-					<td  style="width:20%; height:18px;">
+					<th >위　　　　　　　　치</th>
+					<td >
 						<c:out value="${printVo.loc }" />
 					</td>
-					<th style="width:15%; height:18px;">시　설　물　　종　별</th>
+					<th >시　설　물　　종　별</th>
 					<td >
 						<c:out value="${printVo.fcltsGbnNm }" />
 					</td>
 				</tr>
 				<tr>
-					<th style="width:15%; height:18px;" >공　　사　　기　　간</th>
-					<td style="width:20%; height:18px;">
+					<th  >공　　사　　기　　간</th>
+					<td>
 						<c:out value="${printVo.cnstDt }" />
 					</td>
-					<th style="width:15%; height:18px;">준　　공　　일　　자</th>
+					<th >준　　공　　일　　자</th>
 					<td>
 						<c:out value="${printVo.bldDt }" />
 					</td>
 				</tr>
 				<tr>
-					<th style="width:15%; height:18px;">운　　　　영　　　사</th>
-					<td style="width:20%; height:18px;" >
+					<th >운　　　　영　　　사</th>
+					<td >
 						<c:out value="${printVo.owner }" />
 					</td>
-					<th style="width:15%; height:18px;">시　　　　공　　　자</th>
+					<th >시　　　　공　　　자</th>
 					<td >
 						<c:out value="${printVo.cnstrtr }" />
 					</td>
 				</tr>
 				<tr>
-					<th style="width:15%; height:18px;">규　　　　  　　　 격</th>
-					<td style="width:20%; height:18px;">
+					<th >규　　　　  　　　 격</th>
+					<td>
 						<c:out value="${printVo.prtFcltyStndrd }" />
 					</td>
-					<th style="width:15%; height:18px;">수　　　　  　　　 량</th>
+					<th >수　　　　  　　　 량</th>
 					<td >
 						<c:out value="${printVo.prtPrtFcltyCnt }" />
 					</td>
@@ -163,6 +163,12 @@
 				</tr>
 			</table>
 			<table class="fenderInspection" style="width:100%;">
+				<tr>
+					<th style="width:20%; height:18px; text-align: center;">구분</th>
+					<th style="width:20%; height:18px; text-align: center;">해빙기</th>
+					<th style="width:20%; height:18px; text-align: center;">우기</th>
+					<th style="width:20%; height:18px; text-align: center;">동절기</th>
+				</tr>
 				<tr>
 					<th style="width:20%; height:18px;">점검일자</th>
 					<td  >
