@@ -503,6 +503,12 @@ var module_instance = new GamFenderInspectionModule();
 						</table>
 						<table class="detailPanel" style="width:100%;">
 							<tr>
+								<th style="width:20%; height:18px; text-align: center;">구분</th>
+								<th style="width:20%; height:18px; text-align: center;">해빙기</th>
+								<th style="width:20%; height:18px; text-align: center;">우기</th>
+								<th style="width:20%; height:18px; text-align: center;">동절기</th>
+							</tr>
+							<tr>
 								<th style="width:20%; height:18px;">점검일자</th>
 								<td  >
 									<input type="text" id="chckDeOne" data-column-id="chckDeOne" tabindex=2 size="18" class="emdcal"  />

@@ -1151,7 +1151,7 @@ var module_instance = new GamAssetCodeModule();
 						<th>
 							<span class="label gisAssetsSeCd1">실제 임대 면적(m²)</span>
 							<span class="label unit">단위</span>
-							<span class="label gisAssetsSeCd3">대장가액</span>
+							<span class="label gisAssetsSeCd3">기존 대장가액</span>
 						</th>
 						<td class="">
 							<input type="text" size="8" id="gisAssetsRealRentAr" class="ygpaNumber gisAssetsSeCd1" data-decimal-point="2">
@@ -1162,7 +1162,7 @@ var module_instance = new GamAssetCodeModule();
 
 						<th>
 							<span class="label gisAssetsStndrd">자산규격</span>
-							<span class="label gisAssetsSeCd3">대장가액</span>
+							<span class="label gisAssetsSeCd3">현재 대장가액</span>
 						</th>
 						<td>
 							<input type="text" size="20" id="gisAssetsStndrd" class="gisAssetsStndrd">
