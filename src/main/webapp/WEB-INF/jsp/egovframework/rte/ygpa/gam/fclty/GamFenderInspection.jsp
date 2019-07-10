@@ -98,6 +98,36 @@ GamFenderInspectionModule.prototype.loadComplete = function() {
 		this.$(".year").append("<option value='" + i + "'>" + i + "년</option>");
 	}
 	
+	this.$("#photoOne").on('change', function(){
+		console.log('file upload');
+		this.uploadSingleFile('/fclty/uploadFenderAttachFile.do', function(module, resp) {
+			if(resp.resultCode!=0) {
+				alert(resp.resultMsg);
+				return;
+			}
+			
+			console.log(resp.result);
+			
+			$.each(resp.result, function() {
+				/*
+                module.$('#assetRentFileList').flexAddRow({
+                	_updtId:'I',
+                	prtAtCode: '',
+                	mngYear: '',
+                	mngNo: '',
+                	mngCnt: '',
+                	photoSeq: '',
+                	photoSj:this.logicalFileNm.substring(0, this.logicalFileNm.lastIndexOf('.')),
+                	filenmLogic: this.logicalFileNm, filenmPhysicl: this.physcalFileNm,
+                	shotDt: '',
+                	photoDesc: '',
+                	regUsr: '',
+                	registDt:''}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
+               	*/
+			});
+			if(resp.result!=null && resp.result.length>0) this._edited=true;
+		});
+	});
 
 }
 

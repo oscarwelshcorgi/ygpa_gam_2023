@@ -244,7 +244,25 @@
 		<property name="table"	   	value="ASSETS_INFO_IDS_F"/>
 		<property name="tableName"	value="RPR_FILE_SEQ"/>
 	</bean>
-
+	
+	<!-- 방충재 점검 파일 gamFenderFileIdGnrService -->
+	<bean name="gamFenderFileIdGnrService"
+		class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrService"
+		destroy-method="destroy">
+		<property name="dataSource" ref="egov.dataSource" />
+		<property name="strategy" ref="fenderAttFileStrategy" />
+		<property name="blockSize" 	value="10"/>
+		<property name="table"	   	value="ASSETS_INFO_IDS_F"/>
+		<property name="tableName"	value="FENDER_FILE"/>
+	</bean>
+	
+	<bean name="fenderAttFileStrategy"
+		class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">
+		<property name="prefix" value="FD_" />
+		<property name="cipers" value="15" />
+		<property name="fillChar" value="0" />
+	</bean>
+	
 	<bean name="strategy"
 		class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">
 		<property name="prefix" value="" />
