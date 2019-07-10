@@ -144,9 +144,25 @@ GamAssetRentMngtModule.prototype.loadComplete = function(param) {
     // 아래 체크 박스 이벤트 예제 
 
     this.$("#assetRentMngtList").on('onItemCheckboxClick', function(event, module, row, rid, cInd) {
-    	console.log('$$$ item click');
-    	console.log(row);
-    	console.log(module.$('#assetRentMngtList').checkedRows());
+    	var rowData = row;
+    	if(rowData.prmisnYn == 'Y'){
+    		alert("결재 완료된 자료 입니다.");
+    		row.chkRole = false;
+    		module.$('#assetRentMngtList').flexUpdateRow(row.rnum, row);
+    	}
+    	else{
+	    	var sanctnSttus = rowData.sanctnSttus||'';
+	    	if(sanctnSttus == '1' || sanctnSttus == '2' || sanctnSttus == '5'){
+	    		alert('결재 진행 중인 자료 입니다.');
+	    		row.chkRole = false;
+	    		module.$('#assetRentMngtList').flexUpdateRow(row.rnum, row);
+	    	}
+    	}
+    	
+//    	console.log('$$$ item click');
+//    	console.log(row);
+
+    	//    	console.log(module.$('#assetRentMngtList').checkedRows());
     });
 
     this.$("#assetRentDetailList").on('onItemSelected', function(event, module, row, grid, param) {
@@ -1235,15 +1251,6 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
 
     this.calcFirstPaymentAmount();
 };
-
-/**
- * 정의 된 버튼 클릭 시
- */
- GamAssetRentMngtModule.prototype.onCheckbox = function(row, rid, cInd) {
-
-    switch(buttonId) {
-    }
-}
 
 /**
  * 정의 된 버튼 클릭 시
