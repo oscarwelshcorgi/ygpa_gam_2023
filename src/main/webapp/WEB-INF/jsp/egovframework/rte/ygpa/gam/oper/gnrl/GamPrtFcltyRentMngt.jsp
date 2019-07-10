@@ -140,6 +140,14 @@ GamAssetRentMngtModule.prototype.loadComplete = function(param) {
     	module.setButtonState();
     	module._mainKeyValue = row;
     });
+    
+    // 아래 체크 박스 이벤트 예제 
+
+    this.$("#assetRentMngtList").on('onItemCheckboxClick', function(event, module, row, rid, cInd) {
+    	console.log('$$$ item click');
+    	console.log(row);
+    	console.log(module.$('#assetRentMngtList').checkedRows());
+    });
 
     this.$("#assetRentDetailList").on('onItemSelected', function(event, module, row, grid, param) {
         //module.$('#btnApplyGisAssetsCode').prop('disabled', false);
@@ -1231,6 +1239,15 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
 /**
  * 정의 된 버튼 클릭 시
  */
+ GamAssetRentMngtModule.prototype.onCheckbox = function(row, rid, cInd) {
+
+    switch(buttonId) {
+    }
+}
+
+/**
+ * 정의 된 버튼 클릭 시
+ */
  GamAssetRentMngtModule.prototype.onButtonClick = function(buttonId) {
 
     switch(buttonId) {
@@ -1278,6 +1295,7 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
 
         // 연장신청
         case 'addAssetRentRenew':
+        	
             var rows = this.$('#assetRentMngtList').selectedRows();
 
             /* if( rows[0]['quayGroupCd'] != 'P' ) {
