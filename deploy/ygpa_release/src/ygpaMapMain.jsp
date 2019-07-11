@@ -92,6 +92,107 @@
 	    	EMD.go("${pageContext.request.contextPath}", "http://192.168.0.71:8092/G2DataService/2d/Base/201310", "http://192.168.0.71:8092/G2DataService/GService?", "${pageContext.request.scheme}://${pageContext.request.serverName}", frmwrkMenu);
     	 });
 
+    function getAssetsCdStyleMap() {
+    	var assetCdStyle = new OpenLayers.Style({
+				strokeColor: "#000000",
+				strokeOpacity: 1,
+				strokeWidth: 1,
+				fillColor: "#303294",
+				fillOpacity: 0.5,
+				pointRadius: 6,
+				pointerEvents: "visiblePainted",
+				label : "\${ASSETS_NM}",
+				fontColor: "black",
+				fontSize: "12px",
+				fontFamily: "Courier New, monospace",
+				fontWeight: "bold",
+				labelAlign: "cm",
+				labelXOffset: "2px",
+				labelYOffset: "2px",
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+    	},
+    	{
+    		rules: [
+    			new OpenLayers.Rule({
+    				filter: new OpenLayers.Filter.Comparison({
+    					type: OpenLayers.Filter.Comparison.EQUAL_TO,
+    					property: "AS_TP",
+    					value: 'W',
+    				}),
+    				symbolizer: {
+   						strokeColor: "#000000",
+   						fillColor: "#303294"
+    				}
+    			}),
+    			new OpenLayers.Rule({
+    				filter: new OpenLayers.Filter.Comparison({
+    					type: OpenLayers.Filter.Comparison.EQUAL_TO,
+    					property: "AS_TP",
+    					value: 'A',
+    				}),
+    				symbolizer: {
+    					strokeColor: "#000000",
+    					fillColor: "#803294"
+    				}
+    			}),
+    			new OpenLayers.Rule({
+    				filter: new OpenLayers.Filter.Comparison({
+    					type: OpenLayers.Filter.Comparison.EQUAL_TO,
+    					property: "AS_TP",
+    					value: 'L',
+    				}),
+    				symbolizer: {
+    					strokeColor: "#000000",
+    					fillColor: "#FF0000"
+    				}
+    			}),
+    			new OpenLayers.Rule({
+    				filter: new OpenLayers.Filter.Comparison({
+    					type: OpenLayers.Filter.Comparison.EQUAL_TO,
+    					property: "AS_TP",
+    					value: 'U',
+    				}),
+    				symbolizer: {
+    					strokeColor: "#000000",
+    					fillColor: "#f7786b"
+    				}
+    			}),
+    			new OpenLayers.Rule({
+    				filter: new OpenLayers.Filter.Comparison({
+    					type: OpenLayers.Filter.Comparison.EQUAL_TO,
+    					property: "AS_TP",
+    					value: 'S',
+    				}),
+    				symbolizer: {
+    					strokeColor: "#000000",
+    					fillColor: "#ffef96"
+    				}
+    			}),
+    			new OpenLayers.Rule({
+    				filter: new OpenLayers.Filter.Comparison({
+    					type: OpenLayers.Filter.Comparison.EQUAL_TO,
+    					property: "AS_TP",
+    					value: 'w',
+    				}),
+    				symbolizer: {
+    					strokeColor: "#000000",
+    					fillColor: "#618685"
+    				}
+    			}),
+    			new OpenLayers.Rule({
+    				elseFilter: true,
+    				symbolizer: {
+    					strokeColor: "#000000",
+    					fillColor: "#A0A0A0"
+    				}
+    			})
+    		]
+    	});
+		
+		return new OpenLayers.StyleMap(assetCdStyle, {extendDefault: true});
+
+    }
     </script>
   </head>
   <body>

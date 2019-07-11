@@ -4,7 +4,8 @@
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-
+<%-- 맵 디버깅 용 변수 값을 true로 하면 지적도 저장 기능이 나온다. --%>
+<c:set var="_mapDebug" value="false"/>
 <%
   /**
   * @Class Name : ygpaMapMain.jsp
@@ -65,7 +66,7 @@
     <script src="<c:url value='/js/emf_map.ygpa_gam_2019.js'/>"></script>
 
     <script type="text/javascript">
-	var $DEBUG=false;
+	var $DEBUG=${_mapDebug};
 	var wikiUrl="http://192.168.200.61:8100/wiki/Wiki.jsp?";
 
     jQuery(document).ready(function() {
@@ -97,10 +98,150 @@
 					</c:forEach>
 				];
 	   	   </c:if>
+	   	   
 //	    	EMD.go("${pageContext.request.contextPath}", "http://192.168.0.71:8092/G2DataService/2d/Base/201310", "http://192.168.0.71:8092/G2DataService/GService?", "${pageContext.request.scheme}://${pageContext.request.serverName}", frmwrkMenu);
 	    	EMD.go("${pageContext.request.contextPath}", "http://xdworld.vworld.kr:8080/2d/Base/201310", "http://192.168.100.70:8080/G2DataService/GService?", "${pageContext.request.scheme}://${pageContext.request.serverName}", frmwrkMenu);
 //	    	EMD.go("${pageContext.request.contextPath}", "http://192.168.0.71:8092/G2DataService/2d/Base/201310", "http://192.168.0.71:8092/G2DataService/GService?", "${pageContext.request.scheme}://${pageContext.request.serverName}", frmwrkMenu);
  	 });
+    
+    function getAssetsCdStyleMap() {
+    	var assetCdStyle = new OpenLayers.Style({
+				strokeColor: "#000000",
+				strokeOpacity: 1,
+				strokeWidth: 1,
+				fillColor: "#303294",
+				fillOpacity: 0.5,
+				pointRadius: 6,
+				pointerEvents: "visiblePainted",
+				label : "\${ASSETS_NM}",
+				fontColor: "black",
+				fontSize: "12px",
+				fontFamily: "Courier New, monospace",
+				fontWeight: "bold",
+				labelAlign: "cm",
+				labelXOffset: "2px",
+				labelYOffset: "2px",
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+    	},
+    	{
+    		rules: [
+    			new OpenLayers.Rule({
+    				filter: new OpenLayers.Filter.Comparison({
+    					type: OpenLayers.Filter.Comparison.EQUAL_TO,
+    					property: "AS_TP",
+    					value: 'W',
+    				}),
+    				symbolizer: {
+   						strokeColor: "#000000",
+   						fillColor: "#303294"
+    				}
+    			}),
+    			new OpenLayers.Rule({
+    				filter: new OpenLayers.Filter.Comparison({
+    					type: OpenLayers.Filter.Comparison.EQUAL_TO,
+    					property: "AS_TP",
+    					value: 'A',
+    				}),
+    				symbolizer: {
+    					strokeColor: "#000000",
+    					fillColor: "#803294"
+    				}
+    			}),
+    			new OpenLayers.Rule({
+    				filter: new OpenLayers.Filter.Comparison({
+    					type: OpenLayers.Filter.Comparison.EQUAL_TO,
+    					property: "AS_TP",
+    					value: 'L',
+    				}),
+    				symbolizer: {
+    					strokeColor: "#000000",
+    					fillColor: "#80ced6"
+    				}
+    			}),
+    			new OpenLayers.Rule({
+    				filter: new OpenLayers.Filter.Comparison({
+    					type: OpenLayers.Filter.Comparison.EQUAL_TO,
+    					property: "AS_TP",
+    					value: 'U',
+    				}),
+    				symbolizer: {
+    					strokeColor: "#000000",
+    					fillColor: "#f7786b"
+    				}
+    			}),
+    			new OpenLayers.Rule({
+    				filter: new OpenLayers.Filter.Comparison({
+    					type: OpenLayers.Filter.Comparison.EQUAL_TO,
+    					property: "AS_TP",
+    					value: 'S',
+    				}),
+    				symbolizer: {
+    					strokeColor: "#000000",
+    					fillColor: "#ffef96"
+    				}
+    			}),
+    			new OpenLayers.Rule({
+    				filter: new OpenLayers.Filter.Comparison({
+    					type: OpenLayers.Filter.Comparison.EQUAL_TO,
+    					property: "AS_TP",
+    					value: 'w',
+    				}),
+    				symbolizer: {
+    					strokeColor: "#000000",
+    					fillColor: "#618685"
+    				}
+    			}),
+    			new OpenLayers.Rule({
+    				filter: new OpenLayers.Filter.Comparison({
+    					type: OpenLayers.Filter.Comparison.EQUAL_TO,
+    					property: "ASSETS_SE_CD",
+    					value: '1',
+    				}),
+    				symbolizer: {
+   						strokeColor: "#000000",
+   						fillColor: "#FF0000",
+   						fillOpacity: 0.75
+    				}
+    			}),
+    			new OpenLayers.Rule({
+    				filter: new OpenLayers.Filter.Comparison({
+    					type: OpenLayers.Filter.Comparison.EQUAL_TO,
+    					property: "ASSETS_SE_CD",
+    					value: '2',
+    				}),
+    				symbolizer: {
+    					strokeColor: "#000000",
+    					fillColor: "#00FF00",
+   						fillOpacity: 0.75
+    				}
+    			}),
+    			new OpenLayers.Rule({
+    				filter: new OpenLayers.Filter.Comparison({
+    					type: OpenLayers.Filter.Comparison.EQUAL_TO,
+    					property: "ASSETS_SE_CD",
+    					value: '4',
+    				}),
+    				symbolizer: {
+    					strokeColor: "#000000",
+    					fillColor: "#0000FF",
+   						fillOpacity: 0.75
+    				}
+    			}),
+    			new OpenLayers.Rule({
+    				elseFilter: true,
+    				symbolizer: {
+    					strokeColor: "#000000",
+    					fillColor: "#A0A0A0",
+   						fillOpacity: 0.75
+    				}
+    			})
+    		]
+    	});
+		
+		return new OpenLayers.StyleMap(assetCdStyle, {extendDefault: true});
+
+    }
     </script>
   </head>
   <body>
@@ -176,6 +317,28 @@
                 </li>
             </ul>
         </li>
+        <c:if test="${_mapDebug }">
+        <li><a class="menu_trigger" href="#">샘플</a>
+					<ul class="menu">
+						<li><a href="#"><b>자산정보 관리</b></a>
+							<ul class="submenu">
+								<li><a href="#" data-role="LoadModule" data-url="<c:url value='/sample/gamAssetMngt.do'/>">자산정보관리</a></li>
+								<li><a href="#" data-role="LoadModule" data-url="<c:url value='/sample/gamAssetRentMngt.do'/>">자산임대관리</a></li>
+								<li><a href="#" data-role="LoadModule" data-url="<c:url value='/sample/gamAuthorRoleMng.do'/>">권한 롤 관리</a></li>
+								<li><a href="#" data-role="LoadModule" data-url="<c:url value='/sample/gamAuthorGrpMng.do'/>">권한 그룹 관리</a></li>
+								<li><a href="#" data-role="LoadModule" data-url="<c:url value='/sample/gamAuthorGrpMng.do'/>">권한 그룹 관리</a></li>
+							</ul>
+							</li>
+						<li><a href="#"><b>테스트</b></a>
+							<ul class="submenu">
+								<li><a href="#" data-role="LoadModule" data-url="<c:url value='/eap/showEapGwCallInterfaceView.do'/>">전자결재 테스트</a></li>
+								<li><a href="#" data-role="startLogLandCode">지적도 기록</a></li>
+								<li><a href="#" data-role="saveLandCode">지적도 저장</a></li>
+							</ul>
+							</li>
+					</ul>
+				</li>
+				</c:if>
         </ul>
   </div>
     <div class="abs" id="bar_bottom">
