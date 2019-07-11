@@ -52,6 +52,16 @@
 							<isNotEmpty property="sFcltsMngGroupNm">
 								AND G.FCLTS_MNG_GROUP_NM like '%'||#sFcltsMngGroupNm#||'%'
 							</isNotEmpty>
+							<isNotEmpty property="sCntrwkBegin">
+								<![CDATA[
+					         		AND CNTRWK_END > TO_DATE(#sCntrwkBegin#, 'YYYY-MM-DD')
+					         	]]>
+							</isNotEmpty>
+							<isNotEmpty property="sCntrwkEnd">
+						         <![CDATA[
+						         	AND CNTRWK_END < TO_DATE(#sCntrwkEnd#, 'YYYY-MM-DD')+1
+						         ]]>
+							</isNotEmpty>
 							ORDER BY PRT_AT_CODE DESC
 				) S
 		) T

@@ -35,6 +35,8 @@ public class GamFenderMaintenanceVO extends ComDefaultVO {
 	private String sFcltsGbn;
 	private String sFcltsMngGroupNo;
 	private String sFcltsMngGroupNm;
+	private String sCntrwkBegin;
+	private String sCntrwkEnd;
 	
 	/** 항구분 */ 
 	private String prtAtCodeNm ;
@@ -377,6 +379,30 @@ public class GamFenderMaintenanceVO extends ComDefaultVO {
 	 */
 	public void setLoc(String loc) {
 		this.loc = loc;
+	}
+	/**
+	 * @return the sCntrwkBegin
+	 */
+	public String getsCntrwkBegin() {
+		return sCntrwkBegin;
+	}
+	/**
+	 * @param sCntrwkBegin the sCntrwkBegin to set
+	 */
+	public void setsCntrwkBegin(String sCntrwkBegin) {
+		this.sCntrwkBegin = sCntrwkBegin;
+	}
+	/**
+	 * @return the sCntrwkEnd
+	 */
+	public String getsCntrwkEnd() {
+		return sCntrwkEnd;
+	}
+	/**
+	 * @param sCntrwkEnd the sCntrwkEnd to set
+	 */
+	public void setsCntrwkEnd(String sCntrwkEnd) {
+		this.sCntrwkEnd = sCntrwkEnd;
 	}
 
 }

@@ -54,6 +54,8 @@ GamFenderDurabilityModule.prototype.loadComplete = function() {
 		showTableToggleBtn : false,
 		height : 'auto'
 	});
+	
+	this.loadData();
 }
 
 <%

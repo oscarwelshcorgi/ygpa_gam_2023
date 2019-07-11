@@ -7,7 +7,7 @@
 <%
 /**
  * @Class Name : GamFenderSttusInqire.jsp
- * @Description : 방충재 정기점검
+ * @Description : 방충재 유지보수
  * @Modification Information
  *
  *   수정일         수정자                   수정내용
@@ -30,16 +30,16 @@
 
 <%
 /**
- * @FUNCTION NAME : GamFenderInspectionModule
+ * @FUNCTION NAME : GamFenderMaintenanceModule
  * @DESCRIPTION   : MODULE 고유 함수
  * @PARAMETER     : NONE
 **/
 %>
-function GamFenderInspectionModule() {}
+function GamFenderMaintenanceModule() {}
 
-GamFenderInspectionModule.prototype = new EmdModule(960, 550);
+GamFenderMaintenanceModule.prototype = new EmdModule(960, 550);
 
-GamFenderInspectionModule.prototype.loadComplete = function() {
+GamFenderMaintenanceModule.prototype.loadComplete = function() {
 // 그리드 설정
 	this.$("#mainGrid").flexigrid({
 		module : this,
@@ -114,12 +114,17 @@ GamFenderInspectionModule.prototype.loadComplete = function() {
 // 연도 셀렉트 박스 생성	
 	var toDate = new Date();
 	var toYear = toDate.getFullYear();
+	var toMonth = toDate.getMonth() + 1;
+	var toDay = toDate.getDate();
 
 	for(var i = toYear;i>=2010;i--){
 		this.$(".year").append("<option value='" + i + "'>" + i + "년</option>");
 	}
 	
+	this.$("#sCntrwkBegin").val(toYear+"-"+toMonth+"-"+toDay);
 
+	this.loadData();
+	
 }
 
 <%
@@ -131,7 +136,7 @@ GamFenderInspectionModule.prototype.loadComplete = function() {
  *   2. oldTabId - OLD TAB ID
 **/
 %>
-GamFenderInspectionModule.prototype.onTabChange = function(newTabId, oldTabId) {
+GamFenderMaintenanceModule.prototype.onTabChange = function(newTabId, oldTabId) {
 	console.log("onTabChange");
 	switch (newTabId) {
 		case 'listTab':
@@ -177,7 +182,7 @@ GamFenderInspectionModule.prototype.onTabChange = function(newTabId, oldTabId) {
  *   1. buttonId - buttonId
 **/
 %>
-GamFenderInspectionModule.prototype.onButtonClick = function(buttonId) {
+GamFenderMaintenanceModule.prototype.onButtonClick = function(buttonId) {
 	console.log("onButtonClick");
 	switch (buttonId) {
 		case 'btnAdd':
@@ -212,7 +217,7 @@ GamFenderInspectionModule.prototype.onButtonClick = function(buttonId) {
  *   3. value    - VALUE
 **/
 %>
-GamFenderInspectionModule.prototype.onClosePopup = function(popupId, msg, value) {
+GamFenderMaintenanceModule.prototype.onClosePopup = function(popupId, msg, value) {
 	console.log("onClosePopup");
 	switch (popupId) {
 		case 'popupSpecFcltsMngGroupNo':	// 버튼 parameter 값을 사용=> this.doExecuteDialog(buttonId, "시설물 관리 그룹 선택", '/popup/showFenderMngGroup.do', searchOpts);
@@ -242,7 +247,7 @@ GamFenderInspectionModule.prototype.onClosePopup = function(popupId, msg, value)
  * @PARAMETER     : NONE
 **/
 %>
- GamFenderInspectionModule.prototype.onSubmit = function() {
+ GamFenderMaintenanceModule.prototype.onSubmit = function() {
 	this.$("#sFcltsMngGroupNo").val('');
 	this.loadData();
 }
@@ -254,7 +259,7 @@ GamFenderInspectionModule.prototype.onClosePopup = function(popupId, msg, value)
  * @PARAMETER     : NONE
 **/
 %>
- GamFenderInspectionModule.prototype.loadData = function() {
+ GamFenderMaintenanceModule.prototype.loadData = function() {
 	this._mainmode='';
 	this.$("#mainTab").tabs("option", {active: 0});	// 탭 이동
 	var searchOpt=this.makeFormArgs('#searchForm');	// searchOpt = {"sYear":"", "sFcltsGbn":"", "sFcltsMngGroupNm":""}
@@ -270,7 +275,7 @@ GamFenderInspectionModule.prototype.onClosePopup = function(popupId, msg, value)
  *   1. tabId - TAB ID
 **/
 %>
-GamFenderInspectionModule.prototype.loadDetail = function(tabId) {
+GamFenderMaintenanceModule.prototype.loadDetail = function(tabId) {
 	console.log("loadDetail");
 	if (tabId == 'listTab') {
 		var row = this.$('#mainGrid').selectedRows();	// 현재 선택된 row 값 가지고 오기
@@ -302,7 +307,7 @@ GamFenderInspectionModule.prototype.loadDetail = function(tabId) {
  * @PARAMETER     : NONE
 **/
 %>
-GamFenderInspectionModule.prototype.saveData = function() {
+GamFenderMaintenanceModule.prototype.saveData = function() {
 	console.log("saveData");
 	
 /* 	if (!validateGamFenderInspectionVO(this.$("#detailForm")[0])){
@@ -352,7 +357,7 @@ GamFenderInspectionModule.prototype.saveData = function() {
  * @PARAMETER     : NONE
 **/
 %>
-GamFenderInspectionModule.prototype.deleteData = function() {
+GamFenderMaintenanceModule.prototype.deleteData = function() {
 	console.log("deleteData");
 
 	if (confirm("삭제하시겠습니까?")) {
@@ -370,7 +375,7 @@ GamFenderInspectionModule.prototype.deleteData = function() {
 
 
 
-var module_instance = new GamFenderInspectionModule();
+var module_instance = new GamFenderMaintenanceModule();
 
 </script>
 
@@ -417,6 +422,15 @@ var module_instance = new GamFenderInspectionModule();
 							<td>
 								<button class="buttonSearch">조회</button>
 							</td>
+						</tr>
+						<tr>
+							<th>유지보수 기간</th>
+							<td colspan="5">
+	                            <input id="sCntrwkBegin" type="text" class="emdcal" data-role="dtFrom" data-dt-to="sCntrwkEnd" size="8">
+	                            <span id="hideUsageDt"> ~ 
+	                            	<input id="sCntrwkEnd" type="text" class="emdcal" data-role="dtTo" data-dt-from="sCntrwkBegin" size="8">
+	                            </span>
+                            </td>
 						</tr>
 					</tbody>
 				</table>

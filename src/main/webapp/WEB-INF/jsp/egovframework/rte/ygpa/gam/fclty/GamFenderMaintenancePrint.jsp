@@ -8,7 +8,7 @@
 <%
 /**
  * @Class Name : GamFenderInspectionPrint.jsp
- * @Description : 방충재 정기점검 출력
+ * @Description : 방충재 유지보수 출력
  * @Modification Information
  *
  *   수정일         수정자                   수정내용
