@@ -22,6 +22,14 @@ public class GamPrtFcltyRentFeeMngtVO extends ComDefaultVO {
 	private static final long serialVersionUID = 1L;
 
 	private String sChrgeKnd;
+	
+	private String check1;
+	private String check2;
+	private String check3;
+	private String check4;
+	private String check5;
+	private String other;
+	
 
 	/** 고지 횟수 */
     private String nticCnt;
@@ -1761,6 +1769,90 @@ public class GamPrtFcltyRentFeeMngtVO extends ComDefaultVO {
 	 */
 	public void setsSaveYn(String sSaveYn) {
 		this.sSaveYn = sSaveYn;
+	}
+
+	/**
+	 * @return the check1
+	 */
+	public String getCheck1() {
+		return check1;
+	}
+
+	/**
+	 * @param check1 the check1 to set
+	 */
+	public void setCheck1(String check1) {
+		this.check1 = check1;
+	}
+
+	/**
+	 * @return the check2
+	 */
+	public String getCheck2() {
+		return check2;
+	}
+
+	/**
+	 * @param check2 the check2 to set
+	 */
+	public void setCheck2(String check2) {
+		this.check2 = check2;
+	}
+
+	/**
+	 * @return the check3
+	 */
+	public String getCheck3() {
+		return check3;
+	}
+
+	/**
+	 * @param check3 the check3 to set
+	 */
+	public void setCheck3(String check3) {
+		this.check3 = check3;
+	}
+
+	/**
+	 * @return the check4
+	 */
+	public String getCheck4() {
+		return check4;
+	}
+
+	/**
+	 * @param check4 the check4 to set
+	 */
+	public void setCheck4(String check4) {
+		this.check4 = check4;
+	}
+
+	/**
+	 * @return the check5
+	 */
+	public String getCheck5() {
+		return check5;
+	}
+
+	/**
+	 * @param check5 the check5 to set
+	 */
+	public void setCheck5(String check5) {
+		this.check5 = check5;
+	}
+
+	/**
+	 * @return the other
+	 */
+	public String getOther() {
+		return other;
+	}
+
+	/**
+	 * @param other the other to set
+	 */
+	public void setOther(String other) {
+		this.other = other;
 	}
 
 

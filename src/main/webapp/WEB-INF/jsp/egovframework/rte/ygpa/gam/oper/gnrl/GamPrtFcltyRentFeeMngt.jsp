@@ -583,21 +583,24 @@ GamAssetRentFeeMngtModule.prototype.cancelSave = function() {
             }
         	break;
         
-        case 'btnReportHwp':	// 산정조서 다운로드
+/* 산정조서 다운로드 추가 
+ * jckim
+ * 2019.07.08 
+ */
+        case 'btnReportHwp':	
             if(this.$('#assetRentFeeList').selectedRowCount()>0) {
-                var rows = this.$('#assetRentFeeList').selectedRows()[0];
-
-                if( rows['save'] == 'Y' ) {
+                this._rows = this.$('#assetRentFeeList').selectedRows()[0];
+                if( this._rows['save'] == 'Y' ) {
                 	alert("투자비보전 상계가 되었기에 출력을 할 수 없습니다.");
                 	return;
                 }
 
-                if( rows['nhtIsueYn'] != 'Y' ) {
+                if( this._rows['nhtIsueYn'] != 'Y' ) {
                 	alert("해당 건은 아직 고지되지 않았습니다.");
                 	return;
                 }
-				
-                $.fileDownload(EMD.context_root+'/oper/gnrl/RentFeeReportHwp.do', {data:rows, httpMethod:"POST"});
+                
+                this.doExecuteDialog('popupRentFeeReportHwp', '산정조서 근거', '/oper/gnrl/popupRentFeeReportHwp.do', null);
                 
             } else {
             	alert("다운로드할 목록에서 선택하십시오.");
@@ -840,6 +843,18 @@ GamAssetRentFeeMngtModule.prototype.onClosePopup = function(popupId, msg, value)
 	       var searchOpt=this.makeFormArgs('#gamAssetRentFeeSearchForm');
 	       this.$('#assetRentFeeList').flexOptions({params:searchOpt}).flexReload();
     	}
+    	break;
+    case 'popupRentFeeReportHwp':
+    	if(msg == 'ok') {
+ 	       this._rows.check1 = value.check1
+ 	       this._rows.check2 = value.check2
+ 	       this._rows.check3 = value.check3
+ 	       this._rows.check4 = value.check4
+ 	       this._rows.check5 = value.check5
+ 	       this._rows.other = value.other
+ 	       
+	   		$.fileDownload(EMD.context_root+'/oper/gnrl/rentFeeReportHwp.do', {data:this._rows, httpMethod:"POST"});
+     	}
     	break;
      default:
          alert('알수없는 팝업 이벤트가 호출 되었습니다.');

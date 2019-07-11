@@ -21,6 +21,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
 
+import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
@@ -103,6 +104,8 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
     @Resource(name="gamPrtFcltyRentFeeMngtDao")
     private GamPrtFcltyRentFeeMngtDao gamPrtFcltyRentFeeMngtDao;
 
+    @Resource(name="egovMessageSource")
+    private EgovMessageSource egovMessageSource;
 	/* (non-Javadoc)
 	 * @see egovframework.rte.ygpa.gam.cmmn.fclty.service.GamNticRequestMngtService#sendNticRequest(java.util.Map)
 	 */
@@ -1164,21 +1167,57 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
 			sb.append("<CHAR>가. 근거</CHAR>\n");
 			sb.append("</TEXT>\n");
 			sb.append("</P>\n");
+			
 			sb.append("<P InstId=\"2147689445\" ParaShape=\"12\" Style=\"2\">\n");
 			sb.append("<TEXT CharShape=\"6\">\n");
 			sb.append("<CHAR>여수광양항만공사의 항만시설 사용 및 사용료 등에 관한 규정 제6조</CHAR>\n");
 			sb.append("</TEXT>\n");
 			sb.append("</P>\n");
-			sb.append("<P ParaShape=\"12\" Style=\"2\">\n");
-			sb.append("<TEXT CharShape=\"6\">\n");
-			sb.append("<CHAR>국유재산법 시행령 제29조</CHAR>\n");
-			sb.append("</TEXT>\n");
-			sb.append("</P>\n");
-			sb.append("<P ParaShape=\"12\" Style=\"2\">\n");
-			sb.append("<TEXT CharShape=\"6\">\n");
-			sb.append("<CHAR>기타</CHAR>\n");
-			sb.append("</TEXT>\n");
-			sb.append("</P>\n");
+			
+			if("true".equals(approvalOpt.getCheck1().toString())) {
+				sb.append("<P ParaShape=\"12\" Style=\"2\">\n");
+				sb.append("<TEXT CharShape=\"6\">\n");
+				sb.append("<CHAR>"+egovMessageSource.getMessage("gam.oper.gnrl.rentFeeReportHwp1")+"</CHAR>\n");
+				sb.append("</TEXT>\n");
+				sb.append("</P>\n");
+			}
+			if("true".equals(approvalOpt.getCheck2().toString())) {
+				sb.append("<P ParaShape=\"12\" Style=\"2\">\n");
+				sb.append("<TEXT CharShape=\"6\">\n");
+				sb.append("<CHAR>"+egovMessageSource.getMessage("gam.oper.gnrl.rentFeeReportHwp2")+"</CHAR>\n");
+				sb.append("</TEXT>\n");
+				sb.append("</P>\n");
+			}
+			if("true".equals(approvalOpt.getCheck3().toString())) {
+				sb.append("<P ParaShape=\"12\" Style=\"2\">\n");
+				sb.append("<TEXT CharShape=\"6\">\n");
+				sb.append("<CHAR>"+egovMessageSource.getMessage("gam.oper.gnrl.rentFeeReportHwp3")+"</CHAR>\n");
+				sb.append("</TEXT>\n");
+				sb.append("</P>\n");
+			}
+			if("true".equals(approvalOpt.getCheck4().toString())) {
+				sb.append("<P ParaShape=\"12\" Style=\"2\">\n");
+				sb.append("<TEXT CharShape=\"6\">\n");
+				sb.append("<CHAR>"+egovMessageSource.getMessage("gam.oper.gnrl.rentFeeReportHwp4")+"</CHAR>\n");
+				sb.append("</TEXT>\n");
+				sb.append("</P>\n");
+			}
+			if("true".equals(approvalOpt.getCheck5().toString())) {
+				sb.append("<P ParaShape=\"12\" Style=\"2\">\n");
+				sb.append("<TEXT CharShape=\"6\">\n");
+				sb.append("<CHAR>"+egovMessageSource.getMessage("gam.oper.gnrl.rentFeeReportHwp5")+"</CHAR>\n");
+				sb.append("</TEXT>\n");
+				sb.append("</P>\n");
+			}
+			if(!"".equals(approvalOpt.getOther().toString())) {
+				sb.append("<P ParaShape=\"12\" Style=\"2\">\n");
+				sb.append("<TEXT CharShape=\"6\">\n");
+				sb.append("<CHAR>"+approvalOpt.getOther().toString()+"</CHAR>\n");
+				sb.append("</TEXT>\n");
+				sb.append("</P>\n");
+			}
+			
+			
 			sb.append("<P ParaShape=\"3\" Style=\"0\">\n");
 			sb.append("<TEXT CharShape=\"6\"/>\n");
 			sb.append("</P>\n");

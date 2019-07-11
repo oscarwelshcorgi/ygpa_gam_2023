@@ -1142,6 +1142,31 @@ public class GamPrtFcltyRentFeeMngtController {
 	    	return report;
     	}
 
+	    
+		/**
+	     * 산정조서를 출력 항목 팝업.
+	     * @param approvalOpt
+	     * @param model
+	     * @return
+	     * @throws Exception
+	     */
+	    @RequestMapping(value="/oper/gnrl/popupRentFeeReportHwp.do")
+	    String popupRentFeeReportHwp(GamPrtFcltyRentFeeMngtVO approvalOpt, ModelMap model) throws Exception {
+	    	
+	    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+	    	if(!isAuthenticated) {
+	    		model.addAttribute("resultCode", 1);
+	    		model.addAttribute("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+	    	}
+
+			model.addAttribute("resultCode", 0);
+			model.addAttribute("resultMsg", "");
+			
+	    	return "ygpa/gam/oper/gnrl/GamPopupPrtfcltyPrintReportHwp";
+	    	
+    	}
+	    
+	    
 		/**
 	     * 산정조서를 출력한다.
 	     * @param approvalOpt
@@ -1149,8 +1174,8 @@ public class GamPrtFcltyRentFeeMngtController {
 	     * @return
 	     * @throws Exception
 	     */
-	    @RequestMapping(value="/oper/gnrl/RentFeeReportHwp.do")
-	    String RentFeeReportHwp(GamPrtFcltyRentFeeMngtVO approvalOpt, ModelMap model) throws Exception {
+	    @RequestMapping(value="/oper/gnrl/rentFeeReportHwp.do")
+	    String rentFeeReportHwp(GamPrtFcltyRentFeeMngtVO approvalOpt, ModelMap model) throws Exception {
 	    	
 	    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
 	    	if(!isAuthenticated) {
