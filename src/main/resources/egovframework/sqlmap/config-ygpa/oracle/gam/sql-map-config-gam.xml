@@ -218,8 +218,8 @@
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/fclty/GamFenderInspectionDao_SQL_oracle.xml" />
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/fclty/GamFenderMaintenanceDao_SQL_oracle.xml" />
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/fclty/GamFenderDurabilityDao_SQL_oracle.xml" />
-
-
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/fclty/GamFenderPopupInqireDao_SQL_oracle.xml" />
+	
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/fcltyMng/GamFcltyMaintMngDao_SQL_oracle.xml" />
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/fcltyMng/GamFcltyQcwWrtMngDao_SQL_oracle.xml" />
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/fcltyMng/GamFcltyRepairMngDao_SQL_oracle.xml" />
