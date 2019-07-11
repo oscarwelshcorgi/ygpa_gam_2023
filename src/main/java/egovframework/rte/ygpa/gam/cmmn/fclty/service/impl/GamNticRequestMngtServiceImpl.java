@@ -1195,13 +1195,13 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
 				sb.append("</TEXT>\n");
 				sb.append("</P>\n");
 			}
-			if("true".equals(approvalOpt.getCheck4().toString())) {
+/*			if("true".equals(approvalOpt.getCheck4().toString())) {
 				sb.append("<P ParaShape=\"12\" Style=\"2\">\n");
 				sb.append("<TEXT CharShape=\"6\">\n");
 				sb.append("<CHAR>"+egovMessageSource.getMessage("gam.oper.gnrl.rentFeeReportHwp4")+"</CHAR>\n");
 				sb.append("</TEXT>\n");
 				sb.append("</P>\n");
-			}
+			}			
 			if("true".equals(approvalOpt.getCheck5().toString())) {
 				sb.append("<P ParaShape=\"12\" Style=\"2\">\n");
 				sb.append("<TEXT CharShape=\"6\">\n");
@@ -1209,6 +1209,7 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
 				sb.append("</TEXT>\n");
 				sb.append("</P>\n");
 			}
+*/
 			if(!"".equals(approvalOpt.getOther().toString())) {
 				sb.append("<P ParaShape=\"12\" Style=\"2\">\n");
 				sb.append("<TEXT CharShape=\"6\">\n");

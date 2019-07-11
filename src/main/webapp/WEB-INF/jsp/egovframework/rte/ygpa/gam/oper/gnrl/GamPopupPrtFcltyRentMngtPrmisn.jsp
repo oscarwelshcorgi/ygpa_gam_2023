@@ -25,7 +25,7 @@
  */
 function GamPopupPrtOperRentModule() {} GamPopupPrtOperRentModule
 
-GamPopupPrtOperRentModule.prototype = new EmdPopupModule(450, 120);
+GamPopupPrtOperRentModule.prototype = new EmdPopupModule(450, 135);
 
 // 팝업이 호출 되었을때 호출 되는 함수
 GamPopupPrtOperRentModule.prototype.loadComplete = function() {
@@ -46,10 +46,14 @@ GamPopupPrtOperRentModule.prototype.onButtonClick = function(buttonId) {
             alert("요금종류를 선택하십시오.");
             return;
         }
+		if( this.$('#payTmlmt').val() == '' ) {
+            alert("납부기한을 입력하십시오.");
+            return;
+        }
 
 		if( confirm("승낙 하시겠습니까?") ) {
 			
-			this.closeDialog('ok', {'title':this.$('#title').val(), 'chrgeKnd':this.$('#chrgeKnd').val()} );
+			this.closeDialog('ok', {'title':this.$('#title').val(), 'chrgeKnd':this.$('#chrgeKnd').val(), 'payTmlmt':this.$('#payTmlmt').val()} );
 /* 			var inputVO=this.makeFormArgs('#gamPopupPrmisnForm');
 
 	        //this.doAction('/oper/gnrl/gamInsertPrtFcltyRentMngtPrmisn.do', inputVO, function(module, result) {
@@ -107,6 +111,8 @@ var popup_instance = new GamPopupPrtOperRentModule();
 	                            </c:forEach>
                             </select>
                         </td>
+                        
+                        
                         <!--
                         <th>부가세 여부</th>
                         <td>
@@ -119,6 +125,12 @@ var popup_instance = new GamPopupPrtOperRentModule();
                         -->
                         <td><button id="btnPrmisnExec" class="submit">승낙</button></td>
                     </tr>
+                    <tr>
+                        <th>납부기한</th>
+                        <td colspan="3">
+							<input type="text" class="emdcal calcInput" size="11" id="payTmlmt" />
+                        </td>
+					</tr>
 				</tbody>
 		    </table>
 		</form>

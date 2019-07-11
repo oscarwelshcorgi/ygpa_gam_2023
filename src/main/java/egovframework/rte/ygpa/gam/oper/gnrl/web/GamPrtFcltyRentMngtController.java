@@ -1130,6 +1130,9 @@ public class GamPrtFcltyRentMngtController {
 
          String chrgeKnd = (String)inputVO.get("chrgeKnd");
          String title = (String)inputVO.get("title");
+         String empCd = (String)inputVO.get("empCd");
+         String payTmlmt = (String)inputVO.get("payTmlmt");
+         
          String grFee = "";
          String vat = "";
          String TotGrFee = "";
@@ -1175,7 +1178,7 @@ public class GamPrtFcltyRentMngtController {
         	 paramMap.put("totPayamt", TotGrFee);
         	 paramMap.put("payTmlmt", "");
         	 
-        	 mDataValue1=mDataValue1+"|"+gamPrtFcltyRentMngtVO.get("entrpsNm")+"|"+gamPrtFcltyRentMngtVO.get("grUsagePdFrom")+'~'+gamPrtFcltyRentMngtVO.get("grUsagePdTo")+"|"+gamPrtFcltyRentMngtVO.get("cmt") +"|"+gamPrtFcltyRentMngtVO.get("grAr") +"|"+grFee+""+"("+vat+")" +"|"+TotGrFee +"|"+" ";
+        	 mDataValue1=mDataValue1+"|"+gamPrtFcltyRentMngtVO.get("entrpsNm")+"|"+gamPrtFcltyRentMngtVO.get("grUsagePdFrom")+'~'+gamPrtFcltyRentMngtVO.get("grUsagePdTo")+"|"+gamPrtFcltyRentMngtVO.get("cmt") +"|"+gamPrtFcltyRentMngtVO.get("grAr") +"|"+grFee+""+"("+vat+")" +"|"+TotGrFee +"|"+payTmlmt+"까지";
         	 
         	 /* 전자 결재 히스토리 저장 */
         	 String co = gamAssetsUsePermMngtService.insertElctrnSanctn(paramMap);
@@ -1197,7 +1200,7 @@ public class GamPrtFcltyRentMngtController {
          
          
          elctrnSanctnMap.put("tNo", elctrnSanctnPk.get("tNo"));
-         elctrnSanctnMap.put("empCd", "12345");
+         elctrnSanctnMap.put("empCd", empCd);
          elctrnSanctnMap.put("sysId", "MIS");
          elctrnSanctnMap.put("docId", "MIS001");
          elctrnSanctnMap.put("miskey", miskey);

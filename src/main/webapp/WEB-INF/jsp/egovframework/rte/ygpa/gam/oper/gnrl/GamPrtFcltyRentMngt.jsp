@@ -157,12 +157,18 @@ GamAssetRentMngtModule.prototype.loadComplete = function(param) {
 	    		row.chkRole = false;
 	    		module.$('#assetRentMngtList').flexUpdateRow(row.rnum, row);
 	    	}
+	    	else{
+	    		var count = module.$('#assetRentMngtList').checkedRows().length
+	    		if(count>0){
+	    			module.$('#btnPrmisn').show();
+	    		}
+	    	}
     	}
     	
 //    	console.log('$$$ item click');
 //    	console.log(row);
 
-    	//    	console.log(module.$('#assetRentMngtList').checkedRows());
+    	//    	console.log(module.$('#assetRentMngtList').checkedRows();
     });
 
     this.$("#assetRentDetailList").on('onItemSelected', function(event, module, row, grid, param) {
@@ -2189,8 +2195,11 @@ GamAssetRentMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
      case 'insertAssetRentPrmisnPopup':
          if (msg != 'cancel') {
         	 var inputVO = []; 
+
+        	 inputVO[inputVO.length] = {name: 'empCd', value : EMD.userinfo.emplNo};
         	 inputVO[inputVO.length] = {name: 'title', value : value.title };
         	 inputVO[inputVO.length] = {name: 'chrgeKnd', value : value.chrgeKnd };
+        	 inputVO[inputVO.length] = {name: 'payTmlmt', value : value.payTmlmt };
         	 inputVO[inputVO.length] = {name: 'assetRentMngtList', value :JSON.stringify(this.$('#assetRentMngtList').selectFilterData([{col: 'chkRole', filter: true}])) };
         	 
  	        this.doAction('/oper/gnrl/gamUpdatePrtFcltyRentMngtPrmisn.do', inputVO, function(module, result) {
