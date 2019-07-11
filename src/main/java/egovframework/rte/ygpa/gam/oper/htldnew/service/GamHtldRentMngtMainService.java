@@ -54,7 +54,7 @@ public interface GamHtldRentMngtMainService {
 	 * @param nowYear
 	 * @param oldYear
 	 */
-	void insertCopyAllRentContract(String nowYear, String oldYear) throws Exception;
+	void insertCopyAllRentContract(GamHtldRentMngtMainVO searchVO) throws Exception;
 
 	/**
 	 * @param searchVO
@@ -68,5 +68,5 @@ public interface GamHtldRentMngtMainService {
 	 * @param deleteList
 	 */
 	void updateHtldQuGtqyList(List<GamHtldQuGtqyVO> createList, List<GamHtldQuGtqyVO> updateList,	List<GamHtldQuGtqyVO> deleteList) throws Exception;
-	
+
 }

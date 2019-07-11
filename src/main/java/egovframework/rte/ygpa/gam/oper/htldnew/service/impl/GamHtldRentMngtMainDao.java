@@ -83,44 +83,36 @@ public class GamHtldRentMngtMainDao extends YGPAAbstractDAO {
 		return (String) getSqlMapClientTemplate().queryForObject("gamHtldRentMngtMainDao.selectNextRntfeeSeq_S", searchVO);
 	}
 
+
 	/**
-	 * @param oldYear
-	 * @return
+	 * @param nowYear
 	 */
-	public List selectRentContractList(String oldYear) {
+	public void deleteHtldRentData(Map deleteRentData) throws Exception{
 		// TODO Auto-generated method stub
-		return list("gamHtldRentMngtMainDao.selectRentContractList", oldYear);
+		delete("gamHtldRentMngtMainDao.deleteHtldRentData", deleteRentData);
 	}
 
 	/**
 	 * @param nowYear
 	 */
-	public void deleteHtldRentData(String oldYear) {
+	public void deleteHtldRentDetailData(Map deleteRentData) throws Exception{
 		// TODO Auto-generated method stub
-		delete("gamHtldRentMngtMainDao.deleteHtldRentData", oldYear);
-	}
-
-	/**
-	 * @param nowYear
-	 */
-	public void deleteHtldRentDetailData(String oldYear) {
-		// TODO Auto-generated method stub
-		delete("gamHtldRentMngtMainDao.deleteHtldRentDetailData", oldYear);
+		delete("gamHtldRentMngtMainDao.deleteHtldRentDetailData", deleteRentData);
 	}
 	
 	/**
 	 * @param nowYear
 	 */
-	public void inserHtldRentData(Map param) {
+	public String inserHtldRentData(Map param) throws Exception{
 		// TODO Auto-generated method stub
-		insert("gamHtldRentMngtMainDao.inserHtldRentData", param);
+		return (String)insert("gamHtldRentMngtMainDao.inserHtldRentData", param); 
 		
 	}
 
 	/**
 	 * @param nowYear
 	 */
-	public void inserHtldRentDetailData(Map param) {
+	public void inserHtldRentDetailData(Map param) throws Exception{
 		// TODO Auto-generated method stub
 		insert("gamHtldRentMngtMainDao.inserHtldRentDetailData", param);
 		
@@ -130,7 +122,7 @@ public class GamHtldRentMngtMainDao extends YGPAAbstractDAO {
 	 * @param searchVO
 	 * @return
 	 */
-	public List selectHtldQuGtqyList(GamHtldQuGtqyVO searchVO) {
+	public List selectHtldQuGtqyList(GamHtldQuGtqyVO searchVO) throws Exception{
 		// TODO Auto-generated method stub
 		return list("gamHtldRentMngtMainDao.selectHtldQuGtqyList", searchVO);
 	}
@@ -138,7 +130,7 @@ public class GamHtldRentMngtMainDao extends YGPAAbstractDAO {
 	/**
 	 * @param vo
 	 */
-	public void deleteHtldQuGtqyList(GamHtldQuGtqyVO vo) {
+	public void deleteHtldQuGtqyList(GamHtldQuGtqyVO vo) throws Exception{
 		// TODO Auto-generated method stub
 		delete("gamHtldRentMngtMainDao.deleteHtldQuGtqyList", vo);
 	}
@@ -146,7 +138,7 @@ public class GamHtldRentMngtMainDao extends YGPAAbstractDAO {
 	/**
 	 * @param vo
 	 */
-	public void updateHtldQuGtqyList(GamHtldQuGtqyVO vo) {
+	public void updateHtldQuGtqyList(GamHtldQuGtqyVO vo) throws Exception{
 		// TODO Auto-generated method stub
 		update("gamHtldRentMngtMainDao.updateHtldQuGtqyList", vo);
 	}
@@ -154,9 +146,17 @@ public class GamHtldRentMngtMainDao extends YGPAAbstractDAO {
 	/**
 	 * @param vo
 	 */
-	public void insertHtldQuGtqyList(GamHtldQuGtqyVO vo) {
+	public void insertHtldQuGtqyList(GamHtldQuGtqyVO vo) throws Exception{
 		// TODO Auto-generated method stub
 		insert("gamHtldRentMngtMainDao.insertHtldQuGtqyList", vo);
+	}
+
+	/**
+	 * @return
+	 */
+	public List deleteHtldRentList() throws Exception{
+		// TODO Auto-generated method stub
+		return  (List<?>) list("gamHtldRentMngtMainDao.deleteHtldRentList", null);
 	}
 
 

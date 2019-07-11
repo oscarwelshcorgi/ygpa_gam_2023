@@ -34,7 +34,7 @@ function GamHtldRentMngtMainModule() {}
 <%--
 	EmdModule을 상속하여 모듈 클래스를 정의한다.
 --%>
-GamHtldRentMngtMainModule.prototype = new EmdModule(1820, 810);
+GamHtldRentMngtMainModule.prototype = new EmdModule(1300, 810);
 
 <%--///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	EmdModule Override 및 이벤트 처리 정의 부분 시작
@@ -223,8 +223,8 @@ GamHtldRentMngtMainModule.prototype.onButtonClick = function(buttonId) {
 		case 'btnExcelDownload':
 			this.tableToExcel();
 			break;
-		case 'btnCopyAllRentContract':
-			this.copyAllRentContract();
+		case 'btnCopyRentContract':
+			this.copyRentContract();
 			break;
 			
 			
@@ -824,20 +824,20 @@ GamHtldRentMngtMainModule.prototype.downloadNticIssue = function() {
 };
 
 <%--
-copyAllRentContract - 전년도 데이터 복사
+copyRentContract - 전년도 데이터 복사
 --%>
-GamHtldRentMngtMainModule.prototype.copyAllRentContract = function() {
-	var toDate = new Date();
+GamHtldRentMngtMainModule.prototype.copyRentContract = function() {
+ 	var toDate = new Date();
 
 	var nowYear = toDate.getFullYear();
-	var oldYear = toDate.getFullYear()-1; 
+//	var oldYear = toDate.getFullYear()-1; 
 	
 	
-	if (confirm(nowYear+"년의 모든 데이터를 삭제 후 "+oldYear+"년 데이터로 새로 생성 됩니다.\n진행 하시겠습니까?")) {
+	if (confirm(nowYear+"년의 모든 데이터를 삭제 후 데이터로 새로 생성 됩니다.\n진행 하시겠습니까?")) {
 		//var deleteVO = row[0];
-		var dataVO = {"nowYear":nowYear, "oldYear":oldYear};
+		var searchOpt=this.makeFormArgs('#gamHtldRentListSearchForm');
 		
-		this.doAction('/oper/htldnew/gamCopyAllRentContract.do', dataVO, function(module, result) {
+		this.doAction('/oper/htldnew/gamCopyRentContract.do', searchOpt, function(module, result) {
 /* 			if (result.resultCode == "0") {
 			}
  */
@@ -847,26 +847,6 @@ GamHtldRentMngtMainModule.prototype.copyAllRentContract = function() {
 	
 };
 
-<%--
-copyAllRentContract - 물동량 저장
---%>
-GamHtldRentMngtMainModule.prototype.cargoSave = function() {
-	
-};
-
-<%--
-copyAllRentContract - 물동량 추가
---%>
-GamHtldRentMngtMainModule.prototype.cargoDelete = function() {
-	
-};
-
-<%--
-copyAllRentContract - 물동량 삭제
---%>
-GamHtldRentMngtMainModule.prototype.cargoDelete = function() {
-	
-};
 
 
 <%--
@@ -935,7 +915,7 @@ var module_instance = new GamHtldRentMngtMainModule();
 					<table style="width:100%; height: 80%;">
 						<tr>
 							<td style="text-align: left">
-		                       <button id="btnCopyAllRentContract">전체계약 복사</button>
+		                       <button id="btnCopyRentContract">계약 복사</button>
 		                    </td>
 							<td style="text-align: right">
 		                       <button id="btnAddRentContract">계약등록</button>
