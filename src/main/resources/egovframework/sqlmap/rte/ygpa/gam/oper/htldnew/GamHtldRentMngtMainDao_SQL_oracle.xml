@@ -642,25 +642,32 @@
 	</select>
 	
 	
-	<select id="gamHtldRentMngtMainDao.selectRentContractList" parameterClass="java.lang.String" resultClass="egovMap">
+	<select id="gamHtldRentMngtMainDao.deleteHtldRentList" resultClass="egovMap">
 		SELECT MNG_YEAR AS S_MNG_YEAR, MNG_NO AS S_MNG_NO, MNG_SEQ AS S_MNG_SEQ
 		  FROM HTLD_RENT_F
-		 WHERE MNG_YEAR = #oldYear#
+		 WHERE CTRT_BEGIN_DT >= TO_DATE(TO_CHAR(SYSDATE,'YYYY')||'0101')  
+
 	</select>
-	
-	<delete id="gamHtldRentMngtMainDao.deleteHtldRentData" parameterClass="java.lang.String">
+	<delete id="gamHtldRentMngtMainDao.deleteHtldRentData" parameterClass="egovMap">
 		DELETE FROM HTLD_RENT_F
-		 WHERE MNG_YEAR=#mngYear# 
+		 WHERE MNG_YEAR = #sMngYear#
+		   AND MNG_NO = #sMngNo#
+		   AND MNG_SEQ = #sMngSeq#
 
 	</delete>
 	
-	<delete id="gamHtldRentMngtMainDao.deleteHtldRentDetailData" parameterClass="java.lang.String">
+	<delete id="gamHtldRentMngtMainDao.deleteHtldRentDetailData" parameterClass="egovMap">
 		DELETE FROM HTLD_RENT_DETAIL_F
-		 WHERE MNG_YEAR=#mngYear# 
+		 WHERE MNG_YEAR = #sMngYear#
+		   AND MNG_NO = #sMngNo#
+		   AND MNG_SEQ = #sMngSeq#
 
 	</delete>
 
-	<insert id="gamHtldRentMngtMainDao.inserHtldRentData" >
+	<insert id="gamHtldRentMngtMainDao.inserHtldRentData" parameterClass="egovMap">
+		<selectKey keyProperty="mngSeq" resultClass="java.lang.String">
+			SELECT TO_CHAR(NVL(MAX(TO_NUMBER(MNG_SEQ)),0)+1, '09') AS MNG_SEQ FROM HTLD_RENT_F WHERE MNG_YEAR = #sMngYear# AND MNG_NO = #sMngNo#
+		</selectKey>
 		INSERT INTO HTLD_RENT_F (
 								  MNG_YEAR
 								  ,MNG_NO
@@ -679,17 +686,17 @@
 								  ,UPDT_DT
 								) 
 								
-							SELECT 	#mngYear#
-									,#mngNo#
+							SELECT 	MNG_YEAR
+									,MNG_NO
 									,#mngSeq#
 									,ENTRPS_CD
 									,BOUND_CD
 									,CHRGE_KND_CD
 									,GR_RENT_AR
 									,PAY_SE
-									,CTRT_BEGIN_DT+(INTERVAL '1' YEAR) 
-									,CTRT_END_DT+(INTERVAL '1' YEAR)
-									,CTRT_DT+(INTERVAL '1' YEAR)
+									,CTRT_BEGIN_DT+(INTERVAL '3' YEAR) 
+									,CTRT_END_DT+(INTERVAL '3' YEAR)
+									,CTRT_DT+(INTERVAL '3' YEAR)
 									,REG_USR
 									,SYSDATE
 									,UPD_USR
@@ -725,8 +732,8 @@
 										  ,UPDT_DT
 										)
 
-									SELECT #mngYear#
-											,#mngNo#
+									SELECT MNG_YEAR
+											,MNG_NO
 											,#mngSeq#
 											,REGIST_SEQ
 											,GIS_ASSETS_PRT_AT_CODE
@@ -751,6 +758,7 @@
 
 	</insert>
 	
+	<!-- 물동량 조회 -->
 	<select id="gamHtldRentMngtMainDao.selectHtldQuGtqyList" parameterClass="gamHtldQuGtqyVO" resultClass="egovMap">
 		SELECT YEAR
 				, ONE_QU_GNRL

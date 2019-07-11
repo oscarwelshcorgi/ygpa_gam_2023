@@ -169,20 +169,9 @@ public class GamHtldRentMngtMainController {
      * @throws Exception the exception
      */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/oper/htldnew/gamCopyAllRentContract.do", method=RequestMethod.POST)
-	public @ResponseBody Map gamCopyAllRentContract(@RequestParam Map<String, String> param) throws Exception {
+    @RequestMapping(value="/oper/htldnew/gamCopyRentContract.do", method=RequestMethod.POST)
+	public @ResponseBody Map gamCopyAllRentContract(GamHtldRentMngtMainVO searchVO) throws Exception {
     	Map map = new HashMap();
-    	
-    	String year = String.valueOf(Calendar.getInstance().get(Calendar.YEAR) );
-    	
-    	String nowYear = param.get("nowYear");
-    	String oldYear = param.get("oldYear");
-
-    	/* 파라메터 검증*/
-    	if(!year.equals(nowYear)) {
-    		map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.request.msg")); 
-    	}
     	
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -192,7 +181,7 @@ public class GamHtldRentMngtMainController {
     	}
     	
     	try {
-    		gamHtldRentMngtMainService.insertCopyAllRentContract(nowYear, oldYear);
+    		gamHtldRentMngtMainService.insertCopyAllRentContract(searchVO);
 
     		map.put("resultCode", 0);
     		map.put("resultMsg", egovMessageSource.getMessage("success.request.msg"));

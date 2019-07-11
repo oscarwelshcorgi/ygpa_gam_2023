@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -504,27 +505,36 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 	 * @see egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentMngtMainService#insertCopyAllRentContract(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public void insertCopyAllRentContract(String nowYear, String oldYear) throws Exception {
+	public void insertCopyAllRentContract(GamHtldRentMngtMainVO searchVO) throws Exception {
 		// TODO Auto-generated method stub
+		String year = String.valueOf(Calendar.getInstance().get(Calendar.YEAR)-1 );
+		searchVO.setHistDt(year+"-12-31");
 		
-		
-		List rentContractList = gamHtldRentMngtMainDao.selectRentContractList(oldYear);
+		List rentContractList = gamHtldRentMngtMainDao.selectHtldRentDetailList(searchVO);
 		
 
 		if(rentContractList.size()>0) {
-			gamHtldRentMngtMainDao.deleteHtldRentDetailData(nowYear);
-			gamHtldRentMngtMainDao.deleteHtldRentData(nowYear);
+			
+			List deleteHtldRentList = gamHtldRentMngtMainDao.deleteHtldRentList();
+			
+			for(int i=0; i<deleteHtldRentList.size(); i++) {
+				Map deleteRentData = (Map)deleteHtldRentList.get(i);
+				gamHtldRentMngtMainDao.deleteHtldRentDetailData(deleteRentData);
+				gamHtldRentMngtMainDao.deleteHtldRentData(deleteRentData);
+			}
+			
 			
 			for(int i=0; i < rentContractList.size(); i++) {
 				//새로운 키 생성
-				GamHtldRentCtrtVO mngKey = gamHtldRentCtrtDao.selectMngKeyValues();
 				Map map = (Map)rentContractList.get(i);
 				
-				map.put("mngYear", mngKey.getMngYear());
-				map.put("mngNo", mngKey.getMngNo());
-				map.put("mngSeq", mngKey.getMngSeq());
+				map.put("sMngYear", map.get("mngYear"));
+				map.put("sMngNo", map.get("mngNo"));
+				map.put("sMngSeq", map.get("mngSeq"));
 				
-				gamHtldRentMngtMainDao.inserHtldRentData(map);
+				String mngSeq = gamHtldRentMngtMainDao.inserHtldRentData(map);
+				
+				map.put("mngSeq", mngSeq);
 				gamHtldRentMngtMainDao.inserHtldRentDetailData(map);
 				
 			}
