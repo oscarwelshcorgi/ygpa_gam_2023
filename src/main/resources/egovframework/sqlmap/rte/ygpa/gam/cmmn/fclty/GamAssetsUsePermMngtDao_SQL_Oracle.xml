@@ -402,7 +402,7 @@
     </insert>
     
         <insert id="gamAssetsUsePermMngtDao.insertGwcallFwdIf" parameterClass="hashMap">
-    	INSERT INTO GWCALL_FWD_IF(  T_NO
+    	INSERT INTO GWCALL.GWCALL_FWD_IF(  T_NO
 									, EMP_CD
 									, SYS_ID
 									, DOC_ID
