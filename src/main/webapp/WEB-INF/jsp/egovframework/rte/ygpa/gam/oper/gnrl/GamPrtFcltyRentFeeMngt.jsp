@@ -122,6 +122,11 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
 		event.data.module.changeFee();
     });
 
+/* 이자 수동 변경 추가*/    
+   	var this_ = this;
+    this.$('#intrAmnt').on("keyup", {module: this}, function(event) {
+    	this_._intrAmntCheck=true;
+    });
 /* 월이자 체크 추가 */
     this.$('#payinstIntrrate,#intrAmnt,#monthIntrAmnt').on("change", {module: this}, function(event) {
 		event.data.module.changeInterest();
@@ -240,6 +245,7 @@ GamAssetRentFeeMngtModule.prototype.changeVat = function() {
 납부 이자율 변경(월,일 체크)
 --%>
 GamAssetRentFeeMngtModule.prototype.changeInterest = function() {
+	
 	var intrAmnt=0;
 	var payinstIntrrate=this.$('#payinstIntrrate').val()/100||0;
 	var bal=this.instBal; //나머지
@@ -250,27 +256,30 @@ GamAssetRentFeeMngtModule.prototype.changeInterest = function() {
 	var ydays = (eod.getTime() - sod.getTime()) / 1000 / 60 / 60 / 24;
 	var ndFromDt = new Date(ndFrom[0], ndFrom[1], ndFrom[2]);
 	var ndToDt = new Date(ndTo[0], ndTo[1], ndTo[2]);
+	
+	if(this._intrAmntCheck != true){
+		if(this.$('#monthIntrAmnt').attr('checked')=="checked") {
+			var start = ndFrom[1];
+			var end = ndTo[1];
+			var betweenMonth =  (Number(end)-Number(start))+1;
+			intrAmnt=bal*payinstIntrrate*betweenMonth/12;
+			console.log('calc Month = '+betweenMonth);
+			console.log('12'+' Months');
+		}
+		else{
+			var betweenDay = (ndToDt.getTime() - ndFromDt.getTime()) / 1000 / 60 / 60 / 24+1;
+			intrAmnt=bal*payinstIntrrate*betweenDay/ydays;
+			console.log('calc day = '+betweenDay);
+			console.log(ydays+' days');
+		}
 
-	if(this.$('#monthIntrAmnt').attr('checked')=="checked") {
-		var start = ndFrom[1];
-		var end = ndTo[1];
-		var betweenMonth =  (Number(end)-Number(start))+1;
-		intrAmnt=bal*payinstIntrrate*betweenMonth/12;
-		console.log('calc Month = '+betweenMonth);
-		console.log('12'+' Months');
+		/* 2018-12-17 조현성 요청사항(소숫점 버림 처리)*/
+		intrAmnt=Math.floor(intrAmnt);
+		this.$('#intrAmnt').val($.number(intrAmnt));
 	}
-	else{
-		var betweenDay = (ndToDt.getTime() - ndFromDt.getTime()) / 1000 / 60 / 60 / 24+1;
-		intrAmnt=bal*payinstIntrrate*betweenDay/ydays;
-		console.log('calc day = '+betweenDay);
-		console.log(ydays+' days');
-	}
-
-/* 2018-12-17 조현성 요청사항(소숫점 버림 처리)*/
-	intrAmnt=Math.floor(intrAmnt);
-	this.$('#intrAmnt').val($.number(intrAmnt));
+	
 	this.changeFee();
-
+	this._intrAmntCheck = false;
 };
 
 <%--
