@@ -351,7 +351,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 			<div id="tabs1" class="emdTabPage fillHeight" data-onactivate="onShowTab2Activate">
 				<table id="assetCodeList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
-					<button id="loadMap">맵조회</button>
+					<button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="assetCodeList" data-style="default">맵조회</button>
 				</div>
 			</div>
 

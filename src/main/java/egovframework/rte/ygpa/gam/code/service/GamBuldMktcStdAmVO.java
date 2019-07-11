@@ -60,6 +60,16 @@ public class GamBuldMktcStdAmVO extends ComDefaultVO{
 	private String mgcNm;
 	//데이터기준일자
 	private String dataStdrDe;
+	//
+	//등록자
+	private String register;
+	//등록일자
+	private String rgsde;
+	//수정자
+	private String updusr;
+	//수정일자
+	private String updde;
+	
 	/**
 	 * @return the stdyy
 	 */
@@ -383,6 +393,54 @@ public class GamBuldMktcStdAmVO extends ComDefaultVO{
 	 */
 	public void setsAdstrdCode(String sAdstrdCode) {
 		this.sAdstrdCode = sAdstrdCode;
+	}
+	/**
+	 * @return the register
+	 */
+	public String getRegister() {
+		return register;
+	}
+	/**
+	 * @param register the register to set
+	 */
+	public void setRegister(String register) {
+		this.register = register;
+	}
+	/**
+	 * @return the rgsde
+	 */
+	public String getRgsde() {
+		return rgsde;
+	}
+	/**
+	 * @param rgsde the rgsde to set
+	 */
+	public void setRgsde(String rgsde) {
+		this.rgsde = rgsde;
+	}
+	/**
+	 * @return the updusr
+	 */
+	public String getUpdusr() {
+		return updusr;
+	}
+	/**
+	 * @param updusr the updusr to set
+	 */
+	public void setUpdusr(String updusr) {
+		this.updusr = updusr;
+	}
+	/**
+	 * @return the updde
+	 */
+	public String getUpdde() {
+		return updde;
+	}
+	/**
+	 * @param updde the updde to set
+	 */
+	public void setUpdde(String updde) {
+		this.updde = updde;
 	}
 	
 

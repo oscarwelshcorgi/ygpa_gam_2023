@@ -137,6 +137,7 @@ public class GamBuldMktcStdAmController{
 	   }
 
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+		inputVO.setRegister(user.getId());
 		
 		try {
 			//inputVO.setAdres(user.getId());
@@ -170,6 +171,7 @@ public class GamBuldMktcStdAmController{
 		}
 		
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+		inputVO.setUpdusr(user.getId());
 		
 		try {
 			//inputVO.setRegister(user.getId());

@@ -21,8 +21,8 @@
 						,ADSTRD_CODE
 						,ADRES
 						,ADRES ||' '||RTRIM(LNM) ||NVL2(RTRIM(SLNO), '-'||SLNO, '') AS FULL_ADRES
-						,LNM
-						,SLNO
+						,RTRIM(LNM) AS LNM
+						,RTRIM(SLNO) AS SLNO
 						,BULDDONG
 						,BDH
 						,THING_PAPR_ADRES
@@ -97,7 +97,9 @@
 						LAD_AR,
 						MKTC_STD_AM,
 						MGC_NM,
-						DATA_STDR_DE
+						DATA_STDR_DE,
+						REGISTER,
+						RGSDE
 				 )
 				 
 			VALUES ( 
@@ -123,7 +125,10 @@
 							#ladAr#,
 							#mktcStdAm#,
 							#mgcNm#,
-							#dataStdrDe#
+							#dataStdrDe#,
+							#register#,
+							sysdate
+							
 						 )
 		]]>
 </insert>
@@ -132,8 +137,7 @@
 <update id="gamBuldMktcStdAmManageDAO.updateBuldMktcStdAmList" parameterClass="gamBuldMktcStdAmVO" >
 <![CDATA[
 	
-		UPDATE 
-			BD_VAL_STD_PRICE
+		UPDATE BD_VAL_STD_PRICE
 		SET
 			BULD_STLE = #buldStle#,
 			BULD_PRPOS = #buldPrpos#,
@@ -155,17 +159,17 @@
 			LAD_AR = #ladAr#,
 			MKTC_STD_AM = #mktcStdAm#,
 			MGC_NM = #mgcNm#,
-			DATA_STDR_DE = #dataStdrDe#
+			DATA_STDR_DE = #dataStdrDe#,
+			UPDUSR = #updusr#,
+			UPDDE = sysdate
 		WHERE STDYY = #stdyy#
 		  AND SN = #sn#
 		]]>
 </update>
 
-
-
 <delete id="gamBuldMktcStdAmManageDAO.deleteBuldMktcStdAm" parameterClass="gamBuldMktcStdAmVO">
 	DELETE FROM BD_VAL_STD_PRICE
-		WHERE STDYY = #stdyy#,
+		WHERE STDYY = #stdyy#
 		  AND SN = #sn#
 
 </delete>

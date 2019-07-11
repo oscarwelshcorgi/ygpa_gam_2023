@@ -183,38 +183,38 @@ var module_instance = new GamAssetSttusInqireModule();
                     <tbody>
                         <tr>
                             <th style="width: 40px"><span class="label">항구분</span></th>
-                            <td style="width: 230px">
+                            <td style="width: 120px">
                                 <input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id=GAM019 />
                             </td>
 
                             <th style="width: 40px"><span class="label">자산코드</span></th>
-                            <td style="width: 120px">
+                            <td style="width: 250px">
                                 <input id="sGisAssetsCd" type="text" class="gisAssetsCd"/>&nbsp;-&nbsp;
                                 <input id="sGisAssetsSubCd" type="text" class="gisAssetsSubCd"/>
                             </td>
 
                             <th style="width: 40px"><span class="label">업체</span></th>
                             <td>
-                            	<input id="sEntrpscd" type="text" size="6">
+                            	<input id="sEntrpscd" type="text" size="15">
                 	        <!--
                             	<input id="sEntrpsNm" type="text" size="12" disabled="disabled">&nbsp; &nbsp;
                     	     -->
                             	<button id="popupEntrpsInfo" class="popupButton">선택</button>
                             </td>
 
+                            <td rowspan="2"><button id="searchBtn" class="buttonSearch">조회</button></td>
+                         </tr>
+                         <tr>
                             <th style="width: 40px"><span class="label">부두</span></th>
                             <td style="width: 100px">
                                 <input id="sQuayCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id=GAM003 />
                             </td>
-                            <td rowspan="2"><button id="searchBtn" class="buttonSearch">조회</button></td>
-                         </tr>
-                         <tr>
                             <th>기준일자</th>
                             <td><input id="sUsagePdFrom" type="text" class="emdcal"
                                 size="8"> ~ <input id="sUsagePdTo" type="text"
                                 class="emdcal" size="8"></td>
 
-                            <th>승낙구분</th>
+<!--                             <th>승낙구분</th>
                             <td>
                                 <select id="sPrmisnYn">
                                     <option value="" selected="selected">전체</option>
@@ -222,7 +222,7 @@ var module_instance = new GamAssetSttusInqireModule();
                                     <option value="N">N</option>
                                 </select>
                             </td>
-
+ -->
                             <th><span class="label">담당부서</span></th>
                             <td>
                                 <input id="deptcd" class="ygpaDeptSelect" data-default-prompt="전체" />
