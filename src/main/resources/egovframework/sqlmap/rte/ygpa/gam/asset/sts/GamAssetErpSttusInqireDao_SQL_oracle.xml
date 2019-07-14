@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ygpa.gam.asset.sts">
+
+    <typeAlias alias="gamSttusInqireDefaultVO" type="egovframework.rte.ygpa.gam.asset.sts.service.GamSttusInqireDefaultVO"/>
+    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+
+
+    <select id="gamAssetErpSttusInqireDao.selectAssetErpSttusInqireList" parameterClass="gamSttusInqireDefaultVO" resultClass="egovMap">
+		WITH EGMISDB.MID_RESULT AS(
+		SELECT 1 TP,
+		       A.BD_ITEM_CD||A.BD_MOK_CD ID,       
+			   C.MOK_NAME NM,
+		   	   A.BD_ITEM_CD||C.MOK_UPPER_CD PID,
+		       A.BD_ITEM_CD,
+		       C.INPUT_CLS,		                       
+		       A.BD_AMT,
+		       NVL(B.COLLECT_AMT,0) COLLECT_AMT,
+		       NVL(A.BD_AMT,0)-NVL(B.COLLECT_AMT,0) BD_MI_COL_AMT,
+		       NVL(B.RECEIPT_AMT,0) RECEIPT_AMT,
+		       NVL(A.BD_AMT,0)-NVL(B.RECEIPT_AMT,0) BD_MI_REC_AMT,
+		       NVL(B.COLLECT_AMT,0)-NVL(B.RECEIPT_AMT,0) UNCOLLECT_AMT
+		  FROM ( SELECT A.ACC_YEAR,
+		                A.BD_MOK_CD,
+		                A.BD_ITEM_CD,
+		                SUM(NVL(A.BD_MAKE_AMT_SUM,0)+NVL(A.ADD_AMT,0)+NVL(A.BD_INTER_OF_EXP_AMT,0)) BD_AMT /*예산액*/
+		           FROM EGMISDB.EGMISDB.EGMBD1200 A
+		          WHERE 1 = 1
+		            AND A.ACC_YEAR = #sYear#
+		            AND A.BD_CLS = '1'     
+		         GROUP BY A.ACC_YEAR,
+		                 A.BD_ITEM_CD,
+		                 A.BD_MOK_CD ) A LEFT OUTER JOIN ( SELECT ACC_YEAR,
+		                                                           BD_ITEM_CD,
+		                                                           MOK_CD,
+		                                                           NVL(SUM(DECODE(REQ_DOC_CLS,'10',SUPPLY_AMT_IN,'23',SUPPLY_AMT_IN,'13',(SUPPLY_AMT_IN)*-1,'15',(SUPPLY_AMT_IN)*-1,0)),0) COLLECT_AMT,
+		                                                           NVL(SUM(DECODE(REQ_DOC_CLS,'20',SUPPLY_AMT_IN,'23',SUPPLY_AMT_IN,'25',(SUPPLY_AMT_IN)*-1,0)),0) RECEIPT_AMT
+		                                                     FROM EGMISDB.EGMBD5000
+		                                                    WHERE 1=1
+		                                                      AND ACC_YEAR = #sYear#
+		                                                      AND REQ_DATE BETWEEN REPLACE(#sSearchDtFrom#,'-','') AND REPLACE(#sSearchDtTo#,'-','')
+		 											GROUP BY ACC_YEAR,BD_ITEM_CD,MOK_CD ) B ON ( A.ACC_YEAR = B.ACC_YEAR AND
+		                                                                                               A.BD_ITEM_CD = B.BD_ITEM_CD AND
+		                                                                                               A.BD_MOK_CD = B.MOK_CD )
+		                                  INNER JOIN EGMISDB.EGMBD9100 C ON ( A.BD_MOK_CD = C.BD_MOK_CD AND A.ACC_YEAR = C.ACC_YEAR )
+		 WHERE 1=1
+		   AND C.BD_CLS = '1'
+		),
+		EGMISDB.BD_CD_LIST AS
+		(
+		SELECT 3 TP,
+		       A.BD_ITEM_CD ID, 		/* 예산과목코드 VARCHAR2(16)  PK */
+		       A.BD_ITEM_NAME NM, 		/* 예산과목명 VARCHAR2(100)  */
+		       A.BD_UPPER_CD PID, 		/* 예산상위코드 VARCHAR2(16)  */
+		       '' BD_ITEM_CD,
+		       '' INPUT_CLS,       
+		       0 BD_AMT,
+		       0 COLLECT_AMT,
+		       0 BD_MI_COL_AMT,
+		       0 RECEIPT_AMT,
+		       0 BD_MI_REC_AMT,
+		       0 UNCOLLECT_AMT
+		  FROM EGMISDB.EGMBD9000 A
+		 WHERE 1=1
+		   AND A.ACC_YEAR = #sYear#
+		   AND A.BD_CLS = '1'
+		),
+		EGMISDB.MOK_MINUS_CAN AS
+		(
+		  SELECT 2 TP,
+		         B.BD_ITEM_CD||A.BD_MOK_CD ID,
+		         A.MOK_NAME NM,
+		         CASE WHEN A.MOK_UPPER_CD IS NULL THEN B.BD_ITEM_CD
+		              ELSE B.BD_ITEM_CD||A.MOK_UPPER_CD
+		         END PID,
+		         '' BD_ITEM_CD,
+		         A.INPUT_CLS,         
+			       0 BD_AMT,
+			       0 COLLECT_AMT,
+			       0 BD_MI_COL_AMT,
+			       0 RECEIPT_AMT,
+			       0 BD_MI_REC_AMT,
+			       0 UNCOLLECT_AMT
+		    FROM ( SELECT A.BD_MOK_CD,
+		                  A.MOK_NAME,
+		                  A.MOK_UPPER_CD,
+		                  A.INPUT_CLS
+		              FROM EGMISDB.EGMBD9100 A
+		             WHERE A.ACC_YEAR = #sYear#
+		               AND A.BD_CLS = '1' ) A RIGHT OUTER JOIN  ( SELECT  BD_MOK_CD,
+		                                                                  BD_ITEM_CD
+		                                                            FROM  EGMISDB.EGMISDB.EGMBD1200 
+		                                                           WHERE  1 = 1
+		                                                             AND BD_CLS = '1'
+		                                                             AND ACC_YEAR = #sYear# 
+		                                                           GROUP BY BD_MOK_CD, BD_ITEM_CD ) B ON (  B.BD_MOK_CD = A.BD_MOK_CD )        
+		   UNION ALL
+		   SELECT 2 TP,
+		         B.BD_ITEM_CD||A.BD_MOK_CD ID,
+		         A.MOK_NAME NM,
+		         CASE WHEN A.MOK_UPPER_CD IS NULL THEN B.BD_ITEM_CD
+		              ELSE B.BD_ITEM_CD||A.MOK_UPPER_CD
+		         END PID,
+		         '' BD_ITEM_CD,
+		         A.INPUT_CLS,         
+			       0 BD_AMT,
+			       0 COLLECT_AMT,
+			       0 BD_MI_COL_AMT,
+			       0 RECEIPT_AMT,
+			       0 BD_MI_REC_AMT,
+			       0 UNCOLLECT_AMT
+		    FROM ( SELECT A.BD_MOK_CD,
+		                  A.MOK_NAME,
+		                  A.MOK_UPPER_CD,
+		                  A.INPUT_CLS
+		              FROM EGMISDB.EGMBD9100 A
+		             WHERE A.ACC_YEAR = #sYear#
+		               AND A.BD_CLS = '1' ) A RIGHT OUTER JOIN (  SELECT  TOP_MOK_CD,
+		                                                                  BD_ITEM_CD
+		                                                             FROM ( SELECT  NVL(SF_BD_GET_TOP_LVL_MOK_CD(ACC_YEAR,BD_MOK_CD),' ') TOP_MOK_CD,
+		                                                                            BD_ITEM_CD
+					                                                           FROM EGMISDB.EGMISDB.EGMBD1200 
+					                                                          WHERE 1 = 1
+					                                                            AND BD_CLS = '1'
+					                                                            AND ACC_YEAR = #sYear# ) A
+		                                                           GROUP BY TOP_MOK_CD, BD_ITEM_CD ) B ON (  B.TOP_MOK_CD = A.BD_MOK_CD ) 
+		)
+		SELECT RPAD(' ', LEVEL*2-2) ||A.NM NM, A.ID, A.PID, A.LV,
+			   A.TP, A.BD_ITEM_CD, A.INPUT_CLS,
+		       A.BD_AMT,
+		       A.COLLECT_AMT,
+			   A.BD_MI_COL_AMT,
+		       A.RECEIPT_AMT,
+		       A.BD_MI_REC_AMT,
+		       A.UNCOLLECT_AMT
+		  FROM (SELECT A.ID, A.PID, A.NM, A.LV, MIN(A.TP) TP, MAX(A.BD_ITEM_CD) BD_ITEM_CD, MAX(A.INPUT_CLS) INPUT_CLS,
+		               SUM(A.BD_AMT) BD_AMT,
+					   SUM(A.COLLECT_AMT) COLLECT_AMT,
+					   SUM(A.BD_MI_COL_AMT) BD_MI_COL_AMT,
+					   SUM(A.RECEIPT_AMT) RECEIPT_AMT,
+					   SUM(A.BD_MI_REC_AMT) BD_MI_REC_AMT,
+					   SUM(A.UNCOLLECT_AMT) UNCOLLECT_AMT
+		          FROM (SELECT A.ID, A.NM, A.PID, A.BD_ITEM_CD, A.INPUT_CLS, A.LV, A.TP,
+		                       SUM(A.BD_AMT) OVER (PARTITION BY A.GRP
+		                                        ORDER BY NO) BD_AMT,
+		                       SUM(A.COLLECT_AMT) OVER (PARTITION BY A.GRP
+		                                        ORDER BY NO) COLLECT_AMT,
+		                       SUM(A.BD_MI_COL_AMT) OVER (PARTITION BY A.GRP
+		                                        ORDER BY NO) BD_MI_COL_AMT,
+		                       SUM(A.RECEIPT_AMT) OVER (PARTITION BY A.GRP
+		                                        ORDER BY NO) RECEIPT_AMT,
+		                       SUM(A.BD_MI_REC_AMT) OVER (PARTITION BY A.GRP
+		                                        ORDER BY NO) BD_MI_REC_AMT,
+		                       SUM(A.UNCOLLECT_AMT) OVER (PARTITION BY A.GRP
+		                                        ORDER BY NO) UNCOLLECT_AMT
+		                  FROM (SELECT A.NM, A.ID, A.PID, A.BD_ITEM_CD, A.INPUT_CLS,A.BD_AMT, A.COLLECT_AMT, A.BD_MI_COL_AMT,
+		         											 A.RECEIPT_AMT, A.BD_MI_REC_AMT, A.UNCOLLECT_AMT, ROWNUM NO, A.LV, A.TP, ROWNUM+A.LV GRP
+		                          FROM (SELECT A.NM, A.ID, A.PID,A.BD_ITEM_CD, A.INPUT_CLS, A.BD_AMT, A.COLLECT_AMT, A.BD_MI_COL_AMT,
+		         											         A.RECEIPT_AMT, A.BD_MI_REC_AMT, A.UNCOLLECT_AMT, A.TP, LEVEL LV
+		                                  FROM (SELECT TP,
+		                                               A.ID,
+		                                               A.NM,
+		                                               A.PID,
+		                                               A.BD_ITEM_CD,
+		       										   A.INPUT_CLS,                                               
+		                                               A.BD_AMT,
+		                                               A.COLLECT_AMT,
+		                                               A.BD_MI_COL_AMT,
+		                                               A.RECEIPT_AMT,
+		                                               A.BD_MI_REC_AMT,
+		                                               A.UNCOLLECT_AMT
+		                                          FROM EGMISDB.MID_RESULT A
+		                                        UNION ALL
+		                                        SELECT TP,
+		                                               A.ID,
+		                                               A.NM,
+		                                               A.PID,
+		                                               A.BD_ITEM_CD,
+		       										   A.INPUT_CLS,                                               
+		                                               A.BD_AMT,
+		                                               A.COLLECT_AMT,
+		                                               A.BD_MI_COL_AMT,
+		                                               A.RECEIPT_AMT,
+		                                               A.BD_MI_REC_AMT,
+		                                               A.UNCOLLECT_AMT
+		                                          FROM EGMISDB.MOK_MINUS_CAN A
+		                                        UNION ALL
+		                                        SELECT TP,
+		                                               A.ID, 		/* 예산과목코드 VARCHAR2(16)  PK */
+		                                               A.NM, 		/* 예산과목명 VARCHAR2(100)  */
+		                                               A.PID, 		/* 예산상위코드 VARCHAR2(16)  */
+		                                               A.BD_ITEM_CD,
+		       										   A.INPUT_CLS,                                               
+		                                               A.BD_AMT,
+		                                               A.COLLECT_AMT,
+		                                               A.BD_MI_COL_AMT,
+		                                               A.RECEIPT_AMT,
+		                                               A.BD_MI_REC_AMT,
+		                                               A.UNCOLLECT_AMT
+		                                         FROM EGMISDB.BD_CD_LIST A
+		                                       ) A
+		                                 START WITH A.PID IS NULL
+		                                 CONNECT BY PRIOR A.ID = A.PID
+		                               ) A
+		                        START WITH TP = 1
+		                        CONNECT BY A.ID = PRIOR A.PID
+		                       ) A
+		               ) A
+		        GROUP BY A.ID, A.NM, A.PID, A.LV
+		       ) A
+		START WITH A.PID IS NULL
+		CONNECT BY PRIOR A.ID = A.PID
+		ORDER SIBLINGS BY A.ID 
+    </select>
+
+
+</sqlMap>

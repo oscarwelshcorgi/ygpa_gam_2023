@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ygpa.gam.asset.sts">
+
+	<typeAlias alias="gamSttusInqireDefaultVO" type="egovframework.rte.ygpa.gam.asset.sts.service.GamSttusInqireDefaultVO"/>
+    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+
+
+    <select id="gamAssetSeSttusInqireDao.selectAssetSeSttusInqireList" parameterClass="gamSttusInqireDefaultVO" resultClass="egovMap">
+		SELECT A.*, GAM_GETCODENAME('GAM013', GIS_ASSETS_SE_CD) GIS_ASSETS_SE_CD_NM
+		  FROM (
+				SELECT GIS_ASSETS_SE_CD
+				      , COUNT(GIS_ASSETS_SE_CD) AS COUNT
+				      , LTRIM(TO_CHAR(CASE GIS_ASSETS_SE_CD WHEN '1' THEN NVL(SUM(GIS_ASSETS_ACQ_PRI),0)
+				                              WHEN '2' THEN NVL(SUM(INVSTMNT_AMOUNT),0)
+				                              WHEN '4' THEN NVL(SUM(NOW_REGSTR_AMOUNT),0) END, '9,999,999,999,999,999')) AS PRICE 
+				  FROM GIS_ASSETS_CD_F
+				 WHERE GIS_ASSETS_SE_CD IS NOT NULL
+				<isNotEmpty prepend="AND" property="sPrtAtCode">
+					GIS_ASSETS_PRT_AT_CODE = #sPrtAtCode#
+				</isNotEmpty>
+				 GROUP BY GIS_ASSETS_SE_CD
+				 ) A
+    </select>
+
+    <select id="gamAssetSeSttusInqireDao.selectAssetSeSttusInqireList1" parameterClass="gamSttusInqireDefaultVO" resultClass="egovMap">
+		SELECT A.*, GAM_GETCODENAME('GAM073', PRDLST_SE) PRDLST_SE_NM
+		  FROM (
+				SELECT PRDLST_SE
+				      , COUNT(PRDLST_SE) AS COUNT
+				      , LTRIM(TO_CHAR(NVL(SUM(INVSTMNT_AMOUNT),0), '9,999,999,999,999,999')) AS PRICE 
+				  FROM GIS_ASSETS_CD_F
+				 WHERE PRDLST_SE IS NOT NULL
+				   AND GIS_ASSETS_SE_CD = '2'
+				<isNotEmpty prepend="AND" property="sPrtAtCode">
+					GIS_ASSETS_PRT_AT_CODE = #sPrtAtCode#
+				</isNotEmpty>
+				 GROUP BY prdlst_Se
+				 ) A
+    </select>
+
+    <select id="gamAssetSeSttusInqireDao.selectAssetSeSttusInqireList2" parameterClass="gamSttusInqireDefaultVO" resultClass="egovMap">
+		SELECT A.*, GAM_GETCODENAME('GAM073', PRDLST_SE) PRDLST_SE_NM
+		  FROM (
+				SELECT PRDLST_SE
+				      , COUNT(PRDLST_SE) AS COUNT
+				      , LTRIM(TO_CHAR(NVL(SUM(NOW_REGSTR_AMOUNT),0), '9,999,999,999,999,999')) AS PRICE 
+				  FROM GIS_ASSETS_CD_F
+				 WHERE PRDLST_SE IS NOT NULL
+				   AND GIS_ASSETS_SE_CD = '4'
+				<isNotEmpty prepend="AND" property="sPrtAtCode">
+					GIS_ASSETS_PRT_AT_CODE = #sPrtAtCode#
+				</isNotEmpty>
+				 GROUP BY prdlst_Se
+				 ) A
+    </select>
+
+</sqlMap>

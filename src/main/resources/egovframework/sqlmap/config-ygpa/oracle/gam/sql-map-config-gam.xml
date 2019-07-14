@@ -238,5 +238,9 @@
 
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/code/GamCofixIntrrateDao_SQL_oracle.xml" />
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/code/GamBjdOlnlpMngtDao_SQL_oracle.xml" />
+	
+<!-- 통계 -->
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/asset/sts/GamAssetSeSttusInqireDao_SQL_oracle.xml" />	
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/asset/sts/GamAssetErpSttusInqireDao_SQL_oracle.xml" />	
 
 </sqlMapConfig>
