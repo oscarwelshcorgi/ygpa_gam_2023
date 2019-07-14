@@ -169,5 +169,39 @@
 		      ||'-'
 		      ||lpad(NVL(a.gis_assets_lnm_sub,0),4, '0') = c.lnm
     </insert>
+    
+    <select id="gamBjdOlnlpMngtDao.selectBupjungdongCd" resultClass="egovMap">
+<!--     	SELECT BUPJUNGDONG_CD||'1'
+    	  FROM BUPJUNGDONG_CD_F -->
+		SELECT DISTINCT GIS_ASSETS_BUPJUNGDONG_CD || '1'
+		  FROM GIS_ASSETS_CD_F
+		 WHERE GIS_ASSETS_BUPJUNGDONG_CD IS NOT NULL
+    </select>
+    
+    <insert id="gamBjdOlnlpMngtDao.insertBupjungdongOlnlpF" parameterClass="hashMap">
+		INSERT INTO BUPJUNGDONG_OLNLP_F (
+										OLNLP_APPLC_YEAR
+										, BUPJUNGDONG_CD
+										, LNM
+										, MT
+										, BEGIN_DT
+										, END_DT
+										, OLNLP
+										, REG_USR
+										, REGIST_DT
+										)
+								VALUES (
+										#olnlpApplcYear#
+										, #bupjungdongCd#
+										, #lnm#
+										, #mt#
+										, TO_DATE(#beginDt#, 'YYYY-MM-DD')
+										, TO_DATE(#endDt#, 'YYYY-MM-DD')
+										, TO_NUMBER(#olnlp#)
+										, #regUsr#
+										, SYSDATE
+								
+								)
+    </insert>
 
 </sqlMap>

@@ -157,6 +157,10 @@ GamOlnlpMngtModule.prototype.onButtonClick = function(buttonId) {
 		case 'btnApplcOlnlp':
 			this.applcOlnlp();
 			break;
+			
+		case 'btnBjdOlnlpLink':
+			this.bjdOlnlpLink();
+			break;
 	}
 };
 
@@ -190,6 +194,18 @@ GamOlnlpMngtModule.prototype.applcOlnlp = function() {
 		return;
 	}
     this.doAction('/code/applyBjdOlnlpMngt.do', [], function(module, result) {
+        if(result.resultCode == 0){
+        }
+        alert(result.resultMsg);
+    });
+};
+
+/**
+ * 2019-07-11
+ * 공시지가 OPEN API 연동
+ */
+GamOlnlpMngtModule.prototype.bjdOlnlpLink = function() {
+    this.doAction('/code/selectBjdOlnlpLink.do', [], function(module, result) {
         if(result.resultCode == 0){
         }
         alert(result.resultMsg);
@@ -275,6 +291,7 @@ var module_instance = new GamOlnlpMngtModule();
 					<button id="btnSave">저장</button>
 					</form>
 					<button id="btnApplcOlnlp">자산에 공시지가적용</button>
+					<button id="btnBjdOlnlpLink">openapi 연계</button>
 					<!--
 					<button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="olnlpList" data-style="default">맵조회</button>
 					<button id="insertExcel" class="buttonExcel">엑셀등록</button>

@@ -63,4 +63,20 @@ public class GamBjdOlnlpMngtDao extends YGPAAbstractDAO {
 	public void addOlnlpAll() throws Exception {
 		insert("gamBjdOlnlpMngtDao.addOlnlpAll", null);
 	}
+
+	/**
+	 * @return
+	 */
+	public List selectBupjungdongCd() {
+		// TODO Auto-generated method stub
+		return list("gamBjdOlnlpMngtDao.selectBupjungdongCd", null);
+	}
+
+	/**
+	 * @param bjdOlnlpLinkVO
+	 */
+	public void insertBupjungdongOlnlpF(Map bjdOlnlpLinkVO) {
+		// TODO Auto-generated method stub
+		insert("gamBjdOlnlpMngtDao.insertBupjungdongOlnlpF", bjdOlnlpLinkVO);
+	}
 }

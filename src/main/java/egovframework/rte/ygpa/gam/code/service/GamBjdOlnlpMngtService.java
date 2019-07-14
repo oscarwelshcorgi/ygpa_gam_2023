@@ -54,4 +54,15 @@ public interface GamBjdOlnlpMngtService {
 	 * @throws Exception
 	 */
 	void applyOlnlpData() throws Exception;
+
+	/**
+	 * 법정동코드 조회
+	 * throws Exception
+	 */
+	List selectBupjungdongCd() throws Exception;
+
+	/**
+	 * @param bjdOlnlpLinkVO
+	 */
+	void insertBupjungdongOlnlpF(Map bjdOlnlpLinkVO) throws Exception;
 }

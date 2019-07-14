@@ -74,6 +74,23 @@ public class GamBjdOlnlpMngtServiceImpl extends AbstractServiceImpl implements G
 		gamBjdOlnlpMngtDao.addOlnlpAll();
 	}
 
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.code.service.GamBjdOlnlpMngtService#selectBupjungdongCd()
+	 */
+	@Override
+	public List selectBupjungdongCd() throws Exception {
+		// TODO Auto-generated method stub
+		return gamBjdOlnlpMngtDao.selectBupjungdongCd();
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.code.service.GamBjdOlnlpMngtService#selectBupjungdongCd()
+	 */
+	@Override
+	public void insertBupjungdongOlnlpF(Map bjdOlnlpLinkVO) throws Exception {
+		// TODO Auto-generated method stub
+		gamBjdOlnlpMngtDao.insertBupjungdongOlnlpF(bjdOlnlpLinkVO);
+	}
 
 
 }
