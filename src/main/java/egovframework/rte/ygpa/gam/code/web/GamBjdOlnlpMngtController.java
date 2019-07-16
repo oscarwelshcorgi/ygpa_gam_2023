@@ -190,10 +190,10 @@ public class GamBjdOlnlpMngtController {
 		return map;
 	}
 
-	
-	
-	
-	
+
+
+
+
 	@RequestMapping(value="/code/selectBjdOlnlpLink.do")
 	@ResponseBody Map<String, Object> selectBjdOlnlpLink(GamBjdOlnlpLinkVO gamBjdOlnlpLinkVO) throws Exception {
 		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
@@ -210,12 +210,12 @@ public class GamBjdOlnlpMngtController {
 
     	// 자산 등록 법정동 코드만 조회(전남 전체 쿼리 수정 적용하면 됨.)
     	List bupjungdongList = gamBjdOlnlpMngtService.selectBupjungdongCd();
-    	
+
     	Calendar cal = Calendar.getInstance();
     	String newYear = new SimpleDateFormat("yyyy").format(cal.getTime());
     	cal.add(Calendar.YEAR, -1);
     	String oldYear = new SimpleDateFormat("yyyy").format(cal.getTime());
-    	
+
     	for(int i=0; i<bupjungdongList.size(); i++) {
     		int pageNo = 1;
     		Map bupjungdong = (Map) bupjungdongList.get(i);
@@ -225,14 +225,14 @@ public class GamBjdOlnlpMngtController {
     			cal.add(Calendar.YEAR, -1);
     			bjdOlnlpLinkList = getBjdOlnlpLink((String)bupjungdong.get("bupjungdongCd"), oldYear, pageNo);
     		}
-    		
+
     		if(bjdOlnlpLinkList.size() > 0) {
     			for(int j=0; j<bjdOlnlpLinkList.size(); j++) {
     				Map bjdOlnlpLinkData = (Map) bjdOlnlpLinkList.get(j);
     				Map bjdOlnlpLinkVO = new HashMap();
     				String mnnmSlno = "0000";
     				String mnnmSlnoSub = "0000";
-    				
+
     				mnnmSlno = bjdOlnlpLinkData.get("mnnmSlno").toString().split("-")[0];
     				if(bjdOlnlpLinkData.get("mnnmSlno").toString().contains("-")) {
     					mnnmSlnoSub = bjdOlnlpLinkData.get("mnnmSlno").toString().split("-")[1];
@@ -242,7 +242,7 @@ public class GamBjdOlnlpMngtController {
 //    				System.out.println("법정동명 : "+bjdOlnlpLinkData.get("ldCodeNm"));
 //    				System.out.println("지번 : "+StringUtils.leftPad(mnnmSlno,4,"0"));
 //    				System.out.println("부번 : "+StringUtils.leftPad(mnnmSlnoSub,4,"0"));
-    				
+
     				bjdOlnlpLinkVO.put("olnlpApplcYear",bjdOlnlpLinkData.get("stdrYear"));
     				bjdOlnlpLinkVO.put("bupjungdongCd",bjdOlnlpLinkData.get("ldCode"));
     				bjdOlnlpLinkVO.put("lnm",StringUtils.leftPad(mnnmSlno,4,"0")+"-"+StringUtils.leftPad(mnnmSlnoSub,4,"0"));
@@ -251,22 +251,22 @@ public class GamBjdOlnlpMngtController {
     				bjdOlnlpLinkVO.put("endDt",bjdOlnlpLinkData.get("stdrYear")+"-12-01");
     				bjdOlnlpLinkVO.put("olnlp",bjdOlnlpLinkData.get("pblntfPclnd"));
     				bjdOlnlpLinkVO.put("regUsr",loginVO.getId());
-    				
+
     				gamBjdOlnlpMngtService.insertBupjungdongOlnlpF(bjdOlnlpLinkVO);
 
-					if(j == 9 && bjdOlnlpLinkList.size() == 10) {
+					if(j == 99 && bjdOlnlpLinkList.size() == 100) {
 						pageNo++;
 						j=-1 ;
 						bjdOlnlpLinkList = getBjdOlnlpLink((String)bupjungdong.get("bupjungdongCd"), newYear, pageNo);
 			    		if(bjdOlnlpLinkList.size() <= 0) {
 			    			cal.add(Calendar.YEAR, -1);
 			    			bjdOlnlpLinkList = getBjdOlnlpLink((String)bupjungdong.get("bupjungdongCd"), oldYear, pageNo);
-			    		} 
+			    		}
 					}
-    				
+
     			}
     		}
-    		
+
     		// 인서트 로직
     	}
 
@@ -276,7 +276,7 @@ public class GamBjdOlnlpMngtController {
 		map.put("resultMsg", egovMessageSource.getMessage("success.request.msg"));
 		return map;
 	}
-	
+
 	protected List getBjdOlnlpLink(String pnu, String stdrYear, int pageNo) throws Exception{
 		List<Map> gamBjdOlnlpLinkList = new ArrayList<Map>();
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -284,16 +284,16 @@ public class GamBjdOlnlpMngtController {
         DocumentBuilder builder;
         Document doc = null;
 
-        StringBuilder urlBuilder = new StringBuilder("http://openapi.nsdi.go.kr/nsdi/IndvdLandPriceService/attr/getIndvdLandPriceAttr"); /* URL */   
-        StringBuilder parameter  = new StringBuilder();   
-        parameter.append("?" + URLEncoder.encode("authkey","UTF-8") + "=02097cfafcc9b69debc654"); /*authkey Key*/     
-        parameter.append("&" + URLEncoder.encode("pnu","UTF-8") + "=" + URLEncoder.encode(pnu, "UTF-8")); /* 고유번호(8자리 이상) */  
-        parameter.append("&" + URLEncoder.encode("stdrYear","UTF-8") + "=" + URLEncoder.encode(stdrYear, "UTF-8")); /* 기준년도(YYYY: 4자리) */  
-        parameter.append("&" + URLEncoder.encode("format","UTF-8") + "=" + URLEncoder.encode("xml", "UTF-8")); /* 응답결과 형식(xml 또는 json) */  
-        parameter.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("100", "UTF-8")); /* 검색건수 */  
-        parameter.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + URLEncoder.encode(String.valueOf(pageNo), "UTF-8")); /* 페이지 번호 */  
-    
-        URL url = new URL(urlBuilder.toString() + parameter.toString()); 
+        StringBuilder urlBuilder = new StringBuilder("http://openapi.nsdi.go.kr/nsdi/IndvdLandPriceService/attr/getIndvdLandPriceAttr"); /* URL */
+        StringBuilder parameter  = new StringBuilder();
+        parameter.append("?" + URLEncoder.encode("authkey","UTF-8") + "=02097cfafcc9b69debc654"); /*authkey Key*/
+        parameter.append("&" + URLEncoder.encode("pnu","UTF-8") + "=" + URLEncoder.encode(pnu, "UTF-8")); /* 고유번호(8자리 이상) */
+        parameter.append("&" + URLEncoder.encode("stdrYear","UTF-8") + "=" + URLEncoder.encode(stdrYear, "UTF-8")); /* 기준년도(YYYY: 4자리) */
+        parameter.append("&" + URLEncoder.encode("format","UTF-8") + "=" + URLEncoder.encode("xml", "UTF-8")); /* 응답결과 형식(xml 또는 json) */
+        parameter.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("100", "UTF-8")); /* 검색건수 */
+        parameter.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + URLEncoder.encode(String.valueOf(pageNo), "UTF-8")); /* 페이지 번호 */
+
+        URL url = new URL(urlBuilder.toString() + parameter.toString());
 		HttpURLConnection conn = (HttpURLConnection)url.openConnection();
 		conn.setRequestMethod("GET");
 		conn.setRequestProperty("conntent-type", "application/json");
@@ -312,23 +312,23 @@ public class GamBjdOlnlpMngtController {
 //			sb.append(line);
 			result = result + line.trim();
 		}
-		
+
 		// xml 파싱하기
         InputSource is = new InputSource(new StringReader(result));
         builder = factory.newDocumentBuilder();
         doc = builder.parse(is);
- 
+
         XPathFactory xpathFactory = XPathFactory.newInstance();
         XPath xpath = xpathFactory.newXPath();
         // XPathExpression expr = xpath.compile("/response/body/items/item");
         XPathExpression expr = xpath.compile("//fields/field");
-        
-        
+
+
         XPathExpression expr1 = xpath.compile("//totalCount");
         NodeList nodeList1 = (NodeList) expr1.evaluate(doc, XPathConstants.NODESET);
-        System.out.println(nodeList1.item(0).getTextContent());
-        
-        
+//        System.out.println(nodeList1.item(0).getTextContent());
+
+
         NodeList nodeList = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
         for (int i = 0; i < nodeList.getLength(); i++) {
             NodeList child = nodeList.item(i).getChildNodes();
@@ -339,9 +339,9 @@ public class GamBjdOlnlpMngtController {
             }
             gamBjdOlnlpLinkList.add(data);
         }
-        
+
 		return gamBjdOlnlpLinkList;
 	}
-	
-	
+
+
 }

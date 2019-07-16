@@ -157,9 +157,12 @@ GamOlnlpMngtModule.prototype.onButtonClick = function(buttonId) {
 		case 'btnApplcOlnlp':
 			this.applcOlnlp();
 			break;
-			
+
 		case 'btnBjdOlnlpLink':
-			this.bjdOlnlpLink();
+			if(confirm("OPENAPI 공시지가 정보를 연계합니다.")){
+				this.bjdOlnlpLink();
+			}
+
 			break;
 	}
 };

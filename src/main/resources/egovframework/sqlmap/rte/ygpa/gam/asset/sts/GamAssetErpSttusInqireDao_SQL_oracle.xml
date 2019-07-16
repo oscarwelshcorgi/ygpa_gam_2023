@@ -9,7 +9,7 @@
 
 
     <select id="gamAssetErpSttusInqireDao.selectAssetErpSttusInqireList" parameterClass="gamSttusInqireDefaultVO" resultClass="egovMap">
-		WITH EGMISDB.MID_RESULT AS(
+		WITH MID_RESULT AS(
 		SELECT 1 TP,
 		       A.BD_ITEM_CD||A.BD_MOK_CD ID,       
 			   C.MOK_NAME NM,
@@ -25,8 +25,8 @@
 		  FROM ( SELECT A.ACC_YEAR,
 		                A.BD_MOK_CD,
 		                A.BD_ITEM_CD,
-		                SUM(NVL(A.BD_MAKE_AMT_SUM,0)+NVL(A.ADD_AMT,0)+NVL(A.BD_INTER_OF_EXP_AMT,0)) BD_AMT /*예산액*/
-		           FROM EGMISDB.EGMISDB.EGMBD1200 A
+		                SUM(NVL(A.BD_MAKE_AMT_SUM,0)+NVL(A.ADD_AMT,0)+NVL(A.BD_INTER_OF_EXP_AMT,0)) BD_AMT 
+		           FROM EGMISDB.EGMBD1200 A
 		          WHERE 1 = 1
 		            AND A.ACC_YEAR = #sYear#
 		            AND A.BD_CLS = '1'     
@@ -48,7 +48,7 @@
 		 WHERE 1=1
 		   AND C.BD_CLS = '1'
 		),
-		EGMISDB.BD_CD_LIST AS
+		BD_CD_LIST AS
 		(
 		SELECT 3 TP,
 		       A.BD_ITEM_CD ID, 		/* 예산과목코드 VARCHAR2(16)  PK */
@@ -67,7 +67,7 @@
 		   AND A.ACC_YEAR = #sYear#
 		   AND A.BD_CLS = '1'
 		),
-		EGMISDB.MOK_MINUS_CAN AS
+		MOK_MINUS_CAN AS
 		(
 		  SELECT 2 TP,
 		         B.BD_ITEM_CD||A.BD_MOK_CD ID,
@@ -91,7 +91,7 @@
 		             WHERE A.ACC_YEAR = #sYear#
 		               AND A.BD_CLS = '1' ) A RIGHT OUTER JOIN  ( SELECT  BD_MOK_CD,
 		                                                                  BD_ITEM_CD
-		                                                            FROM  EGMISDB.EGMISDB.EGMBD1200 
+		                                                            FROM  EGMISDB.EGMBD1200 
 		                                                           WHERE  1 = 1
 		                                                             AND BD_CLS = '1'
 		                                                             AND ACC_YEAR = #sYear# 
@@ -119,9 +119,9 @@
 		             WHERE A.ACC_YEAR = #sYear#
 		               AND A.BD_CLS = '1' ) A RIGHT OUTER JOIN (  SELECT  TOP_MOK_CD,
 		                                                                  BD_ITEM_CD
-		                                                             FROM ( SELECT  NVL(SF_BD_GET_TOP_LVL_MOK_CD(ACC_YEAR,BD_MOK_CD),' ') TOP_MOK_CD,
+		                                                             FROM ( SELECT  NVL(EGMISDB.SF_BD_GET_TOP_LVL_MOK_CD(ACC_YEAR,BD_MOK_CD),' ') TOP_MOK_CD,
 		                                                                            BD_ITEM_CD
-					                                                           FROM EGMISDB.EGMISDB.EGMBD1200 
+					                                                           FROM EGMISDB.EGMBD1200 
 					                                                          WHERE 1 = 1
 					                                                            AND BD_CLS = '1'
 					                                                            AND ACC_YEAR = #sYear# ) A
@@ -171,7 +171,7 @@
 		                                               A.RECEIPT_AMT,
 		                                               A.BD_MI_REC_AMT,
 		                                               A.UNCOLLECT_AMT
-		                                          FROM EGMISDB.MID_RESULT A
+		                                          FROM MID_RESULT A
 		                                        UNION ALL
 		                                        SELECT TP,
 		                                               A.ID,
@@ -185,7 +185,7 @@
 		                                               A.RECEIPT_AMT,
 		                                               A.BD_MI_REC_AMT,
 		                                               A.UNCOLLECT_AMT
-		                                          FROM EGMISDB.MOK_MINUS_CAN A
+		                                          FROM MOK_MINUS_CAN A
 		                                        UNION ALL
 		                                        SELECT TP,
 		                                               A.ID, 		/* 예산과목코드 VARCHAR2(16)  PK */
@@ -199,7 +199,7 @@
 		                                               A.RECEIPT_AMT,
 		                                               A.BD_MI_REC_AMT,
 		                                               A.UNCOLLECT_AMT
-		                                         FROM EGMISDB.BD_CD_LIST A
+		                                         FROM BD_CD_LIST A
 		                                       ) A
 		                                 START WITH A.PID IS NULL
 		                                 CONNECT BY PRIOR A.ID = A.PID
