@@ -166,101 +166,9 @@ GamAssetSeSttusInqireModule.prototype.onButtonClick = function(buttonId) {
     		 return;
     	 }
  */
-
-		 var searchOpt=this.makeFormArgs('#searchForm');
-		 var module = this;
-		 var getColor1=function(code) {
-			 var color_codes = {
-				 "1": "#f00",
-				 "2": "#00f",
-				 "4": "#0f0"
-				 };
-			 return color_codes[code]||'#aaa';
-			 };
-		 var getColor2=function(code) {
-			 var color_codes = {
-				 "1": "#f00",
-				 "2": "#00f",
-				 "4": "#0f0"
-				 };
-			 return color_codes[code]||'#aaa';
-			 };
-
- 		switch(this._tabId) {
- 		case 'tabs1':
- 			this.$('#dataList1').flexOptions({params:searchOpt}).flexReload({
- 	        	 callback: function(data) {
- 	        		 console.log(data);
- 	        		 var r=[];
-
- 	        		 for(var i=0; i<data.resultList.length; i++) {
- 	        			 var obj = data.resultList[i];
- 	        			 r[r.length] = {
- 	        					 gisAssetsSeCdNm: obj.gisAssetsSeCdNm,
- 	        					 count: obj.count,
- 	        					 price: Number(obj.price.replace(/,/g,"")),
- 	        					 color: getColor1(obj.gisAssetsSeCd)
- 	        			 }
- 	        		 }
- 	        		 console.log(r);
- 	        		 module.chart1.clearAll();
- 	        		 module.chart2.clearAll();
- 	        		 module.chart1.parse(r, "json");
- 	        		 module.chart2.parse(r, "json");
- 	        	 }
- 	         });
- 			break;
- 		case 'tabs2':
- 			this.$('#dataList2').flexOptions({params:searchOpt}).flexReload({
-	        	 callback: function(data) {
-	        		 console.log(data);
-	        		 var r=[];
-
-	        		 for(var i=0; i<data.resultList.length; i++) {
-	        			 var obj = data.resultList[i];
-	        			 r[r.length] = {
-	        					 prdlstSeNm: obj.prdlstSeNm,
-	        					 count: obj.count,
-	        					 price: Number(obj.price.replace(/,/g,"")),
-	        					 color: getColor2(obj.prdlstSe)
-	        			 }
-	        		 }
-	        		 console.log(r);
-	        		 module.chart3.clearAll();
-	        		 module.chart4.clearAll();
-	        		 module.chart3.parse(r, "json");
-	        		 module.chart4.parse(r, "json");
-	        	 }
-	         });
-			break;
- 		case 'tabs3':
- 			this.$('#dataList3').flexOptions({params:searchOpt}).flexReload({
-	        	 callback: function(data) {
-	        		 console.log(data);
-	        		 var r=[];
-
-	        		 for(var i=0; i<data.resultList.length; i++) {
-	        			 var obj = data.resultList[i];
-	        			 r[r.length] = {
-	        					 prdlstSeNm: obj.prdlstSeNm,
-	        					 count: obj.count,
-	        					 price: Number(obj.price.replace(/,/g,"")),
-	        					 color: getColor2(obj.prdlstSe)
-	        			 }
-	        		 }
-	        		 console.log(r);
-	        		 module.chart5.clearAll();
-	        		 module.chart6.clearAll();
-	        		 module.chart5.parse(r, "json");
-	        		 module.chart6.parse(r, "json");
-	        	 }
-	         });
-			break;
- 		}
-
-
-         // this.$("#mainTab").tabs("option", {active: 0});	// 탭 이동
-         break;
+		this.loadData();
+        this.$("#mainTab").tabs("option", {active: 0});	// 탭 이동
+        break;
 
  }
 };
@@ -272,19 +180,125 @@ GamAssetSeSttusInqireModule.prototype.onSubmit = function() {
 };
 
 GamAssetSeSttusInqireModule.prototype.loadData = function() {
-	var searchOpt=this.makeFormArgs('#searchForm');
-	//this.showAlert(searchOpt);
-	this.$('#dataList1').flexOptions({params:searchOpt}).flexReload();
-	this.$("#mainTab").tabs("option", {active: 0});	// 탭 이동
+	 var searchOpt=this.makeFormArgs('#searchForm');
+	 var module = this;
+	 var getColor1=function(code) {
+		 var color_codes = {
+			 "1": "#f00",
+			 "2": "#00f",
+			 "4": "#0f0"
+			 };
+		 return color_codes[code]||'#aaa';
+		 };
+	 var getColor2=function(code) {
+		 var color_codes = {
+			 "1": "#f00",
+			 "2": "#00f",
+			 "4": "#0f0"
+			 };
+		 return color_codes[code]||'#aaa';
+		 };
+
+		switch(this._tabId) {
+		case 'tabs1':
+			this.$('#dataList1').flexOptions({params:searchOpt}).flexReload({
+	        	 callback: function(data) {
+	        		 console.log(data);
+	        		 var r=[];
+
+	        		 for(var i=0; i<data.resultList.length; i++) {
+	        			 var obj = data.resultList[i];
+	        			 r[r.length] = {
+	        					 gisAssetsSeCdNm: obj.gisAssetsSeCdNm,
+	        					 count: obj.count,
+	        					 price: Number(obj.price.replace(/,/g,"")),
+	        					 color: getColor1(obj.gisAssetsSeCd)
+	        			 }
+	        		 }
+	        		 console.log(r);
+	        		 module.chart1.clearAll();
+	        		 module.chart2.clearAll();
+	        		 module.chart1.parse(r, "json");
+	        		 module.chart2.parse(r, "json");
+	        	 }
+	         });
+			break;
+		case 'tabs2':
+			this.$('#dataList2').flexOptions({params:searchOpt}).flexReload({
+        	 callback: function(data) {
+        		 console.log(data);
+        		 var r=[];
+
+        		 for(var i=0; i<data.resultList.length; i++) {
+        			 var obj = data.resultList[i];
+        			 r[r.length] = {
+        					 prdlstSeNm: obj.prdlstSeNm,
+        					 count: obj.count,
+        					 price: Number(obj.price.replace(/,/g,"")),
+        					 color: getColor2(obj.prdlstSe)
+        			 }
+        		 }
+        		 console.log(r);
+        		 module.chart3.clearAll();
+        		 module.chart4.clearAll();
+        		 module.chart3.parse(r, "json");
+        		 module.chart4.parse(r, "json");
+        	 }
+         });
+		break;
+		case 'tabs3':
+			this.$('#dataList3').flexOptions({params:searchOpt}).flexReload({
+        	 callback: function(data) {
+        		 console.log(data);
+        		 var r=[];
+
+        		 for(var i=0; i<data.resultList.length; i++) {
+        			 var obj = data.resultList[i];
+        			 r[r.length] = {
+        					 prdlstSeNm: obj.prdlstSeNm,
+        					 count: obj.count,
+        					 price: Number(obj.price.replace(/,/g,"")),
+        					 color: getColor2(obj.prdlstSe)
+        			 }
+        		 }
+        		 console.log(r);
+        		 module.chart5.clearAll();
+        		 module.chart6.clearAll();
+        		 module.chart5.parse(r, "json");
+        		 module.chart6.parse(r, "json");
+        	 }
+         });
+		break;
+		}
 };
 
 GamAssetSeSttusInqireModule.prototype.onTabChange = function(newTabId, oldTabId) {
+	 var searchOpt=this.makeFormArgs('#searchForm');
+	 var module = this;
+	 var getColor1=function(code) {
+		 var color_codes = {
+			 "1": "#f00",
+			 "2": "#00f",
+			 "4": "#0f0"
+			 };
+		 return color_codes[code]||'#aaa';
+	 };
+	 var getColor2=function(code) {
+		 var color_codes = {
+			 "1": "#f00",
+			 "2": "#00f",
+			 "4": "#0f0"
+			 };
+		 return color_codes[code]||'#aaa';
+	 };
 	switch(newTabId) {
 		case 'tabs1':
 			this._tabId='tabs1';
+			this.loadData();
 		    break;
 		case 'tabs2':
 			this._tabId='tabs2';
+			this.loadData();
 			/*
 			var searchOpt=this.makeFormArgs('#searchForm');
 		    this.$('#dataList2').flexOptions({params:searchOpt}).flexReload();
@@ -292,6 +306,7 @@ GamAssetSeSttusInqireModule.prototype.onTabChange = function(newTabId, oldTabId)
 		    break;
 		case 'tabs3':
 			this._tabId='tabs3';
+			this.loadData();
 /*			var searchOpt=this.makeFormArgs('#searchForm');
 		    this.$('#dataList3').flexOptions({params:searchOpt}).flexReload();
 		    */

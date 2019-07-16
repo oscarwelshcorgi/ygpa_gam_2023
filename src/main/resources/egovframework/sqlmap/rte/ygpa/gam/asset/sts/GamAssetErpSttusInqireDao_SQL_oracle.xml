@@ -9,7 +9,22 @@
 
 
     <select id="gamAssetErpSttusInqireDao.selectAssetErpSttusInqireList" parameterClass="gamSttusInqireDefaultVO" resultClass="egovMap">
-		WITH MID_RESULT AS(
+		SELECT NM,
+		  ID,
+		  PID,
+		  LV,
+		  TP,
+		  BD_ITEM_CD,
+		  INPUT_CLS,
+		  BD_AMT,
+		  COLLECT_AMT,
+		  BD_MI_COL_AMT,
+		  RECEIPT_AMT,
+		  BD_MI_REC_AMT,
+		  UNCOLLECT_AMT
+		FROM ERP_TEST
+		ORDER BY RN
+<!-- 		WITH MID_RESULT AS(
 		SELECT 1 TP,
 		       A.BD_ITEM_CD||A.BD_MOK_CD ID,       
 			   C.MOK_NAME NM,
@@ -213,6 +228,7 @@
 		START WITH A.PID IS NULL
 		CONNECT BY PRIOR A.ID = A.PID
 		ORDER SIBLINGS BY A.ID 
+ -->		
     </select>
 
 

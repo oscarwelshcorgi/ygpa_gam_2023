@@ -25,7 +25,7 @@
  */
 function GamAssetErpSttusInqireModule() {}
 
-GamAssetErpSttusInqireModule.prototype = new EmdModule(1000, 600);
+GamAssetErpSttusInqireModule.prototype = new EmdModule(1000, 800);
 
 //페이지가 호출 되었을때 호출 되는 함수
 GamAssetErpSttusInqireModule.prototype.loadComplete = function() {
@@ -36,7 +36,7 @@ GamAssetErpSttusInqireModule.prototype.loadComplete = function() {
      url: '/asset/gamAssetErpSttusInqireList.do',
      dataType: 'json',
      colModel : [
-                 {display:'예산과목', name:'nm',width:150, sortable:false,align:'left'},
+                 {display:'예산과목', name:'nm',width:150, sortable:false, align:'left', }, 
                  {display:'예산금액', name:'bdAmt',width:100, sortable:false,align:'right', displayFormat: 'number'},
                  {display:'징수금액', name:'collectAmt',width:100, sortable:false,align:'right', displayFormat: 'number'},
                  {display:'예산대징수차액', name:'bdMiColAmt',width:100, sortable:false,align:'right', displayFormat: 'number'},
@@ -45,31 +45,42 @@ GamAssetErpSttusInqireModule.prototype.loadComplete = function() {
                  {display:'당년도미수금', name:'uncollectAmt',width:100, sortable:false,align:'right', displayFormat: 'number'},
                  
                  {display:'tp', name:'tp',width:100, sortable:false,align:'left'},
-                 {display:'PID', name:'pid',width:100, sortable:false,align:'right'},
                  {display:'ID', name:'id',width:100, sortable:false,align:'right'},
+                 {display:'PID', name:'pid',width:100, sortable:false,align:'right'},
                  {display:'입력여부', name:'inputCls',width:100, sortable:false,align:'left'},
                  {display:'예산코드', name:'bdItemCd',width:100, sortable:false,align:'right'}
-                 
+                 	
                  ],
 /*                  usepager: true,
          		useRp: true,
          		rp: 24,
  */
     showTableToggleBtn: false,
-    height: '353'
-/*     preProcess: function(module, data) {
+    height: '353',
+	preProcess: function(module, data) {
     	$.each(data.resultList, function() {
-    		this.gisAssetsCode = this.gisAssetsCd+"-"+this.gisAssetsSubCd;
-    		this.gisAssetsLnmCode = this.gisAssetsLnm;
-    		if(this.gisAssetsLnm!=null && this.gisAssetsLnmSub) this.gisAssetsLnmCode+="-"+this.gisAssetsLnmSub;
+    		 switch(this.lv) {
+    		 case '2':
+    			this.nm = "&nbsp;&nbsp;"+this.nm;
+    		     break;
+    		 case '3':
+    			this.nm = "&nbsp;&nbsp;&nbsp;&nbsp;"+this.nm;
+    		     break;
+    		 case '4':
+    			this.nm = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+this.nm;
+    		     break;
+    		 case '5':
+    			this.nm = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+this.nm;
+    		     break;
+    		 case '6':
+    			this.nm = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+this.nm;
+    		     break;
+    		 }
     	});
 
-        module.$('#sumCnt').val(data.sumCnt);
-        module.$('#sumArOlnlp').val(data.sumArOlnlp);
-        module.$('#sumGisAssetsAcqPri').val(data.sumGisAssetsAcqPri);
     	return data;
-    }
- */     
+  }
+    
  });
 
 
@@ -97,6 +108,47 @@ GamAssetErpSttusInqireModule.prototype.loadComplete = function() {
 	for(var i = serchYr;i>=2010;i--){
 		this.$(".year").append("<option value='" + i + "'>" + i + "년</option>");
 	}
+	
+	/* 차트 추가 */
+	this.chart1 =  new dhtmlXChart({
+        view:"pie",
+        container:this.$("#chart1").attr('id'),
+		value: "#receiptAmt#",
+		color: "#color#",
+        label:"#nm#",
+        shadow:0
+    });
+
+	this.chart2 =  new dhtmlXChart({
+        view:"pie",
+        container:this.$("#chart2").attr('id'),
+		value: "#receiptAmt#",
+		color: "#color#",
+        label:"#nm#",
+        shadow:0
+    });
+
+	this.chart3 =  new dhtmlXChart({
+        view:"pie",
+        container:this.$("#chart3").attr('id'),
+		value: "#collectAmt#",
+		color: "#color#",
+        label:"#nm#",
+        shadow:0
+    });
+
+	this.chart4 =  new dhtmlXChart({
+        view:"pie",
+        container:this.$("#chart4").attr('id'),
+		value: "#collectAmt#",
+		color: "#color#",
+        label:"#nm#",
+        shadow:0
+    });
+	
+	this._collectAmt = [];
+	this._receiptAmt = [];
+	
 };
 
 /**
@@ -104,22 +156,13 @@ GamAssetErpSttusInqireModule.prototype.loadComplete = function() {
 */
 GamAssetErpSttusInqireModule.prototype.onButtonClick = function(buttonId) {
 
- switch(buttonId) {
+	switch(buttonId) {
 
      // 조회
-     case 'searchBtn':
-
-/*     	 if(this.$("#sSearchDtFrom").val() == ""){
-    		 alert("기준일을 선택하세요.");
-    		 return;
-    	 }
- */
-         var searchOpt=this.makeFormArgs('#searchForm');
-         this.$('#dataList').flexOptions({params:searchOpt}).flexReload();
-
-         break;
-
- }
+		case 'searchBtn':
+			this.loadData();
+			break;
+ 	}
 };
 
 GamAssetErpSttusInqireModule.prototype.onSubmit = function() {
@@ -129,9 +172,68 @@ GamAssetErpSttusInqireModule.prototype.onSubmit = function() {
 };
 
 GamAssetErpSttusInqireModule.prototype.loadData = function() {
- var searchOpt=this.makeFormArgs('#searchForm');
- //this.showAlert(searchOpt);
- this.$('#dataList').flexOptions({params:searchOpt}).flexReload();
+ 
+	var module = this;
+	var getColor1=function(code) {
+		var color_codes = {
+			"0":"#99FF00",
+			"1":"#006699",
+			"2":"#FF3399",
+			"3":"#9900FF",
+			"4":"#006633",
+			"5":"#993300",
+			"6":"#0033CC",
+			"7":"#FF0000",
+			"8":"#CC00CC",
+			"9":"#FFFF00",
+			"10":"#666666",
+			"11":"#FFCCCC"
+		};
+		return color_codes[code];
+	};
+	
+	var searchOpt=this.makeFormArgs('#searchForm');
+	this.$('#dataList').flexOptions({params:searchOpt}).flexReload({
+		callback: function(data) {
+       		console.log(data);
+       		var r=[];
+       		var s=[];
+
+       		for(var i=0; i<data.resultList.length; i++) {
+       			var obj = data.resultList[i];
+				if(obj.pid == "100110000"){
+					r[r.length] = {
+       					nm: obj.nm,
+       					receiptAmt: obj.receiptAmt,
+       					collectAmt: obj.collectAmt,
+       					color: getColor1(String(r.length))
+	       			}
+       				 
+				}else if(obj.pid == "100120000"){
+	       			 s[s.length] = {
+       					nm: obj.nm,
+       					receiptAmt: obj.receiptAmt,
+       					collectAmt: obj.collectAmt,
+       					color: getColor1(String(s.length))
+	       			 }
+       			 }
+       		 }
+       		console.log(r);
+       		console.log(s);
+       		module.chart1.clearAll();
+       		module.chart2.clearAll();
+       		module.chart1.parse(r, "json");
+       		module.chart2.parse(s, "json");
+       		module.$("#chartTab").tabs("option", {active: 1});	// 탭 이동	       		 
+       		module.chart3.clearAll();
+       		module.chart4.clearAll();
+       		module.chart3.parse(r, "json");
+       		module.chart4.parse(s, "json");
+       		module.$("#chartTab").tabs("option", {active: 0});	// 탭 이동	       		 
+		}
+        });
+		
+		
 };
 
 GamAssetErpSttusInqireModule.prototype.onTabChange = function(newTabId, oldTabId) {
@@ -197,10 +299,10 @@ var module_instance = new GamAssetErpSttusInqireModule();
 				<table style="width: 100%;">
 					<tr>
 						<td style="width: 50%;">
-						부두임대 사용료(PID:100110000), receiptAmt
+							<div id="chart1" style="width:480px; height:270px; border:1px solid #A4BED4;"></div>
 						</td>
 						<td style="width: 50%;">
-						항만시설사용료(PID:100120000), receiptAmt
+							<div id="chart2" style="width:480px; height:270px; border:1px solid #A4BED4;"></div>
 						</td>
 					</tr>
 					<tr>
@@ -217,10 +319,10 @@ var module_instance = new GamAssetErpSttusInqireModule();
 				<table style="width: 100%;">
 					<tr>
 						<td style="width: 50%;">
-						부두임대 사용료(PID:100110000), collectAmt
+							<div id="chart3" style="width:480px; height:270px; border:1px solid #A4BED4;"></div>
 						</td>
 						<td style="width: 50%;">
-						항만시설사용료(PID:100120000), collectAmt
+							<div id="chart4" style="width:480px; height:270px; border:1px solid #A4BED4;"></div>
 						</td>
 					</tr>
 					<tr>
