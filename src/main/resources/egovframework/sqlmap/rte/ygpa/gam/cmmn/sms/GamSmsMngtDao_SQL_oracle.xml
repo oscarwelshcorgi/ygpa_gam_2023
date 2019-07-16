@@ -26,7 +26,7 @@
 				             	,T1.REG_USR
 				             	,TO_CHAR(T1.REGIST_DT, 'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
 				             	,T1.PRT_AT_CODE
-				             	,T1.MNG_YEAR 
+				             	,T1.MNG_YEAR
 				             	,T1.MNG_NO
 				             	,T1.MNG_CNT
 				             	,T1.MNG_YEAR  ||'-'|| T1.MNG_NO||'-' || T1.MNG_CNT as  MNG_YEAR_NO_CNT
@@ -38,56 +38,50 @@
 				  				<isNotEmpty property="searchDTFrom">
 				  					<isNotEmpty property="searchDTTo">
 				  						<![CDATA[AND T1.REGIST_DT >= TO_DATE(#searchDTFrom#, 'YYYY-MM-DD')
-  												AND T1.REGIST_DT < TO_DATE(#searchDTTo#, 'YYYY-MM-DD') +1 ]]> 
+  												AND T1.REGIST_DT < TO_DATE(#searchDTTo#, 'YYYY-MM-DD') +1 ]]>
 				  					</isNotEmpty>
 				  				</isNotEmpty>
 				  				<isNotEmpty property="mngYear">
 				  					AND T1.MNG_YEAR = #mngYear#
-				  				</isNotEmpty>		
+				  				</isNotEmpty>
 				  				<isNotEmpty property="mngNo">
 				  					AND T1.MNG_NO = #mngNo#
-				  				</isNotEmpty>		
+				  				</isNotEmpty>
 				  				<isNotEmpty property="mngCnt">
 				  					AND T1.MNG_CNT = #mngCnt#
 				  				</isNotEmpty>
-  								<isNotEmpty property="transmisSttus">
-  									AND T1.TRNSMIS_STTUS IN $transmisSttus$
-  								</isNotEmpty>
                 ) S
              ) A
 	</select>
 
     <select id="gamSmsMngtDAO.selectSmsMngtListTotCnt_S" parameterClass="gamSmsMngtVO" resultClass="int">
-			SELECT 
+			SELECT
             	COUNT(*) TOTCNT
             FROM SMS_TRNSMIS_DTLS_F T1
 			WHERE 1 = 1
-	       
+
 	        <isNotEmpty property="prtAtCode">
   					AND T1.PRT_AT_CODE = #prtAtCode#
   				</isNotEmpty>
   				<isNotEmpty property="searchDTFrom">
   					<isNotEmpty property="searchDTTo">
   						<![CDATA[AND T1.REGIST_DT >= TO_DATE(#searchDTFrom#, 'YYYY-MM-DD')
-  								AND T1.REGIST_DT < TO_DATE(#searchDTTo#, 'YYYY-MM-DD') +1 ]]> 
+  								AND T1.REGIST_DT < TO_DATE(#searchDTTo#, 'YYYY-MM-DD') +1 ]]>
   					</isNotEmpty>
   				</isNotEmpty>
   				<isNotEmpty property="mngYear">
   					AND T1.MNG_YEAR = #mngYear#
-  				</isNotEmpty>		
+  				</isNotEmpty>
   				<isNotEmpty property="mngNo">
   					AND T1.MNG_NO = #mngNo#
-  				</isNotEmpty>		
+  				</isNotEmpty>
   				<isNotEmpty property="mngCnt">
   					AND T1.MNG_CNT = #mngCnt#
   				</isNotEmpty>
-  				<isNotEmpty property="transmisSttus">
-  					AND T1.TRNSMIS_STTUS IN $transmisSttus$
-  				</isNotEmpty>
     </select>
-	
+
 	<insert id="gamSmsMngtDAO.smsRetransmit_S" parameterClass="gamSmsMngtVO">
-			INSERT INTO 
+			INSERT INTO
 				SMS_TRNSMIS_DTLS_F
 					(SMS_SEQ
 					,RECPTN_NO
@@ -114,6 +108,6 @@
        					,T1.MNG_NO
        					,T1.MNG_CNT
   					FROM SMS_TRNSMIS_DTLS_F T1
-					WHERE T1.SMS_SEQ=TO_NUMBER(#smsSeq#)	
+					WHERE T1.SMS_SEQ=TO_NUMBER(#smsSeq#)
 	</insert>
 </sqlMap>

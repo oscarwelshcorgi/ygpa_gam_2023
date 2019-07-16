@@ -1392,3 +1392,16 @@ table.searchPanel {
   padding: 0 8px 0 0;
 }
 
+ul.photoList > li > span {
+	width: 100%;
+}
+
+ul.photoList > li > span > img {
+	width: 80%;
+}
+
+ul.photoList > li > span > button {
+    width: 18%;
+    margin: 1%;
+}
+

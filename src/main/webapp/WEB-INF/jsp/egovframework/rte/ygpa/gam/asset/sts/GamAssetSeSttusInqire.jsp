@@ -45,9 +45,9 @@ GamAssetSeSttusInqireModule.prototype.loadComplete = function() {
          		rp: 24,
  */
     showTableToggleBtn: false,
-    height: '353'
+    height: '200'
  });
- 
+
  this.$("#dataList2").flexigrid({
      module: this,
      url: '/asset/gamAssetSeSttusInqireList1.do',
@@ -58,7 +58,7 @@ GamAssetSeSttusInqireModule.prototype.loadComplete = function() {
 		         {display:'금액', name:'price',width:50, sortable:false,align:'right'}
                  ],
     showTableToggleBtn: true,
-    height: '353'
+    height: '200'
  });
 
  this.$("#dataList3").flexigrid({
@@ -71,7 +71,7 @@ GamAssetSeSttusInqireModule.prototype.loadComplete = function() {
 		         {display:'금액', name:'price',width:50, sortable:false,align:'right'}
                  ],
     showTableToggleBtn: true,
-    height: '353'
+    height: '200'
  });
 
 	// 오늘 날짜로 시작(종료)일 설정처리
@@ -93,6 +93,62 @@ GamAssetSeSttusInqireModule.prototype.loadComplete = function() {
 
 	this.$("#sSearchDtFrom").val(displayDate);
 	this.$("#sSearchDtTo").val(displayDate);
+
+	this.chart1 =  new dhtmlXChart({
+        view:"pie",
+        container:this.$("#chart1").attr('id'),
+		value: "#count#",
+		color: "#color#",
+        label:"#gisAssetsSeCdNm#",
+        shadow:0
+    });
+
+	this.chart2 =  new dhtmlXChart({
+        view:"pie",
+        container:this.$("#chart2").attr('id'),
+		value: "#price#",
+		color: "#color#",
+        label:"#gisAssetsSeCdNm#",
+        shadow:0
+    });
+
+	this.chart3 =  new dhtmlXChart({
+        view:"pie",
+        container:this.$("#chart3").attr('id'),
+		value: "#count#",
+		color: "#color#",
+        label:"#prdlstSeNm#",
+        shadow:0
+    });
+
+	this.chart4 =  new dhtmlXChart({
+        view:"pie",
+        container:this.$("#chart4").attr('id'),
+		value: "#price#",
+		color: "#color#",
+        label:"#prdlstSeNm#",
+        shadow:0
+    });
+
+	this.chart5 =  new dhtmlXChart({
+        view:"pie",
+        container:this.$("#chart5").attr('id'),
+		value: "#count#",
+		color: "#color#",
+        label:"#prdlstSeNm#",
+        shadow:0
+    });
+
+	this.chart6 =  new dhtmlXChart({
+        view:"pie",
+        container:this.$("#chart6").attr('id'),
+		value: "#price#",
+		color: "#color#",
+        label:"#prdlstSeNm#",
+        shadow:0
+    });
+
+	this._tabId='tabs1';
 };
 
 /**
@@ -104,15 +160,106 @@ GamAssetSeSttusInqireModule.prototype.onButtonClick = function(buttonId) {
 
      // 조회
      case 'searchBtn':
-/* 
+/*
     	 if(this.$("#sSearchDtFrom").val() == ""){
     		 alert("기준일을 선택하세요.");
     		 return;
     	 }
  */
-         var searchOpt=this.makeFormArgs('#searchForm');
-         this.$('#dataList1').flexOptions({params:searchOpt}).flexReload();
-         this.$("#mainTab").tabs("option", {active: 0});	// 탭 이동
+
+		 var searchOpt=this.makeFormArgs('#searchForm');
+		 var module = this;
+		 var getColor1=function(code) {
+			 var color_codes = {
+				 "1": "#f00",
+				 "2": "#00f",
+				 "4": "#0f0"
+				 };
+			 return color_codes[code]||'#aaa';
+			 };
+		 var getColor2=function(code) {
+			 var color_codes = {
+				 "1": "#f00",
+				 "2": "#00f",
+				 "4": "#0f0"
+				 };
+			 return color_codes[code]||'#aaa';
+			 };
+
+ 		switch(this._tabId) {
+ 		case 'tabs1':
+ 			this.$('#dataList1').flexOptions({params:searchOpt}).flexReload({
+ 	        	 callback: function(data) {
+ 	        		 console.log(data);
+ 	        		 var r=[];
+
+ 	        		 for(var i=0; i<data.resultList.length; i++) {
+ 	        			 var obj = data.resultList[i];
+ 	        			 r[r.length] = {
+ 	        					 gisAssetsSeCdNm: obj.gisAssetsSeCdNm,
+ 	        					 count: obj.count,
+ 	        					 price: Number(obj.price.replace(/,/g,"")),
+ 	        					 color: getColor1(obj.gisAssetsSeCd)
+ 	        			 }
+ 	        		 }
+ 	        		 console.log(r);
+ 	        		 module.chart1.clearAll();
+ 	        		 module.chart2.clearAll();
+ 	        		 module.chart1.parse(r, "json");
+ 	        		 module.chart2.parse(r, "json");
+ 	        	 }
+ 	         });
+ 			break;
+ 		case 'tabs2':
+ 			this.$('#dataList2').flexOptions({params:searchOpt}).flexReload({
+	        	 callback: function(data) {
+	        		 console.log(data);
+	        		 var r=[];
+
+	        		 for(var i=0; i<data.resultList.length; i++) {
+	        			 var obj = data.resultList[i];
+	        			 r[r.length] = {
+	        					 prdlstSeNm: obj.prdlstSeNm,
+	        					 count: obj.count,
+	        					 price: Number(obj.price.replace(/,/g,"")),
+	        					 color: getColor2(obj.prdlstSe)
+	        			 }
+	        		 }
+	        		 console.log(r);
+	        		 module.chart3.clearAll();
+	        		 module.chart4.clearAll();
+	        		 module.chart3.parse(r, "json");
+	        		 module.chart4.parse(r, "json");
+	        	 }
+	         });
+			break;
+ 		case 'tabs3':
+ 			this.$('#dataList3').flexOptions({params:searchOpt}).flexReload({
+	        	 callback: function(data) {
+	        		 console.log(data);
+	        		 var r=[];
+
+	        		 for(var i=0; i<data.resultList.length; i++) {
+	        			 var obj = data.resultList[i];
+	        			 r[r.length] = {
+	        					 prdlstSeNm: obj.prdlstSeNm,
+	        					 count: obj.count,
+	        					 price: Number(obj.price.replace(/,/g,"")),
+	        					 color: getColor2(obj.prdlstSe)
+	        			 }
+	        		 }
+	        		 console.log(r);
+	        		 module.chart5.clearAll();
+	        		 module.chart6.clearAll();
+	        		 module.chart5.parse(r, "json");
+	        		 module.chart6.parse(r, "json");
+	        	 }
+	         });
+			break;
+ 		}
+
+
+         // this.$("#mainTab").tabs("option", {active: 0});	// 탭 이동
          break;
 
  }
@@ -134,14 +281,20 @@ GamAssetSeSttusInqireModule.prototype.loadData = function() {
 GamAssetSeSttusInqireModule.prototype.onTabChange = function(newTabId, oldTabId) {
 	switch(newTabId) {
 		case 'tabs1':
+			this._tabId='tabs1';
 		    break;
 		case 'tabs2':
+			this._tabId='tabs2';
+			/*
 			var searchOpt=this.makeFormArgs('#searchForm');
 		    this.$('#dataList2').flexOptions({params:searchOpt}).flexReload();
+		    */
 		    break;
 		case 'tabs3':
-			var searchOpt=this.makeFormArgs('#searchForm');
+			this._tabId='tabs3';
+/*			var searchOpt=this.makeFormArgs('#searchForm');
 		    this.$('#dataList3').flexOptions({params:searchOpt}).flexReload();
+		    */
 		    break;
 	}
 };
@@ -156,7 +309,7 @@ var module_instance = new GamAssetSeSttusInqireModule();
     <div id="searchViewStack" class="emdPanel">
         <div class="viewPanel">
             <form id="searchForm">
-            
+
                 <table class="searchPanel">
                     <tbody>
                         <tr>
@@ -168,11 +321,11 @@ var module_instance = new GamAssetSeSttusInqireModule();
                             <td><input id="sGisAssetsCd" type="text" size="5"></td>
                             <th>GIS자산명</th>
                             <td><input id="sGisAssetsNm" type="text" size="20"></td>
-                             
+
                             <th>조회기준일자</th>
                             <td><input id="sSearchDtFrom" type="text" class="emdcal" size="8">~
                             <input id="sSearchDtTo" type="text" class="emdcal" size="8">
---> 
+-->
                             <td><button id="searchBtn" class="submit buttonSearch">조회</button></td>
                         </tr>
                     </tbody>
@@ -180,8 +333,8 @@ var module_instance = new GamAssetSeSttusInqireModule();
             </form>
         </div>
     </div>
-	
-	
+
+
 	<div class="emdPanel fillHeight">
 		<div id="mainTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
 			<ul>
@@ -189,23 +342,23 @@ var module_instance = new GamAssetSeSttusInqireModule();
 				<li><a href="#tabs2" class="emdTab">출자 자산</a></li>
 				<li><a href="#tabs3" class="emdTab">수익허가 자산</a></li>
 			</ul>
-			
+
 			<div id="tabs1" class="emdTabPage fillHeight" style="overflow:hidden;" >
 				<table id="dataList1" style="display:none;" class="fillHeight"></table>
 
-				<div class="emdPanel" style="height: 200px">
+				<div class="emdPanel" style="height: 300px">
 					<table style="width: 100%;">
 						<tr>
 							<td style="width: 50%;">
-							차트1
+								<div id="chart1" style="width:300px; height:270px; border:1px solid #A4BED4;"></div>
 							</td>
 							<td style="width: 50%;">
-							차트2
+								<div id="chart2" style="width:300px; height:270px; border:1px solid #A4BED4;"></div>
 							</td>
 						</tr>
 						<tr>
 							<td style="width: 50%;text-align: center;">
-							총관 건수
+							총괄 건수
 							</td>
 							<td style="width: 50%;text-align: center;">
 							총괄 금액
@@ -217,14 +370,14 @@ var module_instance = new GamAssetSeSttusInqireModule();
 			<div id="tabs2" class="emdTabPage fillHeight" style="overflow:hidden;" >
 				<table id="dataList2" style="display:none;" class="fillHeight"></table>
 
-				<div class="emdPanel" style="height: 200px">
+				<div class="emdPanel" style="height: 300px">
 					<table style="width: 100%;">
 						<tr>
 							<td style="width: 50%;">
-							차트1
+								<div id="chart3" style="width:300px; height:270px; border:1px solid #A4BED4;"></div>
 							</td>
 							<td style="width: 50%;">
-							차트2
+								<div id="chart4" style="width:300px; height:270px; border:1px solid #A4BED4;"></div>
 							</td>
 						</tr>
 						<tr>
@@ -241,14 +394,14 @@ var module_instance = new GamAssetSeSttusInqireModule();
 			<div id="tabs3" class="emdTabPage fillHeight" style="overflow:hidden;" >
 				<table id="dataList3" style="display:none;" class="fillHeight"></table>
 
-				<div class="emdPanel" style="height: 200px">
+				<div class="emdPanel" style="height: 300px">
 					<table style="width: 100%;">
 						<tr>
 							<td style="width: 50%;">
-							차트1
+								<div id="chart5" style="width:300px; height:270px; border:1px solid #A4BED4;"></div>
 							</td>
 							<td style="width: 50%;">
-							차트2
+								<div id="chart6" style="width:300px; height:270px; border:1px solid #A4BED4;"></div>
 							</td>
 						</tr>
 						<tr>
@@ -265,9 +418,9 @@ var module_instance = new GamAssetSeSttusInqireModule();
 
 		</div>
 	</div>
-	
-	
-<!-- 	
+
+
+<!--
 	<div class="emdPanel">
 		<table id="dataList" style="display:none"></table>
 	</div>
@@ -294,10 +447,10 @@ var module_instance = new GamAssetSeSttusInqireModule();
 				<td style="width: 33%;">
 				차트3
 				</td>
-			
+
 			</tr>
-		
+
 		</table>
     </div>
-  -->   
+  -->
 </div>

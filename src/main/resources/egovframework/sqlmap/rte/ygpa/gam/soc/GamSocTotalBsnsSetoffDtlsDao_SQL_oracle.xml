@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd"> 
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
 <sqlMap namespace="ygpa.gam.soc">
 
     <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="gamSocTotalBsnsSetoffDtlsVO" type="egovframework.rte.ygpa.gam.soc.service.GamSocTotalBsnsSetoffDtlsVO"/>
-	
+
 	<resultMap id="socTotalBsnsSetoffDtlsDetailSumMap" class="gamSocTotalBsnsSetoffDtlsVO">
 		<result property="totalCnt" column="TOTAL_CNT" columnIndex="1" javaType="int"/>
         <result property="sumPrtTotalAmnt" column="SUM_PRT_TOTAL_AMNT" columnIndex="2" javaType="java.lang.Long"/>
         <result property="sumAppTotalAmnt" column="SUM_APP_TOTAL_AMNT" columnIndex="3" javaType="java.lang.Long"/>
     </resultMap>
-    
+
 
     <select id="gamSocTotalBsnsSetoffDtlsDAO.selectSocTotalBsnsSetoffDtlsList_D" parameterClass="gamSocTotalBsnsSetoffDtlsVO" resultClass="egovMap">
         SELECT A.*
@@ -28,52 +28,62 @@
                                   , G.AGENT_NAME
                                   , G.CMPL_YR
                                   , G.CONST_NO
-                             FROM 
+                             FROM
                              	P2MGR.SOC_AGENT_F@YGPA_P2MGR G
-                             LEFT OUTER JOIN 
-					        	P2MGR.PRT_AT_CODE_F@YGPA_P2MGR O 
-					         ON 
-					        	(G.SOC_PRT_AT_CODE=O.PRT_AT_CODE) 
-					         LEFT OUTER JOIN 
-					        	P2MGR.PRT_AT_CODE_F@YGPA_P2MGR P 
-					         ON 
-					        	(G.PRT_AT_CODE=P.PRT_AT_CODE) 
-                             WHERE 
-                             	(G.PRT_AT_CODE, G.CMPL_YR, G.CONST_NO) 
-                             	IN 
+                             LEFT OUTER JOIN
+					        	P2MGR.PRT_AT_CODE_F@YGPA_P2MGR O
+					         ON
+					        	(G.SOC_PRT_AT_CODE=O.PRT_AT_CODE)
+					         LEFT OUTER JOIN
+					        	P2MGR.PRT_AT_CODE_F@YGPA_P2MGR P
+					         ON
+					        	(G.PRT_AT_CODE=P.PRT_AT_CODE)
+                             WHERE
+                             	(G.PRT_AT_CODE, G.CMPL_YR, G.CONST_NO)
+                             	IN
                              	(
-                             		SELECT 
+                             		SELECT
                              			PRT_AT_CODE
                              			, CMPL_YR
-                             			, CONST_NO 
-                             		FROM 
-                             			P2MGR.SOC_EXMP_F@YGPA_P2MGR 
-                             			
+                             			, CONST_NO
+                             		FROM
+                             			P2MGR.SOC_EXMP_F@YGPA_P2MGR
+
                          			WHERE 1=1
 
                          				<isNotEmpty property="sPrtAtCode">
 							             	AND APP_PRT_AT_CODE = #sPrtAtCode#
 							         	</isNotEmpty>
-							         
+
 							         	<isNotEmpty property="sFeeTp">
 								             AND FEE_TP = #sFeeTp#
 								        </isNotEmpty>
-								         
+
 								        <isNotEmpty property="sExmpAgentCode">
 								             AND APP_AGENT_CODE = #sExmpAgentCode#
 								        </isNotEmpty>
-								         
+
 								        <isNotEmpty property="sUseNo">
 								             AND USE_NO = #sUseNo#
 								        </isNotEmpty>
-							         	
+
 							         	<isNotEmpty property="sType">
-											<isNotEmpty property="sFrDt">
-												<![CDATA[ AND $sType$ >= TO_DATE(#sFrDt#,'YYYY-MM-DD') ]]>
-									        </isNotEmpty>
-									        <isNotEmpty property="sToDt">
-									        	<![CDATA[ AND $sType$ < TO_DATE(#sToDt#,'YYYY-MM-DD') + 1 ]]>
-									        </isNotEmpty>
+								         	<isEqual prepend="AND" property="sType" compareValue="BILL_DT">
+												<isNotEmpty property="sFrDt">
+													<![CDATA[ BILL_DT >= TO_DATE(#sFrDt#,'YYYY-MM-DD') ]]>
+										        </isNotEmpty>
+										        <isNotEmpty property="sToDt">
+										        	<![CDATA[ BILL_DT < TO_DATE(#sToDt#,'YYYY-MM-DD') + 1 ]]>
+										        </isNotEmpty>
+											</isEqual>
+											<isEqual prepend="AND" property="sType" compareValue="IO_DT">
+												<isNotEmpty property="sFrDt">
+													<![CDATA[ IO_DT >= TO_DATE(#sFrDt#,'YYYY-MM-DD') ]]>
+										        </isNotEmpty>
+										        <isNotEmpty property="sToDt">
+										        	<![CDATA[ IO_DT < TO_DATE(#sToDt#,'YYYY-MM-DD') + 1 ]]>
+										        </isNotEmpty>
+											</isEqual>
 										</isNotEmpty>
                              	)
 
@@ -83,62 +93,72 @@
              ) A
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
-    
+
     <select id="gamSocTotalBsnsSetoffDtlsDAO.selectSocTotalBsnsSetoffDtlsListTotCnt_S" parameterClass="gamSocTotalBsnsSetoffDtlsVO" resultClass="int">
-            SELECT 
+            SELECT
             	COUNT(*) TOTCNT
-            FROM 
+            FROM
                	P2MGR.SOC_AGENT_F@YGPA_P2MGR G
-            LEFT OUTER JOIN 
-				P2MGR.PRT_AT_CODE_F@YGPA_P2MGR O 
-			ON 
-				(G.SOC_PRT_AT_CODE=O.PRT_AT_CODE) 
-			LEFT OUTER JOIN 
-				P2MGR.PRT_AT_CODE_F@YGPA_P2MGR P 
-			ON 
-				(G.PRT_AT_CODE=P.PRT_AT_CODE) 
-			WHERE 
-               	(G.PRT_AT_CODE, G.CMPL_YR, G.CONST_NO) 
-                IN 
+            LEFT OUTER JOIN
+				P2MGR.PRT_AT_CODE_F@YGPA_P2MGR O
+			ON
+				(G.SOC_PRT_AT_CODE=O.PRT_AT_CODE)
+			LEFT OUTER JOIN
+				P2MGR.PRT_AT_CODE_F@YGPA_P2MGR P
+			ON
+				(G.PRT_AT_CODE=P.PRT_AT_CODE)
+			WHERE
+               	(G.PRT_AT_CODE, G.CMPL_YR, G.CONST_NO)
+                IN
                 (
-               		SELECT 
+               		SELECT
                			PRT_AT_CODE
                			, CMPL_YR
-               			, CONST_NO 
-               		FROM 
-               			P2MGR.SOC_EXMP_F@YGPA_P2MGR 
-               			
+               			, CONST_NO
+               		FROM
+               			P2MGR.SOC_EXMP_F@YGPA_P2MGR
+
            			WHERE 1=1
 
                     <isNotEmpty property="sPrtAtCode">
 		             	AND APP_PRT_AT_CODE = #sPrtAtCode#
 		         	</isNotEmpty>
-		         
+
 		         	<isNotEmpty property="sFeeTp">
 			             AND FEE_TP = #sFeeTp#
 			        </isNotEmpty>
-			         
+
 			        <isNotEmpty property="sExmpAgentCode">
 			             AND APP_AGENT_CODE = #sExmpAgentCode#
 			        </isNotEmpty>
-			         
+
 			        <isNotEmpty property="sUseNo">
 			             AND USE_NO = #sUseNo#
 			        </isNotEmpty>
-		         	
+
 		         	<isNotEmpty property="sType">
-						<isNotEmpty property="sFrDt">
-							<![CDATA[ AND $sType$ >= TO_DATE(#sFrDt#,'YYYY-MM-DD') ]]>
-				        </isNotEmpty>
-				        <isNotEmpty property="sToDt">
-				        	<![CDATA[ AND $sType$ < TO_DATE(#sToDt#,'YYYY-MM-DD') + 1 ]]>
-				        </isNotEmpty>
+			         	<isEqual prepend="AND" property="sType" compareValue="BILL_DT">
+							<isNotEmpty property="sFrDt">
+								<![CDATA[ BILL_DT >= TO_DATE(#sFrDt#,'YYYY-MM-DD') ]]>
+					        </isNotEmpty>
+					        <isNotEmpty property="sToDt">
+					        	<![CDATA[ BILL_DT < TO_DATE(#sToDt#,'YYYY-MM-DD') + 1 ]]>
+					        </isNotEmpty>
+						</isEqual>
+						<isEqual prepend="AND" property="sType" compareValue="IO_DT">
+							<isNotEmpty property="sFrDt">
+								<![CDATA[ IO_DT >= TO_DATE(#sFrDt#,'YYYY-MM-DD') ]]>
+					        </isNotEmpty>
+					        <isNotEmpty property="sToDt">
+					        	<![CDATA[ IO_DT < TO_DATE(#sToDt#,'YYYY-MM-DD') + 1 ]]>
+					        </isNotEmpty>
+						</isEqual>
 					</isNotEmpty>
                  )
     </select>
-    
-    
-    
+
+
+
     <select id="gamSocTotalBsnsSetoffDtlsDAO.selectSocTotalBsnsSetoffDtlsDetail_D" parameterClass="gamSocTotalBsnsSetoffDtlsVO" resultClass="egovMap">
         SELECT A.*
            FROM (
@@ -165,7 +185,7 @@
                                   , DECODE(JINGSUJA,'MAP',EXMP_AMNT) MAP_EXMP_AMNT
                                   , DECODE(JINGSUJA,'PAT',EXMP_AMNT) PAT_EXMP_AMNT
                                   , IN_OUT
-                                  , DECODE(FEE_TP, 'L0', DECODE(IN_OUT, '1', '외항입항', '2', '외항출항', '3', '내항입항', '4','내항출항',''), 
+                                  , DECODE(FEE_TP, 'L0', DECODE(IN_OUT, '1', '외항입항', '2', '외항출항', '3', '내항입항', '4','내항출항',''),
 									                     DECODE(IN_OUT, '1', '외항', '2', '내항', '') ) IN_OUT_NM
                                   , BILL_USE_NO
                                   , FAC_CODE
@@ -189,110 +209,130 @@
                                   , WORK_CODE
                                   , STR_DATE
                                   , END_DATE
-                             FROM 
-                             	P2MGR.SOC_EXMP_F@YGPA_P2MGR 
+                             FROM
+                             	P2MGR.SOC_EXMP_F@YGPA_P2MGR
 
                             <![CDATA[  WHERE 1<>1 ]]>
 
                              <isNotEmpty property="prtAtCode">
 					             OR (PRT_AT_CODE = #prtAtCode#
-					             
+
 					             <isNotEmpty property="cmplYr">
 						             AND CMPL_YR = #cmplYr#
 						         </isNotEmpty>
-						         
+
 						         <isNotEmpty property="constNo">
 						             AND CONST_NO = #constNo#
 						         </isNotEmpty>
-						         
-						         
+
+
 						         <isNotEmpty property="sPrtAtCode">
 					             	AND APP_PRT_AT_CODE = #sPrtAtCode#
 					         	</isNotEmpty>
-					         
+
 					         	<isNotEmpty property="sFeeTp">
 						             AND FEE_TP = #sFeeTp#
 						        </isNotEmpty>
-						         
+
 						        <isNotEmpty property="sExmpAgentCode">
 						             AND APP_AGENT_CODE = #sExmpAgentCode#
 						        </isNotEmpty>
-						         
+
 						        <isNotEmpty property="sUseNo">
 						             AND USE_NO = #sUseNo#
 						        </isNotEmpty>
-					         	
+
 					         	<isNotEmpty property="sType">
-									<isNotEmpty property="sFrDt">
-										<![CDATA[ AND $sType$ >= TO_DATE(#sFrDt#,'YYYY-MM-DD') ]]>
-							        </isNotEmpty>
-							        <isNotEmpty property="sToDt">
-							        	<![CDATA[ AND $sType$ < TO_DATE(#sToDt#,'YYYY-MM-DD') + 1 ]]>
-							        </isNotEmpty>
+						         	<isEqual prepend="AND" property="sType" compareValue="BILL_DT">
+										<isNotEmpty property="sFrDt">
+											<![CDATA[ BILL_DT >= TO_DATE(#sFrDt#,'YYYY-MM-DD') ]]>
+								        </isNotEmpty>
+								        <isNotEmpty property="sToDt">
+								        	<![CDATA[ BILL_DT < TO_DATE(#sToDt#,'YYYY-MM-DD') + 1 ]]>
+								        </isNotEmpty>
+									</isEqual>
+									<isEqual prepend="AND" property="sType" compareValue="IO_DT">
+										<isNotEmpty property="sFrDt">
+											<![CDATA[ IO_DT >= TO_DATE(#sFrDt#,'YYYY-MM-DD') ]]>
+								        </isNotEmpty>
+								        <isNotEmpty property="sToDt">
+								        	<![CDATA[ IO_DT < TO_DATE(#sToDt#,'YYYY-MM-DD') + 1 ]]>
+								        </isNotEmpty>
+									</isEqual>
 								</isNotEmpty>
-						         
+
 						         )
 					         </isNotEmpty>
 
-					         
+
                              <!-- ORDER BY REGIST_DT DESC -->
                              ORDER BY CMPL_YR DESC, UPDT_DATE DESC
                 ) S
              ) A
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
-    
+
     <select id="gamSocTotalBsnsSetoffDtlsDAO.selectSocTotalBsnsSetoffDtlsDetailSum_S" parameterClass="gamSocTotalBsnsSetoffDtlsVO" resultMap="socTotalBsnsSetoffDtlsDetailSumMap">
-        SELECT 
+        SELECT
         		COUNT(*) AS TOTAL_CNT
         		, NVL(SUM(DECODE(JINGSUJA,'MAP',EXMP_AMNT)),0) AS SUM_PRT_TOTAL_AMNT
         		, NVL(SUM(DECODE(JINGSUJA,'PAT',EXMP_AMNT)),0) AS SUM_APP_TOTAL_AMNT
-              FROM 
-              	P2MGR.SOC_EXMP_F@YGPA_P2MGR 
+              FROM
+              	P2MGR.SOC_EXMP_F@YGPA_P2MGR
 
  <![CDATA[  WHERE 1<>1 ]]>
-	
+
 	             <isNotEmpty property="prtAtCode">
 	             	OR (PRT_AT_CODE = #prtAtCode#
-	             
+
 	             <isNotEmpty property="cmplYr">
 		             AND CMPL_YR = #cmplYr#
 		         </isNotEmpty>
-		         
+
 		         <isNotEmpty property="constNo">
 		             AND CONST_NO = #constNo#
 		         </isNotEmpty>
-		         
+
 		         <isNotEmpty property="sPrtAtCode">
 	             	AND APP_PRT_AT_CODE = #sPrtAtCode#
 	         	</isNotEmpty>
-	         
+
 	         	<isNotEmpty property="sFeeTp">
 		             AND FEE_TP = #sFeeTp#
 		        </isNotEmpty>
-		         
+
 		        <isNotEmpty property="sExmpAgentCode">
 		             AND APP_AGENT_CODE = #sExmpAgentCode#
 		        </isNotEmpty>
-		         
+
 		        <isNotEmpty property="sUseNo">
 		             AND USE_NO = #sUseNo#
 		        </isNotEmpty>
-	         	
+
 	         	<isNotEmpty property="sType">
-					<isNotEmpty property="sFrDt">
-						<![CDATA[ AND $sType$ >= TO_DATE(#sFrDt#,'YYYY-MM-DD') ]]>
-			        </isNotEmpty>
-			        <isNotEmpty property="sToDt">
-			        	<![CDATA[ AND $sType$ < TO_DATE(#sToDt#,'YYYY-MM-DD') + 1 ]]>
-			        </isNotEmpty>
+		         	<isEqual prepend="AND" property="sType" compareValue="BILL_DT">
+						<isNotEmpty property="sFrDt">
+							<![CDATA[ BILL_DT >= TO_DATE(#sFrDt#,'YYYY-MM-DD') ]]>
+				        </isNotEmpty>
+				        <isNotEmpty property="sToDt">
+				        	<![CDATA[ BILL_DT < TO_DATE(#sToDt#,'YYYY-MM-DD') + 1 ]]>
+				        </isNotEmpty>
+					</isEqual>
+					<isEqual prepend="AND" property="sType" compareValue="IO_DT">
+						<isNotEmpty property="sFrDt">
+							<![CDATA[ IO_DT >= TO_DATE(#sFrDt#,'YYYY-MM-DD') ]]>
+				        </isNotEmpty>
+				        <isNotEmpty property="sToDt">
+				        	<![CDATA[ IO_DT < TO_DATE(#sToDt#,'YYYY-MM-DD') + 1 ]]>
+				        </isNotEmpty>
+					</isEqual>
 				</isNotEmpty>
-		         
+
 		         )
 	         </isNotEmpty>
     </select>
-    
-    
+
+
     <select id="gamSocTotalBsnsSetoffDtlsDAO.selectSocTotalBsnsSetoffDtlsListPrint_D" parameterClass="gamSocTotalBsnsSetoffDtlsVO" resultClass="egovMap">
         SELECT A.*
            FROM (
@@ -324,7 +364,7 @@
                                   , DECODE(E.JINGSUJA,'MAP',E.EXMP_AMNT) MAP_EXMP_AMNT
                                   , DECODE(E.JINGSUJA,'PAT',E.EXMP_AMNT) PAT_EXMP_AMNT
                                   , E.IN_OUT
-                                  , DECODE(E.FEE_TP, 'L0', DECODE(E.IN_OUT, '1', '외항입항', '2', '외항출항', '3', '내항입항', '4','내항출항',''), 
+                                  , DECODE(E.FEE_TP, 'L0', DECODE(E.IN_OUT, '1', '외항입항', '2', '외항출항', '3', '내항입항', '4','내항출항',''),
 									                       DECODE(E.IN_OUT, '1', '외항', '2', '내항', '') ) IN_OUT_NM
                                   , E.BILL_USE_NO
                                   , E.FAC_CODE
@@ -348,109 +388,129 @@
                                   , E.WORK_CODE
                                   , E.STR_DATE
                                   , E.END_DATE
-                             FROM 
+                             FROM
                              	P2MGR.SOC_AGENT_F@YGPA_P2MGR G
-                             LEFT OUTER JOIN 
+                             LEFT OUTER JOIN
                              	P2MGR.SOC_EXMP_F@YGPA_P2MGR E
-                             ON 
+                             ON
 	                             (
 	                             G.PRT_AT_CODE = E.PRT_AT_CODE
 	                             AND G.CMPL_YR = E.CMPL_YR
 	                             AND G.CONST_NO = E.CONST_NO
 	                             )
-                    		 LEFT OUTER JOIN 
-					        	P2MGR.PRT_AT_CODE_F@YGPA_P2MGR O 
-					         ON 
-					        	(G.SOC_PRT_AT_CODE=O.PRT_AT_CODE) 
-					         LEFT OUTER JOIN 
-					        	P2MGR.PRT_AT_CODE_F@YGPA_P2MGR P 
-					         ON 
-					        	(G.PRT_AT_CODE=P.PRT_AT_CODE) 
-					        	
-                             WHERE 1=1 
-                             
+                    		 LEFT OUTER JOIN
+					        	P2MGR.PRT_AT_CODE_F@YGPA_P2MGR O
+					         ON
+					        	(G.SOC_PRT_AT_CODE=O.PRT_AT_CODE)
+					         LEFT OUTER JOIN
+					        	P2MGR.PRT_AT_CODE_F@YGPA_P2MGR P
+					         ON
+					        	(G.PRT_AT_CODE=P.PRT_AT_CODE)
+
+                             WHERE 1=1
+
                              	<isNotEmpty property="sPrtAtCode">
 					             	AND E.APP_PRT_AT_CODE = #sPrtAtCode#
 					         	</isNotEmpty>
-					         
+
 					         	<isNotEmpty property="sFeeTp">
 						             AND E.FEE_TP = #sFeeTp#
 						        </isNotEmpty>
-						         
+
 						        <isNotEmpty property="sExmpAgentCode">
 						             AND E.APP_AGENT_CODE = #sExmpAgentCode#
 						        </isNotEmpty>
-						         
+
 						        <isNotEmpty property="sUseNo">
 						             AND E.USE_NO = #sUseNo#
 						        </isNotEmpty>
-					         	
+
 					         	<isNotEmpty property="sType">
-									<isNotEmpty property="sFrDt">
-										<![CDATA[ AND $sType$ >= TO_DATE(#sFrDt#,'YYYY-MM-DD') ]]>
-							        </isNotEmpty>
-							        <isNotEmpty property="sToDt">
-							        	<![CDATA[ AND $sType$ < TO_DATE(#sToDt#,'YYYY-MM-DD') + 1 ]]>
-							        </isNotEmpty>
+						         	<isEqual prepend="AND" property="sType" compareValue="BILL_DT">
+										<isNotEmpty property="sFrDt">
+											<![CDATA[ BILL_DT >= TO_DATE(#sFrDt#,'YYYY-MM-DD') ]]>
+								        </isNotEmpty>
+								        <isNotEmpty property="sToDt">
+								        	<![CDATA[ BILL_DT < TO_DATE(#sToDt#,'YYYY-MM-DD') + 1 ]]>
+								        </isNotEmpty>
+									</isEqual>
+									<isEqual prepend="AND" property="sType" compareValue="IO_DT">
+										<isNotEmpty property="sFrDt">
+											<![CDATA[ IO_DT >= TO_DATE(#sFrDt#,'YYYY-MM-DD') ]]>
+								        </isNotEmpty>
+								        <isNotEmpty property="sToDt">
+								        	<![CDATA[ IO_DT < TO_DATE(#sToDt#,'YYYY-MM-DD') + 1 ]]>
+								        </isNotEmpty>
+									</isEqual>
 								</isNotEmpty>
-                             	
+
                              <!-- ORDER BY REGIST_DT DESC -->
                              ORDER BY G.SOC_PRT_AT_CODE, E.PRT_AT_CODE, G.AGENT_CODE
                 ) S
              ) A
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
-    
+
     <select id="gamSocTotalBsnsSetoffDtlsDAO.selectSocTotalBsnsSetoffDtlsListPrintTotCnt_S" parameterClass="gamSocTotalBsnsSetoffDtlsVO" resultClass="int">
-            SELECT 
+            SELECT
             	COUNT(*) TOTCNT
-            FROM 
+            FROM
 				P2MGR.SOC_AGENT_F@YGPA_P2MGR G
-            LEFT OUTER JOIN 
+            LEFT OUTER JOIN
 				P2MGR.SOC_EXMP_F@YGPA_P2MGR E
-            ON 
+            ON
 				(
 				G.PRT_AT_CODE = E.PRT_AT_CODE
 				AND G.CMPL_YR = E.CMPL_YR
 				AND G.CONST_NO = E.CONST_NO
 				)
-			LEFT OUTER JOIN 
-				P2MGR.PRT_AT_CODE_F@YGPA_P2MGR O 
-			ON 
-				(G.SOC_PRT_AT_CODE=O.PRT_AT_CODE) 
-			LEFT OUTER JOIN 
-				P2MGR.PRT_AT_CODE_F@YGPA_P2MGR P 
-			ON 
-				(G.PRT_AT_CODE=P.PRT_AT_CODE) 
-	        	
-	WHERE 1=1 
-                         
+			LEFT OUTER JOIN
+				P2MGR.PRT_AT_CODE_F@YGPA_P2MGR O
+			ON
+				(G.SOC_PRT_AT_CODE=O.PRT_AT_CODE)
+			LEFT OUTER JOIN
+				P2MGR.PRT_AT_CODE_F@YGPA_P2MGR P
+			ON
+				(G.PRT_AT_CODE=P.PRT_AT_CODE)
+
+	WHERE 1=1
+
                 <isNotEmpty property="sPrtAtCode">
 	             	AND E.APP_PRT_AT_CODE = #sPrtAtCode#
 	         	</isNotEmpty>
-	         
+
 	         	<isNotEmpty property="sFeeTp">
 		             AND E.FEE_TP = #sFeeTp#
 		        </isNotEmpty>
-		         
+
 		        <isNotEmpty property="sExmpAgentCode">
 		             AND E.APP_AGENT_CODE = #sExmpAgentCode#
 		        </isNotEmpty>
-		         
+
 		        <isNotEmpty property="sUseNo">
 		             AND E.USE_NO = #sUseNo#
 		        </isNotEmpty>
-	         	
+
 	         	<isNotEmpty property="sType">
-					<isNotEmpty property="sFrDt">
-						<![CDATA[ AND $sType$ >= TO_DATE(#sFrDt#,'YYYY-MM-DD') ]]>
-			        </isNotEmpty>
-			        <isNotEmpty property="sToDt">
-			        	<![CDATA[ AND $sType$ < TO_DATE(#sToDt#,'YYYY-MM-DD') + 1 ]]>
-			        </isNotEmpty>
+		         	<isEqual prepend="AND" property="sType" compareValue="BILL_DT">
+						<isNotEmpty property="sFrDt">
+							<![CDATA[ BILL_DT >= TO_DATE(#sFrDt#,'YYYY-MM-DD') ]]>
+				        </isNotEmpty>
+				        <isNotEmpty property="sToDt">
+				        	<![CDATA[ BILL_DT < TO_DATE(#sToDt#,'YYYY-MM-DD') + 1 ]]>
+				        </isNotEmpty>
+					</isEqual>
+					<isEqual prepend="AND" property="sType" compareValue="IO_DT">
+						<isNotEmpty property="sFrDt">
+							<![CDATA[ IO_DT >= TO_DATE(#sFrDt#,'YYYY-MM-DD') ]]>
+				        </isNotEmpty>
+				        <isNotEmpty property="sToDt">
+				        	<![CDATA[ IO_DT < TO_DATE(#sToDt#,'YYYY-MM-DD') + 1 ]]>
+				        </isNotEmpty>
+					</isEqual>
 				</isNotEmpty>
     </select>
-    
-    
+
+
 
 </sqlMap>

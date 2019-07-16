@@ -384,7 +384,7 @@
 				, FLAW_EXAM_USR_NM = #flawExamUsrNm#
 				, CTRT_DT = #ctrtDt#
 				, FLAW_CONTR_AMT = REPLACE(#flawContrAmt#,',','')
-				, FLAW_EXAM_USR2 = #flawExamUsr2# 
+				, FLAW_EXAM_USR2 = #flawExamUsr2#
 				, FLAW_EXAM_USR_CLS = #flawExamUsrCls#
 				, FLAW_EXAM_USR_CLS2 = #flawExamUsrCls2#
 				, BLD_DT = #bldDt#
@@ -425,7 +425,7 @@
 			(
 				#fcltsMngGroupNo#
 				, #fcltsJobSe#
-				, $flawRprSeq$
+				, #flawRprSeq#
 				, #fcltsMngNo#
 				, #flawExamDt#
 				, #flawEnnc#

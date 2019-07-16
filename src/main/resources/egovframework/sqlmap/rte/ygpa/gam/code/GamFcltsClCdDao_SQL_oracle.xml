@@ -6,17 +6,17 @@
     <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="gamFcltsClCdVO" type="egovframework.rte.ygpa.gam.code.service.GamFcltsClCdVO"/>
-    
-    
+
+
     <select id="gamFcltsClCdDao.selectMainFcltsClCdList_D" resultClass="egovMap">
-		SELECT 
+		SELECT
 			SUBSTR(FCLTS_CL_CD,0,1) AS MAIN_FCLTS_CL_CD
 			, MIN(FCLTS_CL_CD_NM) AS MAIN_FCLTS_CL_CD_NM
-		FROM 
-			FCLTS_CL_CD_F 
-		WHERE 
+		FROM
+			FCLTS_CL_CD_F
+		WHERE
 			<![CDATA[ DEPTH_SORT <= '1' ]]>
-		GROUP BY FCLTS_CL_CD 
+		GROUP BY FCLTS_CL_CD
     </select>
 
 
@@ -34,10 +34,10 @@
 							, FCLTS_CL_UPPER_CD
 							, DEPTH_SORT
 							, LEAF_YN
-		                FROM 
+		                FROM
 		                	FCLTS_CL_CD_F
-		                WHERE 
-		                
+		                WHERE
+
 		                <![CDATA[ DEPTH_SORT >= 1 ]]>
 		                <isNotEmpty property="sMainFcltsDiv">
 	           				AND FCLTS_CL_CD LIKE #sMainFcltsDiv# || '%'
@@ -56,11 +56,11 @@
     </select>
 
     <select id="gamFcltsClCdDao.selectFcltsClCdListTotCnt_S" parameterClass="gamFcltsClCdVO" resultClass="int">
-		SELECT 
+		SELECT
 			COUNT(*) totcnt
-		FROM 
+		FROM
 			FCLTS_CL_CD_F
-		WHERE 
+		WHERE
 		<![CDATA[ DEPTH_SORT >= 1 ]]>
 		<isNotEmpty property="sMainFcltsDiv">
 			AND FCLTS_CL_CD LIKE #sMainFcltsDiv# || '%'
@@ -72,7 +72,7 @@
 			AND FCLTS_CL_CD_NM LIKE '%' || #sFcltsClCdNm# || '%'
 		</isNotEmpty>
 	</select>
-	
+
 	<select id="gamFcltsClCdDao.selectFcltsClCdDetail_S" parameterClass="hashMap" resultClass="egovMap">
 		SELECT
            	SUBSTR(FCLTS_CL_CD,0,1) AS MAIN_FCLTS_DIV
@@ -86,67 +86,67 @@
 			, UPD_USR
 			, UPDT_DT
 			, LEAF_YN
-        FROM 
+        FROM
             FCLTS_CL_CD_F
-        WHERE 
+        WHERE
             FCLTS_CL_CD = #fcltsClCd#
 	</select>
-	
-	
+
+
 	<select id="gamFcltsClCdDao.selectFcltsClUpperCdList_D" parameterClass="hashMap"  resultClass="egovMap">
-		SELECT 
+		SELECT
 			FCLTS_CL_CD
 			, FCLTS_CL_CD_NM
-		FROM 
-			FCLTS_CL_CD_F 
+		FROM
+			FCLTS_CL_CD_F
 		WHERE 1=1
 		<isEqual prepend="AND" property="depthSort" compareValue="0">
-			DEPTH_SORT = $depthSort$
+			DEPTH_SORT = #depthSort#
 		</isEqual>
 		<isGreaterThan prepend="AND" property="depthSort" compareValue="0">
-			DEPTH_SORT = $depthSort$ -1
+			DEPTH_SORT = #depthSort# -1
 		</isGreaterThan>
 		<isGreaterThan prepend="AND" property="depthSort" compareValue="1">
 			FCLTS_CL_CD LIKE #mainFcltsDiv# || '%'
 		</isGreaterThan>
-			
+
     </select>
-    
+
     <select id="gamFcltsClCdDao.selectNewFcltsClCd_S" parameterClass="gamFcltsClCdVO" resultClass="String">
-		SELECT 
+		SELECT
 			RPAD(
-	<![CDATA[ CASE WHEN $depthSort$ <= 3 THEN  ]]>
-						SUBSTR(#fcltsClUpperCd#,0,$depthSort$-1) || 
-						CASE WHEN SUBSTR(MAX(FCLTS_CL_CD),$depthSort$,1) = '9' THEN 'A' 
-							 WHEN SUBSTR(MAX(FCLTS_CL_CD),$depthSort$,1) IS NULL THEN '1'
-						ELSE CHR(ASCII(SUBSTR(MAX(FCLTS_CL_CD),$depthSort$,1)) + 1)
-						END 
-					 WHEN $depthSort$ = 4 THEN
-						SUBSTR(#fcltsClUpperCd#,1,3) || 
+	<![CDATA[ CASE WHEN #depthSort# <= 3 THEN  ]]>
+						SUBSTR(#fcltsClUpperCd#,0,#depthSort#-1) ||
+						CASE WHEN SUBSTR(MAX(FCLTS_CL_CD),#depthSort#,1) = '9' THEN 'A'
+							 WHEN SUBSTR(MAX(FCLTS_CL_CD),#depthSort#,1) IS NULL THEN '1'
+						ELSE CHR(ASCII(SUBSTR(MAX(FCLTS_CL_CD),#depthSort#,1)) + 1)
+						END
+					 WHEN #depthSort# = 4 THEN
+						SUBSTR(#fcltsClUpperCd#,1,3) ||
 				        CASE WHEN SUBSTR(MAX(FCLTS_CL_CD),4,1) = '0' THEN LPAD(TO_CHAR(TO_NUMBER(SUBSTR(MAX(FCLTS_CL_CD),5,1)) + 1),2,'0')
 				        	 WHEN SUBSTR(MAX(FCLTS_CL_CD),4,1) IS NULL THEN '01'
-				        ELSE 
-				          TO_CHAR(TO_NUMBER(SUBSTR(MAX(FCLTS_CL_CD),4,2)) + 1) 
+				        ELSE
+				          TO_CHAR(TO_NUMBER(SUBSTR(MAX(FCLTS_CL_CD),4,2)) + 1)
 				        END
-				     WHEN $depthSort$ = 5 THEN
-				     	SUBSTR(#fcltsClUpperCd#,1,5) || 
+				     WHEN #depthSort# = 5 THEN
+				     	SUBSTR(#fcltsClUpperCd#,1,5) ||
 				        CASE WHEN SUBSTR(MAX(FCLTS_CL_CD),6,1) = '0' THEN LPAD(TO_CHAR(TO_NUMBER(SUBSTR(MAX(FCLTS_CL_CD),7,1)) + 1),2,'0')
 				        	 WHEN SUBSTR(MAX(FCLTS_CL_CD),6,1) IS NULL THEN '01'
-				        ELSE 
+				        ELSE
 				          TO_CHAR(TO_NUMBER(SUBSTR(MAX(FCLTS_CL_CD),6,2)) + 1)
 				        END
-				     WHEN $depthSort$ = 6 THEN
-				     	SUBSTR(#fcltsClUpperCd#,1,7) || 
-				        CASE WHEN SUBSTR(MAX(FCLTS_CL_CD),8,1) = '0' THEN LPAD(TO_CHAR(TO_NUMBER(SUBSTR(MAX(FCLTS_CL_CD),9,1)) + 1),2,'0') 
+				     WHEN #depthSort# = 6 THEN
+				     	SUBSTR(#fcltsClUpperCd#,1,7) ||
+				        CASE WHEN SUBSTR(MAX(FCLTS_CL_CD),8,1) = '0' THEN LPAD(TO_CHAR(TO_NUMBER(SUBSTR(MAX(FCLTS_CL_CD),9,1)) + 1),2,'0')
 				        	 WHEN SUBSTR(MAX(FCLTS_CL_CD),8,1) IS NULL THEN '01'
-				        ELSE 
+				        ELSE
 				          TO_CHAR(TO_NUMBER(SUBSTR(MAX(FCLTS_CL_CD),8,2)) + 1)
 				        END
 				END
 			,10, '0') AS NEW_FCLTS_CL_CD
-		FROM 
-			FCLTS_CL_CD_F 
-		WHERE 
+		FROM
+			FCLTS_CL_CD_F
+		WHERE
 			FCLTS_CL_UPPER_CD  = #fcltsClUpperCd#
 	</select>
 
@@ -164,70 +164,70 @@
 					, REG_USR
 					, REGIST_DT
 		       )
-		       VALUES 
+		       VALUES
 		       (
 					#fcltsClCd#
 					, #fcltsClCdNm#
 					, #fcltsClUpperCd#
-					, $depthSort$
+					, #depthSort#
 					, 'Y'
 					, #regUsr#
 					, SYSDATE
 		        )
         ]]>
-  		
+
     </insert>
-    
-    
+
+
     <update id="gamFcltsClCdDao.updateFcltsClCd">
-	    
+
     	<![CDATA[
-		UPDATE 
-			FCLTS_CL_CD_F 
+		UPDATE
+			FCLTS_CL_CD_F
 		SET
 			FCLTS_CL_CD_NM = #fcltsClCdNm#
 			, UPD_USR = #updUsr#
 			, UPDT_DT = SYSDATE
-		WHERE 
+		WHERE
 			FCLTS_CL_CD = #oriFcltsClCd#
 		]]>
     </update>
-    
-    
+
+
     <delete id="gamFcltsClCdDao.deleteFcltsClCd">
-    
-		DELETE FROM 
-			FCLTS_CL_CD_F 
-		WHERE 
-			FCLTS_CL_CD LIKE CASE  
-					   <![CDATA[ WHEN $depthSort$ <= 3 THEN SUBSTR(#oriFcltsClCd#,1,DEPTH_SORT) ]]>
-							     WHEN $depthSort$ = 4 THEN SUBSTR(#oriFcltsClCd#,1,5)
-							     WHEN $depthSort$ = 5 THEN SUBSTR(#oriFcltsClCd#,1,7)
-							     WHEN $depthSort$ = 6 THEN SUBSTR(#oriFcltsClCd#,1,9)
+
+		DELETE FROM
+			FCLTS_CL_CD_F
+		WHERE
+			FCLTS_CL_CD LIKE CASE
+					   <![CDATA[ WHEN #depthSort# <= 3 THEN SUBSTR(#oriFcltsClCd#,1,DEPTH_SORT) ]]>
+							     WHEN #depthSort# = 4 THEN SUBSTR(#oriFcltsClCd#,1,5)
+							     WHEN #depthSort# = 5 THEN SUBSTR(#oriFcltsClCd#,1,7)
+							     WHEN #depthSort# = 6 THEN SUBSTR(#oriFcltsClCd#,1,9)
 						   END || '%'
 
     </delete>
-    
-    
+
+
     <update id="gamFcltsClCdDao.updateChnageParentLeafYn">
-	    
+
     	<![CDATA[
-		UPDATE 
-			FCLTS_CL_CD_F 
+		UPDATE
+			FCLTS_CL_CD_F
 		SET
 			LEAF_YN = #leafYn#
-		WHERE 
+		WHERE
 			FCLTS_CL_CD = #fcltsClUpperCd#
 		]]>
     </update>
-    
-    
+
+
     <select id="gamFcltsClCdDao.selectFcltsClParentCdListCnt_S" parameterClass="gamFcltsClCdVO" resultClass="int">
-		SELECT 
+		SELECT
 			COUNT(*) parentCdCnt
-		FROM 
+		FROM
 			FCLTS_CL_CD_F
-		WHERE 
+		WHERE
 			FCLTS_CL_UPPER_CD = #fcltsClUpperCd#
 	</select>
 

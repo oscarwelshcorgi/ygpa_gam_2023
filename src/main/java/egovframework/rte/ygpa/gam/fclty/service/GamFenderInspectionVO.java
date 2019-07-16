@@ -29,76 +29,118 @@ public class GamFenderInspectionVO extends ComDefaultVO {
 
 	private static final long serialVersionUID = 1L;
 
-	/** 조회조건 연도 */ 
+	/** 조회조건 연도 */
 	private String sYear;
-	/** 조회조건 시설물 종류 */ 
+	/** 조회조건 시설물 종류 */
 	private String sFcltsGbn;
-	/** 조회조건 시설 */ 
+	/** 조회조건 시설 */
 	private String sFcltsMngGroupNo;
-	/** 조회조건 시설명 */ 
+	/** 조회조건 시설명 */
 	private String sFcltsMngGroupNm;
-	
-	
-	/** 연도(PK) */ 
+
+
+	/** 연도(PK) */
 	private String year;
-	/** 시설물 관리 그룹 번호(PK)(FK) */ 
+	/** 시설물 관리 그룹 번호(PK)(FK) */
 	private String fcltsMngGroupNo;
-	/** 시설물 종별 */ 
+	/** 시설물 종별 */
 	private String fcltsGbn;
-	/** 공사 일자 */ 
+	/** 공사 일자 */
 	private String cnstDt;
-	/** 소유자 */ 
+	/** 소유자 */
 	private String owner;
-	/** 시공자 */ 
+	/** 시공자 */
 	private String cnstrtr;
-	/** 항만시설 규격 */ 
+	/** 항만시설 규격 */
 	private String prtFcltyStndrd;
-	/** 시설 수량 */ 
+	/** 시설 수량 */
 	private String prtPrtFcltyCnt;
-	/** 점검일자1 */ 
+	/** 점검일자1 */
 	private String chckDeOne;
-	/** 점검자1 */ 
+	/** 점검자1 */
 	private String insctrOne;
-	/** 점검내용1 */ 
+	/** 점검내용1 */
 	private String chckCnOne;
-	/** 상태평가1 */ 
+	/** 상태평가1 */
 	private String sttusEvlOne;
-	/** 사진1 */ 
+	/** 사진1 */
 	private String photoOne;
-	/** 점검표1 */ 
+	/** 점검표1 */
 	private String chckTableOne;
-	/** 점검일자2 */ 
+	/** 점검일자2 */
 	private String chckDeTwo;
-	/** 점검자2 */ 
+	/** 점검자2 */
 	private String insctrTwo;
-	/** 점검내용2 */ 
+	/** 점검내용2 */
 	private String chckCnTwo;
-	/** 상태평가2 */ 
+	/** 상태평가2 */
 	private String sttusEvlTwo;
-	/** 사진2 */ 
+	/** 사진2 */
 	private String photoTwo;
-	/** 점검표2 */ 
+	/** 점검표2 */
 	private String chckTableTwo;
-	/** 점검일자3 */ 
+	/** 점검일자3 */
 	private String chckDeThree;
-	/** 점검자3 */ 
+	/** 점검자3 */
 	private String insctrThree;
-	/** 점검내용3 */ 
+	/** 점검내용3 */
 	private String chckCnThree;
-	/** 상태평가3 */ 
+	/** 상태평가3 */
 	private String sttusEvlThree;
-	/** 사진3 */ 
+	/** 사진3 */
 	private String photoThree;
-	/** 점검표3 */ 
+	/** 점검표3 */
 	private String chckTableThree;
-	/** 등록자 */ 
+	/** 등록자 */
 	private String register;
-	/** 등록일 */ 
+	/** 등록일 */
 	private String rgsde;
-	/** 수정자 */ 
+	/** 수정자 */
 	private String updusr;
-	/** 수정일 */ 
+	/** 수정일 */
 	private String updde;
+
+	private String[] delPhotoOne;
+	private String[] delPhotoTwo;
+	private String[] delPhotoThree;
+
+
+	/**
+	 * @return the delPhotoOne
+	 */
+	public String[] getDelPhotoOne() {
+		return delPhotoOne;
+	}
+	/**
+	 * @param delPhotoOne the delPhotoOne to set
+	 */
+	public void setDelPhotoOne(String[] delPhotoOne) {
+		this.delPhotoOne = delPhotoOne;
+	}
+	/**
+	 * @return the delPhotoTwo
+	 */
+	public String[] getDelPhotoTwo() {
+		return delPhotoTwo;
+	}
+	/**
+	 * @param delPhotoTwo the delPhotoTwo to set
+	 */
+	public void setDelPhotoTwo(String[] delPhotoTwo) {
+		this.delPhotoTwo = delPhotoTwo;
+	}
+	/**
+	 * @return the delPhotoThree
+	 */
+	public String[] getDelPhotoThree() {
+		return delPhotoThree;
+	}
+	/**
+	 * @param delPhotoThree the delPhotoThree to set
+	 */
+	public void setDelPhotoThree(String[] delPhotoThree) {
+		this.delPhotoThree = delPhotoThree;
+	}
 	/**
 	 * @return the sYear
 	 */
@@ -508,5 +550,5 @@ public class GamFenderInspectionVO extends ComDefaultVO {
 		this.updde = updde;
 	}
 
-	
+
 }

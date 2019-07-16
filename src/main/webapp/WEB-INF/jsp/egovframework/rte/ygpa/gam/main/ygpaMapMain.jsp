@@ -39,6 +39,8 @@
 <link rel="stylesheet" href="<c:url value='/css/flexigrid.ygpa.css'/>" />
 <link rel="stylesheet" href="<c:url value='/css/jquery.sidr.light.css'/>">
 
+<link rel="stylesheet" type="text/css" href="<c:url value="/css/fa-all.min.css" />">
+
 <link rel="stylesheet" href="<c:url value='/js/codebase/dhtmlx.css'/>">
 
 <%-- <link rel="stylesheet" href="<c:url value='/css/jtree/themes/default/style.min.css'/>">
@@ -64,6 +66,7 @@
 
     <script src="<c:url value='/js/codebase/dhtmlx.js'/>"></script>
     <script src="<c:url value='/js/emf_map.ygpa_gam_2019.js'/>"></script>
+     <script src="<c:url value='/js/emf.map.desktop.js'/>"></script>
 
     <script type="text/javascript">
 	var $DEBUG=${_mapDebug};
@@ -98,12 +101,12 @@
 					</c:forEach>
 				];
 	   	   </c:if>
-	   	   
+
 //	    	EMD.go("${pageContext.request.contextPath}", "http://192.168.0.71:8092/G2DataService/2d/Base/201310", "http://192.168.0.71:8092/G2DataService/GService?", "${pageContext.request.scheme}://${pageContext.request.serverName}", frmwrkMenu);
 	    	EMD.go("${pageContext.request.contextPath}", "http://xdworld.vworld.kr:8080/2d/Base/201310", "http://192.168.100.70:8080/G2DataService/GService?", "${pageContext.request.scheme}://${pageContext.request.serverName}", frmwrkMenu);
 //	    	EMD.go("${pageContext.request.contextPath}", "http://192.168.0.71:8092/G2DataService/2d/Base/201310", "http://192.168.0.71:8092/G2DataService/GService?", "${pageContext.request.scheme}://${pageContext.request.serverName}", frmwrkMenu);
  	 });
-    
+
     function getAssetsCdStyleMap() {
     	var assetCdStyle = new OpenLayers.Style({
 				strokeColor: "#000000",
@@ -238,7 +241,7 @@
     			})
     		]
     	});
-		
+
 		return new OpenLayers.StyleMap(assetCdStyle, {extendDefault: true});
 
     }

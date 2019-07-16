@@ -25,7 +25,7 @@
 <validator:javascript formName="gamFenderInspectionVO" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
 
 <script type="text/javascript" src="<c:url value='js/egovframework/com/cmm/fms/EgovMultiFile.js'/>" ></script>
- 
+
 <script>
 
 <%
@@ -69,7 +69,7 @@ GamFenderInspectionModule.prototype.loadComplete = function() {
 	});
 
  */
- 
+
  // 그리드 클릭
  	this.$("#mainGrid").on('onItemSelected', function(event, module, row, grid, param) {
 		module._mainKeyValue = row.fcltsMngGroupNo;
@@ -88,16 +88,17 @@ GamFenderInspectionModule.prototype.loadComplete = function() {
 // 셀렉트 박스 비활성화
 	this.$("#fcltsGbn").disable();
 	this.$("#year").disable();
-	
 
-// 연도 셀렉트 박스 생성	
+
+// 연도 셀렉트 박스 생성
 	var toDate = new Date();
 	var toYear = toDate.getFullYear();
 
 	for(var i = toYear;i>=2010;i--){
 		this.$(".year").append("<option value='" + i + "'>" + i + "년</option>");
 	}
-	
+
+	/*
 	this.$("#photoOne").on('change', function(){
 		console.log('file upload');
 		this.uploadSingleFile('/fclty/uploadFenderAttachFile.do', function(module, resp) {
@@ -105,30 +106,144 @@ GamFenderInspectionModule.prototype.loadComplete = function() {
 				alert(resp.resultMsg);
 				return;
 			}
-			
+
 			console.log(resp.result);
-			
+
 			$.each(resp.result, function() {
-				/*
-                module.$('#assetRentFileList').flexAddRow({
-                	_updtId:'I',
-                	prtAtCode: '',
-                	mngYear: '',
-                	mngNo: '',
-                	mngCnt: '',
-                	photoSeq: '',
-                	photoSj:this.logicalFileNm.substring(0, this.logicalFileNm.lastIndexOf('.')),
-                	filenmLogic: this.logicalFileNm, filenmPhysicl: this.physcalFileNm,
-                	shotDt: '',
-                	photoDesc: '',
-                	regUsr: '',
-                	registDt:''}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
-               	*/
 			});
 			if(resp.result!=null && resp.result.length>0) this._edited=true;
 		});
 	});
+	<ul id="photoOneList" class="photoList">
+		<li value="01"><span><img src="<c:url value="/images/egovframework/ygpa/gam/misc/TEST2.JPG"/>" /><button><i class="fa fa-trash-alt"></i></button></span></li>
+	</ul>
+	*/
 
+	this._delPhotoOneList=[];
+	this._delPhotoTwoList=[];
+	this._delPhotoThreeList=[];
+
+    var module=this;
+	var removeImageClickEvent = function(e) {
+		e.preventDefault();
+		var btn = $(e.target).closest('button');
+		var fileSn=btn.data('file-sn');
+		var photo=btn.data('photo');
+		if(fileSn!=undefined) {
+			if(photo=="one") {
+				module._delPhotoOneList[module._delPhotoOneList.length]=fileSn;
+			}
+			if(photo=="two") {
+				module._delPhotoTwoList[module._delPhotoTwoList.length]=fileSn;
+			}
+			if(photo=="three") {
+				module._delPhotoThreeList[module._delPhotoThreeList.length]=fileSn;
+			}
+		}
+		else {
+			var filename=btn.data('filename');
+			if(photo=="one") {
+				var fileInput = module.$("#photoOne")[0];
+				if (fileInput.files !== undefined) {
+					for (var i = 0; i < fileInput.files.length; i++) {
+						if(fileInput.files[i].name==filename) {
+							delete fileInput.files[i];
+							btn.closest("li").remove();
+						}
+					}
+				}
+			}
+			if(photo=="two") {
+				var fileInput = module.$("#photoOne")[0];
+				if (fileInput.files !== undefined) {
+					for (var i = 0; i < fileInput.files.length; i++) {
+						if(fileInput.files[i].name==filename) {
+							delete fileInput.files[i];
+							btn.closest("li").remove();
+						}
+					}
+				}
+			}
+			if(photo=="three") {
+				var fileInput = module.$("#photoOne")[0];
+				if (fileInput.files !== undefined) {
+					for (var i = 0; i < fileInput.files.length; i++) {
+						if(fileInput.files[i].name==filename) {
+							delete fileInput.files[i];
+							btn.closest("li").remove();
+						}
+					}
+				}
+			}
+
+		}
+	};
+
+	$('ul.photoList > li > span > button').on('click', removeImageClickEvent);
+
+	this.$('#photoOne').change(function(){
+        fileBuffer = [];
+        const target = document.getElementsByName('photoOne[]');
+
+        Array.prototype.push.apply(fileBuffer, target[0].files);
+        var html = '';
+        $.each(target[0].files, function(index, file){
+            const fileName = file.name;
+            html += '<li value="new"><span>';
+            html += '<img src="'+URL.createObjectURL(file)+'">'
+            html += '<button data-photo="one" data-filename="'+fileName+'"><i class="fa fa-trash-alt"></i></button></span></li>';
+            const fileEx = fileName.slice(fileName.indexOf(".") + 1).toLowerCase();
+            if(fileEx != "jpg" && fileEx != "jpeg" && fileEx != "png" &&  fileEx != "gif" &&  fileEx != "bmp"){
+                alert("파일은 (jpg, jpeg, png, gif, bmp) 형식만 등록 가능합니다.");
+                return false;
+            }
+            module.$('#photoOneList').append(html);
+        });
+    	$('ul.photoList > li > span > button').off('click', removeImageClickEvent);
+    	$('ul.photoList > li > span > button').on('click', removeImageClickEvent);
+     });
+	this.$('#photoTwo').change(function(){
+        fileBuffer = [];
+        const target = document.getElementsByName('photoOne[]');
+
+        Array.prototype.push.apply(fileBuffer, target[0].files);
+        var html = '';
+        $.each(target[0].files, function(index, file){
+            const fileName = file.name;
+            html += '<li value="new"><span>';
+            html += '<img src="'+URL.createObjectURL(file)+'">'
+            html += '<button data-photo="two" data-filename="'+fileName+'"><i class="fa fa-trash-alt"></i></button></span></li>';
+            const fileEx = fileName.slice(fileName.indexOf(".") + 1).toLowerCase();
+            if(fileEx != "jpg" && fileEx != "jpeg" && fileEx != "png" &&  fileEx != "gif" &&  fileEx != "bmp"){
+                alert("파일은 (jpg, jpeg, png, gif, bmp) 형식만 등록 가능합니다.");
+                return false;
+            }
+            module.$('#photoTwoList').append(html);
+        });
+    	$('ul.photoList > li > span > button').off('click', removeImageClickEvent);
+    	$('ul.photoList > li > span > button').on('click', removeImageClickEvent);
+     });
+	this.$('#photoThree').change(function(){
+        fileBuffer = [];
+        const target = document.getElementsByName('photoOne[]');
+
+        Array.prototype.push.apply(fileBuffer, target[0].files);
+        var html = '';
+        $.each(target[0].files, function(index, file){
+            const fileName = file.name;
+            html += '<li value="new"><span>';
+            html += '<img src="'+URL.createObjectURL(file)+'">'
+            html += '<button data-photo="three" data-filename="'+fileName+'"><i class="fa fa-trash-alt"></i></button></span></li>';
+            const fileEx = fileName.slice(fileName.indexOf(".") + 1).toLowerCase();
+            if(fileEx != "jpg" && fileEx != "jpeg" && fileEx != "png" &&  fileEx != "gif" &&  fileEx != "bmp"){
+                alert("파일은 (jpg, jpeg, png, gif, bmp) 형식만 등록 가능합니다.");
+                return false;
+            }
+            module.$('#photoThreeList').append(html);
+        });
+    	$('ul.photoList > li > span > button').off('click', removeImageClickEvent);
+    	$('ul.photoList > li > span > button').on('click', removeImageClickEvent);
+     });
 }
 
 <%
@@ -150,18 +265,18 @@ GamFenderInspectionModule.prototype.onTabChange = function(newTabId, oldTabId) {
 				this.loadDetail(oldTabId);
 				this.$('#popupSpecFcltsMngGroupNo').disable({disableClass:"ui-state-disabled"});
 				this.$("#year").disable();
-				
+
 			} else if (this._mainmode == "insert") { // 탭 1번 추가 때
 				this.makeFormValues('#detailForm', {});
 				this.makeDivValues('#detailForm', {});
-				
+
 				this.$('#popupSpecFcltsMngGroupNo').enable();
-				
+
 				var toDate = new Date();
 				var toYear = toDate.getFullYear();
 				this.$("#year").enable();
 				this.$('#year').val(toYear);
-				
+
 				//기본 데이터 설정
 				// this.addData();
 			} else {
@@ -177,7 +292,7 @@ GamFenderInspectionModule.prototype.onTabChange = function(newTabId, oldTabId) {
 <%
 /**
  * @FUNCTION NAME : onButtonClick
- * @DESCRIPTION   : 버튼클릭 호출된다. 
+ * @DESCRIPTION   : 버튼클릭 호출된다.
  * @PARAMETER     :
  *   1. buttonId - buttonId
 **/
@@ -200,11 +315,11 @@ GamFenderInspectionModule.prototype.onButtonClick = function(buttonId) {
 				this.deleteData();
 			}
 			break;
-		// 시설물 관리 그룹 선택 버튼 클릭	
+		// 시설물 관리 그룹 선택 버튼 클릭
 		case 'popupSpecFcltsMngGroupNo':
             var searchOpts = {'sYear':this.$("#year").val()};
 			this.doExecuteDialog(buttonId, "시설물 관리 그룹 선택", '/popup/showFenderMngGroup.do', searchOpts);
-			
+
 			break;
 	}
 }
@@ -233,7 +348,7 @@ GamFenderInspectionModule.prototype.onClosePopup = function(popupId, msg, value)
 				this.$('#cnstrtr').val(value.cnstrtr);
 				this.$('#prtFcltyStndrd').val(value.prtFcltyStndrd);
 				this.$('#prtPrtFcltyCnt').val(value.prtPrtFcltyCnt);
-				
+
 			}
 			break;
 	}
@@ -301,11 +416,11 @@ GamFenderInspectionModule.prototype.loadDetail = function(tabId) {
 %>
 GamFenderInspectionModule.prototype.saveData = function() {
 	console.log("saveData");
-	
+
 /* 	if (!validateGamFenderInspectionVO(this.$("#detailForm")[0])){
 		return;
 	} */
-/* 	
+/*
 	if (this.$('#year').val() == "") {
 		alert('연도 코드가 부정확합니다.');
 		this.$("#year").focus();
@@ -316,25 +431,84 @@ GamFenderInspectionModule.prototype.saveData = function() {
 		this.$("#year").focus();
 		return;
 	}
- */	
-	var inputVO = this.makeFormArgs("#detailForm");
-	if (this._mainmode == "insert") { // 추가 버튼 눌렀을때 insert로 변경됨
-		this.doAction('/fclty/gamInsertFenderInspection.do', inputVO, function(module, result) {
-			if (result.resultCode == "0") {
-				module.loadData();
-			}
-			alert(result.resultMsg);
-		});
-	} else { // 추가 버튼 눌렀을때 insert가 아닌경우
-		this.doAction('/fclty/gamUpdateFenderInspection.do', inputVO, function(module, result) {
-			if (result.resultCode == "0") {
-				module.loadData();
-			}
-			alert(result.resultMsg);
-		});
-	}
-}
+ */
+ 	var module=this;
 
+	var formData = new FormData();
+	var fileCount=0;
+
+	var inputVO = module.makeFormArgs("#detailForm");
+	for(var k in inputVO) {
+		formData.append(k, inputVO[k]);
+	}
+
+	var fileInput = this.$("#photoOne")[0];
+	if (fileInput.files !== undefined) {
+		for (var i = 0; i < fileInput.files.length; i++) {
+			var file = fileInput.files[0];
+			fileCount++;
+			formData.append("__uploadFile", file);
+		}
+	}
+	fileInput = this.$("#photoTwo")[0];
+	if (fileInput.files !== undefined) {
+		for (var i = 0; i < fileInput.files.length; i++) {
+			var file = fileInput.files[0];
+			fileCount++;
+			formData.append("__uploadFile", file);
+		}
+	}
+	fileInput = this.$("#photoThree")[0];
+	if (fileInput.files !== undefined) {
+		for (var i = 0; i < fileInput.files.length; i++) {
+			var file = fileInput.files[0];
+			fileCount++;
+			formData.append("__uploadFile", file);
+		}
+	}
+
+	if (module._mainmode == "insert") { // 추가 버튼 눌렀을때 insert로 변경됨
+		module.doAction('/fclty/gamInsertFenderInspection.do', inputVO,
+				function(module, result) {
+					if (result.resultCode == "0") {
+						module.loadData();
+					}
+					alert(result.resultMsg);
+				});
+	} else { // 추가 버튼 눌렀을때 insert가 아닌경우
+		module.doAction('/fclty/gamUpdateFenderInspection.do', inputVO,
+				function(module, result) {
+					if (result.resultCode == "0") {
+						module.loadData();
+					}
+					alert(result.resultMsg);
+				});
+	}
+
+	var url = '';
+	if (module._mainmode == "insert") { // 추가 버튼 눌렀을때 insert로 변경됨
+		url = EMD.context_root+ '/fclty/gamInsertFenderInspection.do';
+	}
+	else {
+		url = EMD.context_root+ '/fclty/gamUpdateFenderInspection.do';
+	}
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", url,
+			true);
+	xhr.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			if (result.resultCode == "0") {
+				module.loadData();
+			}
+			alert(result.resultMsg);
+		}
+	};
+	xhr.onprogress = function(e) {
+		// console.log('upload '+ (e.loaded/e.total)*100+'%');
+	};
+
+	xhr.send(formData);
+}
 <%
 /**
  * @FUNCTION NAME : deleteData
@@ -356,7 +530,7 @@ GamFenderInspectionModule.prototype.deleteData = function() {
 			alert(result.resultMsg);
 		});
 	}
-	 
+
 }
 
 
@@ -390,7 +564,7 @@ var module_instance = new GamFenderInspectionModule();
 									<option value="">선택</option>
 								</select>
 							</td>
-							
+
 							<th>시설물 종류</th>
 							<td>
 								<select id="sFcltsGbn" data-column-id="sFcltsGbn">
@@ -455,7 +629,7 @@ var module_instance = new GamFenderInspectionModule();
 								</td>
 							</tr>
 						</table>
-				
+
 						<table class="detailPanel" style="width:100%;">
 							<tr>
 								<th style="width:15%; height:18px;" >연도</th>
@@ -588,13 +762,19 @@ var module_instance = new GamFenderInspectionModule();
 							<tr>
 								<th style="width:11%; height:18px;">사진</th>
 								<td >
-									<input type="file" id="photoOne" data-column-id="photoOne" tabindex=6 size="35" />
+									<ul id="photoOneList" class="photoList">
+									</ul>
+									<input type="file" id="photoOne" name="photoOne[]" data-column-id="photoOne" tabindex=6 size="35" />
 								</td>
 								<td >
-									<input type="file" id="photoTwo" data-column-id="photoTwo" tabindex=12 size="35" />
+									<ul id="photoTwoList" class="photoList">
+									</ul>
+									<input type="file" id="photoTwo" name="photoTwo[]" data-column-id="photoTwo" tabindex=12 size="35" />
 								</td>
 								<td >
-									<input type="file" id="photoThree" data-column-id="photoThree" tabindex=18 size="35" />
+									<ul id="photoThreeList" class="photoList">
+									</ul>
+									<input type="file" id="photoThree" name="photoThree[]" data-column-id="photoThree" tabindex=18 size="35" />
 								</td>
 							</tr>
 							<tr>
