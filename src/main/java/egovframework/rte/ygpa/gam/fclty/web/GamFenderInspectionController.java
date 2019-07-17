@@ -14,7 +14,9 @@ import java.util.Map.Entry;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
-import org.h2.util.StringUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -94,6 +96,8 @@ public class GamFenderInspectionController {
     @Resource(name = "EgovFileMngService")
     private EgovFileMngService fileService;
 
+    protected static final Log LOG = LogFactory.getLog(GamFenderInspectionController.class);
+
 	@RequestMapping(value="/fclty/gamFenderInspection.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
 
@@ -145,12 +149,21 @@ public class GamFenderInspectionController {
 		}
 		// 내역 조회
 		FileVO fileVO = new FileVO();
-		fileVO.setAtchFileId(searchVO.getPhotoOne());
-		List<FileVO> resultPhotoOne = fileService.selectFileInfs(fileVO);
-		fileVO.setAtchFileId(searchVO.getPhotoTwo());
-		List<FileVO> resultPhotoTwo = fileService.selectFileInfs(fileVO);
-		fileVO.setAtchFileId(searchVO.getPhotoThree());
-		List<FileVO> resultPhotoThree = fileService.selectFileInfs(fileVO);
+		List<FileVO> resultPhotoOne=null;
+		List<FileVO> resultPhotoTwo=null;
+		List<FileVO> resultPhotoThree=null;
+		if(!"".equals(searchVO.getPhotoOne())) {
+			fileVO.setAtchFileId(searchVO.getPhotoOne());
+			resultPhotoOne = fileService.selectFileInfs(fileVO);
+		}
+		if(!"".equals(searchVO.getPhotoTwo())) {
+			fileVO.setAtchFileId(searchVO.getPhotoTwo());
+			resultPhotoTwo = fileService.selectFileInfs(fileVO);
+		}
+		if(!"".equals(searchVO.getPhotoThree())) {
+			fileVO.setAtchFileId(searchVO.getPhotoThree());
+			resultPhotoThree = fileService.selectFileInfs(fileVO);
+		}
 
 		map.put("resultCode", 0);			// return ok
 		map.put("resultPhotoOne", resultPhotoOne);
@@ -246,9 +259,12 @@ public class GamFenderInspectionController {
 		Iterator<Entry<String, MultipartFile>> itr = files.entrySet()
 				.iterator();
 		MultipartFile file;
-		List<FileVO> photoOneList = new ArrayList<FileVO>();
-		List<FileVO> photoTwoList = new ArrayList<FileVO>();
-		List<FileVO> photoThreeList = new ArrayList<FileVO>();
+		List<FileVO> photoOneList = null;
+		List<FileVO> photoTwoList = null;
+		List<FileVO> photoThreeList = null;
+		List<FileVO> photoOneUpList = new ArrayList<FileVO>();
+		List<FileVO> photoTwoUpList = new ArrayList<FileVO>();
+		List<FileVO> photoThreeUpList = new ArrayList<FileVO>();
 		String filePath;
 
 		FileVO fileVo = null;
@@ -257,10 +273,18 @@ public class GamFenderInspectionController {
 		String photoTwo = inputVO.getPhotoTwo();
 		String photoThree = inputVO.getPhotoThree();
 
+		boolean isNewPhoto1=true;
+		boolean isNewPhoto2=true;
+		boolean isNewPhoto3=true;
+
+		int photo1Sn=0;
+		int photo2Sn=0;
+		int photo3Sn=0;
+
 		if(!"".equals(photoOne)) {
 			FileVO fvo = new FileVO();
 			fvo.setAtchFileId(photoOne);
-			photoOneList = fileService.selectFileInfs(fvo);
+			isNewPhoto1=false;
 
 			String []delPhotos = inputVO.getDelPhotoOne();
 			if(delPhotos.length>0) {
@@ -269,11 +293,27 @@ public class GamFenderInspectionController {
 					fileService.deleteFileInf(fvo);
 				}
 			}
+			photoOneList = fileService.selectFileInfs(fvo);
+
+			for(int i=0; i<photoOneList.size(); i++) {	// get Max sn
+				FileVO vo = photoOneList.get(i);
+				String sn_str = vo.getFileSn();
+				try {
+					int sn = Integer.parseInt(sn_str);
+					if(sn>photo1Sn) {
+						photo1Sn=sn;
+					}
+				}
+				catch(NumberFormatException e) {
+					LOG.error("File SN invalid type.");
+				}
+			}
+
 		}
 		if(!"".equals(photoTwo)) {
 			FileVO fvo = new FileVO();
 			fvo.setAtchFileId(photoTwo);
-			photoTwoList = fileService.selectFileInfs(fvo);
+			isNewPhoto2=false;
 
 			String []delPhotos = inputVO.getDelPhotoTwo();
 			if(delPhotos.length>0) {
@@ -282,17 +322,47 @@ public class GamFenderInspectionController {
 					fileService.deleteFileInf(fvo);
 				}
 			}
+			photoTwoList = fileService.selectFileInfs(fvo);
+
+			for(int i=0; i<photoTwoList.size(); i++) {	// get Max sn
+				FileVO vo = photoTwoList.get(i);
+				String sn_str = vo.getFileSn();
+				try {
+					int sn = Integer.parseInt(sn_str);
+					if(sn>photo2Sn) {
+						photo2Sn=sn;
+					}
+				}
+				catch(NumberFormatException e) {
+					LOG.error("File SN invalid type.");
+				}
+			}
 		}
 		if(!"".equals(photoThree)) {
 			FileVO fvo = new FileVO();
 			fvo.setAtchFileId(photoThree);
-			photoThreeList = fileService.selectFileInfs(fvo);
+			isNewPhoto3=false;
 
 			String []delPhotos = inputVO.getDelPhotoThree();
 			if(delPhotos.length>0) {
 				for(int i=0; i<delPhotos.length; i++) {
 					fvo.setFileSn(delPhotos[i]);
 					fileService.deleteFileInf(fvo);
+				}
+			}
+			photoThreeList = fileService.selectFileInfs(fvo);
+
+			for(int i=0; i<photoThreeList.size(); i++) {	// get Max sn
+				FileVO vo = photoThreeList.get(i);
+				String sn_str = vo.getFileSn();
+				try {
+					int sn = Integer.parseInt(sn_str);
+					if(sn>photo3Sn) {
+						photo3Sn=sn;
+					}
+				}
+				catch(NumberFormatException e) {
+					LOG.error("File SN invalid type.");
 				}
 			}
 		}
@@ -306,30 +376,33 @@ public class GamFenderInspectionController {
 			if (!"".equals(file.getOriginalFilename())) {
 				fileVo = new FileVO();
 				String fileSn="";
-				if(entry.getKey().equals("photoOne[]")) {
+				if(entry.getKey().equals("photoOneFile[]")) {
 					if("".equals(photoOne)) photoOne=gamFenderFileIdGnrService.getNextStringId();
 					fileVo.setAtchFileId(photoOne);
-					fileSn = StringUtils.pad(Integer.toString(photoOneList.size()), 2, "0", false);
+					photo1Sn++;
+					fileSn = StringUtils.leftPad(Integer.toString(photo1Sn), 2, "0");
 					fileVo.setFileSn(fileSn);
 					fileVo.setStreFileNm(photoOne+fileSn);
 					fileVo.setOrignlFileNm(file.getOriginalFilename());
 					fileVo.setFileExtsn(tokens[1]);
-					photoOneList.add(fileVo);
+					photoOneUpList.add(fileVo);
 				}
-				if(entry.getKey().equals("photoTwo[]")) {
+				if(entry.getKey().equals("photoTwoFile[]")) {
 					if("".equals(photoTwo)) photoTwo=gamFenderFileIdGnrService.getNextStringId();
 					fileVo.setAtchFileId(photoTwo);
-					fileSn = StringUtils.pad(Integer.toString(photoTwoList.size()), 2, "0", false);
+					photo2Sn++;
+					fileSn = StringUtils.leftPad(Integer.toString(photo2Sn), 2, "0");
 					fileVo.setFileSn(fileSn);
 					fileVo.setStreFileNm(photoOne+fileSn);
 					fileVo.setOrignlFileNm(file.getOriginalFilename());
 					fileVo.setFileExtsn(tokens[1]);
 					photoTwoList.add(fileVo);
 				}
-				if(entry.getKey().equals("photoThree[]")) {
+				if(entry.getKey().equals("photoThreeFile[]")) {
 					if("".equals(photoThree)) photoThree=gamFenderFileIdGnrService.getNextStringId();
 					fileVo.setAtchFileId(photoThree);
-					fileSn = StringUtils.pad(Integer.toString(photoThreeList.size()), 2, "0", false);
+					photo3Sn++;
+					fileSn = StringUtils.leftPad(Integer.toString(photo3Sn), 2, "0");
 					fileVo.setFileSn(fileSn);
 					fileVo.setStreFileNm(photoOne+fileSn);
 					fileVo.setOrignlFileNm(file.getOriginalFilename());
@@ -342,14 +415,29 @@ public class GamFenderInspectionController {
 			}
 		}
 
-		if(photoOneList.size()>0) {
-			fileService.updateFileInfs(photoOneList);
+		if(photoOneUpList.size()>0) {
+			if(isNewPhoto1) {
+				fileService.insertFileInfs(photoOneUpList);
+			}
+			else {
+				fileService.updateFileInfs(photoOneUpList);
+			}
 		}
-		if(photoTwoList.size()>0) {
-			fileService.insertFileInfs(photoTwoList);
+		if(photoTwoUpList.size()>0) {
+			if(isNewPhoto2) {
+				fileService.insertFileInfs(photoTwoUpList);
+			}
+			else {
+				fileService.updateFileInfs(photoTwoUpList);
+			}
 		}
-		if(photoThreeList.size()>0) {
-			fileService.insertFileInfs(photoThreeList);
+		if(photoThreeUpList.size()>0) {
+			if(isNewPhoto3) {
+				fileService.insertFileInfs(photoThreeUpList);
+			}
+			else {
+				fileService.updateFileInfs(photoThreeUpList);
+			}
 		}
 
 		inputVO.setPhotoOne(photoOne);

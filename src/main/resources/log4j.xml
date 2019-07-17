@@ -25,6 +25,10 @@
     	<level value="DEBUG"/>
         <appender-ref ref="console"/>
     </logger>
+    <logger name="java.sql.PreparedStatement" additivity="false">
+    	<level value="DEBUG"/>
+        <appender-ref ref="console"/>
+    </logger>
 <!--
     <logger name="java.sql.PreparedStatement" additivity="false">
     	<level value="DEBUG"/>

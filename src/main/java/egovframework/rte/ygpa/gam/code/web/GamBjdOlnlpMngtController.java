@@ -335,7 +335,7 @@ public class GamBjdOlnlpMngtController {
             Map data = new HashMap();
             for (int j = 0; j < child.getLength(); j++) {
                 Node node = child.item(j);
-                data.put(node.getLocalName(), node.getTextContent());
+                data.put(node.getLocalName(), node.getNodeValue());
             }
             gamBjdOlnlpLinkList.add(data);
         }

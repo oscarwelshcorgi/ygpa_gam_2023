@@ -31,6 +31,15 @@ GamFenderPopupInqireModule.prototype = new EmdModule(400, 200);
 GamFenderPopupInqireModule.prototype.loadComplete = function() {
 
  // 테이블 설정 //
+
+
+	this.$('#chk').on('click', {module: this}, function(event) {
+		var d = new Date();
+		d.setDate(d.getDate()+1);
+		d.setHours(0);
+	  	document.cookie = "ygpa_popup_c7=/fclty/gamFenderPopupInqire.do; expires=" +d.toUTCString();
+	  	event.data.module.closeWindow();
+	});
 };
 
 /**

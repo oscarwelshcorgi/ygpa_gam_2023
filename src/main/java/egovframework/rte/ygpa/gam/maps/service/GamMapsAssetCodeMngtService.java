@@ -79,4 +79,16 @@ public interface GamMapsAssetCodeMngtService {
 	 */
 	String selectMapsBjdCodeInfo(String bjdCode) throws Exception;
 
+	/**
+	 * @param searchVO
+	 * @return
+	 */
+	Object selectMapsAssetsRentInfo(Map searchVO) throws Exception;
+
+	/**
+	 * @param searchVO
+	 * @return
+	 */
+	Map selectMapsHtldRentInfo(Map searchVO) throws Exception;
+
 }

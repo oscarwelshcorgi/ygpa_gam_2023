@@ -123,6 +123,10 @@ GamFenderInspectionModule.prototype.loadComplete = function() {
 	this._delPhotoTwoList=[];
 	this._delPhotoThreeList=[];
 
+	this._photo1FileBuffer=[];
+	this._photo2FileBuffer=[];
+	this._photo3FileBuffer=[];
+
     var module=this;
 	var removeImageClickEvent = function(e) {
 		e.preventDefault();
@@ -143,35 +147,29 @@ GamFenderInspectionModule.prototype.loadComplete = function() {
 		else {
 			var filename=btn.data('filename');
 			if(photo=="one") {
-				var fileInput = module.$("#photoOne")[0];
-				if (fileInput.files !== undefined) {
-					for (var i = 0; i < fileInput.files.length; i++) {
-						if(fileInput.files[i].name==filename) {
-							delete fileInput.files[i];
-							btn.closest("li").remove();
-						}
+				for(var i=0; i<module._photo1FileBuffer.length; i++) {
+					if(module._photo1FileBuffer[i].name==filename) {
+						delete module._photo1FileBuffer[i];
+						btn.closest("li").remove();
+						break;
 					}
 				}
 			}
-			if(photo=="two") {
-				var fileInput = module.$("#photoOne")[0];
-				if (fileInput.files !== undefined) {
-					for (var i = 0; i < fileInput.files.length; i++) {
-						if(fileInput.files[i].name==filename) {
-							delete fileInput.files[i];
-							btn.closest("li").remove();
-						}
+			else if(photo=="two") {
+				for(var i=0; i<module._photo2FileBuffer.length; i++) {
+					if(module._photo1FileBuffer[i].name==filename) {
+						delete module._photo2FileBuffer[i];
+						btn.closest("li").remove();
+						break;
 					}
 				}
 			}
-			if(photo=="three") {
-				var fileInput = module.$("#photoOne")[0];
-				if (fileInput.files !== undefined) {
-					for (var i = 0; i < fileInput.files.length; i++) {
-						if(fileInput.files[i].name==filename) {
-							delete fileInput.files[i];
-							btn.closest("li").remove();
-						}
+			else if(photo=="three") {
+				for(var i=0; i<module._photo3FileBuffer.length; i++) {
+					if(module._photo1FileBuffer[i].name==filename) {
+						delete module._photo3FileBuffer[i];
+						btn.closest("li").remove();
+						break;
 					}
 				}
 			}
@@ -181,13 +179,10 @@ GamFenderInspectionModule.prototype.loadComplete = function() {
 
 	$('ul.photoList > li > span > button').on('click', removeImageClickEvent);
 
-	this.$('#photoOne').change(function(){
-        fileBuffer = [];
-        const target = document.getElementsByName('photoOne[]');
-
-        Array.prototype.push.apply(fileBuffer, target[0].files);
+	this.$('#photoOneFile').change(function(e){
+        Array.prototype.push.apply(module._photo1FileBuffer, e.target.files);
         var html = '';
-        $.each(target[0].files, function(index, file){
+        $.each(e.target.files, function(index, file){
             const fileName = file.name;
             html += '<li value="new"><span>';
             html += '<img src="'+URL.createObjectURL(file)+'">'
@@ -197,49 +192,43 @@ GamFenderInspectionModule.prototype.loadComplete = function() {
                 alert("파일은 (jpg, jpeg, png, gif, bmp) 형식만 등록 가능합니다.");
                 return false;
             }
-            module.$('#photoOneList').append(html);
+            module.$($(e.target).data('photo-list')).append(html);
         });
     	$('ul.photoList > li > span > button').off('click', removeImageClickEvent);
     	$('ul.photoList > li > span > button').on('click', removeImageClickEvent);
      });
-	this.$('#photoTwo').change(function(){
-        fileBuffer = [];
-        const target = document.getElementsByName('photoOne[]');
-
-        Array.prototype.push.apply(fileBuffer, target[0].files);
+	this.$('#photoTwoFile').change(function(){
+        Array.prototype.push.apply(module._photo2FileBuffer, e.target.files);
         var html = '';
-        $.each(target[0].files, function(index, file){
+        $.each(e.target.files, function(index, file){
             const fileName = file.name;
             html += '<li value="new"><span>';
             html += '<img src="'+URL.createObjectURL(file)+'">'
-            html += '<button data-photo="two" data-filename="'+fileName+'"><i class="fa fa-trash-alt"></i></button></span></li>';
+            html += '<button data-photo="one" data-filename="'+fileName+'"><i class="fa fa-trash-alt"></i></button></span></li>';
             const fileEx = fileName.slice(fileName.indexOf(".") + 1).toLowerCase();
             if(fileEx != "jpg" && fileEx != "jpeg" && fileEx != "png" &&  fileEx != "gif" &&  fileEx != "bmp"){
                 alert("파일은 (jpg, jpeg, png, gif, bmp) 형식만 등록 가능합니다.");
                 return false;
             }
-            module.$('#photoTwoList').append(html);
+            module.$($(e.target).data('photo-list')).append(html);
         });
     	$('ul.photoList > li > span > button').off('click', removeImageClickEvent);
     	$('ul.photoList > li > span > button').on('click', removeImageClickEvent);
      });
-	this.$('#photoThree').change(function(){
-        fileBuffer = [];
-        const target = document.getElementsByName('photoOne[]');
-
-        Array.prototype.push.apply(fileBuffer, target[0].files);
+	this.$('#photoThreeFile').change(function(){
+        Array.prototype.push.apply(module._photo3FileBuffer, e.target.files);
         var html = '';
-        $.each(target[0].files, function(index, file){
+        $.each(e.target.files, function(index, file){
             const fileName = file.name;
             html += '<li value="new"><span>';
             html += '<img src="'+URL.createObjectURL(file)+'">'
-            html += '<button data-photo="three" data-filename="'+fileName+'"><i class="fa fa-trash-alt"></i></button></span></li>';
+            html += '<button data-photo="one" data-filename="'+fileName+'"><i class="fa fa-trash-alt"></i></button></span></li>';
             const fileEx = fileName.slice(fileName.indexOf(".") + 1).toLowerCase();
             if(fileEx != "jpg" && fileEx != "jpeg" && fileEx != "png" &&  fileEx != "gif" &&  fileEx != "bmp"){
                 alert("파일은 (jpg, jpeg, png, gif, bmp) 형식만 등록 가능합니다.");
                 return false;
             }
-            module.$('#photoThreeList').append(html);
+            module.$($(e.target).data('photo-list')).append(html);
         });
     	$('ul.photoList > li > span > button').off('click', removeImageClickEvent);
     	$('ul.photoList > li > span > button').on('click', removeImageClickEvent);
@@ -401,6 +390,11 @@ GamFenderInspectionModule.prototype.loadDetail = function(tabId) {
 			return;
 		}
 		this.makeFormValues('#detailForm', row[0]);	// row[0] 번째 데이터를 detailForm에 넣기(자동으로 id 매칭하여 넣어 줌)
+
+		this.$('ul.photoList').empty();		// remove photo list
+		this.doAction('/fclty/gamFenderInspectionFileList.do', row[0], function(module, result) {
+			console.log(result);
+		});
 //		this.makeDivValues('#detailForm', row[0]);
 
 	}
@@ -439,50 +433,33 @@ GamFenderInspectionModule.prototype.saveData = function() {
 
 	var inputVO = module.makeFormArgs("#detailForm");
 	for(var k in inputVO) {
-		formData.append(k, inputVO[k]);
+		formData.append(inputVO[k].name, inputVO[k].value);
 	}
 
-	var fileInput = this.$("#photoOne")[0];
-	if (fileInput.files !== undefined) {
-		for (var i = 0; i < fileInput.files.length; i++) {
-			var file = fileInput.files[0];
-			fileCount++;
-			formData.append("__uploadFile", file);
-		}
+	for (var i = 0; i < this._photo1FileBuffer.length; i++) {
+		var file = this._photo1FileBuffer[i];
+		fileCount++;
+		formData.append("photoOneFile[]", file);
 	}
-	fileInput = this.$("#photoTwo")[0];
-	if (fileInput.files !== undefined) {
-		for (var i = 0; i < fileInput.files.length; i++) {
-			var file = fileInput.files[0];
-			fileCount++;
-			formData.append("__uploadFile", file);
-		}
+	for (var i = 0; i < this._photo2FileBuffer.length; i++) {
+		var file = this._photo2FileBuffer[i];
+		fileCount++;
+		formData.append("photoTwoFile[]", file);
 	}
-	fileInput = this.$("#photoThree")[0];
-	if (fileInput.files !== undefined) {
-		for (var i = 0; i < fileInput.files.length; i++) {
-			var file = fileInput.files[0];
-			fileCount++;
-			formData.append("__uploadFile", file);
-		}
+	for (var i = 0; i < this._photo3FileBuffer.length; i++) {
+		var file = this._photo3FileBuffer[i];
+		fileCount++;
+		formData.append("photoThreeFile[]", file);
 	}
 
-	if (module._mainmode == "insert") { // 추가 버튼 눌렀을때 insert로 변경됨
-		module.doAction('/fclty/gamInsertFenderInspection.do', inputVO,
-				function(module, result) {
-					if (result.resultCode == "0") {
-						module.loadData();
-					}
-					alert(result.resultMsg);
-				});
-	} else { // 추가 버튼 눌렀을때 insert가 아닌경우
-		module.doAction('/fclty/gamUpdateFenderInspection.do', inputVO,
-				function(module, result) {
-					if (result.resultCode == "0") {
-						module.loadData();
-					}
-					alert(result.resultMsg);
-				});
+	for (var i = 0; i < this._delPhotoOneList.length; i++) {
+		formData.append("delPhotoOne[]", this._delPhotoOneList[i]);
+	}
+	for (var i = 0; i < this._delPhotoTwoList.length; i++) {
+		formData.append("delPhotoTwo[]", this._delPhotoTwoList[i]);
+	}
+	for (var i = 0; i < this._delPhotoThreeList.length; i++) {
+		formData.append("delPhotoThree[]", this._delPhotoThreeList[i]);
 	}
 
 	var url = '';
@@ -497,6 +474,7 @@ GamFenderInspectionModule.prototype.saveData = function() {
 			true);
 	xhr.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
+			var result = JSON.parse(this.response);
 			if (result.resultCode == "0") {
 				module.loadData();
 			}
@@ -764,17 +742,20 @@ var module_instance = new GamFenderInspectionModule();
 								<td >
 									<ul id="photoOneList" class="photoList">
 									</ul>
-									<input type="file" id="photoOne" name="photoOne[]" data-column-id="photoOne" tabindex=6 size="35" />
+									<input type="file" id="photoOneFile" data-photo-list="#photoOneList" tabindex=6 size="35" />
+									<input type="hidden" id="photoOne" data-column-id="photoOne" />
 								</td>
 								<td >
 									<ul id="photoTwoList" class="photoList">
 									</ul>
-									<input type="file" id="photoTwo" name="photoTwo[]" data-column-id="photoTwo" tabindex=12 size="35" />
+									<input type="file" id="photoTwoFile" data-photo-list="#photoTwoList" tabindex=6 size="35" />
+									<input type="hidden" id="photoTwo" data-column-id="photoTwo" />
 								</td>
 								<td >
 									<ul id="photoThreeList" class="photoList">
 									</ul>
-									<input type="file" id="photoThree" name="photoThree[]" data-column-id="photoThree" tabindex=18 size="35" />
+									<input type="file" id="photoThreeFile" data-photo-list="#photoThreeList" tabindex=6 size="35" />
+									<input type="hidden" id="photoThree" data-column-id="photoThree" />
 								</td>
 							</tr>
 							<tr>
