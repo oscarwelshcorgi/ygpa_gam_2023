@@ -25,7 +25,7 @@
  */
 function GamAssetSeSttusInqireModule() {}
 
-GamAssetSeSttusInqireModule.prototype = new EmdModule(650, 600);
+GamAssetSeSttusInqireModule.prototype = new EmdModule(740, 600);
 
 //페이지가 호출 되었을때 호출 되는 함수
 GamAssetSeSttusInqireModule.prototype.loadComplete = function() {
@@ -36,9 +36,9 @@ GamAssetSeSttusInqireModule.prototype.loadComplete = function() {
      url: '/asset/gamAssetSeSttusInqireList.do',
      dataType: 'json',
      colModel : [
-                 {display:'구분', name:'gisAssetsSeCdNm',width:200, sortable:false,align:'center'},
-	             {display:'건수', name:'count',width:200, sortable:false,align:'right'},
-                 {display:'금액', name:'price',width:200, sortable:false,align:'right'}
+                 {display:'구분', name:'gisAssetsSeCdNm',width:240, sortable:false,align:'center'},
+	             {display:'건수', name:'count',width:220, sortable:false,align:'right'},
+                 {display:'금액', name:'price',width:240, sortable:false,align:'right'}
                  ],
 /*                  usepager: true,
          		useRp: true,
@@ -53,9 +53,9 @@ GamAssetSeSttusInqireModule.prototype.loadComplete = function() {
      url: '/asset/gamAssetSeSttusInqireList1.do',
      dataType: 'json',
      colModel : [
-		         {display:'구분', name:'prdlstSeNm',width:40, sortable:false,align:'center'},
-		         {display:'건수', name:'count',width:55, sortable:false,align:'right'},
-		         {display:'금액', name:'price',width:50, sortable:false,align:'right'}
+		         {display:'구분', name:'prdlstSeNm',width:240, sortable:false,align:'center'},
+		         {display:'건수', name:'count',width:220, sortable:false,align:'right'},
+		         {display:'금액', name:'price',width:240, sortable:false,align:'right'}
                  ],
     showTableToggleBtn: true,
     height: '200'
@@ -66,9 +66,9 @@ GamAssetSeSttusInqireModule.prototype.loadComplete = function() {
      url: '/asset/gamAssetSeSttusInqireList2.do',
      dataType: 'json',
      colModel : [
-		         {display:'구분', name:'prdlstSeNm',width:40, sortable:false,align:'center'},
-		         {display:'건수', name:'count',width:55, sortable:false,align:'right'},
-		         {display:'금액', name:'price',width:50, sortable:false,align:'right'}
+		         {display:'구분', name:'prdlstSeNm',width:240, sortable:false,align:'center'},
+		         {display:'건수', name:'count',width:220, sortable:false,align:'right'},
+		         {display:'금액', name:'price',width:240, sortable:false,align:'right'}
                  ],
     showTableToggleBtn: true,
     height: '200'
@@ -95,56 +95,62 @@ GamAssetSeSttusInqireModule.prototype.loadComplete = function() {
 	this.$("#sSearchDtTo").val(displayDate);
 
 	this.chart1 =  new dhtmlXChart({
-        view:"pie",
+        view:"pie3D",
         container:this.$("#chart1").attr('id'),
 		value: "#count#",
 		color: "#color#",
         label:"#gisAssetsSeCdNm#",
+        tooltip: "#count#"+'건',
         shadow:0
     });
 
 	this.chart2 =  new dhtmlXChart({
-        view:"pie",
+        view:"pie3D",
         container:this.$("#chart2").attr('id'),
 		value: "#price#",
 		color: "#color#",
         label:"#gisAssetsSeCdNm#",
+        tooltip: "#price1#"+'원',
         shadow:0
     });
 
 	this.chart3 =  new dhtmlXChart({
-        view:"pie",
+        view:"pie3D",
         container:this.$("#chart3").attr('id'),
 		value: "#count#",
 		color: "#color#",
         label:"#prdlstSeNm#",
+        tooltip: "#count#"+'건',
         shadow:0
     });
 
 	this.chart4 =  new dhtmlXChart({
-        view:"pie",
+        view:"pie3D",
         container:this.$("#chart4").attr('id'),
 		value: "#price#",
 		color: "#color#",
         label:"#prdlstSeNm#",
+        tooltip: "#price1#"+'원',
         shadow:0
     });
 
 	this.chart5 =  new dhtmlXChart({
-        view:"pie",
+        view:"pie3D",
         container:this.$("#chart5").attr('id'),
 		value: "#count#",
 		color: "#color#",
         label:"#prdlstSeNm#",
+        tooltip: "#count#"+'건',
         shadow:0
     });
 
 	this.chart6 =  new dhtmlXChart({
-        view:"pie",
+        view:"pie3D",
         container:this.$("#chart6").attr('id'),
 		value: "#price#",
 		color: "#color#",
         label:"#prdlstSeNm#",
+		tooltip: "#price1#"+'원',
         shadow:0
     });
 
@@ -184,20 +190,21 @@ GamAssetSeSttusInqireModule.prototype.loadData = function() {
 	 var module = this;
 	 var getColor1=function(code) {
 		 var color_codes = {
-			 "1": "#f00",
-			 "2": "#00f",
-			 "4": "#0f0"
+			"0":"#99FF00",
+			"1":"#006699",
+			"2":"#FF3399",
+			"3":"#9900FF",
+			"4":"#006633",
+			"5":"#993300",
+			"6":"#0033CC",
+			"7":"#FF0000",
+			"8":"#CC00CC",
+			"9":"#FFFF00",
+			"10":"#666666",
+			"11":"#FFCCCC"
 			 };
-		 return color_codes[code]||'#aaa';
-		 };
-	 var getColor2=function(code) {
-		 var color_codes = {
-			 "1": "#f00",
-			 "2": "#00f",
-			 "4": "#0f0"
-			 };
-		 return color_codes[code]||'#aaa';
-		 };
+		 return color_codes[code];
+	 };
 
 		switch(this._tabId) {
 		case 'tabs1':
@@ -212,6 +219,7 @@ GamAssetSeSttusInqireModule.prototype.loadData = function() {
 	        					 gisAssetsSeCdNm: obj.gisAssetsSeCdNm,
 	        					 count: obj.count,
 	        					 price: Number(obj.price.replace(/,/g,"")),
+	        					 price1: obj.price,
 	        					 color: getColor1(obj.gisAssetsSeCd)
 	        			 }
 	        		 }
@@ -235,7 +243,8 @@ GamAssetSeSttusInqireModule.prototype.loadData = function() {
         					 prdlstSeNm: obj.prdlstSeNm,
         					 count: obj.count,
         					 price: Number(obj.price.replace(/,/g,"")),
-        					 color: getColor2(obj.prdlstSe)
+        					 price1: obj.price,
+        					 color: getColor1(r.length)
         			 }
         		 }
         		 console.log(r);
@@ -258,7 +267,8 @@ GamAssetSeSttusInqireModule.prototype.loadData = function() {
         					 prdlstSeNm: obj.prdlstSeNm,
         					 count: obj.count,
         					 price: Number(obj.price.replace(/,/g,"")),
-        					 color: getColor2(obj.prdlstSe)
+        					 price1: obj.price,
+        					 color: getColor1(r.length)
         			 }
         		 }
         		 console.log(r);
@@ -273,25 +283,7 @@ GamAssetSeSttusInqireModule.prototype.loadData = function() {
 };
 
 GamAssetSeSttusInqireModule.prototype.onTabChange = function(newTabId, oldTabId) {
-	 var searchOpt=this.makeFormArgs('#searchForm');
-	 var module = this;
-	 var getColor1=function(code) {
-		 var color_codes = {
-			 "1": "#f00",
-			 "2": "#00f",
-			 "4": "#0f0"
-			 };
-		 return color_codes[code]||'#aaa';
-	 };
-	 var getColor2=function(code) {
-		 var color_codes = {
-			 "1": "#f00",
-			 "2": "#00f",
-			 "4": "#0f0"
-			 };
-		 return color_codes[code]||'#aaa';
-	 };
-	switch(newTabId) {
+	 switch(newTabId) {
 		case 'tabs1':
 			this._tabId='tabs1';
 			this.loadData();
@@ -328,9 +320,11 @@ var module_instance = new GamAssetSeSttusInqireModule();
                 <table class="searchPanel">
                     <tbody>
                         <tr>
-                            <th>항코드</th>
-                            <td>
+                            <th style="width: 70px">항코드</th>
+                            <td style="width: 100px">
                                 <input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id=GAM019 />
+                            </td>
+                            <td colspan="3" style="width: 300px">
                             </td>
 <!--                             <th>GIS자산코드</th>
                             <td><input id="sGisAssetsCd" type="text" size="5"></td>
@@ -365,10 +359,10 @@ var module_instance = new GamAssetSeSttusInqireModule();
 					<table style="width: 100%;">
 						<tr>
 							<td style="width: 50%;">
-								<div id="chart1" style="width:300px; height:270px; border:1px solid #A4BED4;"></div>
+								<div id="chart1" style="width:350px; height:270px; border:1px solid #A4BED4;"></div>
 							</td>
 							<td style="width: 50%;">
-								<div id="chart2" style="width:300px; height:270px; border:1px solid #A4BED4;"></div>
+								<div id="chart2" style="width:350px; height:270px; border:1px solid #A4BED4;"></div>
 							</td>
 						</tr>
 						<tr>
@@ -389,10 +383,10 @@ var module_instance = new GamAssetSeSttusInqireModule();
 					<table style="width: 100%;">
 						<tr>
 							<td style="width: 50%;">
-								<div id="chart3" style="width:300px; height:270px; border:1px solid #A4BED4;"></div>
+								<div id="chart3" style="width:350px; height:270px; border:1px solid #A4BED4;"></div>
 							</td>
 							<td style="width: 50%;">
-								<div id="chart4" style="width:300px; height:270px; border:1px solid #A4BED4;"></div>
+								<div id="chart4" style="width:350px; height:270px; border:1px solid #A4BED4;"></div>
 							</td>
 						</tr>
 						<tr>
@@ -413,10 +407,10 @@ var module_instance = new GamAssetSeSttusInqireModule();
 					<table style="width: 100%;">
 						<tr>
 							<td style="width: 50%;">
-								<div id="chart5" style="width:300px; height:270px; border:1px solid #A4BED4;"></div>
+								<div id="chart5" style="width:350px; height:270px; border:1px solid #A4BED4;"></div>
 							</td>
 							<td style="width: 50%;">
-								<div id="chart6" style="width:300px; height:270px; border:1px solid #A4BED4;"></div>
+								<div id="chart6" style="width:350px; height:270px; border:1px solid #A4BED4;"></div>
 							</td>
 						</tr>
 						<tr>

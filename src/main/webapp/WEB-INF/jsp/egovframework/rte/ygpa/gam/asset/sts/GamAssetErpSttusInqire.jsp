@@ -111,38 +111,42 @@ GamAssetErpSttusInqireModule.prototype.loadComplete = function() {
 	
 	/* 차트 추가 */
 	this.chart1 =  new dhtmlXChart({
-        view:"pie",
+        view:"pie3D",
         container:this.$("#chart1").attr('id'),
 		value: "#receiptAmt#",
 		color: "#color#",
         label:"#nm#",
+        tooltip: "#nm#"+"<br>"+"#receiptAmt1#"+'원',
         shadow:0
     });
 
 	this.chart2 =  new dhtmlXChart({
-        view:"pie",
+        view:"pie3D",
         container:this.$("#chart2").attr('id'),
 		value: "#receiptAmt#",
 		color: "#color#",
         label:"#nm#",
+        tooltip: "#nm#"+"<br>"+"#receiptAmt1#"+'원',
         shadow:0
     });
 
 	this.chart3 =  new dhtmlXChart({
-        view:"pie",
+        view:"pie3D",
         container:this.$("#chart3").attr('id'),
 		value: "#collectAmt#",
 		color: "#color#",
         label:"#nm#",
+        tooltip: "#nm#"+"<br>"+"#collectAmt1#"+'원',
         shadow:0
     });
 
 	this.chart4 =  new dhtmlXChart({
-        view:"pie",
+        view:"pie3D",
         container:this.$("#chart4").attr('id'),
 		value: "#collectAmt#",
 		color: "#color#",
         label:"#nm#",
+        tooltip: "#nm#"+"<br>"+"#collectAmt1#"+'원',
         shadow:0
     });
 	
@@ -206,6 +210,8 @@ GamAssetErpSttusInqireModule.prototype.loadData = function() {
        					nm: obj.nm,
        					receiptAmt: obj.receiptAmt,
        					collectAmt: obj.collectAmt,
+       					receiptAmt1: obj.receiptAmt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+       					collectAmt1: obj.collectAmt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
        					color: getColor1(String(r.length))
 	       			}
        				 
@@ -214,6 +220,8 @@ GamAssetErpSttusInqireModule.prototype.loadData = function() {
        					nm: obj.nm,
        					receiptAmt: obj.receiptAmt,
        					collectAmt: obj.collectAmt,
+       					receiptAmt1: obj.receiptAmt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+       					collectAmt1: obj.collectAmt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
        					color: getColor1(String(s.length))
 	       			 }
        			 }
