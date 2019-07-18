@@ -114,9 +114,9 @@ public class GamMapsAssetCodeMngtServiceImpl extends AbstractServiceImpl
 	 * @see egovframework.rte.ygpa.gam.maps.service.GamMapsAssetCodeMngtService#selectMapsAssetsRentInfo(java.util.Map)
 	 */
 	@Override
-	public Map selectMapsAssetsRentInfo(Map searchVO) throws Exception {
+	public List selectMapsAssetsRentInfo(Map searchVO) throws Exception {
 		// TODO Auto-generated method stub
-		return gamMapsAssetCodeMngtDAO.selectMapsAssetsRentInfo(searchVO);
+		return gamMapsAssetCodeMngtDAO.selectMapsAssetsRentInfo2(searchVO);
 	}
 
 	/* (non-Javadoc)

@@ -102,7 +102,7 @@ var popupInfoModule = new GamMapPopupModule();
 				<tbody>
 					<c:forEach var="rentItem" items="${assetRent }" varStatus="status">
 						<tr>
-							<td><c:out value="${rentItem.entrpsNm }" /> (<c:out value="${rentItem.entrpsCd }" /></td>
+							<td><c:out value="${rentItem.entrpsNm }" /> (<c:out value="${rentItem.entrpscd }" /></td>
 							<td><c:out value="${rentItem.usagePdFrom }" />~<c:out value="${rentItem.usagePdTo }" /></td>
 							<td><fmt:formatNumber value="${rentItem.usageAr }" maxIntegerDigits="8" maxFractionDigits="2" /> (단위:m²)</td>
 							<td><fmt:formatNumber value="${rentItem.fee }" type="number"/> 원</td>
@@ -115,10 +115,10 @@ var popupInfoModule = new GamMapPopupModule();
 			<c:if test="${assetRentSummary!=null }">
 			<h2>총사용현황</h2>
 			<table class='prtFcltyInfo'><tbody>
-				<tr><th>총사용면적</th><td><fmt:formatNumber value="${assetRentSummary.usageAr }" maxIntegerDigits="8" maxFractionDigits="2" /> (단위:m²)</td></tr>
+				<tr><th>총사용면적</th><td><fmt:formatNumber value="${assetRentSummary.totUsageAr }" maxIntegerDigits="8" maxFractionDigits="2" /> (단위:m²)</td></tr>
 				<tr><th>미사용면적</th><td><fmt:formatNumber value="${assetRentSummary.unUsageAr }" maxIntegerDigits="8" maxFractionDigits="2" /> (단위:m²)</td></tr>
-				<tr><th>총면적</th><td><fmt:formatNumber value="${assetRentSummary.totalAr }" maxIntegerDigits="8" maxFractionDigits="2" /> (단위:m²)</td></tr>
-				<tr><th>총사용금액</th><td><fmt:formatNumber value="${assetRentSummary.totalFee }" type="number" /> 원</td></tr>
+				<tr><th>총면적</th><td><fmt:formatNumber value="${assetRentSummary.gisAssetsAr }" maxIntegerDigits="8" maxFractionDigits="2" /> (단위:m²)</td></tr>
+				<tr><th>총사용금액</th><td><fmt:formatNumber value="${assetRentSummary.totFee }" type="number" /> 원</td></tr>
 			</tbody></table>
 			</c:if>
 			<c:if test="${fn:containsIgnoreCase(auth,'ROLEADMIN')||fn:containsIgnoreCase(auth,'ROLEASSETMNGT') }">

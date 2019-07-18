@@ -79,6 +79,11 @@ public class GamMapsAssetCodeMngtDAO extends YGPAAbstractDAO {
 	}
 
 	@SuppressWarnings("unchecked")
+	public List selectMapsAssetsRentInfo2(Map vo) throws Exception{
+		return list("gamMapsAssetRentMngtDAO.selectMapsAssetsRentInfo2_S", vo);
+	}
+
+	@SuppressWarnings("unchecked")
 	public Map selectMapsAssetsCodeUseInfo(Map vo) throws Exception{
 		return (EgovMap) selectByPk("gamMapsAssetCodeMngtDAO.selectMapsAssetsCodeUseInfo", vo);
 	}
