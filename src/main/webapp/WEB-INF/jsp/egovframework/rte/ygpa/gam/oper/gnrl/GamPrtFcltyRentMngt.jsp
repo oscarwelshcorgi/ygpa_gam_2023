@@ -1697,8 +1697,13 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
 /**
 * 체크박스 승인된 데이 있는지 확인 필요(최대 입력 가능 행 5행)
 */
-            
+   
+	    	
             if(rows.length>=1) {
+	            if(row['sanctnSttus'] == '1' || row['sanctnSttus'] == '2' || row['sanctnSttus'] == '5'){
+		    		alert('결재 진행 중인 자료 입니다.');
+		    		return;
+		    	}
             	if( row['prmisnYn'] == 'Y' ) {
                     alert("이미 사용승낙된 상태 입니다.");
                     return;
@@ -2210,7 +2215,9 @@ GamAssetRentMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
  	        		
  	        		module.loadData();
  		        }
- 	        	alert(result.resultMsg);
+ 	        	else{
+	 	        	alert(result.resultMsg);
+ 	        	}
 	        });
         	 
          } else {

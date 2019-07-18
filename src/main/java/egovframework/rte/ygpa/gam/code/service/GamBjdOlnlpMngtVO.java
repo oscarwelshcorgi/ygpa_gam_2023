@@ -24,6 +24,49 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GamBjdOlnlpMngtVO {
 	/**
+	 * 검색 조건
+	 */
+	private String searchLoc;
+	private String searchLnm;
+	private String searchLnmSub;
+	
+	/**
+	 * @return the searchLoc
+	 */
+	public String getSearchLoc() {
+		return searchLoc;
+	}
+	/**
+	 * @param searchLoc the searchLoc to set
+	 */
+	public void setSearchLoc(String searchLoc) {
+		this.searchLoc = searchLoc;
+	}
+	/**
+	 * @return the searchLnm
+	 */
+	public String getSearchLnm() {
+		return searchLnm;
+	}
+	/**
+	 * @param searchLnm the searchLnm to set
+	 */
+	public void setSearchLnm(String searchLnm) {
+		this.searchLnm = searchLnm;
+	}
+	/**
+	 * @return the searchLnmSub
+	 */
+	public String getSearchLnmSub() {
+		return searchLnmSub;
+	}
+	/**
+	 * @param searchLnmSub the searchLnmSub to set
+	 */
+	public void setSearchLnmSub(String searchLnmSub) {
+		this.searchLnmSub = searchLnmSub;
+	}
+	/**
 	 * 기준년도
 	 */
 	private String olnlpApplcYear;
