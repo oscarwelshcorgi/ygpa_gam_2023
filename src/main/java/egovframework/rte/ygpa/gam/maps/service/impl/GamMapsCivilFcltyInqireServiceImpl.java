@@ -58,4 +58,12 @@ public class GamMapsCivilFcltyInqireServiceImpl extends AbstractServiceImpl
 		return gamMapsCivilFcltyInqireDAO.selectMapsFcltyFileList(vo);
 	}
 
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.maps.service.GamMapsCivilFcltyInqireService#selectFcltyMaintInfo(java.util.Map)
+	 */
+	@Override
+	public EgovMap selectFcltyMaintInfo(Map searchVO) throws Exception {
+		return gamMapsCivilFcltyInqireDAO.selectFcltyMaintInfo(searchVO);
+	}
+
 }

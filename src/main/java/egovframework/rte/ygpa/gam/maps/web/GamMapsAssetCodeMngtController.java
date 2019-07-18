@@ -202,10 +202,10 @@ public class GamMapsAssetCodeMngtController {
 					model.addAttribute("lnmSub", lnmSub);
 				}
 				else {
-					if(auth.indexOf("roleAssetMngt")>=0) {
+					if(auth.indexOf("roleAssetMngt")>=0 || auth.indexOf("rolePfuseMngt")>=0) {
 						model.addAttribute("assetRent", gamMapsAssetCodeMngtService.selectMapsAssetsRentInfo(searchVO));
 					}
-					if(auth.indexOf("roleAssetMngt")>=0) {
+					if(auth.indexOf("roleAssetMngt")>=0 || auth.indexOf("rolePfuseMngt")>=0) {
 						model.addAttribute("assetRentSummary", gamMapsAssetCodeMngtService.selectMapsAssetsCodeUseSummary(searchVO));
 					}
 					if(auth.indexOf("roleHtldMngt")>=0) {
@@ -251,7 +251,7 @@ public class GamMapsAssetCodeMngtController {
 					auth+="roleAssetMngt";
 				}
 				if("role_fclty_mngt".equalsIgnoreCase(author)) {
-					auth+="roleAssetMngt";
+					auth+="roleFcltyMngt";
 				}
 				if("role_pfuse_mngt".equalsIgnoreCase(author)) {
 					auth+="rolePfuseMngt";
@@ -265,12 +265,10 @@ public class GamMapsAssetCodeMngtController {
 				Map assetCodeInfo = gamMapsAssetCodeMngtService.selectMapsAssetsCodeInfo(searchVO);
 
 				model.addAttribute("assetCd", assetCodeInfo);
-	//			if(auth.indexOf("roleAdmin") || auth.indexOf("roleAssetMngt")) {
-					model.addAttribute("assetRent", gamMapsAssetCodeMngtService.selectMapsAssetsCodeUseInfo(searchVO));
-	//			}
-	//			if(auth.indexOf("roleAdmin") || auth.indexOf("roleAssetMngt")) {
+				if(auth.indexOf("roleAssetMngt")>0 || auth.indexOf("rolePfuseMngt")>0) {
+					model.addAttribute("assetRent", gamMapsAssetCodeMngtService.selectMapsAssetsRentInfo(searchVO));
 					model.addAttribute("assetRentSummary", gamMapsAssetCodeMngtService.selectMapsAssetsCodeUseSummary(searchVO));
-	//			}
+				}
 				model.addAttribute("auth", auth);
 				if(assetCodeInfo==null) {
 					String bjdCode=(String)searchVO.get("bjdCode");
