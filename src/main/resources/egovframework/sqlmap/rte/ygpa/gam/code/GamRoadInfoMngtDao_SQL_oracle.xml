@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ygpa.gam.code">
+
+	<typeAlias alias="gamPopupRoadInfoMngtVO" type="egovframework.rte.ygpa.gam.popup.service.GamPopupRoadInfoMngtVO"/>
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+
+	<select id="gamBupJungDongCodeMngtDao.selectRoadInfoList" parameterClass="gamPopupRoadInfoMngtVO" resultClass="egovMap">
+	       SELECT  ROWNUM RNUM, S.*
+		   FROM (
+				SELECT
+					BUPJUNGDONG_CD,
+					BUPJUNGDONG_NM,
+					EXIST_YN
+				FROM BUPJUNGDONG_CD_F
+				WHERE 1=1
+			<isNotEmpty prepend="AND" property="searchBupjungdongCd">
+				BUPJUNGDONG_CD LIKE #searchBupjungdongCd# || '%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="searchBupjungdongNm">
+				BUPJUNGDONG_NM LIKE '%' || #searchBupjungdongNm# || '%'
+			</isNotEmpty>
+			AND EXIST_YN = 'Y'
+			ORDER BY BUPJUNGDONG_CD
+			) S
+	</select>
+
+</sqlMap>
