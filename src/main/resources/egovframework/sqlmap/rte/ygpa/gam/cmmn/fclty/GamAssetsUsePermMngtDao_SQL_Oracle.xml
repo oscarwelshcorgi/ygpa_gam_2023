@@ -393,7 +393,7 @@
 									, TO_NUMBER(replace(#vat#,',',''))
 									, TO_NUMBER(replace(#totPayamt#,',',''))
 									, #payTmlmt#
-									, ''
+									, '2'
 									, sysdate
 									, #regUsr#
 																

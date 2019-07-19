@@ -9,65 +9,48 @@
 	<select id="gamBjdOlnlpMngtDao.selectBjdOlnlpList_D" parameterClass="gamBjdOlnlpMngtVO" resultClass="egovMap">
 	       SELECT  ROWNUM RNUM, S.*
 		   FROM (
-				SELECT A.BUPJUNGDONG_CD,
-				  A.BUPJUNGDONG_NM,
-				  A.EXIST_YN,
-				  #olnlpApplcYear# olnlp_applc_year,
-				  b.mt,
-				  b.lnm,
-				  NVL((SELECT 'R'
-				  FROM bupjungdong_olnlp_f
-				  WHERE b.bupjungdong_cd=bupjungdong_cd
-				      AND nvl(mt,'N')                =nvl(b.mt,'N')
-					  AND lnm               =b.lnm
-					  AND olnlp_applc_year  =#olnlpApplcYear#
-				  ), 'I') UPDT_ID,
-				  (SELECT olnlp
-				  FROM bupjungdong_olnlp_f
-				  WHERE b.bupjungdong_cd=bupjungdong_cd
-				      AND nvl(mt,'N')                =nvl(b.mt,'N')
-					  AND lnm               =b.lnm
-					  AND olnlp_applc_year  =#olnlpApplcYear#
-				  ) olnlp
-				FROM (SELECT * FROM BUPJUNGDONG_CD_F
-					  WHERE 1=1
-  				<isNotEmpty prepend="AND" property="loc">
-					  and bupjungdong_nm like '%' || #loc# || '%'
+				SELECT A.OLNLP_APPLC_YEAR
+				      ,A.BUPJUNGDONG_CD
+				      ,B.BUPJUNGDONG_NM
+				      ,A.LNM
+				      ,CASE A.MT WHEN 'Y' THEN '산' ELSE '' END AS MT
+				      ,A.OLNLP
+				      ,B.EXIST_YN
+				      ,'R' AS UPDT_ID
+				  FROM BUPJUNGDONG_OLNLP_F A
+				  INNER JOIN (SELECT DISTINCT BUPJUNGDONG_CD,BUPJUNGDONG_NM, EXIST_YN, LPAD(NVL(D.GIS_ASSETS_LNM,0),4, '0')||'-'||LPAD(NVL(D.GIS_ASSETS_LNM_SUB,0),4, '0') AS LNM  FROM  BUPJUNGDONG_CD_F C INNER JOIN GIS_ASSETS_CD_F D ON C.BUPJUNGDONG_NM = D.GIS_ASSETS_LOCPLC) B
+				    ON (A.BUPJUNGDONG_CD=B.BUPJUNGDONG_CD AND A.LNM=B.LNM)
+				  WHERE 1=1
+				    AND A.OLNLP_APPLC_YEAR = #olnlpApplcYear#
+  				<isNotEmpty prepend="AND" property="searchLoc">
+					  B.BUPJUNGDONG_NM LIKE '%' || #searchLoc# || '%'
 			  </isNotEmpty>
-					  ) a,
-				  (SELECT bupjungdong_cd,
-				    mt,
-				    lnm,
-				    MAX(olnlp)
-				  FROM bupjungdong_olnlp_f
-				  GROUP BY bupjungdong_cd,
-				    mt,
-				    lnm
-				  ) b
-				WHERE a.BUPJUNGDONG_CD=b.BUPJUNGDONG_CD
-
-			ORDER BY A.BUPJUNGDONG_NM,b.lnm
+  				<isNotEmpty prepend="AND" property="searchLnm">
+					  SUBSTR(LNM,1,4) LIKE '%' || LPAD('1',#searchLnm#,4,'0') || '%'
+			  </isNotEmpty>
+  				<isNotEmpty prepend="AND" property="searchLnmSub">
+					  SUBSTR(LNM,6,4) LIKE '%' || LPAD('1',#searchLnmSub#,4,'0') || '%'
+			  </isNotEmpty>
+			ORDER BY B.BUPJUNGDONG_NM, A.LNM
 			) S
 	</select>
 
 	<select id="gamBjdOlnlpMngtDao.selectBjdOlnlpListTotCnt_S" parameterClass="gamBjdOlnlpMngtVO" resultClass="java.lang.Integer">
-		SELECT count(*) totCnt
-		FROM (SELECT * FROM BUPJUNGDONG_CD_F
-			  WHERE 1=1
-		<isNotEmpty prepend="AND" property="loc">
-			  and bupjungdong_nm like '%' || #loc# || '%'
-		</isNotEmpty>
-			  ) a,
-		  (SELECT bupjungdong_cd,
-		    mt,
-		    lnm,
-		    MAX(olnlp)
-		  FROM bupjungdong_olnlp_f
-		  GROUP BY bupjungdong_cd,
-		    mt,
-		    lnm
-		  ) b
-		WHERE a.BUPJUNGDONG_CD=b.BUPJUNGDONG_CD
+		SELECT COUNT(*)
+		  FROM BUPJUNGDONG_OLNLP_F A
+		  INNER JOIN (SELECT DISTINCT BUPJUNGDONG_CD,BUPJUNGDONG_NM, EXIST_YN, LPAD(NVL(D.GIS_ASSETS_LNM,0),4, '0')||'-'||LPAD(NVL(D.GIS_ASSETS_LNM_SUB,0),4, '0') AS LNM  FROM  BUPJUNGDONG_CD_F C INNER JOIN GIS_ASSETS_CD_F D ON C.BUPJUNGDONG_NM = D.GIS_ASSETS_LOCPLC) B
+		    ON (A.BUPJUNGDONG_CD=B.BUPJUNGDONG_CD AND A.LNM=B.LNM)
+		  WHERE 1=1
+		    AND A.OLNLP_APPLC_YEAR = #olnlpApplcYear#
+				<isNotEmpty prepend="AND" property="searchLoc">
+			  B.BUPJUNGDONG_NM LIKE '%' || #searchLoc# || '%'
+	  </isNotEmpty>
+				<isNotEmpty prepend="AND" property="searchLnm">
+			  SUBSTR(LNM,1,4) LIKE '%' || LPAD('1',#searchLnm#,4,'0') || '%'
+	  </isNotEmpty>
+				<isNotEmpty prepend="AND" property="searchLnmSub">
+			  SUBSTR(LNM,6,4) LIKE '%' || LPAD('1',#searchLnmSub#,4,'0') || '%'
+	  </isNotEmpty>
 	</select>
 
       	<insert id="gamBjdOlnlpMngtDao.insertOlnlpMngt" parameterClass="hashMap">
@@ -141,7 +124,8 @@
 		    gis_assets_sub_cd,
 		    olnlp,
 		    begin_dt,
-		    end_dt
+		    end_dt,
+		    regist_dt
 		  )
 		  SELECT (SELECT nvl(MAX(olnlp_seq),0) FROM OLNLP_F WHERE a.gis_assets_prt_at_code=gis_assets_prt_at_code
 		      and a.gis_assets_cd=gis_assets_cd
@@ -153,7 +137,8 @@
 		      to_date(c.olnlp_applc_year
 		      ||'0101', 'YYYYMMDD') begin_dt ,
 		      add_months(to_date(c.olnlp_applc_year
-		      ||'0101', 'YYYYMMDD'), 12) end_dt
+		      ||'0101', 'YYYYMMDD'), 12) end_dt,
+		      sysdate
 		    FROM gis_assets_cd_f a,
 		      (SELECT b.bupjungdong_nm,
 		        o.mt,

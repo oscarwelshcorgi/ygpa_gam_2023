@@ -22,6 +22,10 @@
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/code/GamFcltsMngGroupMngDao_SQL_oracle.xml" />
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/code/GamQcItemCdMngDao_SQL_oracle.xml" />
 	
+	<!-- 도로명주소 조회 -->
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/code/GamRoadInfoMngtDao_SQL_oracle.xml" />
+
+
 	<!-- 건축물시가표준액 -->
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/code/GamBuldMktcStdAmManageDAO_SQL_oracle.xml" />
 
