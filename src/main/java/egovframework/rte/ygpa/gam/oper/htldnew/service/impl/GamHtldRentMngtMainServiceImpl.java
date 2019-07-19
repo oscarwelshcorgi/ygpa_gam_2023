@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package egovframework.rte.ygpa.gam.oper.htldnew.service.impl;
 
@@ -32,14 +32,14 @@ import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentMngtMainVO;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentRntfeeVO;
 
 /**
- * 
+ *
  * @author Jongmin
  * @since 2016. 5. 10.
  * @version 1.0
  * @see
  * <pre>
  * << 개정이력(Modification Information) >>
- *   
+ *
  *   수정일 		 수정자		 수정내용
  *  -------		--------	---------------------------
  *  2016. 5. 10.		Jongmin		최초 생성
@@ -49,7 +49,7 @@ import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentRntfeeVO;
  */
 @Service("gamHtldRentMngtMainService")
 public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implements GamHtldRentMngtMainService {
-	
+
 	@Resource(name="gamHtldRentMngtMainDao")
     private GamHtldRentMngtMainDao gamHtldRentMngtMainDao;
 
@@ -57,10 +57,10 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 	private GamHtldRentCtrtDao gamHtldRentCtrtDao;
 
 	protected Log log = LogFactory.getLog(this.getClass());
-	
+
 	/**
 	 * 배후단지 임대 상세목록 조회
-	 * @param 
+	 * @param
 	 * @return List 임대상세목록
 	 * @exception Exception
 	 */
@@ -71,34 +71,34 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 
 	/**
 	 *  Cofix 이자율 조회
-	 * @param 
+	 * @param
 	 * @return String 이자율
 	 * @exception Exception
 	 */
 	public String selectCofixIntrrate(GamHtldRentMngtMainVO vo) throws Exception {
 		return gamHtldRentMngtMainDao.selectCofixIntrrate(vo);
 	}
-	
+
 	/**
 	 * 배후단지 임대료 설정
-	 * @param list - 임대계약 임대료 리스트 
+	 * @param list - 임대계약 임대료 리스트
 	 * @return
 	 * @exception Exception
-	 */	
+	 */
 	@SuppressWarnings("unchecked")
 	protected List<EgovMap>getVirtualHtldRentFeeList(List<EgovMap> feeList, GamHtldRentMngtMainVO vo) throws Exception {
 		List<EgovMap> resultList = new ArrayList<EgovMap>();
-		
+
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		LocalDate histDt = new LocalDate(dateFormat.parse(vo.getHistDt()));
 		String cofixIntr = gamHtldRentMngtMainDao.selectCofixIntrrate(vo);
-		
+
 		BigDecimal totRntFee = new BigDecimal(0),  totPayinstIntr = new BigDecimal(0), totSupAmt = new BigDecimal(0),  totVat = new BigDecimal(0),  totPayAmt = new BigDecimal(0);
 		int groupCount  = 0;
-		
+
 		for(int i=0; i<feeList.size(); i++) {
 			EgovMap item = feeList.get(i);
-			
+
 			String mngYear = (item.get("mngYear") != null) ? (String)item.get("mngYear") : "";
 			String mngNo = (item.get("mngNo") != null) ? (String)item.get("mngNo") : "";
 			String mngSeq = (item.get("mngSeq") != null) ? (String)item.get("mngSeq") : "";
@@ -123,22 +123,22 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 			String applcRntfeeStr = (item.get("applcRntfeeStr") != null) ? (String)item.get("applcRntfeeStr") : "";
 			BigDecimal nticVat = (item.get("nticVat") != null) ? (BigDecimal)item.get("nticVat") : new BigDecimal(0);
 			BigDecimal nticPayAmt = (item.get("nticPayAmt") != null) ? (BigDecimal)item.get("nticPayAmt") : new BigDecimal(0);
-			
+
 			BigDecimal rntFee = new BigDecimal(0),  payinstIntr = new BigDecimal(0), supAmt = new BigDecimal(0),  vat = new BigDecimal(0),  payAmt = new BigDecimal(0);
-			
+
 			int mngGroupCount = getMngGropListCount(feeList, mngYear, mngNo, mngSeq, accnutYear, rntfeeNticNo, nticSeq);
 			groupCount++;
-			
+
 			item.put("mngGroupCount", new BigDecimal(mngGroupCount));
-						
+
 			if(("0".equals(rntfeeSe)) && ("N".equals(nticYn))) {
 				//일반고지자료이면서 고지가 되지 않은 가상의 자료
 				rntFee = getRentFee(histDt, paySe, priceSe, rentAr, applcRntfee, detailPdBegin, detailPdEnd, aseRntfee, aseApplcBegin, aseApplcEnd);
-				
+
 				if("4".equals(paySe)) {
 					payinstIntr = getRentFeeInstIntr(rntFee, cofixIntr, histDt, detailPdEnd);
 				}
-				
+
 				if(mngGroupCount == 1) {
 					//합산고지를 할 필요가 없는 자료
 					supAmt = rntFee.add(payinstIntr).setScale(-1, RoundingMode.DOWN);
@@ -152,7 +152,7 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 
 				LocalDate nticBeginDate = ("4".equals(paySe)) ? getQuarterStartDate(histDt) : new LocalDate(histDt.getYear(), 1, 1);
 				LocalDate nticEndDate = ("4".equals(paySe)) ? getQuarterEndDate(histDt) : new LocalDate(histDt.getYear(), 12, 31);
-				
+
 				item.put("nticBeginDt", nticBeginDate.toString());
 				item.put("nticEndDt", nticEndDate.toString());
 				item.put("rntfee", rntFee);
@@ -164,14 +164,14 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 				//가상의 자료가 아닌 자료(즉 고지버튼을 누른 일반자료나 실적,면적,추가 고지자료
 				rntFee = (item.get("rntfee") != null) ? (BigDecimal)item.get("rntfee") : new BigDecimal(0);
 				payinstIntr = (item.get("payinstIntr") != null) ? (BigDecimal)item.get("payinstIntr") : new BigDecimal(0);
-				supAmt = (item.get("supAmt") != null) ? (BigDecimal)item.get("supAmt") : new BigDecimal(0);				
+				supAmt = (item.get("supAmt") != null) ? (BigDecimal)item.get("supAmt") : new BigDecimal(0);
 				if(mngGroupCount > 1) {
 					totRntFee = totRntFee.add(rntFee);
 					totPayinstIntr = totPayinstIntr.add(payinstIntr);
 					totSupAmt = totSupAmt.add(supAmt);
 				}
 			}
-			
+
 			//가상 필드 추가
 			if("0".equals(rntfeeSe)) { //일반고지 데이터이면
 				item.put("detailPdStr", detailPdBegin + "~" + detailPdEnd);
@@ -181,8 +181,8 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 					} else {
 						item.put("rentArStr", rentArStr + "/" + rentArSeNm); //물류부지, 제조부지
 					}
-				}				
-				if("2".equals(priceSe)) { 
+				}
+				if("2".equals(priceSe)) {
 					item.put("applcRntfeeStr", applcRntfeeStr + "원/월");
 				}
 				if(aseRntfee.compareTo(new BigDecimal(0)) == 0) {
@@ -226,9 +226,9 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 					item.put("payAmt", nticPayAmt);
 				}
 			}
-			
+
 			resultList.add(item);
-			
+
 			if((mngGroupCount > 1) && (groupCount == mngGroupCount)) {
 				//합산고지의 소계 레코드에 들어갈 항목 정의
 				totSupAmt = totRntFee.add(totPayinstIntr).setScale(-1, RoundingMode.DOWN);
@@ -247,26 +247,26 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 					String key = it.next();
 					totItem.put(key, item.get(key));
 				}
-				
+
 				totItem.put("rntfeeSe", "9");  //소계레코드 구분자.
-			
+
 				totItem.put("rntfee", totRntFee);
 				totItem.put("payinstIntr", totPayinstIntr);
 				totItem.put("supAmt", totSupAmt);
 				totItem.put("vat", totVat);
 				totItem.put("payAmt", totPayAmt);
-				
+
 				totItem.put("detailPdStr", "소 계");
 				totItem.put("rentArStr", "");
 				totItem.put("assetsNm", "");
-				totItem.put("assetsCd", "");				
+				totItem.put("assetsCd", "");
 				totItem.put("applcRntfeeStr", "");
 				totItem.put("aseRntfeeStr", "");
 				totItem.put("asePd", "");
 				totItem.put("rm", "");
-				
+
 				resultList.add(totItem);
-				
+
 				//합계 변수 초기화
 				groupCount = 0;
 				totRntFee = new BigDecimal(0);
@@ -274,14 +274,14 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 				totSupAmt = new BigDecimal(0);
 				totVat = new BigDecimal(0);
 				totPayAmt = new BigDecimal(0);
-				
+
 			} else if (mngGroupCount == 1) {
 				groupCount = 0;
 			}
 		}
 		return resultList;
 	}
-	
+
 	/**
 	 * 같은 관리코드 그룹의 레코드 수를 리턴
 	 * @param list
@@ -299,14 +299,14 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 			String aYear = (item.get("accnutYear") != null) ? (String)item.get("accnutYear") : "";
 			String nNo = (item.get("rntfeeNticNo") != null) ? (String)item.get("rntfeeNticNo") : "";
 			String nSeq = (item.get("nticSeq") != null) ? (String)item.get("nticSeq") : "";
-			if(year.equals(mngYear) && no.equals(mngNo) && seq.equals(mngSeq) 
+			if(year.equals(mngYear) && no.equals(mngNo) && seq.equals(mngSeq)
 				&& aYear.equals(accnutYear) && nNo.equals(rntfeeNticNo) && nSeq.equals(nticSeq) ) {
 				count++;
 			}
 		}
 		return count;
 	}
-	
+
 	/**
 	 * 임대료 계산
 	 * @param histDt - 고지예정일자
@@ -323,11 +323,11 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 	 * @throws Exception
 	 */
 	protected BigDecimal getRentFee(LocalDate histDt, String paySe, String priceSe, BigDecimal rentAr, BigDecimal applcRntfee, String detailPdBegin, String detailPdEnd, BigDecimal aseRntfee, String aseApplcBegin, String aseApplcEnd) throws Exception {
-		BigDecimal applcMonthFee = new BigDecimal(0), aseMonthFee = new BigDecimal(0); 
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");		
+		BigDecimal applcMonthFee = new BigDecimal(0), aseMonthFee = new BigDecimal(0);
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		LocalDate detailPdBeginDate = new LocalDate(dateFormat.parse(detailPdBegin));
 		LocalDate detailPdEndDate = new LocalDate(dateFormat.parse(detailPdEnd));
-				
+
 		if("1".equals(priceSe)) {
 			applcMonthFee = applcMonthFee.add(applcRntfee.multiply(rentAr));
 			aseMonthFee = aseMonthFee.add(aseRntfee.multiply(rentAr));
@@ -335,21 +335,21 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 			applcMonthFee = applcMonthFee.add(applcRntfee);
 			aseMonthFee = aseMonthFee.add(aseRntfee);
 		}
-		
+
 		LocalDate startDate = ("4".equals(paySe)) ? getQuarterStartDate(histDt) : new LocalDate(histDt.getYear(), 1, 1);
 		LocalDate endDate = ("4".equals(paySe)) ? getQuarterEndDate(histDt) : new LocalDate(histDt.getYear(), 12, 31);
-		
+
 		if(startDate.compareTo(detailPdBeginDate) < 0) startDate = detailPdBeginDate;
 		if(endDate.compareTo(detailPdEndDate) > 0) endDate = detailPdEndDate;
-		
+
 		BigDecimal resultFee = new BigDecimal(0);
-			
+
 		if(aseRntfee.compareTo(new BigDecimal(0)) <= 0) {
 			resultFee = getTotalFee(startDate, endDate, applcMonthFee);
 		} else {
 			LocalDate aseApplcBeginDate = new LocalDate(dateFormat.parse(aseApplcBegin));
-			LocalDate aseApplcEndDate = new LocalDate(dateFormat.parse(aseApplcEnd));			
-			
+			LocalDate aseApplcEndDate = new LocalDate(dateFormat.parse(aseApplcEnd));
+
 			if((aseApplcBeginDate.compareTo(startDate) <= 0) && (aseApplcEndDate.compareTo(startDate) >= 0)) {
 				if(aseApplcEndDate.compareTo(endDate) >= 0) {
 					resultFee = getTotalFee(startDate, endDate, aseMonthFee);
@@ -364,11 +364,11 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 				resultFee = getTotalFee(startDate, endDate, applcMonthFee);
 			}
 		}
-		
+
 		resultFee = resultFee.setScale(0, RoundingMode.DOWN);
 		return resultFee;
 	}
-	
+
 	/**
 	 * 분납이자 계산
 	 * @param rntFee : 임대료
@@ -395,13 +395,13 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 		payinstIntr = payinstIntr.setScale(-1, RoundingMode.DOWN);
 		return payinstIntr;
 	}
-	
+
 	/**
 	 * 해당 기간의 사용료를 구함
 	 * @param  시작일자, 종료일자, 월사용료
 	 * @return 해당기간 사용료
 	 * @exception Exception
-	 */		
+	 */
 	protected BigDecimal getTotalFee(LocalDate fromDate, LocalDate toDate, BigDecimal monthFee) {
 		BigDecimal totalFee;
 
@@ -410,7 +410,7 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 		Months months = Months.monthsBetween(fromDate, toDate);
 
 		totalFee = monthFee.multiply(new BigDecimal(months.getMonths()));
-		
+
 		int startDay=fromDate.getDayOfMonth();
 		if(startDay!=1) {
 			LocalDate endOfMonth = fromDate.dayOfMonth().withMaximumValue();
@@ -435,7 +435,7 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 
 		return totalFee;
 	}
-	
+
 	/**
 	 * 기준일에 대한 분기시작일을 구함.
 	 * @param baseDate - 기준일
@@ -443,7 +443,7 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 	 */
 	protected LocalDate getQuarterStartDate(LocalDate baseDate) {
 		LocalDate retDate;
-		
+
 		if(baseDate.getMonthOfYear() < 4) {
 			retDate = new LocalDate(baseDate.getYear(), 1, 1);
 		}
@@ -466,7 +466,7 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 	 */
 	protected LocalDate getQuarterEndDate(LocalDate baseDate) {
 		LocalDate retDate;
-		
+
 		if(baseDate.getMonthOfYear() < 4) {
 			retDate = new LocalDate(baseDate.getYear(), 3, 31);
 		}
@@ -481,7 +481,7 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 		}
 		return retDate;
 	}
-	
+
 	/**
 	 * 임대료 저장
 	 * @param feeInsertList
@@ -493,7 +493,7 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 			item.setUpdUsr(id);
 			gamHtldRentMngtMainDao.updateHtldRntfee(item);
 		}
-		
+
 		for(GamHtldRentRntfeeVO item : feeInsertList) {
 			item.setRegUsr(id);
 			item.setRntfeeSeq(gamHtldRentMngtMainDao.selectNextRntfeeSeq(item));
@@ -506,41 +506,14 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 	 */
 	@Override
 	public void insertCopyAllRentContract(GamHtldRentMngtMainVO searchVO) throws Exception {
-		// TODO Auto-generated method stub
-		String year = String.valueOf(Calendar.getInstance().get(Calendar.YEAR)-1 );
-		searchVO.setHistDt(year+"-12-31");
-		
-		List rentContractList = gamHtldRentMngtMainDao.selectHtldRentDetailList(searchVO);
-		
-
-		if(rentContractList.size()>0) {
-			
-			List deleteHtldRentList = gamHtldRentMngtMainDao.deleteHtldRentList();
-			
-			for(int i=0; i<deleteHtldRentList.size(); i++) {
-				Map deleteRentData = (Map)deleteHtldRentList.get(i);
-				gamHtldRentMngtMainDao.deleteHtldRentDetailData(deleteRentData);
-				gamHtldRentMngtMainDao.deleteHtldRentData(deleteRentData);
-			}
-			
-			
-			for(int i=0; i < rentContractList.size(); i++) {
-				//새로운 키 생성
-				Map map = (Map)rentContractList.get(i);
-				
-				map.put("sMngYear", map.get("mngYear"));
-				map.put("sMngNo", map.get("mngNo"));
-				map.put("sMngSeq", map.get("mngSeq"));
-				
-				String mngSeq = gamHtldRentMngtMainDao.inserHtldRentData(map);
-				
-				map.put("mngSeq", mngSeq);
-				gamHtldRentMngtMainDao.inserHtldRentDetailData(map);
-				
-			}
-		}
-		
-		
+		int year = Integer.parseInt(searchVO.getHistDt().substring(0, 4));
+		searchVO.setMngYear(Integer.toString(year-1));
+		gamHtldRentMngtMainDao.deleteHtldCopyCtrtNticDtls(searchVO);
+		gamHtldRentMngtMainDao.deleteHtldCopyCtrtRntfee(searchVO);
+		gamHtldRentMngtMainDao.deleteHtldCopyCtrtDtls(searchVO);
+		gamHtldRentMngtMainDao.deleteHtldCopyCtrtMst(searchVO);
+		gamHtldRentMngtMainDao.insertHtldCopyCtrt(searchVO);
+		gamHtldRentMngtMainDao.insertHtldCopyCtrtDtls(searchVO);
 	}
 
 	/* (non-Javadoc)
@@ -559,12 +532,12 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 	public void updateHtldQuGtqyList(List<GamHtldQuGtqyVO> createList, List<GamHtldQuGtqyVO> updateList, List<GamHtldQuGtqyVO> deleteList) throws Exception {
 		// TODO Auto-generated method stub
 		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-		
+
 		GamHtldQuGtqyVO vo=null;
 		Map map;
-		
+
 		String usr = loginVO.getId();
-		
+
 		for(int i=0; i<deleteList.size(); i++) {
 			vo = deleteList.get(i);
 			gamHtldRentMngtMainDao.deleteHtldQuGtqyList(vo);

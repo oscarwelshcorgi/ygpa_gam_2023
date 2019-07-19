@@ -59,7 +59,7 @@ GamHtldRentMngtMainModule.prototype.loadComplete = function() {
                     {display:'실적평가임대료', name:'aseRntfeeStr',width:90, sortable:false,align:'right', displayFormat: 'input'},
                     {display:'실적평가시작', name:'aseApplcBegin',width:80, sortable:false,align:'center', displayFormat: 'cal'},
                     {display:'실적평가종료', name:'aseApplcEnd',width:80, sortable:false,align:'center', displayFormat: 'cal'},
-/* 
+/*
                     {display:'실적평가적용기간', name:'asePd',width:150, sortable:false,align:'center'},
  */
                     {display:'구분', name:'paySeNm',width:45, sortable:false,align:'center'},
@@ -108,7 +108,7 @@ GamHtldRentMngtMainModule.prototype.loadComplete = function() {
     	module.onMainGrildCellEdited(row, rid, cid);
     });
 
-	
+
 	this.$("#detailGrid").flexigrid({
 		module: this,
 		url: '/oper/htldnew/gamHtldQuGtqyList.do',
@@ -128,7 +128,7 @@ GamHtldRentMngtMainModule.prototype.loadComplete = function() {
 		height: 'auto'
 	});
 	this.$("#detailGrid")[0].dgrid.attachHeader('#rspan,일반 화물,컨테이너 화물,일반 화물,컨테이너 화물,일반 화물,컨테이너 화물,일반 화물,컨테이너 화물');
-	
+
 	this.$("#detailGrid").on('onLoadDataComplete', function(event, module, data) {
 		module._deleteItem=[];
 	});
@@ -149,8 +149,8 @@ GamHtldRentMngtMainModule.prototype.loadComplete = function() {
 */
     	if(row._updtId!="I") row._updtId="U";
     });
-    
-    
+
+
     this.$('#histDt').val(EMD.util.getDate());
 
 	this.$('#histDt').on('change', {module:this}, function(e) {
@@ -226,12 +226,12 @@ GamHtldRentMngtMainModule.prototype.onButtonClick = function(buttonId) {
 		case 'btnCopyRentContract':
 			this.copyRentContract();
 			break;
-			
-			
-			
+
+
+
 		case 'btnSave':
 			// 변경된 자료를 저장한다.
-			
+
 			var inputVO=[];
 	 		inputVO[inputVO.length]={name: '_uList', value :JSON.stringify(this.$('#detailGrid').selectFilterData([{col: '_updtId', filter: 'U'}])) };
 			inputVO[inputVO.length]={name: '_cList', value: JSON.stringify(this.$('#detailGrid').selectFilterData([{col: '_updtId', filter: 'I'}])) };
@@ -257,8 +257,8 @@ GamHtldRentMngtMainModule.prototype.onButtonClick = function(buttonId) {
 					this.$('#detailGrid').flexRemoveRow(rows[k]);
 				}
 			}
-			
-			
+
+
 	}
 };
 
@@ -350,10 +350,10 @@ GamHtldRentMngtMainModule.prototype.onMainGrildCellEdited = function (row, rid, 
 
 	if(row.rntfeeSe == '9') {
 		alert('소계는 수정할 수 없습니다.');
-		
+
 		row.applcRntfeeStr=row.oldApplcRntfeeStr;
 		row.aseRntfeeStr=row.oldAseRntfeeStr;
-		
+
 		row.rntfee = row.oldRntfee;
 		row.payinstIntr = row.oldPayinstIntr;
 		row.supAmt = row.oldSupAmt;
@@ -363,7 +363,7 @@ GamHtldRentMngtMainModule.prototype.onMainGrildCellEdited = function (row, rid, 
 		row.aseApplcBegin = row.oldAseApplcBegin||'';
 		row.aseApplcEnd = row.oldAseApplcEnd||'';
 		this.$('#mainGrid').flexUpdateRow(rid, row);
-			
+
 		return;
 	}
 
@@ -416,14 +416,14 @@ GamHtldRentMngtMainModule.prototype.onMainGrildCellEdited = function (row, rid, 
 			console.log("applcRntfeeStr");
 			var inputVO=row;
 			// 데이터를 저장 하고 난 뒤 리스트를 다시 로딩 한다.
-/* 
+/*
 		 	this.doAction('/oper/htldnew/updateHtldRentCtrt.do', inputVO, function(module, result) {
 		 		if(result.resultCode == 0){
 		 			module.$('#detailGrid').flexReload();
 		 		}
 		 		alert(result.resultMsg);
 	 		});
- */			
+ */
 			break;
 	}
 
@@ -434,7 +434,7 @@ GamHtldRentMngtMainModule.prototype.onMainGrildCellEdited = function (row, rid, 
 	row.oldPayAmt = row.payAmt;
 	row.oldAseApplcBegin = row.aseApplcBegin;
 	row.oldAseApplcEnd = row.aseApplcEnd;
-	
+
 	row.oldApplcRntfeeStr=row.applcRntfeeStr;
 	row.oldAseRntfeeStr=row.aseRntfeeStr;
 
@@ -471,7 +471,7 @@ GamHtldRentMngtMainModule.prototype.initDataRow = function(row) {
 	row.oldAseApplcEnd = row.aseApplcEnd;
 	row.oldApplcRntfeeStr=row.applcRntfeeStr;
 	row.oldAseRntfeeStr=row.aseRntfeeStr;
-	
+
 	row.oldRm = (row.rm != void(0)) ? row.rm : '';
 
 	if(row.rntfeeSe == '0') { //일반임대료 데이터라면
@@ -580,7 +580,7 @@ GamHtldRentMngtMainModule.prototype.calcMngGroupData = function(mngYear, mngNo, 
 	totRow.oldPayAmt = totRow.payAmt;
 	totRow.oldAseApplcBegin = totRow.aseApplcBegin;
 	totRow.oldAseApplcEnd = totRow.aseApplcEnd;
-	
+
 	totRow.oldApplcRntfeeStr=row.applcRntfeeStr;
 	totRow.oldAseRntfeeStr=row.aseRntfeeStr;
 
@@ -736,7 +736,7 @@ GamHtldRentMngtMainModule.prototype.printNticIssue = function() {
 GamHtldRentMngtMainModule.prototype.tableToExcel = function() {
 	var clone =	this.$('#mainGrid').clone();
 	$(clone).find('th,td').each(function() {
-	
+
 			$(this).css('border-left', '0.1pt solid black');
 			$(this).css('border-top', '0.1pt solid black');
 			$(this).css('border-right', '0.1pt solid black');
@@ -830,13 +830,13 @@ GamHtldRentMngtMainModule.prototype.copyRentContract = function() {
  	var toDate = new Date();
 
 	var nowYear = toDate.getFullYear();
-//	var oldYear = toDate.getFullYear()-1; 
-	
-	
-	if (confirm(nowYear+"년의 모든 데이터를 삭제 후 데이터로 새로 생성 됩니다.\n진행 하시겠습니까?")) {
+//	var oldYear = toDate.getFullYear()-1;
+
+
+	if (confirm(nowYear+"년의 모든 데이터를 삭제 후 데이터로 새로 생성 됩니다.\n진행 하시겠습니까? (고지 한 데이터도 삭제 됩니다.)")) {
 		//var deleteVO = row[0];
 		var searchOpt=this.makeFormArgs('#gamHtldRentListSearchForm');
-		
+
 		this.doAction('/oper/htldnew/gamCopyRentContract.do', searchOpt, function(module, result) {
 /* 			if (result.resultCode == "0") {
 			}
@@ -844,7 +844,7 @@ GamHtldRentMngtMainModule.prototype.copyRentContract = function() {
 			alert(result.resultMsg);
 		});
 	}
-	
+
 };
 
 
@@ -934,7 +934,7 @@ var module_instance = new GamHtldRentMngtMainModule();
 			</div>
 			<div id="detailTab" class="emdTabPage" style="overflow:hidden;">
 				<table id="detailGrid" style="display:none;" class="fillHeight "></table>
-				
+
 				<div style="vertical-align: bottom; text-align: right;">
 					<button id="btnAddItem">추가</button>
 					<button id="btnDelItem">삭제</button>
