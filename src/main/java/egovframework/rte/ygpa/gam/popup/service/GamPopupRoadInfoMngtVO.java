@@ -17,6 +17,14 @@ import egovframework.com.cmm.ComDefaultVO;
 public class GamPopupRoadInfoMngtVO extends ComDefaultVO {
     private static final long serialVersionUID = 1L;
 
+    /** 검색 도로명 */ 
+    private String sRoadNm;
+    /** 검색 건물본번 */ 
+    private String sMainNo;
+    /** 검색 건물부번 */ 
+    private String sSubNo;
+
+    
     /** 도로명코드(PK) */ 
     private String roadCode;
     /** 도로명 */ 
@@ -464,6 +472,42 @@ public class GamPopupRoadInfoMngtVO extends ComDefaultVO {
 	 */
 	public void setMainYn(String mainYn) {
 		this.mainYn = mainYn;
+	}
+	/**
+	 * @return the sRoadNm
+	 */
+	public String getsRoadNm() {
+		return sRoadNm;
+	}
+	/**
+	 * @param sRoadNm the sRoadNm to set
+	 */
+	public void setsRoadNm(String sRoadNm) {
+		this.sRoadNm = sRoadNm;
+	}
+	/**
+	 * @return the sMainNo
+	 */
+	public String getsMainNo() {
+		return sMainNo;
+	}
+	/**
+	 * @param sMainNo the sMainNo to set
+	 */
+	public void setsMainNo(String sMainNo) {
+		this.sMainNo = sMainNo;
+	}
+	/**
+	 * @return the sSubNo
+	 */
+	public String getsSubNo() {
+		return sSubNo;
+	}
+	/**
+	 * @param sSubNo the sSubNo to set
+	 */
+	public void setsSubNo(String sSubNo) {
+		this.sSubNo = sSubNo;
 	}
 
 

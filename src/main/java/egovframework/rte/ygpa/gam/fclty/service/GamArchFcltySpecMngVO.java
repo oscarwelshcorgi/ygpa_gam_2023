@@ -127,6 +127,13 @@ public class GamArchFcltySpecMngVO extends ComDefaultVO {
 	private	String sumAr;					// 연면적 합계
 	private	String sumArchAr;				// 건축 면적 합계
 	private	String sumPlotAr;				// 대지 면적 합계
+	
+	private	String jusoMngNo;				// 관리번호
+	private	String roadCode;				// 도로명코드
+	private	String emdNo;				// 읍면동일련번호
+	private	String jibunSn;				// 읍면동일련번호
+	
+	
 
 	/**
 	 * @return the gisPrtFcltyCd
@@ -1303,6 +1310,54 @@ public class GamArchFcltySpecMngVO extends ComDefaultVO {
 	 */
 	public void setSumPlotAr(String sumPlotAr) {
 		this.sumPlotAr = sumPlotAr;
+	}
+	/**
+	 * @return the jusoMngNo
+	 */
+	public String getJusoMngNo() {
+		return jusoMngNo;
+	}
+	/**
+	 * @param jusoMngNo the jusoMngNo to set
+	 */
+	public void setJusoMngNo(String jusoMngNo) {
+		this.jusoMngNo = jusoMngNo;
+	}
+	/**
+	 * @return the roadCode
+	 */
+	public String getRoadCode() {
+		return roadCode;
+	}
+	/**
+	 * @param roadCode the roadCode to set
+	 */
+	public void setRoadCode(String roadCode) {
+		this.roadCode = roadCode;
+	}
+	/**
+	 * @return the emdNo
+	 */
+	public String getEmdNo() {
+		return emdNo;
+	}
+	/**
+	 * @param emdNo the emdNo to set
+	 */
+	public void setEmdNo(String emdNo) {
+		this.emdNo = emdNo;
+	}
+	/**
+	 * @return the jibunSn
+	 */
+	public String getJibunSn() {
+		return jibunSn;
+	}
+	/**
+	 * @param jibunSn the jibunSn to set
+	 */
+	public void setJibunSn(String jibunSn) {
+		this.jibunSn = jibunSn;
 	}
 
 }
