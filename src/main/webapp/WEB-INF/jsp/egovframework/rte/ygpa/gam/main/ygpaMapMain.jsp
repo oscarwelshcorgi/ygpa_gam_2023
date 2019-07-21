@@ -66,7 +66,6 @@
 
     <script src="<c:url value='/js/codebase/dhtmlx.js'/>"></script>
     <script src="<c:url value='/js/emf_map.ygpa_gam_2019.js'/>"></script>
-     <script src="<c:url value='/js/emf.map.desktop.js'/>"></script>
 
     <script type="text/javascript">
 	var $DEBUG=${_mapDebug};

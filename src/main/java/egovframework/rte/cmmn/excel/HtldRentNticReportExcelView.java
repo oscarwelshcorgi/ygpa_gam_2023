@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package egovframework.rte.cmmn.excel;
 
@@ -24,14 +24,14 @@ import org.springframework.web.servlet.view.document.AbstractExcelView;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 
 /**
- * 
+ *
  * @author Jongmin
  * @since 2016. 6. 28.
  * @version 1.0
  * @see
  * <pre>
  * << 개정이력(Modification Information) >>
- *   
+ *
  *   수정일 		 수정자		 수정내용
  *  -------		--------	---------------------------
  *  2016. 6. 28.		Jongmin		최초 생성
@@ -49,7 +49,7 @@ public class HtldRentNticReportExcelView extends AbstractExcelView {
 			throws Exception {
 
 		Map<String, Object> nticData = (Map<String, Object>) model.get("nticData");
-		
+
 		HSSFSheet sheet = wb.createSheet();
 
 		if(nticData.containsKey("resultCode")) {
@@ -70,24 +70,24 @@ public class HtldRentNticReportExcelView extends AbstractExcelView {
 		String agentName = ((String) master.get("agentName")).replace(" ", "");
 		String fileNticDt = (String) master.get("fileNticDt");
 		String chrgeKndNm = ((String) master.get("chrgeKndNm")).replace(" ", "");
-		
+
 		String fileName = agentName + "_" + chrgeKndNm + "_" + fileNticDt + "_산출내역서.xls";
-				
+
 		fileName = new String(fileName.getBytes("euc-kr"), "8859_1");
 		response.setHeader("Content-Disposition", "attachment; fileName=\"" + fileName + "\";");
 		response.setHeader("Content-Transfer-Encoding", "binary");
-		
+
 		setSheet(sheet);
-		
+
 		setHeaderData(wb, sheet, master);
-		
+
 		setListHeaderTitle(wb, sheet);
-		
+
 		String paySe = (String) master.get("paySe");
 		String quarter = (String) master.get("quarter");
 		//BigDecimal intrRate = (BigDecimal) master.get("intrRate");
 		String paySeNm = (String) master.get("paySeNm");
-		
+
 		int currentRow = 5;
 		for(EgovMap detailItem : detailList) {
 			String rntfeeSe = (String) detailItem.get("rntfeeSe");
@@ -119,7 +119,7 @@ public class HtldRentNticReportExcelView extends AbstractExcelView {
 						rntfeeStr = ((String) detailItem.get("payinstIntrStr")).trim() + "원";
 						//calcRsn = "임대료(" + srcRntfeeStr + ") * COFIX이자율(" + intrRate + "%) * 고지기간 / 12";
 						setListContentStyle(wb, sheet, currentRow);
-						setContents(sheet, currentRow, nticItem, nticPd, "", "", paySeNm, rntfeeStr, "");					
+						setContents(sheet, currentRow, nticItem, nticPd, "", "", paySeNm, rntfeeStr, "");
 					}
 				}
 			} else if("1".equals(rntfeeSe)) {
@@ -134,7 +134,7 @@ public class HtldRentNticReportExcelView extends AbstractExcelView {
 					calcRsn = "임대면적(" + rentArStr + ") * 실적평가변동분("  + applcRntfeeStr + ") * 고지기간" ;
 				} else {
 					calcRsn = "실적평가변동분(" + applcRntfeeStr + ") * 고지기간(월수)";
-				}				
+				}
 				setListContentStyle(wb, sheet, currentRow);
 				setContents(sheet, currentRow, nticItem, nticPd, rentArStr, applcRntfeeStr, paySeNm, rntfeeStr, calcRsn);
 			} else if("2".equals(rntfeeSe)) {
@@ -154,15 +154,15 @@ public class HtldRentNticReportExcelView extends AbstractExcelView {
 				String rntfeeStr = (String) detailItem.get("rntfeeStr") + "원";
 				String calcRsn = (String) detailItem.get("rm");
 				setListContentStyle(wb, sheet, currentRow);
-				setContents(sheet, currentRow, nticItem, nticPd, rentArStr, applcRntfeeStr, paySeNm, rntfeeStr, calcRsn);				
+				setContents(sheet, currentRow, nticItem, nticPd, rentArStr, applcRntfeeStr, paySeNm, rntfeeStr, calcRsn);
 			}
 			currentRow++;
 		}
-		
+
 		setListContentStyle(wb, sheet, currentRow);
 		setContents(sheet, currentRow, "", "", "", "", "", "", "");
 		currentRow++;
-		
+
 		String supAmtStr = ((String) master.get("supAmtStr")).trim() + "원";
 		setListContentStyle(wb, sheet, currentRow);
 		setContents(sheet, currentRow, "공급가액", "", "", "", "", supAmtStr, "고지금액 합계");
@@ -172,15 +172,15 @@ public class HtldRentNticReportExcelView extends AbstractExcelView {
 		setListContentStyle(wb, sheet, currentRow);
 		setContents(sheet, currentRow, "부가세", "", "", "", "", vatStr, "공급가액(" + supAmtStr + ")의 10%");
 		currentRow++;
-		
+
 		String arrrgNo = ((String) master.get("arrrgNo"));
 		if(!"00".equals(arrrgNo)) {
 			int arrrgNoNum = ((BigDecimal) master.get("arrrgNoNum")).intValue();
 			String arrrgAmtStr = ((String) master.get("arrrgAmtStr")).trim() + "원";
-			String calcRsn = "공급가액(" + supAmtStr + ") * 3%";
-			if(arrrgNoNum > 1) {
-				calcRsn += " + 증가산금(공급가액(" + supAmtStr + ") * 1.2% * " + (arrrgNoNum - 1) + "차)";
-			}
+			String calcRsn = /* "납부기한 : "+(String)master.get("dueDate")+"\n"+ */ (String)master.get("dlyBillRsn");	// 원 납부 기한이 필요 할 수도 있음. 근데 저건 아님
+//			if(arrrgNoNum > 1) {
+//				calcRsn += " + 증가산금(공급가액(" + supAmtStr + ") * 1.2% * " + (arrrgNoNum - 1) + "차)";
+//			}
 			setListContentStyle(wb, sheet, currentRow);
 			setContents(sheet, currentRow, "연체료", "", "", "", "", arrrgAmtStr, calcRsn);
 			currentRow++;
@@ -190,34 +190,34 @@ public class HtldRentNticReportExcelView extends AbstractExcelView {
 		setListContentStyle(wb, sheet, currentRow);
 		setContents(sheet, currentRow, "고지금액", "", "", "", "", payAmtStr, nticDt);
 	}
-	
+
 	protected void setHeaderData(HSSFWorkbook wb, HSSFSheet sheet, Map<String, Object> master) {
 		CellStyle headerStyle = getHeaderStyle(wb);
-		
+
 		for(int i=1; i<=3; i++) {
 			for(int j=1; j<=7; j++) {
 				setCellStyle(sheet, i, j, headerStyle);
 			}
 		}
-		
+
 		String agentName = (master.get("agentName") != null) ? (String)master.get("agentName") : "";
 		String rprsntvNm = (master.get("rprsntvNm") != null) ? (String)master.get("rprsntvNm") : "";
 		String bizrno = (master.get("bizrno") != null) ? (String)master.get("bizrno") : "";
-		
+
 		setCellText(sheet, 1, 1, "업체명");
 		setCellText(sheet, 1, 3, agentName);
 		setCellText(sheet, 2, 1, "사업자등록번호");
 		setCellText(sheet, 2, 3, bizrno);
 		setCellText(sheet, 3, 1, "대표자명");
-		setCellText(sheet, 3, 3, rprsntvNm);		
+		setCellText(sheet, 3, 3, rprsntvNm);
 	}
-	
+
 	protected void setListHeaderTitle(HSSFWorkbook wb, HSSFSheet sheet) {
 		CellStyle listHeaderStyle = getListHeaderStyle(wb);
 		for(int i=1; i<=7; i++) {
 			setCellStyle(sheet, 4, i, listHeaderStyle);
 		}
-		
+
 		setCellText(sheet, 4, 1, "고지항목");
 		setCellText(sheet, 4, 2, "고지기간");
 		setCellText(sheet, 4, 3, "임대면적(㎡)");
@@ -226,7 +226,7 @@ public class HtldRentNticReportExcelView extends AbstractExcelView {
 		setCellText(sheet, 4, 6, "고지금액");
 		setCellText(sheet, 4, 7, "산출공식(비고)");
 	}
-	
+
 	protected void setContents(HSSFSheet sheet, int row, String nticItem, String nticPd, String rentArStr, String applcRntfeeStr, String paySeNm, String rntfeeStr, String calcRsn) {
 		setCellText(sheet, row, 1, nticItem);
 		setCellText(sheet, row, 2, nticPd);
@@ -234,9 +234,9 @@ public class HtldRentNticReportExcelView extends AbstractExcelView {
 		setCellText(sheet, row, 4, applcRntfeeStr);
 		setCellText(sheet, row, 5, paySeNm);
 		setCellText(sheet, row, 6, rntfeeStr);
-		setCellText(sheet, row, 7, calcRsn);		
+		setCellText(sheet, row, 7, calcRsn);
 	}
-	
+
 	protected void setListContentStyle(HSSFWorkbook wb, HSSFSheet sheet, int currentRow) {
 		CellStyle style = getListContentsStyle(wb, CellStyle.ALIGN_CENTER);
 		setCellStyle(sheet, currentRow, 1, style);
@@ -251,11 +251,11 @@ public class HtldRentNticReportExcelView extends AbstractExcelView {
 		style = getListContentsStyle(wb, CellStyle.ALIGN_RIGHT);
 		setCellStyle(sheet, currentRow, 6, style);
 		style = getListContentsStyle(wb, CellStyle.ALIGN_LEFT);
-		setCellStyle(sheet, currentRow, 7, style);		
+		setCellStyle(sheet, currentRow, 7, style);
 	}
-	
+
 	protected void setSheet(HSSFSheet sheet) {
-		sheet.setColumnWidth(1, 6000); 
+		sheet.setColumnWidth(1, 6000);
 		sheet.setColumnWidth(2, 6500);
 		sheet.setColumnWidth(3, 5500);
 		sheet.setColumnWidth(4, 5000);
@@ -269,7 +269,7 @@ public class HtldRentNticReportExcelView extends AbstractExcelView {
 		sheet.addMergedRegion(new CellRangeAddress(3, 3, 1, 2));
 		sheet.addMergedRegion(new CellRangeAddress(3, 3, 3, 7));
 	}
-	
+
 	protected void setCellText(HSSFSheet sheet, int row, int col, String str) {
 		HSSFCell cell = getCell(sheet, row, col);
 		setText(cell, str);
@@ -287,10 +287,10 @@ public class HtldRentNticReportExcelView extends AbstractExcelView {
 	    font.setItalic(false);
 	    font.setStrikeout(false);
 	    font.setBoldweight((short) 1);
-	    
+
 	    CellStyle style = wb.createCellStyle();
 	    style.setFont(font);
-	    
+
 	    style.setBorderBottom(CellStyle.BORDER_THIN);
 	    style.setBottomBorderColor(IndexedColors.BLACK.getIndex());
 	    style.setBorderLeft(CellStyle.BORDER_THIN);
@@ -302,7 +302,7 @@ public class HtldRentNticReportExcelView extends AbstractExcelView {
 	    style.setAlignment(CellStyle.ALIGN_CENTER);
 	    style.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
 	    style.setWrapText(true);
-	    
+
 	    return style;
 	}
 
@@ -314,10 +314,10 @@ public class HtldRentNticReportExcelView extends AbstractExcelView {
 	    font.setItalic(false);
 	    font.setStrikeout(false);
 	    font.setBoldweight(Font.BOLDWEIGHT_BOLD);
-	    
+
 	    CellStyle style = wb.createCellStyle();
 	    style.setFont(font);
-	    
+
 	    style.setBorderBottom(CellStyle.BORDER_THIN);
 	    style.setBottomBorderColor(IndexedColors.BLACK.getIndex());
 	    style.setBorderLeft(CellStyle.BORDER_THIN);
@@ -329,10 +329,10 @@ public class HtldRentNticReportExcelView extends AbstractExcelView {
 	    style.setAlignment(CellStyle.ALIGN_CENTER);
 	    style.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
 	    style.setWrapText(true);
-	    
+
 	    style.setFillForegroundColor(HSSFColor.BLUE_GREY.index);
 	    style.setFillPattern(CellStyle.SOLID_FOREGROUND);
-	    
+
 	    return style;
 	}
 
@@ -343,10 +343,10 @@ public class HtldRentNticReportExcelView extends AbstractExcelView {
 	    font.setItalic(false);
 	    font.setStrikeout(false);
 	    font.setBoldweight((short) 1);
-	    
+
 	    CellStyle style = wb.createCellStyle();
 	    style.setFont(font);
-	    
+
 	    style.setBorderBottom(CellStyle.BORDER_THIN);
 	    style.setBottomBorderColor(IndexedColors.BLACK.getIndex());
 	    style.setBorderLeft(CellStyle.BORDER_THIN);
@@ -358,8 +358,8 @@ public class HtldRentNticReportExcelView extends AbstractExcelView {
 	    style.setAlignment(alignment);
 	    style.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
 	    style.setWrapText(true);
-	    
+
 	    return style;
 	}
-			
+
 }

@@ -611,16 +611,10 @@
 		</dependency>
 
 	<dependency>
-			<groupId>xmlbeans</groupId>
-			<artifactId>xmlbeans</artifactId>
-			<version>2.2.0</version>
-		</dependency>
-
-	<dependency>
-			<groupId>xmlbeans</groupId>
-			<artifactId>xbean</artifactId>
-			<version>2.2.0</version>
-		</dependency>
+	    <groupId>org.apache.xmlbeans</groupId>
+	    <artifactId>xmlbeans</artifactId>
+	    <version>3.0.2</version>
+	</dependency>
 
 	<dependency>
 			<groupId>egovframework.com.ems</groupId>

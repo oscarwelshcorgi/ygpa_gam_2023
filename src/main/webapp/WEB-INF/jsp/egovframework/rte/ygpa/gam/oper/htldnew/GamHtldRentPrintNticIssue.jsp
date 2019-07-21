@@ -50,7 +50,7 @@
 
 .page {
 	width: 21cm;
-	min-height: 28.7cm; 
+	min-height: 28.7cm;
 	margin: 0cm auto;
 	/*border: 1px #D3D3D3 solid;
 	border-radius: 5px;*/
@@ -844,8 +844,8 @@ div.notice {
 	                else alert(data.resultMsg);
 			});
 		});
-		
-		/* 
+
+		/*
 	 		일시 : 2018.06.07
 			요청자 : 항만운영팀 조현성
 			내용 : 본사/사업소 주소 표기시 선택하여 적용되도록 개선
@@ -853,11 +853,11 @@ div.notice {
 	  	*/
 		//여수, 광양 selectBox체인지 이벤트
 		$('#sPrtAtCode').change(function(){
-			
+
 			var sPrtAtCode = $('#sPrtAtCode').val();
 			var text1 = "";
 			var text2 = "";
-			
+
 			if(sPrtAtCode == '001'){//여수
 				text1 = "전라남도 여수시 봉계4길 10 (여수사업소 1층)";
 				text2 = "59631";
@@ -865,12 +865,12 @@ div.notice {
 				text1 = "전라남도 광양시 항만대로 465 월드마린센터 1층";
 				text2 = "57771";
 			}
-			
+
 			$('#senderAddress').text(text1);
 			$('#senderPostcode').text(text2);
-			
+
 		});
-		
+
 	});
 	</script>
   </head>
@@ -884,8 +884,8 @@ div.notice {
         <div class="subpage">
         <input id='leftPrintPadding' type="text" value="" class="notprint" style="position:fixed; left: 20px; top: 60px; width: 120px; z-index: 999;" placeholder="가로 보정치 mm">
         <input id='topPrintPadding' type="text" value="" class="notprint" style="position:fixed; left: 20px; top: 90px; width: 120px; z-index: 999;" placeholder="세로 보정치 mm">
-        
-        <!-- 
+
+        <!--
         	일시 : 2018.06.07
        		요청자 : 항만운영팀 조현성
        		내용 : 본사/사업소 주소 표기시 선택하여 적용되도록 개선
@@ -895,8 +895,8 @@ div.notice {
 			<option value="001" >여수</option>
 			<option value="002" selected="selected">광양</option>
 		</select>
-		
-		
+
+
         	<div class="postPage">
 				<div class="sender">
 					<div id="senderAddress">
@@ -946,15 +946,17 @@ div.notice {
 	       		</div>
 	      		<div class="rmk">
 	      			<h2>부과내역</h2>
+		      			<c:if test="${ master.arrrgNo eq '00'}">
 		      			<p>공급가액 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${master.supAmt}" /> 원</p>
 		      			<p>부가세(매출과세(일반)) : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${master.vat}" /> 원</p>
+		      			</c:if>
 		      			<c:if test="${ master.arrrgNo ne '00'}">
 		      				<p>연체료 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${master.arrrgAmt}" /> 원</p>
 		      			</c:if>
 		      			<p>합계 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${master.billAmnt}" /> 원</p>
 	      			<h2>산출근거</h2>
 		      			<p> * 사용기간 : <c:out value="${master.nticPdFrom}"/> ~ <c:out value="${master.nticPdTo}"/> </p>
-		      			<p> * 공급가액 산출근거 
+		      			<p> * 공급가액 산출근거
 		      				<c:if test="${master.paySe == 4}">
 		      					<c:if test="${master.quarter != 4}">
 		      						(분납 이자율 : COFIX기준금리 <c:out value="${master.intrRate}"/>% 적용 )
@@ -974,7 +976,7 @@ div.notice {
 												<br/>
 											면적 : <c:out value="${detailItem.rentArStr }"/>
 												<c:if test="${!(detailItem.rentArSe eq '3')}"> m <sup>2</sup></c:if>
-												&nbsp;&nbsp; 
+												&nbsp;&nbsp;
 											적용단가 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${detailItem.applcRntfee}" />
 												<c:if test="${detailItem.priceSe eq '1' }">원</c:if>
 												<c:if test="${detailItem.priceSe eq '2' }">원/월</c:if>
@@ -985,18 +987,18 @@ div.notice {
 											<c:if test="${ (detailItem.paySe eq '4') && (master.quarter != 4) }">
 												분납이자 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${detailItem.payinstIntr}" />원
 											</c:if>
-									</p>			      				
+									</p>
 				      			</c:if>
 				      			<c:if test="${(detailItem.rntfeeSe eq 1) or (detailItem.rntfeeSe eq 2) }">
 				      				<p>
-				      					<c:out value="${detailItem.rntfeeSeNm}" /> ( <c:out value="${detailItem.applcBeginDt }"/> ~ <c:out value="${detailItem.applcEndDt }"/> ) 
-				      					<br /> 
+				      					<c:out value="${detailItem.rntfeeSeNm}" /> ( <c:out value="${detailItem.applcBeginDt }"/> ~ <c:out value="${detailItem.applcEndDt }"/> )
+				      					<br />
 				      					<c:if test="${ detailItem.rntfeeSe eq 1 }">
 				      					적용면적 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${detailItem.applcRentAr}" /> m <sup>2</sup>
 				      					</c:if>
 				      					<c:if test="${ detailItem.rntfeeSe eq 2 }">
 				      					변동면적 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${detailItem.applcRentAr}" /> m <sup>2</sup>
-				      					</c:if>			      					
+				      					</c:if>
 				      					&nbsp;&nbsp;
 				      					적용단가 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${detailItem.appRntfee}" /> 원
 				      					<br />
@@ -1011,15 +1013,16 @@ div.notice {
 				      		</c:if>
 			      		</c:forEach>
 			      		<c:if test="${ nItemCount gt nItemPrintCount}">
-			      			<p> (외 <c:out value="${(nItemCount - 3)}"/> 건)</p> 
+			      			<p> (외 <c:out value="${(nItemCount - 3)}"/> 건)</p>
 			      		</c:if>
 			      		<c:if test="${ master.arrrgNo ne '00'}">
 			      			<p> * 연체료 산출근거 (공급가액 기준) <br/>
-			      				<c:out value="${master.dlyBillRsn}" /> <br/>
-			      				( 국세징수법에 따라 연체료 3%, 중가산금 1.2%/매월 적용 )
+			      			<c:set var="newline" value="<%= \"\n\" %>" />
+
+			      				<c:out value="${fn:replace(master.dlyBillRsn, newline, '<br />')}" escapeXml="false"/> <br/>
 			      			</p>
 			      		</c:if>
-			      		
+
 			      		<c:if test="${master.rm!=null}">
 	      					<p> * 비고 : <c:out value="${master.rm}"/></p>
 	      				</c:if>

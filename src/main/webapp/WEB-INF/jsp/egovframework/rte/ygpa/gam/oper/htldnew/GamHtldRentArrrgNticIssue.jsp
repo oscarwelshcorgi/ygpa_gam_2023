@@ -27,10 +27,10 @@ function GamHtldRentArrrgNticIssueModule() {}
 <%--
 	EmdModule을 상속하여 모듈 클래스를 정의한다.
 --%>
-GamHtldRentArrrgNticIssueModule.prototype = new EmdModule(740, 510);
+GamHtldRentArrrgNticIssueModule.prototype = new EmdModule(740, 560);
 
 <%--///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	EmdModule Override 및 이벤트 처리 정의 부분 시작	
+	EmdModule Override 및 이벤트 처리 정의 부분 시작
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////--%>
 
 <%--
@@ -78,9 +78,32 @@ GamHtldRentArrrgNticIssueModule.prototype.loadComplete = function(params) {
 	     	return data;
 	   	}
     });
-    
+
 	this.$("#nticList").on('onLoadDataComplete', function(event, module, data) {
-		module.onCalcPay();
+		module.$('#payDate').val(new Date().toISOString().substring(0, 10));
+		module.$('#dueDate').val(module._arrrgDetail.dueDate);
+
+		var supAmt = 0, rntfee = 0, payinstIntr = 0;
+		if(data.length > 0) {
+			for(var i=0; i<data.length; i++) {
+				var row = data[i];
+				rntfee += Number(row.rntfee);
+				payinstIntr += Number(row.payinstIntr);
+			}
+			supAmt = rntfee + payinstIntr;
+			supAmt = Math.floor(supAmt*0.1) * 10;
+			var vat = (supAmt >= 0) ? supAmt / 10 : 0;
+			module.$('#supAmt').val(supAmt);
+			module.$('#vat').val(vat);
+		} else {
+			module.$('#supAmt').val(0);
+			module.$('#vat').val(0);
+			module.$('#arrrgAmt').val(0);
+			module.$('#payAmt').val(0);
+			module.$('#btnNticIssue').disable({disableClass:"ui-state-disabled"});
+		}
+
+		module.calcArrrgAmt();
 	});
 
 	if(params != null) {
@@ -96,8 +119,13 @@ GamHtldRentArrrgNticIssueModule.prototype.loadComplete = function(params) {
 		this._histDt = params.histDt;
 		this.loadData();
 	} else {
-		this.$('#btnArrrgNticIssue').disable({disableClass:"ui-state-disabled"}); 
+		this.$('#btnArrrgNticIssue').disable({disableClass:"ui-state-disabled"});
 	}
+
+	var module=this;
+	this.$('#dueDate,#payDate').on('change', function(e) {
+		module.calcArrrgAmt();
+	});
 	//this.$('#btnArrrgNticIssueExcelDownload').disable({disableClass:"ui-state-disabled"});
 };
 
@@ -147,7 +175,7 @@ GamHtldRentArrrgNticIssueModule.prototype.initDataRow = function(row) {
 		}
 		if(row.priceSe == '2') {
 			row.applcRntfeeStr += '원/월';
-		}		
+		}
 	} else {
 		row.nticItemNm = row.rntfeeSeNm;
 		if((row.rntfeeSe == '1') || (row.rntfeeSe == '2')) {
@@ -182,77 +210,6 @@ GamHtldRentArrrgNticIssueModule.prototype.validateData = function() {
 	return true;
 };
 
-<%--
-	onCalcPay - 공급가액 부가세 고지금액을 계산
---%>
-GamHtldRentArrrgNticIssueModule.prototype.onCalcPay = function() {
-	if(this._nticIssue == 'Y') return;
-	var rows = this.$('#nticList').flexGetData();
-	var supAmt = 0, rntfee = 0, payinstIntr = 0;
-	if(rows.length > 0) {
-		for(var i=0; i<rows.length; i++) {
-			var row = rows[i];
-			rntfee += Number(row.rntfee);
-			payinstIntr += Number(row.payinstIntr);
-		}
-		supAmt = rntfee + payinstIntr;  
-		supAmt = Math.floor(supAmt*0.1) * 10;
-		var vat = (supAmt >= 0) ? supAmt / 10 : 0;
-		this.$('#supAmt').val(supAmt);
-		this.$('#vat').val(vat);
-		this.displayArrrg(supAmt, vat);
-	} else {
-		this.$('#supAmt').val(0);
-		this.$('#vat').val(0);
-		this.$('#arrrgAmt').val(0);
-		this.$('#payAmt').val(0);
-		this.$('#btnNticIssue').disable({disableClass:"ui-state-disabled"});
-	}
-};
-
-<%--
-	연체정보 표시
---%>
-GamHtldRentArrrgNticIssueModule.prototype.displayArrrg = function(supAmt, vat) {
-	if(this._arrrgDetail == void(0)) return;
-	
-	var nextArrrgNo = Number(this._arrrgDetail.nextArrrgNo);
-	var dlyBillRsn = '';
-	var arrrgAmt = 0;
-	var arrrgRate = 0;
-	
-	var rows = [];
-	for(var i=1; i<=nextArrrgNo; i++) {
-		arrrgRate = (i==1) ? 0.03 : 0.012;
-		arrrgAmt += Math.floor((supAmt * arrrgRate)*0.1) * 10;
-		var tempAmt = Math.floor((supAmt * arrrgRate)*0.1) * 10;
-		var row = {};
-		row.arrrgNo = i;
-		row.arrrgItemNm = (i==1) ?  '연체료' : ' 증가산금 ' + (i-1) + '차';
-		row.arrrgRate = (arrrgRate * 100) + '%';
-		row.arrrgAmt = tempAmt;
-		rows[rows.length] = row;
-	}
-	
-	this.$('#arrrgList').flexEmptyData();
-	var dataList = {resultList: rows};
-	this.$('#arrrgList').flexAddData(dataList);
-
-	if(nextArrrgNo == 1) {
-		dlyBillRsn = supAmt.toLocaleString() + '원 X 3%';
-	} else {
-		dlyBillRsn = '(' + supAmt.toLocaleString() + '원 X 3%)+' + '(' + supAmt.toLocaleString() + '원 X 1.2%)';
-		if(nextArrrgNo > 2) dlyBillRsn += ' X ' + (nextArrrgNo - 1);  
-	}
-
-	this.$('#arrrgAmt').val(arrrgAmt);
-	this.$('#payAmt').val(supAmt + vat + arrrgAmt);
-	this.$('#arrrgNticAmt').val(supAmt + vat + arrrgAmt);
-	this.$('#nticAmt').val(supAmt + vat);
-	this.$('#arrrgNo').val(nextArrrgNo);
-	this.$('#arrrgTariff').val(arrrgRate);
-	this.$('#dlyBillRsn').val(dlyBillRsn);
-};
 
 <%--
 	execArrrgNticIssue - 연체고지
@@ -260,10 +217,10 @@ GamHtldRentArrrgNticIssueModule.prototype.displayArrrg = function(supAmt, vat) {
 GamHtldRentArrrgNticIssueModule.prototype.execArrrgNticIssue = function() {
 	if(!confirm("연체고지하시겠습니까?")) return;
 	if(!this.validateData()) return;
-	
+
 	this.$('#dlyBillDt').val(this.$('#nticDt').val());
 	this.$('#newPayTmlmt').val(this.$('#payTmlmt').val());
-	
+
 	var arrrgData = this.makeFormArgs('#gamHtldRentArrrgNticIssueForm');
 	this.$('#btnArrrgNticIssue').disable({disableClass:"ui-state-disabled"});
 	this.doAction('/oper/htldnew/execArrrgNticIssue.do', arrrgData, function(module, result) {
@@ -279,6 +236,75 @@ GamHtldRentArrrgNticIssueModule.prototype.execArrrgNticIssue = function() {
 			module.$('#btnArrrgNticIssue').removeClass('ui-state-disabled');
 		}
 	});
+};
+
+// 연체료 계산
+GamHtldRentArrrgNticIssueModule.prototype.calcArrrgAmt = function() {
+	var dueDate=this.$('#dueDate').val();
+	var payDate=this.$('#payDate').val();
+	var dueDt = new Date(dueDate.substring(0,4), dueDate.substring(5,7), dueDate.substring(8, 10));
+	var payDt = new Date(payDate.substring(0,4), payDate.substring(5,7), payDate.substring(8, 10));
+	var dlyDay = (payDt.getTime()-dueDt.getTime())/(24*60*60*1000);
+	var supAmt = this.$('#supAmt').val();
+	var arrrgSum = 0;
+	var arrrgList = [];
+	var arrrgNo = 1;
+	var arrrgRate=0;
+	var dlyBillRsn = '납부일자 : '+payDate+'\n';
+
+	if(dlyDay>=180) {
+		var arrrgDay = dlyDay-179;
+		dlyDay=179;
+		var arrrgAmt = Math.floor(supAmt*(arrrgDay/365*0.1)/10)*10;
+		arrrgSum+=arrrgAmt;
+		arrrgRate=0.1;
+		dlyBillRsn+='6개월 이상 ('+arrrgDay+'일) 연 10% = '+$.number(arrrgAmt)+'원\n';
+		arrrgList[arrrgList.length]={arrrgNo:arrrgNo++, arrrgItemNm:'6개월 이상 ('+arrrgDay+'일)', arrrgRate:'10%', arrrgAmt:arrrgAmt};
+	}
+	if(dlyDay>=90) {
+		var arrrgDay = dlyDay-89;
+		dlyDay=89;
+		var arrrgAmt = Math.floor(supAmt*(arrrgDay/365*0.09)/10)*10;
+		arrrgSum+=arrrgAmt;
+		if(arrrgRate==0) arrrgRate=0.09;
+		dlyBillRsn+='3개월 이상 ('+arrrgDay+'일) 연 9% = '+$.number(arrrgAmt)+'원\n';
+		arrrgList[arrrgList.length]={arrrgNo:arrrgNo++, arrrgItemNm:'3개월 이상 6개월 미만 ('+arrrgDay+'일)', arrrgRate:'9%', arrrgAmt:arrrgAmt};
+	}
+	if(dlyDay>=30) {
+		var arrrgDay = dlyDay-29;
+		dlyDay=29;
+		var arrrgAmt = Math.floor(supAmt*(arrrgDay/365*0.08)/10)*10;
+		arrrgSum+=arrrgAmt;
+		if(arrrgRate==0) arrrgRate=0.08;
+		dlyBillRsn+='1개월 이상 ('+arrrgDay+'일) 연 8% = '+$.number(arrrgAmt)+'원\n';
+		arrrgList[arrrgList.length]={arrrgNo:arrrgNo++, arrrgItemNm:'1개월 이상 3개월 미만 ('+arrrgDay+'일)', arrrgRate:'8%', arrrgAmt:arrrgAmt};
+	}
+	if(dlyDay>0) {
+		var arrrgDay = dlyDay;
+		var arrrgAmt = Math.floor(supAmt*(arrrgDay/365*0.07)/10)*10;
+		arrrgSum+=arrrgAmt;
+		if(arrrgRate==0) arrrgRate=0.07;
+		dlyBillRsn+='1개월 미만 ('+arrrgDay+'일) 연 7% = '+$.number(arrrgAmt)+'원\n';
+		arrrgList[arrrgList.length]={arrrgNo:arrrgNo++, arrrgItemNm:'1개월 미만 ('+arrrgDay+'일)', arrrgRate:'7%', arrrgAmt:arrrgAmt};
+	}
+	this.$('#arrrgNticAmt').val(arrrgSum);
+	this.$('#arrrgAmt').val(arrrgSum);
+	this.$('#payAmt').val(arrrgSum);
+	this.$('#dlyBillAmnt').val(arrrgSum);
+	this.$('#dbillAmnt').val(arrrgSum);
+	this.$("#arrrgList").flexEmptyData();
+	this.$("#arrrgList").flexAddData({
+		resultCode: 0,
+		resultList: arrrgList
+		});
+
+	var vat = this.$('#vat').val();
+
+	this.$('#nticAmt').val(arrrgSum);
+	this.$('#arrrgNo').val(1);
+	this.$('#arrrgTariff').val(arrrgRate);
+	this.$('#dlyBillRsn').val(dlyBillRsn);
+
 };
 
 
@@ -309,7 +335,7 @@ var module_instance = new GamHtldRentArrrgNticIssueModule();
 				<input type="hidden" id="arrrgNticAmt" />
 				<input type="hidden" id="newPayTmlmt" />
 				<input type="hidden" id="dlyBillDt" />
-				
+
 	        	<table class="editForm" style="width:100%">
 	        		<tr>
 						<th width="10%" height="18">고지대상기업</th>
@@ -331,6 +357,16 @@ var module_instance = new GamHtldRentArrrgNticIssueModule();
 						<td>
 							<input type="text" size="12" id="nticBeginDt" class="emdcal" disabled/> ~
 							<input type="text" size="12" id="nticEndDt" class="emdcal" disabled/>
+						</td>
+					</tr>
+					<tr>
+						<th width="10%" height="18">납부일자</th>
+						<td>
+							<input type="text" size="12" id="payDate" class="emdcal"/>
+						</td>
+						<th width="10%" height="18">납부기한</th>
+						<td>
+							<input type="text" size="12" id="dueDate" class="emdcal"/>
 						</td>
 					</tr>
 					<tr>
@@ -374,7 +410,7 @@ var module_instance = new GamHtldRentArrrgNticIssueModule();
 
 			<div class="emdPanel fillHeight">
 				<table id="nticList" style="display: none" class="fillHeight"></table>
-			</div>			
+			</div>
 			<div class="emdPanel fillHeight">
 				<table id="arrrgList" style="display: none" class="fillHeight"></table>
 				<div class="emdControlPanel">
@@ -383,6 +419,6 @@ var module_instance = new GamHtldRentArrrgNticIssueModule();
 					<button id="btnCancel">닫기</button>
 				</div>
 			</div>
-		</div>		
+		</div>
 	</div>
 </div>
