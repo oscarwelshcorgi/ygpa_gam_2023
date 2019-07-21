@@ -117,9 +117,17 @@
 									FROM MNTN_RPR_OBJ_FCLTS_F
 									WHERE FCLTS_MNG_NO=T1.FCLTS_MNG_NO
 								 )) AS MNTN_RPR_CNST_DT
+								, T1.JUSO_MNG_NO
+								, T1.JIBUN_SN
+								, ROAD_NM AS ROAD_INFO
 							FROM GIS_PRT_FCLTY_CD_F T1
 							LEFT OUTER JOIN ARCH_FCLTY_SPEC_F T2 ON (T1.FCLTS_MNG_NO=T2.FCLTS_MNG_NO)
 							LEFT OUTER JOIN GIS_ASSETS_CD_F T3 ON (T1.GIS_ASSETS_PRT_AT_CODE=T3.GIS_ASSETS_PRT_AT_CODE AND T1.GIS_ASSETS_CD=T3.GIS_ASSETS_CD AND T1.GIS_ASSETS_SUB_CD=T3.GIS_ASSETS_SUB_CD)
+							LEFT OUTER JOIN  (SELECT J.JUSO_MNG_NO, R.SIDO_NM ||' '||R.SIGUNGU_NM||' '||R.EMD_NM||' '||R.ROAD_NM||' '||J.MAIN_NO||CASE SUB_NO WHEN 0 THEN '' ELSE '-'||SUB_NO END  AS ROAD_NM
+											    FROM GAM_ROAD_INFO R
+											  INNER JOIN GAM_JUSO_INFO J
+											  USING (ROAD_CODE, EMD_NO) ) T4 ON (T1.JUSO_MNG_NO = T4.JUSO_MNG_NO)
+  
 						WHERE 1=1
 						AND T1.PRT_FCLTY_SE = 'A'
 
@@ -516,6 +524,9 @@
 			,GIS_PRT_FCLTY_CD_SUB
 			,FCLTS_MNG_NO
 			,FCLTS_MNG_GROUP_NO
+			
+			,JUSO_MNG_NO
+			,JIBUN_SN
 		)
 		VALUES
 		(
@@ -545,6 +556,9 @@
 			,#gisPrtFcltyCdSub#
 			,#fcltsMngNo#
 			,#fcltsMngGroupNo#
+			
+			,#jusoMngNo#
+			,#jibunSn#
 		)
 	</insert>
 
@@ -570,6 +584,12 @@
 			,GIS_PRT_FCLTY_CD_SUB = #gisPrtFcltyCdSub#
 			,FCLTS_MNG_NO = #fcltsMngNo#
 			,FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+			
+			,JUSO_MNG_NO = #jusoMngNo#
+			,JIBUN_SN = #jibunSn#
+			
+			
+			
 		WHERE GIS_PRT_FCLTY_CD = #gisPrtFcltyCd#
 		AND GIS_PRT_FCLTY_SEQ = #gisPrtFcltySeq#
 		AND GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#

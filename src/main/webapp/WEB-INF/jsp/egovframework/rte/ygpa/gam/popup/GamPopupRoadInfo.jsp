@@ -37,9 +37,15 @@ GamRoadInfoModule.prototype.loadComplete = function() {
 		dataType: 'json',
 		colModel : [
 			{display:'No', name:'rn', width:50, sortable:true, align:'right', displayFormat: 'number'},
-			{display:'도로명 주소', name:'bupjungdongCd', width:450, sortable:true, align:'left'}
+			{display:'도로명 주소', name:'road', width:450, sortable:true, align:'left'}
 			],
 		height: '350',
+		preProcess: function(module, data) {
+			$.each(data.resultList, function() {
+				this.road = this.roadNm+"<br>[지번] "+this.jibunNm;
+			});
+			return data;
+		}
 	});
 
 	this.$("#roadInfoList").on('onItemDoubleClick', function(event, module, row, grid, param) {
@@ -71,13 +77,13 @@ GamRoadInfoModule.prototype.onSubmit = function() {
 };
 
 GamRoadInfoModule.prototype.loadData = function() {
-	if(this.$('#searchKeyword').val().length<2 ) {
+	if(this.$('#sRoadNm').val().length<2 ) {
 		alert('검색어를 두자 이상 입력 하세요');
-		this.$('#searchKeyword').addClass('ui-state-error');
+		this.$('#sRoadNm').addClass('ui-state-error');
 		return;
 	}
 	else {
-		this.$('#searchKeyword').removeClass('ui-state-error');
+		this.$('#sRoadNm').removeClass('ui-state-error');
 	}
 	var searchOpt=this.makeFormArgs('#searchRoadInfo');
  	this.$('#roadInfoList').flexOptions({params:searchOpt}).flexReload();
@@ -94,9 +100,9 @@ var popup_instance = new GamRoadInfoModule();
 				<tbody>
 					<tr>
 						<th style="width: 35px;">검색어</th>
-						<td >
-							<input id="searchKeyword" type="text" size="50" />
-						</td>
+						<td ><input id="sRoadNm" type="text" size="50" /></td>
+						<td ><input id="sMainNo" type="text" size="5" /></td>
+						<td ><input id="sSubNo" type="text" size="5" /></td>
 						<td style="text-align: right;"><button id="btnSelect" class="submit">조회</button></td>
 					</tr>
 				</tbody>

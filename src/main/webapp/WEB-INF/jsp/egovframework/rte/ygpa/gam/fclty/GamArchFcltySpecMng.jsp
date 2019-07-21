@@ -525,8 +525,12 @@ GamArchFcltySpecMngModule.prototype.onClosePopup = function(popupId, msg, value)
 /* 도로명 주소 팝업 콜백 */
 		case 'btnSearchRoadInfo':
 			if (msg == 'ok') {
-				this.$('#jusoMngNo').val(value.jusoMngNo);
+				console.log("btnSearchRoadInfo");
 				this.$('#roadInfo').val(value.roadNm);
+				
+				this.$('#jusoMngNo').val(value.jusoMngNo);
+				this.$('#jibunSn').val(value.jibunSn);
+				
 			}
 			break;
 	}
@@ -2191,8 +2195,9 @@ var module_instance = new GamArchFcltySpecMngModule();
 							<tr>
 								<th style="width:10%; height:18px;">도로명　주소</th>
 								<td colspan="3">
-									<input type="text" size="30" id="roadInfo" disabled/>
-									<input type="hidden" size="5" id="jusoMngNo" disabled/>
+									<input type="text" size="50" id="roadInfo" disabled/>
+									<input type="hidden" size="25" id="jusoMngNo" disabled/>
+									<input type="hidden" size="12" id="jibunSn" disabled/>
 									<button id="btnSearchRoadInfo" class="popupButton">도로명 주소 검색</button>
 								</td>
 								<td colspan="2">
