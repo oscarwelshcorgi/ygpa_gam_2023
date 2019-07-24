@@ -17,11 +17,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import egovframework.com.cmm.ComDefaultCodeVO;
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
-import egovframework.rte.ygpa.gam.code.service.GamBupJungDongCodeDefaultVO;
 import egovframework.rte.ygpa.gam.maps.service.GamMapsAssetCodeMngtService;
 
 /**
@@ -183,6 +181,15 @@ public class GamMapsAssetCodeMngtController {
 			try {
 				Map assetCodeInfo = gamMapsAssetCodeMngtService.selectMapsAssetsCodeInfo(searchVO);
 
+				String gisAssetsRm = assetCodeInfo.get("gisAssetsRm")+"";
+
+				if(gisAssetsRm.contains("/")) {
+					String[] wharfInfo = gisAssetsRm.split("/");
+					for(int i=0; i<3; i++) {
+						model.addAttribute("wharfInfo"+i, wharfInfo[i]);
+					}
+				}
+
 				model.addAttribute("assetCd", assetCodeInfo);
 
 				model.addAttribute("auth", auth);
@@ -203,7 +210,18 @@ public class GamMapsAssetCodeMngtController {
 				}
 				else {
 					if(auth.indexOf("roleAssetMngt")>=0 || auth.indexOf("rolePfuseMngt")>=0) {
-						model.addAttribute("assetRent", gamMapsAssetCodeMngtService.selectMapsAssetsRentInfo(searchVO));
+						List<Map> assetsRentList = (List<Map>) gamMapsAssetCodeMngtService.selectMapsAssetsRentInfo(searchVO);
+
+						if(assetsRentList.size()>0) {
+							Map assetsRentInfo = assetsRentList.get(0);
+
+							model.addAttribute("prtAtCode", assetsRentInfo.get("prtAtCode"));
+							model.addAttribute("mngYear", assetsRentInfo.get("mngYear"));
+							model.addAttribute("mngNo", assetsRentInfo.get("mngNo"));
+							model.addAttribute("mngCnt", assetsRentInfo.get("mngCnt"));
+						}
+
+						model.addAttribute("assetRent", assetsRentList);
 					}
 					if(auth.indexOf("roleAssetMngt")>=0 || auth.indexOf("rolePfuseMngt")>=0) {
 						model.addAttribute("assetRentSummary", gamMapsAssetCodeMngtService.selectMapsAssetsCodeUseSummary(searchVO));
