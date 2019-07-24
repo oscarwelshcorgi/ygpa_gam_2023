@@ -26,10 +26,10 @@
 					  B.BUPJUNGDONG_NM LIKE '%' || #searchLoc# || '%'
 			  </isNotEmpty>
   				<isNotEmpty prepend="AND" property="searchLnm">
-					  SUBSTR(LNM,1,4) LIKE '%' || LPAD('1',#searchLnm#,4,'0') || '%'
+					  SUBSTR(A.LNM,1,4) LIKE '%' || LPAD(#searchLnm#,4,'0') || '%'
 			  </isNotEmpty>
   				<isNotEmpty prepend="AND" property="searchLnmSub">
-					  SUBSTR(LNM,6,4) LIKE '%' || LPAD('1',#searchLnmSub#,4,'0') || '%'
+					  SUBSTR(A.LNM,6,4) LIKE '%' || LPAD(#searchLnmSub#,4,'0') || '%'
 			  </isNotEmpty>
 			ORDER BY B.BUPJUNGDONG_NM, A.LNM
 			) S
@@ -42,15 +42,15 @@
 		    ON (A.BUPJUNGDONG_CD=B.BUPJUNGDONG_CD AND A.LNM=B.LNM)
 		  WHERE 1=1
 		    AND A.OLNLP_APPLC_YEAR = #olnlpApplcYear#
-				<isNotEmpty prepend="AND" property="searchLoc">
-			  B.BUPJUNGDONG_NM LIKE '%' || #searchLoc# || '%'
-	  </isNotEmpty>
-				<isNotEmpty prepend="AND" property="searchLnm">
-			  SUBSTR(LNM,1,4) LIKE '%' || LPAD('1',#searchLnm#,4,'0') || '%'
-	  </isNotEmpty>
-				<isNotEmpty prepend="AND" property="searchLnmSub">
-			  SUBSTR(LNM,6,4) LIKE '%' || LPAD('1',#searchLnmSub#,4,'0') || '%'
-	  </isNotEmpty>
+			<isNotEmpty prepend="AND" property="searchLoc">
+				  B.BUPJUNGDONG_NM LIKE '%' || #searchLoc# || '%'
+		  </isNotEmpty>
+					<isNotEmpty prepend="AND" property="searchLnm">
+				  SUBSTR(A.LNM,1,4) LIKE '%' || LPAD(#searchLnm#,4,'0') || '%'
+		  </isNotEmpty>
+					<isNotEmpty prepend="AND" property="searchLnmSub">
+				  SUBSTR(A.LNM,6,4) LIKE '%' || LPAD(#searchLnmSub#,4,'0') || '%'
+		  </isNotEmpty>
 	</select>
 
       	<insert id="gamBjdOlnlpMngtDao.insertOlnlpMngt" parameterClass="hashMap">
