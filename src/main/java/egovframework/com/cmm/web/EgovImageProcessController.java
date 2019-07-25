@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import egovframework.com.cmm.SessionVO;
 import egovframework.com.cmm.service.EgovFileMngService;
@@ -55,43 +56,45 @@ public class EgovImageProcessController extends HttpServlet {
      * @throws Exception
      */
     @RequestMapping("/cmm/fms/getImage.do")
-    public void getImageInf(SessionVO sessionVO, ModelMap model, Map<String, Object> commandMap, HttpServletResponse response) throws Exception {
+    public void getImageInf(SessionVO sessionVO, ModelMap model, Map<String, Object> commandMap, @RequestParam("atchFileId") String atchFileId,
+    		@RequestParam("fileSn") String fileSn,
+    		HttpServletResponse response) throws Exception {
 
 		//@RequestParam("atchFileId") String atchFileId,
 		//@RequestParam("fileSn") String fileSn,
-		String atchFileId = (String)commandMap.get("atchFileId");
-		String fileSn = (String)commandMap.get("fileSn");
-	
+//		String atchFileId = (String)commandMap.get("atchFileId");
+//		String fileSn = (String)commandMap.get("fileSn");
+
 		FileVO vo = new FileVO();
-	
+
 		vo.setAtchFileId(atchFileId);
 		vo.setFileSn(fileSn);
-	
+
 		FileVO fvo = fileService.selectFileInf(vo);
-	
+
 		//String fileLoaction = fvo.getFileStreCours() + fvo.getStreFileNm();
-	
+
 		// 2011.10.10 보안점검 후속조치
 		File file = null;
 		FileInputStream fis = null;
-	
+
 		BufferedInputStream in = null;
 		ByteArrayOutputStream bStream = null;
 
 		try {
 		    file = new File(fvo.getFileStreCours(), fvo.getStreFileNm());
 		    fis = new FileInputStream(file);
-	
+
 		    in = new BufferedInputStream(fis);
 		    bStream = new ByteArrayOutputStream();
-	
+
 		    int imgByte;
 		    while ((imgByte = in.read()) != -1) {
 			bStream.write(imgByte);
 		    }
-	
+
 			String type = "";
-		
+
 			if (fvo.getFileExtsn() != null && !"".equals(fvo.getFileExtsn())) {
 			    if ("jpg".equals(fvo.getFileExtsn().toLowerCase())) {
 				type = "image/jpeg";
@@ -99,19 +102,19 @@ public class EgovImageProcessController extends HttpServlet {
 				type = "image/" + fvo.getFileExtsn().toLowerCase();
 			    }
 			    type = "image/" + fvo.getFileExtsn().toLowerCase();
-		
+
 			} else {
 			    LOG.debug("Image fileType is null.");
 			}
-		
+
 			response.setHeader("Content-Type", type);
 			response.setContentLength(bStream.size());
-		
+
 			bStream.writeTo(response.getOutputStream());
-		
+
 			response.getOutputStream().flush();
 			response.getOutputStream().close();
-	
+
 			// 2011.10.10 보안점검 후속조치 끝
 		} finally {
 			if (bStream != null) {

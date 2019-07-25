@@ -98,27 +98,11 @@ GamFenderInspectionModule.prototype.loadComplete = function() {
 		this.$(".year").append("<option value='" + i + "'>" + i + "년</option>");
 	}
 
-	/*
-	this.$("#photoOne").on('change', function(){
-		console.log('file upload');
-		this.uploadSingleFile('/fclty/uploadFenderAttachFile.do', function(module, resp) {
-			if(resp.resultCode!=0) {
-				alert(resp.resultMsg);
-				return;
-			}
+    var module=this;
 
-			console.log(resp.result);
-
-			$.each(resp.result, function() {
-			});
-			if(resp.result!=null && resp.result.length>0) this._edited=true;
-		});
-	});
-	<ul id="photoOneList" class="photoList">
-		<li value="01"><span><img src="<c:url value="/images/egovframework/ygpa/gam/misc/TEST2.JPG"/>" /><button><i class="fa fa-trash-alt"></i></button></span></li>
-	</ul>
-	*/
-
+	<%--
+	// 이미지 파일 처리
+	--%>
 	this._delPhotoOneList=[];
 	this._delPhotoTwoList=[];
 	this._delPhotoThreeList=[];
@@ -127,57 +111,12 @@ GamFenderInspectionModule.prototype.loadComplete = function() {
 	this._photo2FileBuffer=[];
 	this._photo3FileBuffer=[];
 
-    var module=this;
-	var removeImageClickEvent = function(e) {
-		e.preventDefault();
-		var btn = $(e.target).closest('button');
-		var fileSn=btn.data('file-sn');
-		var photo=btn.data('photo');
-		if(fileSn!=undefined) {
-			if(photo=="one") {
-				module._delPhotoOneList[module._delPhotoOneList.length]=fileSn;
-			}
-			if(photo=="two") {
-				module._delPhotoTwoList[module._delPhotoTwoList.length]=fileSn;
-			}
-			if(photo=="three") {
-				module._delPhotoThreeList[module._delPhotoThreeList.length]=fileSn;
-			}
-		}
-		else {
-			var filename=btn.data('filename');
-			if(photo=="one") {
-				for(var i=0; i<module._photo1FileBuffer.length; i++) {
-					if(module._photo1FileBuffer[i].name==filename) {
-						delete module._photo1FileBuffer[i];
-						btn.closest("li").remove();
-						break;
-					}
-				}
-			}
-			else if(photo=="two") {
-				for(var i=0; i<module._photo2FileBuffer.length; i++) {
-					if(module._photo1FileBuffer[i].name==filename) {
-						delete module._photo2FileBuffer[i];
-						btn.closest("li").remove();
-						break;
-					}
-				}
-			}
-			else if(photo=="three") {
-				for(var i=0; i<module._photo3FileBuffer.length; i++) {
-					if(module._photo1FileBuffer[i].name==filename) {
-						delete module._photo3FileBuffer[i];
-						btn.closest("li").remove();
-						break;
-					}
-				}
-			}
-
-		}
-	};
-
-	$('ul.photoList > li > span > button').on('click', removeImageClickEvent);
+    this.$('ul.photoList > li > span > button').on('click', function(e) {
+    	module.removeImageClickEvent(e)
+    	});
+    this.$('ul.attList > li > span > button').on('click', function(e) {
+    	module.removeImageClickEvent(e)
+    	});
 
 	this.$('#photoOneFile').change(function(e){
         Array.prototype.push.apply(module._photo1FileBuffer, e.target.files);
@@ -194,17 +133,21 @@ GamFenderInspectionModule.prototype.loadComplete = function() {
             }
             module.$($(e.target).data('photo-list')).append(html);
         });
-    	$('ul.photoList > li > span > button').off('click', removeImageClickEvent);
-    	$('ul.photoList > li > span > button').on('click', removeImageClickEvent);
+    	module.$('ul.photoList > li > span > button').off('click', function(e) {
+    	module.removeImageClickEvent(e)
+    	});
+    	module.$('ul.photoList > li > span > button').on('click', function(e) {
+    	module.removeImageClickEvent(e)
+    	});
      });
-	this.$('#photoTwoFile').change(function(){
+	this.$('#photoTwoFile').change(function(e){
         Array.prototype.push.apply(module._photo2FileBuffer, e.target.files);
         var html = '';
         $.each(e.target.files, function(index, file){
             const fileName = file.name;
             html += '<li value="new"><span>';
             html += '<img src="'+URL.createObjectURL(file)+'">'
-            html += '<button data-photo="one" data-filename="'+fileName+'"><i class="fa fa-trash-alt"></i></button></span></li>';
+            html += '<button data-photo="two" data-filename="'+fileName+'"><i class="fa fa-trash-alt"></i></button></span></li>';
             const fileEx = fileName.slice(fileName.indexOf(".") + 1).toLowerCase();
             if(fileEx != "jpg" && fileEx != "jpeg" && fileEx != "png" &&  fileEx != "gif" &&  fileEx != "bmp"){
                 alert("파일은 (jpg, jpeg, png, gif, bmp) 형식만 등록 가능합니다.");
@@ -212,17 +155,21 @@ GamFenderInspectionModule.prototype.loadComplete = function() {
             }
             module.$($(e.target).data('photo-list')).append(html);
         });
-    	$('ul.photoList > li > span > button').off('click', removeImageClickEvent);
-    	$('ul.photoList > li > span > button').on('click', removeImageClickEvent);
+        module.$('ul.photoList > li > span > button').off('click', function(e) {
+    	module.removeImageClickEvent(e)
+    	});
+        module.$('ul.photoList > li > span > button').on('click', function(e) {
+    	module.removeImageClickEvent(e)
+    	});
      });
-	this.$('#photoThreeFile').change(function(){
+	this.$('#photoThreeFile').change(function(e){
         Array.prototype.push.apply(module._photo3FileBuffer, e.target.files);
         var html = '';
         $.each(e.target.files, function(index, file){
             const fileName = file.name;
             html += '<li value="new"><span>';
             html += '<img src="'+URL.createObjectURL(file)+'">'
-            html += '<button data-photo="one" data-filename="'+fileName+'"><i class="fa fa-trash-alt"></i></button></span></li>';
+            html += '<button data-photo="three" data-filename="'+fileName+'"><i class="fa fa-trash-alt"></i></button></span></li>';
             const fileEx = fileName.slice(fileName.indexOf(".") + 1).toLowerCase();
             if(fileEx != "jpg" && fileEx != "jpeg" && fileEx != "png" &&  fileEx != "gif" &&  fileEx != "bmp"){
                 alert("파일은 (jpg, jpeg, png, gif, bmp) 형식만 등록 가능합니다.");
@@ -230,10 +177,198 @@ GamFenderInspectionModule.prototype.loadComplete = function() {
             }
             module.$($(e.target).data('photo-list')).append(html);
         });
-    	$('ul.photoList > li > span > button').off('click', removeImageClickEvent);
-    	$('ul.photoList > li > span > button').on('click', removeImageClickEvent);
+        module.$('ul.photoList > li > span > button').off('click', function(e) {
+    	module.removeImageClickEvent(e)
+    	});
+        module.$('ul.photoList > li > span > button').on('click', function(e) {
+    	module.removeImageClickEvent(e)
+    	});
      });
+
+	<%--
+	// 점검표 파일 처리
+	--%>
+	this._delChkTbl1List=[];
+	this._delChkTbl2List=[];
+	this._delChkTbl3List=[];
+
+	this._chkTbl1FileBuffer=[];
+	this._chkTbl2FileBuffer=[];
+	this._chkTbl3FileBuffer=[];
+
+    this.$('ul.attList > li > span > button').on('click', function(e) {
+    	module.removeChkTblClickEvent(e)
+   	});
+
+	this.$('#chckTableOneFile').change(function(e){
+        Array.prototype.push.apply(module._chkTbl1FileBuffer, e.target.files);
+        var html = '';
+        $.each(e.target.files, function(index, file){
+            const fileName = file.name;
+            html += '<li value="new"><span>';
+            html += fileName;
+            html += '<button data-chktbl="one" data-filename="'+fileName+'"><i class="fa fa-trash-alt"></i></button></span></li>';
+            const fileEx = fileName.slice(fileName.indexOf(".") + 1).toLowerCase();
+            if(fileEx != "hwp" && fileEx != "doc" && fileEx != "pdf" &&  fileEx != "docx" &&  fileEx != "xls" &&  fileEx != "xlsx"){
+                alert("파일은 (hwp, doc, pdf, docx, xls, xlsx) 형식만 등록 가능합니다.");
+                return false;
+            }
+            module.$($(e.target).data('file-list')).append(html);
+        });
+    	module.$('ul.attList > li > span > button').off('click', function(e) {
+    		module.removeChkTblClickEvent(e)
+    	});
+    	module.$('ul.attList > li > span > button').on('click', function(e) {
+    		module.removeChkTblClickEvent(e)
+    	});
+     });
+	this.$('#chckTableTwoFile').change(function(e){
+        Array.prototype.push.apply(module._chkTbl2FileBuffer, e.target.files);
+        var html = '';
+        $.each(e.target.files, function(index, file){
+            const fileName = file.name;
+            html += '<li value="new"><span>';
+            html += fileName;
+            html += '<button data-chktbl="two" data-filename="'+fileName+'"><i class="fa fa-trash-alt"></i></button></span></li>';
+            const fileEx = fileName.slice(fileName.indexOf(".") + 1).toLowerCase();
+            if(fileEx != "hwp" && fileEx != "doc" && fileEx != "pdf" &&  fileEx != "docx" &&  fileEx != "xls" &&  fileEx != "xlsx"){
+                alert("파일은 (hwp, doc, pdf, docx, xls, xlsx) 형식만 등록 가능합니다.");
+                return false;
+            }
+            module.$($(e.target).data('file-list')).append(html);
+        });
+        module.$('ul.attList > li > span > button').off('click', function(e) {
+    	module.removeChkTblClickEvent(e)
+    	});
+        module.$('ul.attList > li > span > button').on('click', function(e) {
+    	module.removeChkTblClickEvent(e)
+    	});
+     });
+	this.$('#chckTableThreeFile').change(function(e){
+        Array.prototype.push.apply(module._chkTbl3FileBuffer, e.target.files);
+        var html = '';
+        $.each(e.target.files, function(index, file){
+            const fileName = file.name;
+            html += '<li value="new"><span>';
+            html += fileName;
+            html += '<button data-chktbl="three" data-filename="'+fileName+'"><i class="fa fa-trash-alt"></i></button></span></li>';
+            const fileEx = fileName.slice(fileName.indexOf(".") + 1).toLowerCase();
+            if(fileEx != "txt" && fileEx != "hwp" && fileEx != "doc" && fileEx != "pdf" &&  fileEx != "docx" &&  fileEx != "xls" &&  fileEx != "xlsx"){
+                alert("파일은 (hwp, doc, pdf, docx, xls, xlsx) 형식만 등록 가능합니다.");
+                return false;
+            }
+            module.$($(e.target).data('file-list')).append(html);
+        });
+        module.$('ul.attList > li > span > button').off('click', function(e) {
+    	module.removeChkTblClickEvent(e)
+    	});
+        module.$('ul.attList > li > span > button').on('click', function(e) {
+    	module.removeChkTblClickEvent(e)
+    	});
+     });
+
+	console.log('debug');
 }
+
+GamFenderInspectionModule.prototype.removeImageClickEvent = function(e) {
+	e.preventDefault();
+	var btn = $(e.target).closest('button');
+	var fileSn=btn.data('file-sn');
+	var photo=btn.data('photo');
+
+	if(photo=="one") {
+		if(fileSn!=undefined) {
+			this._delPhotoOneList[this._delPhotoOneList.length]=fileSn;
+		}
+		else {
+			for(var i=0; i<this._photo1FileBuffer.length; i++) {
+				if(this._photo1FileBuffer[i].name==filename) {
+					delete this._photo1FileBuffer[i];
+					break;
+				}
+			}
+		}
+		btn.closest("li").remove();
+	}
+	if(photo=="two") {
+		if(fileSn!=undefined) {
+			this._delPhotoTwoList[this._delPhotoTwoList.length]=fileSn;
+		}
+		else {
+			for(var i=0; i<this._photo2FileBuffer.length; i++) {
+				if(this._photo2FileBuffer[i].name==filename) {
+					delete this._photo2FileBuffer[i];
+					break;
+				}
+			}
+		}
+		btn.closest("li").remove();
+	}
+	if(photo=="three") {
+		if(fileSn!=undefined) {
+			this._delPhotoThreeList[this._delPhotoThreeList.length]=fileSn;
+		}
+		else {
+			for(var i=0; i<this._photo3FileBuffer.length; i++) {
+				if(this._photo3FileBuffer[i].name==filename) {
+					delete this._photo3FileBuffer[i];
+					break;
+				}
+			}
+		}
+		btn.closest("li").remove();
+	}
+};
+
+GamFenderInspectionModule.prototype.removeChkTblClickEvent = function(e) {
+	e.preventDefault();
+	var btn = $(e.target).closest('button');
+	var fileSn=btn.data('file-sn');
+	var photo=btn.data('chktbl');
+
+	if(photo=="one") {
+		if(fileSn!=undefined) {
+			this._delChkTbl1List[this._delChkTbl1List.length]=fileSn;
+		}
+		else {
+			for(var i=0; i<this._chkTbl1FileBuffer.length; i++) {
+				if(this.v[i].name==filename) {
+					delete this._chkTbl1FileBuffer[i];
+					break;
+				}
+			}
+		}
+		btn.closest("li").remove();
+	}
+	if(photo=="two") {
+		if(fileSn!=undefined) {
+			this._delChkTbl2List[this._delChkTbl2List.length]=fileSn;
+		}
+		else {
+			for(var i=0; i<this._chkTbl2FileBuffer.length; i++) {
+				if(this._chkTbl2FileBuffer[i].name==filename) {
+					delete this._chkTbl2FileBuffer[i];
+					break;
+				}
+			}
+		}
+		btn.closest("li").remove();
+	}
+	if(photo=="three") {
+		if(fileSn!=undefined) {
+			this._delChkTbl3List[this._delChkTbl3List.length]=fileSn;
+		}
+		else {
+			for(var i=0; i<this._chkTbl3FileBuffer.length; i++) {
+				if(this._chkTbl3FileBuffer[i].name==filename) {
+					delete this._chkTbl3FileBuffer[i];
+					break;
+				}
+			}
+		}
+		btn.closest("li").remove();
+	}
+};
 
 <%
 /**
@@ -392,9 +527,109 @@ GamFenderInspectionModule.prototype.loadDetail = function(tabId) {
 		this.makeFormValues('#detailForm', row[0]);	// row[0] 번째 데이터를 detailForm에 넣기(자동으로 id 매칭하여 넣어 줌)
 
 		this.$('ul.photoList').empty();		// remove photo list
+		this.$('ul.attList').empty();		// remove photo list
 		this.doAction('/fclty/gamFenderInspectionFileList.do', row[0], function(module, result) {
 			console.log(result);
+			var html='';
+			var result1=result.resultPhotoOne;
+			if(result1!=null) {
+				for(var i=0; i<result1.length; i++) {
+					var file=result1[i];
+		            html += '<li><span>';
+		            html += '<a href="<c:url value="/cmm/fms/getImage.do?" />atchFileId='+file.atchFileId+'&fileSn='+file.fileSn+'" target="_blank"><img src="<c:url value="/cmm/fms/getImage.do?" />atchFileId='+file.atchFileId+'&fileSn='+file.fileSn+'"></a>'
+		            html += '<button data-photo="one" data-atch-file-id="'+file.atchFileId+'" data-file-sn="'+file.fileSn+'"><i class="fa fa-trash-alt"></i></button></span></li>';
+				}
+			}
+			module.$('#photoOneList').append(html);
+			html='';
+			var result2=result.resultPhotoTwo;
+			if(result2!=null) {
+				for(var i=0; i<result2.length; i++) {
+					var file=result2[i];
+		            html += '<li><span>';
+		            html += '<a href="<c:url value="/cmm/fms/getImage.do?" />atchFileId='+file.atchFileId+'&fileSn='+file.fileSn+'" target="_blank"><img src="<c:url value="/cmm/fms/getImage.do?" />atchFileId='+file.atchFileId+'&fileSn='+file.fileSn+'"></a>'
+		            html += '<button data-photo="two" data-atch-file-id="'+file.atchFileId+'" data-file-sn="'+file.fileSn+'"><i class="fa fa-trash-alt"></i></button></span></li>';
+				}
+			}
+			module.$('#photoTwoList').append(html);
+			html='';
+			var result3=result.resultPhotoThree;
+			if(result3!=null) {
+				for(var i=0; i<result3.length; i++) {
+					var file=result3[i];
+		            html += '<li><span>';
+		            html += '<a href="<c:url value="/cmm/fms/getImage.do?" />atchFileId='+file.atchFileId+'&fileSn='+file.fileSn+'" target="_blank"><img src="<c:url value="/cmm/fms/getImage.do?" />atchFileId='+file.atchFileId+'&fileSn='+file.fileSn+'"></a>'
+		            html += '<button data-photo="three" data-atch-file-id="'+file.atchFileId+'" data-file-sn="'+file.fileSn+'"><i class="fa fa-trash-alt"></i></button></span></li>';
+				}
+			}
+			module.$('#photoThreeList').append(html);
+			module.$('ul.photoList > li > span > button').off('click', function(e) {
+		    	module.removeImageClickEvent(e)
+	    	});
+			module.$('ul.photoList > li > span > button').on('click', function(e) {
+		    	module.removeImageClickEvent(e)
+	    	});
+
+			module.$('#photoOneFile').val("");
+			module.$('#photoTwoFile').val("");
+			module.$('#photoThreeFile').val("");
+			module._photo1FileBuffer=[];
+			module._photo2FileBuffer=[];
+			module._photo3FileBuffer=[];
+			module._delPhotoOneList=[];
+			module._delPhotoTwoList=[];
+			module._delPhotoThreeList=[];
+
+			var result1=result.resultChckTableOne;
+			if(result1!=null) {
+				for(var i=0; i<result1.length; i++) {
+					var file=result1[i];
+		            html += '<li><span>';
+		            html += '<a href="<c:url value="/cmm/fms/FileDown.do?" />atchFileId='+file.atchFileId+'&fileSn='+file.fileSn+'" target="_blank">'+file.orignlFileNm+'</a>'
+		            html += '<button data-chktbl="one" data-atch-file-id="'+file.atchFileId+'" data-file-sn="'+file.fileSn+'"><i class="fa fa-trash-alt"></i></button></span></li>';
+				}
+			}
+			module.$('#chckTableOneList').append(html);
+			html='';
+			var result2=result.resultChckTableTwo;
+			if(result2!=null) {
+				for(var i=0; i<result2.length; i++) {
+					var file=result2[i];
+		            html += '<li><span>';
+		            html += '<a href="<c:url value="/cmm/fms/FileDown.do?" />atchFileId='+file.atchFileId+'&fileSn='+file.fileSn+'" target="_blank">'+file.orignlFileNm+'</a>'
+		            html += '<button data-chktbl="two" data-atch-file-id="'+file.atchFileId+'" data-file-sn="'+file.fileSn+'"><i class="fa fa-trash-alt"></i></button></span></li>';
+				}
+			}
+			module.$('#chckTableTwoList').append(html);
+			html='';
+			var result3=result.resultChckTableThree;
+			if(result3!=null) {
+				for(var i=0; i<result3.length; i++) {
+					var file=result3[i];
+		            html += '<li><span>';
+		            html += '<a href="<c:url value="/cmm/fms/FileDown.do?" />atchFileId='+file.atchFileId+'&fileSn='+file.fileSn+'" target="_blank">'+file.orignlFileNm+'</a>'
+		            html += '<button data-chktbl="three" data-atch-file-id="'+file.atchFileId+'" data-file-sn="'+file.fileSn+'"><i class="fa fa-trash-alt"></i></button></span></li>';
+				}
+			}
+			module.$('#chckTableThreeList').append(html);
+			module.$('ul.attList > li > span > button').off('click', function(e) {
+		    	module.removeChkTblClickEvent(e)
+	    	});
+			module.$('ul.attList > li > span > button').on('click', function(e) {
+		    	module.removeChkTblClickEvent(e)
+	    	});
+
+			module.$('#chckTableOneFile').val("");
+			module.$('#chckTableTwoFile').val("");
+			module.$('#chckTableThreeFile').val("");
+			module._chkTbl1FileBuffer=[];
+			module._chkTbl2FileBuffer=[];
+			module._chkTbl3FileBuffer=[];
+			module._delChkTbl1List=[];
+			module._delChkTbl2List=[];
+			module._delChkTbl3List=[];
 		});
+
 //		this.makeDivValues('#detailForm', row[0]);
 
 	}
@@ -409,7 +644,7 @@ GamFenderInspectionModule.prototype.loadDetail = function(tabId) {
 **/
 %>
 GamFenderInspectionModule.prototype.saveData = function() {
-	console.log("saveData");
+// 	console.log("saveData");
 
 /* 	if (!validateGamFenderInspectionVO(this.$("#detailForm")[0])){
 		return;
@@ -439,28 +674,42 @@ GamFenderInspectionModule.prototype.saveData = function() {
 	for (var i = 0; i < this._photo1FileBuffer.length; i++) {
 		var file = this._photo1FileBuffer[i];
 		fileCount++;
-		formData.append("photoOneFile[]", file);
+		formData.append("photoOneFile["+i+"]", file);
 	}
 	for (var i = 0; i < this._photo2FileBuffer.length; i++) {
 		var file = this._photo2FileBuffer[i];
 		fileCount++;
-		formData.append("photoTwoFile[]", file);
+		formData.append("photoTwoFile["+i+"]", file);
 	}
 	for (var i = 0; i < this._photo3FileBuffer.length; i++) {
 		var file = this._photo3FileBuffer[i];
 		fileCount++;
-		formData.append("photoThreeFile[]", file);
+		formData.append("photoThreeFile["+i+"]", file);
 	}
 
-	for (var i = 0; i < this._delPhotoOneList.length; i++) {
-		formData.append("delPhotoOne[]", this._delPhotoOneList[i]);
+	formData.append("delPhotoOne", this._delPhotoOneList);
+	formData.append("delPhotoTwo", this._delPhotoTwoList);
+	formData.append("delPhotoThree", this._delPhotoThreeList);
+
+	for (var i = 0; i < this._chkTbl1FileBuffer.length; i++) {
+		var file = this._chkTbl1FileBuffer[i];
+		fileCount++;
+		formData.append("chckTableOneFile["+i+"]", file);
 	}
-	for (var i = 0; i < this._delPhotoTwoList.length; i++) {
-		formData.append("delPhotoTwo[]", this._delPhotoTwoList[i]);
+	for (var i = 0; i < this._chkTbl2FileBuffer.length; i++) {
+		var file = this._chkTbl2FileBuffer[i];
+		fileCount++;
+		formData.append("chckTableTwoFile["+i+"]", file);
 	}
-	for (var i = 0; i < this._delPhotoThreeList.length; i++) {
-		formData.append("delPhotoThree[]", this._delPhotoThreeList[i]);
+	for (var i = 0; i < this._chkTbl3FileBuffer.length; i++) {
+		var file = this._chkTbl3FileBuffer[i];
+		fileCount++;
+		formData.append("chckTableThreeFile["+i+"]", file);
 	}
+
+	formData.append("delChckTableOne", this._delChkTbl1List);
+	formData.append("delChckTableTwo", this._delChkTbl2List);
+	formData.append("delChckTableThree", this._delChkTbl3List);
 
 	var url = '';
 	if (module._mainmode == "insert") { // 추가 버튼 눌렀을때 insert로 변경됨
@@ -742,32 +991,41 @@ var module_instance = new GamFenderInspectionModule();
 								<td >
 									<ul id="photoOneList" class="photoList">
 									</ul>
-									<input type="file" id="photoOneFile" data-photo-list="#photoOneList" tabindex=6 size="35" />
+									<input type="file" id="photoOneFile" data-photo-list="#photoOneList" class="skipValue" tabindex=6 size="35" />
 									<input type="hidden" id="photoOne" data-column-id="photoOne" />
 								</td>
 								<td >
 									<ul id="photoTwoList" class="photoList">
 									</ul>
-									<input type="file" id="photoTwoFile" data-photo-list="#photoTwoList" tabindex=6 size="35" />
+									<input type="file" id="photoTwoFile" data-photo-list="#photoTwoList" class="skipValue" tabindex=6 size="35" />
 									<input type="hidden" id="photoTwo" data-column-id="photoTwo" />
 								</td>
 								<td >
 									<ul id="photoThreeList" class="photoList">
 									</ul>
-									<input type="file" id="photoThreeFile" data-photo-list="#photoThreeList" tabindex=6 size="35" />
+									<input type="file" id="photoThreeFile" data-photo-list="#photoThreeList" class="skipValue" tabindex=6 size="35" />
 									<input type="hidden" id="photoThree" data-column-id="photoThree" />
 								</td>
 							</tr>
 							<tr>
 								<th style="width:11%; height:18px;">점검표</th>
 								<td >
-									<input type="file" id="chckTableOne" data-column-id="chckTableOne" tabindex=7 size="35" />
+									<ul id="chckTableOneList" class="attList">
+									</ul>
+									<input type="file" id="chckTableOneFile" data-file-list="#chckTableOneList" class="skipValue" tabindex=7 size="35" />
+									<input type="hidden" id="chckTableOne" data-column-id="chckTableOne" />
 								</td>
 								<td >
-									<input type="file" id="chckTableTwo" data-column-id="chckTableTwo" tabindex=13 size="35" />
+									<ul id="chckTableTwoList" class="attList">
+									</ul>
+									<input type="file" id="chckTableTwoFile" data-file-list="#chckTableTwoList" class="skipValue" tabindex=13 size="35" />
+									<input type="hidden" id="chckTableTwo" data-column-id="chckTableTwo" />
 								</td>
 								<td >
-									<input type="file" id="chckTableThree" data-column-id="chckTableThree" tabindex=19 size="35" />
+									<ul id="chckTableThreeList" class="attList">
+									</ul>
+									<input type="file" id="chckTableThreeFile" data-file-list="#chckTableThreeList" class="skipValue" tabindex=19 size="35" />
+									<input type="hidden" id="chckTableThree" data-column-id="chckTableThree" />
 								</td>
 							</tr>
 						</table>

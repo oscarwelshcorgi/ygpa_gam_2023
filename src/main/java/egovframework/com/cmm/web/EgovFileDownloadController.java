@@ -17,6 +17,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import egovframework.com.cmm.service.EgovFileMngService;
 import egovframework.com.cmm.service.FileVO;
@@ -32,7 +33,7 @@ import egovframework.com.cmm.util.EgovUserDetailsHelper;
  *
  * <pre>
  * << 개정이력(Modification Information) >>
- *   
+ *
  *   수정일      수정자           수정내용
  *  -------    --------    ---------------------------
  *   2009.3.25  이삼섭          최초 생성
@@ -42,18 +43,18 @@ import egovframework.com.cmm.util.EgovUserDetailsHelper;
  */
 @Controller
 public class EgovFileDownloadController {
-	
-	 
-	 
-    
+
+
+
+
     @Resource(name = "EgovFileMngService")
     private EgovFileMngService fileService;
-    
+
     private static final Logger LOG = Logger.getLogger(EgovFileDownloadController.class.getName());
-    
+
     /**
      * 브라우저 구분 얻기.
-     * 
+     *
      * @param request
      * @return
      */
@@ -68,10 +69,10 @@ public class EgovFileDownloadController {
         }
         return "Firefox";
     }
-    
+
     /**
      * Disposition 지정하기.
-     * 
+     *
      * @param filename
      * @param request
      * @param response
@@ -79,10 +80,10 @@ public class EgovFileDownloadController {
      */
     private void setDisposition(String filename, HttpServletRequest request, HttpServletResponse response) throws Exception {
 	String browser = getBrowser(request);
-	
+
 	String dispositionPrefix = "attachment; filename=";
 	String encodedFilename = null;
-	
+
 	if (browser.equals("MSIE")) {
 	    encodedFilename = URLEncoder.encode(filename, "UTF-8").replaceAll("\\+", "%20");
 	} else if (browser.equals("Firefox")) {
@@ -104,7 +105,7 @@ public class EgovFileDownloadController {
 	    //throw new RuntimeException("Not supported browser");
 	    throw new IOException("Not supported browser");
 	}
-	
+
 	response.setHeader("Content-Disposition", dispositionPrefix + encodedFilename);
 
 	if ("Opera".equals(browser)){
@@ -114,16 +115,17 @@ public class EgovFileDownloadController {
 
     /**
      * 첨부파일로 등록된 파일에 대하여 다운로드를 제공한다.
-     * 
+     *
      * @param commandMap
      * @param response
      * @throws Exception
      */
-    @RequestMapping(value = "/cmm/fms/FileDown.do")    
-    public void cvplFileDownload(Map<String, Object> commandMap, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    @RequestMapping(value = "/cmm/fms/FileDown.do")
+    public void cvplFileDownload(Map<String, Object> commandMap, HttpServletRequest request, @RequestParam("atchFileId") String atchFileId,
+    		@RequestParam("fileSn") String fileSn, HttpServletResponse response) throws Exception {
 
-    	String atchFileId = (String)commandMap.get("atchFileId");
-	String fileSn = (String)commandMap.get("fileSn");
+//    	String atchFileId = (String)commandMap.get("atchFileId");
+//	String fileSn = (String)commandMap.get("fileSn");
 
 	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
 
@@ -148,7 +150,7 @@ public class EgovFileDownloadController {
 
 		/*
 		 * FileCopyUtils.copy(in, response.getOutputStream());
-		 * in.close(); 
+		 * in.close();
 		 * response.getOutputStream().flush();
 		 * response.getOutputStream().close();
 		 */

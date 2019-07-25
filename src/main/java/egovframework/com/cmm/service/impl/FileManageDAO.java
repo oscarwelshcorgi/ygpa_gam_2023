@@ -115,8 +115,7 @@ public class FileManageDAO extends EgovComAbstractDAO {
      */
     @SuppressWarnings("unchecked")
     public List<FileVO> selectFileInfs(FileVO vo) throws Exception {
-    	List<?> result = list("FileManageDAO.selectFileList", vo);
-		return (List<FileVO>)result;
+    	return list("FileManageDAO.selectFileList", vo);
     }
 
     /**
