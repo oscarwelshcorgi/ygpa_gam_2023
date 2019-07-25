@@ -226,6 +226,9 @@ GamHtldRentMngtMainModule.prototype.onButtonClick = function(buttonId) {
 		case 'btnCopyRentContract':
 			this.copyRentContract();
 			break;
+		case 'btnUpdate':
+			this.updateGridData();
+			break;
 
 
 
@@ -413,7 +416,7 @@ GamHtldRentMngtMainModule.prototype.onMainGrildCellEdited = function (row, rid, 
 
 		/* 접용 임대료 추가 */
 		case 'applcRntfeeStr':
-			console.log("applcRntfeeStr");
+			// console.log("applcRntfeeStr");
 			var inputVO=row;
 			// 데이터를 저장 하고 난 뒤 리스트를 다시 로딩 한다.
 /*
@@ -847,6 +850,31 @@ GamHtldRentMngtMainModule.prototype.copyRentContract = function() {
 
 };
 
+<%--
+updateGridData - 수정 된 데이터 적용
+--%>
+GamHtldRentMngtMainModule.prototype.updateGridData = function() {
+	var updateRows=this.$('#mainGrid').selectFilterData([{col: '_updtId', filter: 'U'}]);
+	for(var i=0; i<updateRows.length; i++) {
+		var row=updateRows[i];
+		row['histDt']=this.$('#histDt').val();
+	}
+	var gridData=JSON.stringify(updateRows);
+	// 데이터를 저장 하고 난 뒤 리스트를 다시 로딩 한다.
+
+	//console.log(gridData);
+			// var inputVO=[];
+	 		// inputVO[inputVO.length]={name: '_uList', value :JSON.stringify(this.$('#detailGrid').selectFilterData([{col: '_updtId', filter: 'U'}])) };
+
+	this.doAction('/oper/htldnew/updateBizAssessList.do', [{name:"gridData", value:gridData}], function(module, result) {
+		if(result.resultCode == 0){
+			module.$('#mainGrid').flexReload();
+		}
+		alert(result.resultMsg);
+	});
+
+};
+
 
 
 <%--
@@ -926,6 +954,7 @@ var module_instance = new GamHtldRentMngtMainModule();
 		                       <button id="btnAddNticIssue">추가고지</button>
 		                       <button id="btnProcessNticIssue" >수납처리</button>
 		                       <button id="btnNticIssueHist" >고지이력</button>
+		                       <button id="btnUpdate" >저장</button>
 		                       <button id="btnExcelDownload" class="buttonExcel">엑셀 다운로드</button>
 							</td>
 						</tr>

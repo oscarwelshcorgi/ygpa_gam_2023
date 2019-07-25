@@ -30,6 +30,7 @@ import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentCtrtVO;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentMngtMainService;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentMngtMainVO;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentRntfeeVO;
+import egovframework.rte.ygpa.gam.oper.htldnew.service.GamPopupHtldBizAssessVO;
 
 /**
  *
@@ -552,6 +553,20 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 			vo.setRegister(usr);
 			gamHtldRentMngtMainDao.insertHtldQuGtqyList(vo);
 		}
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentMngtMainService#updateBizAssessList(java.util.List, java.lang.String)
+	 */
+	@Override
+	public void updateBizAssessList(List<GamPopupHtldBizAssessVO> updateList, String id) throws Exception {
+		GamPopupHtldBizAssessVO vo;
+		for(int i=0; i<updateList.size(); i++) {
+			vo = updateList.get(i);
+			vo.setUpdUsr(id);
+			gamHtldRentMngtMainDao.updateBizAssess(vo);
+		}
+
 	}
 
 }

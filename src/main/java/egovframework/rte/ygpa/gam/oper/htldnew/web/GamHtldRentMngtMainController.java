@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package egovframework.rte.ygpa.gam.oper.htldnew.web;
 
@@ -34,16 +34,18 @@ import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldQuGtqyVO;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentMngtMainService;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentMngtMainVO;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentRntfeeVO;
+import egovframework.rte.ygpa.gam.oper.htldnew.service.GamPopupHtldBizAssessService;
+import egovframework.rte.ygpa.gam.oper.htldnew.service.GamPopupHtldBizAssessVO;
 
 /**
- * 
+ *
  * @author Jongmin
  * @since 2016. 4. 25.
  * @version 1.0
  * @see
  * <pre>
  * << 개정이력(Modification Information) >>
- *   
+ *
  *   수정일 		 수정자		 수정내용
  *  -------		--------	---------------------------
  *  2016. 4. 25.		Jongmin		최초 생성
@@ -53,9 +55,9 @@ import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentRntfeeVO;
  */
 @Controller
 public class GamHtldRentMngtMainController {
-	
+
 	protected Log log = LogFactory.getLog(this.getClass());
-	
+
 	/** Validator */
 	@Autowired
 	private DefaultBeanValidator beanValidator;
@@ -75,7 +77,10 @@ public class GamHtldRentMngtMainController {
     /** gamHtldRentMngtMainService */
     @Resource(name="gamHtldRentMngtMainService")
     private GamHtldRentMngtMainService gamHtldRentMngtMainService;
- 
+
+    @Resource(name="gamPopupHtldBizAssessService")
+    private GamPopupHtldBizAssessService gamPopupHtldBizAssessService;
+
     /**
      * 배후단지 임대관리메인화면을 로딩한다.
      * @param windowId
@@ -106,17 +111,17 @@ public class GamHtldRentMngtMainController {
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
-    	
+
     	List resultList = gamHtldRentMngtMainService.selectHtldRentDetailList(searchVO);
     	String cofixIntrrate = gamHtldRentMngtMainService.selectCofixIntrrate(searchVO);
-    	
+
     	map.put("resultCode", 0);
     	map.put("resultList", resultList);
     	map.put("cofixIntrrate", cofixIntrrate);
-    	
+
     	return map;
 	}
-	
+
 	/**
      * 배후단지 임대료를 저장한다.
      * @param Map
@@ -127,20 +132,20 @@ public class GamHtldRentMngtMainController {
 	public @ResponseBody Map<String, Object> updateHtldRntfee(@RequestParam Map<String, Object> rentFeeData) throws Exception {
 		Map<String,Object> map = new HashMap<String,Object>();
 		ObjectMapper mapper = new ObjectMapper();
-		
+
 		//사용자 인증 처리
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
 	        map.put("resultCode", 1);
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
-    	}    	
-		
+    	}
+
     	LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-    	
+
     	List<GamHtldRentRntfeeVO> feeInsertList = null;
     	List<GamHtldRentRntfeeVO> feeUpdateList = null;
-    	    	
+
     	if(rentFeeData.containsKey("feeInsertList")) {
     		feeInsertList = mapper.readValue((String)rentFeeData.get("feeInsertList"), TypeFactory.defaultInstance().constructCollectionType(List.class, GamHtldRentRntfeeVO.class));
     	}
@@ -148,23 +153,23 @@ public class GamHtldRentMngtMainController {
     	if(rentFeeData.containsKey("feeUpdateList")) {
     		feeUpdateList = mapper.readValue((String)rentFeeData.get("feeUpdateList"), TypeFactory.defaultInstance().constructCollectionType(List.class, GamHtldRentRntfeeVO.class));
     	}
-    	
+
     	try {
     		gamHtldRentMngtMainService.updateHtldRntfee(feeInsertList, feeUpdateList, loginVO.getId());
 	        map.put("resultCode", 0);
-    		map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));    		
+    		map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
     	} catch(Exception e) {
 	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));    		
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
     	}
-    	
+
     	return map;
 	}
 
     /**
      * 전년도 배후단지임대계약 복사.
      *
-     * @param 
+     * @param
      * @return map
      * @throws Exception the exception
      */
@@ -172,14 +177,14 @@ public class GamHtldRentMngtMainController {
     @RequestMapping(value="/oper/htldnew/gamCopyRentContract.do", method=RequestMethod.POST)
 	public @ResponseBody Map gamCopyAllRentContract(GamHtldRentMngtMainVO searchVO) throws Exception {
     	Map map = new HashMap();
-    	
+
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
 	        map.put("resultCode", 1);
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
-    	
+
     	try {
     		gamHtldRentMngtMainService.insertCopyAllRentContract(searchVO);
 
@@ -187,17 +192,17 @@ public class GamHtldRentMngtMainController {
     		map.put("resultMsg", egovMessageSource.getMessage("success.request.msg"));
     	}catch(Exception e) {
 	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.request.msg")); 
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.request.msg"));
     	}
-    	
+
     	return map;
 	}
-	
-	
+
+
     /**
      * 배후단지 물동량 조회.
      *
-     * @param 
+     * @param
      * @return map
      * @throws Exception the exception
      */
@@ -212,19 +217,19 @@ public class GamHtldRentMngtMainController {
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
-    	
+
     	List resultList = gamHtldRentMngtMainService.selectHtldQuGtqyList(searchVO);
-    	
+
     	map.put("resultCode", 0);
     	map.put("resultList", resultList);
-    	
+
     	return map;
 	}
-	
+
     /**
      * 배후단지 물동량 등록/수정/삭제.
      *
-     * @param 
+     * @param
      * @return map
      * @throws Exception the exception
      */
@@ -265,4 +270,44 @@ public class GamHtldRentMngtMainController {
 
  		return map;
      }
+
+
+	/**
+     * 실적평가 등록
+     * @param Map
+     * @return Map
+     * @throws Exception
+     */
+	@RequestMapping(value="/oper/htldnew/updateBizAssessList.do")
+	public @ResponseBody Map<String, Object> updateBizAssessList(@RequestParam Map<String, Object> assessList) throws Exception {
+		Map<String,Object> map = new HashMap<String,Object>();
+
+		//사용자 인증 처리
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+
+    	try {
+    		List<GamPopupHtldBizAssessVO> updateList;
+            ObjectMapper mapper = new ObjectMapper();
+	    	updateList = mapper.readValue((String)assessList.get("gridData"), TypeFactory.defaultInstance().constructCollectionType(List.class,GamPopupHtldBizAssessVO.class));
+
+	    	for(int i=0; i<updateList.size(); i++) {
+	    		GamPopupHtldBizAssessVO updateVo = updateList.get(i);
+	    		gamPopupHtldBizAssessService.updateBizAssess(updateVo, loginVO.getId());
+	    	}
+	        map.put("resultCode", 0);
+    		map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
+    	} catch(Exception e) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
+    	}
+
+    	return map;
+	}
 }

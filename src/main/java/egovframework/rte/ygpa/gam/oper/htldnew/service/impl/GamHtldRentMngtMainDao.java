@@ -13,6 +13,7 @@ import egovframework.rte.ygpa.gam.code.service.GamCofixIntrrateVO;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldQuGtqyVO;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentMngtMainVO;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentRntfeeVO;
+import egovframework.rte.ygpa.gam.oper.htldnew.service.GamPopupHtldBizAssessVO;
 
 /**
  *
@@ -201,6 +202,13 @@ public class GamHtldRentMngtMainDao extends YGPAAbstractDAO {
 	 */
 	public void deleteHtldCopyCtrtNticDtls(GamHtldRentMngtMainVO searchVO) {
 		delete("gamHtldRentMngtMainDao.deleteHtldCopyCtrtNticDtls", searchVO);
+	}
+
+	/**
+	 * @param vo
+	 */
+	public void updateBizAssess(GamPopupHtldBizAssessVO vo) {
+		update("gamHtldRentMngtMainDao.updateBizAssess", vo);
 	}
 
 
