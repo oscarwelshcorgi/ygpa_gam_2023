@@ -33,6 +33,22 @@ public class GamFenderDurabilityVO extends ComDefaultVO {
 
 	/* 검색 시설물　관리　그룹　명*/
 	private String sFcltsMngGroupNm;
+	/* 검색 시설명*/
+	private String sPrtFcltyNm;
+
+	/**
+	 * @return the sPrtFcltyNm
+	 */
+	public String getsPrtFcltyNm() {
+		return sPrtFcltyNm;
+	}
+
+	/**
+	 * @param sPrtFcltyNm the sPrtFcltyNm to set
+	 */
+	public void setsPrtFcltyNm(String sPrtFcltyNm) {
+		this.sPrtFcltyNm = sPrtFcltyNm;
+	}
 
 	/**
 	 * @return the sFcltsMngGroupNm

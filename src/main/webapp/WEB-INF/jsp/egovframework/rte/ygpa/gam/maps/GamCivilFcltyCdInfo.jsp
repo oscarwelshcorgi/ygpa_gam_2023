@@ -108,6 +108,11 @@ GamMapPopupModule.prototype.onButtonClick = function(buttonId) {
 
             this.removeFeatures('gisArchFclty', [this.getFeature()]);
         	break;
+        case 'fenderDurability':
+        	EMD.util.create_window("gamFenderDurability", "방충재 내구연한 도래", "/fclty/gamFenderDurability.do", null, {
+        		prtFcltyNm: this.$('#prtFcltyNm').val()
+			});
+        	break;
     }
 };
 
@@ -122,6 +127,7 @@ var popupInfoModule = new GamMapPopupModule();
 <input id="fcltsMngNo" type="hidden" value="<c:out value='${fcltyCd.fcltsMngNo }' />" />
 <input id="fcltsMngGroupNo" type="hidden" value="<c:out value='${fcltyCd.fcltsMngGroupNo }' />" />
 <input id="fcltsMngGroupNm" type="hidden" value="<c:out value='${fcltyCd.fcltsMngGroupNm }' />" />
+<input id="prtFcltyNm" type="hidden" value="<c:out value='${fcltyCd.prtFcltyNm }' />" />
 <c:forEach var="imgfile" items="${fileList}">
 	<input name="atchFileNmPhysicl" type="hidden" value="<c:out value='${imgfile.atchFileNmPhysicl }' />"/>
 </c:forEach>
@@ -185,7 +191,8 @@ var popupInfoModule = new GamMapPopupModule();
 				<button id="fcltyQcMng" data-icon="ui-icon-newwin">점검기록</button>
 			</c:if>
 			<c:if test="${fn:containsIgnoreCase(auth,'roleManager') }">
-				<button id="fcltyCdInqire" data-icon="ui-icon-newwin">제원 조회</button>
+<!-- 				<button id="fcltyCdInqire" data-icon="ui-icon-newwin">제원 조회</button> -->
+				<button id="fenderDurability" data-icon="ui-icon-newwin">내구연한 도래</button>
 			</c:if>
 		</div>
 	</c:if>

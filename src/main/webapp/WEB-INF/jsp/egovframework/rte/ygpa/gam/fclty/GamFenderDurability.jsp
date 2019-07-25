@@ -36,7 +36,7 @@ function GamFenderDurabilityModule() {}
 
 GamFenderDurabilityModule.prototype = new EmdModule(970, 550);
 
-GamFenderDurabilityModule.prototype.loadComplete = function() {
+GamFenderDurabilityModule.prototype.loadComplete = function(params) {
 
 	this.$("#mainGrid").flexigrid({
 		module : this,
@@ -54,8 +54,14 @@ GamFenderDurabilityModule.prototype.loadComplete = function() {
 		showTableToggleBtn : false,
 		height : 'auto'
 	});
-	
+
+
+	if (params != null) {
+		this.$('#sPrtFcltyNm').val(params.prtFcltyNm);
+	}
+
 	this.loadData();
+
 }
 
 <%
@@ -114,16 +120,16 @@ GamFenderDurabilityModule.prototype.onButtonClick = function(buttonId) {
 %>
 GamFenderDurabilityModule.prototype.downloadExcel = function(buttonId) {
 	console.log("downloadExcel");
-	
+
 	var gridRowCount = 0;
-	
+
 	gridRowCount = this.$("#mainGrid").flexRowCount();
 
 	if (gridRowCount <= 0) {
 		alert("조회된 자료가 없습니다.");
 		return;
 	}
-	
+
 	var clone =	this.$('#mainGrid').clone();
 	$(clone).find('th,td').each(function() {
 		if($(this).css('display')=='none') {
@@ -168,9 +174,13 @@ var module_instance = new GamFenderDurabilityModule();
 				<table style="width:100%;" class="searchPanel">
 					<tbody>
 						<tr>
-							<th style="width: 20%;">시설물　관리　그룹　명</th>
+							<th style="width:50px;">시설물　관리　그룹　명</th>
 							<td>
 								<input id="sFcltsMngGroupNm" data-column-id="sFcltsMngGroupNm" type="text" size="30" maxlength="30"/>
+							</td>
+							<th style="width:50px;">방충재명</th>
+							<td>
+								<input id="sPrtFcltyNm" data-column-id="sPrtFcltyNm" type="text" size="30" maxlength="30"/>
 							</td>
 							<td>
 								<button class="buttonSearch">조회</button>
@@ -181,7 +191,7 @@ var module_instance = new GamFenderDurabilityModule();
 			</form>
 		</div>
 	</div>
-	
+
 	<!-- 2. DATA AREA (자료 영역) -->
 	<div class="emdPanel fillHeight">
 		<!-- 21. TAB AREA (탭 영역) -->

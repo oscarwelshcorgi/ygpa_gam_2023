@@ -36,7 +36,7 @@ GamBuldMktcStdAmModule.prototype.loadComplete = function() {
 		module: this,
 		url: '/code/gamBuldMktcStdAmList.do',
 		dataType: "json",
-		colModel : [	
+		colModel : [
 			{display:"연도", 			name:"stdyy",			width:60, 	sortable:false,	 align:"center"},
 			{display:"주소", 			name:"fullAdres",		width:250, 	sortable:false,	 align:"center"},
 			{display:"건물동 ", 		name:"bulddong",		width:60, 	sortable:false,	 align:"center"},
@@ -46,7 +46,7 @@ GamBuldMktcStdAmModule.prototype.loadComplete = function() {
 			{display:"전용면적(m2)", 	name:"prvuseAr",		width:100, 	sortable:false,	 align:"right",	displayFormat: 'number'},
 			],
 			showTableToggleBtn : false,
-			height: 'auto',		
+			height: 'auto',
 
 	});
 
@@ -62,8 +62,8 @@ GamBuldMktcStdAmModule.prototype.loadComplete = function() {
 		module._mainmode = "modify";
 		module.$("#mainTab").tabs("option", {active: 1});
 	});
-	 
-	// 연도 셀렉트 박스 생성	
+
+	// 연도 셀렉트 박스 생성
 	var toDate = new Date();
 	var toYear = toDate.getFullYear();
 
@@ -91,23 +91,23 @@ GamBuldMktcStdAmModule.prototype.loadComplete = function() {
 			if (this._mainmode == "modify") {	// 탭 1번 수정 때
 				this.loadDetail(oldTabId);
 				this.$("#adres").disable();
-				
+
 			} else if (this._mainmode == "insert") { // 탭 1번 추가 때
 				this.makeFormValues('#detailForm', {});
 				this.makeDivValues('#detailForm', {});
-				
+
 				var toDate = new Date();
 				var toStdyy = toDate.getFullYear();
 				this.$('#stdyy').val(toStdyy);
-				
+
 				//this.$('#popupSpecFcltsMngGroupNo').enable();
-				
+
 				//기본 데이터 설정
 				// this.addData();
 			} else {
 				this.makeFormValues('#detailForm', {});
 				this.makeDivValues('#detailForm', {});
-				
+
 				var toDate = new Date();
 				var toStdyy = toDate.getFullYear();
 				this.$('#stdyy').val(toStdyy);
@@ -116,7 +116,7 @@ GamBuldMktcStdAmModule.prototype.loadComplete = function() {
 	}
 
 }
- 
+/*
  GamBuldMktcStdAmModule.prototype.loadData = function() {
 		if(this.$('#searchBupjungdongNm').val().length<2 && this.$('#searchBupjungdongCd').val().length<4) {
 			alert('법정동 코드를 4자리 이상 입력 하거나 검색할 주소를 두자 이상 입력 하세요');
@@ -130,12 +130,12 @@ GamBuldMktcStdAmModule.prototype.loadComplete = function() {
 		}
 		var searchOpt=this.makeFormArgs('#searchBupjungDong');
 	 	this.$('#addrList').flexOptions({params:searchOpt}).flexReload();
-	}; 
-	
+	};
+ */
 <%
 /**
  * @FUNCTION NAME : onButtonClick
- * @DESCRIPTION   : 버튼클릭 호출된다. 
+ * @DESCRIPTION   : 버튼클릭 호출된다.
  * @PARAMETER     :
  *   1. buttonId - buttonId
 **/
@@ -158,7 +158,7 @@ GamBuldMktcStdAmModule.prototype.onButtonClick = function(buttonId) {
 				this.deleteData();
 			}
 			break;
-		// 주소조회		
+		// 주소조회
 		case 'selectAddr':
 	        this.doExecuteDialog('selectAddrPopup', '주소 입력', '/popup/showAddrPopup.do', []);
 			break;
@@ -169,8 +169,8 @@ GamBuldMktcStdAmModule.prototype.onClosePopup = function(popupId, msg, value){
 	switch (popupId){
 	case 'selectAddrPopup':
 	if (msg == 'ok') {
-		this.$('#adstrdCode').val(value.bupjungdongCd);		
-		this.$('#adres').val(value.bupjungdongNm);		
+		this.$('#adstrdCode').val(value.bupjungdongCd);
+		this.$('#adres').val(value.bupjungdongNm);
 	}
 	break;
 	}
@@ -233,11 +233,11 @@ GamBuldMktcStdAmModule.prototype.loadDetail = function(tabId) {
 %>
 GamBuldMktcStdAmModule.prototype.saveData = function() {
 	console.log("saveData");
-	
+
  	if (!validateGamBuldMktcStdAmVO(this.$("#detailForm")[0])){
 		return;
-	} 
- 		
+	}
+
 	var inputVO = this.makeFormArgs("#detailForm");
 	if (this._mainmode == "insert") { // 추가 버튼 눌렀을때 insert로 변경됨
 		this.doAction('/code/gamBuldMktcStdAmInsertList.do', inputVO, function(module, result) {
@@ -277,9 +277,9 @@ GamBuldMktcStdAmModule.prototype.deleteData = function() {
 			}
 			alert(result.resultMsg);
 		});
-	} 
-	
-} 
+	}
+
+}
 
 //다음 변수는 고정 적으로 정의 해야 함
 var module_instance = new GamBuldMktcStdAmModule();
@@ -294,13 +294,13 @@ var module_instance = new GamBuldMktcStdAmModule();
 <!-- 11. SEARCH AREA (조회조건 영역) -->
 	<div id="searchViewStack" class="emdPanel">
 		<div class="viewPanel">
-			<form id="searchForm">		
+			<form id="searchForm">
 						<table style="width:100%;" class="searchPanel">
 							<tbody>
 								<tr>
 									<th>주소</th>
 									<td>
-										<input type="text"  id="sAdres" data-column-id="sAdres" size = "40"> 
+										<input type="text"  id="sAdres" data-column-id="sAdres" size = "40">
 									</td>
 									<th>지번</th>
 									<td>
@@ -311,7 +311,7 @@ var module_instance = new GamBuldMktcStdAmModule();
 										<input id="sSlno" data-column-id="sSlno" type="text" size="4">
 									</td>
 									<td><button class="buttonSearch">조회</button></td>
-								</tr>						
+								</tr>
 							</tbody>
 						</table>
 			</form>
@@ -330,10 +330,10 @@ var module_instance = new GamBuldMktcStdAmModule();
 				<table id="mainGrid" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
 					<button id="btnAdd" class="buttonAdd">추가</button>
-					<button id="btnDelete" class="buttonDelete">삭제</button>		
+					<button id="btnDelete" class="buttonDelete">삭제</button>
 				</div>
 			</div>
-			
+
 			<!-- 213. TAB 2 AREA (DETAIL) -->
 			<div id="detailTab" class="emdTabPage" style="overflow: scroll">
 				<form id="detailForm">
@@ -347,27 +347,27 @@ var module_instance = new GamBuldMktcStdAmModule();
 									</select>
 	 							</td>
 						</tr>
-	
+
 						<tr>
 							<th width="20%" height="23" class="required_text">주소</th>
 							<td colspan="3">
-							<input type="text" size="80" id="adres" data-column-id="adres" maxlength="80"/>
+							<input type="text" size="80" id="adres" data-required="true" data-column-id="adres" maxlength="80"/>
 							<button id="selectAddr" class="popupButton">주소</button>
 							</td>
 							</td>
-						</tr>		
+						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">지번</th>
 							<td colspan="3">
-								<input type="text" size="4" id="lnm" data-column-id="lnm" maxlength="5" />
+								<input type="text" size="4" id="lnm" data-required="true" data-column-id="lnm" maxlength="5" />
 								-
 								<input type="text" size="4" id="slno" data-column-id="slno" maxlength="5" />
 							</td>
-						</tr>		
-										
+						</tr>
+
 						<tr>
 							<th width="20%" height="23" class="required_text">특수번지</th> <!-- 건물위치  -->
-							<td colspan="3">								
+							<td colspan="3">
 								<select id="buldLc" data-column-id="buldLc">
 									<option value="" selected>-선택-</option>
 									<option value="Y">Y</option>
@@ -375,115 +375,49 @@ var module_instance = new GamBuldMktcStdAmModule();
 								</select>
  							</td>
 						</tr>
-						
+
 						<tr>
 							<th width="20%" height="23" class="required_text">건물 동</th>
 							<td colspan="3"><input type="text" size="20" id="bulddong" data-column-id="bulddong" maxlength="50" /></td>
 						</tr>
 						<tr>
-							<th width="20%" height="23" class="required_text">건물 호</th> 
+							<th width="20%" height="23" class="required_text">건물 호</th>
 							<td colspan="3"><input type="text" size="20" id="bdh" data-column-id="bdh" maxlength="30" /></td>
 						</tr>
 						<tr>
-							<th width="20%" height="23" class="required_text">건물용도</th> 
-							<td colspan="3">								
-								<select id="buldPrpos" data-column-id="buldPrpos">
-									<option value="" selected="selected">선택</option>
-									<option value="01000">단독주택</option>
-									<option value="02000">공동주택</option>
-									<option value="03000">제1종근린생활시설</option>
-									<option value="04000">제2종근린생활시설</option>
-									<option value="05000">문화및집회시설</option>
-									<option value="06000">종교시설</option>
-									<option value="07000">판매시설</option>
-									<option value="08000">운수시설</option>
-									<option value="09000">의료시설</option>
-									<option value="10000">교육연구시설</option>
-									<option value="11000">노유자시설</option>
-									<option value="12000">수련시설</option>
-									<option value="13000">운동시설</option>
-									<option value="14000">업무시설</option>
-									<option value="15000">숙박시설</option>
-									<option value="16000">위락시설</option>
-									<option value="17000">공장</option>
-									<option value="18000">창고시설</option>
-									<option value="19000">위험물저장및처리시설</option>
-									<option value="20000">자동차관련시설</option>
-									<option value="21000">동.식물관련시설</option>
-									<option value="23000">교정및군사시설</option>
-									<option value="24000">방송통신시설</option>
-									<option value="25000">발전시설</option>
-									<option value="26000">묘지관련시설</option>
-									<option value="27000">관광휴게시설</option>
-									<option value="28000">가설건축물</option>
-									<option value="29000">장례시설</option>
-									<option value="30000">자원순환관련시설</option>
-									<option value="31000">야영장시설</option>
-								</select>
- 							</td> 						
+							<th width="20%" height="23" class="required_text">건물용도</th>
+							<td colspan="3">
+								<input id="buldPrpos" class="ygpaCmmnCd" data-code-id="GAM076"/>
+ 							</td>
 						</tr>
-						
+
 						<tr>
-						<th width="20%" height="23" class="required_text">건물구조</th> 
-							<td colspan="3">								
-								<select id="buldRescue" data-column-id="buldRescue">
-									<option value="" selected="selected">전체</option>
-									<option value="11">벽돌구조</option>
-									<option value="12">블록구조</option>
-									<option value="13">석구조</option>
-									<option value="14">스틸하우스조</option>
-									<option value="17">보강콘크리트조</option>
-									<option value="19">기타조적구조</option>
-									<option value="21">철근콘크리트구조</option>
-									<option value="22">프리케스트콘크리트구조</option>
-									<option value="23">철파이프조</option>
-									<option value="24">돌담 및 토담조</option>
-									<option value="26">라멘조</option>
-									<option value="27">석회 및 흙혼합 벽돌조</option>
-									<option value="29">기타콘크리트구조</option>
-									<option value="31">일반철골구조</option>
-									<option value="32">경량철골구조</option>
-									<option value="33">강파이프구조</option>
-									<option value="34">공업화박판강구조(PEB)</option>
-									<option value="35">단일형강구조</option>
-									<option value="36">트러스구조</option>
-									<option value="39">기타강구조</option>
-									<option value="41">철골콘크리트구조</option>
-									<option value="42">철골철근콘크리트구조</option>
-									<option value="43">철골철근콘크리트합성구조</option>
-									<option value="49">기타철골철근콘크리트구조</option>
-									<option value="51">일반목구조</option>
-									<option value="52">통나무구조</option>
-									<option value="53">트러스목구조</option>
-									<option value="61">시멘트블럭조</option>
-									<option value="63">조립식판넬조</option>
-									<option value="72">흙벽돌조</option>
-									<option value="74">컨테이너조</option>
-									<option value="81">막구조</option>
-									<option value="99">기타구조</option></select>
- 							</td> 							
+						<th width="20%" height="23" class="required_text">건물구조</th>
+							<td colspan="3">
+								<input id="buldRescue" class="ygpaCmmnCd" data-code-id="GAM077"/>
+ 							</td>
 						</tr>
-						
+
 						<tr>
 							<th width="20%" height="23" class="required_text">신축년도</th> <!-- 준공일자 -->
 							<td colspan="3"><input type="text" size="20" id="competDe" data-column-id="competDe" class="emdcal"/></td>
 						</tr>
 						<tr>
-							<th width="20%" height="23" class="required_text">전용면적(m2)</th> 
+							<th width="20%" height="23" class="required_text">전용면적(m2)</th>
 							<td colspan="3"><input type="text" id="prvuseAr" data-column-id="prvuseAr" class="ygpaNumber" size="20" maxlength="20" /></td>
 						</tr>
 						<tr>
-							<th width="20%" height="23" class="required_text">시가표준액(원)</th> 
-							<td colspan="3"><input type="text" id="mktcStdAm" data-column-id="mktcStdAm" class="ygpaNumber" size="20" maxlength="20" /></td>
+							<th width="20%" height="23" class="required_text">시가표준액(원)</th>
+							<td colspan="3"><input type="text" id="mktcStdAm" data-required="true" data-column-id="mktcStdAm" class="ygpaNumber" size="20" maxlength="20" /></td>
 						</tr>
-						
+
 				</table>
-				
+
 				<div style="vertical-align: bottom; text-align: right;">
-					<button id="btnSave">저장</button>					
+					<button id="btnSave">저장</button>
 					<button id="btnDelete">삭제</button>
 				</div>
-			</form>				
+			</form>
 		</div>
 	</div>
 </div>

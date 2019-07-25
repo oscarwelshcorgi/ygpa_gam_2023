@@ -26,6 +26,15 @@ GamMapPopupModule.prototype.onButtonClick = function(buttonId) {
     			,gisAssetsSubCd: this.$('#gisAssetsSubCd').val()
 			});
             break;
+        case 'fcltyRentMngt':
+        	EMD.util.create_window("gamPrtFcltyRentMngt", "항만시설사용목록관리", "/oper/gnrl/gamPrtFcltyRentMngt.do", null, {
+        		action: "prtFcltyInqire"
+    			,prtAtCode: this.$('#prtAtCode').val()
+    			,mngYear: this.$('#mngYear').val()
+    			,mngNo: this.$('#mngNo').val()
+    			,mngCnt: this.$('#mngCnt').val()
+			});
+            break;
         case 'assetInqire':
         	EMD.util.create_window("gamAssetCodeList", "자산코드 조회", "/code/assets/gamAssetCodeList.do", null, {
         		action: "prtFcltyInqire"
@@ -62,6 +71,13 @@ var popupInfoModule = new GamMapPopupModule();
 <input id="addr" type="hidden" value="<c:out value='${addr }' />" />
 <input id="lnm" type="hidden" value="<c:out value='${lnm }' />" />
 <input id="lnmSub" type="hidden" value="<c:out value='${lnmSub }' />" />
+
+<input id="prtAtCode" type="hidden" value="<c:out value='${prtAtCode }' />" />
+<input id="mngYear" type="hidden" value="<c:out value='${mngYear }' />" />
+<input id="mngNo" type="hidden" value="<c:out value='${mngNo }' />" />
+<input id="mngCnt" type="hidden" value="<c:out value='${mngCnt }' />" />
+
+
 <c:if test="${resultCode!=0 }">
 	<h2><c:out value="${resultMsg }" /></h2>
 </c:if>
@@ -86,6 +102,16 @@ var popupInfoModule = new GamMapPopupModule();
 					<tr><td colspan="2"><img id="imgPreview" src="<c:url value='cmm/getImage.do?physicalFileNm=${assetCd.filenmPhysicl }' />" style='width:300px;' /></td></tr>
 				</c:if>
 			</tbody></table>
+
+			<c:if test="${wharfInfo0!=null}">
+				<h2>두부정보</h2>
+				<table class='prtFcltyInfo'><tbody>
+					<tr><th>부두 길이(m)</th><td><c:out value="${wharfInfo0 }" /></td></tr>
+					<tr><th>부두 흘수(m)</th><td><c:out value="${wharfInfo1 }" /></td></tr>
+					<tr><th>접안 능력</th><td><c:out value="${wharfInfo2 }" /></td></tr>
+				</tbody></table>
+			</c:if>
+
 			<c:if test="${fn:containsIgnoreCase(auth,'ROLEADMIN') }">
 				<c:if test="${assetRent!=null && fn:length(assetRent)>0 }">
 				<h2>사용현황</h2>
@@ -121,8 +147,26 @@ var popupInfoModule = new GamMapPopupModule();
 				<tr><th>총사용금액</th><td><fmt:formatNumber value="${assetRentSummary.totFee }" type="number" /> 원</td></tr>
 			</tbody></table>
 			</c:if>
+			<c:if test="${assetRentSummary!=null }">
+			<h2>총사용현황</h2>
+			<table class='prtFcltyInfo'><tbody>
+				<tr><th>총사용면적</th><td><fmt:formatNumber value="${assetRentSummary.totUsageAr }" maxIntegerDigits="8" maxFractionDigits="2" /> (단위:m²)</td></tr>
+				<tr><th>미사용면적</th><td><fmt:formatNumber value="${assetRentSummary.unUsageAr }" maxIntegerDigits="8" maxFractionDigits="2" /> (단위:m²)</td></tr>
+				<tr><th>총면적</th><td><fmt:formatNumber value="${assetRentSummary.gisAssetsAr }" maxIntegerDigits="8" maxFractionDigits="2" /> (단위:m²)</td></tr>
+				<tr><th>총사용금액</th><td><fmt:formatNumber value="${assetRentSummary.totFee }" type="number" /> 원</td></tr>
+			</tbody></table>
+			</c:if>
+
+			<c:if test="${assetHtldInfo!=null }">
+			<h2>배후단지 정보</h2>
+			<table class='prtFcltyInfo'><tbody>
+				<tr><th>배후단지 임대업체</th><td><c:out value="${assetHtldInfo.entrpsNm }" /></td></tr>
+			</tbody></table>
+			</c:if>
+
 			<c:if test="${fn:containsIgnoreCase(auth,'ROLEADMIN')||fn:containsIgnoreCase(auth,'ROLEASSETMNGT') }">
 				<button id="assetMngt" data-icon="ui-icon-newwin">자산코드 관리</button>
+				<button id="fcltyRentMngt" data-icon="ui-icon-newwin">사용목록 관리</button>
 				<button data-cmd="removeFeature">영역 삭제</button>
 			</c:if>
 			<button id="assetInqire" data-icon="ui-icon-newwin">자산정보 조회</button>

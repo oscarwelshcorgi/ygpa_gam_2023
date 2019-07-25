@@ -140,8 +140,8 @@ GamAssetRentMngtModule.prototype.loadComplete = function(param) {
     	module.setButtonState();
     	module._mainKeyValue = row;
     });
-    
-    // 아래 체크 박스 이벤트 예제 
+
+    // 아래 체크 박스 이벤트 예제
 
     this.$("#assetRentMngtList").on('onItemCheckboxClick', function(event, module, row, rid, cInd) {
     	var rowData = row;
@@ -162,9 +162,12 @@ GamAssetRentMngtModule.prototype.loadComplete = function(param) {
 	    		if(count>0){
 	    			module.$('#btnPrmisn').show();
 	    		}
+	    		if(count>5){
+	    			alert("최대 5건까지 전자결재 연동 가능합니다.")
+	    		}
 	    	}
     	}
-    	
+
 //    	console.log('$$$ item click');
 //    	console.log(row);
 
@@ -1308,7 +1311,7 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
 
         // 연장신청
         case 'addAssetRentRenew':
-        	
+
             var rows = this.$('#assetRentMngtList').selectedRows();
 
             /* if( rows[0]['quayGroupCd'] != 'P' ) {
@@ -1693,21 +1696,23 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
         case 'btnPrmisn': // 사용승낙
             var rows = this.$('#assetRentMngtList').selectedRows();
             var row = rows[0];
-			
+            var checkedRows = this.$('#assetRentMngtList').checkedRows();
+
 /**
 * 체크박스 승인된 데이 있는지 확인 필요(최대 입력 가능 행 5행)
 */
-   
-	    	
-            if(rows.length>=1) {
-	            if(row['sanctnSttus'] == '1' || row['sanctnSttus'] == '2' || row['sanctnSttus'] == '5'){
-		    		alert('결재 진행 중인 자료 입니다.');
-		    		return;
-		    	}
-            	if( row['prmisnYn'] == 'Y' ) {
-                    alert("이미 사용승낙된 상태 입니다.");
-                    return;
-                }
+
+            if(rows.length>=1 || checkedRows.length>=1) {
+            	if(rows.length>=1){
+		            if(row['sanctnSttus']||'' == '1' || row['sanctnSttus']||'' == '2' || row['sanctnSttus']||'' == '5'){
+			    		alert('결재 진행 중인 자료 입니다.');
+			    		return;
+			    	}
+	            	if( row['prmisnYn'] == 'Y' ) {
+	                    alert("이미 사용승낙된 상태 입니다.");
+	                    return;
+	                }
+            	}
 
             	/*
                 if( row['sanctnSttus'] != '1' ) {
@@ -1720,17 +1725,17 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
                 //}
 
              	var opts = {
-                    'prtAtCode': rows[0]['prtAtCode'],
-                    'mngYear': rows[0]['mngYear'],
-                    'mngNo': rows[0]['mngNo'],
-                    'mngCnt': rows[0]['mngCnt'],
-                    'taxtSe': rows[0]['taxtSe']
+                    'prtAtCode': checkedRows[0]['prtAtCode'],
+                    'mngYear': checkedRows[0]['mngYear'],
+                    'mngNo': checkedRows[0]['mngNo'],
+                    'mngCnt': checkedRows[0]['mngCnt'],
+                    'taxtSe': checkedRows[0]['taxtSe']
                 };
- 
+
                 this.doExecuteDialog('insertAssetRentPrmisnPopup', '승낙', '/oper/gnrl/popup/showPrtFcltyRentMngtPrmisn.do', opts);
 
             } else {
-                alert("목록에서 선택하십시오.");
+            	alert("목록에서 선택하십시오.");
             }
 
             break;
@@ -2199,27 +2204,27 @@ GamAssetRentMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
          break;
      case 'insertAssetRentPrmisnPopup':
          if (msg != 'cancel') {
-        	 var inputVO = []; 
+        	 var inputVO = [];
 
         	 inputVO[inputVO.length] = {name: 'empCd', value : EMD.userinfo.emplNo};
         	 inputVO[inputVO.length] = {name: 'title', value : value.title };
         	 inputVO[inputVO.length] = {name: 'chrgeKnd', value : value.chrgeKnd };
         	 inputVO[inputVO.length] = {name: 'payTmlmt', value : value.payTmlmt };
         	 inputVO[inputVO.length] = {name: 'assetRentMngtList', value :JSON.stringify(this.$('#assetRentMngtList').selectFilterData([{col: 'chkRole', filter: true}])) };
-        	 
+
  	        this.doAction('/oper/gnrl/gamUpdatePrtFcltyRentMngtPrmisn.do', inputVO, function(module, result) {
  	        	if(result.resultCode == 0){
 /* 전자결재 화면 호출(꼭 호출 해야 한다고 함.) */
  	        		var url = "http://192.168.0.32/jsp/call/UcheckSancData.jsp?T="+result.elctrnSanctnMap.tNo+"&E="+result.elctrnSanctnMap.empCd;
  	        		window.open(url, "showGwcallFwdIf", "width=800, height=600, menubar=no,status=no,scrollbars=yes")
- 	        		
+
  	        		module.loadData();
  		        }
  	        	else{
 	 	        	alert(result.resultMsg);
  	        	}
 	        });
-        	 
+
          } else {
              alert('취소 되었습니다');
          }
@@ -2243,6 +2248,9 @@ GamAssetRentMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
 
              //this.$('#quayCd').val(value.gisAssetsQuayCd);
              this.$('#assetsCdStr').val(value.gisAssetsCd + "-" + value.gisAssetsSubCd);
+/* 공시지가 추가 */
+             this.$('#usageAr').val(value.gisAssetsRealRentAr);
+
              this._selectAssetsCd=value;
 
              this.loadOlnlpList(value);
