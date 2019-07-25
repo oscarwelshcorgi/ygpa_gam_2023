@@ -114,9 +114,6 @@ GamFenderInspectionModule.prototype.loadComplete = function() {
     this.$('ul.photoList > li > span > button').on('click', function(e) {
     	module.removeImageClickEvent(e)
     	});
-    this.$('ul.attList > li > span > button').on('click', function(e) {
-    	module.removeImageClickEvent(e)
-    	});
 
 	this.$('#photoOneFile').change(function(e){
         Array.prototype.push.apply(module._photo1FileBuffer, e.target.files);
@@ -267,7 +264,7 @@ GamFenderInspectionModule.prototype.loadComplete = function() {
     	});
      });
 
-	console.log('debug');
+	// console.log('debug');
 }
 
 GamFenderInspectionModule.prototype.removeImageClickEvent = function(e) {
@@ -332,7 +329,7 @@ GamFenderInspectionModule.prototype.removeChkTblClickEvent = function(e) {
 		}
 		else {
 			for(var i=0; i<this._chkTbl1FileBuffer.length; i++) {
-				if(this.v[i].name==filename) {
+				if(this._chkTbl1FileBuffer[i].name==filename) {
 					delete this._chkTbl1FileBuffer[i];
 					break;
 				}

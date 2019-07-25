@@ -123,6 +123,76 @@ GamFenderMaintenanceModule.prototype.loadComplete = function() {
 
 	this.$("#sCntrwkBegin").val(toYear+"-"+toMonth+"-"+toDay);
 
+	<%--
+	// 이미지 파일 처리
+	--%>
+    var module=this;
+
+	this._delPhotoList=[];
+
+	this._photoFileBuffer=[];
+
+    this.$('ul.photoList > li > span > button').on('click', function(e) {
+    	module.removeImageClickEvent(e)
+    	});
+
+	this.$('#photoFile').change(function(e){
+        Array.prototype.push.apply(module._photoFileBuffer, e.target.files);
+        var html = '';
+        $.each(e.target.files, function(index, file){
+            const fileName = file.name;
+            html += '<li value="new"><span>';
+            html += '<img src="'+URL.createObjectURL(file)+'">'
+            html += '<button data-filename="'+fileName+'"><i class="fa fa-trash-alt"></i></button></span></li>';
+            const fileEx = fileName.slice(fileName.indexOf(".") + 1).toLowerCase();
+            if(fileEx != "jpg" && fileEx != "jpeg" && fileEx != "png" &&  fileEx != "gif" &&  fileEx != "bmp"){
+                alert("파일은 (jpg, jpeg, png, gif, bmp) 형식만 등록 가능합니다.");
+                return false;
+            }
+            module.$($(e.target).data('photo-list')).append(html);
+        });
+    	module.$('ul.photoList > li > span > button').off('click', function(e) {
+    		module.removeImageClickEvent(e)
+    	});
+    	module.$('ul.photoList > li > span > button').on('click', function(e) {
+    		module.removeImageClickEvent(e)
+    	});
+     });
+
+	<%--
+	// 준공검사조서 파일 처리
+	--%>
+	this._delAttList=[];
+
+	this._attFileBuffer=[];
+
+    this.$('ul.attList > li > span > button').on('click', function(e) {
+    	module.removeAttClickEvent(e)
+   	});
+
+	this.$('#attFile').change(function(e){
+        Array.prototype.push.apply(module._attFileBuffer, e.target.files);
+        var html = '';
+        $.each(e.target.files, function(index, file){
+            const fileName = file.name;
+            html += '<li value="new"><span>';
+            html += fileName;
+            html += '<button data-filename="'+fileName+'"><i class="fa fa-trash-alt"></i></button></span></li>';
+            const fileEx = fileName.slice(fileName.indexOf(".") + 1).toLowerCase();
+            if(fileEx != "hwp" && fileEx != "doc" && fileEx != "pdf" &&  fileEx != "docx" &&  fileEx != "xls" &&  fileEx != "xlsx"){
+                alert("파일은 (hwp, doc, pdf, docx, xls, xlsx) 형식만 등록 가능합니다.");
+                return false;
+            }
+            module.$($(e.target).data('file-list')).append(html);
+        });
+    	module.$('ul.attList > li > span > button').off('click', function(e) {
+    		module.removeAttClickEvent(e)
+    	});
+    	module.$('ul.attList > li > span > button').on('click', function(e) {
+    		module.removeAttClickEvent(e)
+    	});
+     });
+
 	this.loadData();
 
 }
@@ -289,6 +359,56 @@ GamFenderMaintenanceModule.prototype.loadDetail = function(tabId) {
 
 //		this.$('#sFcltsMngGroupNo').val(this._mainKeyValue);
 
+
+
+		this.$('ul.photoList').empty();		// remove photo list
+		this.$('ul.attList').empty();		// remove photo list
+		this.doAction('/fclty/gamFenderMaintenanceFileList.do', row[0], function(module, result) {
+			var html='';
+			var result1=result.resultPhoto;
+			if(result1!=null) {
+				for(var i=0; i<result1.length; i++) {
+					var file=result1[i];
+		            html += '<li><span>';
+		            html += '<a href="<c:url value="/cmm/fms/getImage.do?" />atchFileId='+file.atchFileId+'&fileSn='+file.fileSn+'" target="_blank"><img src="<c:url value="/cmm/fms/getImage.do?" />atchFileId='+file.atchFileId+'&fileSn='+file.fileSn+'"></a>'
+		            html += '<button data-photo="one" data-atch-file-id="'+file.atchFileId+'" data-file-sn="'+file.fileSn+'"><i class="fa fa-trash-alt"></i></button></span></li>';
+				}
+			}
+			module.$('#photoList').append(html);
+			module.$('ul.photoList > li > span > button').off('click', function(e) {
+		    	module.removeImageClickEvent(e)
+			});
+			module.$('ul.photoList > li > span > button').on('click', function(e) {
+		    	module.removeImageClickEvent(e)
+			});
+
+			module.$('#photoFile').val("");
+			module._photoFileBuffer=[];
+			module._delPhotoList=[];
+
+			html='';
+			var result1=result.resultCompetInspctWtnnc;
+			if(result1!=null) {
+				for(var i=0; i<result1.length; i++) {
+					var file=result1[i];
+		            html += '<li><span>';
+		            html += '<a href="<c:url value="/cmm/fms/FileDown.do?" />atchFileId='+file.atchFileId+'&fileSn='+file.fileSn+'" target="_blank">'+file.orignlFileNm+'</a>'
+		            html += '<button data-chktbl="one" data-atch-file-id="'+file.atchFileId+'" data-file-sn="'+file.fileSn+'"><i class="fa fa-trash-alt"></i></button></span></li>';
+				}
+			}
+			module.$('#attList').append(html);
+			module.$('ul.attList > li > span > button').off('click', function(e) {
+		    	module.removeAttClickEvent(e)
+			});
+			module.$('ul.attList > li > span > button').on('click', function(e) {
+		    	module.removeAttClickEvent(e)
+			});
+
+			module.$('#attFile').val("");
+			module._attFileBuffer=[];
+			module._delAttList=[];
+		});
+
 		var searchOpt=[];
 		searchOpt[searchOpt.length] = {name : "sFcltsMngGroupNo",	value : row[0].fcltsMngGroupNo };
 		searchOpt[searchOpt.length] = {name : "sYear",	value : row[0].year };
@@ -298,7 +418,48 @@ GamFenderMaintenanceModule.prototype.loadDetail = function(tabId) {
 
 	}
 
+
+
 }
+
+
+GamFenderMaintenanceModule.prototype.removeImageClickEvent = function(e) {
+	e.preventDefault();
+	var btn = $(e.target).closest('button');
+	var fileSn=btn.data('file-sn');
+
+	if(fileSn!=undefined) {
+		this._delPhotoList[this._delPhotoList.length]=fileSn;
+	}
+	else {
+		for(var i=0; i<this._photoFileBuffer.length; i++) {
+			if(this._photoFileBuffer[i].name==filename) {
+				delete this._photoFileBuffer[i];
+				break;
+			}
+		}
+	}
+	btn.closest("li").remove();
+};
+
+GamFenderMaintenanceModule.prototype.removeAttClickEvent = function(e) {
+	e.preventDefault();
+	var btn = $(e.target).closest('button');
+	var fileSn=btn.data('file-sn');
+
+	if(fileSn!=undefined) {
+		this._delAttList[this._delAttList.length]=fileSn;
+	}
+	else {
+		for(var i=0; i<this._attFileBuffer.length; i++) {
+			if(this._attFileBuffer[i].name==filename) {
+				delete this._attFileBuffer[i];
+				break;
+			}
+		}
+	}
+	btn.closest("li").remove();
+};
 
 <%
 /**
@@ -330,7 +491,12 @@ GamFenderMaintenanceModule.prototype.saveData = function() {
 	var formData = new FormData();
 	var fileCount=0;
 
- 	inputVO[inputVO.length] = {name: 'detailForm', value :JSON.stringify(this.makeFormArgs("#detailForm",'object')) };
+	var detailForm = this.makeFormArgs("#detailForm",'object');
+
+	detailForm["delPhoto"]=JSON.stringify(this._delPhotoList);
+	detailForm["delCompetInspctWtnnc"]=JSON.stringify(this._delAttList);
+
+ 	inputVO[inputVO.length] = {name: 'detailForm', value :JSON.stringify(detailForm) };
  	inputVO[inputVO.length] = {name: 'insertMntnObjList', value :JSON.stringify(this.$('#mntnRprObjFcltsF').selectFilterData([{col: 'chkRole', filter: true}])) };
 
 	for(var k in inputVO) {
@@ -341,14 +507,13 @@ GamFenderMaintenanceModule.prototype.saveData = function() {
 		fileCount++;
 		formData.append("photoFile["+i+"]", file);
 	}
-	formData.append("delPhoto", this._delPhotoList);
-	for (var i = 0; i < this._chkTbl1FileBuffer.length; i++) {
-		var file = this._chkTbl1FileBuffer[i];
+	for (var i = 0; i < this._attFileBuffer.length; i++) {
+		var file = this._attFileBuffer[i];
 		fileCount++;
 		formData.append("competInspctWtnnc["+i+"]", file);
 	}
-	formData.append("delCompetInspctWtnnc", this._delCompetInspctWtnncList);
 
+	var module=this;
 	var url = '';
 	if (module._mainmode == "insert") { // 추가 버튼 눌렀을때 insert로 변경됨
 		url = EMD.context_root+ '/fclty/gamInsertFenderMaintenance.do';
@@ -467,8 +632,8 @@ var module_instance = new GamFenderMaintenanceModule();
 		<div id="mainTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
 			<!-- 211. TAB 정의 -->
 			<ul>
-				<li><a href="#listTab" class="emdTab">방중재 정기점검 목록</a></li>
-				<li><a href="#detailTab" class="emdTab">방충재 정기점검 상세</a></li>
+				<li><a href="#listTab" class="emdTab">방중재 유지보수 목록</a></li>
+				<li><a href="#detailTab" class="emdTab">방충재 유지보수 상세</a></li>
 			</ul>
 			<!-- 212. TAB 1 AREA (LIST) -->
 			<div id="listTab" class="emdTabPage fillHeight" style="overflow:hidden;" >
@@ -580,9 +745,9 @@ var module_instance = new GamFenderMaintenanceModule();
 										<tr>
 											<th style="width:20%; height:18px;" >준　공　검　사　조　서</th>
 											<td>
-												<ul id="competInspctWtnncList" class="attList">
+												<ul id="attList" class="attList">
 												</ul>
-												<input type="file" id="competInspctWtnncFile" data-file-list="#competInspctWtnncList" class="skipValue" tabindex=7 size="35" />
+												<input type="file" id="attFile" data-file-list="#attList" class="skipValue" tabindex=7 size="35" />
 												<input type="hidden" id="competInspctWtnnc" data-column-id="competInspctWtnnc" />
 											</td>
 										</tr>

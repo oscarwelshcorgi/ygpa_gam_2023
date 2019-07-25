@@ -146,7 +146,7 @@ public class GamFenderMaintenanceController {
     }
 
 	@RequestMapping(value="/fclty/gamFenderMaintenanceFileList.do")
-	@ResponseBody Map<String, Object> gamFenderMaintenanceFileList(GamFenderInspectionVO searchVO) throws Exception {
+	@ResponseBody Map<String, Object> gamFenderMaintenanceFileList(GamFenderMaintenanceVO searchVO) throws Exception {
 
 		Map map = new HashMap();
 
@@ -159,44 +159,20 @@ public class GamFenderMaintenanceController {
 		}
 		// 내역 조회
 		FileVO fileVO = new FileVO();
-		List<FileVO> resultPhotoOne=null;
-		List<FileVO> resultPhotoTwo=null;
-		List<FileVO> resultPhotoThree=null;
-		List<FileVO> resultChckTableOne=null;
-		List<FileVO> resultChckTableTwo=null;
-		List<FileVO> resultChckTableThree=null;
-		if(!"".equals(searchVO.getPhotoOne())) {
-			fileVO.setAtchFileId(searchVO.getPhotoOne());
-			resultPhotoOne = fileService.selectFileInfs(fileVO);
+		List<FileVO> resultPhoto=null;
+		List<FileVO> resultCompetInspctWtnnc=null;
+		if(!"".equals(searchVO.getPhoto())) {
+			fileVO.setAtchFileId(searchVO.getPhoto());
+			resultPhoto = fileService.selectFileInfs(fileVO);
 		}
-		if(!"".equals(searchVO.getPhotoTwo())) {
-			fileVO.setAtchFileId(searchVO.getPhotoTwo());
-			resultPhotoTwo = fileService.selectFileInfs(fileVO);
-		}
-		if(!"".equals(searchVO.getPhotoThree())) {
-			fileVO.setAtchFileId(searchVO.getPhotoThree());
-			resultPhotoThree = fileService.selectFileInfs(fileVO);
-		}
-		if(!"".equals(searchVO.getChckTableOne())) {
-			fileVO.setAtchFileId(searchVO.getChckTableOne());
-			resultChckTableOne = fileService.selectFileInfs(fileVO);
-		}
-		if(!"".equals(searchVO.getChckTableTwo())) {
-			fileVO.setAtchFileId(searchVO.getChckTableTwo());
-			resultChckTableTwo = fileService.selectFileInfs(fileVO);
-		}
-		if(!"".equals(searchVO.getChckTableThree())) {
-			fileVO.setAtchFileId(searchVO.getChckTableThree());
-			resultChckTableThree = fileService.selectFileInfs(fileVO);
+		if(!"".equals(searchVO.getCompetInspctWtnnc())) {
+			fileVO.setAtchFileId(searchVO.getCompetInspctWtnnc());
+			resultCompetInspctWtnnc = fileService.selectFileInfs(fileVO);
 		}
 
 		map.put("resultCode", 0);			// return ok
-		map.put("resultPhotoOne", resultPhotoOne);
-		map.put("resultPhotoTwo", resultPhotoTwo);
-		map.put("resultPhotoThree", resultPhotoThree);
-		map.put("resultChckTableOne", resultChckTableOne);
-		map.put("resultChckTableTwo", resultChckTableTwo);
-		map.put("resultChckTableThree", resultChckTableThree);
+		map.put("resultPhoto", resultPhoto);
+		map.put("resultCompetInspctWtnnc", resultCompetInspctWtnnc);
 
 		return map;
 
@@ -279,14 +255,12 @@ public class GamFenderMaintenanceController {
 		final Map<String, MultipartFile> files = multiRequest.getFileMap();
 
 		if(files!=null) {
-			String[] delPhoto = mapper.readValue((String)insertFenderMaintenance.get("delPhoto"),
-	    		    new TypeReference<String[]>(){});
-			String photo = insertUpdateFile(files, "photo", (String)insertFenderMaintenance.get("photo"), delPhoto);
+			String photo = insertUpdateFile(files, "photo", (String)insertFenderMaintenance.get("photo"), null);
 			insertFenderMaintenance.put("photo", photo);
 
 			String[] delCompetInspctWtnnc = mapper.readValue((String)insertFenderMaintenance.get("delCompetInspctWtnnc"),
 					new TypeReference<String[]>(){});
-			String competInspctWtnnc = insertUpdateFile(files, "photo", (String)insertFenderMaintenance.get("competInspctWtnnc"), delPhoto);
+			String competInspctWtnnc = insertUpdateFile(files, "competInspctWtnnc", (String)insertFenderMaintenance.get("competInspctWtnnc"), null);
 			insertFenderMaintenance.put("competInspctWtnnc", competInspctWtnnc);
 		}
 
@@ -336,14 +310,31 @@ public class GamFenderMaintenanceController {
 		final Map<String, MultipartFile> files = multiRequest.getFileMap();
 
 		if(files!=null) {
-			String[] delPhoto = mapper.readValue((String)insertFenderMaintenance.get("delPhoto"),
-	    		    new TypeReference<String[]>(){});
+			String delPhotoStr = (String)insertFenderMaintenance.get("delPhoto");
+			String[] delPhoto = null;
+			if(delPhotoStr!=null) {
+				Integer[] delPhotoInt = mapper.readValue(delPhotoStr,
+						new TypeReference<Integer[]>(){});
+				delPhoto = new String[delPhotoInt.length];
+					for(int i=0; i<delPhotoInt.length; i++) {
+						delPhoto[i]=delPhotoInt[i].toString();
+					}
+			}
 			String photo = insertUpdateFile(files, "photo", (String)insertFenderMaintenance.get("photo"), delPhoto);
 			insertFenderMaintenance.put("photo", photo);
 
-			String[] delCompetInspctWtnnc = mapper.readValue((String)insertFenderMaintenance.get("delCompetInspctWtnnc"),
-					new TypeReference<String[]>(){});
-			String competInspctWtnnc = insertUpdateFile(files, "photo", (String)insertFenderMaintenance.get("competInspctWtnnc"), delPhoto);
+			String delCompetInspctWtnncStr = (String)insertFenderMaintenance.get("delCompetInspctWtnnc");
+
+			String[] delCompetInspctWtnnc = null;
+			if(delCompetInspctWtnncStr!=null) {
+				Integer[] delCompetInspctWtnncInt = mapper.readValue(delCompetInspctWtnncStr,
+					new TypeReference<Integer[]>(){});
+				delCompetInspctWtnnc = new String[delCompetInspctWtnncInt.length];
+				for(int i=0; i<delCompetInspctWtnncInt.length; i++) {
+					delCompetInspctWtnnc[i]=delCompetInspctWtnncInt[i].toString();
+				}
+			}
+			String competInspctWtnnc = insertUpdateFile(files, "competInspctWtnnc", (String)insertFenderMaintenance.get("competInspctWtnnc"), delCompetInspctWtnnc);
 			insertFenderMaintenance.put("competInspctWtnnc", competInspctWtnnc);
 		}
 
