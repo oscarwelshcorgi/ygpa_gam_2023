@@ -220,7 +220,7 @@ GamAssetSeSttusInqireModule.prototype.loadData = function() {
 	        					 count: obj.count,
 	        					 price: Number(obj.price.replace(/,/g,"")),
 	        					 price1: obj.price,
-	        					 color: getColor1(obj.gisAssetsSeCd)
+	        					 color: getColor1(r.length)
 	        			 }
 	        		 }
 	        		 console.log(r);
@@ -320,7 +320,7 @@ var module_instance = new GamAssetSeSttusInqireModule();
                 <table class="searchPanel">
                     <tbody>
                         <tr>
-                            <th style="width: 70px">항코드</th>
+                            <th style="width: 70px">구분</th>
                             <td style="width: 100px">
                                 <input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id=GAM019 />
                             </td>

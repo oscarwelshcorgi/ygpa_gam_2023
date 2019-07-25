@@ -34,7 +34,7 @@ function GamHtldRentMngtMainModule() {}
 <%--
 	EmdModule을 상속하여 모듈 클래스를 정의한다.
 --%>
-GamHtldRentMngtMainModule.prototype = new EmdModule(1300, 810);
+GamHtldRentMngtMainModule.prototype = new EmdModule(1850, 810);
 
 <%--///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	EmdModule Override 및 이벤트 처리 정의 부분 시작
@@ -114,15 +114,15 @@ GamHtldRentMngtMainModule.prototype.loadComplete = function() {
 		url: '/oper/htldnew/gamHtldQuGtqyList.do',
 		dataType: 'json',
 		colModel : [
- 		            {display:'연도',		name:'year',			width:100,	sortable:false,	align:'center',	displayFormat: 'input' },
- 		            {display:'1분기',		groupDisplay:'일반 화물',		name:'oneQuGnrl',		width:100,	sortable:false,	align:'right',	displayFormat: 'input-number' },
-		            {display:'#cspan',	groupDisplay:'컨테이너  화물',	name:'oneQuCntanr',		width:110,	sortable:false,	align:'right',	displayFormat: 'input-number'},
-		            {display:'2분기',		groupDisplay:'일반 화물',		name:'twoQuGnrl',		width:100,	sortable:false,	align:'right',	displayFormat: 'input-number'},
-		            {display:'#cspan',	groupDisplay:'컨테이너  화물',	name:'twoQuCntanr',		width:110,	sortable:false,	align:'right',	displayFormat: 'input-number'},
-		            {display:'3분기',		groupDisplay:'일반 화물',		name:'threeQuGnrl',		width:100,	sortable:false,	align:'right',	displayFormat: 'input-number'},
-		            {display:'#cspan',	groupDisplay:'컨테이너  화물',	name:'threeQuCntanr',		width:110,	sortable:false,	align:'right',	displayFormat: 'input-number'},
-		            {display:'4분기',		groupDisplay:'일반 화물',		name:'fourGnrl',	width:100,	sortable:false,	align:'right',	displayFormat: 'input-number'},
-		            {display:'#cspan',	groupDisplay:'컨테이너  화물',	name:'fourQuCntanr',	width:110,	sortable:false,	align:'right',	displayFormat: 'input-number'}
+ 		            {display:'연도',		name:'year',			width:150,	sortable:false,	align:'center',	displayFormat: 'input' },
+ 		            {display:'1분기',		groupDisplay:'일반 화물',		name:'oneQuGnrl',		width:200,	sortable:false,	align:'right',	displayFormat: 'input-number' },
+		            {display:'#cspan',	groupDisplay:'컨테이너  화물',	name:'oneQuCntanr',		width:200,	sortable:false,	align:'right',	displayFormat: 'input-number'},
+		            {display:'2분기',		groupDisplay:'일반 화물',		name:'twoQuGnrl',		width:200,	sortable:false,	align:'right',	displayFormat: 'input-number'},
+		            {display:'#cspan',	groupDisplay:'컨테이너  화물',	name:'twoQuCntanr',		width:200,	sortable:false,	align:'right',	displayFormat: 'input-number'},
+		            {display:'3분기',		groupDisplay:'일반 화물',		name:'threeQuGnrl',		width:200,	sortable:false,	align:'right',	displayFormat: 'input-number'},
+		            {display:'#cspan',	groupDisplay:'컨테이너  화물',	name:'threeQuCntanr',		width:200,	sortable:false,	align:'right',	displayFormat: 'input-number'},
+		            {display:'4분기',		groupDisplay:'일반 화물',		name:'fourGnrl',	width:200,	sortable:false,	align:'right',	displayFormat: 'input-number'},
+		            {display:'#cspan',	groupDisplay:'컨테이너  화물',	name:'fourQuCntanr',	width:200,	sortable:false,	align:'right',	displayFormat: 'input-number'}
 		            ],
 		showTableToggleBtn: false,
 		height: 'auto'

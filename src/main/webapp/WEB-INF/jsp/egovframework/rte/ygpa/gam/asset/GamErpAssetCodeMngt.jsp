@@ -108,7 +108,7 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 		module: this,
 		url: '/asset/selectGisAssetCodeList.do',
 		colModel : [
-					{display:'', name:'gisFlag', width:24, sortable:false, align:'center', displayFormat: 'jqimg', skipxls: true},
+					{display:'맵', name:'gisFlag', width:24, sortable:false, align:'center', displayFormat: 'jqimg', skipxls: true},
 					{display:'ERP자산코드', name:'erpAssets', width:80, sortable:true, align:'center'},
 					{display:'항코드', name:'gisAssetsPrtAtCode', width:40, sortable:true, align:'center'},
 					{display:'항코드명', name:'prtAtCodeNm', width:55, sortable:true, align:'center'},
@@ -187,6 +187,10 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 		module.makeFormValues('#editGisAssetCode', row);
 		module._editData=module.getFormValues('#editGisAssetCode', row);
 		module._editRow=module.$('#assetCodeList').selectedRowIds()[0];
+		
+		this.$('#gisAssetsSeCd').attr('disabled', 'disabled');
+		this.$('#prdlstSe').attr('disabled', 'disabled');
+		this.$('#fsse').attr('disabled', 'disabled');
 
 		gisAssetsSeCdChange(row.gisAssetsSeCd);
 
@@ -289,8 +293,10 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 	$('.gisAssetsSeCd3').hide();
 
 
-
-
+	this.$('#gisAssetsSeCd').attr('disabled', 'disabled');
+	this.$('#prdlstSe').attr('disabled', 'disabled');
+	this.$('#fsse').attr('disabled', 'disabled');
+	
 };
 
 // 사용자 설정 함수 추가
@@ -532,6 +538,10 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 		this.$('#erpAssetCodeList').flexExcelDown('/asset/selectErpAssetCodeListExcel.do', 'erpAssetCodeList.xls');
 		break;
 	case 'addAssetGisCdItem':
+		this.$('#gisAssetsSeCd').enable();
+		this.$('#prdlstSe').enable();
+		this.$('#fsse').enable();
+		
 		this.addGisAssetItem();
 		break;
 	case 'removeAssetGisCdItem':

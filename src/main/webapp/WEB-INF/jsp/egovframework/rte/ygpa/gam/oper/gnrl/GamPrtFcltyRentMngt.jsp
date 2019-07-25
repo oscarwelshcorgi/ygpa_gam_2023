@@ -46,6 +46,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function(param) {
         dataType: 'json',
         colModel : [
         			{display:"선택",	name:"chkRole",	width:40, sortable:false, align:"center", displayFormat:"checkbox"},
+        			{display:'맵', name:'gisFlag', width:24, sortable:false, align:'center', displayFormat: 'jqimg', skipxls: true},
                     {display:'항구분', name:'prtAtCodeNmStr',width:80, sortable:false,align:'center'},
                     {display:'관리번호', name:'rentMngNo',width:80, sortable:false,align:'center'},
                     {display:'신청업체명', name:'entrpsNm',width:140, sortable:false,align:'left'},
@@ -78,10 +79,15 @@ GamAssetRentMngtModule.prototype.loadComplete = function(param) {
             $.each(data.resultList, function() {
             	this.payinstIntrrateDisp = this.payinstIntrrate+ ' %';
             	this.prtAtCodeNmStr = this.prtAtCodeNm+" ["+this.prtAtCode+"]";
+            	
+            	/* GIS 등록여부 추가(2019-06-16 jckim) */
+				this.gisFlag=this.gisStat>0?'flag':null;
+				
             });
 
             return data;
         }
+        
     });
 
     // 자산임대상세 테이블 설정

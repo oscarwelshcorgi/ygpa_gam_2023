@@ -60,19 +60,19 @@ GamAssetErpSttusInqireModule.prototype.loadComplete = function() {
 	preProcess: function(module, data) {
     	$.each(data.resultList, function() {
     		 switch(this.lv) {
-    		 case '2':
+    		 case 2:
     			this.nm = "&nbsp;&nbsp;"+this.nm;
     		     break;
-    		 case '3':
+    		 case 3:
     			this.nm = "&nbsp;&nbsp;&nbsp;&nbsp;"+this.nm;
     		     break;
-    		 case '4':
+    		 case 4:
     			this.nm = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+this.nm;
     		     break;
-    		 case '5':
+    		 case 5:
     			this.nm = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+this.nm;
     		     break;
-    		 case '6':
+    		 case 6:
     			this.nm = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+this.nm;
     		     break;
     		 }
@@ -228,15 +228,15 @@ GamAssetErpSttusInqireModule.prototype.loadData = function() {
        		 }
        		console.log(r);
        		console.log(s);
-       		module.chart1.clearAll();
-       		module.chart2.clearAll();
-       		module.chart1.parse(r, "json");
-       		module.chart2.parse(s, "json");
-       		module.$("#chartTab").tabs("option", {active: 1});	// 탭 이동	       		 
        		module.chart3.clearAll();
        		module.chart4.clearAll();
        		module.chart3.parse(r, "json");
        		module.chart4.parse(s, "json");
+       		module.$("#chartTab").tabs("option", {active: 1});	// 탭 이동	       		 
+       		module.chart1.clearAll();
+       		module.chart2.clearAll();
+       		module.chart1.parse(r, "json");
+       		module.chart2.parse(s, "json");
        		module.$("#chartTab").tabs("option", {active: 0});	// 탭 이동	       		 
 		}
         });
@@ -299,8 +299,8 @@ var module_instance = new GamAssetErpSttusInqireModule();
      <div class="emdPanel fillHeight">
         <div id="chartTab" class="emdTabPanel" data-onchange="onTabChange">
             <ul>
-                <li><a href="#tabs1" class="emdTab">수입</a></li>
                 <li><a href="#tabs2" class="emdTab">징수</a></li>
+                <li><a href="#tabs1" class="emdTab">수입</a></li>
             </ul>
 
             <div id="tabs1" class="emdTabPage" style="overflow: hidden;" data-onactivate="onShowTab1Activate">

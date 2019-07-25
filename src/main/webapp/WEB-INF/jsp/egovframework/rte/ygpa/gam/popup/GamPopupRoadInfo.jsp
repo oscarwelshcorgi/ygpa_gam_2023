@@ -99,8 +99,9 @@ var popup_instance = new GamRoadInfoModule();
 			<table style="width:100%;" class="searchPanel">
 				<tbody>
 					<tr>
-						<th style="width: 35px;">검색어</th>
-						<td ><input id="sRoadNm" type="text" size="50" /></td>
+						<th style="width: 35px;">도로명</th>
+						<td ><input id="sRoadNm" type="text" size="15" /></td>
+						<th style="width: 35px;">건물번호</th>
 						<td ><input id="sMainNo" type="text" size="5" /></td>
 						<td ><input id="sSubNo" type="text" size="5" /></td>
 						<td style="text-align: right;"><button id="btnSelect" class="submit">조회</button></td>
