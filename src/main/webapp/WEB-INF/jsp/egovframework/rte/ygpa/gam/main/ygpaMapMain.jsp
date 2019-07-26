@@ -25,7 +25,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>여수광양항만공사 - GIS기반 자산관리 시스템 (RELEASE)</title>
+    <title>여수광양항만공사 - GIS기반 자산관리 시스템 (LOCAL)</title>
 	<meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
@@ -48,6 +48,14 @@
 <link rel="stylesheet" href="<c:url value='/css/ygpa/gam/ie.css'/>" />
 <![endif]-->
 
+    <style>
+/*       html, body, #map-canvas {
+        height: 100%;
+        margin: 0px;
+        padding: 0px
+      }
+ */    </style>
+
     <script src="<c:url value='/js/jquery-1.10.2.min.js'/>"></script>
     <script src="<c:url value='/js/jquery-migrate-1.2.1.min.js'/>"></script>
     <script src="<c:url value='/js/jquery-ui.min.js'/>"></script>
@@ -61,7 +69,7 @@
 
     <script type="text/javascript">
 	var $DEBUG=${_mapDebug};
-	var wikiUrl="http://192.168.0.71:8100/wiki/Wiki.jsp?";
+	var wikiUrl="http://192.168.200.61:8100/wiki/Wiki.jsp?";
 
     jQuery(document).ready(function() {
  	   var frmwrkMenu=null;
@@ -92,8 +100,11 @@
 					</c:forEach>
 				];
 	   	   </c:if>
-	    	EMD.go("${pageContext.request.contextPath}", "http://192.168.0.71:8092/G2DataService/2d/Base/201310", "http://192.168.0.71:8092/G2DataService/GService?", "${pageContext.request.scheme}://${pageContext.request.serverName}", frmwrkMenu);
-    	 });
+
+//	    	EMD.go("${pageContext.request.contextPath}", "http://192.168.0.71:8092/G2DataService/2d/Base/201310", "http://192.168.0.71:8092/G2DataService/GService?", "${pageContext.request.scheme}://${pageContext.request.serverName}", frmwrkMenu);
+	    	EMD.go("${pageContext.request.contextPath}", "http://xdworld.vworld.kr:8080/2d/Base/201310", "http://192.168.100.70:8080/G2DataService/GService?", "${pageContext.request.scheme}://${pageContext.request.serverName}", frmwrkMenu);
+//	    	EMD.go("${pageContext.request.contextPath}", "http://192.168.0.71:8092/G2DataService/2d/Base/201310", "http://192.168.0.71:8092/G2DataService/GService?", "${pageContext.request.scheme}://${pageContext.request.serverName}", frmwrkMenu);
+ 	 });
 
     function getAssetsCdStyleMap() {
     	var assetCdStyle = new OpenLayers.Style({
@@ -147,7 +158,7 @@
     				}),
     				symbolizer: {
     					strokeColor: "#000000",
-    					fillColor: "#FF0000"
+    					fillColor: "#80ced6"
     				}
     			}),
     			new OpenLayers.Rule({
@@ -229,7 +240,7 @@
     			})
     		]
     	});
-		
+
 		return new OpenLayers.StyleMap(assetCdStyle, {extendDefault: true});
 
     }
@@ -286,6 +297,9 @@
                 <li>
                     <a href="#" data-role="logout">로그아웃</a>
                 </li>
+                <li>
+                    <a href="#" data-role="getUserInfo">사용자정보 갱신</a>
+                </li>
             </ul>
         </li>
         <li>
@@ -305,6 +319,28 @@
                 </li>
             </ul>
         </li>
+        <c:if test="${_mapDebug }">
+        <li><a class="menu_trigger" href="#">샘플</a>
+					<ul class="menu">
+						<li><a href="#"><b>자산정보 관리</b></a>
+							<ul class="submenu">
+								<li><a href="#" data-role="LoadModule" data-url="<c:url value='/sample/gamAssetMngt.do'/>">자산정보관리</a></li>
+								<li><a href="#" data-role="LoadModule" data-url="<c:url value='/sample/gamAssetRentMngt.do'/>">자산임대관리</a></li>
+								<li><a href="#" data-role="LoadModule" data-url="<c:url value='/sample/gamAuthorRoleMng.do'/>">권한 롤 관리</a></li>
+								<li><a href="#" data-role="LoadModule" data-url="<c:url value='/sample/gamAuthorGrpMng.do'/>">권한 그룹 관리</a></li>
+								<li><a href="#" data-role="LoadModule" data-url="<c:url value='/sample/gamAuthorGrpMng.do'/>">권한 그룹 관리</a></li>
+							</ul>
+							</li>
+						<li><a href="#"><b>테스트</b></a>
+							<ul class="submenu">
+								<li><a href="#" data-role="LoadModule" data-url="<c:url value='/eap/showEapGwCallInterfaceView.do'/>">전자결재 테스트</a></li>
+								<li><a href="#" data-role="startLogLandCode">지적도 기록</a></li>
+								<li><a href="#" data-role="saveLandCode">지적도 저장</a></li>
+							</ul>
+							</li>
+					</ul>
+				</li>
+				</c:if>
         </ul>
   </div>
     <div class="abs" id="bar_bottom">
