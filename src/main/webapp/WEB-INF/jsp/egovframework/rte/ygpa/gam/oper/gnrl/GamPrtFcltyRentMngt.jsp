@@ -155,6 +155,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function(param) {
     		alert("결재 완료된 자료 입니다.");
     		row.chkRole = false;
     		module.$('#assetRentMngtList').flexUpdateRow(row.rnum, row);
+    		
     	}
     	else{
 	    	var sanctnSttus = rowData.sanctnSttus||'';
@@ -169,7 +170,9 @@ GamAssetRentMngtModule.prototype.loadComplete = function(param) {
 	    			module.$('#btnPrmisn').show();
 	    		}
 	    		if(count>5){
-	    			alert("최대 5건까지 전자결재 연동 가능합니다.")
+	    			alert("최대 5건까지 전자결재 연동 가능합니다.");
+	    			row.chkRole = false;
+		    		module.$('#assetRentMngtList').flexUpdateRow(row.rnum, row);
 	    		}
 	    	}
     	}
@@ -1698,7 +1701,6 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
             this.doExecuteDialog('insertEntrpsInfoPopup', '업체 선택', '/popup/showEntrpsInfo.do', opts);
             break;
 
-
         case 'btnPrmisn': // 사용승낙
             var rows = this.$('#assetRentMngtList').selectedRows();
             var row = rows[0];
@@ -1708,8 +1710,8 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
 * 체크박스 승인된 데이 있는지 확인 필요(최대 입력 가능 행 5행)
 */
 
-            if(rows.length>=1 || checkedRows.length>=1) {
-            	if(rows.length>=1){
+            if(checkedRows.length>=1) {
+/*             	if(rows.length>=1){
 		            if(row['sanctnSttus']||'' == '1' || row['sanctnSttus']||'' == '2' || row['sanctnSttus']||'' == '5'){
 			    		alert('결재 진행 중인 자료 입니다.');
 			    		return;
@@ -1719,6 +1721,7 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
 	                    return;
 	                }
             	}
+ */            	
 
             	/*
                 if( row['sanctnSttus'] != '1' ) {

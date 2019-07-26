@@ -183,15 +183,14 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 		console.log("assetCodeList_onItemSelected");
 		module.$('#gisAssetsPrtAtCode_select').attr('disabled', 'disabled');
 		module.$('#gisAssetsPrtAtCode').attr('disabled', 'disabled');
+		module.$('#gisAssetsSeCd_select').attr('disabled', 'disabled');
+		module.$('#prdlstSe_select').attr('disabled', 'disabled');
+		module.$('#fsse_select').attr('disabled', 'disabled');
 
 		module.makeFormValues('#editGisAssetCode', row);
 		module._editData=module.getFormValues('#editGisAssetCode', row);
 		module._editRow=module.$('#assetCodeList').selectedRowIds()[0];
 		
-		this.$('#gisAssetsSeCd').attr('disabled', 'disabled');
-		this.$('#prdlstSe').attr('disabled', 'disabled');
-		this.$('#fsse').attr('disabled', 'disabled');
-
 		gisAssetsSeCdChange(row.gisAssetsSeCd);
 
 	});
@@ -1064,21 +1063,17 @@ var module_instance = new GamAssetCodeModule();
 					<tr>
 						<th><span class="label">자산구분</span></th>
 						<td>
-							<input id="gisAssetsSeCd" class="ygpaCmmnCd" data-code-id='GAM013' data-column-label-id='prtAtCodeNm'>
+							<input id="gisAssetsSeCd" class="ygpaCmmnCd" data-code-id='GAM013' data-column-label-id='prtAtCodeNm' disabled="disabled" >
 						</td>
 						<th><span class="label">품목 구분</span></th>
 						<td>
-							<input id="prdlstSe" class="ygpaCmmnCd" data-code-id='GAM073'>
+							<input id="prdlstSe" class="ygpaCmmnCd" data-code-id='GAM073' disabled="disabled" >
 						</td>
 						<th><span class="label">회계 구분</span></th>
 						<td>
-							<input id="fsse" class="ygpaCmmnCd" data-code-id='GAM072'>
+							<input id="fsse" class="ygpaCmmnCd" data-code-id='GAM072' disabled="disabled" >
 						</td>
-
-
 					</tr>
-
-
 
 					<tr>
 						<th><span class="label">항구분</span></th>

@@ -37,18 +37,19 @@ GamAssetErpSttusInqireModule.prototype.loadComplete = function() {
      dataType: 'json',
      colModel : [
                  {display:'예산과목', name:'nm',width:150, sortable:false, align:'left', }, 
-                 {display:'예산금액', name:'bdAmt',width:100, sortable:false,align:'right', displayFormat: 'number'},
-                 {display:'징수금액', name:'collectAmt',width:100, sortable:false,align:'right', displayFormat: 'number'},
-                 {display:'예산대징수차액', name:'bdMiColAmt',width:100, sortable:false,align:'right', displayFormat: 'number'},
-                 {display:'수납금액', name:'receiptAmt',width:100, sortable:false,align:'right', displayFormat: 'number'},
-                 {display:'예산대수납차액', name:'bdMiRecAmt',width:100, sortable:false,align:'right', displayFormat: 'number'},
-                 {display:'당년도미수금', name:'uncollectAmt',width:100, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'예산금액', name:'bdAmt',width:140, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'징수금액', name:'collectAmt',width:140, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'예산대징수차액', name:'bdMiColAmt',width:140, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'수납금액', name:'receiptAmt',width:140, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'예산대수납차액', name:'bdMiRecAmt',width:140, sortable:false,align:'right', displayFormat: 'number'},
+                 {display:'당년도미수금', name:'uncollectAmt',width:130, sortable:false,align:'right', displayFormat: 'number'}
                  
-                 {display:'tp', name:'tp',width:100, sortable:false,align:'left'},
+/*                  {display:'tp', name:'tp',width:100, sortable:false,align:'left'},
                  {display:'ID', name:'id',width:100, sortable:false,align:'right'},
                  {display:'PID', name:'pid',width:100, sortable:false,align:'right'},
                  {display:'입력여부', name:'inputCls',width:100, sortable:false,align:'left'},
-                 {display:'예산코드', name:'bdItemCd',width:100, sortable:false,align:'right'}
+                 {display:'예산코드', name:'bdItemCd',width:100, sortable:false,align:'right'} 
+*/
                  	
                  ],
 /*                  usepager: true,
