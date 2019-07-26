@@ -504,7 +504,7 @@ public class GamFenderInspectionController {
 	 * @return Map
 	 * @throws Exception
 	 */
-    @RequestMapping(value="/popup/selectFenderMngGroupList.do", method=RequestMethod.POST)
+    @RequestMapping(value="/popup/selectFenderMngGroupList.do")
 	@ResponseBody Map selectFenderMngGroupList(GamFenderInspectionVO searchVO) throws Exception {
 		int totalCnt;
     	Map map = new HashMap();

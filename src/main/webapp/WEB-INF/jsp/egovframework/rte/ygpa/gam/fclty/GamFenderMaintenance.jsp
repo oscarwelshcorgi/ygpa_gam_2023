@@ -271,7 +271,7 @@ GamFenderMaintenanceModule.prototype.onButtonClick = function(buttonId) {
 			break;
 		// 시설물 관리 그룹 선택 버튼 클릭
 		case 'popupSpecFcltsMngGroupNo':
-			this.doExecuteDialog(buttonId, "시설물 관리 그룹 선택", '/popup/showFcltsMngGroup.do', null);
+			this.doExecuteDialog(buttonId, "시설물 관리 그룹 선택", '/popup/showFenderMngGroup.do', null);
 
 			break;
 	}

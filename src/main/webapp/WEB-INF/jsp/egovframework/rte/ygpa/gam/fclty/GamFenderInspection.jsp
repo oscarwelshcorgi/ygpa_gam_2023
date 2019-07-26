@@ -439,7 +439,7 @@ GamFenderInspectionModule.prototype.onButtonClick = function(buttonId) {
 		// 시설물 관리 그룹 선택 버튼 클릭
 		case 'popupSpecFcltsMngGroupNo':
             var searchOpts = {'sYear':this.$("#year").val()};
-			this.doExecuteDialog(buttonId, "시설물 관리 그룹 선택", '/popup/showFcltsMngGroup.do', searchOpts);
+			this.doExecuteDialog(buttonId, "시설물 관리 그룹 선택", '/popup/showFenderMngGroup.do', searchOpts);
 
 			break;
 	}
