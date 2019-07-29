@@ -30,14 +30,14 @@ public class EgovTestUserDetailsServiceImpl extends AbstractServiceImpl implemen
 	public Object getAuthenticatedUser() {
 
 		LoginVO loginVO = new LoginVO();
-		loginVO.setId("TEST1");
+		loginVO.setId("11045");
 		loginVO.setPassword("a4ayc/80/OGda4BO/1o/V0etpOqiLx1JwB5S3beHW0s=");
 		loginVO.setIp("127.0.0.1");
 		loginVO.setUserSe("USR");
 		loginVO.setEmail("a3@aa.aa");
-		loginVO.setEmplNo("20140319");
+		loginVO.setEmplNo("11045");
 		loginVO.setIhidNum("1111111111118");
-		loginVO.setName("더미사용자");
+		loginVO.setName("박귀분");
 		loginVO.setQuayGroupCd("*");	// 배후부지 기준
 		loginVO.setMngFcltyCd("*");	// 건축시설 관리
 		loginVO.setOrgnztId("ORGNZT_0000000000000");
