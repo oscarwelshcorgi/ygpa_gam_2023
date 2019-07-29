@@ -190,7 +190,7 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 		module.makeFormValues('#editGisAssetCode', row);
 		module._editData=module.getFormValues('#editGisAssetCode', row);
 		module._editRow=module.$('#assetCodeList').selectedRowIds()[0];
-		
+
 		gisAssetsSeCdChange(row.gisAssetsSeCd);
 
 	});
@@ -295,7 +295,7 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 	this.$('#gisAssetsSeCd').attr('disabled', 'disabled');
 	this.$('#prdlstSe').attr('disabled', 'disabled');
 	this.$('#fsse').attr('disabled', 'disabled');
-	
+
 };
 
 // 사용자 설정 함수 추가
@@ -347,7 +347,7 @@ GamAssetCodeModule.prototype.addGisAssetItem = function() {
 		this.$('#gisAssetsSeCd').val(this.$('#erpAssetCodeList').selectedRows()[0].assetCls);
 		/* 품목구분 */
 		var _itemCls=this.$('#erpAssetCodeList').selectedRows()[0].itemCls;
-		
+
 		switch(_itemCls){
 			case '000001':
 			case '000002':
@@ -544,7 +544,7 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 		this.$('#gisAssetsSeCd').enable();
 		this.$('#prdlstSe').enable();
 		this.$('#fsse').enable();
-		
+
 		this.addGisAssetItem();
 		break;
 	case 'removeAssetGisCdItem':
@@ -688,13 +688,13 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 		break;
 	/* 건축물 시가표준액 */
 	case 'selectMktcStdAm':
-		
+
 		if(this.$('#gisAssetsBupjungdongCd').val() == '' || this.$('#gisAssetsLnm').val() == ''){
 			alert("주소, 지번을 선택해 주세요.")
 			break;
 		}
 		var searchOpt = {"sAdstrdCode" : this.$('#gisAssetsBupjungdongCd').val(), "sLnm" : this.$('#gisAssetsLnm').val(),"sSlno" : this.$('#gisAssetsLnmSub').val()}
-		
+
 	    this.doExecuteDialog('selectMktcStdAm', '건축물 시가표준액', '/asset/showPopupBuldMktcStdAm.do', searchOpt);
 	break;
 
