@@ -160,7 +160,14 @@ GamAssetRentMngtModule.prototype.loadComplete = function(param) {
     	else{
 	    	var sanctnSttus = rowData.sanctnSttus||'';
 	    	if(sanctnSttus == '1' || sanctnSttus == '2' || sanctnSttus == '5'){
-	    		alert('결재 진행 중인 자료 입니다.');
+	    		if(sanctnSttus == '2'){
+	                if( confirm("결재 중인 자료를 확인하시겠습니까?") ) {
+	                	var url = "http://192.168.0.32/jsp/call/UcheckSancData.jsp?"+rowData.gwcallUrl;
+	 	        		window.open(url, "showGwcallFwdIf", "width=800, height=600, menubar=no,status=no,scrollbars=yes")
+	                }	
+	    		}else{
+		    		alert('결재 진행 중인 자료 입니다.');
+	    		}
 	    		row.chkRole = false;
 	    		module.$('#assetRentMngtList').flexUpdateRow(row.rnum, row);
 	    	}
