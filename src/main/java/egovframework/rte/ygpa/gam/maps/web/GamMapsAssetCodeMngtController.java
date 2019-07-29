@@ -180,8 +180,11 @@ public class GamMapsAssetCodeMngtController {
 
 			try {
 				Map assetCodeInfo = gamMapsAssetCodeMngtService.selectMapsAssetsCodeInfo(searchVO);
-
-				String gisAssetsRm = assetCodeInfo.get("gisAssetsRm")+"";
+				String gisAssetsRm = "";
+				
+				if(assetCodeInfo != null) {
+					gisAssetsRm = assetCodeInfo.get("gisAssetsRm")+"";
+				}
 
 				if(gisAssetsRm.contains("/")) {
 					String[] wharfInfo = gisAssetsRm.split("/");

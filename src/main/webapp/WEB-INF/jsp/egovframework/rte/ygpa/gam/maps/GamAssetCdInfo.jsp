@@ -84,7 +84,12 @@ var popupInfoModule = new GamMapPopupModule();
 <c:if test="${resultCode==0 }">
 	<c:if test="${assetCd==null }">
 	<h2>시설정보가 없습니다.</h2>
-	<p>주소 : <c:out value="${addr }"/> <c:out value="${lnm }"/><c:if test="${lnmSub != 0 }">-<c:out value="${lnmSub }"/></c:if></p>
+	<table class='prtFcltyInfo'>
+		<tbody>
+				<tr><th>주소</th><td><c:out value="${addr }"/> <c:out value="${lnm }"/><c:if test="${lnmSub != 0 }">-<c:out value="${lnmSub }"/></c:if></td></tr>
+		</tbody>
+	</table>
+	
 		<c:if test="${fn:containsIgnoreCase(auth,'ROLEADMIN')||fn:containsIgnoreCase(auth,'ROLEASSETMNGT') }">
 			<button id="assignFeature">자산코드 지정</button>
 			<button id="removeFeature">영역 삭제</button>
