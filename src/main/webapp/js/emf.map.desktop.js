@@ -2836,7 +2836,7 @@ var EMD = (function($, window, document, undefined) {
 
 			EMD.userLayer.gisAssetsCd = new OpenLayers.Layer.Vector("자산정보", {
 		 		minScale: 30000,
-				strategies: [new OpenLayers.Strategy.Fixed(), gisAssetsCdSaveStrategy, gisAssetsCdRefreshStrategy],
+				strategies: [new OpenLayers.Strategy.Fixed(), EMD.saveStrategy, gisAssetsCdRefreshStrategy],
 		        projection: new OpenLayers.Projection("EPSG:5186"),
 				protocol: EMD.protocols.gisAssetsCd,
 				styleMap: getAssetsCdStyleMap(),
@@ -6562,7 +6562,8 @@ var EMD = (function($, window, document, undefined) {
     	},
     	modifyFeature: null,
     	saveFeatures: function() {
-    		EMD.saveStrategy.save();
+//    		EMD.saveStrategy.save();
+    		EMD.saveLayer.gisAssetsCd.save();
     	},
     	addPrtFcltyMarkerClick: OpenLayers.Class(OpenLayers.Control, {
             defaultHandlerOptions: {
@@ -8619,7 +8620,7 @@ var EMD = (function($, window, document, undefined) {
 
 						EMD.protocols.gisAssetsCd.create(newfeature);
 						EMD.protocols.gisAssetsCd.commit();
-						EMD.saveStrategy.save();
+						EMD.saveLayer.gisAssetsCd.save();
 					}
 					else {
 						console.log('[ERROR] Feature not found.')
@@ -8686,12 +8687,13 @@ var EMD = (function($, window, document, undefined) {
 						if (EMD.gis.compareLayerObject(layer, feature, oldattr)) {
 							EMD.gis.storeLayerObject(layer, feature, newattr);
 							layer.drawFeature(feature);
-							EMD.gis.storeLayerObject(layer, feature, newattr);
+//							EMD.gis.storeLayerObject(layer, feature, newattr);
 							changed=true;
 						}
 					}
 				}
 				if(changed) {
+//					EMD.saveLayer.gisAssetsCd.save();
 					EMD.saveStrategy.save();
 				}
 		},
@@ -9498,9 +9500,9 @@ var EMD = (function($, window, document, undefined) {
   					var gisAssetsCd=obj['gisAssetsCd']==undefined?obj['ASSETS_CD']:obj['gisAssetsCd'];
   					var gisAssetsSubCd=obj['gisAssetsSubCd']==undefined?obj['ASSETS_SCD']:obj['gisAssetsSubCd'];
   					var gisAssetsSeCd=obj['gisAssetsSeCd']==undefined?obj['ASSETS_SE_CD']:obj['gisAssetsSeCd'];
-//  					var gisAssetsNm=obj['gisAssetsNm']==undefined?obj['ASSETS_NM']:obj['gisAssetsNm'];
+  					var gisAssetsNm=obj['gisAssetsNm']==undefined?obj['ASSETS_NM']:obj['gisAssetsNm'];
 // gisAssetsNm=obj['gisAssetsNm']==undefined?obj['ASSETS_NM']:obj['gisAssetsNm'];
-  					var gisAssetsNm='';
+//  					var gisAssetsNm='';
   					feature.attributes['PRT_CD'] = gisAssetsPrtAtCode;
 					feature.attributes['ASSETS_CD'] = gisAssetsCd;
 					feature.attributes['ASSETS_SCD'] = gisAssetsSubCd;
