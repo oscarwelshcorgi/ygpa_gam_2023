@@ -391,7 +391,7 @@ public class GamFenderInspectionController {
 				if(entry.getKey().startsWith(fileKeyPrefix)) {
 					fileVo = new FileVO();
 					String fileSn="";
-					if(isNewFile) fileId=gamFenderFileIdGnrService.getNextStringId();
+					if(isNewFile && "".equals(fileId)) fileId=gamFenderFileIdGnrService.getNextStringId();
 					fileVo.setAtchFileId(fileId);
 					fileSn = StringUtils.leftPad(Integer.toString(maxFileSn++), 2, "0");
 					fileVo.setFileSn(fileSn);
