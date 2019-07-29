@@ -351,10 +351,14 @@ GamAssetCodeModule.prototype.addGisAssetItem = function() {
 		switch(_itemCls){
 			case '000001':
 			case '000002':
+			case '002000':
 			case '002001':
 			case '002002':
 			case '002003':
 			case '002004':
+			case '002005':
+			case '002006':
+			case '002007':
 				this.$('#prdlstSe').val(_itemCls);
 				break;
 			default :
