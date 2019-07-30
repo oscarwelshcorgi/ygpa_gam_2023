@@ -348,7 +348,8 @@ GamAssetCodeModule.prototype.addGisAssetItem = function() {
 		/* 품목구분 */
 		var _itemCls=this.$('#erpAssetCodeList').selectedRows()[0].itemCls;
 
-		switch(_itemCls){
+		this.$('#prdlstSe').val(_itemCls);
+/* 		switch(_itemCls){
 			case '000001':
 			case '000002':
 			case '002001':
@@ -360,6 +361,7 @@ GamAssetCodeModule.prototype.addGisAssetItem = function() {
 			default :
 				this.$('#prdlstSe').val('');
 		}
+ */
 		/* 회계구문 */
 		this.$('#fsse').val(this.$('#erpAssetCodeList').selectedRows()[0].accUnitCls);
 		/* 구매용도 */
