@@ -1092,7 +1092,7 @@
 	<select id="gamNticRequestMngtDAO.selectRentFeeCheckReport" parameterClass="gamPrtFcltyRentFeeMngtVO" resultClass="egovMap">
 		SELECT	L.ENTRPS_NM ,
 				TO_CHAR(L.NTIC_PD_FROM, 'YYYYMMDD') NTIC_PD_FROM ,
-				TO_CHAR(L.NTIC_PD_TO, 'YYYYMMDD') NTIC_PD_TO , 
+				TO_CHAR(L.NTIC_PD_TO, 'YYYYMMDD') NTIC_PD_TO ,
 				(SELECT GIS_ASSETS_LOCPLC
 				   FROM GIS_ASSETS_CD_F
 				  WHERE ROWNUM              =1
@@ -1153,6 +1153,14 @@
 		   AND L.CHRGE_KND      = #chrgeKnd#
 	</select>
 
+	<select id="gamNticRequestMngtDAO.selectOrgnztNm" parameterClass="java.lang.String" resultClass="java.lang.String">
+		SELECT ORGNZT_NM     CODE_NM
+		  FROM COMTNORGNZTINFO O
+		 INNER JOIN COMTNEMPLYRINFO E
+		 USING (ORGNZT_ID)
+		 WHERE 1=1
+		   AND E.ESNTL_ID = #uniqId#
+	</select>
 
 </sqlMap>
 
