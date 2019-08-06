@@ -38,19 +38,53 @@ public class GamAssetSttusInqireVO extends ComDefaultVO {
     /** 검색조건 */
     private String sGisAssetsSubCd;
 
-    /** 검색조건 */
+    /** 검색조건 업체 */
     private String sEntrpscd;
 
     /** 검색조건 */
     private String sPrmisnYn;
-
+   
+    /** 검색조건 자산구분 */
+    private String sGisAssetsSeCd;
+    
+    /** 검색조건 품목구분 */
+    private String sPrdlstSe;
+    
     /** 검색조건 */
     private String deptcd;
 
-    /** 검색조건 */
+    /** 검색조건 부두*/
     private String sQuayCd;
 
-    /** 자료수 */
+    /**
+	 * @return the sGisAssetsSeCd
+	 */
+	public String getsGisAssetsSeCd() {
+		return sGisAssetsSeCd;
+	}
+
+	/**
+	 * @param sGisAssetsSeCd the sGisAssetsSeCd to set
+	 */
+	public void setsGisAssetsSeCd(String sGisAssetsSeCd) {
+		this.sGisAssetsSeCd = sGisAssetsSeCd;
+	}
+
+	/**
+	 * @return the sPrdlstSe
+	 */
+	public String getsPrdlstSe() {
+		return sPrdlstSe;
+	}
+
+	/**
+	 * @param sPrdlstSe the sPrdlstSe to set
+	 */
+	public void setsPrdlstSe(String sPrdlstSe) {
+		this.sPrdlstSe = sPrdlstSe;
+	}
+
+	/** 자료수 */
     private String sumCnt;
 
     /** 면적합계 */

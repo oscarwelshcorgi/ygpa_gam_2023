@@ -68,7 +68,24 @@ public class GamGisAssetCodeVO implements Serializable {
     /** GIS 자산 비고 */
     private String gisAssetsRm;
 
-    /** 등록자 */
+    /** GIS 구매용도 */
+    private String gisAssetsPrpos;
+    
+    /**
+	 * @return the gisAssetsPrpos
+	 */
+	public String getGisAssetsPrpos() {
+		return gisAssetsPrpos;
+	}
+
+	/**
+	 * @param gisAssetsPrpos the gisAssetsPrpos to set
+	 */
+	public void setGisAssetsPrpos(String gisAssetsPrpos) {
+		this.gisAssetsPrpos = gisAssetsPrpos;
+	}
+
+	/** 등록자 */
     private String regUsr;
 
     /** 등록일자 */
@@ -131,7 +148,26 @@ public class GamGisAssetCodeVO implements Serializable {
     /** ERP 자산 폐기 사유 */
     private String erpAssetsDisuseRsn;
 
-    /** 운영부서 */
+    
+    /**ERP 자산 명*/
+    private String erpAssetsNm;
+    
+    /**
+	 * @return the erpAssetsNm
+	 */
+	public String getErpAssetsNm() {
+		return erpAssetsNm;
+	}
+
+	/**
+	 * @param erpAssetsNm the erpAssetsNm to set
+	 */
+	public void setErpAssetsNm(String erpAssetsNm) {
+		this.erpAssetsNm = erpAssetsNm;
+	}
+	
+
+	/** 운영부서 */
     private String operDeptCd;
 
     /** 관리부서 */
@@ -182,6 +218,9 @@ public class GamGisAssetCodeVO implements Serializable {
 
     private String gisAssetsBupjungdongCd;
 
+
+
+    
 	/**
 	 * @return the gisAssetsSubCd
 	 */

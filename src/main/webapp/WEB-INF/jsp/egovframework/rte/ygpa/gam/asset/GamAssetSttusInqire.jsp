@@ -186,13 +186,17 @@ var module_instance = new GamAssetSttusInqireModule();
                             <td style="width: 120px">
                                 <input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id=GAM019 />
                             </td>
-
+<!-- 
                             <th style="width: 40px"><span class="label">자산코드</span></th>
                             <td style="width: 250px">
                                 <input id="sGisAssetsCd" type="text" class="gisAssetsCd"/>&nbsp;-&nbsp;
-                                <input id="sGisAssetsSubCd" type="text" class="gisAssetsSubCd"/>
+                                <input id="sGisAssetsSubCd" type="text" class="gisAssetsSubCd"/> -->
                             </td>
 
+							<th style="width: 40px"><span class="label">부두</span></th>
+                            <td style="width: 100px">
+                                <input id="sQuayCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id=GAM003 />
+                            </td>
                             <th style="width: 40px"><span class="label">업체</span></th>
                             <td>
                             	<input id="sEntrpscd" type="text" size="15">
@@ -201,19 +205,18 @@ var module_instance = new GamAssetSttusInqireModule();
                     	     -->
                             	<button id="popupEntrpsInfo" class="popupButton">선택</button>
                             </td>
-
                             <td rowspan="2"><button id="searchBtn" class="buttonSearch">조회</button></td>
                          </tr>
+                         
                          <tr>
-                            <th style="width: 40px"><span class="label">부두</span></th>
+                            <th style="width: 40px"><span class="label">자산구분</span></th>
                             <td style="width: 100px">
-                                <input id="sQuayCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id=GAM003 />
+                                <input id="sGisAssetsSeCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id=GAM013 />
                             </td>
-                            <th>기준일자</th>
-                            <td><input id="sUsagePdFrom" type="text" class="emdcal"
-                                size="8"> ~ <input id="sUsagePdTo" type="text"
-                                class="emdcal" size="8"></td>
-
+                        	<th style="width: 40px"><span class="label">품목 구분</span></th>
+							<td style="width: 100px">
+								<input id="sPrdlstSe" class="ygpaCmmnCd" data-code-id='GAM073' data-default-prompt="전체"/>
+							</td>
 <!--                             <th>승낙구분</th>
                             <td>
                                 <select id="sPrmisnYn">
@@ -223,14 +226,17 @@ var module_instance = new GamAssetSttusInqireModule();
                                 </select>
                             </td>
  -->
-                            <th><span class="label">담당부서</span></th>
+                           <!--  <th><span class="label">담당부서</span></th>
                             <td>
                                 <input id="deptcd" class="ygpaDeptSelect" data-default-prompt="전체" />
-                            </td>
-
+                            </td> -->
+							<th>기준일자</th>
+                            <td><input id="sUsagePdFrom" type="text" class="emdcal"
+                                size="8"> ~ <input id="sUsagePdTo" type="text"
+                                class="emdcal" size="8"></td>
                             <td></td>
                             <td></td>
-                        </tr>
+                       	</tr>
                         <!--
                         <tr>
                             <th>GIS자산코드</th>
