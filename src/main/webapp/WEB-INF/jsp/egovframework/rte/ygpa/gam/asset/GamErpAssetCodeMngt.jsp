@@ -180,7 +180,7 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 			일자 : 2018.07.05
 			내용 : 신규가아닐경우 항구분 수정 하지 못하도록
 		*/
-		console.log("assetCodeList_onItemSelected");
+//		console.log("assetCodeList_onItemSelected");
 		module.$('#gisAssetsPrtAtCode_select').attr('disabled', 'disabled');
 		module.$('#gisAssetsPrtAtCode').attr('disabled', 'disabled');
 		module.$('#gisAssetsSeCd_select').attr('disabled', 'disabled');
@@ -318,7 +318,7 @@ GamAssetCodeModule.prototype.calcLeftBuyPrice = function() {
 };
 
 GamAssetCodeModule.prototype.addGisAssetItem = function() {
-	console.log("addGisAssetItem");
+//	console.log("addGisAssetItem");
 	this._edited=true;
 
 	this.$('#editGisAssetCode :input').val('');
@@ -396,6 +396,7 @@ GamAssetCodeModule.prototype.saveGisAssetItem = function() {
 	if( confirm("저장하시겠습니까?") ) {
 	    // 변경된 자료를 저장한다.
 	    var inputVO=[];
+
 	    inputVO[inputVO.length]={name: 'updateList', value :JSON.stringify(this.$('#assetCodeList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
 
 	    inputVO[inputVO.length]={name: 'insertList', value: JSON.stringify(this.$('#assetCodeList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
@@ -404,10 +405,13 @@ GamAssetCodeModule.prototype.saveGisAssetItem = function() {
 
 	    inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteDataList) };
 
+		var updateItem=this.$('#assetCodeList').selectFilterData([{col: '_updtId', filter: 'U'}]);
+		var insertItem=this.$('#assetCodeList').selectFilterData([{col: '_updtId', filter: 'I'}]);
+
 	    this.doAction('/asset/mergeGamErpGisAssetCodeMngt.do', inputVO, function(module, result) {
 	        if(result.resultCode == 0){
 	            var searchOpt=module.makeFormArgs('#searchGisAssetCode');
-	            console.log("searchOpt: " + searchOpt);
+//	            console.log("searchOpt: " + searchOpt);
 	            module.$('#assetCodeList').flexOptions({params:searchOpt}).flexReload();
 	        }
 
@@ -420,6 +424,17 @@ GamAssetCodeModule.prototype.saveGisAssetItem = function() {
 	        {
 	    		module.$('#gisAssetsPrtAtCode_select').attr('disabled', 'disabled');
 	    		module.$('#gisAssetsPrtAtCode').attr('disabled', 'disabled');
+
+	    		if(updateItem.length>0){
+					for(var i=0; i < updateItem.length; i++){
+						module.changeFeatureAttrib('gisAssetsCd',updateItem[i], updateItem[i]);
+					}
+	    		}
+	    		if(insertItem.length>0){
+					for(var j=0; j < insertItem.length; j++){
+						module.changeFeatureAttrib('gisAssetsCd',insertItem[j], insertItem[j]);
+					}
+	    		}
 	        }
 
 	        module._edited=false;
@@ -975,19 +990,29 @@ var module_instance = new GamAssetCodeModule();
 					<table style="width:100%;" class="searchPanel">
 						<tbody>
 							<tr>
-								<th>자산번호</th>
+<!-- 								<th>자산번호</th>
 								<td><input id="searchAssetCls" type="text" size="1" maxlength="1">-
 									<input id="searchAssetNo" type="text" size="4" maxlength="16">-
 									<input id="searchAssetNoSeq" type="text" size="1" maxlength="16"></td>
+ -->
+								<th>자산구분</th>
+								<td>
+		 							<input id="sGisAssetsSeCd" class="ygpaCmmnCd" data-code-id='GAM013' data-default-prompt="전체">
+								</td>
+								<th>품목구분</th>
+								<td>
+									<input id="sPrdlstSe" class="ygpaCmmnCd" data-code-id='GAM073' data-default-prompt="전체">
+								</td>
+
 								<th>취득일자</th>
 								<td><input id="searchStartDt" type="text" class="emdcal" data-role="dtFrom" data-dt-to="searchEndDt" size="8"> ~ <input id="searchEndDt" type="text" class="emdcal" data-role="dtTo"  data-dt-from="searchStartDt" size="8"></td>
-								<th>모델명</th>
-								<td><input id="searchModelName" size="30"></td>
 								<td rowSpan="2"><button id="selectErpAssetCode" class="buttonSearch">조회</button></td>
 							</tr>
 							<tr>
+								<th>모델명</th>
+								<td><input id="searchModelName" size="30"></td>
 								<th>품명</th>
-								<td colspan="3"><input id="searchItemName" size="30"></td>
+								<td><input id="searchItemName" size="30"></td>
 								<th>규격</th>
 								<td><input id="searchAssetSize" size="30"/></td>
 							</tr>
