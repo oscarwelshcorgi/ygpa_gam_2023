@@ -1150,7 +1150,9 @@
 		   AND L.MNG_NO        = #mngNo#
 		   AND L.MNG_CNT       = #mngCnt#
 		   AND L.NTIC_CNT      = #nticCnt#
+		   <isNotEmpty property="chrgeKnd">
 		   AND L.CHRGE_KND      = #chrgeKnd#
+		   </isNotEmpty>
 	</select>
 
 	<select id="gamNticRequestMngtDAO.selectOrgnztNm" parameterClass="java.lang.String" resultClass="java.lang.String">
