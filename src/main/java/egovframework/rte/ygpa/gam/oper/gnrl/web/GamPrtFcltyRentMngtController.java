@@ -1136,6 +1136,7 @@ public class GamPrtFcltyRentMngtController {
          String grFee = "";
          String vat = "";
          String TotGrFee = "";
+         String ar = "";
          String purps = "";
          assetRentMngtList = mapper.readValue((String)inputVO.get("assetRentMngtList"), new TypeReference<List<HashMap<String,String>>>(){});
 
@@ -1167,8 +1168,10 @@ public class GamPrtFcltyRentMngtController {
 
 //        	 grFee = NumberFormat.getInstance().format(gamPrtFcltyRentMngtVO.get("grFee"));
         	 grFee = String.format("%,d", Integer.parseInt(gamPrtFcltyRentMngtVO.get("grFee")) );
-        	 vat = String.format("%,d", (int) (Integer.parseInt(gamPrtFcltyRentMngtVO.get("grFee"))*0.1) );
+        	 vat = String.format("%,d", ((int) (Integer.parseInt(gamPrtFcltyRentMngtVO.get("grFee"))*0.1)+5)/10*10 );
         	 TotGrFee = String.format("%,d", (int) (Integer.parseInt(gamPrtFcltyRentMngtVO.get("grFee"))*1.1) );
+
+        	 ar = String.format("%,d", Integer.parseInt(gamPrtFcltyRentMngtVO.get("grAr")) );
 
         	 if(gamPrtFcltyRentMngtVO.get("cmt")!= null){
         		 purps = gamPrtFcltyRentMngtVO.get("cmt");
@@ -1177,13 +1180,13 @@ public class GamPrtFcltyRentMngtController {
         	 paramMap.put("entrpsNm", gamPrtFcltyRentMngtVO.get("entrpsNm"));
         	 paramMap.put("pd", gamPrtFcltyRentMngtVO.get("grUsagePdFrom")+'~'+gamPrtFcltyRentMngtVO.get("grUsagePdTo"));
         	 paramMap.put("purps", purps);
-        	 paramMap.put("ar", gamPrtFcltyRentMngtVO.get("grAr"));
+        	 paramMap.put("ar", ar);
         	 paramMap.put("rntfee", grFee);
         	 paramMap.put("vat", vat);
         	 paramMap.put("totPayamt", TotGrFee);
         	 paramMap.put("payTmlmt", payTmlmt);
 
-        	 mDataValue1=mDataValue1+"|"+gamPrtFcltyRentMngtVO.get("entrpsNm")+"|"+gamPrtFcltyRentMngtVO.get("grUsagePdFrom")+'~'+gamPrtFcltyRentMngtVO.get("grUsagePdTo")+"|"+purps +"|"+gamPrtFcltyRentMngtVO.get("grAr") +"|"+grFee+""+"("+vat+")" +"|"+TotGrFee +"|"+payTmlmt+"까지";
+        	 mDataValue1=mDataValue1+"|"+gamPrtFcltyRentMngtVO.get("entrpsNm")+"|"+gamPrtFcltyRentMngtVO.get("grUsagePdFrom")+'~'+gamPrtFcltyRentMngtVO.get("grUsagePdTo")+"|"+purps +"|"+gamPrtFcltyRentMngtVO.get("grAr") +"|"+grFee+""+"|"+"("+vat+")"+"|"+TotGrFee +"|"+payTmlmt+"까지";
 
         	 /* 전자 결재 히스토리 저장 */
         	 String co = gamAssetsUsePermMngtService.insertElctrnSanctn(paramMap);
@@ -1204,7 +1207,7 @@ public class GamPrtFcltyRentMngtController {
          }
 
          for(int i=0; i<5-assetRentMngtList.size(); i++) {
-        	 mDataValue1=mDataValue1+"|||||||";
+        	 mDataValue1=mDataValue1+"||||||||";
          }
 
          elctrnSanctnMap.put("tNo", elctrnSanctnPk.get("tNo"));
