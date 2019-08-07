@@ -69,15 +69,18 @@ GamFenderMaintenanceModule.prototype.loadComplete = function() {
 		dataType: "json",
 		colModel : [
 			{display:"선택", 				name:"chkRole",				width:40, 		sortable:false,		align:"center", 	displayFormat:"checkbox"},
-			{display:"항만시설 명",			name:"prtFcltyNm",				width:200,		sortable:false,		align:"left"},
-			{display:"규격",				name:"prtFcltyStndrd",			width:150,		sortable:false,		align:"left"},
-			{display:"단위",	 			name:"prtFcltyUnit",			width:40,		sortable:false,		align:"left"},
+			{display:"항만시설 명",			name:"prtFcltyNm",			width:200,		sortable:false,		align:"left"},
+			{display:"상태/평가",	 		name:"remark",					width:150,		sortable:false,		align:"left",	displayFormat: 'input'},
+			{display:"규격",				name:"prtFcltyStndrd",		width:150,		sortable:false,		align:"left"},
+/* 			{display:"단위",	 			name:"prtFcltyUnit",			width:40,		sortable:false,		align:"left"},
 			{display:"수량",	 			name:"prtPrtFcltyCnt",			width:40,		sortable:false,		align:"right",	displayFormat: 'number'},
-			{display:"구조 형식",	 		name:"strctFmt",				width:150,		sortable:false,		align:"left"},
-			{display:"선석",				name:"berth",					width:40,		sortable:false,		align:"left"},
+*/
+			{display:"구조 형식",	 		name:"strctFmt",			width:150,		sortable:false,		align:"left"}
+/* 			{display:"선석",				name:"berth",					width:40,		sortable:false,		align:"left"},
 			{display:"방충재 종류",		 	name:"fenderKndCd",				width:100,		sortable:false,		align:"left"},
 			{display:"방충재 배치 간격",		name:"fenderPmntItv",			width:120,		sortable:false,		align:"left"},
 			{display:"방충재 형식",		 	name:"fenderFmt",				width:150,		sortable:false,		align:"left"}
+*/
 			],
 		height: "360",
 		preProcess: function(module, data) {
@@ -116,6 +119,14 @@ GamFenderMaintenanceModule.prototype.loadComplete = function() {
 	var toYear = toDate.getFullYear();
 	var toMonth = toDate.getMonth() + 1;
 	var toDay = toDate.getDate();
+
+	if(toMonth < 10){
+		toMonth = "0" + toMonth;
+	}
+	if(toDay < 10){
+		toDay = "0" + toDay;
+	}
+
 
 	for(var i = toYear;i>=2010;i--){
 		this.$(".year").append("<option value='" + i + "'>" + i + "년</option>");
@@ -496,8 +507,12 @@ GamFenderMaintenanceModule.prototype.saveData = function() {
 	detailForm["delPhoto"]=JSON.stringify(this._delPhotoList);
 	detailForm["delCompetInspctWtnnc"]=JSON.stringify(this._delAttList);
 
+	this.$('#mntnRprObjFcltsF')[0].dgrid.selectRow(0);
+
  	inputVO[inputVO.length] = {name: 'detailForm', value :JSON.stringify(detailForm) };
  	inputVO[inputVO.length] = {name: 'insertMntnObjList', value :JSON.stringify(this.$('#mntnRprObjFcltsF').selectFilterData([{col: 'chkRole', filter: true}])) };
+
+
 
 	for(var k in inputVO) {
 		formData.append(inputVO[k].name, inputVO[k].value);
