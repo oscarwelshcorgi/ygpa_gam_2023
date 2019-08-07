@@ -2,14 +2,14 @@
 <!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
 
 <sqlMap namespace="ygpa.gam.oper.htldnew">
-	
+
 	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
-    
+
     <typeAlias alias="gamHtldRentMngDefaultVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentMngDefaultVO"/>
 	<typeAlias alias="gamHtldRentCtrtVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentCtrtVO"/>
 	<typeAlias alias="gamHtldRentCtrtDetailVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentCtrtDetailVO"/>
-    
+
 	<resultMap id="gamHtldRentCtrtMap" class="egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentCtrtVO">
         <result property="mngYear" column="MNG_YEAR" columnIndex="1"/>
         <result property="mngNo" column="MNG_NO" columnIndex="2"/>
@@ -58,7 +58,7 @@
 
 	<!--  배후단지 임대계약 최신이력번호 조회 -->
 	<select id="gamHtldRentCtrtHistDao.selectHtldRentCtrtMaxHistSeq_S" parameterClass="gamHtldRentMngDefaultVO" resultClass="java.lang.String">
-		SELECT 
+		SELECT
 		  NVL(MAX(HIST_SEQ), '0000') MAX_HIST_SEQ
 		FROM HTLD_RENT_HIST_F
 		WHERE
@@ -69,13 +69,13 @@
 
 	<!-- 배후단지 임대계약 이력번호 생성 -->
 	<select id="gamHtldRentCtrtHistDao.selectNextHistSeq_S" parameterClass="gamHtldRentMngDefaultVO" resultClass="java.lang.String">
-		SELECT 
+		SELECT
 			LPAD(NVL(MAX(HIST_SEQ),0) + 1,'4','0') AS NEXT_HIST_SEQ
-		FROM 
-			HTLD_RENT_HIST_F 
-		WHERE 
-			MNG_YEAR=#mngYear# 
-			AND MNG_NO=#mngNo# 
+		FROM
+			HTLD_RENT_HIST_F
+		WHERE
+			MNG_YEAR=#mngYear#
+			AND MNG_NO=#mngNo#
 			AND MNG_SEQ=#mngSeq#
 	</select>
 
@@ -86,8 +86,8 @@
    		FROM
    		  	HTLD_RENT_DETAIL_HIST_F
    		WHERE
-			MNG_YEAR=#mngYear# 
-			AND MNG_NO=#mngNo# 
+			MNG_YEAR=#mngYear#
+			AND MNG_NO=#mngNo#
 			AND MNG_SEQ=#mngSeq#
 			AND HIST_SEQ =GAM_GET_HTLD_RENT_HIST_SEQ(#mngYear#, #mngNo#, #mngSeq#, #histDt#)
 	</select>
@@ -222,7 +222,7 @@
 		  AND MNG_SEQ = #mngSeq#
 		  AND HIST_SEQ = GAM_GET_HTLD_RENT_HIST_SEQ(#mngYear#, #mngNo#, #mngSeq#, #histDt#)
 	</select>
-		
+
 	<!--  이력날짜에 해당하는 계약상세 가져오기 -->
 	<select id="gamHtldRentCtrtHistDao.selectHtldRentCtrtDetail_D" parameterClass="gamHtldRentMngDefaultVO" resultMap="gamHtldRentCtrtDetailMap">
 		SELECT
@@ -257,5 +257,5 @@
 		  AND MNG_SEQ = #mngSeq#
 		  AND HIST_SEQ = GAM_GET_HTLD_RENT_HIST_SEQ(#mngYear#, #mngNo#, #mngSeq#, #histDt#)
 	</select>
-	
+
 </sqlMap>

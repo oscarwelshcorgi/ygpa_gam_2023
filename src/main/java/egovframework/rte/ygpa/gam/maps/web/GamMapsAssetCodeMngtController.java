@@ -17,11 +17,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import egovframework.com.cmm.ComDefaultCodeVO;
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
-import egovframework.rte.ygpa.gam.code.service.GamBupJungDongCodeDefaultVO;
 import egovframework.rte.ygpa.gam.maps.service.GamMapsAssetCodeMngtService;
 
 /**
@@ -156,32 +154,47 @@ public class GamMapsAssetCodeMngtController {
 				if(auth.length()!=0) auth+=",";
 				if("role_admin".equalsIgnoreCase(author)) {
 					auth+="roleAdmin";
+					auth+=",roleAssetMngt";
+					auth+=",roleFcltyMngt";
+					auth+=",rolePfuseMngt";
+					auth+=",roleCntrqMngt";
+					auth+=",roleHtldMngt";
 					break;
 				}
-				if("role_asset_mngt".equalsIgnoreCase(author)) {
+				else if("role_asset_mngt".equalsIgnoreCase(author)) {
 					auth+="roleAssetMngt";
 				}
-				if("role_fclty_mngt".equalsIgnoreCase(author)) {
-					auth+="roleAssetMngt";
+				else if("role_fclty_mngt".equalsIgnoreCase(author)) {
+					auth+="roleFcltyMngt";
 				}
-				if("role_pfuse_mngt".equalsIgnoreCase(author)) {
+				else if("role_pfuse_mngt".equalsIgnoreCase(author)) {
 					auth+="rolePfuseMngt";
 				}
-				if("role_cntrq_mngt".equalsIgnoreCase(author)) {
+				else if("role_cntrq_mngt".equalsIgnoreCase(author)) {
 					auth+="roleCntrqMngt";
+				}
+				else if("ROLE_HTLD_MNGT".equalsIgnoreCase(author)) {
+					auth+="roleHtldMngt";
 				}
 			}
 
 			try {
 				Map assetCodeInfo = gamMapsAssetCodeMngtService.selectMapsAssetsCodeInfo(searchVO);
+				String gisAssetsRm = "";
+				
+				if(assetCodeInfo != null) {
+					gisAssetsRm = assetCodeInfo.get("gisAssetsRm")+"";
+				}
+
+				if(gisAssetsRm.contains("/")) {
+					String[] wharfInfo = gisAssetsRm.split("/");
+					for(int i=0; i<3; i++) {
+						model.addAttribute("wharfInfo"+i, wharfInfo[i]);
+					}
+				}
 
 				model.addAttribute("assetCd", assetCodeInfo);
-	//			if(auth.indexOf("roleAdmin") || auth.indexOf("roleAssetMngt")) {
-					model.addAttribute("assetRent", gamMapsAssetCodeMngtService.selectMapsAssetsCodeUseInfo(searchVO));
-	//			}
-	//			if(auth.indexOf("roleAdmin") || auth.indexOf("roleAssetMngt")) {
-					model.addAttribute("assetRentSummary", gamMapsAssetCodeMngtService.selectMapsAssetsCodeUseSummary(searchVO));
-	//			}
+
 				model.addAttribute("auth", auth);
 				if(assetCodeInfo==null) {
 					String bjdCode=(String)searchVO.get("bjdCode");
@@ -198,6 +211,29 @@ public class GamMapsAssetCodeMngtController {
 					model.addAttribute("lnm", lnm);
 					model.addAttribute("lnmSub", lnmSub);
 				}
+				else {
+					if(auth.indexOf("roleAssetMngt")>=0 || auth.indexOf("rolePfuseMngt")>=0) {
+						List<Map> assetsRentList = (List<Map>) gamMapsAssetCodeMngtService.selectMapsAssetsRentInfo(searchVO);
+
+						if(assetsRentList.size()>0) {
+							Map assetsRentInfo = assetsRentList.get(0);
+
+							model.addAttribute("prtAtCode", assetsRentInfo.get("prtAtCode"));
+							model.addAttribute("mngYear", assetsRentInfo.get("mngYear"));
+							model.addAttribute("mngNo", assetsRentInfo.get("mngNo"));
+							model.addAttribute("mngCnt", assetsRentInfo.get("mngCnt"));
+						}
+
+						model.addAttribute("assetRent", assetsRentList);
+					}
+					if(auth.indexOf("roleAssetMngt")>=0 || auth.indexOf("rolePfuseMngt")>=0) {
+						model.addAttribute("assetRentSummary", gamMapsAssetCodeMngtService.selectMapsAssetsCodeUseSummary(searchVO));
+					}
+					if(auth.indexOf("roleHtldMngt")>=0) {
+						Map map = gamMapsAssetCodeMngtService.selectMapsHtldRentInfo(searchVO);
+						if(map!=null) model.addAttribute("assetHtldInfo", map);
+					}
+				}
 				model.addAttribute("resultCode", 0);
 			}
 			catch(Exception e) {
@@ -209,7 +245,7 @@ public class GamMapsAssetCodeMngtController {
     	return "ygpa/gam/maps/GamAssetCdInfo";
     }
 
-	
+
 	@RequestMapping(value="/maps/assets/gamPrtFcltyCdInfo.do")
 	public String gamPrtFcltyCdInfo(@RequestParam Map searchVO, ModelMap model) throws Exception {
 
@@ -236,7 +272,7 @@ public class GamMapsAssetCodeMngtController {
 					auth+="roleAssetMngt";
 				}
 				if("role_fclty_mngt".equalsIgnoreCase(author)) {
-					auth+="roleAssetMngt";
+					auth+="roleFcltyMngt";
 				}
 				if("role_pfuse_mngt".equalsIgnoreCase(author)) {
 					auth+="rolePfuseMngt";
@@ -250,12 +286,10 @@ public class GamMapsAssetCodeMngtController {
 				Map assetCodeInfo = gamMapsAssetCodeMngtService.selectMapsAssetsCodeInfo(searchVO);
 
 				model.addAttribute("assetCd", assetCodeInfo);
-	//			if(auth.indexOf("roleAdmin") || auth.indexOf("roleAssetMngt")) {
-					model.addAttribute("assetRent", gamMapsAssetCodeMngtService.selectMapsAssetsCodeUseInfo(searchVO));
-	//			}
-	//			if(auth.indexOf("roleAdmin") || auth.indexOf("roleAssetMngt")) {
+				if(auth.indexOf("roleAssetMngt")>0 || auth.indexOf("rolePfuseMngt")>0) {
+					model.addAttribute("assetRent", gamMapsAssetCodeMngtService.selectMapsAssetsRentInfo(searchVO));
 					model.addAttribute("assetRentSummary", gamMapsAssetCodeMngtService.selectMapsAssetsCodeUseSummary(searchVO));
-	//			}
+				}
 				model.addAttribute("auth", auth);
 				if(assetCodeInfo==null) {
 					String bjdCode=(String)searchVO.get("bjdCode");

@@ -42,4 +42,10 @@ public interface GamMapsCivilFcltyInqireService {
 	 */
 	public List selectFcltyFileList(Map vo) throws Exception;
 
+	/**
+	 * @param searchVO
+	 * @return
+	 */
+	EgovMap selectFcltyMaintInfo(Map searchVO) throws Exception;
+
 }

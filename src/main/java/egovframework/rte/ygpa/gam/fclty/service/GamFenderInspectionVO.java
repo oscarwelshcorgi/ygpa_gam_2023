@@ -104,7 +104,46 @@ public class GamFenderInspectionVO extends ComDefaultVO {
 	private String[] delPhotoTwo;
 	private String[] delPhotoThree;
 
+	private String[] delChckTableOne;
+	private String[] delChckTableTwo;
+	private String[] delChckTableThree;
 
+	/**
+	 * @return the delChckTableOne
+	 */
+	public String[] getDelChckTableOne() {
+		return delChckTableOne;
+	}
+	/**
+	 * @param delChckTableOne the delChckTableOne to set
+	 */
+	public void setDelChckTableOne(String[] delChckTableOne) {
+		this.delChckTableOne = delChckTableOne;
+	}
+	/**
+	 * @return the delChckTableTwo
+	 */
+	public String[] getDelChckTableTwo() {
+		return delChckTableTwo;
+	}
+	/**
+	 * @param delChckTableTwo the delChckTableTwo to set
+	 */
+	public void setDelChckTableTwo(String[] delChckTableTwo) {
+		this.delChckTableTwo = delChckTableTwo;
+	}
+	/**
+	 * @return the delChckTableThree
+	 */
+	public String[] getDelChckTableThree() {
+		return delChckTableThree;
+	}
+	/**
+	 * @param delChckTableThree the delChckTableThree to set
+	 */
+	public void setDelChckTableThree(String[] delChckTableThree) {
+		this.delChckTableThree = delChckTableThree;
+	}
 	/**
 	 * @return the delPhotoOne
 	 */

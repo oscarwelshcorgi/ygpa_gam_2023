@@ -408,6 +408,7 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 							module.changeFeatureAttrib('gisAssetsCd', oldCode, module.selectedItem);
 						}
 						else {
+							module.selectedItem=result.resultVo;
 							if(module.selectedItem['_feature']==undefined) {
 								switch (module._params.action) {
 								case 'addLotcodeFeature':
@@ -423,6 +424,19 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 								case 'modifyFeature':
 									module.changeFeatureAttrib('gisAssetsCd',
 											module._params.feature.attributes,
+											module.selectedItem
+											);
+									break;
+								case 'prtFcltyInqire':
+									module.changeFeatureAttrib('gisAssetsCd',
+											module.selectedItem,
+											module.selectedItem
+											);
+									break;
+								default:
+									// console.log(module.selectedItem);
+									module.changeFeatureAttrib('gisAssetsCd',
+											module.selectedItem,
 											module.selectedItem
 											);
 									break;

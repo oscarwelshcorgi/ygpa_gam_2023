@@ -6,11 +6,17 @@
 <form-validation>
 
     <formset>
-        <form name="gamBuldMktcStdAmVO">         
+        <form name="gamBuldMktcStdAmVO">
            <field property="adres" depends="required">
                 <arg0 key="주소" resource="false"/>
-            </field>                 
+            </field>
+           <field property="lnm" depends="required">
+                <arg0 key="지번" resource="false"/>
+            </field>
+           <field property="mktcStdAm" depends="required">
+                <arg0 key="시가표준액(원)" resource="false"/>
+            </field>
         </form>
     </formset>
-    
+
 </form-validation>

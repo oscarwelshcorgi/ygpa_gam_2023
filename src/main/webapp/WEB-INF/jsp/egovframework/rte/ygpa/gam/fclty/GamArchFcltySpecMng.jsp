@@ -522,6 +522,17 @@ GamArchFcltySpecMngModule.prototype.onClosePopup = function(popupId, msg, value)
 				this.$('#bldDt').focus();
 			}
 			break;
+/* 도로명 주소 팝업 콜백 */
+		case 'btnSearchRoadInfo':
+			if (msg == 'ok') {
+				console.log("btnSearchRoadInfo");
+				this.$('#roadInfo').val(value.roadNm);
+				
+				this.$('#jusoMngNo').val(value.jusoMngNo);
+				this.$('#jibunSn').val(value.jibunSn);
+				
+			}
+			break;
 	}
 
 };
@@ -601,6 +612,10 @@ GamArchFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 			break;
 		case 'btnFcltyMaintMngList':
 			this.showFcltyMaintMngList(this.$('#btnFcltyMaintMngList')[0]);
+			break;
+/* 도로명 주소 검색 */
+		case 'btnSearchRoadInfo':
+			this.doExecuteDialog(buttonId, "도로명 주소 검색", '/popup/showRoadInfo.do', null);
 			break;
 	}
 
@@ -2175,6 +2190,17 @@ var module_instance = new GamArchFcltySpecMngModule();
 									<input type="text" size="18" id="fcltsMngGroupNo" maxlength="8" data-required="true"/>
 									<input type="text" size="61" id="fcltsMngGroupNm" disabled/>
 									<button id="popupSpecFcltsMngGroupNo" class="popupButton">선택</button>
+								</td>
+							</tr>
+							<tr>
+								<th style="width:10%; height:18px;">도로명　주소</th>
+								<td colspan="3">
+									<input type="text" size="50" id="roadInfo" disabled/>
+									<input type="hidden" size="25" id="jusoMngNo" disabled/>
+									<input type="hidden" size="12" id="jibunSn" disabled/>
+									<button id="btnSearchRoadInfo" class="popupButton">도로명 주소 검색</button>
+								</td>
+								<td colspan="2">
 								</td>
 							</tr>
 						</table>

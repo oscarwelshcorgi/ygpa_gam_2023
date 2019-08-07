@@ -1189,7 +1189,7 @@ public class GamPrtFcltyRentFeeMngtController {
 			model.addAttribute("resultMsg", "");
 			model.addAttribute("hwpML", hwpML);
 			model.addAttribute("isHwp", true);
-			model.addAttribute("filename", "산정보서.hwp");
+			model.addAttribute("filename", "산정조서.hwp");
 			
 	    	return "ygpa/gam/oper/gnrl/GamPrtfcltyPrintReportHwp";
     	}

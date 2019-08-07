@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
 <sqlMap namespace="ygpa.gam.oper.htldnew">
-	
+
 	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
-    
+
     <typeAlias alias="gamHtldRentNticDefaultVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentNticDefaultVO"/>
     <typeAlias alias="gamHtldRentArrrgNticInfoVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentArrrgNticInfoVO"/>
-	
+
 	<!-- 연체고지 내역 가져오기 -->
 	<select id="gamHtldRentArrrgNticIssueDao.selectNticIssueMaster_S" parameterClass="gamHtldRentNticDefaultVO" resultClass="egovMap">
-		SELECT 
+		SELECT
 			MNG_YEAR
 			,MNG_NO
 			,MNG_SEQ
@@ -27,15 +27,15 @@
 			,#nticSeq# NTIC_SEQ
 			,#nticNo# NTIC_NO
 			,(SELECT RM FROM HTLD_NTIC_DTLS_F WHERE ACCNUT_YEAR = #accnutYear# AND RNTFEE_NTIC_NO = #rntfeeNticNo# AND NTIC_SEQ = #nticSeq#) RM
-		FROM 
-			HTLD_RENT_HIST_F 
+		FROM
+			HTLD_RENT_HIST_F
 		WHERE
 			MNG_YEAR = #mngYear#
 			AND MNG_NO = #mngNo#
 			AND MNG_SEQ = #mngSeq#
 			AND HIST_SEQ = (SELECT HIST_SEQ FROM HTLD_NTIC_DTLS_F WHERE ACCNUT_YEAR = #accnutYear# AND RNTFEE_NTIC_NO = #rntfeeNticNo# AND NTIC_SEQ = #nticSeq#)
-	</select>	
-	
+	</select>
+
 	<!-- 연체고지 상세 리스트 가져오기 -->
 	<select id="gamHtldRentArrrgNticIssueDao.selectNticIssueDetailList_D" parameterClass="gamHtldRentNticDefaultVO" resultClass="egovMap">
 		SELECT
@@ -57,7 +57,7 @@
 					,DECODE(D.RENT_AR_SE, '1', '물류부지', '2', '제조부지', '3', '숙성실', '') RENT_AR_SE_NM
 					,NVL(D.APPLC_RNTFEE, 0) APPLC_RNTFEE
 					,TO_CHAR(D.DETAIL_PD_BEGIN, 'YYYY-MM-DD') DETAIL_PD_BEGIN
-					,TO_CHAR(D.DETAIL_PD_END, 'YYYY-MM-DD') DETAIL_PD_END			
+					,TO_CHAR(D.DETAIL_PD_END, 'YYYY-MM-DD') DETAIL_PD_END
 					,TO_CHAR(NVL(D.APPLC_RNTFEE, 0), '9,999,999,999.99') APPLC_RNTFEE_STR
 					,D.PRICE_SE PRICE_SE
 					,DECODE(D.PRICE_SE, '1', '면적당단가', '2', '월단가','') PRICE_SE_NM
@@ -74,19 +74,19 @@
 					,NVL(F.RNTFEE_SE, '0') RNTFEE_SE
 					,F.RNTFEE_SE_NM RNTFEE_SE_NM
 					,NVL(F.PAYINST_INTR, 0) PAYINST_INTR
-					,F.ACCNUT_YEAR ACCNUT_YEAR 
+					,F.ACCNUT_YEAR ACCNUT_YEAR
 					,F.RNTFEE_NTIC_NO RNTFEE_NTIC_NO
 					,F.NTIC_SEQ NTIC_SEQ
 					,(SELECT TO_CHAR(SRC_NTIC_DT, 'YYYY-MM-DD') FROM HTLD_NTIC_DTLS_F WHERE ACCNUT_YEAR = F.ACCNUT_YEAR AND RNTFEE_NTIC_NO = F.RNTFEE_NTIC_NO AND NTIC_SEQ = F.NTIC_SEQ) SRC_NTIC_DT
 				FROM
 				    HTLD_RNTFEE_F F
 				LEFT OUTER JOIN
-					(SELECT A.* FROM HTLD_RENT_DETAIL_HIST_F A WHERE 
+					(SELECT A.* FROM HTLD_RENT_DETAIL_HIST_F A WHERE
 						A.HIST_SEQ = (SELECT HIST_SEQ FROM HTLD_NTIC_DTLS_F WHERE ACCNUT_YEAR = #accnutYear# AND RNTFEE_NTIC_NO = #rntfeeNticNo# AND NTIC_SEQ = #nticSeq#)) D
-					ON F.MNG_YEAR = D.MNG_YEAR AND F.MNG_NO = D.MNG_NO AND F.MNG_SEQ = D.MNG_SEQ 
+					ON F.MNG_YEAR = D.MNG_YEAR AND F.MNG_NO = D.MNG_NO AND F.MNG_SEQ = D.MNG_SEQ
 						AND (F.RENT_DETAIL_REGIST_SEQ IS NULL OR F.RENT_DETAIL_REGIST_SEQ = D.REGIST_SEQ)
 				INNER JOIN
-					(SELECT B.* FROM HTLD_RENT_HIST_F B WHERE 
+					(SELECT B.* FROM HTLD_RENT_HIST_F B WHERE
 						B.HIST_SEQ = (SELECT HIST_SEQ FROM HTLD_NTIC_DTLS_F WHERE ACCNUT_YEAR = #accnutYear# AND RNTFEE_NTIC_NO = #rntfeeNticNo# AND NTIC_SEQ = #nticSeq#)) R
 					ON F.MNG_YEAR = R.MNG_YEAR AND F.MNG_NO = R.MNG_NO AND F.MNG_SEQ = R.MNG_SEQ
 				WHERE
@@ -114,7 +114,7 @@
 					,'' RENT_AR_SE_NM
 					,0 APPLC_RNTFEE
 					,'' DETAIL_PD_BEGIN
-					,'' DETAIL_PD_END			
+					,'' DETAIL_PD_END
 					,TO_CHAR(0, '9,999,999,999.99') APPLC_RNTFEE_STR
 					,'' PRICE_SE
 					,'' PRICE_SE_NM
@@ -131,14 +131,14 @@
 					,NVL(F.RNTFEE_SE, '0') RNTFEE_SE
 					,F.RNTFEE_SE_NM RNTFEE_SE_NM
 					,NVL(F.PAYINST_INTR, 0) PAYINST_INTR
-					,F.ACCNUT_YEAR ACCNUT_YEAR 
+					,F.ACCNUT_YEAR ACCNUT_YEAR
 					,F.RNTFEE_NTIC_NO RNTFEE_NTIC_NO
 					,F.NTIC_SEQ NTIC_SEQ
 					,(SELECT TO_CHAR(SRC_NTIC_DT, 'YYYY-MM-DD') FROM HTLD_NTIC_DTLS_F WHERE ACCNUT_YEAR = F.ACCNUT_YEAR AND RNTFEE_NTIC_NO = F.RNTFEE_NTIC_NO AND NTIC_SEQ = F.NTIC_SEQ) SRC_NTIC_DT
 				FROM
 				    HTLD_RNTFEE_F F
 				INNER JOIN
-					(SELECT B.* FROM HTLD_RENT_HIST_F B WHERE 
+					(SELECT B.* FROM HTLD_RENT_HIST_F B WHERE
 						B.HIST_SEQ = (SELECT HIST_SEQ FROM HTLD_NTIC_DTLS_F WHERE ACCNUT_YEAR = #accnutYear# AND RNTFEE_NTIC_NO = #rntfeeNticNo# AND NTIC_SEQ = #nticSeq#)) R
 					ON F.MNG_YEAR = R.MNG_YEAR AND F.MNG_NO = R.MNG_NO AND F.MNG_SEQ = R.MNG_SEQ
 				WHERE
@@ -153,10 +153,10 @@
 		) L
 		ORDER BY RNTFEE_SE, RNTFEE_SEQ
 	</select>
-	
+
 	<!-- 연체정보상세 가져오기 -->
     <select id="gamHtldRentArrrgNticIssueDao.selectNticArrrgDetail_S" parameterClass="gamHtldRentNticDefaultVO" resultClass="egovMap">
-		SELECT 
+		SELECT
 			A.MNG_YEAR,
 			A.MNG_NO,
 			A.MNG_SEQ,
@@ -171,6 +171,7 @@
 		    A.ENTRPS_NM,
 		    A.BILL_AMNT BILL_AMNT,
 		    A.NTIC_DT,
+		    A.DUE_DATE,
 		    TO_CHAR(SYSDATE+15, 'YYYY-MM-DD') DLY_DUE_DT,
 		    TO_CHAR(SYSDATE, 'YYYY-MM-DD') DLY_BILL_DT,
 		    A.ARRRG_TARIFF,
@@ -194,7 +195,7 @@
 		    ,U.BILL_NO DLY_BILL_NO
 		    ,U.DLY_BILL_DT DB_DLY_BILL_DT
 		FROM (
-		        SELECT 
+		        SELECT
 		          D.MNG_YEAR
 		          ,D.MNG_NO
 		          ,D.MNG_SEQ
@@ -227,7 +228,7 @@
 		          ,A.ORIGIN_FISCAL_YR
 		          ,A.ORIGIN_BILL_NO
 		        FROM REV_COLL_F A, HTLD_NTIC_DTLS_F D
-		        WHERE 
+		        WHERE
 		          A.FEE_TP = GAM_GET_HTLD_FEE_TP(D.CHRGE_KND_CD)
 		          AND A.WORK_CODE = D.CHRGE_KND_CD
 		          AND A.FISCAL_YR     = D.ACCNUT_YEAR
@@ -243,11 +244,11 @@
 		          AND A.BILL_AMNT IS NOT NULL
 		          ]]>
 		    ) A
-		LEFT OUTER JOIN UNPAID_F U 
-			ON A.PRT_AT_CODE=U.PRT_AT_CODE AND A.FEE_TP=U.FEE_TP AND A.FISCAL_YR=U.FISCAL_YR AND A.BILL_NO=U.BILL_NO 
+		LEFT OUTER JOIN UNPAID_F U
+			ON A.PRT_AT_CODE=U.PRT_AT_CODE AND A.FEE_TP=U.FEE_TP AND A.FISCAL_YR=U.FISCAL_YR AND A.BILL_NO=U.BILL_NO
 				AND U.DLY_SER_NO=LPAD(NVL(A.ARRRG_NO, 0)+1, 2, '0')
     </select>
-	
+
 	<!-- 연체고지 등록 전 고지테이블에서 연체고지테이블에서 연체정보 데이터 가져오기 -->
 	<select id="gamHtldRentArrrgNticIssueDao.selectArrrgInfo_S" parameterClass="gamHtldRentArrrgNticInfoVO" resultClass="egovMap">
 		SELECT
@@ -272,7 +273,7 @@
 			#arrrgAmt# DBILL_AMNT,
 			#newPayTmlmt# DLY_DUE_DT,
 			(
-				SELECT lpad(nvl(MAX(DLY_SER_NO), 0)+1, 2, '0') FROM UNPAID_F 
+				SELECT lpad(nvl(MAX(DLY_SER_NO), 0)+1, 2, '0') FROM UNPAID_F
 					WHERE PRT_AT_CODE= '622'
 					AND FISCAL_YR=D.ACCNUT_YEAR
 					AND WORK_CODE=GAM_GET_HTLD_ARRRG_CHRGE_KND(D.CHRGE_KND_CD)
@@ -290,12 +291,12 @@
 						AND U.BILL_NO=D.NTIC_NO
 						AND U.DLY_SER_NO = DLY_SER_NO
 						AND ROWNUM = 1
-				), D.PAY_TMLMT ), 
+				), D.PAY_TMLMT ),
 			'YYYY-MM-DD') PRV_DUE_DT,
 			TO_CHAR(
 				NVL(
 				(
-					SELECT U.DLY_BILL_DT FROM UNPAID_F U 
+					SELECT U.DLY_BILL_DT FROM UNPAID_F U
 						WHERE U.PRT_AT_CODE='622'
 						AND U.FISCAL_YR=D.ACCNUT_YEAR
 						AND U.WORK_CODE=GAM_GET_HTLD_ARRRG_CHRGE_KND(D.CHRGE_KND_CD)
@@ -303,15 +304,15 @@
 						AND U.BILL_NO=D.NTIC_NO
 						AND U.DLY_SER_NO = DLY_SER_NO
 						AND ROWNUM = 1
-				), D.NTIC_DT ), 
+				), D.NTIC_DT ),
 			'YYYY-MM-DD') PRV_BILL_DT,
 			D.PAY_SE,
 			#regUsr# REG_USR,
 			SYSDATE REGIST_DT,
-			#arrrgTariff# ARRRG_TARIFF, 
+			#arrrgTariff# ARRRG_TARIFF,
 			TRUNC(SYSDATE-D.PAY_TMLMT) ARRRG_PAY_DATES,
-			#dlyBillDt# DLY_BILL_DT, 
-			#dlyBillRsn# DLY_BILL_RSN, 
+			#dlyBillDt# DLY_BILL_DT,
+			#dlyBillRsn# DLY_BILL_RSN,
 			#deptCd# DEPT_CD,
 			#userName# USER_NAME,
 			#emplNo# EMPL_NO
@@ -320,12 +321,12 @@
 			AND D.RNTFEE_NTIC_NO = #rntfeeNticNo#
 			AND D.NTIC_SEQ = #nticSeq#
 	</select>
-	
+
 	<!-- UNPAID_F에 연체정보 등록 -->
 	<insert id="gamHtldRentArrrgNticIssueDao.insertArrrgInfo_S" parameterClass="egovMap">
        INSERT INTO UNPAID_F (
       		PRT_AT_CODE, FEE_TP, WORK_CODE, FISCAL_YR, BILL_NO,
-      		DLY_SER_NO, DLY_BILL_AMNT, DLY_BILL_DT, DLY_DUE_DT, DLY_BILL_PRT_YN, DLY_RCVD_TP, 
+      		DLY_SER_NO, DLY_BILL_AMNT, DLY_BILL_DT, DLY_DUE_DT, DLY_BILL_PRT_YN, DLY_RCVD_TP,
       		FIRST_BILL_DT, DBILL_AMNT, ARRRG_TARIFF, ARRRG_PAY_DATES,
       		BZ_RGST_ID,
       		DLY_BILL_RSN, UPDT_UID, UPDT_DATE,
@@ -335,27 +336,27 @@
       		SELECT
         		'622', GAM_GET_HTLD_FEE_TP(GAM_GET_HTLD_ARRRG_CHRGE_KND(D.CHRGE_KND_CD)), GAM_GET_HTLD_ARRRG_CHRGE_KND(D.CHRGE_KND_CD), D.ACCNUT_YEAR, D.NTIC_NO,
         		#dlySerNo#, TO_NUMBER(#dlyBillAmnt#), TO_DATE(#dlyBillDt#, 'YYYY-MM-DD'), TO_DATE(#dlyDueDt#, 'YYYY-MM-DD'), 'N', '1',
-      			TO_DATE(#nticDt#, 'YYYY-MM-DD'), TO_NUMBER(#dbillAmnt#), TO_NUMBER(#arrrgTariff#), #applyPayDates#,
+      			TO_DATE(#nticDt#, 'YYYY-MM-DD'), TO_NUMBER(#dlyBillAmnt#), TO_NUMBER(#arrrgTariff#), #applyPayDates#,
       			GAM_GETENTRPSNM(#entrpsCd#, '2'),
       			#dlyBillRsn#, #regUsr#, SYSDATE,
       			#entrpsCd#, '194', 'N', 'N', TO_DATE(#nticPdFrom#, 'YYYY-MM-DD'), TO_DATE(#nticPdTo#, 'YYYY-MM-DD'),
-      			#deptCd#, #emplNo#, TO_DATE(#prvDueDt#, 'YYYY-MM-DD'), NVL(D.SUP_AMT,0) + NVL(D.VAT,0) + #dlyBillAmnt#, #userName#, TO_DATE(#prvBillDt#, 'YYYY-MM-DD')
+      			#deptCd#, #emplNo#, TO_DATE(#prvDueDt#, 'YYYY-MM-DD'), #dlyBillAmnt#, #userName#, TO_DATE(#prvBillDt#, 'YYYY-MM-DD')
      		FROM HTLD_NTIC_DTLS_F D
       		WHERE D.ACCNUT_YEAR = #accnutYear#
 				AND D.RNTFEE_NTIC_NO = #rntfeeNticNo#
 				AND D.NTIC_SEQ = #nticSeq#
 	</insert>
-	
+
 	<!-- HTLD_NTIC_DTLS_F 에 연체정보 수정 -->
 	<update id="gamHtldRentArrrgNticIssueDao.updateHtldNticDtlsInfo_S" parameterClass="egovMap">
     	UPDATE HTLD_NTIC_DTLS_F SET
         	NTIC_DT=TO_DATE(#dlyBillDt#, 'YYYY-MM-DD'),
         	PAY_TMLMT=TO_DATE(#dlyDueDt#, 'YYYY-MM-DD'),
       		ARRRG_NO=#dlySerNo#,
-      		ARRRG_AMT=TRUNC(TO_NUMBER(#dlyBillAmnt#), 0),
+      		ARRRG_AMT=TRUNC(TO_NUMBER(#arrrgNticAmt#), 0),
       		ARRRG_TARIFF=TO_NUMBER(#arrrgTariff#),
       		ARRRG_PAY_DATES=#applyPayDates#,
-      		PAY_AMT=NVL(SUP_AMT,0)+NVL(VAT,0)+TO_NUMBER(#dbillAmnt#),
+      		PAY_AMT=TO_NUMBER(#arrrgNticAmt#),
       		RM = #rm#,
       		RCIV_SE='1', <!-- 연체로 기록. -->
       		UPD_USR=#regUsr#,
@@ -365,5 +366,5 @@
 			AND RNTFEE_NTIC_NO = #rntfeeNticNo#
 			AND NTIC_SEQ = #nticSeq#
 	</update>
-	
+
 </sqlMap>

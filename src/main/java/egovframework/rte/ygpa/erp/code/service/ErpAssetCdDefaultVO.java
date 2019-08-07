@@ -70,6 +70,11 @@ public class ErpAssetCdDefaultVO implements Serializable {
 
     private String searchDeptCd;
 
+    private String sGisAssetsSeCd;
+
+    private String sPrdlstSe;
+
+
     public String getSearchAssetNo() {
 		return searchAssetNo;
 	}
@@ -216,6 +221,34 @@ public class ErpAssetCdDefaultVO implements Serializable {
 
 	public void setSearchModelName(String searchModelName) {
 		this.searchModelName = searchModelName;
+	}
+
+	/**
+	 * @return the sGisAssetsSeCd
+	 */
+	public String getsGisAssetsSeCd() {
+		return sGisAssetsSeCd;
+	}
+
+	/**
+	 * @param sGisAssetsSeCd the sGisAssetsSeCd to set
+	 */
+	public void setsGisAssetsSeCd(String sGisAssetsSeCd) {
+		this.sGisAssetsSeCd = sGisAssetsSeCd;
+	}
+
+	/**
+	 * @return the sPrdlstSe
+	 */
+	public String getsPrdlstSe() {
+		return sPrdlstSe;
+	}
+
+	/**
+	 * @param sPrdlstSe the sPrdlstSe to set
+	 */
+	public void setsPrdlstSe(String sPrdlstSe) {
+		this.sPrdlstSe = sPrdlstSe;
 	}
 
 }

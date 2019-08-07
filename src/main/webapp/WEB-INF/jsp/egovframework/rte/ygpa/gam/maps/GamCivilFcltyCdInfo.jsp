@@ -108,6 +108,11 @@ GamMapPopupModule.prototype.onButtonClick = function(buttonId) {
 
             this.removeFeatures('gisArchFclty', [this.getFeature()]);
         	break;
+        case 'fenderDurability':
+        	EMD.util.create_window("gamFenderDurability", "방충재 내구연한 도래", "/fclty/gamFenderDurability.do", null, {
+        		prtFcltyNm: this.$('#prtFcltyNm').val()
+			});
+        	break;
     }
 };
 
@@ -122,6 +127,7 @@ var popupInfoModule = new GamMapPopupModule();
 <input id="fcltsMngNo" type="hidden" value="<c:out value='${fcltyCd.fcltsMngNo }' />" />
 <input id="fcltsMngGroupNo" type="hidden" value="<c:out value='${fcltyCd.fcltsMngGroupNo }' />" />
 <input id="fcltsMngGroupNm" type="hidden" value="<c:out value='${fcltyCd.fcltsMngGroupNm }' />" />
+<input id="prtFcltyNm" type="hidden" value="<c:out value='${fcltyCd.prtFcltyNm }' />" />
 <c:forEach var="imgfile" items="${fileList}">
 	<input name="atchFileNmPhysicl" type="hidden" value="<c:out value='${imgfile.atchFileNmPhysicl }' />"/>
 </c:forEach>
@@ -131,7 +137,7 @@ var popupInfoModule = new GamMapPopupModule();
 <c:if test="${resultCode==0 }">
 	<c:if test="${fcltyCd==null }">
 		<h2>시설정보가 없습니다.</h2>
-		<c:if test="${fn:containsIgnoreCase(auth,'role_admin')||fn:containsIgnoreCase(auth,'role_manager') }">
+		<c:if test="${fn:containsIgnoreCase(auth,'roleManager') }">
 			<button id="assignFeature">시설코드 지정</button>
 			<button id="removeFeature">영역 삭제</button>
 		</c:if>
@@ -143,7 +149,7 @@ var popupInfoModule = new GamMapPopupModule();
 				<tr><th>시설명</th><td colspan="3"><c:out value="${fcltyCd.prtFcltyNm }" /></td></tr>
 				<tr><th>시설분류</th><td colspan="3"><c:out value="${fcltyCd.prtFcltyCdNm }" /></td></tr>
 				<tr><th>규격</th><td colspan="3"><c:out value="${fcltyCd.prtFcltyStndrd }" /></td></tr>
-				<%-- 
+				<%--
 				<c:if test="${fcltyCd.gisPrtFcltyCd=='C1' }">
 				<tr><th>관로 길이</th><td colspan="3"><fmt:formatNumber value="${fcltyCd['lt'] }" maxIntegerDigits="6" maxFractionDigits="2" /> m</td></tr>
 				</c:if>
@@ -166,14 +172,27 @@ var popupInfoModule = new GamMapPopupModule();
 					<tr><td id="imgPanel" colspan="3"><img id="imgPreview" src="<c:url value='/cmm/getPfImage.do?physicalFileNm=${fileList[0].atchFileNmPhysicl }' />" style='width:300px;' /></td></tr>
 				</c:if>
 			</tbody></table>
-			<c:if test="${fn:containsIgnoreCase(auth,'role_admin')||fn:containsIgnoreCase(auth,'role_manager') }">
-				<button id="fcltyCdMngt" data-icon="ui-icon-newwin">제원</button>
-				<!-- <button id="fcltyFlawRpr" data-icon="ui-icon-newwin">하자보수</button> -->
-				<button id="fcltyMntnRpr" data-icon="ui-icon-newwin">유지보수</button>
-				<!-- <button id="fcltyQcMng" data-icon="ui-icon-newwin">점검기록</button> -->
+			<c:if test="${fn:containsIgnoreCase(auth,'roleManager') }">
+			<h2>유지보수 정보</h2>
+			<table class='prtFcltyInfo'><tbody>
+				<tr><th>공사명</th><td colspan="3"><c:out value="${fcltyMaintInfo.mntnRprCnstNm }" /></td></tr>
+				<tr><th>설계자</th><td colspan="3"><c:out value="${fcltyMaintInfo.plannerNm }" /></td></tr>
+				<tr><th>공사기간</th><td colspan="3"><c:out value="${fcltyMaintInfo.mntnRprCnstStartDt }" />~<c:out value="${fcltyMaintInfo.mntnRprCnstEndDt }" /></td></tr>
+				<tr><th>총 공사금액</th><td colspan="3"><fmt:formatNumber value="${fcltyMaintInfo.mntnRprCnstAmt }" maxIntegerDigits="12" maxFractionDigits="2" /></td></tr>
+				<tr><th>직접공사비</th><td colspan="3"><fmt:formatNumber value="${fcltyMaintInfo.mntnRprBdgt }" maxIntegerDigits="12" maxFractionDigits="2" /></td></tr>
+				<tr><th>공사자</th><td colspan="3"><c:out value="${fcltyMaintInfo.cnstrtr }" /></td></tr>
+				<tr><th>책임자</th><td colspan="3"><c:out value="${fcltyMaintInfo.responEngineer }" /></td></tr>
+			</tbody></table>
 			</c:if>
-			<c:if test="${!fn:containsIgnoreCase(auth,'role_admin')&&!fn:containsIgnoreCase(auth,'role_manager') }">
-				<button id="fcltyCdInqire" data-icon="ui-icon-newwin">제원 조회</button>
+			<c:if test="${fn:containsIgnoreCase(auth,'roleManager') }">
+				<button id="fcltyCdMngt" data-icon="ui-icon-newwin">제원</button>
+				<button id="fcltyFlawRpr" data-icon="ui-icon-newwin">하자보수</button>
+				<button id="fcltyMntnRpr" data-icon="ui-icon-newwin">유지보수</button>
+				<button id="fcltyQcMng" data-icon="ui-icon-newwin">점검기록</button>
+			</c:if>
+			<c:if test="${fn:containsIgnoreCase(auth,'roleManager') }">
+<!-- 				<button id="fcltyCdInqire" data-icon="ui-icon-newwin">제원 조회</button> -->
+				<button id="fenderDurability" data-icon="ui-icon-newwin">내구연한 도래</button>
 			</c:if>
 		</div>
 	</c:if>

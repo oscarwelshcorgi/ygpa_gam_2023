@@ -51,4 +51,12 @@ public class GamMapsCivilFcltyInqireDAO extends YGPAAbstractDAO {
 		return (List) list("gamMapsCivilFcltyInqireDAO.selectFcltySpecFileList_D", vo);
 	}
 
+	/**
+	 * @param searchVO
+	 * @return
+	 */
+	public EgovMap selectFcltyMaintInfo(Map searchVO) throws Exception {
+		return (EgovMap) selectByPk("gamMapsCivilFcltyInqireDAO.selectFcltyMaintInfo_S", searchVO);
+	}
+
 }

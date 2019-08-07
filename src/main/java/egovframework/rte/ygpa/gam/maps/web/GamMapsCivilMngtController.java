@@ -75,15 +75,26 @@ public class GamMapsCivilMngtController {
 					// 권한별 조회 메뉴 설정
 					if(auth.length()!=0) auth+=",";
 					if("role_admin".equalsIgnoreCase(author)) {
-						auth+="role_admin";
+						auth+="roleAdmin";
+						auth+=",roleAssetMngt";
+						auth+=",roleFcltyMngt";
+						auth+=",rolePfuseMngt";
+						auth+=",roleCntrqMngt";
+						auth+=",roleHtldMngt";
+						auth+=",roleManager";
 						break;
 					}
-					else {
+					else if("role_fclty_mngt".equalsIgnoreCase(author)){
 						if("C".equals(loginVo.getMngFcltyCd())) {
-							auth+="role_manager";
+							auth+="roleManager";
 						}
 					}
-					auth+=author.toLowerCase();
+//					auth+=author.toLowerCase();
+				}
+
+				if(auth.indexOf("roleManager")>=0) {
+					Map fcltyMaintInfo = gamMapsCivilFcltyInqireService.selectFcltyMaintInfo(searchVO);
+					model.addAttribute("fcltyMaintInfo", fcltyMaintInfo);
 				}
 
 				model.addAttribute("fcltyCd", fcltyCdInfo);

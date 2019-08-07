@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package egovframework.rte.ygpa.gam.oper.htldnew.service.impl;
 
@@ -13,16 +13,17 @@ import egovframework.rte.ygpa.gam.code.service.GamCofixIntrrateVO;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldQuGtqyVO;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentMngtMainVO;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentRntfeeVO;
+import egovframework.rte.ygpa.gam.oper.htldnew.service.GamPopupHtldBizAssessVO;
 
 /**
- * 
+ *
  * @author Jongmin
  * @since 2016. 5. 10.
  * @version 1.0
  * @see
  * <pre>
  * << 개정이력(Modification Information) >>
- *   
+ *
  *   수정일 		 수정자		 수정내용
  *  -------		--------	---------------------------
  *  2016. 5. 10.		Jongmin		최초 생성
@@ -32,31 +33,31 @@ import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentRntfeeVO;
  */
 @Repository("gamHtldRentMngtMainDao")
 public class GamHtldRentMngtMainDao extends YGPAAbstractDAO {
-	
+
 	/**
 	 * 배후단지 임대 상세목록 조회
-	 * @param 
+	 * @param
 	 * @return List 임대상세목록
 	 * @exception Exception
 	 */
 	public List<?> selectHtldRentDetailList(GamHtldRentMngtMainVO vo) throws Exception {
 		return (List<?>) list("gamHtldRentMngtMainDao.selectHtldRentDetailList_D", vo);
 	}
-	
+
 	/**
 	 *  Cofix 이자율 조회
-	 * @param 
+	 * @param
 	 * @return String 이자율
 	 * @exception Exception
 	 */
 	public String selectCofixIntrrate(GamHtldRentMngtMainVO vo) throws Exception {
 		return (String)selectByPk("gamHtldRentMngtMainDao.selectCofixIntrrate_S", vo);
 	}
-		
+
 	/**
 	 * 임대료 등록
 	 * @param GamHtldRntfeeVO
-	 * @return 
+	 * @return
 	 * @exception Exception
 	 */
 	public void insertHtldRntfee(GamHtldRentRntfeeVO vo) throws Exception {
@@ -66,7 +67,7 @@ public class GamHtldRentMngtMainDao extends YGPAAbstractDAO {
 	/**
 	 * 임대료 수정
 	 * @param GamHtldRntfeeVO
-	 * @return 
+	 * @return
 	 * @exception Exception
 	 */
 	public void updateHtldRntfee(GamHtldRentRntfeeVO vo) throws Exception {
@@ -99,14 +100,14 @@ public class GamHtldRentMngtMainDao extends YGPAAbstractDAO {
 		// TODO Auto-generated method stub
 		delete("gamHtldRentMngtMainDao.deleteHtldRentDetailData", deleteRentData);
 	}
-	
+
 	/**
 	 * @param nowYear
 	 */
 	public String inserHtldRentData(Map param) throws Exception{
 		// TODO Auto-generated method stub
-		return (String)insert("gamHtldRentMngtMainDao.inserHtldRentData", param); 
-		
+		return (String)insert("gamHtldRentMngtMainDao.inserHtldRentData", param);
+
 	}
 
 	/**
@@ -115,7 +116,7 @@ public class GamHtldRentMngtMainDao extends YGPAAbstractDAO {
 	public void inserHtldRentDetailData(Map param) throws Exception{
 		// TODO Auto-generated method stub
 		insert("gamHtldRentMngtMainDao.inserHtldRentDetailData", param);
-		
+
 	}
 
 	/**
@@ -159,7 +160,56 @@ public class GamHtldRentMngtMainDao extends YGPAAbstractDAO {
 		return  (List<?>) list("gamHtldRentMngtMainDao.deleteHtldRentList", null);
 	}
 
+	/**
+	 * @param searchVO
+	 */
+	public void insertHtldCopyCtrt(GamHtldRentMngtMainVO searchVO) {
+		insert("gamHtldRentMngtMainDao.insertHtldCopyCtrt", searchVO);
+	}
 
+	/**
+	 * @param searchVO
+	 */
+	public void insertHtldCopyCtrtDtls(GamHtldRentMngtMainVO searchVO) {
+		insert("gamHtldRentMngtMainDao.insertHtldCopyCtrtDtls", searchVO);
+	}
+
+
+	/**
+	 * @param searchVO
+	 */
+	public void deleteHtldCopyCtrtMst(GamHtldRentMngtMainVO searchVO) {
+		delete("gamHtldRentMngtMainDao.deleteHtldCopyCtrtMst", searchVO);
+	}
+
+
+	/**
+	 * @param searchVO
+	 */
+	public void deleteHtldCopyCtrtRntfee(GamHtldRentMngtMainVO searchVO) {
+		delete("gamHtldRentMngtMainDao.deleteHtldCopyCtrtRntfee", searchVO);
+	}
+
+	/**
+	 * @param searchVO
+	 */
+	public void deleteHtldCopyCtrtDtls(GamHtldRentMngtMainVO searchVO) {
+		delete("gamHtldRentMngtMainDao.deleteHtldCopyCtrtDtls", searchVO);
+	}
+
+	/**
+	 * @param searchVO
+	 */
+	public void deleteHtldCopyCtrtNticDtls(GamHtldRentMngtMainVO searchVO) {
+		delete("gamHtldRentMngtMainDao.deleteHtldCopyCtrtNticDtls", searchVO);
+	}
+
+	/**
+	 * @param vo
+	 */
+	public void updateBizAssess(GamPopupHtldBizAssessVO vo) {
+		update("gamHtldRentMngtMainDao.updateBizAssess", vo);
+	}
 
 
 }

@@ -78,6 +78,16 @@ public class GamMapsAssetCodeMngtDAO extends YGPAAbstractDAO {
 		return (EgovMap) selectByPk("gamMapsAssetRentMngtDAO.selectMapsAssetsRentInfo_S", vo);
 	}
 
+	@SuppressWarnings("unchecked")
+	public List selectMapsAssetsRentInfo2(Map vo) throws Exception{
+		return list("gamMapsAssetRentMngtDAO.selectMapsAssetsRentInfo2_S", vo);
+	}
+
+	@SuppressWarnings("unchecked")
+	public Map selectMapsAssetsCodeUseInfo(Map vo) throws Exception{
+		return (EgovMap) selectByPk("gamMapsAssetCodeMngtDAO.selectMapsAssetsCodeUseInfo", vo);
+	}
+
 	public String selectMapsBjdCodeInfo(String bjdCode) throws Exception{
 		return (String) selectByPk("gamMapsAssetCodeMngtDAO.selectMapsBjdCodeInfo", bjdCode);
 	}
@@ -90,6 +100,14 @@ public class GamMapsAssetCodeMngtDAO extends YGPAAbstractDAO {
 	@SuppressWarnings("unchecked")
 	public List selectMapsHistSttusByCodeInfo(Map vo) throws Exception{
 		return list("gamMapsAssetCodeMngtDAO.selectMapsHistSttusByCodeInfo_D", vo);
+	}
+
+	/**
+	 * @param searchVO
+	 * @return
+	 */
+	public Map selectMapsHtldRentInfo(Map searchVO) {
+		return (EgovMap) selectByPk("gamMapsAssetCodeMngtDAO.selectMapsHtldRentInfo_S", searchVO);
 	}
 
 

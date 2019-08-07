@@ -24,8 +24,8 @@
 %>
 <validator:javascript formName="gamFenderInspectionVO" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
 
-<script type="text/javascript" src="<c:url value='js/egovframework/com/cmm/fms/EgovMultiFile.js'/>" ></script>
- 
+<script type="text/javascript" src="<c:url value='/js/egovframework/com/cmm/fms/EgovMultiFile.js'/>" ></script>
+
 <script>
 
 <%
@@ -51,7 +51,7 @@ GamFenderMaintenanceModule.prototype.loadComplete = function() {
 					{display:"종별",			name:"fcltsGbnNm",				width:60,		sortable:true,	align:"center"},
 					{display:"관리 그룹 명",	name:"fcltsMngGroupNm",			width:150,		sortable:true,	align:"left"},
 					{display:"위치",			name:"loc",						width:200,		sortable:true,	align:"left"},
-					
+
 					{display:"시행주체",		name:"opertnMbyNm",				width:200,		sortable:true,	align:"left"},
 					{display:"공사명칭",		name:"cntrwkNm",				width:200,		sortable:true,	align:"left"},
 					{display:"공사기간",		name:"cntrwkDt",				width:200,		sortable:true,	align:"left"},
@@ -62,7 +62,7 @@ GamFenderMaintenanceModule.prototype.loadComplete = function() {
 		showTableToggleBtn : false,
 		height : 'auto'
 	});
-	
+
 	this.$("#mntnRprObjFcltsF").flexigrid({
 		module: this,
 		url: '/fclty/gamFenderMaintenanceDetailList.do',
@@ -93,7 +93,7 @@ GamFenderMaintenanceModule.prototype.loadComplete = function() {
 	});
 
  */
- 
+
  // 그리드 클릭
  	this.$("#mainGrid").on('onItemSelected', function(event, module, row, grid, param) {
 		module._mainmode = "modify";
@@ -109,9 +109,9 @@ GamFenderMaintenanceModule.prototype.loadComplete = function() {
 
 // 셀렉트 박스 비활성화
 	this.$("#year").disable();
-	
 
-// 연도 셀렉트 박스 생성	
+
+// 연도 셀렉트 박스 생성
 	var toDate = new Date();
 	var toYear = toDate.getFullYear();
 	var toMonth = toDate.getMonth() + 1;
@@ -120,11 +120,81 @@ GamFenderMaintenanceModule.prototype.loadComplete = function() {
 	for(var i = toYear;i>=2010;i--){
 		this.$(".year").append("<option value='" + i + "'>" + i + "년</option>");
 	}
-	
+
 	this.$("#sCntrwkBegin").val(toYear+"-"+toMonth+"-"+toDay);
 
+	<%--
+	// 이미지 파일 처리
+	--%>
+    var module=this;
+
+	this._delPhotoList=[];
+
+	this._photoFileBuffer=[];
+
+    this.$('ul.photoList > li > span > button').on('click', function(e) {
+    	module.removeImageClickEvent(e)
+    	});
+
+	this.$('#photoFile').change(function(e){
+        Array.prototype.push.apply(module._photoFileBuffer, e.target.files);
+        var html = '';
+        $.each(e.target.files, function(index, file){
+            const fileName = file.name;
+            html += '<li value="new"><span>';
+            html += '<img src="'+URL.createObjectURL(file)+'">'
+            html += '<button data-filename="'+fileName+'"><i class="fa fa-trash-alt"></i></button></span></li>';
+            const fileEx = fileName.slice(fileName.indexOf(".") + 1).toLowerCase();
+            if(fileEx != "jpg" && fileEx != "jpeg" && fileEx != "png" &&  fileEx != "gif" &&  fileEx != "bmp"){
+                alert("파일은 (jpg, jpeg, png, gif, bmp) 형식만 등록 가능합니다.");
+                return false;
+            }
+            module.$($(e.target).data('photo-list')).append(html);
+        });
+    	module.$('ul.photoList > li > span > button').off('click', function(e) {
+    		module.removeImageClickEvent(e)
+    	});
+    	module.$('ul.photoList > li > span > button').on('click', function(e) {
+    		module.removeImageClickEvent(e)
+    	});
+     });
+
+	<%--
+	// 준공검사조서 파일 처리
+	--%>
+	this._delAttList=[];
+
+	this._attFileBuffer=[];
+
+    this.$('ul.attList > li > span > button').on('click', function(e) {
+    	module.removeAttClickEvent(e)
+   	});
+
+	this.$('#attFile').change(function(e){
+        Array.prototype.push.apply(module._attFileBuffer, e.target.files);
+        var html = '';
+        $.each(e.target.files, function(index, file){
+            const fileName = file.name;
+            html += '<li value="new"><span>';
+            html += fileName;
+            html += '<button data-filename="'+fileName+'"><i class="fa fa-trash-alt"></i></button></span></li>';
+            const fileEx = fileName.slice(fileName.indexOf(".") + 1).toLowerCase();
+            if(fileEx != "hwp" && fileEx != "doc" && fileEx != "pdf" &&  fileEx != "docx" &&  fileEx != "xls" &&  fileEx != "xlsx"){
+                alert("파일은 (hwp, doc, pdf, docx, xls, xlsx) 형식만 등록 가능합니다.");
+                return false;
+            }
+            module.$($(e.target).data('file-list')).append(html);
+        });
+    	module.$('ul.attList > li > span > button').off('click', function(e) {
+    		module.removeAttClickEvent(e)
+    	});
+    	module.$('ul.attList > li > span > button').on('click', function(e) {
+    		module.removeAttClickEvent(e)
+    	});
+     });
+
 	this.loadData();
-	
+
 }
 
 <%
@@ -146,21 +216,21 @@ GamFenderMaintenanceModule.prototype.onTabChange = function(newTabId, oldTabId) 
 				this.loadDetail(oldTabId);
 				this.$('#popupSpecFcltsMngGroupNo').disable({disableClass:"ui-state-disabled"});
 				this.$("#year").disable();
-				
-				
+
+
 			} else if (this._mainmode == "insert") { // 탭 1번 추가 때
 				this.makeFormValues('#detailForm', {});
 				this.makeDivValues('#detailForm', {});
 				this.$('#mntnRprObjFcltsF').flexEmptyData();
-				
+
 				this.$('#popupSpecFcltsMngGroupNo').enable();
 				this.$('#popupSpecFcltsMngGroupNo').removeClass("ui-state-disabled");
-				
+
 				var toDate = new Date();
 				var toYear = toDate.getFullYear();
 				this.$("#year").enable();
 				this.$('#year').val(toYear);
-				
+
 				//기본 데이터 설정
 				// this.addData();
 			} else {
@@ -177,7 +247,7 @@ GamFenderMaintenanceModule.prototype.onTabChange = function(newTabId, oldTabId) 
 <%
 /**
  * @FUNCTION NAME : onButtonClick
- * @DESCRIPTION   : 버튼클릭 호출된다. 
+ * @DESCRIPTION   : 버튼클릭 호출된다.
  * @PARAMETER     :
  *   1. buttonId - buttonId
 **/
@@ -199,10 +269,10 @@ GamFenderMaintenanceModule.prototype.onButtonClick = function(buttonId) {
 				this.deleteData();
 			}
 			break;
-		// 시설물 관리 그룹 선택 버튼 클릭	
+		// 시설물 관리 그룹 선택 버튼 클릭
 		case 'popupSpecFcltsMngGroupNo':
-			this.doExecuteDialog(buttonId, "시설물 관리 그룹 선택", '/popup/showFcltsMngGroup.do', null);
-			
+			this.doExecuteDialog(buttonId, "시설물 관리 그룹 선택", '/popup/showFenderMngGroup.do', null);
+
 			break;
 	}
 }
@@ -227,7 +297,7 @@ GamFenderMaintenanceModule.prototype.onClosePopup = function(popupId, msg, value
 				this.$('#loc').val(value.loc);
 				this.$('#fcltsGbnNm').val(value.fcltsGbnNm);
 				this.$('#prtAtCodeNm').val(value.prtAtCodeNm);
-				
+
 				var searchOpt=[];
 				searchOpt[searchOpt.length] = {name : "sFcltsMngGroupNo",	value : value.fcltsMngGroupNo };
 				searchOpt[searchOpt.length] = {name : "sYear",	value : '1111' };
@@ -286,8 +356,58 @@ GamFenderMaintenanceModule.prototype.loadDetail = function(tabId) {
 		}
 		this.makeFormValues('#detailForm', row[0]);	// row[0] 번째 데이터를 detailForm에 넣기(자동으로 id 매칭하여 넣어 줌)
 //		this.makeDivValues('#detailForm', row[0]);
-		
+
 //		this.$('#sFcltsMngGroupNo').val(this._mainKeyValue);
+
+
+
+		this.$('ul.photoList').empty();		// remove photo list
+		this.$('ul.attList').empty();		// remove photo list
+		this.doAction('/fclty/gamFenderMaintenanceFileList.do', row[0], function(module, result) {
+			var html='';
+			var result1=result.resultPhoto;
+			if(result1!=null) {
+				for(var i=0; i<result1.length; i++) {
+					var file=result1[i];
+		            html += '<li><span>';
+		            html += '<a href="<c:url value="/cmm/fms/getImage.do?" />atchFileId='+file.atchFileId+'&fileSn='+file.fileSn+'" target="_blank"><img src="<c:url value="/cmm/fms/getImage.do?" />atchFileId='+file.atchFileId+'&fileSn='+file.fileSn+'"></a>'
+		            html += '<button data-photo="one" data-atch-file-id="'+file.atchFileId+'" data-file-sn="'+file.fileSn+'"><i class="fa fa-trash-alt"></i></button></span></li>';
+				}
+			}
+			module.$('#photoList').append(html);
+			module.$('ul.photoList > li > span > button').off('click', function(e) {
+		    	module.removeImageClickEvent(e)
+			});
+			module.$('ul.photoList > li > span > button').on('click', function(e) {
+		    	module.removeImageClickEvent(e)
+			});
+
+			module.$('#photoFile').val("");
+			module._photoFileBuffer=[];
+			module._delPhotoList=[];
+
+			html='';
+			var result1=result.resultCompetInspctWtnnc;
+			if(result1!=null) {
+				for(var i=0; i<result1.length; i++) {
+					var file=result1[i];
+		            html += '<li><span>';
+		            html += '<a href="<c:url value="/cmm/fms/FileDown.do?" />atchFileId='+file.atchFileId+'&fileSn='+file.fileSn+'" target="_blank">'+file.orignlFileNm+'</a>'
+		            html += '<button data-chktbl="one" data-atch-file-id="'+file.atchFileId+'" data-file-sn="'+file.fileSn+'"><i class="fa fa-trash-alt"></i></button></span></li>';
+				}
+			}
+			module.$('#attList').append(html);
+			module.$('ul.attList > li > span > button').off('click', function(e) {
+		    	module.removeAttClickEvent(e)
+			});
+			module.$('ul.attList > li > span > button').on('click', function(e) {
+		    	module.removeAttClickEvent(e)
+			});
+
+			module.$('#attFile').val("");
+			module._attFileBuffer=[];
+			module._delAttList=[];
+		});
 
 		var searchOpt=[];
 		searchOpt[searchOpt.length] = {name : "sFcltsMngGroupNo",	value : row[0].fcltsMngGroupNo };
@@ -298,7 +418,48 @@ GamFenderMaintenanceModule.prototype.loadDetail = function(tabId) {
 
 	}
 
+
+
 }
+
+
+GamFenderMaintenanceModule.prototype.removeImageClickEvent = function(e) {
+	e.preventDefault();
+	var btn = $(e.target).closest('button');
+	var fileSn=btn.data('file-sn');
+
+	if(fileSn!=undefined) {
+		this._delPhotoList[this._delPhotoList.length]=fileSn;
+	}
+	else {
+		for(var i=0; i<this._photoFileBuffer.length; i++) {
+			if(this._photoFileBuffer[i].name==filename) {
+				delete this._photoFileBuffer[i];
+				break;
+			}
+		}
+	}
+	btn.closest("li").remove();
+};
+
+GamFenderMaintenanceModule.prototype.removeAttClickEvent = function(e) {
+	e.preventDefault();
+	var btn = $(e.target).closest('button');
+	var fileSn=btn.data('file-sn');
+
+	if(fileSn!=undefined) {
+		this._delAttList[this._delAttList.length]=fileSn;
+	}
+	else {
+		for(var i=0; i<this._attFileBuffer.length; i++) {
+			if(this._attFileBuffer[i].name==filename) {
+				delete this._attFileBuffer[i];
+				break;
+			}
+		}
+	}
+	btn.closest("li").remove();
+};
 
 <%
 /**
@@ -309,11 +470,11 @@ GamFenderMaintenanceModule.prototype.loadDetail = function(tabId) {
 %>
 GamFenderMaintenanceModule.prototype.saveData = function() {
 	console.log("saveData");
-	
+
 /* 	if (!validateGamFenderInspectionVO(this.$("#detailForm")[0])){
 		return;
 	} */
-/* 	
+/*
 	if (this.$('#year').val() == "") {
 		alert('연도 코드가 부정확합니다.');
 		this.$("#year").focus();
@@ -324,30 +485,58 @@ GamFenderMaintenanceModule.prototype.saveData = function() {
 		this.$("#year").focus();
 		return;
 	}
- */	
+ */
 //	var inputVO = this.makeFormArgs("#detailForm");
  	var inputVO = [];
-	
- 	inputVO[inputVO.length] = {name: 'detailForm', value :JSON.stringify(this.makeFormArgs("#detailForm",'object')) };
+	var formData = new FormData();
+	var fileCount=0;
+
+	var detailForm = this.makeFormArgs("#detailForm",'object');
+
+	detailForm["delPhoto"]=JSON.stringify(this._delPhotoList);
+	detailForm["delCompetInspctWtnnc"]=JSON.stringify(this._delAttList);
+
+ 	inputVO[inputVO.length] = {name: 'detailForm', value :JSON.stringify(detailForm) };
  	inputVO[inputVO.length] = {name: 'insertMntnObjList', value :JSON.stringify(this.$('#mntnRprObjFcltsF').selectFilterData([{col: 'chkRole', filter: true}])) };
 
- 
- 
-	if (this._mainmode == "insert") { // 추가 버튼 눌렀을때 insert로 변경됨
-		this.doAction('/fclty/gamInsertFenderMaintenance.do', inputVO, function(module, result) {
-			if (result.resultCode == "0") {
-				module.loadData();
-			}
-			alert(result.resultMsg);
-		});
-	} else { // 추가 버튼 눌렀을때 insert가 아닌경우
-		this.doAction('/fclty/gamUpdateFenderMaintenance.do', inputVO, function(module, result) {
-			if (result.resultCode == "0") {
-				module.loadData();
-			}
-			alert(result.resultMsg);
-		});
+	for(var k in inputVO) {
+		formData.append(inputVO[k].name, inputVO[k].value);
 	}
+	for (var i = 0; i < this._photoFileBuffer.length; i++) {
+		var file = this._photoFileBuffer[i];
+		fileCount++;
+		formData.append("photoFile["+i+"]", file);
+	}
+	for (var i = 0; i < this._attFileBuffer.length; i++) {
+		var file = this._attFileBuffer[i];
+		fileCount++;
+		formData.append("competInspctWtnnc["+i+"]", file);
+	}
+
+	var module=this;
+	var url = '';
+	if (module._mainmode == "insert") { // 추가 버튼 눌렀을때 insert로 변경됨
+		url = EMD.context_root+ '/fclty/gamInsertFenderMaintenance.do';
+	}
+	else {
+		url = EMD.context_root+ '/fclty/gamUpdateFenderMaintenance.do';
+	}
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true);
+	xhr.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			var result = JSON.parse(this.response);
+			if (result.resultCode == "0") {
+				module.loadData();
+			}
+			alert(result.resultMsg);
+		}
+	};
+	xhr.onprogress = function(e) {
+		// console.log('upload '+ (e.loaded/e.total)*100+'%');
+	};
+
+	xhr.send(formData);
 }
 
 <%
@@ -370,7 +559,7 @@ GamFenderMaintenanceModule.prototype.deleteData = function() {
 			alert(result.resultMsg);
 		});
 	}
-	 
+
 }
 
 
@@ -404,7 +593,7 @@ var module_instance = new GamFenderMaintenanceModule();
 									<option value="">선택</option>
 								</select>
 							</td>
-							
+
 							<th>시설물 종류</th>
 							<td>
 								<select id="sFcltsGbn" data-column-id="sFcltsGbn">
@@ -427,7 +616,7 @@ var module_instance = new GamFenderMaintenanceModule();
 							<th>유지보수 기간</th>
 							<td colspan="5">
 	                            <input id="sCntrwkBegin" type="text" class="emdcal" data-role="dtFrom" data-dt-to="sCntrwkEnd" size="8">
-	                            <span id="hideUsageDt"> ~ 
+	                            <span id="hideUsageDt"> ~
 	                            	<input id="sCntrwkEnd" type="text" class="emdcal" data-role="dtTo" data-dt-from="sCntrwkBegin" size="8">
 	                            </span>
                             </td>
@@ -443,8 +632,8 @@ var module_instance = new GamFenderMaintenanceModule();
 		<div id="mainTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
 			<!-- 211. TAB 정의 -->
 			<ul>
-				<li><a href="#listTab" class="emdTab">방중재 정기점검 목록</a></li>
-				<li><a href="#detailTab" class="emdTab">방충재 정기점검 상세</a></li>
+				<li><a href="#listTab" class="emdTab">방중재 유지보수 목록</a></li>
+				<li><a href="#detailTab" class="emdTab">방충재 유지보수 상세</a></li>
 			</ul>
 			<!-- 212. TAB 1 AREA (LIST) -->
 			<div id="listTab" class="emdTabPage fillHeight" style="overflow:hidden;" >
@@ -496,8 +685,8 @@ var module_instance = new GamFenderMaintenanceModule();
 												<input type="text" id="fcltsGbnNm" data-column-id="fcltsGbnNm" size="35" disabled="disabled" />
 											</td>
 										</tr>
-										
-										
+
+
 										<tr>
 											<th style="width:20%; height:18px;">연　　　　　　　　도</th>
 											<td style="width:20%; height:18px;" >
@@ -547,16 +736,22 @@ var module_instance = new GamFenderMaintenanceModule();
 										<tr>
 											<th style="width:20%; height:18px;" >사　　　　　　　　진</th>
 											<td>
-												<input type="file" id="photo" data-column-id="photo" />
+												<ul id="photoList" class="photoList">
+												</ul>
+												<input type="file" id="photoFile" data-photo-list="#photoList" class="skipValue" tabindex=6 size="35" />
+												<input type="hidden" id="photo" data-column-id="photo" />
 											</td>
 										</tr>
 										<tr>
 											<th style="width:20%; height:18px;" >준　공　검　사　조　서</th>
 											<td>
-												<input type="file" id="competInspctWtnnc" data-column-id="competInspctWtnnc" />
+												<ul id="attList" class="attList">
+												</ul>
+												<input type="file" id="attFile" data-file-list="#attList" class="skipValue" tabindex=7 size="35" />
+												<input type="hidden" id="competInspctWtnnc" data-column-id="competInspctWtnnc" />
 											</td>
 										</tr>
-					
+
 									</table>
 								</td>
 								<td style="border-bottom:none;">

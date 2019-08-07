@@ -14,7 +14,9 @@ import java.util.Map.Entry;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
-import org.h2.util.StringUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -94,6 +96,8 @@ public class GamFenderInspectionController {
     @Resource(name = "EgovFileMngService")
     private EgovFileMngService fileService;
 
+    protected static final Log LOG = LogFactory.getLog(GamFenderInspectionController.class);
+
 	@RequestMapping(value="/fclty/gamFenderInspection.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
 
@@ -145,17 +149,44 @@ public class GamFenderInspectionController {
 		}
 		// 내역 조회
 		FileVO fileVO = new FileVO();
-		fileVO.setAtchFileId(searchVO.getPhotoOne());
-		List<FileVO> resultPhotoOne = fileService.selectFileInfs(fileVO);
-		fileVO.setAtchFileId(searchVO.getPhotoTwo());
-		List<FileVO> resultPhotoTwo = fileService.selectFileInfs(fileVO);
-		fileVO.setAtchFileId(searchVO.getPhotoThree());
-		List<FileVO> resultPhotoThree = fileService.selectFileInfs(fileVO);
+		List<FileVO> resultPhotoOne=null;
+		List<FileVO> resultPhotoTwo=null;
+		List<FileVO> resultPhotoThree=null;
+		List<FileVO> resultChckTableOne=null;
+		List<FileVO> resultChckTableTwo=null;
+		List<FileVO> resultChckTableThree=null;
+		if(!"".equals(searchVO.getPhotoOne())) {
+			fileVO.setAtchFileId(searchVO.getPhotoOne());
+			resultPhotoOne = fileService.selectFileInfs(fileVO);
+		}
+		if(!"".equals(searchVO.getPhotoTwo())) {
+			fileVO.setAtchFileId(searchVO.getPhotoTwo());
+			resultPhotoTwo = fileService.selectFileInfs(fileVO);
+		}
+		if(!"".equals(searchVO.getPhotoThree())) {
+			fileVO.setAtchFileId(searchVO.getPhotoThree());
+			resultPhotoThree = fileService.selectFileInfs(fileVO);
+		}
+		if(!"".equals(searchVO.getChckTableOne())) {
+			fileVO.setAtchFileId(searchVO.getChckTableOne());
+			resultChckTableOne = fileService.selectFileInfs(fileVO);
+		}
+		if(!"".equals(searchVO.getChckTableTwo())) {
+			fileVO.setAtchFileId(searchVO.getChckTableTwo());
+			resultChckTableTwo = fileService.selectFileInfs(fileVO);
+		}
+		if(!"".equals(searchVO.getChckTableThree())) {
+			fileVO.setAtchFileId(searchVO.getChckTableThree());
+			resultChckTableThree = fileService.selectFileInfs(fileVO);
+		}
 
 		map.put("resultCode", 0);			// return ok
 		map.put("resultPhotoOne", resultPhotoOne);
 		map.put("resultPhotoTwo", resultPhotoTwo);
 		map.put("resultPhotoThree", resultPhotoThree);
+		map.put("resultChckTableOne", resultChckTableOne);
+		map.put("resultChckTableTwo", resultChckTableTwo);
+		map.put("resultChckTableThree", resultChckTableThree);
 
 		return map;
 
@@ -191,6 +222,34 @@ public class GamFenderInspectionController {
 
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 
+		// 파일 처리
+		Assert.state(request instanceof MultipartHttpServletRequest,
+				"request !instanceof MultipartHttpServletRequest");
+		final MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
+
+		/*
+		 * extract files
+		 */
+		final Map<String, MultipartFile> files = multiRequest.getFileMap();
+
+		if(files!=null) {
+			String photoOne = insertUpdateFile(files, "photoOneFile", inputVO.getPhotoOne(), inputVO.getDelPhotoOne());
+			String photoTwo = insertUpdateFile(files, "photoTwoFile", inputVO.getPhotoTwo(), inputVO.getDelPhotoTwo());
+			String photoThree = insertUpdateFile(files, "photoThreeFile", inputVO.getPhotoThree(), inputVO.getDelPhotoThree());
+
+			inputVO.setPhotoOne(photoOne);
+			inputVO.setPhotoTwo(photoTwo);
+			inputVO.setPhotoThree(photoThree);
+
+			String chckTableOne = insertUpdateFile(files, "chckTableOneFile", inputVO.getChckTableOne(), inputVO.getDelChckTableOne());
+			String chckTableTwo = insertUpdateFile(files, "chckTableTwoFile", inputVO.getChckTableTwo(), inputVO.getDelChckTableTwo());
+			String chckTableThree = insertUpdateFile(files, "chckTableThreeFile", inputVO.getChckTableThree(), inputVO.getDelChckTableThree());
+
+			inputVO.setChckTableOne(chckTableOne);
+			inputVO.setChckTableTwo(chckTableTwo);
+			inputVO.setChckTableThree(chckTableThree);
+		}
+
 		try {
 			inputVO.setRegister(user.getId());
 			gamFenderInspectionService.gamInsertFenderInspection (inputVO);
@@ -221,6 +280,7 @@ public class GamFenderInspectionController {
 /*
 		beanValidator.validate(inputVO, bindingResult);
 */
+		// 파일 처리
 		Assert.state(request instanceof MultipartHttpServletRequest,
 				"request !instanceof MultipartHttpServletRequest");
 		final MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
@@ -229,132 +289,24 @@ public class GamFenderInspectionController {
 		 * extract files
 		 */
 		final Map<String, MultipartFile> files = multiRequest.getFileMap();
-		Assert.notNull(files, "files is null");
-		Assert.state(files.size() > 0, "0 files exist");
 
-		/*
-		 * process files
-		 */
-		String uploadPath = EgovProperties.getProperty("prtfclty.fileStorePath");
-		File saveFolder = new File(uploadPath);
+		if(files!=null) {
+			String photoOne = insertUpdateFile(files, "photoOneFile", inputVO.getPhotoOne(), inputVO.getDelPhotoOne());
+			String photoTwo = insertUpdateFile(files, "photoTwoFile", inputVO.getPhotoTwo(), inputVO.getDelPhotoTwo());
+			String photoThree = insertUpdateFile(files, "photoThreeFile", inputVO.getPhotoThree(), inputVO.getDelPhotoThree());
 
-		// 디렉토리 생성
-		if (!saveFolder.exists() || saveFolder.isFile()) {
-			saveFolder.mkdirs();
+			inputVO.setPhotoOne(photoOne);
+			inputVO.setPhotoTwo(photoTwo);
+			inputVO.setPhotoThree(photoThree);
+
+			String chckTableOne = insertUpdateFile(files, "chckTableOneFile", inputVO.getChckTableOne(), inputVO.getDelChckTableOne());
+			String chckTableTwo = insertUpdateFile(files, "chckTableTwoFile", inputVO.getChckTableTwo(), inputVO.getDelChckTableTwo());
+			String chckTableThree = insertUpdateFile(files, "chckTableThreeFile", inputVO.getChckTableThree(), inputVO.getDelChckTableThree());
+
+			inputVO.setChckTableOne(chckTableOne);
+			inputVO.setChckTableTwo(chckTableTwo);
+			inputVO.setChckTableThree(chckTableThree);
 		}
-
-		Iterator<Entry<String, MultipartFile>> itr = files.entrySet()
-				.iterator();
-		MultipartFile file;
-		List<FileVO> photoOneList = new ArrayList<FileVO>();
-		List<FileVO> photoTwoList = new ArrayList<FileVO>();
-		List<FileVO> photoThreeList = new ArrayList<FileVO>();
-		String filePath;
-
-		FileVO fileVo = null;
-
-		String photoOne = inputVO.getPhotoOne();
-		String photoTwo = inputVO.getPhotoTwo();
-		String photoThree = inputVO.getPhotoThree();
-
-		if(!"".equals(photoOne)) {
-			FileVO fvo = new FileVO();
-			fvo.setAtchFileId(photoOne);
-			photoOneList = fileService.selectFileInfs(fvo);
-
-			String []delPhotos = inputVO.getDelPhotoOne();
-			if(delPhotos.length>0) {
-				for(int i=0; i<delPhotos.length; i++) {
-					fvo.setFileSn(delPhotos[i]);
-					fileService.deleteFileInf(fvo);
-				}
-			}
-		}
-		if(!"".equals(photoTwo)) {
-			FileVO fvo = new FileVO();
-			fvo.setAtchFileId(photoTwo);
-			photoTwoList = fileService.selectFileInfs(fvo);
-
-			String []delPhotos = inputVO.getDelPhotoTwo();
-			if(delPhotos.length>0) {
-				for(int i=0; i<delPhotos.length; i++) {
-					fvo.setFileSn(delPhotos[i]);
-					fileService.deleteFileInf(fvo);
-				}
-			}
-		}
-		if(!"".equals(photoThree)) {
-			FileVO fvo = new FileVO();
-			fvo.setAtchFileId(photoThree);
-			photoThreeList = fileService.selectFileInfs(fvo);
-
-			String []delPhotos = inputVO.getDelPhotoThree();
-			if(delPhotos.length>0) {
-				for(int i=0; i<delPhotos.length; i++) {
-					fvo.setFileSn(delPhotos[i]);
-					fileService.deleteFileInf(fvo);
-				}
-			}
-		}
-
-		while (itr.hasNext()) {
-			Entry<String, MultipartFile> entry = itr.next();
-			System.out.println("[" + entry.getKey() + "]");
-
-			file = entry.getValue();
-			String[] tokens = file.getOriginalFilename().split("\\.(?=[^\\.]+$)");
-			if (!"".equals(file.getOriginalFilename())) {
-				fileVo = new FileVO();
-				String fileSn="";
-				if(entry.getKey().equals("photoOne[]")) {
-					if("".equals(photoOne)) photoOne=gamFenderFileIdGnrService.getNextStringId();
-					fileVo.setAtchFileId(photoOne);
-					fileSn = StringUtils.pad(Integer.toString(photoOneList.size()), 2, "0", false);
-					fileVo.setFileSn(fileSn);
-					fileVo.setStreFileNm(photoOne+fileSn);
-					fileVo.setOrignlFileNm(file.getOriginalFilename());
-					fileVo.setFileExtsn(tokens[1]);
-					photoOneList.add(fileVo);
-				}
-				if(entry.getKey().equals("photoTwo[]")) {
-					if("".equals(photoTwo)) photoTwo=gamFenderFileIdGnrService.getNextStringId();
-					fileVo.setAtchFileId(photoTwo);
-					fileSn = StringUtils.pad(Integer.toString(photoTwoList.size()), 2, "0", false);
-					fileVo.setFileSn(fileSn);
-					fileVo.setStreFileNm(photoOne+fileSn);
-					fileVo.setOrignlFileNm(file.getOriginalFilename());
-					fileVo.setFileExtsn(tokens[1]);
-					photoTwoList.add(fileVo);
-				}
-				if(entry.getKey().equals("photoThree[]")) {
-					if("".equals(photoThree)) photoThree=gamFenderFileIdGnrService.getNextStringId();
-					fileVo.setAtchFileId(photoThree);
-					fileSn = StringUtils.pad(Integer.toString(photoThreeList.size()), 2, "0", false);
-					fileVo.setFileSn(fileSn);
-					fileVo.setStreFileNm(photoOne+fileSn);
-					fileVo.setOrignlFileNm(file.getOriginalFilename());
-					fileVo.setFileExtsn(tokens[1]);
-					photoThreeList.add(fileVo);
-				}
-				filePath = uploadPath + fileVo.getStreFileNm();
-				fileVo.setFileStreCours(filePath);
-				file.transferTo(new File(filePath));
-			}
-		}
-
-		if(photoOneList.size()>0) {
-			fileService.updateFileInfs(photoOneList);
-		}
-		if(photoTwoList.size()>0) {
-			fileService.insertFileInfs(photoTwoList);
-		}
-		if(photoThreeList.size()>0) {
-			fileService.insertFileInfs(photoThreeList);
-		}
-
-		inputVO.setPhotoOne(photoOne);
-		inputVO.setPhotoTwo(photoTwo);
-		inputVO.setPhotoThree(photoThree);
 
 		try {
 			inputVO.setRegister(user.getId());
@@ -371,6 +323,99 @@ public class GamFenderInspectionController {
 	}
 
 
+	private String insertUpdateFile(final Map<String, MultipartFile> files, String fileKeyPrefix, String fileId, String[] delFileSn) throws Exception {
+		/*
+		 * process files
+		 */
+		String uploadPath = EgovProperties.getProperty("prtfclty.fileStorePath");
+		File saveFolder = new File(uploadPath);
+
+		// 디렉토리 생성
+		if (!saveFolder.exists() || saveFolder.isFile()) {
+			saveFolder.mkdirs();
+		}
+
+		Iterator<Entry<String, MultipartFile>> itr = files.entrySet()
+				.iterator();
+		MultipartFile file;
+
+		List<FileVO> fileList = null;
+		List<FileVO> fileUpList = new ArrayList<FileVO>();
+
+		String filePath;
+
+		FileVO fileVo = null;
+
+		boolean isNewFile=true;
+
+		int maxFileSn=0;
+
+		if(!"".equals(fileId)) {
+			FileVO fvo = new FileVO();
+			fvo.setAtchFileId(fileId);
+			isNewFile=false;
+
+			if(delFileSn!=null && delFileSn.length>0) {
+				for(int i=0; i<delFileSn.length; i++) {
+					fvo.setFileSn(delFileSn[i]);
+					fileService.deleteFileInf(fvo);
+				}
+			}
+			fileList = fileService.selectFileInfs(fvo);
+
+			for(int i=0; i<fileList.size(); i++) {	// get Max sn
+				FileVO vo = fileList.get(i);
+				String sn_str = vo.getFileSn();
+				try {
+					int sn = Integer.parseInt(sn_str);
+					if(sn>=maxFileSn) {
+						maxFileSn=sn+1;
+					}
+				}
+				catch(NumberFormatException e) {
+					LOG.error("File SN invalid type.");
+				}
+			}
+		}
+		else {
+			fileList = new ArrayList<FileVO>();
+		}
+
+		while (itr.hasNext()) {
+			Entry<String, MultipartFile> entry = itr.next();
+			System.out.println("[" + entry.getKey() + "]");
+
+			file = entry.getValue();
+			String[] tokens = file.getOriginalFilename().split("\\.(?=[^\\.]+$)");
+			if (!"".equals(file.getOriginalFilename())) {
+				if(entry.getKey().startsWith(fileKeyPrefix)) {
+					fileVo = new FileVO();
+					String fileSn="";
+					if(isNewFile && "".equals(fileId)) fileId=gamFenderFileIdGnrService.getNextStringId();
+					fileVo.setAtchFileId(fileId);
+					fileSn = StringUtils.leftPad(Integer.toString(maxFileSn++), 2, "0");
+					fileVo.setFileSn(fileSn);
+					fileVo.setStreFileNm(fileId+fileSn);
+					fileVo.setOrignlFileNm(file.getOriginalFilename());
+					fileVo.setFileExtsn(tokens[1]);
+					fileUpList.add(fileVo);
+					filePath = uploadPath + fileVo.getStreFileNm();
+					fileVo.setFileStreCours(uploadPath);
+					file.transferTo(new File(filePath));
+				}
+			}
+		}
+
+		if(fileUpList.size()>0) {
+			if(isNewFile) {
+				fileService.insertFileInfs(fileUpList);
+			}
+			else {
+				fileService.updateFileInfs(fileUpList);
+			}
+		}
+		return fileId;
+	}
 
 	@RequestMapping(value="/fclty/gamDeleteFenderInspection.do")
 	@ResponseBody Map<String, Object> gamDeleteCvlEngFcltySpecMng(GamFenderInspectionVO deleteVO) throws Exception {
@@ -459,7 +504,7 @@ public class GamFenderInspectionController {
 	 * @return Map
 	 * @throws Exception
 	 */
-    @RequestMapping(value="/popup/selectFenderMngGroupList.do", method=RequestMethod.POST)
+    @RequestMapping(value="/popup/selectFenderMngGroupList.do")
 	@ResponseBody Map selectFenderMngGroupList(GamFenderInspectionVO searchVO) throws Exception {
 		int totalCnt;
     	Map map = new HashMap();

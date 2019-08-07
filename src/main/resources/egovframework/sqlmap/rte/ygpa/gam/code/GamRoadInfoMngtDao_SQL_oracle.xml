@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ygpa.gam.code">
+
+	<typeAlias alias="gamPopupRoadInfoMngtVO" type="egovframework.rte.ygpa.gam.popup.service.GamPopupRoadInfoMngtVO"/>
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+
+	<select id="gamBupJungDongCodeMngtDao.selectRoadInfoList" parameterClass="gamPopupRoadInfoMngtVO" resultClass="egovMap">
+		SELECT ROWNUM AS RN, B.JIBUN_SN, A.*, B.SIDO_NM||' '||B.SIGUNGU_NM||' '||B.EMD_NM||' '||TRIM(B.LNM_NO)||CASE B.LNM_SUB WHEN '0' THEN '' ELSE '-'||B.LNM_SUB || CASE B.MT_YN WHEN '0' THEN '' ELSE '(산)' END END AS JIBUN_NM
+		  FROM (
+		        SELECT JUSO_MNG_NO
+		              ,ROAD_CODE
+		              ,EMD_NO
+		              ,R.SIDO_NM ||' '||R.SIGUNGU_NM||' '||R.EMD_NM||' '||R.ROAD_NM||' '||J.MAIN_NO||CASE SUB_NO WHEN 0 THEN '' ELSE '-'||SUB_NO END  AS ROAD_NM
+		          FROM GAM_ROAD_INFO R
+		          INNER JOIN GAM_JUSO_INFO J
+		          USING (ROAD_CODE, EMD_NO)
+		          WHERE EMD_NM IS NOT NULL
+		            AND R.ROAD_NM LIKE '%'||#sRoadNm#||'%'
+					<isNotEmpty prepend="AND" property="sMainNo">
+						TO_CHAR(J.MAIN_NO) LIKE '%'||#sMainNo#||'%'
+					</isNotEmpty>
+					<isNotEmpty prepend="AND" property="sSubNo">
+						TO_CHAR(J.SUB_NO) LIKE '%'||#sSubNo#||'%'
+					</isNotEmpty>
+		        ) A
+		        INNER JOIN GAM_JIBUN_INFO B
+		        ON (A.JUSO_MNG_NO = B.JUSO_MNG_NO)
+	</select>
+
+</sqlMap>

@@ -1115,7 +1115,7 @@ public class GamPrtFcltyRentMngtController {
      	 Map elctrnSanctnPk = new HashMap();
          String resultMsg = "";
          int resultCode = 1;
-         
+
         ObjectMapper mapper = new ObjectMapper();
      	List<HashMap<String,String>> assetRentMngtList=null;
 
@@ -1132,25 +1132,27 @@ public class GamPrtFcltyRentMngtController {
          String title = (String)inputVO.get("title");
          String empCd = (String)inputVO.get("empCd");
          String payTmlmt = (String)inputVO.get("payTmlmt");
-         
+
          String grFee = "";
          String vat = "";
          String TotGrFee = "";
+         String ar = "";
+         String purps = "";
          assetRentMngtList = mapper.readValue((String)inputVO.get("assetRentMngtList"), new TypeReference<List<HashMap<String,String>>>(){});
-         
+
          String mDataValue1 = title;
          String mDataValue2 = "";
          String mDataValue3 = "";
          String mDataValue4 = "";
          String mDataValue5 = "";
-         
+
          elctrnSanctnPk = gamAssetsUsePermMngtService.selectElctrnSanctnPk();
 
          String miskey =  elctrnSanctnPk.get("year").toString()+elctrnSanctnPk.get("sn").toString()+elctrnSanctnPk.get("tNo").toString();
-         
+
          for(HashMap<String, String> gamPrtFcltyRentMngtVO : assetRentMngtList) {
         	 paramMap.clear();
-        	 
+
         	 paramMap.put("year", elctrnSanctnPk.get("year"));
         	 paramMap.put("sn", elctrnSanctnPk.get("sn"));
         	 paramMap.put("miskey", miskey);
@@ -1162,43 +1164,52 @@ public class GamPrtFcltyRentMngtController {
         	 paramMap.put("deptcd", loginVO.getOrgnztId());
         	 paramMap.put("chrgeKnd", chrgeKnd);
         	 paramMap.put("taxtSe", gamPrtFcltyRentMngtVO.get("taxtSe"));
-        	 
-        	 
+
+
 //        	 grFee = NumberFormat.getInstance().format(gamPrtFcltyRentMngtVO.get("grFee"));
         	 grFee = String.format("%,d", Integer.parseInt(gamPrtFcltyRentMngtVO.get("grFee")) );
-        	 vat = String.format("%,d", (int) (Integer.parseInt(gamPrtFcltyRentMngtVO.get("grFee"))*0.1) );
+        	 vat = String.format("%,d", ((int) (Integer.parseInt(gamPrtFcltyRentMngtVO.get("grFee"))*0.1)+5)/10*10 );
         	 TotGrFee = String.format("%,d", (int) (Integer.parseInt(gamPrtFcltyRentMngtVO.get("grFee"))*1.1) );
-        	  
+
+        	 ar = String.format("%,d", Integer.parseInt(gamPrtFcltyRentMngtVO.get("grAr")) );
+
+        	 if(gamPrtFcltyRentMngtVO.get("cmt")!= null){
+        		 purps = gamPrtFcltyRentMngtVO.get("cmt");
+        	 }
+
         	 paramMap.put("entrpsNm", gamPrtFcltyRentMngtVO.get("entrpsNm"));
         	 paramMap.put("pd", gamPrtFcltyRentMngtVO.get("grUsagePdFrom")+'~'+gamPrtFcltyRentMngtVO.get("grUsagePdTo"));
-        	 paramMap.put("purps", gamPrtFcltyRentMngtVO.get("cmt"));
-        	 paramMap.put("ar", gamPrtFcltyRentMngtVO.get("grAr"));
+        	 paramMap.put("purps", purps);
+        	 paramMap.put("ar", ar);
         	 paramMap.put("rntfee", grFee);
         	 paramMap.put("vat", vat);
         	 paramMap.put("totPayamt", TotGrFee);
-        	 paramMap.put("payTmlmt", "");
-        	 
-        	 mDataValue1=mDataValue1+"|"+gamPrtFcltyRentMngtVO.get("entrpsNm")+"|"+gamPrtFcltyRentMngtVO.get("grUsagePdFrom")+'~'+gamPrtFcltyRentMngtVO.get("grUsagePdTo")+"|"+gamPrtFcltyRentMngtVO.get("cmt") +"|"+gamPrtFcltyRentMngtVO.get("grAr") +"|"+grFee+""+"("+vat+")" +"|"+TotGrFee +"|"+payTmlmt+"까지";
-        	 
+        	 paramMap.put("payTmlmt", payTmlmt);
+
+        	 mDataValue1=mDataValue1+"|"+gamPrtFcltyRentMngtVO.get("entrpsNm")+"|"+gamPrtFcltyRentMngtVO.get("grUsagePdFrom")+'~'+gamPrtFcltyRentMngtVO.get("grUsagePdTo")+"|"+purps +"|"+gamPrtFcltyRentMngtVO.get("grAr") +"|"+grFee+""+"|"+"("+vat+")"+"|"+TotGrFee +"|"+payTmlmt+"까지";
+
         	 /* 전자 결재 히스토리 저장 */
         	 String co = gamAssetsUsePermMngtService.insertElctrnSanctn(paramMap);
         	 paramMap.put("co", co);
         	 /* 자산 임대 히스토리 키값 입력*/
         	 gamAssetsUsePermMngtService.updateAssetsRentF(paramMap);
-        	 
+
         	 if(!paramMap.containsKey("prtAtCode") || !paramMap.containsKey("mngYear") || !paramMap.containsKey("mngNo") || !paramMap.containsKey("mngCnt")) {
         		 resultCode = 2;
         		 resultMsg = egovMessageSource.getMessage("gam.asset.rent.err.exceptional");
         	 }
         	 else {
         		 gamAssetsUsePermMngtService.confirmAssetsRentUsePerm(paramMap);
-        		 
+
         		 resultCode = 0;
         		 resultMsg  = egovMessageSource.getMessage("gam.asset.rent.prmisn.exec");
         	 }
          }
-         
-         
+
+         for(int i=0; i<5-assetRentMngtList.size(); i++) {
+        	 mDataValue1=mDataValue1+"||||||||";
+         }
+
          elctrnSanctnMap.put("tNo", elctrnSanctnPk.get("tNo"));
          elctrnSanctnMap.put("empCd", empCd);
          elctrnSanctnMap.put("sysId", "MIS");
@@ -1206,14 +1217,14 @@ public class GamPrtFcltyRentMngtController {
          elctrnSanctnMap.put("miskey", miskey);
          elctrnSanctnMap.put("mCnt", "1");
 
-         
+
          /* 전자 결재 데이터 전송 */
          elctrnSanctnMap.put("mDataValue1", mDataValue1);
          elctrnSanctnMap.put("mDataValue2", mDataValue2);
          elctrnSanctnMap.put("mDataValue3", mDataValue3);
          elctrnSanctnMap.put("mDataValue4", mDataValue4);
          elctrnSanctnMap.put("mDataValue5", mDataValue5);
-    	 
+
          gamAssetsUsePermMngtService.insertGwcallFwdIf(elctrnSanctnMap);
 
  /*        //prtAtCode:항코드, mngYear:관리번호, mngNo:관리 순번, mngCnt:관리 횟수, chrgeKnd: 요금종류

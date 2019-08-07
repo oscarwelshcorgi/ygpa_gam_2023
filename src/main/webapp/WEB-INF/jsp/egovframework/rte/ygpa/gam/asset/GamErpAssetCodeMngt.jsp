@@ -108,7 +108,7 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 		module: this,
 		url: '/asset/selectGisAssetCodeList.do',
 		colModel : [
-					{display:'', name:'gisFlag', width:24, sortable:false, align:'center', displayFormat: 'jqimg', skipxls: true},
+					{display:'맵', name:'gisFlag', width:24, sortable:false, align:'center', displayFormat: 'jqimg', skipxls: true},
 					{display:'ERP자산코드', name:'erpAssets', width:80, sortable:true, align:'center'},
 					{display:'항코드', name:'gisAssetsPrtAtCode', width:40, sortable:true, align:'center'},
 					{display:'항코드명', name:'prtAtCodeNm', width:55, sortable:true, align:'center'},
@@ -180,9 +180,12 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 			일자 : 2018.07.05
 			내용 : 신규가아닐경우 항구분 수정 하지 못하도록
 		*/
-		console.log("assetCodeList_onItemSelected");
+//		console.log("assetCodeList_onItemSelected");
 		module.$('#gisAssetsPrtAtCode_select').attr('disabled', 'disabled');
 		module.$('#gisAssetsPrtAtCode').attr('disabled', 'disabled');
+		module.$('#gisAssetsSeCd_select').attr('disabled', 'disabled');
+		module.$('#prdlstSe_select').attr('disabled', 'disabled');
+		module.$('#fsse_select').attr('disabled', 'disabled');
 
 		module.makeFormValues('#editGisAssetCode', row);
 		module._editData=module.getFormValues('#editGisAssetCode', row);
@@ -289,7 +292,9 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 	$('.gisAssetsSeCd3').hide();
 
 
-
+	this.$('#gisAssetsSeCd').attr('disabled', 'disabled');
+	this.$('#prdlstSe').attr('disabled', 'disabled');
+	this.$('#fsse').attr('disabled', 'disabled');
 
 };
 
@@ -313,7 +318,7 @@ GamAssetCodeModule.prototype.calcLeftBuyPrice = function() {
 };
 
 GamAssetCodeModule.prototype.addGisAssetItem = function() {
-	console.log("addGisAssetItem");
+//	console.log("addGisAssetItem");
 	this._edited=true;
 
 	this.$('#editGisAssetCode :input').val('');
@@ -342,19 +347,25 @@ GamAssetCodeModule.prototype.addGisAssetItem = function() {
 		this.$('#gisAssetsSeCd').val(this.$('#erpAssetCodeList').selectedRows()[0].assetCls);
 		/* 품목구분 */
 		var _itemCls=this.$('#erpAssetCodeList').selectedRows()[0].itemCls;
-		
-		switch(_itemCls){
+
+		this.$('#prdlstSe').val(_itemCls);
+/* 		switch(_itemCls){
 			case '000001':
 			case '000002':
+			case '002000':
 			case '002001':
 			case '002002':
 			case '002003':
 			case '002004':
+			case '002005':
+			case '002006':
+			case '002007':
 				this.$('#prdlstSe').val(_itemCls);
 				break;
 			default :
 				this.$('#prdlstSe').val('');
 		}
+ */
 		/* 회계구문 */
 		this.$('#fsse').val(this.$('#erpAssetCodeList').selectedRows()[0].accUnitCls);
 		/* 구매용도 */
@@ -389,6 +400,7 @@ GamAssetCodeModule.prototype.saveGisAssetItem = function() {
 	if( confirm("저장하시겠습니까?") ) {
 	    // 변경된 자료를 저장한다.
 	    var inputVO=[];
+
 	    inputVO[inputVO.length]={name: 'updateList', value :JSON.stringify(this.$('#assetCodeList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
 
 	    inputVO[inputVO.length]={name: 'insertList', value: JSON.stringify(this.$('#assetCodeList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
@@ -397,10 +409,13 @@ GamAssetCodeModule.prototype.saveGisAssetItem = function() {
 
 	    inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteDataList) };
 
+		var updateItem=this.$('#assetCodeList').selectFilterData([{col: '_updtId', filter: 'U'}]);
+		var insertItem=this.$('#assetCodeList').selectFilterData([{col: '_updtId', filter: 'I'}]);
+
 	    this.doAction('/asset/mergeGamErpGisAssetCodeMngt.do', inputVO, function(module, result) {
 	        if(result.resultCode == 0){
 	            var searchOpt=module.makeFormArgs('#searchGisAssetCode');
-	            console.log("searchOpt: " + searchOpt);
+//	            console.log("searchOpt: " + searchOpt);
 	            module.$('#assetCodeList').flexOptions({params:searchOpt}).flexReload();
 	        }
 
@@ -413,6 +428,17 @@ GamAssetCodeModule.prototype.saveGisAssetItem = function() {
 	        {
 	    		module.$('#gisAssetsPrtAtCode_select').attr('disabled', 'disabled');
 	    		module.$('#gisAssetsPrtAtCode').attr('disabled', 'disabled');
+
+	    		if(updateItem.length>0){
+					for(var i=0; i < updateItem.length; i++){
+						module.changeFeatureAttrib('gisAssetsCd',updateItem[i], updateItem[i]);
+					}
+	    		}
+	    		if(insertItem.length>0){
+					for(var j=0; j < insertItem.length; j++){
+						module.changeFeatureAttrib('gisAssetsCd',insertItem[j], insertItem[j]);
+					}
+	    		}
 	        }
 
 	        module._edited=false;
@@ -532,6 +558,10 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 		this.$('#erpAssetCodeList').flexExcelDown('/asset/selectErpAssetCodeListExcel.do', 'erpAssetCodeList.xls');
 		break;
 	case 'addAssetGisCdItem':
+		this.$('#gisAssetsSeCd').enable();
+		this.$('#prdlstSe').enable();
+		this.$('#fsse').enable();
+
 		this.addGisAssetItem();
 		break;
 	case 'removeAssetGisCdItem':
@@ -675,13 +705,13 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 		break;
 	/* 건축물 시가표준액 */
 	case 'selectMktcStdAm':
-		
+
 		if(this.$('#gisAssetsBupjungdongCd').val() == '' || this.$('#gisAssetsLnm').val() == ''){
 			alert("주소, 지번을 선택해 주세요.")
 			break;
 		}
 		var searchOpt = {"sAdstrdCode" : this.$('#gisAssetsBupjungdongCd').val(), "sLnm" : this.$('#gisAssetsLnm').val(),"sSlno" : this.$('#gisAssetsLnmSub').val()}
-		
+
 	    this.doExecuteDialog('selectMktcStdAm', '건축물 시가표준액', '/asset/showPopupBuldMktcStdAm.do', searchOpt);
 	break;
 
@@ -964,19 +994,29 @@ var module_instance = new GamAssetCodeModule();
 					<table style="width:100%;" class="searchPanel">
 						<tbody>
 							<tr>
-								<th>자산번호</th>
+<!-- 								<th>자산번호</th>
 								<td><input id="searchAssetCls" type="text" size="1" maxlength="1">-
 									<input id="searchAssetNo" type="text" size="4" maxlength="16">-
 									<input id="searchAssetNoSeq" type="text" size="1" maxlength="16"></td>
+ -->
+								<th>자산구분</th>
+								<td>
+		 							<input id="sGisAssetsSeCd" class="ygpaCmmnCd" data-code-id='GAM013' data-default-prompt="전체">
+								</td>
+								<th>품목구분</th>
+								<td>
+									<input id="sPrdlstSe" class="ygpaCmmnCd" data-code-id='GAM073' data-default-prompt="전체">
+								</td>
+
 								<th>취득일자</th>
 								<td><input id="searchStartDt" type="text" class="emdcal" data-role="dtFrom" data-dt-to="searchEndDt" size="8"> ~ <input id="searchEndDt" type="text" class="emdcal" data-role="dtTo"  data-dt-from="searchStartDt" size="8"></td>
-								<th>모델명</th>
-								<td><input id="searchModelName" size="30"></td>
 								<td rowSpan="2"><button id="selectErpAssetCode" class="buttonSearch">조회</button></td>
 							</tr>
 							<tr>
+								<th>모델명</th>
+								<td><input id="searchModelName" size="30"></td>
 								<th>품명</th>
-								<td colspan="3"><input id="searchItemName" size="30"></td>
+								<td><input id="searchItemName" size="30"></td>
 								<th>규격</th>
 								<td><input id="searchAssetSize" size="30"/></td>
 							</tr>
@@ -1054,21 +1094,17 @@ var module_instance = new GamAssetCodeModule();
 					<tr>
 						<th><span class="label">자산구분</span></th>
 						<td>
-							<input id="gisAssetsSeCd" class="ygpaCmmnCd" data-code-id='GAM013' data-column-label-id='prtAtCodeNm'>
+							<input id="gisAssetsSeCd" class="ygpaCmmnCd" data-code-id='GAM013' data-column-label-id='prtAtCodeNm' disabled="disabled" >
 						</td>
 						<th><span class="label">품목 구분</span></th>
 						<td>
-							<input id="prdlstSe" class="ygpaCmmnCd" data-code-id='GAM073'>
+							<input id="prdlstSe" class="ygpaCmmnCd" data-code-id='GAM073' disabled="disabled" >
 						</td>
 						<th><span class="label">회계 구분</span></th>
 						<td>
-							<input id="fsse" class="ygpaCmmnCd" data-code-id='GAM072'>
+							<input id="fsse" class="ygpaCmmnCd" data-code-id='GAM072' disabled="disabled" >
 						</td>
-
-
 					</tr>
-
-
 
 					<tr>
 						<th><span class="label">항구분</span></th>

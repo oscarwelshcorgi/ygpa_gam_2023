@@ -2,14 +2,14 @@
 <!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
 
 <sqlMap namespace="ygpa.gam.oper.htldnew">
-	
+
 	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
-    
+
 	<typeAlias alias="gamHtldRentMngtMainVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentMngtMainVO"/>
 	<typeAlias alias="gamHtldRentRntfeeVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentRntfeeVO"/>
 	<typeAlias alias="gamHtldQuGtqyVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldQuGtqyVO"/>
-	
+
 	<!-- 배후단지 임대 상세목록 조회 -->
 	<select id="gamHtldRentMngtMainDao.selectHtldRentDetailList_D" parameterClass="gamHtldRentMngtMainVO" resultClass="egovMap">
 		SELECT
@@ -17,12 +17,12 @@
 			,L.MNG_NO MNG_NO
 			,L.MNG_SEQ MNG_SEQ
 			,L.ASSETS_NM
-			,L.ASSETS_CD			
+			,L.ASSETS_CD
 			,L.REGIST_SEQ REGIST_SEQ
 			,L.RNTFEE_SEQ RNTFEE_SEQ
 			,L.ENTRPS_CD ENTRPS_CD
 			,L.ENTRPS_NM ENTRPS_NM
-			,L.BOUND_CD BOUND_CD 
+			,L.BOUND_CD BOUND_CD
 			,L.BOUND_NM BOUND_NM
 			,L.PAY_SE PAY_SE
 			,L.CTRT_BEGIN_DT CTRT_BEGIN_DT
@@ -55,7 +55,7 @@
 			,L.SUP_AMT SUP_AMT
 			,L.VAT VAT
 			,L.PAY_AMT PAY_AMT
-			,L.ACCNUT_YEAR ACCNUT_YEAR 
+			,L.ACCNUT_YEAR ACCNUT_YEAR
 			,L.RNTFEE_NTIC_NO RNTFEE_NTIC_NO
 			,L.NTIC_SEQ NTIC_SEQ
 			,L.NTIC_NO NTIC_NO
@@ -65,7 +65,7 @@
 			,TO_CHAR(L.PAY_TMLMT, 'YYYY-MM-DD') PAY_TMLMT
 			,GAM_GET_IS_PASS_DATE_YN(L.PAY_TMLMT) PAY_TMLMT_YN
 			,L.HIST_SEQ
-			,NVL(L.DLY_SER_NO, '00') DLY_SER_NO 
+			,NVL(L.DLY_SER_NO, '00') DLY_SER_NO
 			,NVL(L.NHT_PRT_YN, 'N') NHT_PRT_YN
 			,NVL(L.DLY_BILL_PRT_YN, 'N') DLY_BILL_PRT_YN
 			,L.RM RM
@@ -83,7 +83,7 @@
 					,F.RNTFEE_SEQ RNTFEE_SEQ
 					,R.ENTRPS_CD ENTRPS_CD
 					,(SELECT E.ENTRPS_NM FROM ENTRPS_INFO_F E WHERE E.ENTRPSCD = R.ENTRPS_CD) ENTRPS_NM
-					,R.BOUND_CD BOUND_CD 
+					,R.BOUND_CD BOUND_CD
 					,GAM_GETCODENAME('GAM062', R.BOUND_CD) BOUND_NM
 					,R.PAY_SE PAY_SE
 					,TO_CHAR(R.CTRT_BEGIN_DT, 'YYYY-MM-DD') CTRT_BEGIN_DT
@@ -115,8 +115,8 @@
 					,NVL(F.PAYINST_INTR, 0) PAYINST_INTR
 					,NVL(F.SUP_AMT, 0) SUP_AMT
 					,NVL(F.VAT, 0) VAT
-					,NVL(F.PAY_AMT, 0) PAY_AMT 
-					,F.ACCNUT_YEAR ACCNUT_YEAR 
+					,NVL(F.PAY_AMT, 0) PAY_AMT
+					,F.ACCNUT_YEAR ACCNUT_YEAR
 					,F.RNTFEE_NTIC_NO RNTFEE_NTIC_NO
 					,F.NTIC_SEQ NTIC_SEQ
 					,(SELECT NTIC_NO FROM HTLD_NTIC_DTLS_F WHERE ACCNUT_YEAR = F.ACCNUT_YEAR AND RNTFEE_NTIC_NO = F.RNTFEE_NTIC_NO AND NTIC_SEQ = F.NTIC_SEQ) NTIC_NO
@@ -135,43 +135,26 @@
 				FROM
 					<isNotEmpty property="histDt">
 						<![CDATA[
-						(	SELECT A.* FROM HTLD_RENT_DETAIL_HIST_F A 
+						(	SELECT A.* FROM HTLD_RENT_DETAIL_HIST_F A
 								WHERE A.HIST_SEQ = GAM_GET_HTLD_RENT_HIST_SEQ(A.MNG_YEAR, A.MNG_NO, A.MNG_SEQ, #histDt#)
 									AND A.DETAIL_PD_BEGIN <= TO_DATE(#histDt#, 'YYYY-MM-DD')
 									AND A.DETAIL_PD_END >= TO_DATE(#histDt#, 'YYYY-MM-DD')
 						) D
 						]]>
 					</isNotEmpty>
-					<isEmpty property="histDt">
-						<![CDATA[
-						(	SELECT A.* FROM HTLD_RENT_DETAIL_HIST_F A 
-								WHERE A.HIST_SEQ = GAM_GET_HTLD_RENT_HIST_SEQ(A.MNG_YEAR, A.MNG_NO, A.MNG_SEQ, TO_CHAR(SYSDATE, 'YYYY-MM-DD'))
-									AND TRUNC(A.DETAIL_PD_BEGIN) <= TRUNC(SYSDATE)
-									AND TRUNC(A.DETAIL_PD_END) >= TRUNC(SYSDATE)
-						) D
-						]]>
-					</isEmpty>
 				LEFT OUTER JOIN
 					HTLD_RNTFEE_F F
-					ON D.MNG_YEAR = F.MNG_YEAR AND D.MNG_NO = F.MNG_NO AND D.MNG_SEQ = F.MNG_SEQ 
+					ON D.MNG_YEAR = F.MNG_YEAR AND D.MNG_NO = F.MNG_NO AND D.MNG_SEQ = F.MNG_SEQ
 						AND (F.RENT_DETAIL_REGIST_SEQ IS NULL OR F.RENT_DETAIL_REGIST_SEQ = D.REGIST_SEQ) AND (F.RNTFEE_SE IS NULL OR F.RNTFEE_SE = '0' )
 						<isNotEmpty property="histDt" prepend="AND">
 							<![CDATA[
 								((F.NTIC_BEGIN_DT <= TO_DATE(#histDt#, 'YYYY-MM-DD') AND F.NTIC_END_DT >= TO_DATE(#histDt#, 'YYYY-MM-DD')) OR (F.NTIC_BEGIN_DT IS NULL AND F.NTIC_END_DT IS NULL ))
 							]]>
 						</isNotEmpty>
-						<isEmpty property="histDt" prepend="AND">
-							<![CDATA[
-								((TRUNC(F.NTIC_BEGIN_DT) <= TRUNC(SYSDATE) AND TRUNC(F.NTIC_END_DT) >= TRUNC(SYSDATE) OR (F.NTIC_BEGIN_DT IS NULL AND F.NTIC_END_DT IS NULL ))
-							]]>
-						</isEmpty>
 				INNER JOIN
 					<isNotEmpty property="histDt">
 						(SELECT B.* FROM HTLD_RENT_HIST_F B WHERE B.HIST_SEQ = GAM_GET_HTLD_RENT_HIST_SEQ(B.MNG_YEAR, B.MNG_NO, B.MNG_SEQ, #histDt#)) R
 					</isNotEmpty>
-					<isEmpty property="histDt">
-						(SELECT B.* FROM HTLD_RENT_HIST_F B WHERE B.HIST_SEQ = GAM_GET_HTLD_RENT_HIST_SEQ(B.MNG_YEAR, B.MNG_NO, B.MNG_SEQ, TO_CHAR(SYSDATE, 'YYYY-MM-DD'))) R
-					</isEmpty>					
 					ON D.MNG_YEAR = R.MNG_YEAR AND D.MNG_NO = R.MNG_NO AND D.MNG_SEQ = R.MNG_SEQ
 				)
 				UNION ALL
@@ -187,7 +170,7 @@
 					,F.RNTFEE_SEQ RNTFEE_SEQ
 					,R.ENTRPS_CD ENTRPS_CD
 					,(SELECT E.ENTRPS_NM FROM ENTRPS_INFO_F E WHERE E.ENTRPSCD = R.ENTRPS_CD) ENTRPS_NM
-					,R.BOUND_CD BOUND_CD 
+					,R.BOUND_CD BOUND_CD
 					,GAM_GETCODENAME('GAM062', R.BOUND_CD) BOUND_NM
 					,R.PAY_SE PAY_SE
 					,TO_CHAR(R.CTRT_BEGIN_DT, 'YYYY-MM-DD') CTRT_BEGIN_DT
@@ -219,8 +202,8 @@
 					,NVL(F.PAYINST_INTR, 0) PAYINST_INTR
 					,NVL(F.SUP_AMT, 0) SUP_AMT
 					,NVL(F.VAT, 0) VAT
-					,NVL(F.PAY_AMT, 0) PAY_AMT 
-					,F.ACCNUT_YEAR ACCNUT_YEAR 
+					,NVL(F.PAY_AMT, 0) PAY_AMT
+					,F.ACCNUT_YEAR ACCNUT_YEAR
 					,F.RNTFEE_NTIC_NO RNTFEE_NTIC_NO
 					,F.NTIC_SEQ NTIC_SEQ
 					,(SELECT NTIC_NO FROM HTLD_NTIC_DTLS_F WHERE ACCNUT_YEAR = F.ACCNUT_YEAR AND RNTFEE_NTIC_NO = F.RNTFEE_NTIC_NO AND NTIC_SEQ = F.NTIC_SEQ) NTIC_NO
@@ -242,33 +225,19 @@
 					<isNotEmpty property="histDt">
 						(SELECT A.* FROM HTLD_RENT_DETAIL_HIST_F A WHERE A.HIST_SEQ = GAM_GET_HTLD_RENT_HIST_SEQ(A.MNG_YEAR, A.MNG_NO, A.MNG_SEQ, #histDt#)) D
 					</isNotEmpty>
-					<isEmpty property="histDt">
-						(SELECT A.* FROM HTLD_RENT_DETAIL_HIST_F A WHERE A.HIST_SEQ = GAM_GET_HTLD_RENT_HIST_SEQ(A.MNG_YEAR, A.MNG_NO, A.MNG_SEQ, TO_CHAR(SYSDATE, 'YYYY-MM-DD'))) D
-					</isEmpty>
 					ON D.MNG_YEAR = F.MNG_YEAR AND D.MNG_NO = F.MNG_NO AND D.MNG_SEQ = F.MNG_SEQ AND D.REGIST_SEQ = F.RENT_DETAIL_REGIST_SEQ AND (F.RNTFEE_SE = '1' OR F.RNTFEE_SE = '2')
 						<isNotEmpty property="histDt" prepend="AND">
 							<![CDATA[
 								D.DETAIL_PD_BEGIN <= TO_DATE(#histDt#, 'YYYY-MM-DD')
 								AND D.DETAIL_PD_END >= TO_DATE(#histDt#, 'YYYY-MM-DD')
-								AND F.NTIC_BEGIN_DT <= TO_DATE(#histDt#, 'YYYY-MM-DD') 
+								AND F.NTIC_BEGIN_DT <= TO_DATE(#histDt#, 'YYYY-MM-DD')
 								AND F.NTIC_END_DT >= TO_DATE(#histDt#, 'YYYY-MM-DD')
 							]]>
 						</isNotEmpty>
-						<isEmpty property="histDt" prepend="AND">
-							<![CDATA[
-								TRUNC(D.DETAIL_PD_BEGIN) <= TRUNC(SYSDATE)
-								AND TRUNC(D.DETAIL_PD_END) >= TRUNC(SYSDATE)
-								AND TRUNC(F.NTIC_BEGIN_DT) <= TRUNC(SYSDATE) 
-								AND TRUNC(F.NTIC_END_DT) >= TRUNC(SYSDATE)
-							]]>
-						</isEmpty>
 				INNER JOIN
 					<isNotEmpty property="histDt">
 						(SELECT B.* FROM HTLD_RENT_HIST_F B WHERE B.HIST_SEQ = GAM_GET_HTLD_RENT_HIST_SEQ(B.MNG_YEAR, B.MNG_NO, B.MNG_SEQ, #histDt#)) R
 					</isNotEmpty>
-					<isEmpty property="histDt">
-						(SELECT B.* FROM HTLD_RENT_HIST_F B WHERE B.HIST_SEQ = GAM_GET_HTLD_RENT_HIST_SEQ(B.MNG_YEAR, B.MNG_NO, B.MNG_SEQ, TO_CHAR(SYSDATE, 'YYYY-MM-DD'))) R
-					</isEmpty>					
 					ON D.MNG_YEAR = R.MNG_YEAR AND D.MNG_NO = R.MNG_NO AND D.MNG_SEQ = R.MNG_SEQ
 				)
 				UNION ALL
@@ -284,7 +253,7 @@
 					,F.RNTFEE_SEQ RNTFEE_SEQ
 					,R.ENTRPS_CD ENTRPS_CD
 					,(SELECT E.ENTRPS_NM FROM ENTRPS_INFO_F E WHERE E.ENTRPSCD = R.ENTRPS_CD) ENTRPS_NM
-					,R.BOUND_CD BOUND_CD 
+					,R.BOUND_CD BOUND_CD
 					,GAM_GETCODENAME('GAM062', R.BOUND_CD) BOUND_NM
 					,R.PAY_SE PAY_SE
 					,TO_CHAR(R.CTRT_BEGIN_DT, 'YYYY-MM-DD') CTRT_BEGIN_DT
@@ -316,8 +285,8 @@
 					,NVL(F.PAYINST_INTR, 0) PAYINST_INTR
 					,NVL(F.SUP_AMT, 0) SUP_AMT
 					,NVL(F.VAT, 0) VAT
-					,NVL(F.PAY_AMT, 0) PAY_AMT 
-					,F.ACCNUT_YEAR ACCNUT_YEAR 
+					,NVL(F.PAY_AMT, 0) PAY_AMT
+					,F.ACCNUT_YEAR ACCNUT_YEAR
 					,F.RNTFEE_NTIC_NO RNTFEE_NTIC_NO
 					,F.NTIC_SEQ NTIC_SEQ
 					,(SELECT NTIC_NO FROM HTLD_NTIC_DTLS_F WHERE ACCNUT_YEAR = F.ACCNUT_YEAR AND RNTFEE_NTIC_NO = F.RNTFEE_NTIC_NO AND NTIC_SEQ = F.NTIC_SEQ) NTIC_NO
@@ -339,26 +308,15 @@
 					<isNotEmpty property="histDt">
 						(SELECT B.* FROM HTLD_RENT_HIST_F B WHERE B.HIST_SEQ = GAM_GET_HTLD_RENT_HIST_SEQ(B.MNG_YEAR, B.MNG_NO, B.MNG_SEQ, #histDt#)) R
 					</isNotEmpty>
-					<isEmpty property="histDt">
-						(SELECT B.* FROM HTLD_RENT_HIST_F B WHERE B.HIST_SEQ = GAM_GET_HTLD_RENT_HIST_SEQ(B.MNG_YEAR, B.MNG_NO, B.MNG_SEQ, TO_CHAR(SYSDATE, 'YYYY-MM-DD'))) R
-					</isEmpty>					
 					ON F.MNG_YEAR = R.MNG_YEAR AND F.MNG_NO = R.MNG_NO AND F.MNG_SEQ = R.MNG_SEQ AND F.RNTFEE_SE = '3'
 						<isNotEmpty property="histDt" prepend="AND">
 							<![CDATA[
 								R.CTRT_BEGIN_DT <= TO_DATE(#histDt#, 'YYYY-MM-DD')
 								AND R.CTRT_END_DT >= TO_DATE(#histDt#, 'YYYY-MM-DD')
-								AND F.NTIC_BEGIN_DT <= TO_DATE(#histDt#, 'YYYY-MM-DD') 
+								AND F.NTIC_BEGIN_DT <= TO_DATE(#histDt#, 'YYYY-MM-DD')
 								AND F.NTIC_END_DT >= TO_DATE(#histDt#, 'YYYY-MM-DD')
 							]]>
 						</isNotEmpty>
-						<isEmpty property="histDt" prepend="AND">
-							<![CDATA[
-								TRUNC(R.CTRT_BEGIN_DT) <= TRUNC(SYSDATE)
-								AND TRUNC(R.CTRT_END_DT) >= TRUNC(SYSDATE)
-								AND TRUNC(F.NTIC_BEGIN_DT) <= TRUNC(SYSDATE) 
-								AND TRUNC(F.NTIC_END_DT) >= TRUNC(SYSDATE)
-							]]>
-						</isEmpty>
 				)
 				UNION ALL
 	      		(
@@ -373,7 +331,7 @@
 						,F.RNTFEE_SEQ RNTFEE_SEQ
 						,R.ENTRPS_CD ENTRPS_CD
 						,(SELECT E.ENTRPS_NM FROM ENTRPS_INFO_F E WHERE E.ENTRPSCD = R.ENTRPS_CD) ENTRPS_NM
-						,R.BOUND_CD BOUND_CD 
+						,R.BOUND_CD BOUND_CD
 						,GAM_GETCODENAME('GAM062', R.BOUND_CD) BOUND_NM
 						,R.PAY_SE PAY_SE
 						,TO_CHAR(R.CTRT_BEGIN_DT, 'YYYY-MM-DD') CTRT_BEGIN_DT
@@ -405,8 +363,8 @@
 						,NVL(F.PAYINST_INTR, 0) PAYINST_INTR
 						,NVL(F.SUP_AMT, 0) SUP_AMT
 						,NVL(F.VAT, 0) VAT
-						,NVL(F.PAY_AMT, 0) PAY_AMT 
-						,F.ACCNUT_YEAR ACCNUT_YEAR 
+						,NVL(F.PAY_AMT, 0) PAY_AMT
+						,F.ACCNUT_YEAR ACCNUT_YEAR
 						,F.RNTFEE_NTIC_NO RNTFEE_NTIC_NO
 						,F.NTIC_SEQ NTIC_SEQ
 						,N.NTIC_NO NTIC_NO
@@ -426,7 +384,7 @@
 						HTLD_RNTFEE_F F
 			        INNER JOIN
 			          	HTLD_NTIC_DTLS_F N
-			          	ON N.ACCNUT_YEAR = F.ACCNUT_YEAR AND N.RNTFEE_NTIC_NO = F.RNTFEE_NTIC_NO AND N.NTIC_SEQ = F.NTIC_SEQ 
+			          	ON N.ACCNUT_YEAR = F.ACCNUT_YEAR AND N.RNTFEE_NTIC_NO = F.RNTFEE_NTIC_NO AND N.NTIC_SEQ = F.NTIC_SEQ
 			          		AND (F.RNTFEE_SE = '0' OR F.RNTFEE_SE = '1' OR F.RNTFEE_SE = '2') AND (N.RCIV_SE = '0' OR N.RCIV_SE = '1')
 					LEFT OUTER JOIN
 						HTLD_RENT_DETAIL_HIST_F D
@@ -436,11 +394,6 @@
 								F.NTIC_END_DT < TO_DATE(GAM_GET_QUARTER_START_DATE(#histDt#), 'YYYY-MM-DD')
 							]]>
 						</isNotEmpty>
-						<isEmpty property="histDt" prepend="AND">
-							<![CDATA[
-								F.NTIC_END_DT < TO_DATE(GAM_GET_QUARTER_START_DATE(TO_CHAR(SYSDATE, 'YYYY-MM-DD')), 'YYYY-MM-DD')
-							]]>
-						</isEmpty>
 					INNER JOIN
 						HTLD_RENT_HIST_F R
 			            ON D.MNG_YEAR = R.MNG_YEAR AND D.MNG_NO = R.MNG_NO AND D.MNG_SEQ = R.MNG_SEQ AND R.HIST_SEQ = N.HIST_SEQ
@@ -458,7 +411,7 @@
 						,F.RNTFEE_SEQ RNTFEE_SEQ
 						,R.ENTRPS_CD ENTRPS_CD
 						,(SELECT E.ENTRPS_NM FROM ENTRPS_INFO_F E WHERE E.ENTRPSCD = R.ENTRPS_CD) ENTRPS_NM
-						,R.BOUND_CD BOUND_CD 
+						,R.BOUND_CD BOUND_CD
 						,GAM_GETCODENAME('GAM062', R.BOUND_CD) BOUND_NM
 						,R.PAY_SE PAY_SE
 						,TO_CHAR(R.CTRT_BEGIN_DT, 'YYYY-MM-DD') CTRT_BEGIN_DT
@@ -490,8 +443,8 @@
 						,NVL(F.PAYINST_INTR, 0) PAYINST_INTR
 						,NVL(F.SUP_AMT, 0) SUP_AMT
 						,NVL(F.VAT, 0) VAT
-						,NVL(F.PAY_AMT, 0) PAY_AMT 
-						,F.ACCNUT_YEAR ACCNUT_YEAR 
+						,NVL(F.PAY_AMT, 0) PAY_AMT
+						,F.ACCNUT_YEAR ACCNUT_YEAR
 						,F.RNTFEE_NTIC_NO RNTFEE_NTIC_NO
 						,F.NTIC_SEQ NTIC_SEQ
 						,N.NTIC_NO NTIC_NO
@@ -505,13 +458,13 @@
   							AND A.ACCNUT_YEAR = U.FISCAL_YR AND A.NTIC_NO = U.BILL_NO AND GAM_GET_HTLD_ARRRG_CHRGE_KND(A.CHRGE_KND_CD) = U.WORK_CODE
   							AND U.FEE_TP = GAM_GET_HTLD_FEE_TP(GAM_GET_HTLD_ARRRG_CHRGE_KND(A.CHRGE_KND_CD))
   							AND A.ACCNUT_YEAR = N.ACCNUT_YEAR AND A.RNTFEE_NTIC_NO = N.RNTFEE_NTIC_NO AND A.NTIC_SEQ = N.NTIC_SEQ
-						) DLY_BILL_PRT_YN						
+						) DLY_BILL_PRT_YN
 						,F.RM RM
 					FROM
 						HTLD_RNTFEE_F F
 			        INNER JOIN
 			         	HTLD_NTIC_DTLS_F N
-			          	ON N.ACCNUT_YEAR = F.ACCNUT_YEAR AND N.RNTFEE_NTIC_NO = F.RNTFEE_NTIC_NO AND N.NTIC_SEQ = F.NTIC_SEQ 
+			          	ON N.ACCNUT_YEAR = F.ACCNUT_YEAR AND N.RNTFEE_NTIC_NO = F.RNTFEE_NTIC_NO AND N.NTIC_SEQ = F.NTIC_SEQ
 			          		AND F.RNTFEE_SE = '3' AND (N.RCIV_SE = '0' OR N.RCIV_SE = '1')
 					INNER JOIN
 						HTLD_RENT_HIST_F R
@@ -521,11 +474,6 @@
 			            	F.NTIC_END_DT < TO_DATE(GAM_GET_QUARTER_START_DATE(#histDt#), 'YYYY-MM-DD')
 							]]>
 						</isNotEmpty>
-						<isEmpty property="histDt" prepend="AND">
-							<![CDATA[
-							F.NTIC_END_DT < TO_DATE(GAM_GET_QUARTER_START_DATE(TO_CHAR(SYSDATE, 'YYYY-MM-DD')), 'YYYY-MM-DD')
-							]]>
-						</isEmpty>
     			)
 			) L
 		WHERE 1=1
@@ -535,12 +483,6 @@
 				AND TO_DATE(L.CTRT_END_DT) >= TO_DATE(#histDt#, 'YYYY-MM-DD')
 				]]>
 			</isNotEmpty>
-			<isEmpty property="histDt" prepend="AND">
-				<![CDATA[
-					TO_DATE(L.CTRT_BEGIN_DT) <= TO_DATE(TO_CHAR(SYSDATE, 'YYYY-MM-DD'), 'YYYY-MM-DD')
-					AND TO_DATE(L.CTRT_END_DT) >= TO_DATE(TO_CHAR(SYSDATE, 'YYYY-MM-DD'), 'YYYY-MM-DD')
-				]]>
-			</isEmpty>
 			<isNotEmpty property="paySe" prepend="AND">
 				L.PAY_SE = #paySe#
 			</isNotEmpty>
@@ -548,13 +490,13 @@
 				L.TERMN_YN = #termnYn#
 			</isNotEmpty>
 		ORDER BY
-			BOUND_CD, ENTRPS_CD, MNG_YEAR, MNG_NO, MNG_SEQ, ACCNUT_YEAR, RNTFEE_NTIC_NO, NTIC_SEQ, RNTFEE_SE, REGIST_SEQ,  RNTFEE_SEQ	
+			BOUND_CD, ENTRPS_CD, MNG_YEAR, MNG_NO, MNG_SEQ, ACCNUT_YEAR, RNTFEE_NTIC_NO, NTIC_SEQ, RNTFEE_SE, REGIST_SEQ,  RNTFEE_SEQ
 	</select>
-	 
+
 	<!-- Cofix 이자율 조회 -->
 	<select id="gamHtldRentMngtMainDao.selectCofixIntrrate_S" parameterClass="gamHtldRentMngtMainVO" resultClass="java.lang.String">
 		SELECT TO_CHAR(NEW_MANIP_AMT_STDR_INTRRATE * 100, '99.99') COFIX_INTRRATE
-		FROM 
+		FROM
 			COFIX_INTRRATE_F
 		WHERE
 			<isNotEmpty property="histDt">
@@ -568,7 +510,7 @@
 				]]>
 			</isEmpty>
 	</select>
-	
+
 	<!-- 임대료 테이블 등록(일반고지일 경우 가상데이터를 위한 쿼리 -->
 	<insert id="gamHtldRentMngtMainDao.insertHtldRntfee_S" parameterClass="gamHtldRentRntfeeVO">
 		INSERT INTO HTLD_RNTFEE_F (
@@ -609,7 +551,7 @@
 			,SYSDATE
 		)
 	</insert>
-	
+
 	<!-- 임대료 수정(메인화면에서 임대료등을 고치면 자동계산후 갱신) -->
 	<update id="gamHtldRentMngtMainDao.updateHtldRntfee_S" parameterClass="gamHtldRentRntfeeVO">
 		UPDATE HTLD_RNTFEE_F
@@ -622,13 +564,13 @@
 			,RM = #rm#
 			,UPD_USR = #updUsr#
 			,UPDT_DT = SYSDATE
-		WHERE 
+		WHERE
 			MNG_YEAR = #mngYear#
 			AND MNG_NO = #mngNo#
 			AND MNG_SEQ = #mngSeq#
 			AND RNTFEE_SEQ = #rntfeeSeq#
 	</update>
-	
+
 		<!-- 배후단지 임대료 순번 생성 -->
 	<select id="gamHtldRentMngtMainDao.selectNextRntfeeSeq_S" parameterClass="gamHtldRentRntfeeVO" resultClass="java.lang.String">
    		SELECT
@@ -636,16 +578,16 @@
    		FROM
    		  	HTLD_RNTFEE_F
    		WHERE
-			MNG_YEAR=#mngYear# 
-			AND MNG_NO=#mngNo# 
+			MNG_YEAR=#mngYear#
+			AND MNG_NO=#mngNo#
 			AND MNG_SEQ=#mngSeq#
 	</select>
-	
-	
+
+
 	<select id="gamHtldRentMngtMainDao.deleteHtldRentList" resultClass="egovMap">
 		SELECT MNG_YEAR AS S_MNG_YEAR, MNG_NO AS S_MNG_NO, MNG_SEQ AS S_MNG_SEQ
 		  FROM HTLD_RENT_F
-		 WHERE CTRT_BEGIN_DT >= TO_DATE(TO_CHAR(SYSDATE,'YYYY')||'0101')  
+		 WHERE CTRT_BEGIN_DT >= TO_DATE(TO_CHAR(SYSDATE,'YYYY')||'0101')
 
 	</select>
 	<delete id="gamHtldRentMngtMainDao.deleteHtldRentData" parameterClass="egovMap">
@@ -655,7 +597,7 @@
 		   AND MNG_SEQ = #sMngSeq#
 
 	</delete>
-	
+
 	<delete id="gamHtldRentMngtMainDao.deleteHtldRentDetailData" parameterClass="egovMap">
 		DELETE FROM HTLD_RENT_DETAIL_F
 		 WHERE MNG_YEAR = #sMngYear#
@@ -684,8 +626,8 @@
 								  ,REGIST_DT
 								  ,UPD_USR
 								  ,UPDT_DT
-								) 
-								
+								)
+
 							SELECT 	MNG_YEAR
 									,MNG_NO
 									,#mngSeq#
@@ -694,7 +636,7 @@
 									,CHRGE_KND_CD
 									,GR_RENT_AR
 									,PAY_SE
-									,CTRT_BEGIN_DT+(INTERVAL '3' YEAR) 
+									,CTRT_BEGIN_DT+(INTERVAL '3' YEAR)
 									,CTRT_END_DT+(INTERVAL '3' YEAR)
 									,CTRT_DT+(INTERVAL '3' YEAR)
 									,REG_USR
@@ -705,8 +647,8 @@
 							 WHERE 	MNG_YEAR = #sMngYear#
 							   AND MNG_NO = #sMngNo#
 							   AND MNG_SEQ = #sMngSeq#
-								
-								
+
+
 	</insert>
 
 	<insert id="gamHtldRentMngtMainDao.inserHtldRentDetailData" >
@@ -757,7 +699,7 @@
 									   AND MNG_SEQ = #sMngSeq#
 
 	</insert>
-	
+
 	<!-- 물동량 조회 -->
 	<select id="gamHtldRentMngtMainDao.selectHtldQuGtqyList" parameterClass="gamHtldQuGtqyVO" resultClass="egovMap">
 		SELECT YEAR
@@ -772,7 +714,7 @@
 		  FROM HTLD_QU_GTQY
 		 ORDER BY YEAR DESC
 	</select>
-	
+
 	<delete id="gamHtldRentMngtMainDao.deleteHtldQuGtqyList">
 		<![CDATA[
 			DELETE FROM HTLD_QU_GTQY
@@ -792,7 +734,7 @@
 									, FOUR_QU_CNTANR = #fourQuCntanr#
 									, UPDUSR = #updusr#
 									, UPDDE = sysdate
-			 WHERE  YEAR = #year#			
+			 WHERE  YEAR = #year#
 		]]>
 	</update>
 
@@ -824,6 +766,163 @@
 					)
 		]]>
 	</insert>
-	
-	
+
+	<!-- 계약 복사 쿼리 -->
+	<insert id="gamHtldRentMngtMainDao.insertHtldCopyCtrt">
+		<![CDATA[
+			INSERT INTO HTLD_RENT_HIST_F (
+			ENTRPS_CD, BOUND_CD, CTRT_BEGIN_DT, CTRT_END_DT, GR_RENT_AR, PAY_SE, CTRT_DT, REG_USR, REGIST_DT,
+			UPD_USR, UPDT_DT, MNG_YEAR, MNG_NO, MNG_SEQ, HIST_SEQ, TERMN_DT, TERMN_RSN, CHRGE_KND_CD, HIST_DT
+			)
+			SELECT ENTRPS_CD, BOUND_CD, NEW_CTRT_BEGIN_DT, NEW_CTRT_BEGIN_DT+PERIOD_DT NEW_CTRT_END_DT, GR_RENT_AR, PAY_SE, CTRT_DT, REG_USR, REGIST_DT,
+			'TEST1', SYSDATE, MNG_YEAR, MNG_NO, LPAD(MNG_SEQ+1, 2,'0'), '0001', TERMN_DT, TERMN_RSN, CHRGE_KND_CD, HIST_DT
+			FROM (
+			SELECT R.ENTRPS_CD, R.BOUND_CD,
+			TO_DATE((#mngYear#+1)||'-01-01', 'YYYY-MM-DD') NEW_CTRT_BEGIN_DT,
+			R.CTRT_BEGIN_DT, R.CTRT_END_DT, R.CTRT_END_DT-R.CTRT_BEGIN_DT PERIOD_DT,
+			R.GR_RENT_AR, R.PAY_SE, R.CTRT_DT, R.REG_USR, R.REGIST_DT,
+			R.UPD_USR, R.UPDT_DT, R.MNG_YEAR, R.MNG_NO, R.MNG_SEQ, R.HIST_SEQ, R.TERMN_DT, R.TERMN_RSN, R.CHRGE_KND_CD, R.HIST_DT
+			FROM HTLD_RENT_HIST_F R
+			WHERE 1=1
+			    AND TO_DATE(#mngYear#||'-12-31', 'YYYY-MM-DD') BETWEEN R.CTRT_BEGIN_DT AND R.CTRT_END_DT
+			    AND R.TERMN_DT IS NULL
+			    AND R.CTRT_END_DT < TO_DATE((#mngYear#+1)||'-01-01', 'YYYY-MM-DD')
+			    AND R.HIST_SEQ='0001'
+			ORDER BY
+			    R.BOUND_CD, R.ENTRPS_CD, R.MNG_YEAR, R.MNG_NO, R.MNG_SEQ
+			)
+		]]>
+	</insert>
+
+	<!-- 계약 상세 복사 쿼리 -->
+	<insert id="gamHtldRentMngtMainDao.insertHtldCopyCtrtDtls">
+		<![CDATA[
+			INSERT INTO HTLD_RENT_DETAIL_HIST_F (
+			REGIST_SEQ, RENT_AR, APPLC_RNTFEE, ASE_RNTFEE, ASE_APPLC_BEGIN, ASE_APPLC_END, APPLC_RSN, REG_USR, REGIST_DT, UPD_USR, RM, PRICE_SE,
+			MNG_YEAR, MNG_NO, MNG_SEQ, GIS_ASSETS_CD, GIS_ASSETS_SUB_CD, ASSETS_NM, HIST_SEQ, RENT_AR_SE,
+			DETAIL_PD_BEGIN, DETAIL_PD_END, GIS_ASSETS_PRT_AT_CODE, HIST_DT
+			)
+			SELECT
+			REGIST_SEQ, RENT_AR, APPLC_RNTFEE, ASE_RNTFEE, ASE_APPLC_BEGIN, ASE_APPLC_END, APPLC_RSN, REG_USR, REGIST_DT, 'TEST1', RM, PRICE_SE,
+			MNG_YEAR, MNG_NO, LPAD(MNG_SEQ+1, 2,'0'), GIS_ASSETS_CD, GIS_ASSETS_SUB_CD, ASSETS_NM, HIST_SEQ, RENT_AR_SE,
+			NEW_DETAIL_PD_BEGIN, NEW_DETAIL_PD_BEGIN+PERIOD_DAY NEW_DETAIL_PD_END, GIS_ASSETS_PRT_AT_CODE, HIST_DT
+			FROM
+			(
+			SELECT D.REGIST_SEQ, D.RENT_AR, D.APPLC_RNTFEE, D.ASE_RNTFEE, D.ASE_APPLC_BEGIN, D.ASE_APPLC_END, D.APPLC_RSN, D.REG_USR, D.REGIST_DT, D.UPD_USR, D.RM, D.PRICE_SE,
+			D.MNG_YEAR, D.MNG_NO, D.MNG_SEQ, D.GIS_ASSETS_CD, D.GIS_ASSETS_SUB_CD, D.ASSETS_NM, D.HIST_SEQ, D.RENT_AR_SE,
+			TO_DATE((#mngYear#+1)||'-01-01', 'YYYY-MM-DD') NEW_DETAIL_PD_BEGIN, D.DETAIL_PD_END-D.DETAIL_PD_BEGIN PERIOD_DAY, D.DETAIL_PD_BEGIN, D.DETAIL_PD_END, D.GIS_ASSETS_PRT_AT_CODE, D.HIST_DT
+			FROM HTLD_RENT_HIST_F R, HTLD_RENT_DETAIL_HIST_F D
+			WHERE 1=1
+			    AND TO_DATE(#mngYear#||'-12-31', 'YYYY-MM-DD') BETWEEN R.CTRT_BEGIN_DT AND R.CTRT_END_DT
+			    AND TERMN_DT IS NULL
+			    AND R.CTRT_END_DT < TO_DATE((#mngYear#+1)||'-01-01', 'YYYY-MM-DD')
+			    AND R.MNG_YEAR=D.MNG_YEAR
+			    AND R.MNG_NO=D.MNG_NO
+			    AND R.MNG_SEQ=D.MNG_SEQ
+			    AND R.MNG_YEAR=D.MNG_YEAR
+			    AND R.HIST_SEQ=D.HIST_SEQ
+			    AND R.HIST_SEQ='0001'
+			ORDER BY
+			    R.BOUND_CD, R.ENTRPS_CD, R.MNG_YEAR, R.MNG_NO, R.MNG_SEQ
+			)
+		]]>
+	</insert>
+
+	<!-- 계약 복사시 기존 고지 데이터 삭제 -->
+	<delete id="gamHtldRentMngtMainDao.deleteHtldCopyCtrtNticDtls">
+		<![CDATA[
+			DELETE FROM HTLD_NTIC_DTLS_F F
+			WHERE (F.MNG_YEAR, F.MNG_NO, F.MNG_SEQ) IN (
+			    SELECT MNG_YEAR, MNG_NO, MNG_SEQ
+			    FROM (
+			    SELECT MNG_YEAR, MNG_NO, LPAD(MNG_SEQ+1, 2,'0') MNG_SEQ
+			    FROM (
+			        SELECT R.MNG_YEAR, R.MNG_NO, R.MNG_SEQ
+			        FROM HTLD_RENT_HIST_F R
+			        WHERE 1=1
+			            AND TO_DATE(#mngYear#||'-12-31', 'YYYY-MM-DD') BETWEEN R.CTRT_BEGIN_DT AND R.CTRT_END_DT
+			            AND R.TERMN_DT IS NULL
+			            AND R.CTRT_END_DT < TO_DATE((#mngYear#+1)||'-01-01', 'YYYY-MM-DD')
+			            AND R.HIST_SEQ='0001'
+			        ORDER BY
+			            R.MNG_YEAR, R.MNG_NO, R.MNG_SEQ
+			        )
+			    )
+			)
+		]]>
+	</delete>
+
+	<!-- 계약 복사시 기존 요금 데이터 삭제 -->
+	<delete id="gamHtldRentMngtMainDao.deleteHtldCopyCtrtRntfee">
+		<![CDATA[
+			DELETE FROM HTLD_RNTFEE_F F
+			WHERE (F.MNG_YEAR, F.MNG_NO, F.MNG_SEQ) IN (
+			    SELECT MNG_YEAR, MNG_NO, MNG_SEQ
+			    FROM (
+			    SELECT MNG_YEAR, MNG_NO, LPAD(MNG_SEQ+1, 2,'0') MNG_SEQ
+			    FROM (
+			        SELECT R.MNG_YEAR, R.MNG_NO, R.MNG_SEQ
+			        FROM HTLD_RENT_HIST_F R
+			        WHERE 1=1
+			            AND TO_DATE(#mngYear#||'-12-31', 'YYYY-MM-DD') BETWEEN R.CTRT_BEGIN_DT AND R.CTRT_END_DT
+			            AND R.TERMN_DT IS NULL
+			            AND R.CTRT_END_DT < TO_DATE((#mngYear#+1)||'-01-01', 'YYYY-MM-DD')
+			            AND R.HIST_SEQ='0001'
+			        ORDER BY
+			            R.MNG_YEAR, R.MNG_NO, R.MNG_SEQ
+			        )
+			    )
+			)
+		]]>
+	</delete>
+
+	<!-- 계약 복사시 기존 상세 데이터 삭제 -->
+	<delete id="gamHtldRentMngtMainDao.deleteHtldCopyCtrtDtls">
+		<![CDATA[
+			DELETE FROM HTLD_RENT_DETAIL_HIST_F F
+			WHERE (F.MNG_YEAR, F.MNG_NO, F.MNG_SEQ) IN (
+			    SELECT MNG_YEAR, MNG_NO, MNG_SEQ
+			    FROM (
+			    SELECT MNG_YEAR, MNG_NO, LPAD(MNG_SEQ+1, 2,'0') MNG_SEQ
+			    FROM (
+			        SELECT R.MNG_YEAR, R.MNG_NO, R.MNG_SEQ
+			        FROM HTLD_RENT_HIST_F R
+			        WHERE 1=1
+			            AND TO_DATE(#mngYear#||'-12-31', 'YYYY-MM-DD') BETWEEN R.CTRT_BEGIN_DT AND R.CTRT_END_DT
+			            AND R.TERMN_DT IS NULL
+			            AND R.CTRT_END_DT < TO_DATE((#mngYear#+1)||'-01-01', 'YYYY-MM-DD')
+			            AND R.HIST_SEQ='0001'
+			        ORDER BY
+			            R.MNG_YEAR, R.MNG_NO, R.MNG_SEQ
+			        )
+			    )
+			)
+		]]>
+	</delete>
+
+	<!-- 계약 복사시 기존 계약 데이터 삭제 -->
+	<delete id="gamHtldRentMngtMainDao.deleteHtldCopyCtrtMst">
+		<![CDATA[
+			DELETE FROM HTLD_RENT_HIST_F F
+			WHERE (F.MNG_YEAR, F.MNG_NO, F.MNG_SEQ) IN (
+			    SELECT MNG_YEAR, MNG_NO, MNG_SEQ
+			    FROM (
+			    SELECT MNG_YEAR, MNG_NO, LPAD(MNG_SEQ+1, 2,'0') MNG_SEQ
+			    FROM (
+			        SELECT R.MNG_YEAR, R.MNG_NO, R.MNG_SEQ
+			        FROM HTLD_RENT_HIST_F R
+			        WHERE 1=1
+			            AND TO_DATE(#mngYear#||'-12-31', 'YYYY-MM-DD') BETWEEN R.CTRT_BEGIN_DT AND R.CTRT_END_DT
+			            AND R.TERMN_DT IS NULL
+			            AND R.CTRT_END_DT < TO_DATE((#mngYear#+1)||'-01-01', 'YYYY-MM-DD')
+			            AND R.HIST_SEQ='0001'
+			        ORDER BY
+			            R.MNG_YEAR, R.MNG_NO, R.MNG_SEQ
+			        )
+			    )
+			)
+		]]>
+	</delete>
+
+
 </sqlMap>

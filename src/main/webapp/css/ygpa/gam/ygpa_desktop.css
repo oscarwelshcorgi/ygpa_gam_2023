@@ -287,38 +287,42 @@ input[type="text"]:disabled {
 select:disabled, textarea:disabled { color: #000; background-color: #ebebe4; border-style: dotted; }
 
 .prtFcltyInfo div {
-	  width: 100%;
-  white-space: nowrap;
-  overflow: hidden;
+	width: 100%;
+	white-space: nowrap;
+	overflow: hidden;
 }
 
 .prtFcltyInfo h2 {
 	font-weight: bold;
 	font-size: 14px;
 	margin-bottom: 3px;
-  text-shadow: #000 0 1px 1px;
+	text-shadow: #000 0 1px 1px;
+	color: white;
 }
 
 .prtFcltyInfo table {
-	  width: 100%;
-  white-space: nowrap;
+    width: 100%;
+    white-space: nowrap;
+    margin: 4px 0px;
 }
 
 .prtFcltyInfo th {
-	background: #2FDAFF;
-	  border-left: 1px solid #fff;
-  border-bottom: 1px solid #fff;
-  font-weight: bold;
-  text-shadow: #000 0 1px 1px;
-  white-space: nowrap;
-  padding: 4px 8px;
-  vertical-align: middle;
+    background: #768386;
+    border-left: 1px solid #fff;
+    border-bottom: 1px solid #fff;
+    font-weight: bold;
+    /* text-shadow: #000 0 1px 1px; */
+    white-space: nowrap;
+    padding: 4px 8px;
+    vertical-align: middle;
+    color: #fffdf7;
 }
 
 .prtFcltyInfo td {
-	background: #fff;
-	color: #615E5E;
-  vertical-align: middle;
+    background: #d8d8d8;
+    color: #3c3e40;
+    vertical-align: middle;
+    padding: 4px;
 }
 
 .prtFcltyInfo tr {
@@ -630,11 +634,13 @@ background-repeat: no-repeat;
 }
 
 .olFramedCloudPopupContent h2 {
-	background: #ccf;
-	border-color: #ddd;
-	font-size: 18px;
-	font-weight: bold;
-	margin-bottom: 4px;
+    background: #1555b9;
+    border-color: #ddd;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 4px;
+    padding: 2px;
+    margin-top: 2px;
 }
 
 .legendPanel {

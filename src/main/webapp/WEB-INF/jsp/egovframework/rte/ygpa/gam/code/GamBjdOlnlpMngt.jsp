@@ -283,22 +283,29 @@ var module_instance = new GamOlnlpMngtModule();
 			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
 				<table id="olnlpList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
-					<form id="bjdAddrForm">
-					<input type="hidden" id="bupjungdongCd" size="30" />
-					<input id="locplc" size="30" disabled="disabled"/><button id="btnSearchAddr">주소검색</button>
-					<input id="mt" type="checkbox" title="산" /> 산
-					<input id="lnm" size="4" />
-					<input id="lnmSub" size="4" />
-					<button id="insertBjdAddr" class="buttonAdd">주소추가</button>
-					<button id="btnDelete">삭제</button>
-					<button id="btnSave">저장</button>
-					</form>
-					<button id="btnApplcOlnlp">자산에 공시지가적용</button>
-					<button id="btnBjdOlnlpLink">openapi 연계</button>
-					<!--
-					<button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="olnlpList" data-style="default">맵조회</button>
-					<button id="insertExcel" class="buttonExcel">엑셀등록</button>
-					 -->
+					<table>
+						<tr>
+<!-- 							<td>
+								<button id="btnBjdOlnlpLink">api 연계</button>
+							</td>
+ -->							
+							<td>
+								<input type="hidden" id="bupjungdongCd" size="30" />
+								<input id="locplc" size="30" disabled="disabled"/><button id="btnSearchAddr">주소검색</button>
+								<input id="mt" type="checkbox" title="산" /> 산
+								<input id="lnm" size="4" />
+								<input id="lnmSub" size="4" />
+								<button id="insertBjdAddr" class="buttonAdd">주소추가</button>
+								<button id="btnDelete">삭제</button>
+								<button id="btnSave">저장</button>
+								<button id="btnApplcOlnlp">자산에 공시지가적용</button>
+								<!--
+								<button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="olnlpList" data-style="default">맵조회</button>
+								<button id="insertExcel" class="buttonExcel">엑셀등록</button>
+								 -->
+							</td>
+						</tr>
+					</table>
 				</div>
 			</div>
 		</div>

@@ -4,7 +4,8 @@
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-
+<%-- 맵 디버깅 용 변수 값을 true로 하면 지적도 저장 기능이 나온다. --%>
+<c:set var="_mapDebug" value="false"/>
 <%
   /**
   * @Class Name : ygpaMapMain.jsp
@@ -38,6 +39,8 @@
 <link rel="stylesheet" href="<c:url value='/css/flexigrid.ygpa.css'/>" />
 <link rel="stylesheet" href="<c:url value='/css/jquery.sidr.light.css'/>">
 
+<link rel="stylesheet" type="text/css" href="<c:url value="/css/fa-all.min.css" />">
+
 <link rel="stylesheet" href="<c:url value='/js/codebase/dhtmlx.css'/>">
 
 <%-- <link rel="stylesheet" href="<c:url value='/css/jtree/themes/default/style.min.css'/>">
@@ -57,7 +60,7 @@
     <script src="<c:url value='/js/emf_map.ygpa_gam_2019.js'/>"></script>
 
     <script type="text/javascript">
-	var $DEBUG=false;
+	var $DEBUG=${_mapDebug};
 	var wikiUrl="http://192.168.0.71:8100/wiki/Wiki.jsp?";
 
     jQuery(document).ready(function() {
@@ -89,7 +92,8 @@
 					</c:forEach>
 				];
 	   	   </c:if>
-	    	EMD.go("${pageContext.request.contextPath}", "http://192.168.0.71:8092/G2DataService/2d/Base/201310", "http://192.168.0.71:8092/G2DataService/GService?", "${pageContext.request.scheme}://${pageContext.request.serverName}", frmwrkMenu);
+//	    	EMD.go("${pageContext.request.contextPath}", "http://192.168.0.71:8092/G2DataService/2d/Base/201310", "http://192.168.0.71:8092/G2DataService/GService?", "${pageContext.request.scheme}://${pageContext.request.serverName}", frmwrkMenu);
+	    	EMD.go("${pageContext.request.contextPath}", "http://192.168.0.71:8092/G2DataService/2d/Base/201907", "http://192.168.0.71:8092/G2DataService/GService?", "${pageContext.request.scheme}://${pageContext.request.serverName}", frmwrkMenu);
     	 });
 
     function getAssetsCdStyleMap() {
@@ -181,10 +185,47 @@
     				}
     			}),
     			new OpenLayers.Rule({
+    				filter: new OpenLayers.Filter.Comparison({
+    					type: OpenLayers.Filter.Comparison.EQUAL_TO,
+    					property: "ASSETS_SE_CD",
+    					value: '1',
+    				}),
+    				symbolizer: {
+   						strokeColor: "#000000",
+   						fillColor: "#FF0000",
+   						fillOpacity: 0.75
+    				}
+    			}),
+    			new OpenLayers.Rule({
+    				filter: new OpenLayers.Filter.Comparison({
+    					type: OpenLayers.Filter.Comparison.EQUAL_TO,
+    					property: "ASSETS_SE_CD",
+    					value: '2',
+    				}),
+    				symbolizer: {
+    					strokeColor: "#000000",
+    					fillColor: "#00FF00",
+   						fillOpacity: 0.75
+    				}
+    			}),
+    			new OpenLayers.Rule({
+    				filter: new OpenLayers.Filter.Comparison({
+    					type: OpenLayers.Filter.Comparison.EQUAL_TO,
+    					property: "ASSETS_SE_CD",
+    					value: '4',
+    				}),
+    				symbolizer: {
+    					strokeColor: "#000000",
+    					fillColor: "#0000FF",
+   						fillOpacity: 0.75
+    				}
+    			}),
+    			new OpenLayers.Rule({
     				elseFilter: true,
     				symbolizer: {
     					strokeColor: "#000000",
-    					fillColor: "#A0A0A0"
+    					fillColor: "#A0A0A0",
+   						fillOpacity: 0.75
     				}
     			})
     		]

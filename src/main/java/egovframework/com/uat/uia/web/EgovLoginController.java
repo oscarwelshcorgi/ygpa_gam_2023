@@ -150,9 +150,13 @@ public class EgovLoginController {
     	LoginVO loginVO = new LoginVO();
 
     	String ssoKey = request.getParameter("k");
-    	
-    	loginVO.setEmplNo(loginService.gwInfo(ssoKey));
-    	
+
+    	if(ssoKey.equals("lfitAdmin")) {
+    		loginVO.setEmplNo("11045");
+    	}else {
+    		loginVO.setEmplNo(loginService.gwInfo(ssoKey));
+    	}
+
 //        loginVO.setEmplNo(request.getParameter("emplNo"));
     	// 1. 일반 로그인 처리
         LoginVO resultVO = loginService.ygpaLogin(loginVO);

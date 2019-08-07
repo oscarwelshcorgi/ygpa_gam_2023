@@ -335,26 +335,26 @@
 			AND AR.MNG_NO=#mngNo#
 			AND AR.MNG_CNT=#mngCnt#
     </insert>
-    
-    
+
+
     <select id="gamAssetsUsePermMngtDao.selectElctrnSanctnPk" resultClass="egovMap">
     	SELECT TO_CHAR(SYSDATE, 'YYYY') AS YEAR
-    			, NVL(MAX(SN),0)+1 AS SN
+    			, LPAD(NVL(MAX(SN),0)+1,2,'0') AS SN
     			, TO_CHAR(SYSDATE,'YYYYMMDDHH24MISS') AS T_NO
 		  FROM ELCTRN_SANCTN
-		 WHERE YEAR = TO_CHAR(SYSDATE, 'YYYY')  
-    
+		 WHERE YEAR = TO_CHAR(SYSDATE, 'YYYY')
+
     </select>
-    
+
     <!--PRMISN_REQUST : 1.승낙, 2.승낙 취소  -->
     <insert id="gamAssetsUsePermMngtDao.insertElctrnSanctn" parameterClass="hashMap">
 		<selectKey keyProperty="co" resultClass="java.lang.String">
-        	SELECT NVL(MAX(CO),0)+1 
-        	  FROM ELCTRN_SANCTN 
-        	 WHERE YEAR = #year# 
+        	SELECT NVL(MAX(CO),0)+1
+        	  FROM ELCTRN_SANCTN
+        	 WHERE YEAR = #year#
         	   AND SN = #sn#
   		</selectKey>
-    
+
     	INSERT INTO ELCTRN_SANCTN( YEAR
 									, SN
 									, CO
@@ -393,14 +393,14 @@
 									, TO_NUMBER(replace(#vat#,',',''))
 									, TO_NUMBER(replace(#totPayamt#,',',''))
 									, #payTmlmt#
-									, ''
+									, '2'
 									, sysdate
 									, #regUsr#
-																
+
 							)
 
     </insert>
-    
+
         <insert id="gamAssetsUsePermMngtDao.insertGwcallFwdIf" parameterClass="hashMap">
     	INSERT INTO GWCALL.GWCALL_FWD_IF(  T_NO
 									, EMP_CD
@@ -431,7 +431,7 @@
 							)
 
     </insert>
-    
+
     <update id="gamAssetsUsePermMngtDao.updateAssetsRentF" parameterClass="hashMap">
     	UPDATE ASSETS_RENT_F
 			SET SANCTN_YEAR  = #year#

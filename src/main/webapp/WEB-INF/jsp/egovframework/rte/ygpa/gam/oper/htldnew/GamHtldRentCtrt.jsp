@@ -53,7 +53,8 @@ GamHtldRentCtrtModule.prototype.loadComplete = function(params) {
 		            {display:'주소지', name:'assetsLocplcAll',width:350, sortable:false,align:'center'},
 		            {display:'임대면적', name:'rentAr',width:150, sortable:false,align:'right', displayFormat: 'input-number', displayOption:"0,000.00"},
 		            {display:'부지구분', name:'rentArSe',width:80, sortable:false,align:'center', displayFormat:'select', displayOption:rentArSeOption},
-		            {display:'적용단가', name:'applcRntfee',width:150, sortable:false,align:'right', displayFormat: 'input-number', displayOption:"0,000.00"},
+		            {display:'공시지가(현재)', name:'olnlp',width:100, sortable:false,align:'right', displayFormat: 'number', displayOption:"0,000.00"},
+		            {display:'적용단가', name:'applcRntfee',width:100, sortable:false,align:'right', displayFormat: 'input-number', displayOption:"0,000.00"},
 		            {display:'단가구분', name:'priceSe',width:100, sortable:false,align:'center', displayFormat:'select', displayOption:priceSeOption},
 		            {display:'임대시작일', name:'detailPdBegin',width:100, sortable:false,align:'center', displayFormat:'cal'},
 		            {display:'임대종료일', name:'detailPdEnd',width:100, sortable:false,align:'center', displayFormat:'cal'}
