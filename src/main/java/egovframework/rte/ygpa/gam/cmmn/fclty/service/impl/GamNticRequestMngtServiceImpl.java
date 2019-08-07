@@ -100,7 +100,7 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
 
     @Resource(name="gamNticRequestMngtDAO")
     private GamNticRequestMngtDAO gamNticRequestMngtDAO;
-    
+
     @Resource(name="gamPrtFcltyRentFeeMngtDao")
     private GamPrtFcltyRentFeeMngtDao gamPrtFcltyRentFeeMngtDao;
 
@@ -940,7 +940,7 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
 		}
 	}
 
-	
+
 	public int updateRentFeePaySttusRefresh() throws Exception {
 		int ret = gamNticRequestMngtDAO.updateAssetRentFeePayDtlsMngtList();
 		return ret+gamNticRequestMngtDAO.updateAssetRentFeePayDtlsMngtArrrgList();
@@ -955,22 +955,22 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
     	StringBuilder result =  new StringBuilder(); //HWPML 처리 문자열 버퍼
     	//HWPML용 인스턴스 생성
     	MakeRentFeeCheckReportHWPML reportHWP = new MakeRentFeeCheckReportHWPML();
-    	
+
 		//Head Element 구성 처리
 		result.append(reportHWP.getXmlRentFeeCheckReportHead());
 		//Body Element 구성 처리
 		result.append(reportHWP.getXmlRentFeeCheckReportBody(approvalOpt));
-		
+
 		return result.toString();
 	}
-	
+
 	/*******
 	 * 여기서 부터는 HWPML의 엘리먼트를 구성하기 위한 INNER CLASS
 	 */
 	class MakeRentFeeCheckReportHWPML {
 		protected int instanceId = 2038414160;
 		protected int zOrder = 0;
-	
+
 		/** InstId속성와 ZOrder 쓰는 엘리먼트들의 값을 변경시킨다.*/
 		protected int getInstanceId() {
 			return instanceId++;
@@ -978,7 +978,7 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
 		protected int getZOrder() {
 			return zOrder++;
 		}
-		
+
 		/**파일을  BASE64엔코딩 문자열로 변환시킨다 */
 		protected String fileToBase64(String fileName) throws Exception {
 			FileInputStream fis = new FileInputStream(fileName);
@@ -988,14 +988,14 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
 			fis.close();
 			return new String(Base64.encodeBase64(fileData));
 		}
-		
-		
+
+
 		/**HWPML 용 산정조서 HEAD 엘리먼트 구성을 문자열로 가져온다.*/
 		public StringBuilder getXmlRentFeeCheckReportHead() {
 			StringBuilder sb = new StringBuilder();
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy년 MM일 dd일 HH시 mm분 ss초", Locale.KOREA);
 			String today = formatter.format(new Date());
-			
+
 			sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>\n");
 			sb.append("<HWPML Style=\"embed\" SubVersion=\"8.0.0.0\" Version=\"2.8\">\n");
 			sb.append("<HEAD SecCnt=\"1\">\n");
@@ -1024,7 +1024,7 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
 			sb.append("<CHARSHAPE BorderFillId=\"2\" Height=\"2000\" Id=\"5\" ShadeColor=\"4294967295\" SymMark=\"0\" TextColor=\"0\" UseFontSpace=\"false\" UseKerning=\"false\"><FONTID Hangul=\"1\" Hanja=\"1\" Japanese=\"1\" Latin=\"1\" Other=\"1\" Symbol=\"1\" User=\"1\"/><RATIO Hangul=\"100\" Hanja=\"100\" Japanese=\"100\" Latin=\"100\" Other=\"100\" Symbol=\"100\" User=\"100\"/><CHARSPACING Hangul=\"0\" Hanja=\"0\" Japanese=\"0\" Latin=\"0\" Other=\"0\" Symbol=\"0\" User=\"0\"/><RELSIZE Hangul=\"100\" Hanja=\"100\" Japanese=\"100\" Latin=\"100\" Other=\"100\" Symbol=\"100\" User=\"100\"/><CHAROFFSET Hangul=\"0\" Hanja=\"0\" Japanese=\"0\" Latin=\"0\" Other=\"0\" Symbol=\"0\" User=\"0\"/><BOLD/><UNDERLINE Color=\"0\" Shape=\"Solid\" Type=\"Bottom\"/></CHARSHAPE>\n");
 			sb.append("<CHARSHAPE BorderFillId=\"2\" Height=\"1200\" Id=\"6\" ShadeColor=\"4294967295\" SymMark=\"0\" TextColor=\"0\" UseFontSpace=\"false\" UseKerning=\"false\"><FONTID Hangul=\"1\" Hanja=\"1\" Japanese=\"1\" Latin=\"1\" Other=\"1\" Symbol=\"1\" User=\"1\"/><RATIO Hangul=\"100\" Hanja=\"100\" Japanese=\"100\" Latin=\"100\" Other=\"100\" Symbol=\"100\" User=\"100\"/><CHARSPACING Hangul=\"0\" Hanja=\"0\" Japanese=\"0\" Latin=\"0\" Other=\"0\" Symbol=\"0\" User=\"0\"/><RELSIZE Hangul=\"100\" Hanja=\"100\" Japanese=\"100\" Latin=\"100\" Other=\"100\" Symbol=\"100\" User=\"100\"/><CHAROFFSET Hangul=\"0\" Hanja=\"0\" Japanese=\"0\" Latin=\"0\" Other=\"0\" Symbol=\"0\" User=\"0\"/></CHARSHAPE>\n");
 			sb.append("<CHARSHAPE BorderFillId=\"2\" Height=\"1200\" Id=\"7\" ShadeColor=\"4294967295\" SymMark=\"0\" TextColor=\"0\" UseFontSpace=\"false\" UseKerning=\"false\"><FONTID Hangul=\"1\" Hanja=\"1\" Japanese=\"1\" Latin=\"1\" Other=\"1\" Symbol=\"1\" User=\"1\"/><RATIO Hangul=\"100\" Hanja=\"100\" Japanese=\"100\" Latin=\"100\" Other=\"100\" Symbol=\"100\" User=\"100\"/><CHARSPACING Hangul=\"0\" Hanja=\"0\" Japanese=\"0\" Latin=\"0\" Other=\"0\" Symbol=\"0\" User=\"0\"/><RELSIZE Hangul=\"100\" Hanja=\"100\" Japanese=\"100\" Latin=\"100\" Other=\"100\" Symbol=\"100\" User=\"100\"/><CHAROFFSET Hangul=\"0\" Hanja=\"0\" Japanese=\"0\" Latin=\"0\" Other=\"0\" Symbol=\"0\" User=\"0\"/><BOLD/></CHARSHAPE>\n");
-			sb.append("<CHARSHAPE BorderFillId=\"2\" Height=\"1200\" Id=\"8\" ShadeColor=\"4294967295\" SymMark=\"0\" TextColor=\"255\" UseFontSpace=\"false\" UseKerning=\"false\"><FONTID Hangul=\"1\" Hanja=\"1\" Japanese=\"1\" Latin=\"1\" Other=\"1\" Symbol=\"1\" User=\"1\"/><RATIO Hangul=\"100\" Hanja=\"100\" Japanese=\"100\" Latin=\"100\" Other=\"100\" Symbol=\"100\" User=\"100\"/><CHARSPACING Hangul=\"0\" Hanja=\"0\" Japanese=\"0\" Latin=\"0\" Other=\"0\" Symbol=\"0\" User=\"0\"/><RELSIZE Hangul=\"100\" Hanja=\"100\" Japanese=\"100\" Latin=\"100\" Other=\"100\" Symbol=\"100\" User=\"100\"/><CHAROFFSET Hangul=\"0\" Hanja=\"0\" Japanese=\"0\" Latin=\"0\" Other=\"0\" Symbol=\"0\" User=\"0\"/></CHARSHAPE>\n");
+			sb.append("<CHARSHAPE BorderFillId=\"2\" Height=\"1200\" Id=\"8\" ShadeColor=\"4294967295\" SymMark=\"0\" TextColor=\"0\" UseFontSpace=\"false\" UseKerning=\"false\"><FONTID Hangul=\"1\" Hanja=\"1\" Japanese=\"1\" Latin=\"1\" Other=\"1\" Symbol=\"1\" User=\"1\"/><RATIO Hangul=\"100\" Hanja=\"100\" Japanese=\"100\" Latin=\"100\" Other=\"100\" Symbol=\"100\" User=\"100\"/><CHARSPACING Hangul=\"0\" Hanja=\"0\" Japanese=\"0\" Latin=\"0\" Other=\"0\" Symbol=\"0\" User=\"0\"/><RELSIZE Hangul=\"100\" Hanja=\"100\" Japanese=\"100\" Latin=\"100\" Other=\"100\" Symbol=\"100\" User=\"100\"/><CHAROFFSET Hangul=\"0\" Hanja=\"0\" Japanese=\"0\" Latin=\"0\" Other=\"0\" Symbol=\"0\" User=\"0\"/><UNDERLINE Color=\"0\" Shape=\"Solid\" Type=\"Bottom\"/></CHARSHAPE>\n");
 			sb.append("</CHARSHAPELIST>\n");
 			sb.append("<TABDEFLIST Count=\"2\">\n");
 			sb.append("<TABDEF AutoTabLeft=\"false\" AutoTabRight=\"false\" Id=\"0\"/>\n");
@@ -1072,39 +1072,42 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
 			sb.append("<LAYOUTCOMPATIBILITY AdjustBaselineInFixedLinespacing=\"false\" AdjustBaselineOfObjectToBottom=\"false\" AdjustLineheightToFont=\"false\" AdjustMarginFromAdjustLineheight=\"false\" AdjustParaBorderOffsetWithBorder=\"false\" AdjustParaBorderfillToSpacing=\"false\" AdjustVertPosOfLine=\"false\" ApplyAtLeastToPercent100Pct=\"false\" ApplyCharSpacingToCharGrid=\"false\" ApplyExtendHeaderFooterEachSection=\"false\" ApplyFontWeightToBold=\"false\" ApplyFontspaceToLatin=\"false\" ApplyMinColumnWidthTo1mm=\"false\" ApplyNextspacingOfLastPara=\"false\" ApplyParaBorderToOutside=\"false\" ApplyPrevspacingBeneathObject=\"false\" ApplyTabPosBasedOnSegment=\"false\" BaseCharUnitOfIndentOnFirstChar=\"false\" BaseCharUnitOnEAsian=\"false\" BaseLinespacingOnLinegrid=\"false\" BreakTabOverLine=\"false\" ConnectParaBorderfillOfEqualBorder=\"false\" DoNotAdjustEmptyAnchorLine=\"false\" DoNotAdjustWordInJustify=\"false\" DoNotAlignLastForbidden=\"false\" DoNotAlignLastPeriod=\"false\" DoNotAlignWhitespaceOnRight=\"false\" DoNotApplyAutoSpaceEAsianEng=\"false\" DoNotApplyAutoSpaceEAsianNum=\"false\" DoNotApplyColSeparatorAtNoGap=\"false\" DoNotApplyExtensionCharCompose=\"false\" DoNotApplyGridInHeaderFooter=\"false\" DoNotApplyHeaderFooterAtNoSpace=\"false\" DoNotApplyImageEffect=\"false\" DoNotApplyLinegridAtNoLinespacing=\"false\" DoNotApplyShapeComment=\"false\" DoNotApplyStrikeoutWithUnderline=\"false\" DoNotApplyVertOffsetOfForward=\"false\" DoNotApplyWhiteSpaceHeight=\"false\" DoNotFormattingAtBeneathAnchor=\"false\" DoNotHoldAnchorOfTable=\"false\" ExtendLineheightToOffset=\"false\" ExtendLineheightToParaBorderOffset=\"false\" ExtendVertLimitToPageMargins=\"false\" FixedUnderlineWidth=\"false\" OverlapBothAllowOverlap=\"false\" TreatQuotationAsLatin=\"false\" UseInnerUnderline=\"false\" UseLowercaseStrikeout=\"false\"/>\n");
 			sb.append("</COMPATIBLEDOCUMENT>\n");
 			sb.append("</HEAD>\n");
-			
+
 			return sb;
 		}
-		
+
 		/**HWPML 용 산정조서 엘리먼트를 문자열로 가져온다.
 		 * @throws Exception */
 		@SuppressWarnings("deprecation")
 		public StringBuilder getXmlRentFeeCheckReportBody(GamPrtFcltyRentFeeMngtVO approvalOpt) throws Exception {
 			StringBuilder sb = new StringBuilder();
-			
+
 			LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-			Map rentFeeDate = gamNticRequestMngtDAO.selectRentFeeCheckReport(approvalOpt);  
-			
+
+			String orgnztNm = gamNticRequestMngtDAO.selectOrgnztNm(loginVo.getUniqId());
+
+			Map rentFeeDate = gamNticRequestMngtDAO.selectRentFeeCheckReport(approvalOpt);
+
 			SimpleDateFormat beforeFormat = new SimpleDateFormat("yyyyMMdd");
 			SimpleDateFormat afterFormat = new SimpleDateFormat("yy.MM.dd.");
-			
+
 			Date from =  beforeFormat.parse(rentFeeDate.get("nticPdFrom").toString());
 			Date to =  beforeFormat.parse(rentFeeDate.get("nticPdTo").toString());
 
 			String nticPdFrom = afterFormat.format(from);
 			String nticPdTo = afterFormat.format(to);
-			
+
 			int months = 0;
 			Date dtCurr = from;
 			Date dtTo = to;
 			dtTo.setDate(dtTo.getDate()+1);	// 날짜를 하루 뒤로 계산 한다.
 			dtCurr.setMonth(dtCurr.getMonth()+1);
-			
+
 			while(dtCurr.compareTo(dtTo) <= 0) {
 				months++;
 				dtCurr.setMonth(dtCurr.getMonth()+1);
 			}
-			
+
 			Calendar calendar = Calendar.getInstance();
 			calendar.set(dtCurr.getYear(), dtCurr.getMonth(), 1);
 			int lastMonthDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
@@ -1112,7 +1115,7 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
 			dtCurr.setMonth(dtCurr.getMonth()-1);
 
 			int day = (int) Math.floor(Math.abs((dtTo.getTime() - dtCurr.getTime())/(1000*60*60*24)));
-			
+
 			sb.append("<BODY>\n");
 			sb.append("<SECTION Id=\"0\">\n");
 			sb.append("<P ColumnBreak=\"false\" InstId=\"2147689424\" PageBreak=\"false\" ParaShape=\"11\" Style=\"0\">\n");
@@ -1167,13 +1170,13 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
 			sb.append("<CHAR>가. 근거</CHAR>\n");
 			sb.append("</TEXT>\n");
 			sb.append("</P>\n");
-			
+
 			sb.append("<P InstId=\"2147689445\" ParaShape=\"12\" Style=\"2\">\n");
 			sb.append("<TEXT CharShape=\"6\">\n");
 			sb.append("<CHAR>여수광양항만공사의 항만시설 사용 및 사용료 등에 관한 규정 제6조</CHAR>\n");
 			sb.append("</TEXT>\n");
 			sb.append("</P>\n");
-			
+
 			if("true".equals(approvalOpt.getCheck1().toString())) {
 				sb.append("<P ParaShape=\"12\" Style=\"2\">\n");
 				sb.append("<TEXT CharShape=\"6\">\n");
@@ -1201,7 +1204,7 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
 				sb.append("<CHAR>"+egovMessageSource.getMessage("gam.oper.gnrl.rentFeeReportHwp4")+"</CHAR>\n");
 				sb.append("</TEXT>\n");
 				sb.append("</P>\n");
-			}			
+			}
 			if("true".equals(approvalOpt.getCheck5().toString())) {
 				sb.append("<P ParaShape=\"12\" Style=\"2\">\n");
 				sb.append("<TEXT CharShape=\"6\">\n");
@@ -1217,8 +1220,8 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
 				sb.append("</TEXT>\n");
 				sb.append("</P>\n");
 			}
-			
-			
+
+
 			sb.append("<P ParaShape=\"3\" Style=\"0\">\n");
 			sb.append("<TEXT CharShape=\"6\"/>\n");
 			sb.append("</P>\n");
@@ -1255,27 +1258,30 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
 			sb.append("<CHAR>마. 사용료 산출(항만부지 사용료)</CHAR>\n");
 			sb.append("</TEXT>\n");
 			sb.append("</P>\n");
-			
+
 			sb.append("<P ParaShape=\"12\" Style=\"2\">\n");
 			sb.append("<TEXT CharShape=\"6\">\n");
 			sb.append("<CHAR>산출기준 : 사용면적×개별공시지가×요율×사용기간</CHAR>\n");
 			sb.append("</TEXT>\n");
 			sb.append("</P>\n");
-			
+
 			sb.append("<P ParaShape=\"12\" Style=\"2\">\n");
 			sb.append("<TEXT CharShape=\"6\">\n");
-			
+
 			if(day>0) {
 				sb.append("<CHAR>사 용 료 : "+rentFeeDate.get("usageAr")+"㎡×"+rentFeeDate.get("olnlp")+"원×"+rentFeeDate.get("applcTariff")+"×("+months+"개월/"+day+"일)/12개월="+rentFeeDate.get("fee")+"원</CHAR>\n");
 			}else {
 				sb.append("<CHAR>사 용 료 : "+rentFeeDate.get("usageAr")+"㎡×"+rentFeeDate.get("olnlp")+"원×"+rentFeeDate.get("applcTariff")+"×"+months+"/12개월="+rentFeeDate.get("fee")+"원</CHAR>\n");
 			}
-			
+
 			sb.append("</TEXT>\n");
 			sb.append("</P>\n");
 			sb.append("<P ParaShape=\"3\" Style=\"0\">\n");
+			sb.append("<TEXT CharShape=\"6\">\n");
+			sb.append("<CHAR>  </CHAR>\n");
+			sb.append("</TEXT>");
 			sb.append("<TEXT CharShape=\"8\">\n");
-			sb.append("<CHAR>  ※ 공시지가 확인은 \"개별공시지가 - 전라남도청\" 홈페이지 확인.  </CHAR>\n");
+			sb.append("<CHAR>※ 공시지가 확인은 \"개별공시지가 - 전라남도청\" 홈페이지 확인.</CHAR>\n");
 			sb.append("</TEXT>\n");
 			sb.append("</P>\n");
 			sb.append("<P ParaShape=\"3\" Style=\"0\">\n");
@@ -1311,7 +1317,7 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
 			sb.append("</P>\n");
 			sb.append("<P ParaShape=\"11\" Style=\"0\">\n");
 			sb.append("<TEXT CharShape=\"7\">\n");
-			sb.append("<CHAR>위 산출자 항만운영팀 "+loginVo.getName()+"</CHAR>\n");
+			sb.append("<CHAR>위 산출자 "+orgnztNm+" "+loginVo.getName()+"</CHAR>\n");
 			sb.append("</TEXT>\n");
 			sb.append("</P>\n");
 			sb.append("</SECTION>\n");

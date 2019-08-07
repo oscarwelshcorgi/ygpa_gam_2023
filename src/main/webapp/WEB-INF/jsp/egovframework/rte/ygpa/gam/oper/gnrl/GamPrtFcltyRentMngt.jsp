@@ -79,15 +79,15 @@ GamAssetRentMngtModule.prototype.loadComplete = function(param) {
             $.each(data.resultList, function() {
             	this.payinstIntrrateDisp = this.payinstIntrrate+ ' %';
             	this.prtAtCodeNmStr = this.prtAtCodeNm+" ["+this.prtAtCode+"]";
-            	
+
             	/* GIS 등록여부 추가(2019-06-16 jckim) */
 				this.gisFlag=this.gisStat>0?'flag':null;
-				
+
             });
 
             return data;
         }
-        
+
     });
 
     // 자산임대상세 테이블 설정
@@ -155,19 +155,21 @@ GamAssetRentMngtModule.prototype.loadComplete = function(param) {
     		alert("결재 완료된 자료 입니다.");
     		row.chkRole = false;
     		module.$('#assetRentMngtList').flexUpdateRow(row.rnum, row);
-    		
+
     	}
     	else{
 	    	var sanctnSttus = rowData.sanctnSttus||'';
 	    	if(sanctnSttus == '1' || sanctnSttus == '2' || sanctnSttus == '5'){
-	    		if(sanctnSttus == '2'){
+	    		alert('결재 진행 중인 자료 입니다.');
+/* 	    		if(sanctnSttus == '2'){
 	                if( confirm("결재 중인 자료를 확인하시겠습니까?") ) {
 	                	var url = "http://192.168.0.32/jsp/call/UcheckSancData.jsp?"+rowData.gwcallUrl;
 	 	        		window.open(url, "showGwcallFwdIf", "width=800, height=600, menubar=no,status=no,scrollbars=yes")
-	                }	
+	                }
 	    		}else{
 		    		alert('결재 진행 중인 자료 입니다.');
 	    		}
+ */
 	    		row.chkRole = false;
 	    		module.$('#assetRentMngtList').flexUpdateRow(row.rnum, row);
 	    	}
@@ -558,6 +560,13 @@ GamAssetRentMngtModule.prototype.setButtonState = function() {
 				this.$('#addAssetRentRenew').hide();
 				this.$('#btnNoticeAdit').hide();
 			}
+
+			if(rows[0]['sanctnSttus']=='2'){
+				this.$('#btnReportHwp').show();
+			}
+			else{
+				this.$('#btnReportHwp').hide();
+			}
 			this.$('#showMap').show();
 		}
 		else {
@@ -577,6 +586,8 @@ GamAssetRentMngtModule.prototype.setButtonState = function() {
 				this.$('#btnPrmisnCancel2').show();
 				this.$('#btnRemoveItem2').hide();
 				this.$('#btnSaveItem2').hide();
+
+				this.$('#btnReportHwp').hide();
 			}
 			else {
 				this.$('#btnPrmisn2').show();
@@ -1460,6 +1471,10 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
                 alert("해당 건은 자산임대관리 메뉴에서 삭제가 불가능합니다.");
                 return;
             } */
+	    	if(rows[0]['sanctnSttus'] == '2' || rows[0]['sanctnSttus'] == '5'){
+	    		alert('결재 진행 중인 자료 입니다.');
+	    	}
+
 
             if(rows.length == 0) {
                 alert("자산임대목록에서 신청삭제할 행을 선택하십시오.");
@@ -1728,7 +1743,7 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
 	                    return;
 	                }
             	}
- */            	
+ */
 
             	/*
                 if( row['sanctnSttus'] != '1' ) {
@@ -2079,6 +2094,19 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
             }
        	 	EMD.util.create_window('gamPrtFcltyRentFeeMngt', '항만시설사용료관리', '/oper/gnrl/gamPrtFcltyRentFeeMngt.do', null, opts);
         	break;
+
+/* 산정조다운로드 추가 */
+        case 'btnReportHwp':
+            if(this.$('#assetRentMngtList').selectedRowCount()>0) {
+                this._rows = this.$('#assetRentMngtList').selectedRows()[0];
+
+                this.doExecuteDialog('popupRentFeeReportHwp', '산정조서 근거', '/oper/gnrl/popupRentFeeReportHwp.do', null);
+
+            } else {
+            	alert("다운로드할 목록에서 선택하십시오.");
+            	return;
+            }
+        	break;
     }
 };
 
@@ -2275,6 +2303,24 @@ GamAssetRentMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
          }
          break;
 
+/* 산정조서 팝업 */
+     case 'popupRentFeeReportHwp':
+     	if(msg == 'ok') {
+  	       this._rows.nticCnt = '01';
+
+  	       this._rows.check1 = value.check1
+  	       this._rows.check2 = value.check2
+  	       this._rows.check3 = value.check3
+  	       this._rows.check4 = value.check4
+  	       this._rows.check5 = value.check5
+  	       this._rows.other = value.other
+
+
+
+ 	   		$.fileDownload(EMD.context_root+'/oper/gnrl/rentFeeReportHwp.do', {data:this._rows, httpMethod:"POST"});
+      	}
+     	break;
+
      default:
          alert('알수없는 팝업 이벤트가 호출 되었습니다.');
 
@@ -2436,6 +2482,7 @@ var module_instance = new GamAssetRentMngtModule();
 	                                <button id="btnPrmisn">사용승낙</button>
 	                                <button id="btnPrmisnCancel">승낙취소</button>
 	                                <button id="btnPrtFcltyRentMngtListExcelDownload">엑셀</button>
+	                                <button id="btnReportHwp">산정조서 다운로드</button>
 	                                <button id="btnRentFeeMngt">사용료관리</button>
 	                                <button id="btnNoticeAdit">추가고지</button>
 		                        	<button data-role="showMap" data-gis-layer="assetsRent" data-flexi-grid="assetRentMngtList" data-style="default">맵조회</button>

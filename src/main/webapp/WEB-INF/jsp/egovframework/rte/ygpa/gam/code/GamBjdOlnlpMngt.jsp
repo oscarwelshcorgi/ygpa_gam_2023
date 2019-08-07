@@ -285,9 +285,10 @@ var module_instance = new GamOlnlpMngtModule();
 				<div class="emdControlPanel">
 					<table>
 						<tr>
-							<td>
+<!-- 							<td>
 								<button id="btnBjdOlnlpLink">api 연계</button>
 							</td>
+ -->							
 							<td>
 								<input type="hidden" id="bupjungdongCd" size="30" />
 								<input id="locplc" size="30" disabled="disabled"/><button id="btnSearchAddr">주소검색</button>

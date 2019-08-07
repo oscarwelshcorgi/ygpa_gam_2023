@@ -257,6 +257,16 @@ SELECT * FROM (
 						DEPT_CD  = #searchDeptCd#
 						]]>
 					</isNotEmpty>
+
+
+					<isNotEmpty prepend="AND" property="sGisAssetsSeCd">
+						<![CDATA[ ASSET_CLS  = #sGisAssetsSeCd# ]]>
+					</isNotEmpty>
+					<isNotEmpty prepend="AND" property="sPrdlstSe">
+						<![CDATA[ ITEM_CLS  = #sPrdlstSe# ]]>
+					</isNotEmpty>
+
+
 					ORDER BY
 						ASSET_CLS
 							, ASSET_NO

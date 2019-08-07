@@ -107,7 +107,7 @@
                                </isNotEmpty>
 
                                <isNotEmpty property="sQuayCd">
-                                   AND B.QUAY_CD = #sQuayCd#
+                                   AND G.GIS_ASSETS_QUAY_CD = #sQuayCd#
                                </isNotEmpty>
 
                                <isNotEmpty property="sEntrpscd">
@@ -120,6 +120,14 @@
 
 							   <isNotEmpty property="deptcd">
                                    AND A.DEPTCD = #deptcd#
+                               </isNotEmpty>
+
+							   <isNotEmpty property="sGisAssetsSeCd">
+                                   AND G.GIS_ASSETS_SE_CD = #sGisAssetsSeCd#
+                               </isNotEmpty>
+
+							   <isNotEmpty property="sPrdlstSe">
+                                   AND G.PRDLST_SE = #sPrdlstSe#
                                </isNotEmpty>
 
 							   <isNotEmpty property="sUsagePdFrom">
@@ -150,40 +158,48 @@
                AND B.GIS_ASSETS_SUB_CD      = G.GIS_ASSETS_SUB_CD
 
                <isNotEmpty property="sPrtAtCode">
-                   AND A.PRT_AT_CODE = #sPrtAtCode#
-               </isNotEmpty>
+                                   AND A.PRT_AT_CODE = #sPrtAtCode#
+                               </isNotEmpty>
 
-               <isNotEmpty property="sGisAssetsCd">
-                   AND G.GIS_ASSETS_CD = UPPER(#sGisAssetsCd#)
-               </isNotEmpty>
+							   <isNotEmpty property="sGisAssetsCd">
+							       AND G.GIS_ASSETS_CD = UPPER(#sGisAssetsCd#)
+							   </isNotEmpty>
 
-               <isNotEmpty property="sGisAssetsSubCd">
-                   AND G.GIS_ASSETS_SUB_CD = #sGisAssetsSubCd#
-               </isNotEmpty>
+							   <isNotEmpty property="sGisAssetsSubCd">
+                                   AND G.GIS_ASSETS_SUB_CD = #sGisAssetsSubCd#
+                               </isNotEmpty>
 
-               <isNotEmpty property="sQuayCd">
-                   AND B.QUAY_CD = #sQuayCd#
-               </isNotEmpty>
+                               <isNotEmpty property="sQuayCd">
+                                   AND G.GIS_ASSETS_QUAY_CD = #sQuayCd#
+                               </isNotEmpty>
 
-               <isNotEmpty property="sEntrpscd">
-                   AND A.ENTRPSCD = #sEntrpscd#
-               </isNotEmpty>
+                               <isNotEmpty property="sEntrpscd">
+                                   AND A.ENTRPSCD = #sEntrpscd#
+                               </isNotEmpty>
 
-               <isNotEmpty property="sPrmisnYn">
-                   AND A.PRMISN_YN = #sPrmisnYn#
-               </isNotEmpty>
+                               <isNotEmpty property="sPrmisnYn">
+                                   AND A.PRMISN_YN = #sPrmisnYn#
+                               </isNotEmpty>
 
-               <isNotEmpty property="deptcd">
-                   AND A.DEPTCD = #deptcd#
-               </isNotEmpty>
+							   <isNotEmpty property="deptcd">
+                                   AND A.DEPTCD = #deptcd#
+                               </isNotEmpty>
 
-               <isNotEmpty property="sUsagePdFrom">
-                   AND A.GR_USAGE_PD_FROM <![CDATA[>=]]> TO_DATE(#sUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
-               </isNotEmpty>
+							   <isNotEmpty property="sGisAssetsSeCd">
+                                   AND G.GIS_ASSETS_SE_CD = #sGisAssetsSeCd#
+                               </isNotEmpty>
 
-               <isNotEmpty property="sUsagePdTo">
-                   AND A.GR_USAGE_PD_FROM <![CDATA[<=]]> TO_DATE(#sUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
-               </isNotEmpty>
+							   <isNotEmpty property="sPrdlstSe">
+                                   AND G.PRDLST_SE = #sPrdlstSe#
+                               </isNotEmpty>
+
+							   <isNotEmpty property="sUsagePdFrom">
+							       AND A.GR_USAGE_PD_FROM <![CDATA[>=]]> TO_DATE(#sUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
+							   </isNotEmpty>
+
+							   <isNotEmpty property="sUsagePdTo">
+							       AND A.GR_USAGE_PD_FROM <![CDATA[<=]]> TO_DATE(#sUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
+							   </isNotEmpty>
     </select>
 
     <select id="gamAssetSttusInqireDao.selectAssetSttusInqireListSum_S" parameterClass="gamAssetSttusInqireVO" resultMap="gamAssetSttusInqireSumMap">
@@ -203,40 +219,48 @@
                AND B.GIS_ASSETS_CD          = G.GIS_ASSETS_CD
                AND B.GIS_ASSETS_SUB_CD      = G.GIS_ASSETS_SUB_CD
 
-               <isNotEmpty property="sPrtAtCode">
-                   AND A.PRT_AT_CODE = #sPrtAtCode#
-               </isNotEmpty>
+                <isNotEmpty property="sPrtAtCode">
+                                   AND A.PRT_AT_CODE = #sPrtAtCode#
+                               </isNotEmpty>
 
-               <isNotEmpty property="sGisAssetsCd">
-                   AND G.GIS_ASSETS_CD = UPPER(#sGisAssetsCd#)
-               </isNotEmpty>
+							   <isNotEmpty property="sGisAssetsCd">
+							       AND G.GIS_ASSETS_CD = UPPER(#sGisAssetsCd#)
+							   </isNotEmpty>
 
-               <isNotEmpty property="sGisAssetsSubCd">
-                   AND G.GIS_ASSETS_SUB_CD = #sGisAssetsSubCd#
-               </isNotEmpty>
+							   <isNotEmpty property="sGisAssetsSubCd">
+                                   AND G.GIS_ASSETS_SUB_CD = #sGisAssetsSubCd#
+                               </isNotEmpty>
 
-               <isNotEmpty property="sQuayCd">
-                   AND B.QUAY_CD = #sQuayCd#
-               </isNotEmpty>
+                               <isNotEmpty property="sQuayCd">
+                                   AND G.GIS_ASSETS_QUAY_CD = #sQuayCd#
+                               </isNotEmpty>
 
-               <isNotEmpty property="sEntrpscd">
-                   AND A.ENTRPSCD = #sEntrpscd#
-               </isNotEmpty>
+                               <isNotEmpty property="sEntrpscd">
+                                   AND A.ENTRPSCD = #sEntrpscd#
+                               </isNotEmpty>
 
-               <isNotEmpty property="sPrmisnYn">
-                   AND A.PRMISN_YN = #sPrmisnYn#
-               </isNotEmpty>
+                               <isNotEmpty property="sPrmisnYn">
+                                   AND A.PRMISN_YN = #sPrmisnYn#
+                               </isNotEmpty>
 
-               <isNotEmpty property="deptcd">
-                   AND A.DEPTCD = #deptcd#
-               </isNotEmpty>
+							   <isNotEmpty property="deptcd">
+                                   AND A.DEPTCD = #deptcd#
+                               </isNotEmpty>
 
-               <isNotEmpty property="sUsagePdFrom">
-                   AND A.GR_USAGE_PD_FROM <![CDATA[>=]]> TO_DATE(#sUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
-               </isNotEmpty>
+							   <isNotEmpty property="sGisAssetsSeCd">
+                                   AND G.GIS_ASSETS_SE_CD = #sGisAssetsSeCd#
+                               </isNotEmpty>
 
-               <isNotEmpty property="sUsagePdTo">
-                   AND A.GR_USAGE_PD_FROM <![CDATA[<=]]> TO_DATE(#sUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
-               </isNotEmpty>
+							   <isNotEmpty property="sPrdlstSe">
+                                   AND G.PRDLST_SE = #sPrdlstSe#
+                               </isNotEmpty>
+
+							   <isNotEmpty property="sUsagePdFrom">
+							       AND A.GR_USAGE_PD_FROM <![CDATA[>=]]> TO_DATE(#sUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
+							   </isNotEmpty>
+
+							   <isNotEmpty property="sUsagePdTo">
+							       AND A.GR_USAGE_PD_FROM <![CDATA[<=]]> TO_DATE(#sUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
+							   </isNotEmpty>
     </select>
 </sqlMap>

@@ -300,4 +300,13 @@ public class GamNticRequestMngtDAO extends YGPAAbstractDAO {
 		return (EgovMap) selectByPk("gamNticRequestMngtDAO.selectRentFeeCheckReport", approvalOpt);
 	}
 
+	/**
+	 * @param orgnztId
+	 * @return
+	 */
+	public String selectOrgnztNm(String orgnztId) {
+		// TODO Auto-generated method stub
+		return (String) selectByPk("gamNticRequestMngtDAO.selectOrgnztNm", orgnztId);
+	}
+
 }
