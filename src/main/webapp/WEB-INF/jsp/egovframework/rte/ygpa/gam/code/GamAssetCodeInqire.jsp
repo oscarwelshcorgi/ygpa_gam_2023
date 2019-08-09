@@ -79,6 +79,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 		module.$("#assetCodeTab").tabs("option", {
 			active : 1
 		}); // 탭을 전환 한다.
+		gisAssetsSeCdChange(row.gisAssetsSeCd);
 	});
 
 	this.$("#assetCodePhotoList").flexigrid({
@@ -125,7 +126,19 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 	this.$('#gisAssetsLocCd').on('change', function() {
 		//alert($(this).getSelectedCodeLabel() + '이(가) 선택되었습니다.');
 	});
-
+	
+	//
+	$('.gisAssetsSeCd2').hide();
+	$('.gisAssetsSeCd1_hidden').hide();
+	$('.mktcStdAm').hide();
+	$('.invstmntAmount').hide();
+	$('.qy').hide();
+	$('.unit').hide();
+	$('.totar').hide();
+	$('.gisAssetsSeCd3').hide();
+	
+	this.changeAssetPk=false;
+	//
 	if(params==null) params={action: 'normal'};	// 파라미터 기본 값을 지정한다. _params 널체크가 귀찮아서
 
 	this._params = params;	// 파라미터를 저장한다.
@@ -181,9 +194,6 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 			}
 			break;
 		}
-		
-		
-		
 	};
 
 	GamAssetCodeModule.prototype.onClosePopup = function(popupId, msg, value) {
@@ -293,8 +303,73 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 		//	this.$('#assetList').flexOptions(searchOpt).flexReload();
 	};
 
+	$('#gisAssetsSeCd').change(function(){
+		gisAssetsSeCdChange($(this).val());
+	});
+
+	function gisAssetsSeCdChange(item){
+		switch(item) {
+	/* 		case '1':
+				$('.gisAssetsSeCd1').show();
+				$('.gisAssetsAr').show();
+				$('.gisAssetsSeCd2').hide();
+				$('.gisAssetsSeCd1_hidden').hide();
+				$('.mktcStdAm').hide();
+				$('.invstmntAmount').hide();
+				$('.qy').hide();
+				$('.unit').hide();
+				$('.gisAssetsStndrd').show();
+				$('.totar').hide();
+				$('.gisAssetsSeCd3').hide();
+				break;
+	 */
+			case '2':
+				$('.gisAssetsSeCd1_hidden').show();
+				$('.gisAssetsSeCd1').hide();
+				$('.gisAssetsAr').hide();
+				$('.gisAssetsSeCd2').show();
+				$('.mktcStdAm').show();
+				$('.invstmntAmount').show();
+				$('.qy').show();
+				$('.unit').show();
+				$('.gisAssetsStndrd').show();
+				$('.totar').show();
+				$('.gisAssetsSeCd3').hide();
+				break;
+
+			case '4':
+				$('.gisAssetsSeCd1_hidden').show();
+				$('.gisAssetsSeCd1').hide();
+				$('.gisAssetsAr').show();
+				$('.qy').hide();
+				$('.unit').hide();
+				$('.gisAssetsStndrd').hide();
+				$('.totar').hide();
+				$('.invstmntAmount').hide();
+				$('.mktcStdAm').show();
+				$('.gisAssetsSeCd3').show();
+				break;
+
+			default :
+				$('.gisAssetsSeCd1').show();
+				$('.gisAssetsAr').show();
+				$('.gisAssetsSeCd2').hide();
+				$('.gisAssetsSeCd1_hidden').hide();
+				$('.mktcStdAm').hide();
+				$('.invstmntAmount').hide();
+				$('.qy').hide();
+				$('.unit').hide();
+				$('.gisAssetsStndrd').show();
+				$('.totar').hide();
+				$('.gisAssetsSeCd3').hide();
+				break;
+		}
+
+	}
+		
+	
 	// 다음 변수는 고정 적으로 정의 해야 함
-	var module_instance = new GamAssetCodeModule();
+var module_instance = new GamAssetCodeModule();
 </script>
 <!-- 아래는 고정 -->
 <input type="hidden" id="window_id" value='${windowId }'/>
@@ -306,36 +381,30 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 							<tr>
 								<th>항구분</th>
 								<td><input id="searchGisAssetsPrtAtCode" type="text" class="ygpaCmmnCd" data-column-id="gisAssetsPrtAtCode" data-code-id="GAM019" data-default-prompt="전체항" data-display-value="N" size="3"/></td>
-								<th>ERP 자산코드</th>
-								<td colspan="3"><input id="searchGisErpAssetCls" data-column-id="erpAssetCls" type="text" size="1">-<input id="searchGisErpAssetNo" data-column-id="erpAssetNo" type="text" size="4">-<input id="searchGisErpAssetNoSeq" data-column-id="erpAssetNoSeq" type="text" size="2"></td>
-								<th>자산코드</th>
-								<td><input id="searchGisAssetsCd" data-column-id="gisAssetsCd" type="text" size="3">-<input id="searchGisAssetsSubCd" data-column-id="gisAssetsSubCd" type="text" size="2"></td>
-								<td rowSpan="3"><button id="selectGisAssetCode" class="buttonSearch">조회</button></td>
-							</tr>
-							<tr>
 								<th>재산</th>
 								<td><input id="searchGisAssetsPrprtySeCd" type="text" class="ygpaCmmnCd" data-column-id="gisAssetsPrprtySeCd" data-code-id="GAM001" data-default-prompt="전체"/></td>
 								<th>위치</th>
 								<td><input id="searchGisAssetsLocCd" type="text" class="ygpaCmmnCd" data-column-id="gisAssetsLocCd" data-code-id="GAM002" data-default-prompt="전체"/></td>
 								<th>부두</th>
 								<td><input id="searchGisAssetsQuayCd" type="text" class="ygpaCmmnCd" data-column-id="gisAssetsQuayCd" data-code-id="GAM003" data-default-prompt="전체"/></td>
-								<th>관리부서</th>
-								<td>
-									<input id="searchMngDeptCd" data-column-id="mngDeptCd" class="ygpaDeptSelect" />
-								</td>
+								<td rowSpan="3"><button id="selectGisAssetCode" class="buttonSearch">조회</button></td>
 							</tr>
 							<tr>
 								<th>자산명</th>
-								<td><input id="searchGisAssetsNm" data-column-id="gisAssetsNm" type="text" size="16"></td>
+								<td><input id="searchGisAssetsNm" data-column-id="gisAssetsNm" type="text" size="16"/></td>			
+								<th>자산구분</th>
+								<td><input id="searchGisAssetsSeCd" class="ygpaCmmnCd" data-code-id='GAM013' data-default-prompt="전체" data-column-label-id='prtAtCodeNm'/>
+								</td>
+								<th>품목구분</th>
+								<td><input id="searchPrdlstSe" class="ygpaCmmnCd" data-code-id='GAM073' data-default-prompt="전체"/>
+								</td>							
+							</tr>
+							<!-- <tr>						
 								<th>소재지</th>
 								<td><input id="searchGisAssetsLocPlc" data-column-id="gisAssetsLocplc" type="text" size="20"></td>
 								<th>지번</th>
 								<td><input id="searchGisAssetsLnm" data-column-id="gisAssetsLnm" type="text" size="4">-<input id="searchGisAssetsLnmSub" data-column-id="gisAssetsLnmSub" type="text" size="3"></td>
-								<th>운영부서</th>
-								<td>
-									<input id="searchOperDeptCd" data-column-id="operDeptCd" class="ygpaDeptSelect" />
-								</td>
-							</tr>
+							</tr> -->
 						</tbody>
 					</table>
 		</form>
@@ -358,33 +427,50 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 			<div id="tabs2"	class="emdTabPage" style="overflow:	scroll">
 				<div id="editGisAssetCode">
 					<table class="detailForm" style="width:100%;">
+					<tr>
+						<th width="12%" height="23">자산구분</th>
+							<td>
+								<span data-column-id="gisAssetsSeCd"></span>-
+								<span data-column-id="gisAssetsSeCdNm"></span>
+							</td>
+						<th width="12%" height="23">품목구분</th>
+							<td width="15%">
+								<span data-column-id="prdlstSe"></span>
+							</td>
+						<th width="12%" height="23">회계구분</th>
+							<td width="15%">
+								<span data-column-id="fsse"></span>
+							</td>
+						</tr>
 						<tr>
 							<th width="12%" height="23">항구분</th>
-							<td width="30%">
+							<td width="25%">
 								<span data-column-id="gisAssetsPrtAtCode"></span>-
 								<span data-column-id="gisAssetsPrtAtCodeNm"></span>
 							</td>
 							<th width="12%" height="23">자산코드</th>
-							<td colspan="5">
+							<td >
 								<span data-column-id="gisAssetsCd"></span>-
 								<span data-column-id="gisAssetsSubCd"></span>
 							</td>
-						</tr>
-						<tr>
 							<th width="12%" height="23">ERP자산코드</th>
-							<td width="30%">
+							<td width="25%">
 								<span data-column-id="erpAssetsCls"></span>-
 								<span data-column-id="erpAssetsNo"></span>-
 								<span data-column-id="erpAssetsNoSeq"></span>
 							</td>
+						</tr>
+						<tr>
 							<th width="12%" height="23">ERP자산명</th>
-							<td	colspan="5">
-								<span data-column-id="itemName"></span>
-							</td>
+								<td	><span data-column-id="itemName"></span></td>
+							<th width="12%" height="23">구매용도</th>
+								<td><span data-column-id="gisAssetsPrpos"></span></td>
+							<th width="12%" height="23">지목</th>
+								<td><span data-column-id="gisAssetsLndcgr"></span></td>
 						</tr>
 						<tr>
 							<th width="12%" height="23">재산구분</th>
-							<td width="30%">
+							<td width="25%">
 								<span data-column-id="gisAssetsPrprtySeCd"></span>-
 								<span data-column-id="gisAssetsPrprtySeCdNm"></span>
 							</td>
@@ -401,9 +487,10 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 						</tr>
 						<tr>
 							<th width="12%" height="23">자산명</th>
-							<td	colspan="5">
+							<td colspan="5">
 								<span data-column-id="gisAssetsNm"></span>
 							</td>
+
 						</tr>
 						<tr>
 							<th width="12%" height="23">자산소재지</th>
@@ -416,18 +503,99 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 								<span data-column-id="gisAssetsLnmSub"></span>
 							</td>
 						</tr>
-						<tr>
-							<th width="12%" height="23">자산구분</th>
-							<td	colspan="3">
-								<span data-column-id="gisAssetsSeCd"></span>-
-								<span data-column-id="gisAssetsSeCdNm"></span>
-							</td>
-							<th width="12%" height="23">취득가액</th>
-							<td width="15%">
-								<span data-column-id="gisAssetsAcqPri" class="ygpaNumber"></span> 원
-							</td>
+						
+						<tr class="gisAssetsSeCd3">
+							<th width="12%" height="23">수량</th>
+						<td class="">
+							<span data-column-id="qy1"></span>
+						</td>
+						<th width="12%" height="23">단위</th>
+						<td class="">
+							<span data-column-id="unit1" class=""></span>
+						</td>
+						<th></th>
+						<td></td>
 						</tr>
-						<tr>
+						
+						<tr class="">
+						<th width="12%" height="23">
+							<span class="label gisAssetsAr">면적(m²)</span>
+							<span class="label qy">수량</span>
+						</th>
+						<td class="">
+							<span data-column-id="gisAssetsAr" class="ygpaNumber" /></span>
+							<span class="qy" data-column-id="qy" /></span>
+						</td>
+						<th width="12%" height="23">
+							<span class="label gisAssetsSeCd1">실제 임대 면적(m²)</span>
+							<span class="label unit">단위</span>
+							<span class="label gisAssetsSeCd3">기존 대장가액</span>
+						</th>
+						<td class="">
+							<span data-column-id="gisAssetsRealRentAr" class="ygpaNumber gisAssetsSeCd1" />
+							<span data-column-id="unit" class="unit" />
+							<span data-column-id="regstrAmount" class="ygpaCurrency gisAssetsSeCd3" />
+						</td>
+						
+						<th width="12%" height="23">
+							<span class="label gisAssetsStndrd">자산규격</span>
+							<span class="label gisAssetsSeCd3">현재 대장가액</span>
+						</th>
+						<td>
+							<span data-column-id="gisAssetsStndrd" class="gisAssetsStndrd" />
+							<span data-column-id="nowRegstrAmount" class="ygpaCurrency gisAssetsSeCd3" />
+						</td>
+						</tr>
+				
+						<tr class="">
+						<th width="12%" height="23">
+							<span class="label gisAssetsSeCd1">취득가액(원)</span>
+							<span class="label totar">연면적(m²)</span>
+							<span class="label gisAssetsSeCd3">당초 허가기간</span>
+						</th>
+						<td class="">
+							<span data-column-id="gisAssetsAcqPri" class="ygpaCurrency gisAssetsSeCd1" ></span>
+							<span data-column-id=totar class="ygpaNumber totar"></span>
+							<span class="gisAssetsSeCd3">
+								<span data-column-id="bgnnPrmisnPdBegin" />~<span data-column-id="bgnnPrmisnPdEnd" />
+							</span>
+						</td>
+						<th width="12%" height="23">
+							<span class="label invstmntAmount">출자금액(원)</span></span>
+							<span class="label gisAssetsSeCd3">변경(연장) 허가기간</span>
+						</th>
+						<td width= "25%">
+							<span data-column-id="invstmntAmount" class="ygpaCurrency invstmntAmount" ></span>
+							<span class="gisAssetsSeCd3">
+								<span data-column-id="changePrmisnPdBegin" />~<span data-column-id="changePrmisnPdEnd" />
+							</span>
+						</td>
+						<th width="12%" height="23"><span class="label mktcStdAm">시가표준액(원)</span></th>
+						<td>
+							<span data-column-id="mktcStdAm" class="ygpaCurrency mktcStdAm" >
+						</td>
+						</tr>
+					
+						<tr class="gisAssetsSeCd1_hidden">
+						<th width="12%" height="23"><span class="label olnlp">공시지가(원)</span></th>
+						<td><span data-column-id="olnlp" class="ygpaCurrency olnlp" ></td>
+						<th width="12%" height="23"><span class="label gisAssetsSeCd3">주요시설</span></th>
+						<td><span data-column-id="mainFclts" class="gisAssetsSeCd3" ></td>
+						<th></th>
+						<td></td>
+						</tr>
+					
+						<tr class="gisAssetsSeCd1">
+						<th width="12%" height="23"><span class="label">관리부서</span></th>
+						<td><span data-column-id="gisAssetsMngDeptCd"></span>-
+								<span data-column-id="gisAssetsMngDeptCdNm"></span></td>
+						<th width="12%" height="23"><span class="label">운영부서</span></th>
+						<td><span data-column-id="gisAssetsOperDeptCd"></span>-
+								<span data-column-id="gisAssetsOperDeptCdNm"></span></td>
+						<th width="12%" height="23"><span class="label">준공일자</span></th>
+						<td ><span data-column-id="gisAssetsBldDt"></td>
+						</tr>
+						<!-- <tr>
 							<th width="12%" height="23">면적</th>
 							<td width="30%">
 								<span data-column-id="gisAssetsAr" class="ygpaNumber"></span> ㎡
@@ -456,27 +624,28 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 							<td width="15%">
 								<span data-column-id="gisAssetsUsageYn"></span>
 							</td>
-						</tr>
-						<tr>
+						</tr> -->
+					<!-- 	<tr>
 							<th width="12%" height="23">자산가치금액</th>
 							<td width="30%">
 								<span data-column-id="gisAssetsValAmt" class="ygpaNumber" ></span> 원 (
 								<span data-column-id="gisAssetsValInqireDt"></span>)
-							</td>
-							<th width="12%" height="23">준공년도</th>
-							<td width="15%">
-								<span data-column-id="gisAssetsBlddate"></span>
-							</td>
+							</td>							
+							<td></td>
 							<th width="12%" height="23">준공일자</th>
 							<td width="15%">
 								<span data-column-id="gisAssetsBldDt"></span>
 							</td>
-						</tr>
+						</tr> -->
+						
 						<tr>
 							<th width="12%" height="23">비고</th>
-							<td	colspan="5">
-								<textarea cols="98" rows="3" id="gisAssetsRm" disabled="disabled"></textarea>
+							<td	colspan="3">
+								<span data-column-id= "gisAssetsRm"></span>
+								<!-- <textarea cols="70" rows="1" id="gisAssetsRm" disabled="disabled"></textarea> -->
 							</td>
+							<th width="12%" height="23">사용여부</th>
+						<td width="15%"><span data-column-id="gisAssetsUsageYn"></span></td>
 						</tr>
 					</table>
 				</div>

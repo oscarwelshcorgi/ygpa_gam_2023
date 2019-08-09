@@ -51,8 +51,12 @@ public class GamGisAssetCodeDefaultVO extends GamGisAssetCodeVO {
 
 	/** 검색조건 */
     private String searchCondition = "";
+    /** 검색조건 자산,품목구분 */
+    private String searchGisAssetsSeCd;
+    private String searchPrdlstSe;
 
-    /** 검색Keyword */
+
+	/** 검색Keyword */
     private String searchKeyword = "";
 
     /** 검색사용여부 */
@@ -165,5 +169,32 @@ public class GamGisAssetCodeDefaultVO extends GamGisAssetCodeVO {
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
     }
+    
+    /**
+	 * @return the searchGisAssetsSeCd
+	 */
+	public String getSearchGisAssetsSeCd() {
+		return searchGisAssetsSeCd;
+	}
 
+	/**
+	 * @param searchGisAssetsSeCd the searchGisAssetsSeCd to set
+	 */
+	public void setSearchGisAssetsSeCd(String searchGisAssetsSeCd) {
+		this.searchGisAssetsSeCd = searchGisAssetsSeCd;
+	}
+
+	/**
+	 * @return the searchPrdlstSe
+	 */
+	public String getSearchPrdlstSe() {
+		return searchPrdlstSe;
+	}
+
+	/**
+	 * @param searchPrdlstSe the searchPrdlstSe to set
+	 */
+	public void setSearchPrdlstSe(String searchPrdlstSe) {
+		this.searchPrdlstSe = searchPrdlstSe;
+	}
 }
