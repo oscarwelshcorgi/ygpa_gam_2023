@@ -37,7 +37,7 @@
 %>
 function GamFenderInspectionModule() {}
 
-GamFenderInspectionModule.prototype = new EmdModule(960, 550);
+GamFenderInspectionModule.prototype = new EmdModule(1300, 880);
 
 GamFenderInspectionModule.prototype.loadComplete = function() {
 // 그리드 설정
@@ -70,6 +70,68 @@ GamFenderInspectionModule.prototype.loadComplete = function() {
 
  */
 
+	this.$("#fenderInspectionListOne").flexigrid({
+		module: this,
+		url: '/fclty/gamFenderInspectionDetailList.do',
+		dataType: "json",
+		colModel : [
+			{display:"선택", 				name:"chkRole",				width:40, 		sortable:false,		align:"center", 	displayFormat:"checkbox"},
+			{display:"항만시설 명",			name:"prtFcltyNm",			width:200,		sortable:false,		align:"left"},
+			{display:"상태/평가",	 		name:"remark",					width:150,		sortable:false,		align:"left",	displayFormat: 'input'},
+			{display:"규격",				name:"prtFcltyStndrd",		width:150,		sortable:false,		align:"left"},
+			{display:"구조 형식",	 		name:"strctFmt",			width:150,		sortable:false,		align:"left"}
+			],
+		height: "360",
+		preProcess: function(module, data) {
+			$.each(data.resultList, function() {
+				this.chkRole = this.chkRole==="TRUE";
+			});
+			return data;
+		}
+	});
+
+	this.$("#fenderInspectionListTwo").flexigrid({
+		module: this,
+		url: '/fclty/gamFenderInspectionDetailList.do',
+		dataType: "json",
+		colModel : [
+			{display:"선택", 				name:"chkRole",				width:40, 		sortable:false,		align:"center", 	displayFormat:"checkbox"},
+			{display:"항만시설 명",			name:"prtFcltyNm",			width:200,		sortable:false,		align:"left"},
+			{display:"상태/평가",	 		name:"remark",					width:150,		sortable:false,		align:"left",	displayFormat: 'input'},
+			{display:"규격",				name:"prtFcltyStndrd",		width:150,		sortable:false,		align:"left"},
+			{display:"구조 형식",	 		name:"strctFmt",			width:150,		sortable:false,		align:"left"}
+			],
+		height: "360",
+		preProcess: function(module, data) {
+			$.each(data.resultList, function() {
+				this.chkRole = this.chkRole==="TRUE";
+			});
+			return data;
+		}
+	});
+
+	this.$("#fenderInspectionListThree").flexigrid({
+		module: this,
+		url: '/fclty/gamFenderInspectionDetailList.do',
+		dataType: "json",
+		colModel : [
+			{display:"선택", 				name:"chkRole",				width:40, 		sortable:false,		align:"center", 	displayFormat:"checkbox"},
+			{display:"항만시설 명",			name:"prtFcltyNm",			width:200,		sortable:false,		align:"left"},
+			{display:"상태/평가",	 		name:"remark",					width:150,		sortable:false,		align:"left",	displayFormat: 'input'},
+			{display:"규격",				name:"prtFcltyStndrd",		width:150,		sortable:false,		align:"left"},
+			{display:"구조 형식",	 		name:"strctFmt",			width:150,		sortable:false,		align:"left"}
+			],
+		height: "360",
+		preProcess: function(module, data) {
+			$.each(data.resultList, function() {
+				this.chkRole = this.chkRole==="TRUE";
+			});
+			return data;
+		}
+	});
+
+
+
  // 그리드 클릭
  	this.$("#mainGrid").on('onItemSelected', function(event, module, row, grid, param) {
 		module._mainKeyValue = row.fcltsMngGroupNo;
@@ -81,6 +143,16 @@ GamFenderInspectionModule.prototype.loadComplete = function() {
 		module._mainKeyValue = row.fcltsMngGroupNo;
 		module._mainmode = "modify";
 		module.$("#mainTab").tabs("option", {active: 1});
+	});
+
+	this.$("#fenderInspectionListOne").on('onItemCheckboxClick', function(event, module, row, rid, cInd) {
+//		console.log("check One");
+	});
+	this.$("#fenderInspectionListTwo").on('onItemCheckboxClick', function(event, module, row, rid, cInd) {
+//		console.log("check Tow");
+	});
+	this.$("#fenderInspectionListThree").on('onItemCheckboxClick', function(event, module, row, rid, cInd) {
+//		console.log("check Three");
 	});
 
 
@@ -391,6 +463,11 @@ GamFenderInspectionModule.prototype.onTabChange = function(newTabId, oldTabId) {
 				this.makeFormValues('#detailForm', {});
 				this.makeDivValues('#detailForm', {});
 
+				this.$('#fenderInspectionListOne').flexEmptyData();
+				this.$('#fenderInspectionListTwo').flexEmptyData();
+				this.$('#fenderInspectionListThree').flexEmptyData();
+
+
 				this.$('#popupSpecFcltsMngGroupNo').enable();
 
 				var toDate = new Date();
@@ -403,6 +480,11 @@ GamFenderInspectionModule.prototype.onTabChange = function(newTabId, oldTabId) {
 			} else {
 				this.makeFormValues('#detailForm', {});
 				this.makeDivValues('#detailForm', {});
+
+				this.$('#fenderInspectionListOne').flexEmptyData();
+				this.$('#fenderInspectionListTwo').flexEmptyData();
+				this.$('#fenderInspectionListThree').flexEmptyData();
+
 				this.$('#popupSpecFcltsMngGroupNo').disable({disableClass:"ui-state-disabled"});
 			}
 			break;
@@ -469,6 +551,15 @@ GamFenderInspectionModule.prototype.onClosePopup = function(popupId, msg, value)
 				this.$('#cnstrtr').val(value.cnstrtr);
 				this.$('#prtFcltyStndrd').val(value.prtFcltyStndrd);
 				this.$('#prtPrtFcltyCnt').val(value.prtPrtFcltyCnt);
+
+				var searchOpt=[];
+				searchOpt[searchOpt.length] = {name : "sFcltsMngGroupNo",	value : value.fcltsMngGroupNo };
+				searchOpt[searchOpt.length] = {name : "sYear",	value : '1111' };
+				searchOpt[searchOpt.length] = {name : "sSn",	value : '0' };
+				searchOpt[searchOpt.length] = {name : "sSe",	value : '0' };
+				this.$('#fenderInspectionListOne').flexOptions({params:searchOpt}).flexReload();
+				this.$('#fenderInspectionListTwo').flexOptions({params:searchOpt}).flexReload();
+				this.$('#fenderInspectionListThree').flexOptions({params:searchOpt}).flexReload();
 
 			}
 			break;
@@ -629,6 +720,20 @@ GamFenderInspectionModule.prototype.loadDetail = function(tabId) {
 
 //		this.makeDivValues('#detailForm', row[0]);
 
+		var searchOpt1=[], searchOpt2=[], searchOpt3=[];
+		searchOpt1[searchOpt.length] = {name : "sFcltsMngGroupNo",	value : row[0].fcltsMngGroupNo };
+		searchOpt1[searchOpt.length] = {name : "sYear",	value : row[0].year };
+		searchOpt1[searchOpt.length] = {name : "sSn",	value : row[0].sn };
+		searchOpt2 = searchOpt1;
+		searchOpt3 = searchOpt1;
+		searchOpt1[searchOpt.length] = {name : "sSe",	value : "1" };
+		searchOpt2[searchOpt.length] = {name : "sSe",	value : "2" };
+		searchOpt3[searchOpt.length] = {name : "sSe",	value : "3" };
+
+		this.$('#fenderInspectionListOne').flexOptions({params:searchOpt}).flexReload();
+		this.$('#fenderInspectionListTwo').flexOptions({params:searchOpt}).flexReload();
+		this.$('#fenderInspectionListThree').flexOptions({params:searchOpt}).flexReload();
+
 	}
 
 }
@@ -663,7 +768,14 @@ GamFenderInspectionModule.prototype.saveData = function() {
 	var formData = new FormData();
 	var fileCount=0;
 
-	var inputVO = module.makeFormArgs("#detailForm");
+	var inputVO = [];
+	var detailForm = this.makeFormArgs("#detailForm",'object');
+
+	inputVO[inputVO.length] = {name: 'detailForm', value :JSON.stringify(detailForm) };
+ 	inputVO[inputVO.length] = {name: 'fenderInspectionListOne', value :JSON.stringify(this.$('#fenderInspectionListOne').selectFilterData([{col: 'chkRole', filter: true}])) };
+ 	inputVO[inputVO.length] = {name: 'fenderInspectionListTwo', value :JSON.stringify(this.$('#fenderInspectionListTwo').selectFilterData([{col: 'chkRole', filter: true}])) };
+ 	inputVO[inputVO.length] = {name: 'fenderInspectionListThree', value :JSON.stringify(this.$('#fenderInspectionListThree').selectFilterData([{col: 'chkRole', filter: true}])) };
+
 	for(var k in inputVO) {
 		formData.append(inputVO[k].name, inputVO[k].value);
 	}
@@ -857,24 +969,24 @@ var module_instance = new GamFenderInspectionModule();
 						<table class="detailPanel" style="width:100%;">
 							<tr>
 								<th style="width:15%; height:18px;" >연도</th>
-								<td  style="width:20%; height:18px;">
+								<td  style="width:35%; height:18px;">
 									<select id="year" class="year" tabindex=1 data-required="true">
 										<option value="">선택</option>
 									</select>
 								</td>
 								<th style="width:15%; height:18px;">시설물관리그룹</th>
-								<td >
+								<td style="width:35%; height:18px;">
 									<input type="text" size="14" id="fcltsMngGroupNo" maxlength="8" data-required="true" disabled="disabled"/>
 									<input type="text" size="20" id="fcltsMngGroupNm" disabled="disabled"/>
 									<button id="popupSpecFcltsMngGroupNo" class="popupButton">선택</button>
 								</td>
 							</tr>
 							<tr>
-								<th style="width:15%; height:18px;">위　　　　　　　　치</th>
-								<td  style="width:20%; height:18px;">
+								<th style="height:18px;">위　　　　　　　　치</th>
+								<td  style="height:18px;">
 									<input type="text" id="loc" data-column-id="loc" size="35" disabled="disabled" />
 								</td>
-								<th style="width:15%; height:18px;">시　설　물　　종　별</th>
+								<th style="height:18px;">시　설　물　　종　별</th>
 								<td >
 									<select id="fcltsGbn" data-column-id="fcltsGbn" >
 										<option value="" selected>선택</option>
@@ -886,31 +998,31 @@ var module_instance = new GamFenderInspectionModule();
 								</td>
 							</tr>
 							<tr>
-								<th style="width:15%; height:18px;" >공　　사　　기　　간</th>
-								<td style="width:20%; height:18px;">
+								<th style="height:18px;" >공　　사　　기　　간</th>
+								<td style="height:18px;">
 									<input type="text" id="cnstDt" data-column-id="cnstDt" size="25" class="emdcal"  disabled="disabled" />
 								</td>
-								<th style="width:15%; height:18px;">준　　공　　일　　자</th>
+								<th style="height:18px;">준　　공　　일　　자</th>
 								<td>
 									<input type="text" id="bldDt" data-column-id="bldDt" size="18" class="emdcal"  disabled="disabled" />
 								</td>
 							</tr>
 							<tr>
-								<th style="width:15%; height:18px;">운　　　　영　　　사</th>
-								<td style="width:20%; height:18px;" >
+								<th style="height:18px;">운　　　　영　　　사</th>
+								<td style="height:18px;" >
 									<input type="text" id="owner" data-column-id="owner" size="35" disabled="disabled" />
 								</td>
-								<th style="width:15%; height:18px;">시　　　　공　　　자</th>
+								<th style="height:18px;">시　　　　공　　　자</th>
 								<td >
 									<input type="text" id="cnstrtr" data-column-id="cnstrtr" size="35" disabled="disabled" />
 								</td>
 							</tr>
 							<tr>
-								<th style="width:15%; height:18px;">규　　　　  　　　 격</th>
-								<td style="width:20%; height:18px;">
+								<th style="height:18px;">규　　　　  　　　 격</th>
+								<td style="height:18px;">
 									<input type="text" id="prtFcltyStndrd" data-column-id="prtFcltyStndrd" size="35" disabled="disabled" />
 								</td>
-								<th style="width:15%; height:18px;">수　　　　  　　　 량</th>
+								<th style="height:18px;">수　　　　  　　　 량</th>
 								<td >
 									<input type="text" id="prtPrtFcltyCnt" data-column-id="prtPrtFcltyCnt" class="ygpaNumber" size="10" disabled="disabled" />
 								</td>
@@ -931,13 +1043,13 @@ var module_instance = new GamFenderInspectionModule();
 						</table>
 						<table class="detailPanel" style="width:100%;">
 							<tr>
-								<th style="width:20%; height:18px; text-align: center;">구분</th>
-								<th style="width:20%; height:18px; text-align: center;">해빙기</th>
-								<th style="width:20%; height:18px; text-align: center;">우기</th>
-								<th style="width:20%; height:18px; text-align: center;">동절기</th>
+								<th style="width:10%; height:18px; text-align: center;">구분</th>
+								<th style="width:30%; height:18px; text-align: center;">해빙기</th>
+								<th style="width:30%; height:18px; text-align: center;">우기</th>
+								<th style="width:30%; height:18px; text-align: center;">동절기</th>
 							</tr>
 							<tr>
-								<th style="width:20%; height:18px;">점검일자</th>
+								<th style="height:18px;">점검일자</th>
 								<td  >
 									<input type="text" id="chckDeOne" data-column-id="chckDeOne" tabindex=2 size="18" class="emdcal"  />
 								</td>
@@ -949,7 +1061,7 @@ var module_instance = new GamFenderInspectionModule();
 								</td>
 							</tr>
 							<tr>
-								<th style="width:11%; height:18px;">점검자</th>
+								<th style="height:18px;">점검자</th>
 								<td >
 									<input type="text" id="insctrOne" data-column-id="insctrOne" tabindex=3 size="35" />
 								<td >
@@ -959,7 +1071,7 @@ var module_instance = new GamFenderInspectionModule();
 									<input type="text" id="insctrThree" data-column-id="insctrThree" tabindex=15 size="35" />
 								</td>
 							</tr>
-							<tr>
+<!-- 							<tr>
 								<th style="width:11%; height:18px;">점검내용</th>
 								<td >
 									<input type="text" id="chckCnOne" data-column-id="chckCnOne" tabindex=4 size="35" />
@@ -983,8 +1095,9 @@ var module_instance = new GamFenderInspectionModule();
 									<input type="text" id="sttusEvlThree" data-column-id="sttusEvlThree" tabindex=17 size="35" />
 								</td>
 							</tr>
+ -->
 							<tr>
-								<th style="width:11%; height:18px;">사진</th>
+								<th style="height:18px;">사진</th>
 								<td >
 									<ul id="photoOneList" class="photoList">
 									</ul>
@@ -1005,7 +1118,7 @@ var module_instance = new GamFenderInspectionModule();
 								</td>
 							</tr>
 							<tr>
-								<th style="width:11%; height:18px;">점검표</th>
+								<th style="height:18px;">점검표</th>
 								<td >
 									<ul id="chckTableOneList" class="attList">
 									</ul>
@@ -1025,6 +1138,23 @@ var module_instance = new GamFenderInspectionModule();
 									<input type="hidden" id="chckTableThree" data-column-id="chckTableThree" />
 								</td>
 							</tr>
+
+
+							<tr>
+								<th style="height:18px;">방충재 목록</th>
+								<td >
+									<table id="fenderInspectionListOne" style="display:none;" class="fillHeight"></table>
+								</td>
+								<td >
+									<table id="fenderInspectionListTwo" style="display:none;" class="fillHeight"></table>
+								</td>
+								<td >
+									<table id="fenderInspectionListThree" style="display:none;" class="fillHeight"></table>
+								</td>
+							</tr>
+
+
+
 						</table>
 						<div style="vertical-align: bottom; text-align: right;">
 							<button data-role="printPage" data-search-option="detailForm" data-url="/fclty/fenderInspectionPrint.do">인쇄</button>

@@ -31,6 +31,8 @@ public class GamFenderInspectionVO extends ComDefaultVO {
 
 	/** 조회조건 연도 */
 	private String sYear;
+	private String sSn;
+	private String sSe;
 	/** 조회조건 시설물 종류 */
 	private String sFcltsGbn;
 	/** 조회조건 시설 */
@@ -39,7 +41,7 @@ public class GamFenderInspectionVO extends ComDefaultVO {
 	private String sFcltsMngGroupNm;
 
 
-	/** 연도(PK) */
+	/** 년도(PK) */
 	private String year;
 	/** 시설물 관리 그룹 번호(PK)(FK) */
 	private String fcltsMngGroupNo;
@@ -587,6 +589,30 @@ public class GamFenderInspectionVO extends ComDefaultVO {
 	 */
 	public void setUpdde(String updde) {
 		this.updde = updde;
+	}
+	/**
+	 * @return the sSn
+	 */
+	public String getsSn() {
+		return sSn;
+	}
+	/**
+	 * @param sSn the sSn to set
+	 */
+	public void setsSn(String sSn) {
+		this.sSn = sSn;
+	}
+	/**
+	 * @return the sSe
+	 */
+	public String getsSe() {
+		return sSe;
+	}
+	/**
+	 * @param sSe the sSe to set
+	 */
+	public void setsSe(String sSe) {
+		this.sSe = sSe;
 	}
 
 

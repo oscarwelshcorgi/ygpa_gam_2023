@@ -23,8 +23,6 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,6 +32,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import egovframework.com.cmm.EgovMessageSource;
@@ -42,11 +41,8 @@ import egovframework.com.cmm.service.EgovFileMngService;
 import egovframework.com.cmm.service.EgovProperties;
 import egovframework.com.cmm.service.FileVO;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
-import egovframework.com.sym.ccm.ccc.service.CmmnClCode;
-import egovframework.rte.fdl.idgnr.EgovIdGnrService;
 import egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrService;
 import egovframework.rte.fdl.property.EgovPropertyService;
-import egovframework.rte.util.fileupload.multi.service.FileInfoVO;
 import egovframework.rte.ygpa.gam.cmmn.service.GamFileServiceVo;
 import egovframework.rte.ygpa.gam.cmmn.service.GamFileUploadUtil;
 import egovframework.rte.ygpa.gam.fclty.service.GamFenderInspectionPrintVO;
@@ -135,6 +131,36 @@ public class GamFenderInspectionController {
 
 	}
 
+	/**
+	 * 방충재 시설 조회
+	 * @param searchVO
+	 * @return map
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/fclty/gamFenderInspectionDetailList.do")
+	@ResponseBody Map<String, Object> gamFenderInspectionDetailList(GamFenderInspectionVO searchVO) throws Exception {
+
+		Map map = new HashMap();
+
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+    	// 내역 조회
+
+		/** List Data */
+		List fenderInspectionList = gamFenderInspectionService.selectFenderInspectionDetailList(searchVO);
+
+		map.put("resultCode", 0);			// return ok
+    	map.put("resultList", fenderInspectionList);
+
+    	return map;
+
+	}
+
 	@RequestMapping(value="/fclty/gamFenderInspectionFileList.do")
 	@ResponseBody Map<String, Object> gamFenderInspectionFileList(GamFenderInspectionVO searchVO) throws Exception {
 
@@ -194,9 +220,15 @@ public class GamFenderInspectionController {
 
 
 	@RequestMapping(value="/fclty/gamInsertFenderInspection.do")
-	@ResponseBody Map<String, Object> gamInsertFenderInspection(final HttpServletRequest request, GamFenderInspectionVO inputVO, BindingResult bindingResult, Model model) throws Exception {
+	@ResponseBody Map<String, Object> gamInsertFenderInspection(final HttpServletRequest request, @RequestParam Map param, Model model) throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();
+		ObjectMapper mapper = new ObjectMapper();
+
+		Map insertFenderInspection = new HashMap();
+    	List<HashMap<String,String>> fenderInspectionListOne=null;
+    	List<HashMap<String,String>> fenderInspectionListTwo=null;
+    	List<HashMap<String,String>> fenderInspectionListThree=null;
 
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
 		if (!isAuthenticated) {
@@ -205,20 +237,16 @@ public class GamFenderInspectionController {
 			return map;
 		}
 
-		beanValidator.validate(inputVO, bindingResult);
 
-		if (bindingResult.hasErrors()){
-/*			model.addAttribute("inputVO", inputVO);
-			return "/ygpa/gam/fclty/GamFenderInspection";
-*/
-			Object[] error = bindingResult.getAllErrors().get(0).getArguments();
-			String msg = error[0].toString()+"가 부정확합니다.";
+		insertFenderInspection = mapper.readValue((String)param.get("detailForm"),
+    		    new TypeReference<HashMap<String,String>>(){});
 
-
-    		map.put("resultCode", 1);
-    		map.put("resultMsg", msg);
-    		return map;
-		}
+		fenderInspectionListOne = mapper.readValue((String)param.get("fenderInspectionListOne"),
+				new TypeReference<List<HashMap<String,String>>>(){});
+		fenderInspectionListTwo = mapper.readValue((String)param.get("fenderInspectionListTwo"),
+				new TypeReference<List<HashMap<String,String>>>(){});
+		fenderInspectionListThree = mapper.readValue((String)param.get("fenderInspectionListThree"),
+				new TypeReference<List<HashMap<String,String>>>(){});
 
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 
@@ -227,9 +255,7 @@ public class GamFenderInspectionController {
 				"request !instanceof MultipartHttpServletRequest");
 		final MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
 
-		/*
-		 * extract files
-		 */
+
 		final Map<String, MultipartFile> files = multiRequest.getFileMap();
 
 		if(files!=null) {
@@ -263,7 +289,71 @@ public class GamFenderInspectionController {
 		}
 		return map;
 	}
+/*
+	@ResponseBody Map<String, Object> gamInsertFenderInspection(final HttpServletRequest request, GamFenderInspectionVO inputVO, BindingResult bindingResult, Model model) throws Exception {
 
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		beanValidator.validate(inputVO, bindingResult);
+
+		if (bindingResult.hasErrors()){
+			Object[] error = bindingResult.getAllErrors().get(0).getArguments();
+			String msg = error[0].toString()+"가 부정확합니다.";
+
+
+    		map.put("resultCode", 1);
+    		map.put("resultMsg", msg);
+    		return map;
+		}
+
+		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+
+		// 파일 처리
+		Assert.state(request instanceof MultipartHttpServletRequest,
+				"request !instanceof MultipartHttpServletRequest");
+		final MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
+
+		final Map<String, MultipartFile> files = multiRequest.getFileMap();
+
+		if(files!=null) {
+			String photoOne = insertUpdateFile(files, "photoOneFile", inputVO.getPhotoOne(), inputVO.getDelPhotoOne());
+			String photoTwo = insertUpdateFile(files, "photoTwoFile", inputVO.getPhotoTwo(), inputVO.getDelPhotoTwo());
+			String photoThree = insertUpdateFile(files, "photoThreeFile", inputVO.getPhotoThree(), inputVO.getDelPhotoThree());
+
+			inputVO.setPhotoOne(photoOne);
+			inputVO.setPhotoTwo(photoTwo);
+			inputVO.setPhotoThree(photoThree);
+
+			String chckTableOne = insertUpdateFile(files, "chckTableOneFile", inputVO.getChckTableOne(), inputVO.getDelChckTableOne());
+			String chckTableTwo = insertUpdateFile(files, "chckTableTwoFile", inputVO.getChckTableTwo(), inputVO.getDelChckTableTwo());
+			String chckTableThree = insertUpdateFile(files, "chckTableThreeFile", inputVO.getChckTableThree(), inputVO.getDelChckTableThree());
+
+			inputVO.setChckTableOne(chckTableOne);
+			inputVO.setChckTableTwo(chckTableTwo);
+			inputVO.setChckTableThree(chckTableThree);
+		}
+
+		try {
+			inputVO.setRegister(user.getId());
+			gamFenderInspectionService.gamInsertFenderInspection (inputVO);
+
+			map.put("resultCode", 0);
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
+		} catch (Exception e) {
+			e.printStackTrace();
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
+		}
+		return map;
+	}
+*/
 	@RequestMapping(value="/fclty/gamUpdateFenderInspection.do")
 	@ResponseBody Map<String, Object> gamUpdateFenderInspection(final HttpServletRequest request, GamFenderInspectionVO inputVO, BindingResult bindingResult) throws Exception {
 

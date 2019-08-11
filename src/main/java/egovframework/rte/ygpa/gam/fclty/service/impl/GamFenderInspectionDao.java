@@ -72,5 +72,14 @@ public class GamFenderInspectionDao extends YGPAAbstractDAO {
 		return list("gamFenderInspectionDao.selectFenderMngGroupList", searchVO);
 	}
 
+	/**
+	 * @param searchVO
+	 * @return
+	 */
+	public List selectFenderInspectionDetailList(GamFenderInspectionVO searchVO) {
+		// TODO Auto-generated method stub
+		return list("gamFenderInspectionDao.selectFenderInspectionDetailList", searchVO);
+	}
+
 
 }

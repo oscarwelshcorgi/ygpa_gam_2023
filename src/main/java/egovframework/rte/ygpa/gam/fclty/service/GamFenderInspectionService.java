@@ -33,7 +33,7 @@ public interface GamFenderInspectionService {
 	 * @param inputVO
 	 */
 	void gamInsertFenderInspection(GamFenderInspectionVO inputVO) throws Exception;
-	
+
 	/**
 	 * @param inputVO
 	 */
@@ -49,6 +49,12 @@ public interface GamFenderInspectionService {
 	 * @return
 	 */
 	List selectFenderMngGroupList(GamFenderInspectionVO searchVO) throws Exception;
+
+	/**
+	 * @param searchVO
+	 * @return
+	 */
+	List selectFenderInspectionDetailList(GamFenderInspectionVO searchVO) throws Exception;
 
 
 }

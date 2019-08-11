@@ -109,6 +109,10 @@ GamFenderMaintenanceModule.prototype.loadComplete = function() {
 	});
 
 
+	this.$("#mntnRprObjFcltsF").on('onItemCheckboxClick', function(event, module, row, rid, cInd) {
+//		console.log("check row");
+	});
+
 
 // 셀렉트 박스 비활성화
 	this.$("#year").disable();
@@ -480,7 +484,7 @@ GamFenderMaintenanceModule.prototype.removeAttClickEvent = function(e) {
 **/
 %>
 GamFenderMaintenanceModule.prototype.saveData = function() {
-	console.log("saveData");
+//	console.log("saveData");
 
 /* 	if (!validateGamFenderInspectionVO(this.$("#detailForm")[0])){
 		return;
