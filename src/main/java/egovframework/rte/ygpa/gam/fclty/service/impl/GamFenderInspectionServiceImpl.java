@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.ygpa.gam.fclty.service.GamFenderInspectionService;
 import egovframework.rte.ygpa.gam.fclty.service.GamFenderInspectionVO;
+import egovframework.rte.ygpa.gam.fclty.service.GamFenderMaintenanceVO;
 
 /**
 *
@@ -51,9 +52,9 @@ public class GamFenderInspectionServiceImpl extends AbstractServiceImpl implemen
 	public void gamInsertFenderInspection(GamFenderInspectionVO inputVO) {
 		// TODO Auto-generated method stub
 		gamFenderInspectionDao.gamInsertFenderInspection(inputVO);
-		
+
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see egovframework.rte.ygpa.gam.fclty.service.GamFenderInspectionService#gamUpdateFenderInspection(egovframework.rte.ygpa.gam.fclty.service.GamFenderInspectionVO)
 	 */
@@ -61,7 +62,7 @@ public class GamFenderInspectionServiceImpl extends AbstractServiceImpl implemen
 	public void gamUpdateFenderInspection(GamFenderInspectionVO inputVO) {
 		// TODO Auto-generated method stub
 		gamFenderInspectionDao.gamUpdateFenderInspection(inputVO);
-		
+
 	}
 
 	/* (non-Javadoc)
@@ -80,6 +81,15 @@ public class GamFenderInspectionServiceImpl extends AbstractServiceImpl implemen
 	public List selectFenderMngGroupList(GamFenderInspectionVO searchVO) throws Exception {
 		// TODO Auto-generated method stub
 		return gamFenderInspectionDao.selectFenderMngGroupList(searchVO);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.fclty.service.GamFenderInspectionService#selectFenderInspectionDetailList(egovframework.rte.ygpa.gam.fclty.service.GamFenderMaintenanceVO)
+	 */
+	@Override
+	public List selectFenderInspectionDetailList(GamFenderInspectionVO searchVO) throws Exception {
+		// TODO Auto-generated method stub
+		return gamFenderInspectionDao.selectFenderInspectionDetailList(searchVO);
 	}
 
 
