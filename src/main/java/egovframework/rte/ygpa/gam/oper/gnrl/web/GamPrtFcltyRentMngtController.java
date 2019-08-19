@@ -1169,9 +1169,9 @@ public class GamPrtFcltyRentMngtController {
 //        	 grFee = NumberFormat.getInstance().format(gamPrtFcltyRentMngtVO.get("grFee"));
         	 grFee = String.format("%,d", Integer.parseInt(gamPrtFcltyRentMngtVO.get("grFee")) );
         	 vat = String.format("%,d", ((int) (Integer.parseInt(gamPrtFcltyRentMngtVO.get("grFee"))*0.1)+5)/10*10 );
-        	 TotGrFee = String.format("%,d", (int) (Integer.parseInt(gamPrtFcltyRentMngtVO.get("grFee"))*1.1) );
+        	 TotGrFee = String.format("%,d", Integer.parseInt(gamPrtFcltyRentMngtVO.get("grFee"))+((int) (Integer.parseInt(gamPrtFcltyRentMngtVO.get("grFee"))*0.1)+5)/10*10 );
 
-        	 ar = String.format("%,d", Integer.parseInt(gamPrtFcltyRentMngtVO.get("grAr")) );
+        	 ar = String.format("%.2f", Float.valueOf(gamPrtFcltyRentMngtVO.get("grAr")) );
 
         	 if(gamPrtFcltyRentMngtVO.get("cmt")!= null){
         		 purps = gamPrtFcltyRentMngtVO.get("cmt");
