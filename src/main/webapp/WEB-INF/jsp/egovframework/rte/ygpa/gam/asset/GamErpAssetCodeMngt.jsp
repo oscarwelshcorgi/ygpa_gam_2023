@@ -1033,6 +1033,10 @@ var module_instance = new GamAssetCodeModule();
 									<td><input id="searchGisAssetErpAssetsCls" data-column-id="erpAssetsCls" type="text" size="1" maxlength="1">
 										-<input id="searchGisAssetErpAssetsNo" data-column-id="erpAssetsNo" type="text" size="4" maxlength="4">
 										-<input id="searchGisAssetErpAssetsNoSeq" data-column-id="erpAssetsNoSeq" type="text" size="2" maxlength="2"></td>
+									<th>자산구분</th>
+									<td><input id="searchGisAssetsSeCd" class="ygpaCmmnCd" data-code-id='GAM013' data-column-label-id='prtAtCodeNm' data-default-prompt=" "></td>
+									<th>품목구분</th>
+									<td><input id="searchPrdlstSe" class="ygpaCmmnCd" data-code-id='GAM073' data-default-prompt=" "></td>
 									<td><button id="selectGisAssetCode" class="buttonSearch">조회</button></td>
 								</tr>
 							</tbody>
