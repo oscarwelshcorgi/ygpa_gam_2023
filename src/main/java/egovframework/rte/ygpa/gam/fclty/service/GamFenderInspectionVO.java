@@ -43,6 +43,7 @@ public class GamFenderInspectionVO extends ComDefaultVO {
 
 	/** 년도(PK) */
 	private String year;
+	private String sn;
 	/** 시설물 관리 그룹 번호(PK)(FK) */
 	private String fcltsMngGroupNo;
 	/** 시설물 종별 */
@@ -613,6 +614,18 @@ public class GamFenderInspectionVO extends ComDefaultVO {
 	 */
 	public void setsSe(String sSe) {
 		this.sSe = sSe;
+	}
+	/**
+	 * @return the sn
+	 */
+	public String getSn() {
+		return sn;
+	}
+	/**
+	 * @param sn the sn to set
+	 */
+	public void setSn(String sn) {
+		this.sn = sn;
 	}
 
 

@@ -107,6 +107,7 @@
 							, A.CNSTRTR
 							, B.LOC
 							, A.YEAR
+							, A.SN
 							, TO_CHAR(A.CHCK_DE_ONE,'YYYY-MM-DD') AS CHCK_DE_ONE
 							, A.INSCTR_ONE
 							, A.CHCK_CN_ONE
@@ -186,8 +187,18 @@
 
 	</select>
 
-	<insert id="gamFenderInspectionDao.gamInsertFenderInspection" parameterClass="gamFenderInspectionVo">
+	<insert id="gamFenderInspectionDao.gamInsertFenderInspection" >
+
+			<selectKey keyProperty="sn" resultClass="java.lang.String">
+        	SELECT NVL(MAX(SN),0)+1
+        	  FROM FENDER_INSPECTION
+        	 WHERE YEAR= #year#
+        	   AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+  		</selectKey>
+
+
 		INSERT INTO FENDER_INSPECTION(YEAR
+									, SN
 									, FCLTS_MNG_GROUP_NO
 									, FCLTS_GBN
 									, CNST_DT
@@ -217,6 +228,7 @@
 									, RGSDE)
 							VALUES
 								   ( #year#
+								    , #sn#
 									, #fcltsMngGroupNo#
 									, #fcltsGbn#
 									, #cnstDt#
@@ -248,7 +260,7 @@
 
 	</insert>
 
-	<update id="gamFenderInspectionDao.gamUpdateFenderInspection" parameterClass="gamFenderInspectionVo">
+	<update id="gamFenderInspectionDao.gamUpdateFenderInspection" >
 		UPDATE FENDER_INSPECTION SET
 									 CHCK_DE_ONE = TO_DATE(#chckDeOne#, 'YYYY-MM-DD')
 									, INSCTR_ONE = #insctrOne#
@@ -272,12 +284,15 @@
 									, UPDDE = sysdate
 		 WHERE YEAR = #year#
 		   AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+		   AND SN = #sn#
+
 	</update>
 
 	<delete id="gamFenderInspectionDao.deleteFenderInspection" parameterClass="gamFenderInspectionVo">
 		delete from FENDER_INSPECTION
 		 WHERE YEAR = #year#
 		   AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+		   AND SN = #sn#
 	</delete>
 
 	<select id="gamFenderInspectionDao.selectFenderMngGroupList" parameterClass="gamFenderInspectionVO" resultClass="egovMap">
@@ -315,7 +330,35 @@
 	</select>
 
 
+	<insert id="gamFenderMaintenanceDao.gamInsertFenderInspectionDetail" >
+		insert into FENDER_INSPECTION_LIST( YEAR
+											, SN
+											, SE
+											, FCLTS_MNG_GROUP_NO
+											, FCLTS_MNG_NO
+											, REGISTER
+											, RGSDE
+											, REMARK
+											)
+		values(
+				  #year#
+				, #sn#
+				, #se#
+				, #fcltsMngGroupNo#
+				, #fcltsMngNo#
+				, #register#
+				, sysdate
+				, #remark#
 
+		)
+	</insert>
+
+	<delete id="gamFenderMaintenanceDao.gamDeleteFenderInspectionDetail" >
+		DELETE FROM FENDER_INSPECTION_LIST
+		 WHERE YEAR = #year#
+		   AND SN = #sn#
+		   AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+	</delete>
 
 
 

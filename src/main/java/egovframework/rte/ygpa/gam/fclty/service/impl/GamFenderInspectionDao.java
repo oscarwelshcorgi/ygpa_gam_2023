@@ -4,6 +4,7 @@
 package egovframework.rte.ygpa.gam.fclty.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
@@ -50,15 +51,15 @@ public class GamFenderInspectionDao extends YGPAAbstractDAO {
 	/**
 	 * @param inputVO
 	 */
-	public void gamInsertFenderInspection(GamFenderInspectionVO inputVO) {
+	public String gamInsertFenderInspection(Map<?,?> inputVO) {
 		// TODO Auto-generated method stub
-		insert("gamFenderInspectionDao.gamInsertFenderInspection", inputVO);
+		return (String) insert("gamFenderInspectionDao.gamInsertFenderInspection", inputVO);
 	}
 
 	/**
 	 * @param inputVO
 	 */
-	public void gamUpdateFenderInspection(GamFenderInspectionVO inputVO) {
+	public void gamUpdateFenderInspection(Map<?,?> inputVO) {
 		// TODO Auto-generated method stub
 		update("gamFenderInspectionDao.gamUpdateFenderInspection", inputVO);
 	}
@@ -79,6 +80,23 @@ public class GamFenderInspectionDao extends YGPAAbstractDAO {
 	public List selectFenderInspectionDetailList(GamFenderInspectionVO searchVO) {
 		// TODO Auto-generated method stub
 		return list("gamFenderInspectionDao.selectFenderInspectionDetailList", searchVO);
+	}
+
+	/**
+	 * @param insertObj
+	 */
+	public void gamInsertFenderInspectionDetail(Map insertObj) {
+		// TODO Auto-generated method stub
+		insert("gamFenderMaintenanceDao.gamInsertFenderInspectionDetail", insertObj);
+	}
+
+	/**
+	 * @param deleteObj
+	 */
+	public void gamDeleteFenderInspectionDetail(Map deleteObj) {
+		// TODO Auto-generated method stub
+		delete("gamFenderMaintenanceDao.gamDeleteFenderInspectionDetail", deleteObj);
+
 	}
 
 

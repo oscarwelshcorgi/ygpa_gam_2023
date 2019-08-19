@@ -4,6 +4,7 @@
 package egovframework.rte.ygpa.gam.fclty.service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
 *
@@ -32,12 +33,12 @@ public interface GamFenderInspectionService {
 	/**
 	 * @param inputVO
 	 */
-	void gamInsertFenderInspection(GamFenderInspectionVO inputVO) throws Exception;
+	void gamInsertFenderInspection(Map insertFenderInspection, List fenderInspectionListOne, List fenderInspectionListTwo, List fenderInspectionListThree) throws Exception;
 
 	/**
 	 * @param inputVO
 	 */
-	void gamUpdateFenderInspection(GamFenderInspectionVO inputVO) throws Exception;
+	void gamUpdateFenderInspection(Map insertFenderInspection, List fenderInspectionListOne, List fenderInspectionListTwo, List fenderInspectionListThree) throws Exception;
 
 	/**
 	 * @param deleteVO

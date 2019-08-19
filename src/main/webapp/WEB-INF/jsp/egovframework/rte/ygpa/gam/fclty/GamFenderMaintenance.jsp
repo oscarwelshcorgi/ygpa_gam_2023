@@ -238,6 +238,9 @@ GamFenderMaintenanceModule.prototype.onTabChange = function(newTabId, oldTabId) 
 				this.makeDivValues('#detailForm', {});
 				this.$('#mntnRprObjFcltsF').flexEmptyData();
 
+				this.$('ul.photoList').empty();		// remove photo list
+				this.$('ul.attList').empty();		// remove photo list
+
 				this.$('#popupSpecFcltsMngGroupNo').enable();
 				this.$('#popupSpecFcltsMngGroupNo').removeClass("ui-state-disabled");
 
@@ -385,7 +388,9 @@ GamFenderMaintenanceModule.prototype.loadDetail = function(tabId) {
 				for(var i=0; i<result1.length; i++) {
 					var file=result1[i];
 		            html += '<li><span>';
-		            html += '<a href="<c:url value="/cmm/fms/getImage.do?" />atchFileId='+file.atchFileId+'&fileSn='+file.fileSn+'" target="_blank"><img src="<c:url value="/cmm/fms/getImage.do?" />atchFileId='+file.atchFileId+'&fileSn='+file.fileSn+'"></a>'
+/* 		            html += '<a href="<c:url value="/cmm/fms/getImage.do?" />atchFileId='+file.atchFileId+'&fileSn='+file.fileSn+'" target="_blank"><img src="<c:url value="/cmm/fms/getImage.do?" />atchFileId='+file.atchFileId+'&fileSn='+file.fileSn+'"></a>'
+ */
+		            html += '<a href="<c:url value="/cmm/fms/FileDown.do?" />atchFileId='+file.atchFileId+'&fileSn='+file.fileSn+'" target="_blank">'+file.orignlFileNm+'</a>'
 		            html += '<button data-photo="one" data-atch-file-id="'+file.atchFileId+'" data-file-sn="'+file.fileSn+'"><i class="fa fa-trash-alt"></i></button></span></li>';
 				}
 			}

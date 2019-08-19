@@ -224,8 +224,9 @@ public class GamFenderInspectionController {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		ObjectMapper mapper = new ObjectMapper();
-
 		Map insertFenderInspection = new HashMap();
+    	List<HashMap<String,String>> insertObjList=null;
+
     	List<HashMap<String,String>> fenderInspectionListOne=null;
     	List<HashMap<String,String>> fenderInspectionListTwo=null;
     	List<HashMap<String,String>> fenderInspectionListThree=null;
@@ -237,16 +238,11 @@ public class GamFenderInspectionController {
 			return map;
 		}
 
+		insertFenderInspection = mapper.readValue((String)param.get("detailForm"), new TypeReference<HashMap<String,String>>(){});
 
-		insertFenderInspection = mapper.readValue((String)param.get("detailForm"),
-    		    new TypeReference<HashMap<String,String>>(){});
-
-		fenderInspectionListOne = mapper.readValue((String)param.get("fenderInspectionListOne"),
-				new TypeReference<List<HashMap<String,String>>>(){});
-		fenderInspectionListTwo = mapper.readValue((String)param.get("fenderInspectionListTwo"),
-				new TypeReference<List<HashMap<String,String>>>(){});
-		fenderInspectionListThree = mapper.readValue((String)param.get("fenderInspectionListThree"),
-				new TypeReference<List<HashMap<String,String>>>(){});
+		fenderInspectionListOne = mapper.readValue((String)param.get("fenderInspectionListOne"), new TypeReference<List<HashMap<String,String>>>(){});
+		fenderInspectionListTwo = mapper.readValue((String)param.get("fenderInspectionListTwo"), new TypeReference<List<HashMap<String,String>>>(){});
+		fenderInspectionListThree = mapper.readValue((String)param.get("fenderInspectionListThree"), new TypeReference<List<HashMap<String,String>>>(){});
 
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 
@@ -259,26 +255,26 @@ public class GamFenderInspectionController {
 		final Map<String, MultipartFile> files = multiRequest.getFileMap();
 
 		if(files!=null) {
-			String photoOne = insertUpdateFile(files, "photoOneFile", inputVO.getPhotoOne(), inputVO.getDelPhotoOne());
-			String photoTwo = insertUpdateFile(files, "photoTwoFile", inputVO.getPhotoTwo(), inputVO.getDelPhotoTwo());
-			String photoThree = insertUpdateFile(files, "photoThreeFile", inputVO.getPhotoThree(), inputVO.getDelPhotoThree());
+			String photoOne = insertUpdateFile(files, "photoOneFile", insertFenderInspection.get("photoOne").toString(), null);
+			String photoTwo = insertUpdateFile(files, "photoTwoFile", insertFenderInspection.get("photoTwo").toString(), null);
+			String photoThree = insertUpdateFile(files, "photoThreeFile", insertFenderInspection.get("photoThree").toString(), null);
 
-			inputVO.setPhotoOne(photoOne);
-			inputVO.setPhotoTwo(photoTwo);
-			inputVO.setPhotoThree(photoThree);
+			insertFenderInspection.put("photoOne",photoOne);
+			insertFenderInspection.put("photoTwo",photoTwo);
+			insertFenderInspection.put("photoThree",photoThree);
 
-			String chckTableOne = insertUpdateFile(files, "chckTableOneFile", inputVO.getChckTableOne(), inputVO.getDelChckTableOne());
-			String chckTableTwo = insertUpdateFile(files, "chckTableTwoFile", inputVO.getChckTableTwo(), inputVO.getDelChckTableTwo());
-			String chckTableThree = insertUpdateFile(files, "chckTableThreeFile", inputVO.getChckTableThree(), inputVO.getDelChckTableThree());
+			String chckTableOne = insertUpdateFile(files, "chckTableOneFile", insertFenderInspection.get("chckTableOne").toString() , null);
+			String chckTableTwo = insertUpdateFile(files, "chckTableTwoFile", insertFenderInspection.get("chckTableTwo").toString() , null);
+			String chckTableThree = insertUpdateFile(files, "chckTableThreeFile", insertFenderInspection.get("chckTableThree").toString() , null);
 
-			inputVO.setChckTableOne(chckTableOne);
-			inputVO.setChckTableTwo(chckTableTwo);
-			inputVO.setChckTableThree(chckTableThree);
+			insertFenderInspection.put("chckTableOne",chckTableOne);
+			insertFenderInspection.put("chckTableTwo",chckTableTwo);
+			insertFenderInspection.put("chckTableThree",chckTableThree);
 		}
 
 		try {
-			inputVO.setRegister(user.getId());
-			gamFenderInspectionService.gamInsertFenderInspection (inputVO);
+			insertFenderInspection.put("register", user.getId());
+			gamFenderInspectionService.gamInsertFenderInspection (insertFenderInspection, fenderInspectionListOne, fenderInspectionListTwo, fenderInspectionListThree);
 
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
@@ -355,9 +351,17 @@ public class GamFenderInspectionController {
 	}
 */
 	@RequestMapping(value="/fclty/gamUpdateFenderInspection.do")
-	@ResponseBody Map<String, Object> gamUpdateFenderInspection(final HttpServletRequest request, GamFenderInspectionVO inputVO, BindingResult bindingResult) throws Exception {
+	@ResponseBody Map<String, Object> gamUpdateFenderInspection(final HttpServletRequest request, @RequestParam Map param, Model model) throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();
+		ObjectMapper mapper = new ObjectMapper();
+		Map insertFenderInspection = new HashMap();
+    	List<HashMap<String,String>> insertObjList=null;
+
+    	List<HashMap<String,String>> fenderInspectionListOne=null;
+    	List<HashMap<String,String>> fenderInspectionListTwo=null;
+    	List<HashMap<String,String>> fenderInspectionListThree=null;
+
 
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
 		if (!isAuthenticated) {
@@ -365,6 +369,12 @@ public class GamFenderInspectionController {
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
 			return map;
 		}
+
+		insertFenderInspection = mapper.readValue((String)param.get("detailForm"), new TypeReference<HashMap<String,String>>(){});
+
+		fenderInspectionListOne = mapper.readValue((String)param.get("fenderInspectionListOne"), new TypeReference<List<HashMap<String,String>>>(){});
+		fenderInspectionListTwo = mapper.readValue((String)param.get("fenderInspectionListTwo"), new TypeReference<List<HashMap<String,String>>>(){});
+		fenderInspectionListThree = mapper.readValue((String)param.get("fenderInspectionListThree"), new TypeReference<List<HashMap<String,String>>>(){});
 
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 /*
@@ -381,26 +391,89 @@ public class GamFenderInspectionController {
 		final Map<String, MultipartFile> files = multiRequest.getFileMap();
 
 		if(files!=null) {
-			String photoOne = insertUpdateFile(files, "photoOneFile", inputVO.getPhotoOne(), inputVO.getDelPhotoOne());
-			String photoTwo = insertUpdateFile(files, "photoTwoFile", inputVO.getPhotoTwo(), inputVO.getDelPhotoTwo());
-			String photoThree = insertUpdateFile(files, "photoThreeFile", inputVO.getPhotoThree(), inputVO.getDelPhotoThree());
+			String delPhotoOneStr = (String)insertFenderInspection.get("delPhotoOne");
+			String[] delPhotoOne = null;
+			if(delPhotoOneStr!=null) {
+				Integer[] delPhotoInt = mapper.readValue(delPhotoOneStr,
+						new TypeReference<Integer[]>(){});
+				delPhotoOne = new String[delPhotoInt.length];
+					for(int i=0; i<delPhotoInt.length; i++) {
+						delPhotoOne[i]=delPhotoInt[i].toString();
+					}
+			}
+			String delPhotoTwoStr = (String)insertFenderInspection.get("delPhotoTwo");
+			String[] delPhotoTwo = null;
+			if(delPhotoTwoStr!=null) {
+				Integer[] delPhotoInt = mapper.readValue(delPhotoTwoStr,
+						new TypeReference<Integer[]>(){});
+				delPhotoTwo = new String[delPhotoInt.length];
+				for(int i=0; i<delPhotoInt.length; i++) {
+					delPhotoTwo[i]=delPhotoInt[i].toString();
+				}
+			}
+			String delPhotoThreeStr = (String)insertFenderInspection.get("delPhotoThree");
+			String[] delPhotoThree = null;
+			if(delPhotoThreeStr!=null) {
+				Integer[] delPhotoInt = mapper.readValue(delPhotoThreeStr,
+						new TypeReference<Integer[]>(){});
+				delPhotoThree = new String[delPhotoInt.length];
+				for(int i=0; i<delPhotoInt.length; i++) {
+					delPhotoThree[i]=delPhotoInt[i].toString();
+				}
+			}
 
-			inputVO.setPhotoOne(photoOne);
-			inputVO.setPhotoTwo(photoTwo);
-			inputVO.setPhotoThree(photoThree);
+			String photoOne = insertUpdateFile(files, "photoOneFile", insertFenderInspection.get("photoOne").toString(), delPhotoOne);
+			String photoTwo = insertUpdateFile(files, "photoTwoFile", insertFenderInspection.get("photoTwo").toString(), delPhotoTwo);
+			String photoThree = insertUpdateFile(files, "photoThreeFile", insertFenderInspection.get("photoThree").toString(), delPhotoThree);
 
-			String chckTableOne = insertUpdateFile(files, "chckTableOneFile", inputVO.getChckTableOne(), inputVO.getDelChckTableOne());
-			String chckTableTwo = insertUpdateFile(files, "chckTableTwoFile", inputVO.getChckTableTwo(), inputVO.getDelChckTableTwo());
-			String chckTableThree = insertUpdateFile(files, "chckTableThreeFile", inputVO.getChckTableThree(), inputVO.getDelChckTableThree());
+			insertFenderInspection.put("photoOne",photoOne);
+			insertFenderInspection.put("photoTwo",photoTwo);
+			insertFenderInspection.put("photoThree",photoThree);
 
-			inputVO.setChckTableOne(chckTableOne);
-			inputVO.setChckTableTwo(chckTableTwo);
-			inputVO.setChckTableThree(chckTableThree);
+
+			String delChckTableOneStr = (String)insertFenderInspection.get("delChckTableOne");
+			String[] delChckTableOne = null;
+			if(delChckTableOneStr!=null) {
+				Integer[] delPhotoInt = mapper.readValue(delChckTableOneStr,
+						new TypeReference<Integer[]>(){});
+				delChckTableOne = new String[delPhotoInt.length];
+				for(int i=0; i<delPhotoInt.length; i++) {
+					delChckTableOne[i]=delPhotoInt[i].toString();
+				}
+			}
+			String delChckTableTwoStr = (String)insertFenderInspection.get("delChckTableTwo");
+			String[] delChckTableTwo = null;
+			if(delChckTableTwoStr!=null) {
+				Integer[] delPhotoInt = mapper.readValue(delChckTableTwoStr,
+						new TypeReference<Integer[]>(){});
+				delChckTableTwo = new String[delPhotoInt.length];
+				for(int i=0; i<delPhotoInt.length; i++) {
+					delChckTableTwo[i]=delPhotoInt[i].toString();
+				}
+			}
+			String delChckTableThreeStr = (String)insertFenderInspection.get("delChckTableThree");
+			String[] delChckTableThree = null;
+			if(delChckTableThreeStr!=null) {
+				Integer[] delPhotoInt = mapper.readValue(delChckTableThreeStr,
+						new TypeReference<Integer[]>(){});
+				delChckTableThree = new String[delPhotoInt.length];
+				for(int i=0; i<delPhotoInt.length; i++) {
+					delChckTableThree[i]=delPhotoInt[i].toString();
+				}
+			}
+
+			String chckTableOne = insertUpdateFile(files, "chckTableOneFile", insertFenderInspection.get("chckTableOne").toString() , delChckTableOne);
+			String chckTableTwo = insertUpdateFile(files, "chckTableTwoFile", insertFenderInspection.get("chckTableTwo").toString() , delChckTableTwo);
+			String chckTableThree = insertUpdateFile(files, "chckTableThreeFile", insertFenderInspection.get("chckTableThree").toString() , delChckTableThree);
+
+			insertFenderInspection.put("chckTableOne",chckTableOne);
+			insertFenderInspection.put("chckTableTwo",chckTableTwo);
+			insertFenderInspection.put("chckTableThree",chckTableThree);
 		}
 
 		try {
-			inputVO.setRegister(user.getId());
-			gamFenderInspectionService.gamUpdateFenderInspection (inputVO);
+			insertFenderInspection.put("register", user.getId());
+			gamFenderInspectionService.gamUpdateFenderInspection (insertFenderInspection, fenderInspectionListOne, fenderInspectionListTwo, fenderInspectionListThree);
 
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));

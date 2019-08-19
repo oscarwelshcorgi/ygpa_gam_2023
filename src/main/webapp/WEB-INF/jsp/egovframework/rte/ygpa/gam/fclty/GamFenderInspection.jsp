@@ -467,8 +467,11 @@ GamFenderInspectionModule.prototype.onTabChange = function(newTabId, oldTabId) {
 				this.$('#fenderInspectionListTwo').flexEmptyData();
 				this.$('#fenderInspectionListThree').flexEmptyData();
 
+				this.$('ul.photoList').empty();
+				this.$('ul.attList').empty();
 
 				this.$('#popupSpecFcltsMngGroupNo').enable();
+				this.$('#popupSpecFcltsMngGroupNo').removeClass("ui-state-disabled");
 
 				var toDate = new Date();
 				var toYear = toDate.getFullYear();
@@ -624,7 +627,10 @@ GamFenderInspectionModule.prototype.loadDetail = function(tabId) {
 				for(var i=0; i<result1.length; i++) {
 					var file=result1[i];
 		            html += '<li><span>';
-		            html += '<a href="<c:url value="/cmm/fms/getImage.do?" />atchFileId='+file.atchFileId+'&fileSn='+file.fileSn+'" target="_blank"><img src="<c:url value="/cmm/fms/getImage.do?" />atchFileId='+file.atchFileId+'&fileSn='+file.fileSn+'"></a>'
+		            html += '<a href="<c:url value="/cmm/fms/getImage.do?" />atchFileId='+file.atchFileId+'&fileSn='+file.fileSn+'" target="_blank">'+file.orignlFileNm+'</a>'
+/* 		            html += '<a href="<c:url value="/cmm/fms/getImage.do?" />atchFileId='+file.atchFileId+'&fileSn='+file.fileSn+'" target="_blank"><img src="<c:url value="/cmm/fms/getImage.do?" />atchFileId='+file.atchFileId+'&fileSn='+file.fileSn+'"></a>'
+ */
+
 		            html += '<button data-photo="one" data-atch-file-id="'+file.atchFileId+'" data-file-sn="'+file.fileSn+'"><i class="fa fa-trash-alt"></i></button></span></li>';
 				}
 			}
@@ -635,7 +641,9 @@ GamFenderInspectionModule.prototype.loadDetail = function(tabId) {
 				for(var i=0; i<result2.length; i++) {
 					var file=result2[i];
 		            html += '<li><span>';
-		            html += '<a href="<c:url value="/cmm/fms/getImage.do?" />atchFileId='+file.atchFileId+'&fileSn='+file.fileSn+'" target="_blank"><img src="<c:url value="/cmm/fms/getImage.do?" />atchFileId='+file.atchFileId+'&fileSn='+file.fileSn+'"></a>'
+		            html += '<a href="<c:url value="/cmm/fms/getImage.do?" />atchFileId='+file.atchFileId+'&fileSn='+file.fileSn+'" target="_blank">'+file.orignlFileNm+'</a>'
+/* 		            html += '<a href="<c:url value="/cmm/fms/getImage.do?" />atchFileId='+file.atchFileId+'&fileSn='+file.fileSn+'" target="_blank"><img src="<c:url value="/cmm/fms/getImage.do?" />atchFileId='+file.atchFileId+'&fileSn='+file.fileSn+'"></a>'
+ */
 		            html += '<button data-photo="two" data-atch-file-id="'+file.atchFileId+'" data-file-sn="'+file.fileSn+'"><i class="fa fa-trash-alt"></i></button></span></li>';
 				}
 			}
@@ -646,11 +654,15 @@ GamFenderInspectionModule.prototype.loadDetail = function(tabId) {
 				for(var i=0; i<result3.length; i++) {
 					var file=result3[i];
 		            html += '<li><span>';
-		            html += '<a href="<c:url value="/cmm/fms/getImage.do?" />atchFileId='+file.atchFileId+'&fileSn='+file.fileSn+'" target="_blank"><img src="<c:url value="/cmm/fms/getImage.do?" />atchFileId='+file.atchFileId+'&fileSn='+file.fileSn+'"></a>'
+		            html += '<a href="<c:url value="/cmm/fms/getImage.do?" />atchFileId='+file.atchFileId+'&fileSn='+file.fileSn+'" target="_blank">'+file.orignlFileNm+'</a>'
+/* 		            html += '<a href="<c:url value="/cmm/fms/getImage.do?" />atchFileId='+file.atchFileId+'&fileSn='+file.fileSn+'" target="_blank"><img src="<c:url value="/cmm/fms/getImage.do?" />atchFileId='+file.atchFileId+'&fileSn='+file.fileSn+'"></a>'
+ */
 		            html += '<button data-photo="three" data-atch-file-id="'+file.atchFileId+'" data-file-sn="'+file.fileSn+'"><i class="fa fa-trash-alt"></i></button></span></li>';
 				}
 			}
 			module.$('#photoThreeList').append(html);
+			html='';
+
 			module.$('ul.photoList > li > span > button').off('click', function(e) {
 		    	module.removeImageClickEvent(e)
 	    	});
@@ -721,18 +733,29 @@ GamFenderInspectionModule.prototype.loadDetail = function(tabId) {
 //		this.makeDivValues('#detailForm', row[0]);
 
 		var searchOpt1=[], searchOpt2=[], searchOpt3=[];
-		searchOpt1[searchOpt.length] = {name : "sFcltsMngGroupNo",	value : row[0].fcltsMngGroupNo };
-		searchOpt1[searchOpt.length] = {name : "sYear",	value : row[0].year };
-		searchOpt1[searchOpt.length] = {name : "sSn",	value : row[0].sn };
-		searchOpt2 = searchOpt1;
-		searchOpt3 = searchOpt1;
-		searchOpt1[searchOpt.length] = {name : "sSe",	value : "1" };
-		searchOpt2[searchOpt.length] = {name : "sSe",	value : "2" };
-		searchOpt3[searchOpt.length] = {name : "sSe",	value : "3" };
+		var _sFcltsMngGroupNo = row[0].fcltsMngGroupNo;
+		var _sYear = row[0].year;
+		var _sSn = row[0].sn;
 
-		this.$('#fenderInspectionListOne').flexOptions({params:searchOpt}).flexReload();
-		this.$('#fenderInspectionListTwo').flexOptions({params:searchOpt}).flexReload();
-		this.$('#fenderInspectionListThree').flexOptions({params:searchOpt}).flexReload();
+
+		searchOpt1[searchOpt1.length] = {name : "sFcltsMngGroupNo",	value : _sFcltsMngGroupNo };
+		searchOpt1[searchOpt1.length] = {name : "sYear",	value : _sYear };
+		searchOpt1[searchOpt1.length] = {name : "sSn",	value : _sSn };
+		searchOpt1[searchOpt1.length] = {name : "sSe",	value : "1" };
+
+		searchOpt2[searchOpt2.length] = {name : "sFcltsMngGroupNo",	value : _sFcltsMngGroupNo };
+		searchOpt2[searchOpt2.length] = {name : "sYear",	value : _sYear };
+		searchOpt2[searchOpt2.length] = {name : "sSn",	value : _sSn };
+		searchOpt2[searchOpt2.length] = {name : "sSe",	value : "2" };
+
+		searchOpt3[searchOpt3.length] = {name : "sFcltsMngGroupNo",	value : _sFcltsMngGroupNo };
+		searchOpt3[searchOpt3.length] = {name : "sYear",	value : _sYear };
+		searchOpt3[searchOpt3.length] = {name : "sSn",	value : _sSn };
+		searchOpt3[searchOpt3.length] = {name : "sSe",	value : "3" };
+
+		this.$('#fenderInspectionListOne').flexOptions({params:searchOpt1}).flexReload();
+		this.$('#fenderInspectionListTwo').flexOptions({params:searchOpt2}).flexReload();
+		this.$('#fenderInspectionListThree').flexOptions({params:searchOpt3}).flexReload();
 
 	}
 
@@ -771,6 +794,19 @@ GamFenderInspectionModule.prototype.saveData = function() {
 	var inputVO = [];
 	var detailForm = this.makeFormArgs("#detailForm",'object');
 
+	this.$('#fenderInspectionListOne')[0].dgrid.selectRow(0);
+	this.$('#fenderInspectionListTwo')[0].dgrid.selectRow(0);
+	this.$('#fenderInspectionListThree')[0].dgrid.selectRow(0);
+
+	detailForm["delPhotoOne"]=JSON.stringify(this._delPhotoOneList);
+	detailForm["delPhotoTwo"]=JSON.stringify(this._delPhotoTwoList);
+	detailForm["delPhotoThree"]=JSON.stringify(this._delPhotoThreeList);
+
+
+	detailForm["delChckTableOne"]=JSON.stringify(this._delChkTbl1List);
+	detailForm["delChckTableTwo"]=JSON.stringify(this._delChkTbl2List);
+	detailForm["delChckTableThree"]=JSON.stringify(this._delChkTbl3List);
+
 	inputVO[inputVO.length] = {name: 'detailForm', value :JSON.stringify(detailForm) };
  	inputVO[inputVO.length] = {name: 'fenderInspectionListOne', value :JSON.stringify(this.$('#fenderInspectionListOne').selectFilterData([{col: 'chkRole', filter: true}])) };
  	inputVO[inputVO.length] = {name: 'fenderInspectionListTwo', value :JSON.stringify(this.$('#fenderInspectionListTwo').selectFilterData([{col: 'chkRole', filter: true}])) };
@@ -796,9 +832,9 @@ GamFenderInspectionModule.prototype.saveData = function() {
 		formData.append("photoThreeFile["+i+"]", file);
 	}
 
-	formData.append("delPhotoOne", this._delPhotoOneList);
+/* 	formData.append("delPhotoOne", this._delPhotoOneList);
 	formData.append("delPhotoTwo", this._delPhotoTwoList);
-	formData.append("delPhotoThree", this._delPhotoThreeList);
+	formData.append("delPhotoThree", this._delPhotoThreeList); */
 
 	for (var i = 0; i < this._chkTbl1FileBuffer.length; i++) {
 		var file = this._chkTbl1FileBuffer[i];
@@ -816,10 +852,10 @@ GamFenderInspectionModule.prototype.saveData = function() {
 		formData.append("chckTableThreeFile["+i+"]", file);
 	}
 
-	formData.append("delChckTableOne", this._delChkTbl1List);
+/* 	formData.append("delChckTableOne", this._delChkTbl1List);
 	formData.append("delChckTableTwo", this._delChkTbl2List);
 	formData.append("delChckTableThree", this._delChkTbl3List);
-
+ */
 	var url = '';
 	if (module._mainmode == "insert") { // 추가 버튼 눌렀을때 insert로 변경됨
 		url = EMD.context_root+ '/fclty/gamInsertFenderInspection.do';
@@ -973,6 +1009,7 @@ var module_instance = new GamFenderInspectionModule();
 									<select id="year" class="year" tabindex=1 data-required="true">
 										<option value="">선택</option>
 									</select>
+									<input type="hidden" size="20" id="sn"/>
 								</td>
 								<th style="width:15%; height:18px;">시설물관리그룹</th>
 								<td style="width:35%; height:18px;">
