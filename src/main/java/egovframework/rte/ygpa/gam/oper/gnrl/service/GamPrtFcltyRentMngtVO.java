@@ -20,6 +20,8 @@ import egovframework.com.cmm.ComDefaultVO;
 public class GamPrtFcltyRentMngtVO extends ComDefaultVO {
     private static final long serialVersionUID = 1L;
 
+    private String miskey;
+
     /** 항코드 */
     private String prtAtCode;
 
@@ -1341,6 +1343,20 @@ public class GamPrtFcltyRentMngtVO extends ComDefaultVO {
 
 	public void setChargerNo(String chargerNo) {
 		this.chargerNo = chargerNo;
+	}
+
+	/**
+	 * @return the miskey
+	 */
+	public String getMiskey() {
+		return miskey;
+	}
+
+	/**
+	 * @param miskey the miskey to set
+	 */
+	public void setMiskey(String miskey) {
+		this.miskey = miskey;
 	}
 
 }

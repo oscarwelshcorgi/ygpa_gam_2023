@@ -563,9 +563,11 @@ GamAssetRentMngtModule.prototype.setButtonState = function() {
 
 			if(rows[0]['sanctnSttus']=='2'){
 				this.$('#btnReportHwp').show();
+				this.$('#btnPrmisnProceeding').show();
 			}
 			else{
 				this.$('#btnReportHwp').hide();
+				this.$('#btnPrmisnProceeding').hide();
 			}
 			this.$('#showMap').show();
 		}
@@ -588,6 +590,7 @@ GamAssetRentMngtModule.prototype.setButtonState = function() {
 				this.$('#btnSaveItem2').hide();
 
 				this.$('#btnReportHwp').hide();
+				this.$('#btnPrmisnProceeding').hide();
 			}
 			else {
 				this.$('#btnPrmisn2').show();
@@ -2107,6 +2110,32 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
             	return;
             }
         	break;
+/* 전자결재 취소 */
+        case 'btnPrmisnProceeding':
+            var rows = this.$('#assetRentMngtList').selectedRows();
+
+            if( rows[0]['sanctnSttus'] == '2') {
+                this.doAction('/oper/gnrl/checkPrtFcltyRentMngtPrmisnCancel.do', rows[0], function(module, result) {
+                    if(result.resultCode=='0') {
+                        if( confirm("연관된 모든 결재가 취소됩니다.\n 진행 하시겠습니까?") ) {
+                            module.doAction('/oper/gnrl/gamPrmisnProceedingCancel.do', rows[0], function(module, result) {
+                                if(result.resultCode=='0') {
+                                	 module.loadData();
+                                }
+                                alert(result.resultMsg);
+                            });
+                        }
+                    }
+
+                    //alert(result.resultMsg);
+                });
+
+            } else {
+                alert("목록에서 선택하십시오.");
+            }
+
+            break;
+
     }
 };
 
@@ -2481,6 +2510,7 @@ var module_instance = new GamAssetRentMngtModule();
 	                                <!-- <button id="btnEApproval">결재요청</button> -->
 	                                <button id="btnPrmisn">사용승낙</button>
 	                                <button id="btnPrmisnCancel">승낙취소</button>
+	                                <button id="btnPrmisnProceeding">전자결재취소</button>
 	                                <button id="btnPrtFcltyRentMngtListExcelDownload">엑셀</button>
 	                                <button id="btnReportHwp">산정조서 다운로드</button>
 	                                <button id="btnRentFeeMngt">사용료관리</button>

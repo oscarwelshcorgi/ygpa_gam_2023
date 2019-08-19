@@ -3,16 +3,21 @@
  */
 package egovframework.rte.ygpa.gam.cmmn.fclty.service.impl;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import egovframework.com.cmm.EgovMessageSource;
+import egovframework.com.cmm.LoginVO;
+import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
-import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentMngtVO;
-import egovframework.rte.ygpa.gam.asset.rent.service.impl.GamAssetRentMngtDao;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamAssetsUsePermMngtService;
+import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtVO;
 
 /**
  *
@@ -37,6 +42,12 @@ public class GamAssetsUsePermMngtServiceImpl extends AbstractServiceImpl impleme
 
 	@Resource(name="gamAssetsUsePermMngtDAO")
     private GamAssetsUsePermMngtDAO gamAssetsUsePermMngtDAO;
+
+    /** EgovMessageSource */
+    @Resource(name="egovMessageSource")
+    EgovMessageSource egovMessageSource;
+
+
 	/* (non-Javadoc)
 	 * @see egovframework.rte.ygpa.gam.cmmn.fclty.service.GamAssetsUsePermMngtService#confirmAssetsRentUsePerm(java.util.Map)
 	 */
@@ -93,7 +104,7 @@ public class GamAssetsUsePermMngtServiceImpl extends AbstractServiceImpl impleme
 		gamAssetsUsePermMngtDAO.deleteAssetsUsagePdByStats(vo);	// 이전 통계 정보를 삭제한다.
 		gamAssetsUsePermMngtDAO.insertAssetsUsagePdByStats(vo);	// 새로운 통계 정보를 생성한다.
 
-// 전자결재 승인 후 처리 예정(주석 처리)		
+// 전자결재 승인 후 처리 예정(주석 처리)
 //		gamAssetsUsePermMngtDAO.confirmAssetUsePerm(vo);
 
 	}
@@ -179,4 +190,55 @@ public class GamAssetsUsePermMngtServiceImpl extends AbstractServiceImpl impleme
 		// TODO Auto-generated method stub
 		gamAssetsUsePermMngtDAO.updateAssetsRentF(paramMap);
 	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.cmmn.fclty.service.GamAssetsUsePermMngtService#gamPrmisnProceedingCancel(egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtVO)
+	 */
+	@Override
+	public Map gamPrmisnProceedingCancel(GamPrtFcltyRentMngtVO gamPrtFcltyRentMngtVO) throws Exception {
+		// TODO Auto-generated method stub
+
+     	 Map map = new HashMap();
+     	Map<String, Object> paramMap = new HashMap();
+         String resultMsg = "";
+         int resultCode = 1;
+
+     	List assetRentList = gamAssetsUsePermMngtDAO.selectElctrnSanctnList(gamPrtFcltyRentMngtVO);
+
+     	LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+
+     	for(int i=0; assetRentList.size()>i; i++) {
+     		paramMap.clear();
+     		paramMap = (Map) assetRentList.get(i);
+     		paramMap.put("regUsr", loginVO.getId());
+     		paramMap.put("updUsr", loginVO.getId());
+
+ /*   		System.out.println("##################################### 승낙취소시작!!");
+           System.out.println("##################################### getPrtAtCode => " +  paramMap.get("prtAtCode").toString());
+           System.out.println("##################################### getMngYear => " +  paramMap.get("mngYear").toString());
+           System.out.println("##################################### getMngNo => " +  paramMap.get("mngNo").toString());
+           System.out.println("##################################### getMngCnt => " +  paramMap.get("mngCnt").toString());
+*/
+           if(!paramMap.containsKey("prtAtCode") || !paramMap.containsKey("mngYear") || !paramMap.containsKey("mngNo") || !paramMap.containsKey("mngCnt")) {
+               resultCode = 2;
+               resultMsg = egovMessageSource.getMessage("gam.asset.rent.err.exceptional");
+           }
+           else {
+        	   gamAssetsUsePermMngtDAO.cancelAssetUsePerm(paramMap);
+        	   gamAssetsUsePermMngtDAO.deleteLevRequest(paramMap);
+        	   gamAssetsUsePermMngtDAO.deleteAssetsUsagePdByStats(paramMap);
+
+  	         resultCode = 0;
+  	 		 resultMsg  = egovMessageSource.getMessage("gam.asset.rent.prmisn.proceedingCancel");
+           }
+     	}
+
+     	gamAssetsUsePermMngtDAO.updateElctrnSanctn(gamPrtFcltyRentMngtVO);
+
+     	 map.put("resultCode", resultCode);
+         map.put("resultMsg", resultMsg);
+
+ 		return map;
+	}
+
 }

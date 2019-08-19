@@ -5,6 +5,7 @@
 
 	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
 	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+	<typeAlias  alias="gamPrtFcltyRentMngtVO" type="egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtVO"/>
 
 	<update id="gamAssetsUsePermMngtDao.confirmAssetsUsePerm" parameterClass="hashMap">
 		<![CDATA[
@@ -21,7 +22,7 @@
 		]]>
 	</update>
 
-	<update id="gamAssetsUsePermMngtDao.cancelAssetsUsePerm" parameterClass="hashMap">
+	<update id="gamAssetsUsePermMngtDao.cancelAssetsUsePerm" >
 		<![CDATA[
 			UPDATE ASSETS_RENT_F
 			SET PRMISN_DT=''
@@ -36,7 +37,7 @@
 		]]>
 	</update>
 
-	<delete id="gamAssetsUsePermMngtDao.deleteAssetsUsagePdByStats_D" parameterClass="hashMap">
+	<delete id="gamAssetsUsePermMngtDao.deleteAssetsUsagePdByStats_D" >
 		<![CDATA[
 			DELETE FROM USAGE_PD_BY_STATS_F
 			WHERE PRT_AT_CODE=#prtAtCode#
@@ -135,7 +136,7 @@
 		]]>
 	</insert>
 
-	<delete id="gamAssetsUsePermMngtDao.deleteLevRequest_D" parameterClass="hashMap">
+	<delete id="gamAssetsUsePermMngtDao.deleteLevRequest_D" >
 		<![CDATA[
 			DELETE FROM LEV_REQEST_F
 			WHERE PRT_AT_CODE=#prtAtCode#
@@ -442,6 +443,19 @@
 				AND MNG_NO=#mngNo#
 				AND MNG_CNT=#mngCnt#
     </update>
+
+   	<select id="gamAssetsUsePermMngtDao.selectElctrnSanctnList" parameterClass="gamPrtFcltyRentMngtVO" resultClass="egovMap">
+		SELECT PRT_AT_CODE, MNG_YEAR, MNG_NO, MNG_CNT
+          FROM ELCTRN_SANCTN
+         WHERE MISKEY=#miskey#
+	</select>
+
+    <update id="gamAssetsUsePermMngtDao.updateElctrnSanctn" parameterClass="gamPrtFcltyRentMngtVO">
+    	UPDATE ELCTRN_SANCTN
+    	   SET SANCTN_STTUS = '0'
+    	 WHERE MISKEY=#miskey#
+    </update>
+
 
 </sqlMap>
 

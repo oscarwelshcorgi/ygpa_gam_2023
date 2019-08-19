@@ -5,6 +5,8 @@ package egovframework.rte.ygpa.gam.cmmn.fclty.service;
 
 import java.util.Map;
 
+import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtVO;
+
 /**
  *
  * @author EUNSUNGJ
@@ -75,7 +77,7 @@ public interface GamAssetsUsePermMngtService {
 
 	/**
 	 * @param paramMap
-	 * @return 
+	 * @return
 	 */
 	public String insertElctrnSanctn(Map paramMap) throws Exception;
 
@@ -88,4 +90,10 @@ public interface GamAssetsUsePermMngtService {
 	 * @param paramMap
 	 */
 	public void updateAssetsRentF(Map paramMap) throws Exception;
+
+	/**
+	 * @param gamPrtFcltyRentMngtVO
+	 * @return
+	 */
+	public Map gamPrmisnProceedingCancel(GamPrtFcltyRentMngtVO gamPrtFcltyRentMngtVO) throws Exception;
 }

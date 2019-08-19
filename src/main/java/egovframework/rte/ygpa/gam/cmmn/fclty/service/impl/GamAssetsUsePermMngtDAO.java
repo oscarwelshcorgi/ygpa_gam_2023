@@ -3,12 +3,14 @@
  */
 package egovframework.rte.ygpa.gam.cmmn.fclty.service.impl;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
+import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtVO;
 
 /**
  *
@@ -153,7 +155,7 @@ public class GamAssetsUsePermMngtDAO extends YGPAAbstractDAO {
 
 	/**
 	 * @param paramMap
-	 * @return 
+	 * @return
 	 */
 	public String insertElctrnSanctn(Map paramMap) {
 		// TODO Auto-generated method stub
@@ -174,6 +176,24 @@ public class GamAssetsUsePermMngtDAO extends YGPAAbstractDAO {
 	public void updateAssetsRentF(Map paramMap) {
 		// TODO Auto-generated method stub
 		update("gamAssetsUsePermMngtDao.updateAssetsRentF", paramMap);
+	}
+
+	/**
+	 * @param gamPrtFcltyRentMngtVO
+	 * @return
+	 */
+	public List selectElctrnSanctnList(GamPrtFcltyRentMngtVO gamPrtFcltyRentMngtVO) {
+		// TODO Auto-generated method stub
+		return list("gamAssetsUsePermMngtDao.selectElctrnSanctnList", gamPrtFcltyRentMngtVO);
+	}
+
+	/**
+	 * @param gamPrtFcltyRentMngtVO
+	 */
+	public void updateElctrnSanctn(GamPrtFcltyRentMngtVO gamPrtFcltyRentMngtVO) {
+		// TODO Auto-generated method stub
+		update("gamAssetsUsePermMngtDao.updateElctrnSanctn", gamPrtFcltyRentMngtVO);
+
 	}
 
 }
