@@ -34,7 +34,7 @@
 	<script src="<c:url value='/js/jquery-ui.min.js'/>"></script>
 
 	<style type="text/css">
-		 table.fcltsMng {
+	 	table.fcltsMng {
 		    border-collapse: separate;
 		    border-spacing: 0;
 		    text-align: left;
@@ -161,19 +161,18 @@
 				</tr>
 		</table>
 
-
 	<c:if test="${fn:length(fenderSttusInqireList) == 0}">
 		<table class="rpr_main_table">
 	  		<thead>
 	  			<tr>
 	  				<th>항만시설 명</th>
 	  				<th>규격</th>
-	  				<th>단위</th>
+	  				<!-- <th>단위</th> -->
 	  				<th>수량</th>
 	  				<th>구조 형식</th>
 	  				<th>선석</th>
-	  				<th>방충재 종류</th>
-	  				<th>방충재 배치 간격</th>
+	  				<!-- <th>방충재 종류</th>
+	  				<th>방충재 배치 간격</th> -->
 	  				<th>방충재 형식</th>
  				</tr>
 	  		</thead>
@@ -187,17 +186,18 @@
 			        			<tr>
 				  	  				<th>항만시설 명</th>
 					  				<th>규격</th>
-					  				<th>단위</th>
+					  				<!-- <th>단위</th> -->
 					  				<th>수량</th>
 					  				<th>구조 형식</th>
 					  				<th>선석</th>
-					  				<th>방충재 종류</th>
-					  				<th>방충재 배치 간격</th>
+					  				<!-- <th>방충재 종류</th>
+					  				<th>방충재 배치 간격</th> -->
 					  				<th>방충재 형식</th>
 			       				</tr>
 			        		</thead>
 			        		<tbody>
     <c:forEach var="result" items="${fenderSttusInqireList }" varStatus="resultStatus">
+
 <%--            			<c:if test="${resultStatus.index%18==0 }"> <% /*  페이지 당 출력 갯수 */ %>
            				<c:if test="${resultStatus.index!=0 }">	<% /*  페이지 구분*/ %>
 			        		</tbody>
@@ -229,21 +229,23 @@
         			<tr>
         				<td><c:out value="${result.prtFcltyNm }" /></td>
         				<td><c:out value="${result.prtFcltyStndrd }" /></td>
-        				<td><c:out value="${result.prtFcltyUnit }" /></td>
+        				<%-- <td><c:out value="${result.prtFcltyUnit }" /></td> --%>
         				<td><c:out value="${result.prtPrtFcltyCnt }" /></td>
         				<td><c:out value="${result.strctFmt }" /></td>
         				<td><c:out value="${result.berth }" /></td>
-        				<td><c:out value="${result.fenderKndCd }" /></td>
-        				<td><c:out value="${result.fenderPmntItv }" /></td>
+        				<%-- <td><c:out value="${result.fenderKndCd }" /></td>
+        				<td><c:out value="${result.fenderPmntItv }" /></td> --%>
         				<td><c:out value="${result.fenderFmt }" /></td>
 
 <%--
         				<td style="text-align: right"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.gisAssetsAr}" /></td>
  --%>
-
+        			
         			</tr>
     </c:forEach>
+    
         		</tbody>
+        		
         	</table>
         </div>
     </div>
