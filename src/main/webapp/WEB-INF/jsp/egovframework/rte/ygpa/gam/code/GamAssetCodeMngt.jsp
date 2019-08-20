@@ -190,8 +190,8 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 	$('.unit').hide();
 	$('.totar').hide();
 	$('.gisAssetsSeCd3').hide();
-	
-	
+
+
 	this.changeAssetPk=false;
 	/*
 	this.$('.changeAssetPk').on('change', {module: this}, function(event) {
@@ -315,7 +315,7 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 			this.$('#gisAssetsSeCd').val(this.$('#erpAssetCodeList').selectedRows()[0].assetCls);
 			/* 품목구분 */
 			var _itemCls=this.$('#erpAssetCodeList').selectedRows()[0].itemCls;
-			
+
 			switch(_itemCls){
 				case '000001':
 				case '000002':
@@ -661,16 +661,16 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 		break;
 	case 'btnRegFile':
 		break;
-	
+
 	/* 건축물 시가표준액 */
 	case 'selectMktcStdAm':
-	
+
 		if(this.$('#gisAssetsBupjungdongCd').val() == '' || this.$('#gisAssetsLnm').val() == ''){
 			alert("주소, 지번을 선택해 주세요.")
 			break;
 		}
 		var searchOpt = {"sAdstrdCode" : this.$('#gisAssetsBupjungdongCd').val(), "sLnm" : this.$('#gisAssetsLnm').val(),"sSlno" : this.$('#gisAssetsLnmSub').val()}
-	
+
     	this.doExecuteDialog('selectMktcStdAm', '건축물 시가표준액', '/asset/showPopupBuldMktcStdAm.do', searchOpt);
 	break;
 }
@@ -952,9 +952,9 @@ $('#gisAssetsSeCd').change(function(){
 });
 
 function gisAssetsSeCdChange(item){
-	
+
 	console.log("test");
-	
+
 	switch(item) {
 /* 		case '1':
 			$('.gisAssetsSeCd1').show();
@@ -1032,14 +1032,22 @@ var module_instance = new GamAssetCodeModule();
 								<th>항구분</th>
 								<td><input id="searchGisAssetsPrtAtCode" type="text" class="ygpaCmmnCd" data-column-id="gisAssetsPrtAtCode" data-code-id="GAM019" data-default-prompt="전체항" data-display-value="N" size="3"/></td>
 								<th>ERP 자산코드</th>
-								<td colspan="3"><input id="searchGisErpAssetCls" data-column-id="erpAssetCls" type="text" size="1">-<input id="searchGisErpAssetNo" data-column-id="erpAssetNo" type="text" size="4">-<input id="searchGisErpAssetNoSeq" data-column-id="erpAssetNoSeq" type="text" size="2"></td>
+								<td><input id="searchGisErpAssetCls" data-column-id="erpAssetCls" type="text" size="1">-<input id="searchGisErpAssetNo" data-column-id="erpAssetNo" type="text" size="4">-<input id="searchGisErpAssetNoSeq" data-column-id="erpAssetNoSeq" type="text" size="2"></td>
 								<th>자산코드</th>
 								<td><input id="searchGisAssetsCd" data-column-id="gisAssetsCd" type="text" class="gisAssetsCd">-<input id="searchGisAssetsSubCd" data-column-id="gisAssetsSubCd" class="gisAssetsSubCd" type="text"></td>
 								<td rowSpan="3"><button id="selectGisAssetCode" class="buttonSearch">조회</button></td>
 							</tr>
 							<tr>
+
 								<th>재산</th>
 								<td><input id="searchGisAssetsPrprtySeCd" type="text" class="ygpaCmmnCd" data-column-id="gisAssetsPrprtySeCd" data-code-id="GAM001" data-default-prompt="전체"/></td>
+								<th>자산구분</th>
+								<td><input id="searchGisAssetsSeCd" class="ygpaCmmnCd" data-code-id='GAM013' data-default-prompt="전체" data-column-label-id='prtAtCodeNm'/>
+								</td>
+								<th>품목구분</th>
+								<td><input id="searchPrdlstSe" class="ygpaCmmnCd" data-code-id='GAM073' data-default-prompt="전체"/>
+								</td>
+<!--
 								<th>위치</th>
 								<td>
 									<input id="searchGisAssetsLocCd" class="ygpaCmmnCd" data-code-id='GAM002' data-required="true" data-column-label-id='gisAssetsLocNm'  data-default-prompt="전체">
@@ -1048,10 +1056,11 @@ var module_instance = new GamAssetCodeModule();
 								<td>
 									<input id="searchGisAssetsQuayCd" class="ygpaCmmnCd" data-code-id='GAM003' data-required="true" data-column-label-id='gisAssetsQuayNm' data-default-prompt="전체">
 								</td>
-								<th>관리부서</th>
+<!-- 								<th>관리부서</th>
 								<td>
 									<input id="searchMngDeptCd" data-column-id="mngDeptCd" class="ygpaDeptSelect" data-default-prompt="전체" />
 								</td>
+ -->
 							</tr>
 							<tr>
 								<th>자산명</th>
@@ -1060,10 +1069,11 @@ var module_instance = new GamAssetCodeModule();
 								<td><input id="searchGisAssetsLocPlc" data-column-id="gisAssetsLocplc" type="text" size="20"></td>
 								<th>지번</th>
 								<td><input id="searchGisAssetsLnm" data-column-id="gisAssetsLnm" type="text" size="4">-<input id="searchGisAssetsLnmSub" data-column-id="gisAssetsLnmSub" type="text" size="3"></td>
-								<th>운영부서</th>
+<!-- 								<th>운영부서</th>
 								<td>
 									<input id="searchOperDeptCd" data-column-id="operDeptCd" class="ygpaDeptSelect" data-default-prompt="전체" />
 								</td>
+ -->
 							</tr>
 						</tbody>
 					</table>
