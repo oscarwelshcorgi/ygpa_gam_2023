@@ -95,62 +95,101 @@ GamAssetSeSttusInqireModule.prototype.loadComplete = function() {
 	this.$("#sSearchDtTo").val(displayDate);
 
 	this.chart1 =  new dhtmlXChart({
-        view:"pie3D",
+        view:"pie",
         container:this.$("#chart1").attr('id'),
 		value: "#count#",
 		color: "#color#",
-        label:"#gisAssetsSeCdNm#",
-        tooltip: "#count#"+'건',
+/*         label:"#gisAssetsSeCdNm#",
+        tooltip: "#count#",
+*/
+        pieInnerText: "#count#",
+        tooltip: "#gisAssetsSeNm#"+":"+"#count#"+"건",
+        legend:{
+			width:130,
+			align:"left",
+			valign:"middle",
+			template:"#gisAssetsSeNm#"
+		},
         shadow:0
     });
 
 	this.chart2 =  new dhtmlXChart({
-        view:"pie3D",
+        view:"pie",
         container:this.$("#chart2").attr('id'),
 		value: "#price#",
 		color: "#color#",
-        label:"#gisAssetsSeCdNm#",
-        tooltip: "#price1#"+'원',
+        legend:{
+			width:130,
+			align:"left",
+			valign:"middle",
+			template:"#gisAssetsSeNm#"
+		},
+		pieInnerText: "#price1#",
+		tooltip: "#gisAssetsSeNm#"+":"+"#price1#"+"원",
         shadow:0
     });
 
 	this.chart3 =  new dhtmlXChart({
-        view:"pie3D",
+        view:"pie",
         container:this.$("#chart3").attr('id'),
 		value: "#count#",
 		color: "#color#",
-        label:"#prdlstSeNm#",
-        tooltip: "#count#"+'건',
+        legend:{
+			width:130,
+			align:"left",
+			valign:"middle",
+			template:"#prdlstSeNm#"
+		},
+		pieInnerText: "#count#",
+		tooltip: "#prdlstSeNm#"+":"+"#count#"+"건",
         shadow:0
     });
 
 	this.chart4 =  new dhtmlXChart({
-        view:"pie3D",
+        view:"pie",
         container:this.$("#chart4").attr('id'),
 		value: "#price#",
 		color: "#color#",
-        label:"#prdlstSeNm#",
-        tooltip: "#price1#"+'원',
+        legend:{
+			width:130,
+			align:"left",
+			valign:"middle",
+			template:"#prdlstSeNm#"
+		},
+		pieInnerText: "#price1#",
+		tooltip: "#prdlstSeNm#"+":"+"#price1#"+"원",
         shadow:0
     });
 
 	this.chart5 =  new dhtmlXChart({
-        view:"pie3D",
+        view:"pie",
         container:this.$("#chart5").attr('id'),
 		value: "#count#",
 		color: "#color#",
-        label:"#prdlstSeNm#",
-        tooltip: "#count#"+'건',
+        legend:{
+			width:130,
+			align:"left",
+			valign:"middle",
+			template:"#prdlstSeNm#"
+		},
+		pieInnerText: "#count#",
+		tooltip: "#prdlstSeNm#"+":"+"#count#"+"건",
         shadow:0
     });
 
 	this.chart6 =  new dhtmlXChart({
-        view:"pie3D",
+        view:"pie",
         container:this.$("#chart6").attr('id'),
 		value: "#price#",
 		color: "#color#",
-        label:"#prdlstSeNm#",
-		tooltip: "#price1#"+'원',
+        legend:{
+			width:130,
+			align:"left",
+			valign:"middle",
+			template:"#prdlstSeNm#"
+		},
+		pieInnerText: "#price1#",
+		tooltip: "#prdlstSeNm#"+":"+"#price1#"+"원",
         shadow:0
     });
 
@@ -210,72 +249,96 @@ GamAssetSeSttusInqireModule.prototype.loadData = function() {
 		case 'tabs1':
 			this.$('#dataList1').flexOptions({params:searchOpt}).flexReload({
 	        	 callback: function(data) {
-	        		 console.log(data);
 	        		 var r=[];
+	        		 var s=[];
 
 	        		 for(var i=0; i<data.resultList.length; i++) {
 	        			 var obj = data.resultList[i];
-	        			 r[r.length] = {
-	        					 gisAssetsSeCdNm: obj.gisAssetsSeCdNm,
-	        					 count: obj.count,
-	        					 price: Number(obj.price.replace(/,/g,"")),
-	        					 price1: obj.price,
-	        					 color: getColor1(r.length)
+	        			 if(obj.count > 0){
+		        			 r[r.length] = {
+		        					 gisAssetsSeNm: obj.gisAssetsSeNm,
+		        					 count: obj.count,
+		        					 color: getColor1(r.length)
+		        			 }
+	        			 }
+	        			 if(Number(obj.price.replace(/,/g,"")) > 0){
+		        			 s[s.length] = {
+		        					 gisAssetsSeNm: obj.gisAssetsSeNm,
+		        					 price: Number(obj.price.replace(/,/g,"")),
+		        					 price1: obj.price,
+		        					 color: getColor1(s.length)
+		        			 }
 	        			 }
 	        		 }
-	        		 console.log(r);
 	        		 module.chart1.clearAll();
 	        		 module.chart2.clearAll();
 	        		 module.chart1.parse(r, "json");
-	        		 module.chart2.parse(r, "json");
+	        		 module.chart2.parse(s, "json");
 	        	 }
 	         });
 			break;
 		case 'tabs2':
 			this.$('#dataList2').flexOptions({params:searchOpt}).flexReload({
         	 callback: function(data) {
-        		 console.log(data);
         		 var r=[];
+        		 var s=[];
 
         		 for(var i=0; i<data.resultList.length; i++) {
         			 var obj = data.resultList[i];
-        			 r[r.length] = {
-        					 prdlstSeNm: obj.prdlstSeNm,
-        					 count: obj.count,
-        					 price: Number(obj.price.replace(/,/g,"")),
-        					 price1: obj.price,
-        					 color: getColor1(r.length)
+        			 if(obj.count > 0){
+	        			 r[r.length] = {
+	        					 prdlstSeNm: obj.prdlstSeNm,
+	        					 count: obj.count,
+	        					 color: getColor1(r.length)
+	        			 }
         			 }
+        			 if(Number(obj.price.replace(/,/g,"")) > 0){
+	        			 s[s.length] = {
+	        					 prdlstSeNm: obj.prdlstSeNm,
+	        					 price: Number(obj.price.replace(/,/g,"")),
+	        					 price1: obj.price,
+	        					 color: getColor1(s.length)
+	        			 }
+        			 }
+
         		 }
-        		 console.log(r);
         		 module.chart3.clearAll();
         		 module.chart4.clearAll();
         		 module.chart3.parse(r, "json");
-        		 module.chart4.parse(r, "json");
+        		 module.chart4.parse(s, "json");
         	 }
          });
 		break;
 		case 'tabs3':
 			this.$('#dataList3').flexOptions({params:searchOpt}).flexReload({
         	 callback: function(data) {
-        		 console.log(data);
         		 var r=[];
+        		 var s=[];
 
         		 for(var i=0; i<data.resultList.length; i++) {
         			 var obj = data.resultList[i];
-        			 r[r.length] = {
-        					 prdlstSeNm: obj.prdlstSeNm,
-        					 count: obj.count,
-        					 price: Number(obj.price.replace(/,/g,"")),
-        					 price1: obj.price,
-        					 color: getColor1(r.length)
+        			 if(obj.count > 0){
+	        			 r[r.length] = {
+	        					 prdlstSeNm: obj.prdlstSeNm,
+	        					 count: obj.count,
+	        					 color: getColor1(r.length)
+	        			 }
         			 }
+
+        			 if(Number(obj.price.replace(/,/g,"")) > 0){
+	        			 s[s.length] = {
+	        					 prdlstSeNm: obj.prdlstSeNm,
+	        					 price: Number(obj.price.replace(/,/g,"")),
+	        					 price1: obj.price,
+	        					 color: getColor1(s.length)
+	        			 }
+        			 }
+
         		 }
-        		 console.log(r);
         		 module.chart5.clearAll();
         		 module.chart6.clearAll();
         		 module.chart5.parse(r, "json");
-        		 module.chart6.parse(r, "json");
+        		 module.chart6.parse(s, "json");
         	 }
          });
 		break;
@@ -367,10 +430,10 @@ var module_instance = new GamAssetSeSttusInqireModule();
 						</tr>
 						<tr>
 							<td style="width: 50%;text-align: center;">
-							총괄 건수
+							총괄 건수(단위 : 건)
 							</td>
 							<td style="width: 50%;text-align: center;">
-							총괄 금액
+							총괄 금액(단위 : 원)
 							</td>
 						</tr>
 					</table>
@@ -391,10 +454,10 @@ var module_instance = new GamAssetSeSttusInqireModule();
 						</tr>
 						<tr>
 							<td style="width: 50%;text-align: center;">
-							출자자산 건수
+							출자자산 건수(단위 : 건)
 							</td>
 							<td style="width: 50%;text-align: center;">
-							출자자산 금액
+							출자자산 금액(단위 : 원)
 							</td>
 						</tr>
 					</table>
@@ -415,10 +478,10 @@ var module_instance = new GamAssetSeSttusInqireModule();
 						</tr>
 						<tr>
 							<td style="width: 50%;text-align: center;">
-							수익허가자산 건수
+							수익허가자산 건수(단위 : 건)
 							</td>
 							<td style="width: 50%;text-align: center;">
-							수익허가자산 금액
+							수익허가자산 금액(단위 : 원)
 							</td>
 						</tr>
 					</table>

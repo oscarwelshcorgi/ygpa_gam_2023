@@ -36,21 +36,21 @@ GamAssetErpSttusInqireModule.prototype.loadComplete = function() {
      url: '/asset/gamAssetErpSttusInqireList.do',
      dataType: 'json',
      colModel : [
-                 {display:'예산과목', name:'nm',width:150, sortable:false, align:'left', }, 
+                 {display:'예산과목', name:'nm',width:150, sortable:false, align:'left', },
                  {display:'예산금액', name:'bdAmt',width:140, sortable:false,align:'right', displayFormat: 'number'},
                  {display:'징수금액', name:'collectAmt',width:140, sortable:false,align:'right', displayFormat: 'number'},
                  {display:'예산대징수차액', name:'bdMiColAmt',width:140, sortable:false,align:'right', displayFormat: 'number'},
                  {display:'수납금액', name:'receiptAmt',width:140, sortable:false,align:'right', displayFormat: 'number'},
                  {display:'예산대수납차액', name:'bdMiRecAmt',width:140, sortable:false,align:'right', displayFormat: 'number'},
                  {display:'당년도미수금', name:'uncollectAmt',width:130, sortable:false,align:'right', displayFormat: 'number'}
-                 
+
 /*                  {display:'tp', name:'tp',width:100, sortable:false,align:'left'},
                  {display:'ID', name:'id',width:100, sortable:false,align:'right'},
                  {display:'PID', name:'pid',width:100, sortable:false,align:'right'},
                  {display:'입력여부', name:'inputCls',width:100, sortable:false,align:'left'},
-                 {display:'예산코드', name:'bdItemCd',width:100, sortable:false,align:'right'} 
+                 {display:'예산코드', name:'bdItemCd',width:100, sortable:false,align:'right'}
 */
-                 	
+
                  ],
 /*                  usepager: true,
          		useRp: true,
@@ -81,7 +81,7 @@ GamAssetErpSttusInqireModule.prototype.loadComplete = function() {
 
     	return data;
   }
-    
+
  });
 
 
@@ -104,56 +104,80 @@ GamAssetErpSttusInqireModule.prototype.loadComplete = function() {
 
 	this.$("#sSearchDtFrom").val(displayDate);
 	this.$("#sSearchDtTo").val(displayDate);
-	
-	
+
+
 	for(var i = serchYr;i>=2010;i--){
 		this.$(".year").append("<option value='" + i + "'>" + i + "년</option>");
 	}
-	
+
 	/* 차트 추가 */
 	this.chart1 =  new dhtmlXChart({
-        view:"pie3D",
+        view:"pie",
         container:this.$("#chart1").attr('id'),
 		value: "#receiptAmt#",
 		color: "#color#",
-        label:"#nm#",
-        tooltip: "#nm#"+"<br>"+"#receiptAmt1#"+'원',
+        pieInnerText: "#receiptAmt1#",
+        tooltip: "#nm#"+":"+"#receiptAmt1#"+'원',
+        legend:{
+			width:170,
+			align:"left",
+			valign:"middle",
+			template:"#nm#"
+		},
         shadow:0
     });
 
 	this.chart2 =  new dhtmlXChart({
-        view:"pie3D",
+        view:"pie",
         container:this.$("#chart2").attr('id'),
 		value: "#receiptAmt#",
 		color: "#color#",
-        label:"#nm#",
-        tooltip: "#nm#"+"<br>"+"#receiptAmt1#"+'원',
+        pieInnerText: "#receiptAmt1#",
+        tooltip: "#nm#"+":"+"#receiptAmt1#"+"원",
+        legend:{
+			width:170,
+			align:"left",
+			valign:"middle",
+			template:"#nm#"
+		},
         shadow:0
     });
 
 	this.chart3 =  new dhtmlXChart({
-        view:"pie3D",
+        view:"pie",
         container:this.$("#chart3").attr('id'),
 		value: "#collectAmt#",
 		color: "#color#",
-        label:"#nm#",
-        tooltip: "#nm#"+"<br>"+"#collectAmt1#"+'원',
+        pieInnerText: "#collectAmt1#",
+        tooltip: "#nm#"+":"+"#collectAmt1#"+'원',
+        legend:{
+			width:170,
+			align:"left",
+			valign:"middle",
+			template:"#nm#"
+		},
         shadow:0
     });
 
 	this.chart4 =  new dhtmlXChart({
-        view:"pie3D",
+        view:"pie",
         container:this.$("#chart4").attr('id'),
 		value: "#collectAmt#",
 		color: "#color#",
-        label:"#nm#",
-        tooltip: "#nm#"+"<br>"+"#collectAmt1#"+'원',
+        pieInnerText: "#collectAmt1#",
+        tooltip: "#nm#"+":"+"#collectAmt1#"+'원',
+        legend:{
+			width:170,
+			align:"left",
+			valign:"middle",
+			template:"#nm#"
+		},
         shadow:0
     });
-	
+
 	this._collectAmt = [];
 	this._receiptAmt = [];
-	
+
 };
 
 /**
@@ -177,7 +201,7 @@ GamAssetErpSttusInqireModule.prototype.onSubmit = function() {
 };
 
 GamAssetErpSttusInqireModule.prototype.loadData = function() {
- 
+
 	var module = this;
 	var getColor1=function(code) {
 		var color_codes = {
@@ -196,53 +220,72 @@ GamAssetErpSttusInqireModule.prototype.loadData = function() {
 		};
 		return color_codes[code];
 	};
-	
+
 	var searchOpt=this.makeFormArgs('#searchForm');
 	this.$('#dataList').flexOptions({params:searchOpt}).flexReload({
 		callback: function(data) {
-       		console.log(data);
        		var r=[];
        		var s=[];
+       		var t=[];
+       		var u=[];
+
 
        		for(var i=0; i<data.resultList.length; i++) {
        			var obj = data.resultList[i];
-				if(obj.pid == "100110000"){
-					r[r.length] = {
-       					nm: obj.nm,
-       					receiptAmt: obj.receiptAmt,
-       					collectAmt: obj.collectAmt,
-       					receiptAmt1: obj.receiptAmt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
-       					collectAmt1: obj.collectAmt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
-       					color: getColor1(String(r.length))
-	       			}
-       				 
+       			var _nm = obj.nm.toString().replace(/&nbsp;/gi,"").trim();
+
+       			if(obj.pid == "100110000"){
+					if(obj.receiptAmt > 0){
+						r[r.length] = {
+	       					nm: _nm,
+	       					receiptAmt: obj.receiptAmt,
+	       					receiptAmt1: obj.receiptAmt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+	       					color: getColor1(String(r.length))
+		       			}
+					}
+					if(obj.collectAmt > 0){
+						t[t.length] = {
+	       					nm: _nm,
+	       					collectAmt: obj.collectAmt,
+	       					collectAmt1: obj.collectAmt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+	       					color: getColor1(String(t.length))
+		       			}
+					}
+
 				}else if(obj.pid == "100120000"){
-	       			 s[s.length] = {
-       					nm: obj.nm,
-       					receiptAmt: obj.receiptAmt,
-       					collectAmt: obj.collectAmt,
-       					receiptAmt1: obj.receiptAmt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
-       					collectAmt1: obj.collectAmt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
-       					color: getColor1(String(s.length))
-	       			 }
+					if(obj.receiptAmt > 0){
+		       			 s[s.length] = {
+	       					nm: _nm,
+	       					receiptAmt: obj.receiptAmt,
+	       					receiptAmt1: obj.receiptAmt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+	       					color: getColor1(String(s.length))
+		       			 }
+					}
+					if(obj.collectAmt > 0){
+		       			 u[u.length] = {
+	       					nm: _nm,
+	       					collectAmt: obj.collectAmt,
+	       					collectAmt1: obj.collectAmt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+	       					color: getColor1(String(u.length))
+		       			 }
+					}
        			 }
        		 }
-       		console.log(r);
-       		console.log(s);
        		module.chart3.clearAll();
        		module.chart4.clearAll();
-       		module.chart3.parse(r, "json");
-       		module.chart4.parse(s, "json");
-       		module.$("#chartTab").tabs("option", {active: 1});	// 탭 이동	       		 
+       		module.chart3.parse(t, "json");
+       		module.chart4.parse(u, "json");
+       		module.$("#chartTab").tabs("option", {active: 1});	// 탭 이동
+       		// receiptAmt
        		module.chart1.clearAll();
        		module.chart2.clearAll();
        		module.chart1.parse(r, "json");
        		module.chart2.parse(s, "json");
-       		module.$("#chartTab").tabs("option", {active: 0});	// 탭 이동	       		 
+       		module.$("#chartTab").tabs("option", {active: 0});	// 탭 이동
 		}
         });
-		
-		
+
+
 };
 
 GamAssetErpSttusInqireModule.prototype.onTabChange = function(newTabId, oldTabId) {
@@ -276,7 +319,7 @@ var module_instance = new GamAssetErpSttusInqireModule();
                             <td><input id="sGisAssetsCd" type="text" size="5"></td>
                             <th>GIS자산명</th>
                             <td><input id="sGisAssetsNm" type="text" size="20"></td>
- -->                            
+ -->
  							<th>연도</th>
 							<td>
 								<select id="sYear" class="year">
@@ -292,11 +335,11 @@ var module_instance = new GamAssetErpSttusInqireModule();
             </form>
         </div>
     </div>
-	
+
 	<div class="emdPanel">
 		<table id="dataList" style="display:none"></table>
 	</div>
-	
+
      <div class="emdPanel fillHeight">
         <div id="chartTab" class="emdTabPanel" data-onchange="onTabChange">
             <ul>
@@ -316,10 +359,10 @@ var module_instance = new GamAssetErpSttusInqireModule();
 					</tr>
 					<tr>
 						<td style="text-align: center">
-						부두임대 사용료
+						부두임대 사용료(단위 : 원)
 						</td>
 						<td style="text-align: center">
-						항만시설사용료
+						항만시설사용료(단위 : 원)
 						</td>
 					</tr>
 				</table>
@@ -336,10 +379,10 @@ var module_instance = new GamAssetErpSttusInqireModule();
 					</tr>
 					<tr>
 						<td style="text-align: center">
-						부두임대 사용료
+						부두임대 사용료(단위 : 원)
 						</td>
 						<td style="text-align: center">
-						항만시설사용료
+						항만시설사용료(단위 : 원)
 						</td>
 					</tr>
 				</table>

@@ -27,11 +27,11 @@
 -->
  		WITH MID_RESULT AS(
 		SELECT 1 TP,
-		       A.BD_ITEM_CD||A.BD_MOK_CD ID,       
+		       A.BD_ITEM_CD||A.BD_MOK_CD ID,
 			   C.MOK_NAME NM,
 		   	   A.BD_ITEM_CD||C.MOK_UPPER_CD PID,
 		       A.BD_ITEM_CD,
-		       C.INPUT_CLS,		                       
+		       C.INPUT_CLS,
 		       A.BD_AMT,
 		       NVL(B.COLLECT_AMT,0) COLLECT_AMT,
 		       NVL(A.BD_AMT,0)-NVL(B.COLLECT_AMT,0) BD_MI_COL_AMT,
@@ -41,11 +41,11 @@
 		  FROM ( SELECT A.ACC_YEAR,
 		                A.BD_MOK_CD,
 		                A.BD_ITEM_CD,
-		                SUM(NVL(A.BD_MAKE_AMT_SUM,0)+NVL(A.ADD_AMT,0)+NVL(A.BD_INTER_OF_EXP_AMT,0)) BD_AMT 
+		                SUM(NVL(A.BD_MAKE_AMT_SUM,0)+NVL(A.ADD_AMT,0)+NVL(A.BD_INTER_OF_EXP_AMT,0)) BD_AMT
 		           FROM EGMISDB.EGMBD1200 A
 		          WHERE 1 = 1
 		            AND A.ACC_YEAR = #sYear#
-		            AND A.BD_CLS = '1'     
+		            AND A.BD_CLS = '1'
 		         GROUP BY A.ACC_YEAR,
 		                 A.BD_ITEM_CD,
 		                 A.BD_MOK_CD ) A LEFT OUTER JOIN ( SELECT ACC_YEAR,
@@ -71,7 +71,7 @@
 		       A.BD_ITEM_NAME NM, 		/* 예산과목명 VARCHAR2(100)  */
 		       A.BD_UPPER_CD PID, 		/* 예산상위코드 VARCHAR2(16)  */
 		       '' BD_ITEM_CD,
-		       '' INPUT_CLS,       
+		       '' INPUT_CLS,
 		       0 BD_AMT,
 		       0 COLLECT_AMT,
 		       0 BD_MI_COL_AMT,
@@ -92,7 +92,7 @@
 		              ELSE B.BD_ITEM_CD||A.MOK_UPPER_CD
 		         END PID,
 		         '' BD_ITEM_CD,
-		         A.INPUT_CLS,         
+		         A.INPUT_CLS,
 			       0 BD_AMT,
 			       0 COLLECT_AMT,
 			       0 BD_MI_COL_AMT,
@@ -107,11 +107,11 @@
 		             WHERE A.ACC_YEAR = #sYear#
 		               AND A.BD_CLS = '1' ) A RIGHT OUTER JOIN  ( SELECT  BD_MOK_CD,
 		                                                                  BD_ITEM_CD
-		                                                            FROM  EGMISDB.EGMBD1200 
+		                                                            FROM  EGMISDB.EGMBD1200
 		                                                           WHERE  1 = 1
 		                                                             AND BD_CLS = '1'
-		                                                             AND ACC_YEAR = #sYear# 
-		                                                           GROUP BY BD_MOK_CD, BD_ITEM_CD ) B ON (  B.BD_MOK_CD = A.BD_MOK_CD )        
+		                                                             AND ACC_YEAR = #sYear#
+		                                                           GROUP BY BD_MOK_CD, BD_ITEM_CD ) B ON (  B.BD_MOK_CD = A.BD_MOK_CD )
 		   UNION ALL
 		   SELECT 2 TP,
 		         B.BD_ITEM_CD||A.BD_MOK_CD ID,
@@ -120,7 +120,7 @@
 		              ELSE B.BD_ITEM_CD||A.MOK_UPPER_CD
 		         END PID,
 		         '' BD_ITEM_CD,
-		         A.INPUT_CLS,         
+		         A.INPUT_CLS,
 			       0 BD_AMT,
 			       0 COLLECT_AMT,
 			       0 BD_MI_COL_AMT,
@@ -137,11 +137,11 @@
 		                                                                  BD_ITEM_CD
 		                                                             FROM ( SELECT  NVL(EGMISDB.SF_BD_GET_TOP_LVL_MOK_CD(ACC_YEAR,BD_MOK_CD),' ') TOP_MOK_CD,
 		                                                                            BD_ITEM_CD
-					                                                           FROM EGMISDB.EGMBD1200 
+					                                                           FROM EGMISDB.EGMBD1200
 					                                                          WHERE 1 = 1
 					                                                            AND BD_CLS = '1'
 					                                                            AND ACC_YEAR = #sYear# ) A
-		                                                           GROUP BY TOP_MOK_CD, BD_ITEM_CD ) B ON (  B.TOP_MOK_CD = A.BD_MOK_CD ) 
+		                                                           GROUP BY TOP_MOK_CD, BD_ITEM_CD ) B ON (  B.TOP_MOK_CD = A.BD_MOK_CD )
 		)
 		SELECT RPAD(' ', LEVEL*2-2) ||A.NM NM, A.ID, A.PID, A.LV,
 			   A.TP, A.BD_ITEM_CD, A.INPUT_CLS,
@@ -180,7 +180,7 @@
 		                                               A.NM,
 		                                               A.PID,
 		                                               A.BD_ITEM_CD,
-		       										   A.INPUT_CLS,                                               
+		       										   A.INPUT_CLS,
 		                                               A.BD_AMT,
 		                                               A.COLLECT_AMT,
 		                                               A.BD_MI_COL_AMT,
@@ -194,7 +194,7 @@
 		                                               A.NM,
 		                                               A.PID,
 		                                               A.BD_ITEM_CD,
-		       										   A.INPUT_CLS,                                               
+		       										   A.INPUT_CLS,
 		                                               A.BD_AMT,
 		                                               A.COLLECT_AMT,
 		                                               A.BD_MI_COL_AMT,
@@ -208,7 +208,7 @@
 		                                               A.NM, 		/* 예산과목명 VARCHAR2(100)  */
 		                                               A.PID, 		/* 예산상위코드 VARCHAR2(16)  */
 		                                               A.BD_ITEM_CD,
-		       										   A.INPUT_CLS,                                               
+		       										   A.INPUT_CLS,
 		                                               A.BD_AMT,
 		                                               A.COLLECT_AMT,
 		                                               A.BD_MI_COL_AMT,
@@ -226,10 +226,10 @@
 		               ) A
 		        GROUP BY A.ID, A.NM, A.PID, A.LV
 		       ) A
-		START WITH A.PID IS NULL
+		START WITH A.ID = '100000000'
 		CONNECT BY PRIOR A.ID = A.PID
-		ORDER SIBLINGS BY A.ID 
-		
+		ORDER SIBLINGS BY A.ID
+
     </select>
 
 

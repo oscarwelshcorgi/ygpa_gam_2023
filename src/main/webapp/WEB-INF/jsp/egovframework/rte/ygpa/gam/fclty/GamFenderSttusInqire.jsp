@@ -372,6 +372,7 @@ var module_instance = new GamFenderSttusInqireModule();
 						</table>
 						<div style="vertical-align: bottom; text-align: right;">
 							<button data-role="printPage" data-search-option="detailForm" data-url="/fclty/fenderSttusInqirePrint.do">인쇄</button>
+							<button data-role="gridXlsDown" data-flexi-grid="fenderSttusInqireList" data-xls-name="방충재 리스트.xls" data-xls-title="방충재 리스트">엑셀</button>
 						</div>
 					</form>
 				</div>
