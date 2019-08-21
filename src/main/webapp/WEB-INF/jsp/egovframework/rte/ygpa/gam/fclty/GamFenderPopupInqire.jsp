@@ -60,7 +60,7 @@ GamFenderPopupInqireModule.prototype.onButtonClick = function(buttonId) {
     	 EMD.util.create_window('gamTrainPortRentMngt', '방충재 내구연한 도래', '/fclty/gamFenderDurability.do', null);
     	 break;
      case 'btnBad':
-    	 EMD.util.create_window('gamTrainPortRentFeeMngt', '방충재 유지보수 관리', '/fclty/gamFenderMaintenance.do', null);
+    	 EMD.util.create_window('gamTrainPortRentFeeMngt', '방충재 정기점검', '/fclty/gamFenderInspection.do', null);
     	 break;
  }
 };

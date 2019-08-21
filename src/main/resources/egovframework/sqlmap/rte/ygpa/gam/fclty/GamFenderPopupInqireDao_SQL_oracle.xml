@@ -8,12 +8,12 @@
 
 
 	<select id="gamFenderPopupInqireDao.selectFenderPopupInqire" resultClass="egovMap">
-		SELECT 
+		SELECT
 			(SELECT LTRIM(TO_CHAR(COUNT(*), '9,999'))
 			  FROM (
 			        SELECT A.*, TRUNC(MONTHS_BETWEEN(TRUNC(SYSDATE), TRUNC(A.CHECK_DT) )/12) AS CHECK_YEAR
 			          FROM (
-			                SELECT 
+			                SELECT
 			                      T1.FCLTS_MNG_GROUP_NO
 			                      ,GAM_GETCODENAME('GAM019',T1.PRT_AT_CODE) AS PRT_AT_CODE_NM
 			                      ,T1.FCLTS_MNG_GROUP_NM
@@ -41,7 +41,7 @@
 			                                    USING(YEAR, SN, FCLTS_MNG_GROUP_NO)
 			                                    GROUP BY T2.FCLTS_MNG_NO) T3
 			                    ON(T2.FCLTS_MNG_NO = T3.FCLTS_MNG_NO)
-			                    
+
 			                 WHERE 1=1
 			                 ORDER BY T1.FCLTS_MNG_GROUP_NM, T2.FCLTS_MNG_NO
 			              ) A
@@ -49,12 +49,27 @@
 				  WHERE S.CHECK_YEAR >6
 	        ) AS DURABILITY_COUNT,
 	        (SELECT LTRIM(TO_CHAR(COUNT(*), '9,999'))
-	          FROM FENDER_MAINTENANCE A
-	          INNER JOIN FENDER_MAINTENANCE_LIST B
-	          USING (YEAR , SN , FCLTS_MNG_GROUP_NO)  
-	         WHERE CNTRWK_END > TRUNC(SYSDATE) ) AS BAD_COUNT
+			  FROM (SELECT YEAR, SN, SE, FCLTS_MNG_GROUP_NO
+			          FROM (
+			                SELECT YEAR , SN , FCLTS_MNG_GROUP_NO, '1' AS SE
+			                  FROM FENDER_INSPECTION
+			                 WHERE CHCK_DE_ONE >= add_months(sysdate, -3)
+			                UNION ALL
+			                SELECT YEAR , SN , FCLTS_MNG_GROUP_NO, '2' AS SE
+			                  FROM FENDER_INSPECTION
+			                 WHERE CHCK_DE_TWO >= add_months(sysdate, -3)
+			                UNION ALL
+			                SELECT YEAR , SN , FCLTS_MNG_GROUP_NO, '2' AS SE
+			                  FROM FENDER_INSPECTION
+			                 WHERE CHCK_DE_THREE >= add_months(sysdate, -3)
+			                ) A
+			            ) A
+			  INNER JOIN FENDER_INSPECTION_LIST B
+			  USING (YEAR , SN, SE, FCLTS_MNG_GROUP_NO)
+
+	         ) AS BAD_COUNT
 	    FROM DUAL
 	</select>
-	
+
 
 </sqlMap>
