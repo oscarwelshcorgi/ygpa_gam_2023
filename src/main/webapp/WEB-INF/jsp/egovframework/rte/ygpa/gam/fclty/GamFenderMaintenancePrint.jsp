@@ -34,7 +34,7 @@
 	<script src="<c:url value='/js/jquery-ui.min.js'/>"></script>
 
 	<style type="text/css">
-	
+
 		 table.fenderInspection {
 		    border-collapse: separate;
 		    border-spacing: 0;
@@ -77,7 +77,7 @@
   <c:if test="${resultCode==0 }">
   <a id="printButton" href="#">인쇄</a>
 <div class="book">
-    <div class="page">
+    <div class="">
         <div class="subpage ygpa_report" >
 	    	<h1 class="ygpa_report_h1">방충재 유지보수</h1>
 
@@ -103,7 +103,7 @@
 						<c:out value="${printVo.fcltsGbnNm }" />
 					</td>
 				</tr>
-				
+
 				<tr>
 					<th style="width:15%; height:18px;">연도</th>
 					<td  >
@@ -122,7 +122,7 @@
 						</c:if>
 					</td>
 				</tr>
-				
+
 				<tr>
 					<th  style="width:15%; height:18px;">공사명칭</th>
 					<td  >
@@ -133,8 +133,8 @@
 						<c:out value="${printVo.cntrwkBegin }" />~<c:out value="${printVo.cntrwkEnd }" />
 					</td>
 				</tr>
-				
-				
+
+
 				<tr>
 					<th style="width:15%; height:18px;" >시공자</th>
 					<td >
@@ -151,21 +151,16 @@
 						<c:out value="${printVo.cntrwkCt }" />
 					</td>
 				</tr>
-				
+
 			</table>
 
 			<table class="rpr_main_table">
 		  		<thead>
 		  			<tr>
 		  				<th>항만시설 명</th>
+		  				<th>상태/평가</th>
 		  				<th>규격</th>
-		  				<th>단위</th>
-		  				<th>수량</th>
 		  				<th>구조 형식</th>
-		  				<th>선석</th>
-		  				<th>방충재 종류</th>
-		  				<th>방충재 배치 간격</th>
-		  				<th>방충재 형식</th>
 	 				</tr>
 		  		</thead>
 		  		<tbody>
@@ -174,27 +169,18 @@
 							<td colspan="10">자료가 존재 하지 않습니다.</td>
 						</tr>
 					</c:if>
-		
-		
+
+
  					<c:forEach var="result" items="${fenderMaintenanceDetailList }" varStatus="resultStatus">
 	        			<tr>
 	        				<td><c:out value="${result.prtFcltyNm }" /></td>
+	        				<td><c:out value="${result.remark }" /></td>
 	        				<td><c:out value="${result.prtFcltyStndrd }" /></td>
-	        				<td><c:out value="${result.prtFcltyUnit }" /></td>
-	        				<td><c:out value="${result.prtPrtFcltyCnt }" /></td>
 	        				<td><c:out value="${result.strctFmt }" /></td>
-	        				<td><c:out value="${result.berth }" /></td>
-	        				<td><c:out value="${result.fenderKndCd }" /></td>
-	        				<td><c:out value="${result.fenderPmntItv }" /></td>
-	        				<td><c:out value="${result.fenderFmt }" /></td>
 	        			</tr>
     				</c:forEach>
         		</tbody>
         	</table>
-
-
-
-
         </div>
     </div>
 </div>

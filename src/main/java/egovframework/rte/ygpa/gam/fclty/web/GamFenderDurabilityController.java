@@ -10,21 +10,14 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import egovframework.com.cmm.EgovMessageSource;
-import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.ygpa.gam.fclty.service.GamFenderDurabilityService;
-import egovframework.rte.ygpa.gam.fclty.service.GamFenderInspectionPrintVO;
 import egovframework.rte.ygpa.gam.fclty.service.GamFenderDurabilityVO;
 
 /**
@@ -87,52 +80,5 @@ public class GamFenderDurabilityController {
 
 	}
 
-	
-	/**
-	 * 방충재 정기점검 출력
-	 * @param searchOpt
-	 * @return String
-	 * @throws Exception
-	 */	
-
-/*    @RequestMapping(value="/fclty/fenderInspectionPrint.do")
-    public String gamFenderInspectionPrint(GamFenderInspectionPrintVO printVo, ModelMap model) throws Exception {
-    	Map map = new HashMap();
-
-		ObjectMapper mapper = new ObjectMapper();
-
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return "ygpa/gam/code/GamAssetCodeListPrint";
-    	}
-//    	fenderMng = mapper.convertValue(searchOpt, GamFenderMngGroupVO.class);
-//    	searchVO.setsFcltsMngGroupNo(fenderMng.getFcltsMngGroupNo());
-    	
-    	String fcltsGbn = printVo.getFcltsGbn();
-    	
-    	if(fcltsGbn=="1") {
-    		printVo.setFcltsGbnNm("1종");
-    	}else if(fcltsGbn=="2") {
-    		printVo.setFcltsGbnNm("2종");
-    	}else if(fcltsGbn=="3") {
-    		printVo.setFcltsGbnNm("1종/2종");
-    	}else if(fcltsGbn=="9") {
-    		printVo.setFcltsGbnNm("기타");
-    	}else {
-    		printVo.setFcltsGbnNm("기타");
-    	}
-    	
-    	model.addAttribute("resultCode", 0);	// return ok
-    	model.addAttribute("printVo", printVo);
-
-    	return "ygpa/gam/fclty/GamFenderInspectionPrint";
-    }*/
-    
-	
-	
-	
-	
 }
 

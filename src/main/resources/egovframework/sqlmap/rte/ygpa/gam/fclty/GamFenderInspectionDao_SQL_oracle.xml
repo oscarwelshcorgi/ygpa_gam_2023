@@ -184,6 +184,10 @@
 
 			ORDER BY GIS_PRT_FCLTY_SEQ
 			) S
+		   <isNotEmpty property="searchUseYn">
+		   WHERE CHK_ROLE = 'TRUE'
+		   </isNotEmpty>
+
 
 	</select>
 

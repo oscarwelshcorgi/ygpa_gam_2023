@@ -22,7 +22,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.Assert;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -642,8 +641,26 @@ public class GamFenderInspectionController {
     		printVo.setFcltsGbnNm("기타");
     	}
 
+    	GamFenderInspectionVO searchVO = new GamFenderInspectionVO();
+
+    	searchVO.setsFcltsMngGroupNo(printVo.getFcltsMngGroupNo());
+    	searchVO.setsYear(printVo.getYear());
+    	searchVO.setsSn(printVo.getSn());
+    	searchVO.setSearchUseYn("Y");
+    	searchVO.setsSe("1");
+    	List fenderInspectionList1 = gamFenderInspectionService.selectFenderInspectionDetailList(searchVO);
+
+    	searchVO.setsSe("2");
+    	List fenderInspectionList2 = gamFenderInspectionService.selectFenderInspectionDetailList(searchVO);
+
+    	searchVO.setsSe("3");
+    	List fenderInspectionList3 = gamFenderInspectionService.selectFenderInspectionDetailList(searchVO);
+
     	model.addAttribute("resultCode", 0);	// return ok
     	model.addAttribute("printVo", printVo);
+    	model.addAttribute("fenderInspectionList1", fenderInspectionList1);
+    	model.addAttribute("fenderInspectionList2", fenderInspectionList2);
+    	model.addAttribute("fenderInspectionList3", fenderInspectionList3);
 
     	return "ygpa/gam/fclty/GamFenderInspectionPrint";
     }

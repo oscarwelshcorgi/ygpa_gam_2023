@@ -35,6 +35,7 @@
 
 	<style type="text/css">
 	 	table.fcltsMng {
+	 		width: 100%;
 		    border-collapse: separate;
 		    border-spacing: 0;
 		    text-align: left;
@@ -42,11 +43,13 @@
 		    border-top: 1px solid #ccc;
 		    border-left: 1px solid #ccc;
 		  	margin : 20px 10px;
+
 		}
 		table.fcltsMng th {
-		    width: 170px;
+		    width: 30%;
 		    padding: 5px;
 		    font-weight: bold;
+		    text-align: center;
 		    vertical-align: top;
 		    border-right: 1px solid #ccc;
 		    border-bottom: 1px solid #ccc;
@@ -55,7 +58,7 @@
 		    background: #eee;
 		}
 		table.fcltsMng td {
-		    width: 350px;
+		    width: 60%;
 		    padding: 5px;
 		    vertical-align: top;
 		    border-right: 1px solid #ccc;
@@ -76,7 +79,7 @@
   <c:if test="${resultCode==0 }">
   <a id="printButton" href="#">인쇄</a>
 <div class="book">
-    <div class="page">
+    <div class="">
         <div class="subpage ygpa_report" >
 	    	<h1 class="ygpa_report_h1">방충재 현황</h1>
 
@@ -240,12 +243,12 @@
 <%--
         				<td style="text-align: right"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.gisAssetsAr}" /></td>
  --%>
-        			
+
         			</tr>
     </c:forEach>
-    
+
         		</tbody>
-        		
+
         	</table>
         </div>
     </div>

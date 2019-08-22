@@ -34,7 +34,7 @@
 	<script src="<c:url value='/js/jquery-ui.min.js'/>"></script>
 
 	<style type="text/css">
-	
+
 		 table.fenderInspection {
 		    border-collapse: separate;
 		    border-spacing: 0;
@@ -77,148 +77,162 @@
   <c:if test="${resultCode==0 }">
   <a id="printButton" href="#">인쇄</a>
 <div class="book">
-    <div class="page">
+    <div class="">
         <div class="subpage ygpa_report" >
 	    	<h1 class="ygpa_report_h1">방충재 정기점검</h1>
 
 			<p>
-			<table class="summaryPanel" style="width:100%;">
-				<tr>
-					<th style="font-weight:bold; height:20px;">시설물 현황</th>
-					<td style="text-align:right;">
-						&nbsp;　　　&nbsp;
-						&nbsp;　　　&nbsp;
-						&nbsp;　　　&nbsp;
-						&nbsp;　　　&nbsp;
-						&nbsp;　　　&nbsp;
-						&nbsp;　　　&nbsp;
-					</td>
-				</tr>
-			</table>
-	
+			<h4>시설물 현황</h4>
+
 			<table class="fenderInspection" style="width:100%;">
 				<tr>
-					<th style="width:20%; height:18px;" >연도</th>
+					<th style="width:20%; height:18px;" >연　　　　　　도</th>
 					<td  style="width:40%; height:18px;">
 						<c:out value="${printVo.year }" />
 						</select>
 					</td>
-					<th style="width:20%; height:18px;">시설물관리그룹</th>
+					<th style="width:20%; height:18px;">시설물　관리그룹</th>
 					<td style="width:20%; height:18px;">
 						<c:out value="${printVo.fcltsMngGroupNm }" />
 					</td>
 				</tr>
 				<tr>
-					<th >위　　　　　　　　치</th>
+					<th >위　　　　　　치</th>
 					<td >
 						<c:out value="${printVo.loc }" />
 					</td>
-					<th >시　설　물　　종　별</th>
+					<th >시설물　　　종별</th>
 					<td >
 						<c:out value="${printVo.fcltsGbnNm }" />
 					</td>
 				</tr>
 				<tr>
-					<th  >공　　사　　기　　간</th>
+					<th  >공　사　　기　간</th>
 					<td>
 						<c:out value="${printVo.cnstDt }" />
 					</td>
-					<th >준　　공　　일　　자</th>
+					<th >준　공　　일　자</th>
 					<td>
 						<c:out value="${printVo.bldDt }" />
 					</td>
 				</tr>
 				<tr>
-					<th >운　　　　영　　　사</th>
+					<th >운　　　영　　사</th>
 					<td >
 						<c:out value="${printVo.owner }" />
 					</td>
-					<th >시　　　　공　　　자</th>
+					<th >시　　　공　　자</th>
 					<td >
 						<c:out value="${printVo.cnstrtr }" />
 					</td>
 				</tr>
 				<tr>
-					<th >규　　　　  　　　 격</th>
+					<th >규　　　　　　격</th>
 					<td>
 						<c:out value="${printVo.prtFcltyStndrd }" />
 					</td>
-					<th >수　　　　  　　　 량</th>
+					<th >수　　　　　　 량</th>
 					<td >
 						<c:out value="${printVo.prtPrtFcltyCnt }" />
 					</td>
 				</tr>
 			</table>
-			<table class="summaryPanel" style="width:100%;">
-				<tr>
-					<th style="font-weight:bold; height:20px;">점검 현황</th>
-					<td style="text-align:right;">
-						&nbsp;　　　&nbsp;
-						&nbsp;　　　&nbsp;
-						&nbsp;　　　&nbsp;
-						&nbsp;　　　&nbsp;
-						&nbsp;　　　&nbsp;
-						&nbsp;　　　&nbsp;
-					</td>
-				</tr>
-			</table>
-			<table class="fenderInspection" style="width:100%;">
-				<tr>
-					<th style="width:20%; height:18px; text-align: center;">구분</th>
-					<th style="width:20%; height:18px; text-align: center;">해빙기</th>
-					<th style="width:20%; height:18px; text-align: center;">우기</th>
-					<th style="width:20%; height:18px; text-align: center;">동절기</th>
-				</tr>
-				<tr>
-					<th style="width:20%; height:18px;">점검일자</th>
-					<td  >
-						<c:out value="${printVo.chckDeOne }" />
-					</td>
-					<td  >
-						<c:out value="${printVo.chckDeTwo }" />
-					</td>
-					<td  >
-						<c:out value="${printVo.chckDeThree }" />
-					</td>
-				</tr>
-				<tr>
-					<th style="width:11%; height:18px;">점검자</th>
-					<td >
-						<c:out value="${printVo.insctrOne }" />
-					<td >
-						<c:out value="${printVo.insctrTwo }" />
-					</td>
-					<td >
-						<c:out value="${printVo.insctrThree }" />
-					</td>
-				</tr>
-				<tr>
-					<th style="width:11%; height:18px;">점검내용</th>
-					<td >
-						<c:out value="${printVo.chckCnOne }" />
-					</td>
-					<td >
-						<c:out value="${printVo.chckCnTwo }" />
-					</td>
-					<td >
-						<c:out value="${printVo.chckCnThree }" />
-					</td>
-				</tr>
-				<tr>
-					<th style="width:11%; height:18px;">상태평가</th>
-					<td >
-						<c:out value="${printVo.sttusEvlOne }" />
-					</td>
-					<td >
-						<c:out value="${printVo.sttusEvlTwo }" />
-					</td>
-					<td >
-						<c:out value="${printVo.sttusEvlThree }" />
-					</td>
-				</tr>
-			</table>
+
+			<h4>정기점검(해빙기)</h4>
+			점검 일자 : <c:out value="${printVo.chckDeOne }" />
+			<br>점  검  자 : <c:out value="${printVo.insctrOne }" />
+
+			<table class="rpr_main_table">
+		  		<thead>
+		  			<tr>
+		  				<th>항만시설 명</th>
+		  				<th>상태/평가</th>
+		  				<th>규격</th>
+		  				<th>구조 형식</th>
+	 				</tr>
+		  		</thead>
+		  		<tbody>
+					<c:if test="${fn:length(fenderInspectionList1) == 0}">
+						<tr>
+							<td colspan="10">자료가 존재 하지 않습니다.</td>
+						</tr>
+					</c:if>
 
 
+ 					<c:forEach var="result" items="${fenderInspectionList1 }" varStatus="resultStatus">
+	        			<tr>
+	        				<td><c:out value="${result.prtFcltyNm }" /></td>
+	        				<td><c:out value="${result.remark }" /></td>
+	        				<td><c:out value="${result.prtFcltyStndrd }" /></td>
+	        				<td><c:out value="${result.strctFmt }" /></td>
+	        			</tr>
+    				</c:forEach>
+        		</tbody>
+        	</table>
+        	<BR>
+
+			<h4>정기점검(우기)</h4>
+			점검 일자 : <c:out value="${printVo.chckDeTwo }" />
+			<br>점  검  자 : <c:out value="${printVo.insctrTwo }" />
+			<table class="rpr_main_table">
+		  		<thead>
+		  			<tr>
+		  				<th>항만시설 명</th>
+		  				<th>상태/평가</th>
+		  				<th>규격</th>
+		  				<th>구조 형식</th>
+	 				</tr>
+		  		</thead>
+		  		<tbody>
+					<c:if test="${fn:length(fenderInspectionList2) == 0}">
+						<tr>
+							<td colspan="10">자료가 존재 하지 않습니다.</td>
+						</tr>
+					</c:if>
+
+
+ 					<c:forEach var="result" items="${fenderInspectionList2 }" varStatus="resultStatus">
+	        			<tr>
+	        				<td><c:out value="${result.prtFcltyNm }" /></td>
+	        				<td><c:out value="${result.remark }" /></td>
+	        				<td><c:out value="${result.prtFcltyStndrd }" /></td>
+	        				<td><c:out value="${result.strctFmt }" /></td>
+	        			</tr>
+    				</c:forEach>
+        		</tbody>
+        	</table>
+        	<BR>
+
+			<h4>정기점검(동절기)</h4>
+			점검 일자 : <c:out value="${printVo.chckDeThree }" />
+			<br>점  검  자 : <c:out value="${printVo.insctrThree }" />
+			<table class="rpr_main_table">
+		  		<thead>
+		  			<tr>
+		  				<th>항만시설 명</th>
+		  				<th>상태/평가</th>
+		  				<th>규격</th>
+		  				<th>구조 형식</th>
+	 				</tr>
+		  		</thead>
+		  		<tbody>
+					<c:if test="${fn:length(fenderInspectionList3) == 0}">
+						<tr>
+							<td colspan="10">자료가 존재 하지 않습니다.</td>
+						</tr>
+					</c:if>
+
+
+ 					<c:forEach var="result" items="${fenderInspectionList3 }" varStatus="resultStatus">
+	        			<tr>
+	        				<td><c:out value="${result.prtFcltyNm }" /></td>
+	        				<td><c:out value="${result.remark }" /></td>
+	        				<td><c:out value="${result.prtFcltyStndrd }" /></td>
+	        				<td><c:out value="${result.strctFmt }" /></td>
+	        			</tr>
+    				</c:forEach>
+        		</tbody>
+        	</table>
         </div>
     </div>
 </div>
