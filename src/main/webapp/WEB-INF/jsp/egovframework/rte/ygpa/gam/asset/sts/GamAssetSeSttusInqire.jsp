@@ -102,7 +102,6 @@ GamAssetSeSttusInqireModule.prototype.loadComplete = function() {
 /*         label:"#gisAssetsSeCdNm#",
         tooltip: "#count#",
 */
-        pieInnerText: "#count#",
         tooltip: "#gisAssetsSeNm#"+":"+"#count#"+"건",
         legend:{
 			width:130,
@@ -124,7 +123,6 @@ GamAssetSeSttusInqireModule.prototype.loadComplete = function() {
 			valign:"middle",
 			template:"#gisAssetsSeNm#"
 		},
-		pieInnerText: "#price1#",
 		tooltip: "#gisAssetsSeNm#"+":"+"#price1#"+"원",
         shadow:0
     });
@@ -140,7 +138,6 @@ GamAssetSeSttusInqireModule.prototype.loadComplete = function() {
 			valign:"middle",
 			template:"#prdlstSeNm#"
 		},
-		pieInnerText: "#count#",
 		tooltip: "#prdlstSeNm#"+":"+"#count#"+"건",
         shadow:0
     });
@@ -156,7 +153,6 @@ GamAssetSeSttusInqireModule.prototype.loadComplete = function() {
 			valign:"middle",
 			template:"#prdlstSeNm#"
 		},
-		pieInnerText: "#price1#",
 		tooltip: "#prdlstSeNm#"+":"+"#price1#"+"원",
         shadow:0
     });
@@ -172,7 +168,6 @@ GamAssetSeSttusInqireModule.prototype.loadComplete = function() {
 			valign:"middle",
 			template:"#prdlstSeNm#"
 		},
-		pieInnerText: "#count#",
 		tooltip: "#prdlstSeNm#"+":"+"#count#"+"건",
         shadow:0
     });
@@ -188,7 +183,6 @@ GamAssetSeSttusInqireModule.prototype.loadComplete = function() {
 			valign:"middle",
 			template:"#prdlstSeNm#"
 		},
-		pieInnerText: "#price1#",
 		tooltip: "#prdlstSeNm#"+":"+"#price1#"+"원",
         shadow:0
     });

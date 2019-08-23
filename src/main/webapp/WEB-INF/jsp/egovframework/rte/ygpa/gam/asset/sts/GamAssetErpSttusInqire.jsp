@@ -116,7 +116,6 @@ GamAssetErpSttusInqireModule.prototype.loadComplete = function() {
         container:this.$("#chart1").attr('id'),
 		value: "#receiptAmt#",
 		color: "#color#",
-        pieInnerText: "#receiptAmt1#",
         tooltip: "#nm#"+":"+"#receiptAmt1#"+'원',
         legend:{
 			width:170,
@@ -132,7 +131,6 @@ GamAssetErpSttusInqireModule.prototype.loadComplete = function() {
         container:this.$("#chart2").attr('id'),
 		value: "#receiptAmt#",
 		color: "#color#",
-        pieInnerText: "#receiptAmt1#",
         tooltip: "#nm#"+":"+"#receiptAmt1#"+"원",
         legend:{
 			width:170,
@@ -148,7 +146,6 @@ GamAssetErpSttusInqireModule.prototype.loadComplete = function() {
         container:this.$("#chart3").attr('id'),
 		value: "#collectAmt#",
 		color: "#color#",
-        pieInnerText: "#collectAmt1#",
         tooltip: "#nm#"+":"+"#collectAmt1#"+'원',
         legend:{
 			width:170,
@@ -164,7 +161,6 @@ GamAssetErpSttusInqireModule.prototype.loadComplete = function() {
         container:this.$("#chart4").attr('id'),
 		value: "#collectAmt#",
 		color: "#color#",
-        pieInnerText: "#collectAmt1#",
         tooltip: "#nm#"+":"+"#collectAmt1#"+'원',
         legend:{
 			width:170,
