@@ -112,7 +112,7 @@ GamAssetErpSttusInqireModule.prototype.loadComplete = function() {
 
 	/* 차트 추가 */
 	this.chart1 =  new dhtmlXChart({
-        view:"pie",
+        view:"pie3D",
         container:this.$("#chart1").attr('id'),
 		value: "#receiptAmt#",
 		color: "#color#",
@@ -127,7 +127,7 @@ GamAssetErpSttusInqireModule.prototype.loadComplete = function() {
     });
 
 	this.chart2 =  new dhtmlXChart({
-        view:"pie",
+        view:"pie3D",
         container:this.$("#chart2").attr('id'),
 		value: "#receiptAmt#",
 		color: "#color#",
@@ -142,7 +142,7 @@ GamAssetErpSttusInqireModule.prototype.loadComplete = function() {
     });
 
 	this.chart3 =  new dhtmlXChart({
-        view:"pie",
+        view:"pie3D",
         container:this.$("#chart3").attr('id'),
 		value: "#collectAmt#",
 		color: "#color#",
@@ -157,7 +157,7 @@ GamAssetErpSttusInqireModule.prototype.loadComplete = function() {
     });
 
 	this.chart4 =  new dhtmlXChart({
-        view:"pie",
+        view:"pie3D",
         container:this.$("#chart4").attr('id'),
 		value: "#collectAmt#",
 		color: "#color#",
@@ -201,18 +201,27 @@ GamAssetErpSttusInqireModule.prototype.loadData = function() {
 	var module = this;
 	var getColor1=function(code) {
 		var color_codes = {
-			"0":"#99FF00",
-			"1":"#006699",
-			"2":"#FF3399",
-			"3":"#9900FF",
-			"4":"#006633",
-			"5":"#993300",
-			"6":"#0033CC",
-			"7":"#FF0000",
-			"8":"#CC00CC",
-			"9":"#FFFF00",
-			"10":"#666666",
-			"11":"#FFCCCC"
+			"0":"#3366cc",
+			"1":"#dc3912",
+			"2":"#ff9900",
+			"3":"#109618",
+			"4":"#990099",
+			"5":"#0099c6",
+			"6":"#dd4477",
+			"7":"#66aa00",
+			"8":"#b82e2e",
+			"9":"#316395",
+			"10":"#994499",
+			"11":"#22aa99",
+			"12":"#aaaa11",
+			"13":"#6633cc",
+			"14":"#e67300",
+			"15":"#8b0707",
+			"16":"#651067",
+			"17":"#329262",
+			"18":"#5574a6",
+			"19":"#3b3eac",
+			"20":"#b77322"
 		};
 		return color_codes[code];
 	};
