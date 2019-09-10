@@ -875,7 +875,8 @@ public class GamPrtFcltyRentFeeMngtController {
 	 		paramMap.put("nhtPrintYn", "N"); //고지서 출력 여부 기본 N 설정
 	 		paramMap.put("userName", loginVo.getName());
 	 		//paramMap.put("chrgeKnd", gamAssetRentFeeMngtVO.getNticAmt());
-	 		paramMap.put("fee", gamAssetRentFeeMngtVO.getIntrAmnt());
+	 		paramMap.put("nticAmt", gamAssetRentFeeMngtVO.getNticAmt());
+	 		paramMap.put("fee", gamAssetRentFeeMngtVO.getFee());
 	 		paramMap.put("intrAmnt", gamAssetRentFeeMngtVO.getIntrAmnt());
 	 		paramMap.put("vat", gamAssetRentFeeMngtVO.getVat());
 	 		gamNticRequestMngtService.sendNticRequest(paramMap);

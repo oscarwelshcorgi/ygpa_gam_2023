@@ -353,7 +353,7 @@
        		INTR_CHRGE_KND=#intrChrgeKnd#
      	</isNotEmpty>
        <isNotEmpty prepend="," property="intrRate">
-       		INTR_RATE=#intrAmnt#
+       		INTR_RATE=#intrRate#
      	</isNotEmpty>
        <isNotEmpty prepend="," property="intrAmnt">
        		INTR_AMNT=#intrAmnt#
@@ -364,11 +364,14 @@
        <isNotEmpty prepend="," property="vat">
        		VAT=#vat#
      	</isNotEmpty>
+       <isNotEmpty prepend="," property="fee">
+       		FEE=#fee#
+     	</isNotEmpty>
        <isNotEmpty prepend="," property="payTmlmt">
        		PAY_TMLMT=#payTmlmt#
      	</isNotEmpty>
        <isNotEmpty prepend="," property="frstPayTmlmt">
-       		FRST_PAY_TMLMT=#payTmlmt#
+       		FRST_PAY_TMLMT=#frstPayTmlmt#
      	</isNotEmpty>
        <isEqual prepend="," property="nhtIsueYn" compareValue="Y">
        		NTIC_DT=SYSDATE
