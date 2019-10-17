@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package egovframework.rte.ygpa.gam.oper.htldnew.service.impl;
 
@@ -8,19 +8,20 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
+import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldBizAssessVO;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentCtrtDetailVO;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentCtrtVO;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentMngDefaultVO;
 
 /**
- * 
+ *
  * @author Jongmin
  * @since 2016. 5. 27.
  * @version 1.0
  * @see
  * <pre>
  * << 개정이력(Modification Information) >>
- *   
+ *
  *   수정일 		 수정자		 수정내용
  *  -------		--------	---------------------------
  *  2016. 5. 27.		Jongmin		최초 생성
@@ -39,7 +40,7 @@ public class GamHtldRentCtrtHistDao extends YGPAAbstractDAO {
 	public String selectHtldRentCtrtMaxHistSeq(GamHtldRentMngDefaultVO searchVO) throws Exception {
 		return (String) selectByPk("gamHtldRentCtrtHistDao.selectHtldRentCtrtMaxHistSeq_S", searchVO);
 	}
-	
+
 	/**
 	 * 배후단지 임대계약 이력번호 생성
 	 * @param GamHtldRentCtrtVO
@@ -59,11 +60,11 @@ public class GamHtldRentCtrtHistDao extends YGPAAbstractDAO {
 	public String selectNextRegistSeq(GamHtldRentCtrtVO searchVO) throws Exception {
 		return (String) getSqlMapClientTemplate().queryForObject("gamHtldRentCtrtHistDao.selectNextRegistSeq_S", searchVO);
 	}
-	
+
 	/**
 	 * 배후단지 임대계약 변경시 이력등록
 	 * @param GamHtldRentCtrtVO
-	 * @return 
+	 * @return
 	 * @exception Exception
 	 */
 	public void insertHtldRentCtrtHist(GamHtldRentCtrtVO vo) throws Exception {
@@ -73,17 +74,17 @@ public class GamHtldRentCtrtHistDao extends YGPAAbstractDAO {
 	/**
 	 * 배후단지 임대계약 상세목록 변경시 이력등록
 	 * @param GamHtldRentCtrtVO
-	 * @return 
+	 * @return
 	 * @exception Exception
 	 */
 	public void insertHtldRentCtrtDetailHist(GamHtldRentCtrtDetailVO vo) throws Exception {
-		insert("gamHtldRentCtrtHistDao.insertHtldRentCtrtDetailHist_D", vo);
+		insert("gamHtldRentCtrtHistDao.insertHtldRentCtrtDetailHist_S", vo);
 	}
-	
+
 	/**
 	 * 배후단지 임대계약 조회 (이력날짜의 최근수정데이터)
-	 * @param 
-	 * @return 
+	 * @param
+	 * @return
 	 * @exception Exception
 	 */
 	public GamHtldRentCtrtVO selectHtldRentCtrt(GamHtldRentMngDefaultVO searchVO) throws Exception {
@@ -92,12 +93,26 @@ public class GamHtldRentCtrtHistDao extends YGPAAbstractDAO {
 
 	/**
 	 * 배후단지 임대계약상세 조회 (이력날짜의 최근수정데이터)
-	 * @param 
-	 * @return 
+	 * @param
+	 * @return
 	 * @exception Exception
 	 */
 	public List<?> selectHtldRentCtrtDetail(GamHtldRentMngDefaultVO searchVO) throws Exception {
 		return (List<?>) list("gamHtldRentCtrtHistDao.selectHtldRentCtrtDetail_D", searchVO);
+	}
+
+	/**
+	 * @param deleteVO
+	 */
+	public void deleteRntfeeBizAssess(GamHtldBizAssessVO vo) {
+		delete("gamHtldRentCtrtHistDao.deleteRntfeeBizAssess", vo);
+	}
+
+	/**
+	 * @param detailItem
+	 */
+	public void updateHtldRentCtrtDetailHist(GamHtldRentCtrtDetailVO detailItem) {
+		update("gamHtldRentCtrtHistDao.updateHtldRentCtrtDetailHist_S", detailItem);
 	}
 
 }

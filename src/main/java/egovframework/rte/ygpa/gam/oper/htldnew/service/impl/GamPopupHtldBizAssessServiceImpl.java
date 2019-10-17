@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package egovframework.rte.ygpa.gam.oper.htldnew.service.impl;
 
@@ -25,14 +25,14 @@ import egovframework.rte.ygpa.gam.oper.htldnew.service.GamPopupHtldBizAssessVO;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamPopupHtldRntfeeBizAssessVO;
 
 /**
- * 
+ *
  * @author Jongmin
  * @since 2016. 5. 15.
  * @version 1.0
  * @see
  * <pre>
  * << 개정이력(Modification Information) >>
- *   
+ *
  *   수정일 		 수정자		 수정내용
  *  -------		--------	---------------------------
  *  2016. 5. 15.		Jongmin		최초 생성
@@ -49,9 +49,9 @@ public class GamPopupHtldBizAssessServiceImpl extends AbstractServiceImpl implem
 
 	@Resource(name="gamHtldRentCtrtHistDao")
     private GamHtldRentCtrtHistDao gamHtldRentCtrtHistDao;
-	
+
 	protected Log log = LogFactory.getLog(this.getClass());
-	
+
 	/**
 	 * 배후단지 임대계약 조회
 	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -65,65 +65,42 @@ public class GamPopupHtldBizAssessServiceImpl extends AbstractServiceImpl implem
 	/**
 	 * 실적평가 등록
 	 * @param GamPopupHtldBizAssessVO
-	 * @return 
+	 * @return
 	 * @exception Exception
-	 */	
+	 */
 	@SuppressWarnings("unchecked")
 	public void updateBizAssess(GamPopupHtldBizAssessVO vo, String updUsr) throws Exception {
-		//vo의 이력날짜에 최신 데이터를 가져온다.
-		GamHtldRentCtrtVO rentVo = gamHtldRentCtrtHistDao.selectHtldRentCtrt(vo);
-		List<GamHtldRentCtrtDetailVO> rentDetailList = (List<GamHtldRentCtrtDetailVO>) gamHtldRentCtrtHistDao.selectHtldRentCtrtDetail(vo);
-		
-		// 이력번호 생성
-		String histSeq = gamHtldRentCtrtHistDao.selectNextHistSeq(vo);
-		
-		// 이력데이터와 실적평가데이터 추가
-		rentVo.setHistDt(vo.getHistDt());
-		rentVo.setHistSeq(histSeq);
-		rentVo.setRegUsr(updUsr);
-		rentVo.setUpdUsr(updUsr);
-		gamHtldRentCtrtHistDao.insertHtldRentCtrtHist(rentVo);
-		
-		for(GamHtldRentCtrtDetailVO detailItem : rentDetailList) {
-			detailItem.setHistDt(vo.getHistDt());
-			detailItem.setHistSeq(histSeq);
-			detailItem.setRegUsr(updUsr);
-			detailItem.setUpdUsr(updUsr);
-			if(detailItem.getRegistSeq().equals(vo.getRegistSeq())) {
-				detailItem.setAseApplcBegin(vo.getAseApplcBegin());
-				detailItem.setAseApplcEnd(vo.getAseApplcEnd());
-				detailItem.setAseRntfee(vo.getAseRntfee());
-				detailItem.setApplcRsn(vo.getApplcRsn());
-			}
-			gamHtldRentCtrtHistDao.insertHtldRentCtrtDetailHist(detailItem);
-		}
-		
+
+		if(vo.getAseApplcBegin()==null || "".equals(vo.getAseApplcBegin())) return;
+		if(vo.getAseApplcEnd()==null || "".equals(vo.getAseApplcEnd())) return;
+
+		deleteHtldRentBizAssess(vo);
 		//임대료에 실적평가 정산부분 추가
 		insertHtldRentBizAssess(vo);
 	}
-	
+
 	/**
 	 * 실적평가 등록
 	 * @param GamPopupHtldBizAssessVO
-	 * @return 
+	 * @return
 	 * @exception Exception
-	 */	
+	 */
 	@SuppressWarnings("unchecked")
 	public void deleteBizAssess(GamPopupHtldBizAssessVO vo, String updUsr) throws Exception {
 		//vo의 이력날짜에 최신 데이터를 가져온다.
 		GamHtldRentCtrtVO rentVo = gamHtldRentCtrtHistDao.selectHtldRentCtrt(vo);
 		List<GamHtldRentCtrtDetailVO> rentDetailList = (List<GamHtldRentCtrtDetailVO>) gamHtldRentCtrtHistDao.selectHtldRentCtrtDetail(vo);
-		
+
 		// 이력번호 생성
 		String histSeq = gamHtldRentCtrtHistDao.selectNextHistSeq(vo);
-		
+
 		// 이력데이터와 실적평가데이터 추가
 		rentVo.setHistDt(vo.getHistDt());
 		rentVo.setHistSeq(histSeq);
 		rentVo.setRegUsr(updUsr);
 		rentVo.setUpdUsr(updUsr);
 		gamHtldRentCtrtHistDao.insertHtldRentCtrtHist(rentVo);
-		
+
 		for(GamHtldRentCtrtDetailVO detailItem : rentDetailList) {
 			detailItem.setHistDt(vo.getHistDt());
 			detailItem.setHistSeq(histSeq);
@@ -169,14 +146,14 @@ public class GamPopupHtldBizAssessServiceImpl extends AbstractServiceImpl implem
 				aseMonthFee = aseRntfee;
 			}
 			BigDecimal rntfee = getTotalFee(startDate, endDate, aseMonthFee);
-			
+
 			LocalDate nticBeginDt = getQuarterStartDate(histDt);
 			LocalDate nticEndDt = getQuarterEndDate(histDt);
 			if("6".equals(vo.getPaySe())) {
 				nticBeginDt = new LocalDate(histDt.getYear(), 1, 1);
 				nticEndDt = new LocalDate(histDt.getYear(), 12, 31);
 			}
-			
+
 			GamPopupHtldRntfeeBizAssessVO insertVO = new GamPopupHtldRntfeeBizAssessVO();
 			insertVO.setMngYear(vo.getMngYear());
 			insertVO.setMngNo(vo.getMngNo());
@@ -190,11 +167,11 @@ public class GamPopupHtldBizAssessServiceImpl extends AbstractServiceImpl implem
 			insertVO.setApplcRntfee(aseRntfee.toString());
 			insertVO.setRntfee(rntfee.toString());
 			insertVO.setRegUsr(vo.getUpdUsr());
-			
+
 			gamPopupHtldBizAssessDao.insertRntfeeBizAssess(insertVO);
 		}
 	}
-	
+
 	protected void deleteHtldRentBizAssess(GamPopupHtldBizAssessVO vo) throws Exception {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		LocalDate histDt = new LocalDate(dateFormat.parse(vo.getHistDt()));
@@ -215,13 +192,13 @@ public class GamPopupHtldBizAssessServiceImpl extends AbstractServiceImpl implem
 
 		gamPopupHtldBizAssessDao.deleteRntfeeBizAssess(deleteVO);
 	}
-	
+
 	/**
 	 * 해당 기간의 사용료를 구함
 	 * @param  시작일자, 종료일자, 월사용료
 	 * @return 해당기간 사용료
 	 * @exception Exception
-	 */		
+	 */
 	protected BigDecimal getTotalFee(LocalDate fromDate, LocalDate toDate, BigDecimal monthFee) {
 		BigDecimal totalFee;
 
@@ -230,7 +207,7 @@ public class GamPopupHtldBizAssessServiceImpl extends AbstractServiceImpl implem
 		Months months = Months.monthsBetween(fromDate, toDate);
 
 		totalFee = monthFee.multiply(new BigDecimal(months.getMonths()));
-		
+
 		int startDay=fromDate.getDayOfMonth();
 		if(startDay!=1) {
 			LocalDate endOfMonth = fromDate.dayOfMonth().withMaximumValue();
@@ -255,7 +232,7 @@ public class GamPopupHtldBizAssessServiceImpl extends AbstractServiceImpl implem
 
 		return totalFee;
 	}
-	
+
 	/**
 	 * 기준일에 대한 분기시작일을 구함.
 	 * @param baseDate - 기준일
@@ -263,7 +240,7 @@ public class GamPopupHtldBizAssessServiceImpl extends AbstractServiceImpl implem
 	 */
 	protected LocalDate getQuarterStartDate(LocalDate baseDate) {
 		LocalDate retDate;
-		
+
 		if(baseDate.getMonthOfYear() < 4) {
 			retDate = new LocalDate(baseDate.getYear(), 1, 1);
 		}
@@ -286,7 +263,7 @@ public class GamPopupHtldBizAssessServiceImpl extends AbstractServiceImpl implem
 	 */
 	protected LocalDate getQuarterEndDate(LocalDate baseDate) {
 		LocalDate retDate;
-		
+
 		if(baseDate.getMonthOfYear() < 4) {
 			retDate = new LocalDate(baseDate.getYear(), 3, 31);
 		}
@@ -301,6 +278,6 @@ public class GamPopupHtldBizAssessServiceImpl extends AbstractServiceImpl implem
 		}
 		return retDate;
 	}
-	
+
 }
 

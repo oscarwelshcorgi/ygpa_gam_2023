@@ -75,4 +75,10 @@ public interface GamHtldRentMngtMainService {
 	 */
 	void updateBizAssessList(List<GamPopupHtldBizAssessVO> updateList, String id) throws Exception;
 
+	/**
+	 * @param updateVo
+	 * @param id
+	 */
+	void updateRntfeeBizAssess(GamHtldBizAssessVO updateVo, String id) throws Exception;
+
 }

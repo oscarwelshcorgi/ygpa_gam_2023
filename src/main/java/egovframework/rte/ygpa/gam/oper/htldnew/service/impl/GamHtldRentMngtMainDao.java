@@ -10,7 +10,9 @@ import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 import egovframework.rte.ygpa.gam.code.service.GamCofixIntrrateVO;
+import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldBizAssessVO;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldQuGtqyVO;
+import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentCtrtVO;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentMngtMainVO;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentRntfeeVO;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamPopupHtldBizAssessVO;
@@ -209,6 +211,29 @@ public class GamHtldRentMngtMainDao extends YGPAAbstractDAO {
 	 */
 	public void updateBizAssess(GamPopupHtldBizAssessVO vo) {
 		update("gamHtldRentMngtMainDao.updateBizAssess", vo);
+	}
+
+	/**
+	 * @param vo
+	 */
+	public void deleteHtldRentBizAssess(GamHtldBizAssessVO vo) {
+		delete("gamHtldRentMngtMainDao.deleteHtldRentBizAssess", vo);
+	}
+
+	/**
+	 * @param vo
+	 * @return
+	 */
+	public String selectNextHistSeq(GamHtldBizAssessVO vo) {
+		return (String) getSqlMapClientTemplate().queryForObject("gamHtldRentMngtMainDao.selectNextHistSeq_S", vo);
+	}
+
+	/**
+	 * @param vo
+	 * @return
+	 */
+	public GamHtldBizAssessVO selectHtdRntFeeByPk(GamHtldBizAssessVO vo) {
+		return (GamHtldBizAssessVO) selectByPk("gamHtldRentMngtMainDao.selectHtdRntFeeByPk_S", vo);
 	}
 
 

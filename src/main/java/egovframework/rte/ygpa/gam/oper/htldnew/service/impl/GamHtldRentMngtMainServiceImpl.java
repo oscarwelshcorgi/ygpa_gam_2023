@@ -25,12 +25,16 @@ import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.code.service.GamCofixIntrrateVO;
+import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldBizAssessVO;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldQuGtqyVO;
+import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentCtrtDetailVO;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentCtrtVO;
+import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentMngDefaultVO;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentMngtMainService;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentMngtMainVO;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentRntfeeVO;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamPopupHtldBizAssessVO;
+import egovframework.rte.ygpa.gam.oper.htldnew.service.GamPopupHtldRntfeeBizAssessVO;
 
 /**
  *
@@ -56,6 +60,9 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 
 	@Resource(name="gamHtldRentCtrtDao")
 	private GamHtldRentCtrtDao gamHtldRentCtrtDao;
+
+	@Resource(name="gamHtldRentCtrtHistDao")
+    private GamHtldRentCtrtHistDao gamHtldRentCtrtHistDao;
 
 	protected Log log = LogFactory.getLog(this.getClass());
 
@@ -345,7 +352,9 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 
 		BigDecimal resultFee = new BigDecimal(0);
 
-		if(aseRntfee.compareTo(new BigDecimal(0)) <= 0) {
+		if(aseRntfee.compareTo(new BigDecimal(0)) <= 0
+				 || "".equals(aseApplcBegin)
+				 || "".equals(aseApplcEnd)) {
 			resultFee = getTotalFee(startDate, endDate, applcMonthFee);
 		} else {
 			LocalDate aseApplcBeginDate = new LocalDate(dateFormat.parse(aseApplcBegin));
@@ -483,6 +492,77 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 		return retDate;
 	}
 
+	private void updateAseHistData(GamHtldRentRntfeeVO vo) throws Exception {
+		GamHtldRentCtrtVO rentVo = gamHtldRentCtrtHistDao.selectHtldRentCtrt(vo);
+		if(rentVo==null) {
+			insertAseHistData(vo);
+			return;
+		}
+
+		List<GamHtldRentCtrtDetailVO> rentDetailList = (List<GamHtldRentCtrtDetailVO>) gamHtldRentCtrtHistDao.selectHtldRentCtrtDetail(vo);
+
+		for(GamHtldRentCtrtDetailVO detailItem : rentDetailList) {
+			if(vo.getRegistSeq().equals(detailItem.getRegistSeq())) {
+				detailItem.setHistDt(vo.getHistDt());
+				detailItem.setUpdUsr(vo.getRegUsr());
+				detailItem.setApplcRntfee(vo.getApplcRntfee());
+				detailItem.setAseApplcBegin(vo.getAseApplcBegin());
+				detailItem.setAseApplcEnd(vo.getAseApplcEnd());
+				detailItem.setAseRntfee(vo.getAseRntfee());
+
+				gamHtldRentCtrtHistDao.updateHtldRentCtrtDetailHist(detailItem);
+			}
+		}
+
+	}
+
+	private void insertAseHistData(GamHtldRentRntfeeVO vo) throws Exception {
+		// 실적 평가 데이터  추가
+		GamHtldRentMngDefaultVO rentMngVo = new GamHtldRentMngDefaultVO();
+		rentMngVo.setMngYear(vo.getMngYear());
+		rentMngVo.setMngNo(vo.getMngNo());
+		rentMngVo.setMngSeq(vo.getMngSeq());
+
+		String histSeq = gamHtldRentCtrtHistDao.selectNextHistSeq(vo);
+
+		// 이력데이터와 실적평가데이터 추가
+		vo.setHistSeq(histSeq);
+		GamHtldRentCtrtVO ctrtVo = new GamHtldRentCtrtVO();
+
+		ctrtVo.setMngYear(vo.getMngYear());
+		ctrtVo.setMngNo(vo.getMngNo());
+		ctrtVo.setMngSeq(vo.getMngSeq());
+		ctrtVo.setHistSeq(histSeq);
+		ctrtVo.setHistDt(vo.getHistDt());
+		ctrtVo.setEntrpsCd(vo.getEntrpsCd());
+		ctrtVo.setBoundCd(vo.getBoundCd());
+		ctrtVo.setChrgeKndCd(vo.getChrgeKndCd());
+		ctrtVo.setGrRentAr(vo.getRentAr());
+		ctrtVo.setPaySe(vo.getPaySe());
+		ctrtVo.setCtrtBeginDt(vo.getCtrtBeginDt());
+		ctrtVo.setCtrtEndDt(vo.getCtrtEndDt());
+		ctrtVo.setCtrtDt(vo.getCtrtDt());
+		ctrtVo.setRegUsr(vo.getRegUsr());
+
+		gamHtldRentCtrtHistDao.insertHtldRentCtrtHist(ctrtVo);
+
+		List<GamHtldRentCtrtDetailVO> rentDetailList = (List<GamHtldRentCtrtDetailVO>) gamHtldRentCtrtHistDao.selectHtldRentCtrtDetail(vo);
+
+		for(GamHtldRentCtrtDetailVO detailItem : rentDetailList) {
+			if(vo.getRegistSeq().equals(detailItem.getRegistSeq())) {
+				detailItem.setHistDt(vo.getHistDt());
+				detailItem.setHistSeq(histSeq);
+				detailItem.setRegUsr(vo.getRegUsr());
+				detailItem.setUpdUsr(vo.getRegUsr());
+				detailItem.setAseApplcBegin(vo.getAseApplcBegin());
+				detailItem.setAseApplcEnd(vo.getAseApplcEnd());
+				detailItem.setAseRntfee(vo.getAseRntfee());
+				gamHtldRentCtrtHistDao.insertHtldRentCtrtDetailHist(detailItem);
+			}
+		}
+
+	}
+
 	/**
 	 * 임대료 저장
 	 * @param feeInsertList
@@ -493,6 +573,9 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 		for(GamHtldRentRntfeeVO item : feeUpdateList) {
 			item.setUpdUsr(id);
 			gamHtldRentMngtMainDao.updateHtldRntfee(item);
+			if(item.getAseRntfee()!=null || item.getAseApplcBegin()!=null || item.getAseApplcEnd()!=null) {
+				updateAseHistData(item);
+			}
 		}
 
 		for(GamHtldRentRntfeeVO item : feeInsertList) {
@@ -568,5 +651,85 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 		}
 
 	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentMngtMainService#updateRntfeeBizAssess(egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldBizAssessVO, java.lang.String)
+	 */
+	@Override
+	public void updateRntfeeBizAssess(GamHtldBizAssessVO vo, String id) throws Exception {
+		GamHtldBizAssessVO oldVo = gamHtldRentMngtMainDao.selectHtdRntFeeByPk(vo);
+		// 사용료 정보 등록
+		if(oldVo!=null
+				&& vo.getMngYear().equals(oldVo.getMngYear())
+				&& vo.getMngNo().equals(oldVo.getMngNo())
+				&& vo.getMngSeq().equals(oldVo.getMngSeq())) {
+			// 수정
+			vo.setUpdUsr(id);
+			gamHtldRentMngtMainDao.updateHtldRntfee(vo);
+		}
+		else {
+			// 추가
+			vo.setRegUsr(id);
+			vo.setRntfeeSeq(gamHtldRentMngtMainDao.selectNextRntfeeSeq(vo));
+			gamHtldRentMngtMainDao.insertHtldRntfee(vo);
+		}
+
+		if(vo.getAseApplcBegin()==null || "".equals(vo.getAseApplcBegin())) return;
+		if(vo.getAseApplcEnd()==null || "".equals(vo.getAseApplcEnd())) return;
+
+		//vo의 이력날짜에 최신 데이터를 가져온다.
+		GamHtldRentCtrtVO rentVo = gamHtldRentCtrtHistDao.selectHtldRentCtrt(vo);
+		List<GamHtldRentCtrtDetailVO> rentDetailList = (List<GamHtldRentCtrtDetailVO>) gamHtldRentCtrtHistDao.selectHtldRentCtrtDetail(vo);
+
+		// 이력번호 생성
+		String histSeq = gamHtldRentCtrtHistDao.selectNextHistSeq(vo);
+
+		// 이력데이터와 실적평가데이터 추가
+		rentVo.setHistDt(vo.getHistDt());
+		rentVo.setHistSeq(histSeq);
+		rentVo.setRegUsr(id);
+		rentVo.setUpdUsr(id);
+		gamHtldRentCtrtHistDao.insertHtldRentCtrtHist(rentVo);
+
+		for(GamHtldRentCtrtDetailVO detailItem : rentDetailList) {
+			detailItem.setHistDt(vo.getHistDt());
+			detailItem.setHistSeq(histSeq);
+			detailItem.setRegUsr(id);
+			detailItem.setUpdUsr(id);
+			if(detailItem.getRegistSeq().equals(vo.getRegistSeq())) {
+				detailItem.setAseApplcBegin(null);
+				detailItem.setAseApplcEnd(null);
+				detailItem.setAseRntfee(null);
+				detailItem.setApplcRsn(null);
+			}
+			gamHtldRentCtrtHistDao.insertHtldRentCtrtDetailHist(detailItem);
+		}
+		//임대료에 있는 실적정산분 삭제
+		deleteHtldRentBizAssess(vo);
+
+
+	}
+
+	protected void deleteHtldRentBizAssess(GamHtldBizAssessVO vo) throws Exception {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		LocalDate histDt = new LocalDate(dateFormat.parse(vo.getHistDt()));
+		LocalDate nticBeginDt = getQuarterStartDate(histDt);
+		LocalDate nticEndDt = getQuarterEndDate(histDt);
+		if("6".equals(vo.getPaySe())) {
+			nticBeginDt = new LocalDate(histDt.getYear(), 1, 1);
+			nticEndDt = new LocalDate(histDt.getYear(), 12, 31);
+		}
+
+		GamHtldBizAssessVO deleteVO = new GamHtldBizAssessVO();
+		deleteVO.setMngYear(vo.getMngYear());
+		deleteVO.setMngNo(vo.getMngNo());
+		deleteVO.setMngSeq(vo.getMngSeq());
+		deleteVO.setRentDetailRegistSeq(vo.getRegistSeq());
+		deleteVO.setNticBeginDt(nticBeginDt.toString());
+		deleteVO.setNticEndDt(nticEndDt.toString());
+
+		gamHtldRentCtrtHistDao.deleteRntfeeBizAssess(deleteVO);
+	}
+
 
 }

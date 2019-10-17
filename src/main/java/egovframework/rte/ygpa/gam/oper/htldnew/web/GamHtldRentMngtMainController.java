@@ -30,6 +30,7 @@ import egovframework.com.cmm.service.EgovCmmUseService;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ygpa.gam.code.service.GamCofixIntrrateVO;
+import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldBizAssessVO;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldQuGtqyVO;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentMngtMainService;
 import egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentMngtMainVO;
@@ -293,13 +294,13 @@ public class GamHtldRentMngtMainController {
     	LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
     	try {
-    		List<GamPopupHtldBizAssessVO> updateList;
+    		List<GamHtldBizAssessVO> updateList;
             ObjectMapper mapper = new ObjectMapper();
-	    	updateList = mapper.readValue((String)assessList.get("gridData"), TypeFactory.defaultInstance().constructCollectionType(List.class,GamPopupHtldBizAssessVO.class));
+	    	updateList = mapper.readValue((String)assessList.get("gridData"), TypeFactory.defaultInstance().constructCollectionType(List.class,GamHtldBizAssessVO.class));
 
 	    	for(int i=0; i<updateList.size(); i++) {
-	    		GamPopupHtldBizAssessVO updateVo = updateList.get(i);
-	    		gamPopupHtldBizAssessService.updateBizAssess(updateVo, loginVO.getId());
+	    		GamHtldBizAssessVO updateVo = updateList.get(i);
+	    		gamHtldRentMngtMainService.updateRntfeeBizAssess(updateVo, loginVO.getId());
 	    	}
 	        map.put("resultCode", 0);
     		map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
