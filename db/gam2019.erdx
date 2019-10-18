@@ -33117,7 +33117,7 @@
           <foreignKeyConstraint UUID="FKConstraint_5UPPUakTEempDpBZdAxdLQ" logicalName="주소 정보 -> 지번 정보" physicalName="FK_GAM_JUSO_INFO_TO_GAM_JIBUN_INFO" derivedPhysicalName="true" derivedLogicalName="true"/>
         </columnGroups>
       </tables>
-      <tables UUID="Table_us9E4LjoEem1MJ7OJYLAvg" logicalName="새 테이블" physicalName="FENDER_INSPECTION_LIST">
+      <tables UUID="Table_us9E4LjoEem1MJ7OJYLAvg" logicalName="방충재 정기점검 리스트" physicalName="FENDER_INSPECTION_LIST">
         <physicalProperties xsi:type="o10g:TableProperties" UUID="TProperties_LBLdlLjrEem1MJ7OJYLAvg">
           <storageAttributes UUID="PSAttributes_LBLdlbjrEem1MJ7OJYLAvg">
             <storage UUID="SDetail_LBLdlrjrEem1MJ7OJYLAvg"/>
@@ -33163,23 +33163,23 @@
         <columns UUID="Column_Hl5K1rmhEem1MJ7OJYLAvg" logicalName="비고" physicalName="remark" dataType="varchar2(100)"/>
         <columns UUID="Column_w2-FYLjoEem1MJ7OJYLAvg" logicalName="등록자" physicalName="REGISTER" domain="Domain_-htDA4wlEem4x9y4e23j8A"/>
         <columns UUID="Column_w283QLjoEem1MJ7OJYLAvg" logicalName="등록일" physicalName="RGSDE" domain="Domain__1ZNaIwCEemAzNHIVp5C9g"/>
-        <columnGroups xsi:type="e:ForeignKeyColumnGroup" UUID="FKCGroup_x1hYULjoEem1MJ7OJYLAvg" logicalName="토목 시설 제원 -> 새 테이블" physicalName="FK_CVL_ENG_FCLTY_SPEC_F_TO_FENDER_INSPECTION_LIST" derivedPhysicalName="true" derivedLogicalName="true" parentColumnGroup="PKCGroup__d971YdnEemHa8-_wEPkhQ">
-          <foreignKeyConstraint UUID="FKConstraint_x1hYUbjoEem1MJ7OJYLAvg" logicalName="토목 시설 제원 -> 새 테이블" physicalName="FK_CVL_ENG_FCLTY_SPEC_F_TO_FENDER_INSPECTION_LIST" derivedPhysicalName="true" derivedLogicalName="true">
+        <columnGroups xsi:type="e:ForeignKeyColumnGroup" UUID="FKCGroup_x1hYULjoEem1MJ7OJYLAvg" logicalName="토목 시설 제원 -> 방충재 정기점검 리스트" physicalName="FK_CVL_ENG_FCLTY_SPEC_F_TO_FENDER_INSPECTION_LIST" derivedPhysicalName="true" derivedLogicalName="true" parentColumnGroup="PKCGroup__d971YdnEemHa8-_wEPkhQ">
+          <foreignKeyConstraint UUID="FKConstraint_x1hYUbjoEem1MJ7OJYLAvg" logicalName="토목 시설 제원 -> 방충재 정기점검 리스트" physicalName="FK_CVL_ENG_FCLTY_SPEC_F_TO_FENDER_INSPECTION_LIST" derivedPhysicalName="true" derivedLogicalName="true">
             <physicalProperties xsi:type="o10g:ForeignKeyConstraintProperties" UUID="FKCProperties_LBLdmLjrEem1MJ7OJYLAvg"/>
           </foreignKeyConstraint>
         </columnGroups>
-        <columnGroups xsi:type="e:ForeignKeyColumnGroup" UUID="FKCGroup_y9j-cLjoEem1MJ7OJYLAvg" logicalName="방충재 정기점검 -> 새 테이블" physicalName="FK_INSPCTN_TO_FNDR_LST" derivedPhysicalName="true" derivedLogicalName="true" parentColumnGroup="PKCGroup_hK49eYwpEem4x9y4e23j8A">
-          <foreignKeyConstraint UUID="FKConstraint_y9j-cbjoEem1MJ7OJYLAvg" logicalName="방충재 정기점검 -> 새 테이블" physicalName="FK_FENDER_INSPECTION_TO_FENDER_INSPECTION_LIST" derivedPhysicalName="true" derivedLogicalName="true">
+        <columnGroups xsi:type="e:ForeignKeyColumnGroup" UUID="FKCGroup_y9j-cLjoEem1MJ7OJYLAvg" logicalName="방충재 정기점검 -> 방충재 정기점검 리스트" physicalName="FK_FENDER_INSPECTION_TO_FENDER_INSPECTION_LIST" derivedPhysicalName="true" derivedLogicalName="true" parentColumnGroup="PKCGroup_hK49eYwpEem4x9y4e23j8A">
+          <foreignKeyConstraint UUID="FKConstraint_y9j-cbjoEem1MJ7OJYLAvg" logicalName="방충재 정기점검 -> 방충재 정기점검 리스트" physicalName="FK_FENDER_INSPECTION_TO_FENDER_INSPECTION_LIST" derivedPhysicalName="true" derivedLogicalName="true">
             <physicalProperties xsi:type="o10g:ForeignKeyConstraintProperties" UUID="FKCProperties_LBLdmbjrEem1MJ7OJYLAvg"/>
           </foreignKeyConstraint>
         </columnGroups>
-        <columnGroups xsi:type="e:PrimaryKeyColumnGroup" UUID="PKCGroup_y9peALjoEem1MJ7OJYLAvg" logicalName="새 테이블 기본키" physicalName="PK_FENDER_INSPECTION_LIST" derivedPhysicalName="true" derivedLogicalName="true">
+        <columnGroups xsi:type="e:PrimaryKeyColumnGroup" UUID="PKCGroup_y9peALjoEem1MJ7OJYLAvg" logicalName="방충재 정기점검 리스트 기본키" physicalName="PK_FENDER_INSPECTION_LIST" derivedPhysicalName="true" derivedLogicalName="true">
           <physicalProperties xsi:type="o10g:IndexProperties" UUID="IProperties_LBLdkbjrEem1MJ7OJYLAvg">
             <storageAttributes UUID="PSAttributes_LBLdkrjrEem1MJ7OJYLAvg">
               <storage UUID="SDetail_LBLdk7jrEem1MJ7OJYLAvg"/>
             </storageAttributes>
           </physicalProperties>
-          <primaryKeyConstraint UUID="PKConstraint_y9peAbjoEem1MJ7OJYLAvg" logicalName="새 테이블 기본키" physicalName="PK_FENDER_INSPECTION_LIST" derivedPhysicalName="true" derivedLogicalName="true">
+          <primaryKeyConstraint UUID="PKConstraint_y9peAbjoEem1MJ7OJYLAvg" logicalName="방충재 정기점검 리스트 기본키" physicalName="PK_FENDER_INSPECTION_LIST" derivedPhysicalName="true" derivedLogicalName="true">
             <physicalProperties xsi:type="o10g:PrimaryKeyConstraintProperties" UUID="PKCProperties_LBLdkLjrEem1MJ7OJYLAvg"/>
           </primaryKeyConstraint>
         </columnGroups>
