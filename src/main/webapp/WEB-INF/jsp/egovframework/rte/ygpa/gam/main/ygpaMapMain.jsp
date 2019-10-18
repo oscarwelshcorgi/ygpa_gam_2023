@@ -63,11 +63,12 @@
     <script src="<c:url value='/js/jquery.table2excel.js'/>"></script>
 
     <script type="text/javascript" src="<c:url value="/validator.do"/>"></script>
-
     <script src="<c:url value='/js/codebase/dhtmlx.js'/>"></script>
     <script src="<c:url value='/js/emf_map.ygpa_gam_2019.js'/>"></script>
+    <%--
     <script src="<c:url value='/js/emf.map.desktop.js'/>"></script>
-
+    <script src="<c:url value='/js/dhtmlx.flexigrid.ygpa.js'/>"></script>
+     --%>
     <script type="text/javascript">
 	var $DEBUG=${_mapDebug};
 	var wikiUrl="http://192.168.200.61:8100/wiki/Wiki.jsp?";

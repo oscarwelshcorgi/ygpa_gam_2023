@@ -9,6 +9,19 @@
 	<typeAlias alias="gamHtldRentMngtMainVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentMngtMainVO"/>
 	<typeAlias alias="gamHtldRentRntfeeVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentRntfeeVO"/>
 	<typeAlias alias="gamHtldQuGtqyVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldQuGtqyVO"/>
+	<typeAlias alias="gamHtldBizAssessVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldBizAssessVO"/>
+
+	<resultMap id="gamHtldBizAssessVOMap" class="egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldBizAssessVO">
+        <result property="mngYear" column="MNG_YEAR" columnIndex="1"/>
+        <result property="mngNo" column="MNG_NO" columnIndex="2"/>
+        <result property="mngSeq" column="MNG_SEQ" columnIndex="3"/>
+        <result property="rntfeeSeq" column="RNTFEE_SEQ" columnIndex="4"/>
+        <result property="rentDetailRegistSeq" column="RENT_DETAIL_REGIST_SEQ" columnIndex="5"/>
+        <result property="applcBeginDt" column="APPLC_BEGIN_DT" columnIndex="6"/>
+        <result property="applcEndDt" column="APPLC_END_DT" columnIndex="7"/>
+        <result property="applcRntfee" column="APPLC_RNTFEE" columnIndex="8"/>
+        <result property="rntfeeSe" column="RNTFEE_SE" columnIndex="9"/>
+	</resultMap>
 
 	<!-- 배후단지 임대 상세목록 조회 -->
 	<select id="gamHtldRentMngtMainDao.selectHtldRentDetailList_D" parameterClass="gamHtldRentMngtMainVO" resultClass="egovMap">
@@ -16,6 +29,9 @@
 			L.MNG_YEAR MNG_YEAR
 			,L.MNG_NO MNG_NO
 			,L.MNG_SEQ MNG_SEQ
+			,L.GIS_ASSETS_PRT_AT_CODE
+			,L.GIS_ASSETS_CD
+			,L.GIS_ASSETS_SUB_CD
 			,L.ASSETS_NM
 			,L.ASSETS_CD
 			,L.REGIST_SEQ REGIST_SEQ
@@ -78,6 +94,9 @@
 					,D.MNG_NO MNG_NO
 					,D.MNG_SEQ MNG_SEQ
 					,D.ASSETS_NM ASSETS_NM
+					,D.GIS_ASSETS_PRT_AT_CODE
+					,D.GIS_ASSETS_CD
+					,D.GIS_ASSETS_SUB_CD
 					,D.GIS_ASSETS_CD || '-' || D.GIS_ASSETS_SUB_CD ASSETS_CD
 					,D.REGIST_SEQ REGIST_SEQ
 					,F.RNTFEE_SEQ RNTFEE_SEQ
@@ -165,6 +184,9 @@
 					,D.MNG_NO MNG_NO
 					,D.MNG_SEQ MNG_SEQ
 					,D.ASSETS_NM ASSETS_NM
+					,D.GIS_ASSETS_PRT_AT_CODE
+					,D.GIS_ASSETS_CD
+					,D.GIS_ASSETS_SUB_CD
 					,D.GIS_ASSETS_CD || '-' || D.GIS_ASSETS_SUB_CD ASSETS_CD
 					,D.REGIST_SEQ REGIST_SEQ
 					,F.RNTFEE_SEQ RNTFEE_SEQ
@@ -248,6 +270,9 @@
 					,F.MNG_NO MNG_NO
 					,F.MNG_SEQ MNG_SEQ
 					,'' ASSETS_NM
+					,'' GIS_ASSETS_PRT_AT_CODE
+					,'' GIS_ASSETS_CD
+					,'' GIS_ASSETS_SUB_CD
 					,'' ASSETS_CD
 					,NULL REGIST_SEQ
 					,F.RNTFEE_SEQ RNTFEE_SEQ
@@ -326,6 +351,9 @@
 						,D.MNG_NO MNG_NO
 						,D.MNG_SEQ MNG_SEQ
 						,D.ASSETS_NM ASSETS_NM
+						,D.GIS_ASSETS_PRT_AT_CODE
+						,D.GIS_ASSETS_CD
+						,D.GIS_ASSETS_SUB_CD
 						,D.GIS_ASSETS_CD || '-' || D.GIS_ASSETS_SUB_CD ASSETS_CD
 						,D.REGIST_SEQ REGIST_SEQ
 						,F.RNTFEE_SEQ RNTFEE_SEQ
@@ -407,6 +435,9 @@
 						,R.MNG_SEQ MNG_SEQ
 						,'' ASSETS_NM
 						,'' ASSETS_CD
+						,'' GIS_ASSETS_PRT_AT_CODE
+						,'' GIS_ASSETS_CD
+						,'' GIS_ASSETS_SUB_CD
 						,NULL REGIST_SEQ
 						,F.RNTFEE_SEQ RNTFEE_SEQ
 						,R.ENTRPS_CD ENTRPS_CD
@@ -843,7 +874,6 @@
 			            AND TO_DATE(#mngYear#||'-12-31', 'YYYY-MM-DD') BETWEEN R.CTRT_BEGIN_DT AND R.CTRT_END_DT
 			            AND R.TERMN_DT IS NULL
 			            AND R.CTRT_END_DT < TO_DATE((#mngYear#+1)||'-01-01', 'YYYY-MM-DD')
-			            AND R.HIST_SEQ='0001'
 			        ORDER BY
 			            R.MNG_YEAR, R.MNG_NO, R.MNG_SEQ
 			        )
@@ -867,7 +897,6 @@
 			            AND TO_DATE(#mngYear#||'-12-31', 'YYYY-MM-DD') BETWEEN R.CTRT_BEGIN_DT AND R.CTRT_END_DT
 			            AND R.TERMN_DT IS NULL
 			            AND R.CTRT_END_DT < TO_DATE((#mngYear#+1)||'-01-01', 'YYYY-MM-DD')
-			            AND R.HIST_SEQ='0001'
 			        ORDER BY
 			            R.MNG_YEAR, R.MNG_NO, R.MNG_SEQ
 			        )
@@ -891,7 +920,6 @@
 			            AND TO_DATE(#mngYear#||'-12-31', 'YYYY-MM-DD') BETWEEN R.CTRT_BEGIN_DT AND R.CTRT_END_DT
 			            AND R.TERMN_DT IS NULL
 			            AND R.CTRT_END_DT < TO_DATE((#mngYear#+1)||'-01-01', 'YYYY-MM-DD')
-			            AND R.HIST_SEQ='0001'
 			        ORDER BY
 			            R.MNG_YEAR, R.MNG_NO, R.MNG_SEQ
 			        )
@@ -915,7 +943,6 @@
 			            AND TO_DATE(#mngYear#||'-12-31', 'YYYY-MM-DD') BETWEEN R.CTRT_BEGIN_DT AND R.CTRT_END_DT
 			            AND R.TERMN_DT IS NULL
 			            AND R.CTRT_END_DT < TO_DATE((#mngYear#+1)||'-01-01', 'YYYY-MM-DD')
-			            AND R.HIST_SEQ='0001'
 			        ORDER BY
 			            R.MNG_YEAR, R.MNG_NO, R.MNG_SEQ
 			        )
@@ -924,5 +951,64 @@
 		]]>
 	</delete>
 
+	<delete id="gamHtldRentMngtMainDao.deleteHtldRentBizAssess">
+		<![CDATA[
+			DELETE FROM HTLD_RENT_DETAIL_HIST_F F
+			WHERE 1=1
+				AND F.MNG_YEAR=#mngYear#
+				AND F.MNG_NO=#mngNo#
+				AND F.MNG_SEQ=#mngSeq#
+				AND F.ASE_APPLC_BEGIN BETWEEN TO_DATE(#aseApplcBegin#, 'YYYY-MM-DD') AND TO_DATE(#aseApplcEnd#, 'YYYY-MM-DD')
+				AND F.ASE_APPLC_END BETWEEN TO_DATE(#aseApplcBegin#, 'YYYY-MM-DD') AND TO_DATE(#aseApplcEnd#, 'YYYY-MM-DD')
+		]]>
+	</delete>
+
+	<update id="gamHtldRentMngtMainDao.updateHtldRentBizAssess" parameterClass="gamHtldBizAssessVO">
+		UPDATE HTLD_RENT_DETAIL_HIST_F
+		SET
+			ASE_RNTFEE = TO_NUMBER(#aseRntfee#)
+			,ASE_APPLC_BEGIN = TO_DATE(#aseApplcBegin#, 'YYYY-MM-DD')
+			,ASE_APPLC_END = TO_DATE(#aseApplcEnd#, 'YYYY-MM-DD')
+			,APPLC_RSN = #applcRsn#
+			,UPD_USR = #updUsr#
+			,UPDT_DT = SYSDATE
+		WHERE
+		  	MNG_YEAR = #mngYear#
+		  	AND MNG_NO = #mngNo#
+		  	AND MNG_SEQ = #mngSeq#
+		  	AND REGIST_SEQ = #registSeq#
+	</update>
+
+	<select id="gamHtldRentMngtMainDao.selectNextHistSeq_S" parameterClass="gamHtldBizAssessVO" resultClass="java.lang.String">
+		SELECT
+			LPAD(NVL(MAX(HIST_SEQ),0) + 1,'4','0') AS NEXT_HIST_SEQ
+		FROM
+			HTLD_RENT_HIST_F
+		WHERE
+			MNG_YEAR=#mngYear#
+			AND MNG_NO=#mngNo#
+			AND MNG_SEQ=#mngSeq#
+	</select>
+
+	<select id="gamHtldRentMngtMainDao.selectHtdRntFeeByPk_S" parameterClass="gamHtldBizAssessVO" resultMap="gamHtldBizAssessVOMap">
+		SELECT
+			F.MNG_YEAR MNG_YEAR
+			,F.MNG_NO MNG_NO
+			,F.MNG_SEQ MNG_SEQ
+			,F.RNTFEE_SEQ RNTFEE_SEQ
+			,F.RENT_DETAIL_REGIST_SEQ RENT_DETAIL_REGIST_SEQ
+			,TO_CHAR(F.APPLC_BEGIN_DT, 'YYYY-MM-DD') APPLC_BEGIN_DT
+			,TO_CHAR(F.APPLC_END_DT, 'YYYY-MM-DD') APPLC_END_DT
+			,NVL(F.APPLC_RNTFEE, 0) APPLC_RNTFEE
+        	,RNTFEE_SE
+		FROM
+			HTLD_RNTFEE_F F
+		WHERE
+			F.MNG_YEAR = #mngYear#
+			AND F.MNG_NO = #mngNo#
+			AND F.MNG_SEQ = #mngSeq#
+			AND F.RNTFEE_SEQ = #rntfeeSeq#
+			AND F.NTIC_SEQ IS NULL
+	</select>
 
 </sqlMap>

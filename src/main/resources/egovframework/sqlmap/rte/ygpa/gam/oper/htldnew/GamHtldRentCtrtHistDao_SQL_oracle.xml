@@ -9,6 +9,7 @@
     <typeAlias alias="gamHtldRentMngDefaultVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentMngDefaultVO"/>
 	<typeAlias alias="gamHtldRentCtrtVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentCtrtVO"/>
 	<typeAlias alias="gamHtldRentCtrtDetailVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentCtrtDetailVO"/>
+	<typeAlias alias="gamHtldBizAssessVO" type="egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldBizAssessVO"/>
 
 	<resultMap id="gamHtldRentCtrtMap" class="egovframework.rte.ygpa.gam.oper.htldnew.service.GamHtldRentCtrtVO">
         <result property="mngYear" column="MNG_YEAR" columnIndex="1"/>
@@ -127,8 +128,8 @@
 		  ,#paySe#
 		  ,TO_DATE(#ctrtBeginDt#, 'YYYY-MM-DD')
 		  ,TO_DATE(#ctrtEndDt#, 'YYYY-MM-DD')
-		  ,TO_DATE(#ctrtDt#, 'YYYY-MM+DD')
-		  ,TO_DATE(#termnDt#, 'YYYY-MM+DD')
+		  ,TO_DATE(#ctrtDt#, 'YYYY-MM-DD')
+		  ,TO_DATE(#termnDt#, 'YYYY-MM-DD')
 		  ,#termnRsn#
 		  ,#regUsr#
 		  ,SYSDATE
@@ -138,7 +139,7 @@
 	</insert>
 
 	<!--  배후단지 임대관리 상세목록 변경시 이력등록 -->
-	<insert id="gamHtldRentCtrtHistDao.insertHtldRentCtrtDetailHist_D" parameterClass="gamHtldRentCtrtDetailVO">
+	<insert id="gamHtldRentCtrtHistDao.insertHtldRentCtrtDetailHist_S" parameterClass="gamHtldRentCtrtDetailVO">
 		INSERT INTO HTLD_RENT_DETAIL_HIST_F (
 		  MNG_YEAR
 		  ,MNG_NO
@@ -193,6 +194,22 @@
 		  ,SYSDATE
 		)
 	</insert>
+
+	<!--  배후단지 임대관리 상세목록 변경시 이력등록 -->
+	<update id="gamHtldRentCtrtHistDao.updateHtldRentCtrtDetailHist_S" parameterClass="gamHtldRentCtrtDetailVO">
+		UPDATE HTLD_RENT_DETAIL_HIST_F SET
+		  APPLC_RNTFEE= TO_NUMBER(#applcRntfee#),
+		  ASE_RNTFEE=#aseRntfee#,
+		  ASE_APPLC_BEGIN=TO_DATE(#aseApplcBegin#, 'YYYY-MM-DD'),
+		  ASE_APPLC_END=TO_DATE(#aseApplcEnd#, 'YYYY-MM-DD'),
+		  APPLC_RSN=#applcRsn#
+		WHERE
+		  MNG_YEAR=#mngYear#
+		  AND MNG_NO=#mngNo#
+		  AND MNG_SEQ=#mngSeq#
+		  AND REGIST_SEQ=#registSeq#
+		  AND HIST_SEQ=#histSeq#
+	</update>
 
 	<!--  이력날짜에 해당하는 계약 가져오기 -->
 	<select id="gamHtldRentCtrtHistDao.selectHtldRentCtrt_S" parameterClass="gamHtldRentMngDefaultVO" resultMap="gamHtldRentCtrtMap">
@@ -257,5 +274,17 @@
 		  AND MNG_SEQ = #mngSeq#
 		  AND HIST_SEQ = GAM_GET_HTLD_RENT_HIST_SEQ(#mngYear#, #mngNo#, #mngSeq#, #histDt#)
 	</select>
+
+	<delete  id="gamHtldRentCtrtHistDao.deleteRntfeeBizAssess" parameterClass="gamHtldBizAssessVO">
+		 DELETE FROM HTLD_RNTFEE_F
+		 WHERE
+		 	MNG_YEAR = #mngYear#
+			AND MNG_NO = #mngNo#
+			AND MNG_SEQ = #mngSeq#
+			AND RENT_DETAIL_REGIST_SEQ = #rentDetailRegistSeq#
+			AND RNTFEE_SE = '1'
+			AND NTIC_BEGIN_DT = TO_DATE(#nticBeginDt#, 'YYYY-MM-DD')
+			AND NTIC_END_DT = TO_DATE(#nticEndDt#, 'YYYY-MM-DD')
+	</delete>
 
 </sqlMap>

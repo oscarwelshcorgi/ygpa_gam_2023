@@ -55,8 +55,8 @@ GamHtldRentMngtMainModule.prototype.loadComplete = function() {
                     {display:'자산코드', name:'assetsCd',width:60, sortable:false,align:'center'},
                     {display:'자산명', name:'assetsNm',width:150, sortable:false,align:'center'},
                     {display:'입주면적(㎡)', name:'rentArStr',width:125, sortable:false,align:'right'},
-                    {display:'적용임대료', name:'applcRntfeeStr',width:120, sortable:false,align:'right', displayFormat: 'input-number'},
-                    {display:'실적평가임대료', name:'aseRntfeeStr',width:90, sortable:false,align:'right', displayFormat: 'input'},
+                    {display:'적용임대료', name:'applcRntfee',width:120, sortable:false,align:'right', displayFormat: 'input-number'},
+                    {display:'실적평가임대료', name:'aseRntfee',width:90, sortable:false,align:'right', displayFormat: 'input-number'},
                     {display:'실적평가시작', name:'aseApplcBegin',width:80, sortable:false,align:'center', displayFormat: 'cal'},
                     {display:'실적평가종료', name:'aseApplcEnd',width:80, sortable:false,align:'center', displayFormat: 'cal'},
 /*
@@ -159,6 +159,8 @@ GamHtldRentMngtMainModule.prototype.loadComplete = function() {
 	});
 
     this.loadData();
+
+    console.log('debug');
 };
 
 <%
@@ -315,7 +317,7 @@ GamHtldRentMngtMainModule.prototype.onMainGridSelectedRowCell = function(row, ri
 			alert('이미 고지된 임대자료입니다.');
 		}
 		break;
-	case 'aseRntfeeStr':
+	case 'aseRntfee':
 	case 'asePd':
 		if((row.rntfeeSe == '0') && (row.nticYn == 'N')) {
 			this.doExecuteDialog('bizAssessRegPopup', '실적평가 임대료', '/popup/showHtldBizAssess.do', {}, {'searchRow' : row, 'histDt' : this.$('#histDt').val()} );
@@ -354,8 +356,8 @@ GamHtldRentMngtMainModule.prototype.onMainGrildCellEdited = function (row, rid, 
 	if(row.rntfeeSe == '9') {
 		alert('소계는 수정할 수 없습니다.');
 
-		row.applcRntfeeStr=row.oldApplcRntfeeStr;
-		row.aseRntfeeStr=row.oldAseRntfeeStr;
+		row.applcRntfee=row.oldApplcRntfee;
+		row.aseRntfee=row.oldAseRntfee;
 
 		row.rntfee = row.oldRntfee;
 		row.payinstIntr = row.oldPayinstIntr;
@@ -414,7 +416,7 @@ GamHtldRentMngtMainModule.prototype.onMainGrildCellEdited = function (row, rid, 
 			}
 			break;
 
-		/* 접용 임대료 추가 */
+		/* 적용 임대료 추가 */
 		case 'applcRntfeeStr':
 			// console.log("applcRntfeeStr");
 			var inputVO=row;
@@ -428,6 +430,15 @@ GamHtldRentMngtMainModule.prototype.onMainGrildCellEdited = function (row, rid, 
 	 		});
  */
 			break;
+		case 'aseRntfee':
+			// row.aseRntfee=Number(row.aseRntfeeStr);
+			// row.applcRntfeeStr=row.aseRntfee;
+			row.applcRntfee=row.aseRntfee;
+			if(row.mngGroupCount > 1) {
+				calcTot = true;
+			}
+			row = this.calcRentAmount(row);
+			break;
 	}
 
 	row.oldRntfee = row.rntfee;
@@ -437,9 +448,13 @@ GamHtldRentMngtMainModule.prototype.onMainGrildCellEdited = function (row, rid, 
 	row.oldPayAmt = row.payAmt;
 	row.oldAseApplcBegin = row.aseApplcBegin;
 	row.oldAseApplcEnd = row.aseApplcEnd;
+	row.oldAseRntFee = row.aseRntFee;
 
-	row.oldApplcRntfeeStr=row.applcRntfeeStr;
-	row.oldAseRntfeeStr=row.aseRntfeeStr;
+	row.oldApplcRntfee=row.applcRntfee;
+
+	if(row['_updtId']=='') {
+		row['_updtId']='U';
+	}
 
 	this.$('#mainGrid').flexUpdateRow(rid, row);
 
@@ -472,8 +487,8 @@ GamHtldRentMngtMainModule.prototype.initDataRow = function(row) {
 	row.oldPayAmt = row.payAmt;
 	row.oldAseApplcBegin = row.aseApplcBegin;
 	row.oldAseApplcEnd = row.aseApplcEnd;
-	row.oldApplcRntfeeStr=row.applcRntfeeStr;
-	row.oldAseRntfeeStr=row.aseRntfeeStr;
+	row.oldApplcRntfee=row.applcRntfee;
+	row.oldAseRntfee=row.aseRntfee;
 
 	row.oldRm = (row.rm != void(0)) ? row.rm : '';
 
@@ -481,10 +496,10 @@ GamHtldRentMngtMainModule.prototype.initDataRow = function(row) {
 		if(row.rntfeeSeq == void(0)) { //임대료순번이 없을 경우.
 			row._updtId = 'I';
 		} else {
-			row._updtId = 'U';
+			row._updtId = '';
 		}
 	} else if (row.rntfeeSe != '9') { //소계가 아니라면 (즉 실적평가, 지적평가, 추가정산)
-		row._updtId = 'U';
+		row._updtId = '';
 	}
 
 	if (row.termnYn == 'N') {
@@ -584,12 +599,49 @@ GamHtldRentMngtMainModule.prototype.calcMngGroupData = function(mngYear, mngNo, 
 	totRow.oldAseApplcBegin = totRow.aseApplcBegin;
 	totRow.oldAseApplcEnd = totRow.aseApplcEnd;
 
-	totRow.oldApplcRntfeeStr=row.applcRntfeeStr;
-	totRow.oldAseRntfeeStr=row.aseRntfeeStr;
+	totRow.oldApplcRntfee=row.applcRntfee;
+	totRow.oldAseRntfee=row.aseRntfee;
 
 	this.$('#mainGrid').flexEmptyData();
 	var dataList = {resultList: rows};
 	this.$('#mainGrid').flexAddData(dataList);
+};
+
+<%--
+	calcMngGroupData - 소계필드를 계산한다.
+--%>
+GamHtldRentMngtMainModule.prototype.calcRentAmount = function(row) {
+	var totRntfee=row.applcRntfee*row.rentAr*12;
+	if(row.paySe=='4') {
+		var cofixIntrrate = this.$('#cofixIntrrate').val();
+		var getPeriod = function(histDt) {
+			if(histDt>1000) {
+				return 0;
+			}
+			if(histDt>700) {
+				return 1/4;
+			}
+			if(histDt>400) {
+				return 2/4;
+			}
+			return 3/4;
+
+		}
+		var period = getPeriod(this.$('#histDt').val().replace(/-/g,'').substring(4, 8));
+		row.rntfee=totRntfee/4;
+		row.payinstIntr = Math.floor(totRntfee*period*cofixIntrrate/100/4/10)*10;	// 분기별 이자
+		var supAmt = row.rntfee+row.payinstIntr;
+		row.supAmt = Math.floor(supAmt*0.1) * 10;
+	}
+	else {
+		row.rntfee=totRntfee;
+		row.payinstIntr=0;
+		var supAmt = Number(row.rntfee) + Number(row.payinstIntr);
+		row.supAmt = Math.floor(row.rntfee*0.1) * 10;
+	}
+	row.vat = Math.floor(Number(row.supAmt) * 0.1);
+	row.payAmt = Number(row.supAmt) + Number(row.vat);
+	return row;
 };
 
 <%--
@@ -854,24 +906,43 @@ GamHtldRentMngtMainModule.prototype.copyRentContract = function() {
 updateGridData - 수정 된 데이터 적용
 --%>
 GamHtldRentMngtMainModule.prototype.updateGridData = function() {
-	var updateRows=this.$('#mainGrid').selectFilterData([{col: '_updtId', filter: 'U'}]);
-	for(var i=0; i<updateRows.length; i++) {
-		var row=updateRows[i];
+	var feeInsertList=this.$('#mainGrid').selectFilterData([{col: '_updtId', filter: 'I'}]);
+	var feeUpdateList=this.$('#mainGrid').selectFilterData([{col: '_updtId', filter: 'U'}]);
+
+	for(var i=0; i<feeInsertList.length; i++) {
+		var row=feeInsertList[i];
 		row['histDt']=this.$('#histDt').val();
+		// row['aseRntfee']=Number(row['aseRntfeeStr'].replace(',',''));
 	}
-	var gridData=JSON.stringify(updateRows);
+	for(var i=0; i<feeUpdateList.length; i++) {
+		var row=feeUpdateList[i];
+		row['histDt']=this.$('#histDt').val();
+		// row['aseRntfee']=Number(row['aseRntfeeStr'].replace(',',''));
+	}
 	// 데이터를 저장 하고 난 뒤 리스트를 다시 로딩 한다.
+	var rentFeeData = {};
+	rentFeeData['feeInsertList'] 			= JSON.stringify(feeInsertList);
+	rentFeeData['feeUpdateList'] 			= JSON.stringify(feeUpdateList);
+
+	this.doAction('/oper/htldnew/updateHtldRntfee.do', rentFeeData, function(module, result) {
+		if(result.resultCode == 0) {
+			module.loadData();
+		} else {
+			alert(result.resultMsg);
+		}
+	});
 
 	//console.log(gridData);
 			// var inputVO=[];
 	 		// inputVO[inputVO.length]={name: '_uList', value :JSON.stringify(this.$('#detailGrid').selectFilterData([{col: '_updtId', filter: 'U'}])) };
-
+/*
 	this.doAction('/oper/htldnew/updateBizAssessList.do', [{name:"gridData", value:gridData}], function(module, result) {
 		if(result.resultCode == 0){
 			module.$('#mainGrid').flexReload();
 		}
 		alert(result.resultMsg);
 	});
+	*/
 
 };
 
