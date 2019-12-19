@@ -828,6 +828,7 @@ div.notice {
 			var topPadding = ""+(2.7+Number($('#topPrintPadding').val()||0))/10;
 			$('.subpage').css('padding-left', leftPadding+"cm");
 			$('.subpage').css('padding-top', topPadding+"cm");
+/* 			
 			$.ajax({
 				url: '<c:url value="/oper/htldnew/printProcessHtldNticIssue.do"/>',
 				type: 'POST',
@@ -843,7 +844,11 @@ div.notice {
 	                }
 	                else alert(data.resultMsg);
 			});
-		});
+ */			
+			window.print();
+			$('.subpage').css('padding-left', "0.27cm");
+			$('.subpage').css('padding-top', "0.27cm");
+		});	
 
 		/*
 	 		일시 : 2018.06.07

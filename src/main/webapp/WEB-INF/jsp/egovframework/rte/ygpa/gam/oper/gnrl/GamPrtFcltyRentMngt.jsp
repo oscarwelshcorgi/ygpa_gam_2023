@@ -1827,7 +1827,9 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
                         if( confirm("승낙취소를 하시겠습니까?") ) {
                             module.doAction('/oper/gnrl/gamUpdatePrtFcltyRentMngtPrmisnCancel.do', rows[0], function(module, result) {
                                 if(result.resultCode=='0') {
-                                	 module.loadData();
+                                	/* 20191104 승낙취소 시 전자결재도 취소처리 */
+                                	module.doAction('/oper/gnrl/gamPrmisnProceedingCancel.do', rows[0]);
+                                	module.loadData();
                                 }
 
                                 alert(result.resultMsg);
