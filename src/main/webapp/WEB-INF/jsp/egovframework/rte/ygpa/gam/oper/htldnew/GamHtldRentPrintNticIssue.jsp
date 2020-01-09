@@ -28,6 +28,7 @@
     <meta charset="utf-8">
 <link rel="stylesheet" href="<c:url value='/css/ygpa/gam/reset.css'/>" />
 <link rel="stylesheet" href="<c:url value='/css/demo/jquery-ui-1.10.4.custom.css' />" />
+
     <style>
 /*       html, body, #map-canvas {
         height: 100%;
@@ -48,77 +49,133 @@
     -moz-box-sizing: border-box;
 }
 
+.book {
+	margin: 0px;
+	padding: 0px;
+}
+
 .page {
-	width: 21cm;
-	min-height: 28.7cm;
-	margin: 0cm auto;
-	/*border: 1px #D3D3D3 solid;
-	border-radius: 5px;*/
-	background-image: url('<c:url value="/images/egovframework/ygpa/gam/misc/giro_page.png" />');
-	-webkit-background-size: cover;
-	-moz-background-size: cover;
-	-o-background-size: cover;
-	background-size: cover;
-	box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    width: 21cm;
+    min-height: 28.7cm;
+    padding: 0cm;
+    margin: 0cm auto;
+/*     border: 1px #D3D3D3 solid;
+    border-radius: 5px; */
+    background-image:url('<c:url value="/images/egovframework/ygpa/gam/misc/giro_page.png" />');
+    -webkit-background-size: cover; /* For WebKit*/
+    -moz-background-size: cover;    /* Mozilla*/
+    -o-background-size: cover;      /* Opera*/
+    background-size: cover;         /* Generic*/
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
 .subpage {
-	padding: 0.27cm;
-	/* border: 5px red solid; */
-	height: 296mm;
+    padding: 0cm;
+/*     border: 5px red solid;
+ */    height: 297mm;
 }
 
-div.postPage {
+.subpage1 {
 	position: relative;
-	padding: 1.7cm;
-	height: 10cm;
+	left: 0cm;
+	top: 0cm;
+	height: 9.7cm;
 }
 
-div.receipPage {
+.subpage2 {
 	position: relative;
-	padding: 0cm;
-	height: 9cm;
-	display: block;
+	left: 0cm;
+	top: 0cm;
+	height: 9.8cm;
 }
 
- div.giro {
+.subpage3 {
 	position: relative;
-	left: 5.8cm;
-	/* top: 19.55cm; */
-	width: 14.8cm;
-	height: 8.8cm;
-	font-size: 0.4cm;
-	font-family: 돋움;
- }
+	left: 0cm;
+	top: 0cm;
+	height: 8.9cm;
+}
 
 div.sender {
-	position: relative;
+	position: absolute;
 	display: block;
-	/* left: 2cm; */
-	/* top: 2.6cm; */
+	left: 2cm;
+	top: 2.5cm;
 	width: 10cm;
-	height: 3.0cm;
+	height: 1.6cm;
 	font-size: 0.35cm;
 	font-family: 돋움;
 }
 
 #senderAddress {
 	display: block;
-	position: relative;
+	position: absolute;
 	padding: 0.2cm
 }
 
 #senderPostcode {
 	display: block;
-	position: relative;
-	padding: 0.2cm
+	position: absolute;
+	padding: 0.8cm
+}
+
+div.receiver {
+	position: absolute;
+	display: block;
+	left: 8cm;
+	top: 6cm;
+	width: 11cm;
+	height: 2.4cm;
+	font-size: 0.35cm;
+	font-family: 돋움;
+	text-align: right;
+}
+
+#companyName {
+	position: absolute;
+	left: 0cm;
+	top: 0cm;
+	width: 8cm;
+	height: 0.4cm;
+	text-align: right;
+	font-family: 돋움;
+	font-size: 0.4cm;
+}
+
+#ceoName {
+	position: absolute;
+	left: 8cm;
+	top: 0cm;
+	width: 3cm;
+	height: 0.4cm;
+	text-align: right;
+	font-family: 돋움;
+	font-size: 0.4cm;
+}
+
+#recAddress {
+		position: absolute;
+	left: 0cm;
+	top: 0.6cm;
+	width: 11cm;
+	height: 0.4cm;
+	text-align: right;
+}
+
+#recPostcode {
+		position: absolute;
+	left: 0cm;
+	top: 1.6cm;
+	width: 11cm;
+	height: 0.4cm;
+	text-align: right;
 }
 
 div.letterMsg {
-	position: relative;
+	position: absolute;
 	display: block;
-	left: 6cm;
-	/* top: 4.4cm; */
+	left: 8.35cm;
+	top: 4.4cm;
 	width: 5.1cm;
 	height: 0.7cm;
 	border: 0.06cm black solid;
@@ -129,55 +186,15 @@ div.letterMsg {
 	padding: 0.1cm;
 }
 
-div.receiver {
-	position: relative;
-	display: block;
-	/* left: 8cm;
-	top: 1.2cm; */
-	width: 16cm;
-	height: 3.4cm;
-	font-size: 0.35cm;
-	font-family: 돋움;
-	text-align: right;
-	right: 0cm;
-	bottom: 0cm;
-}
-
-#companyName {
-	font-family: 돋움;
-	font-size: 0.4cm;
-	margin-right: 2cm;
-}
-
-#ceoName {
-	top: 0cm;
-	/* width: 8cm; */
-	/* height: 1.4cm; */
-	text-align: right;
-	font-family: 돋움;
-	font-size: 0.4cm;
-}
-
-#recAddress {
-	text-align: right;
-	margin-top: 0.6cm;
-}
-
-#recPostcode {
-	text-align: right;
-	margin-top: 0.6cm;
-}
-
 div.notice {
 	position: absolute;
-	/* display: inline-block; */
-	 left: 0.1cm;
-	/* top: 1.3cm; */
+	display: block;
+	left: 0.35cm;
+	top: 0.5cm;
 	width: 5.2cm;
 	height: 8cm;
 	font-size: 0.35cm;
 	font-family: 돋움;
-	float: left;
 }
 
  div.notice > h2 {
@@ -198,24 +215,10 @@ div.notice {
  	font-weight: bold;
  }
 
- div.receipDetail {
-	position: absolute;
-	display: inline-block;
-	left: 0.35cm;
-	/* top: 1.3cm; */
-	width: 5.2cm;
-	height: 8cm;
-	font-size: 0.35cm;
-	font-family: 돋움;
-	/* clear: both; */
-	margin-left: 6.85cm;
-	margin-top: 1.72cm;
- }
-
  div.feeAmount {
-	/* position: relative; */
-	/* left: 7.35cm; */
-	/* top: 12.0cm; */
+	position: absolute;
+	left: 7.35cm;
+	top: 2.3cm;
 	width: 4.4cm;
 	height: 0.46cm;
 	font-size: 0.4cm;
@@ -224,15 +227,14 @@ div.notice {
  }
 
  div.feeDetail {
-	position: relative;
-	/* left: 8.65cm; */
-	top: 0.3cm;
-	width: 4.2cm;
+	position: absolute;
+	left: 8.55cm;
+	top: 3.05cm;
+	width: 3.3cm;
 	height: 4.8cm;
-	font-size: 0.27cm;
+	font-size: 0.3cm;
 	font-family: 돋움;
 	padding: 0.1cm;
-	margin-left: 1.1cm;
  }
 
  div.feeDetail > ul {
@@ -243,20 +245,19 @@ div.notice {
  div.feeDetail > ul > li {
 	display: block;
 	padding-bottom: 0.15cm;
+	white-space: nowrap;
 	height: 0.5cm;
  }
 
  div.rmk {
 	position: absolute;
-	display: inline-block;
-	/* left: 12.45cm; */
-	/* top: 11.3cm; */
-	width: 7.85cm;
+	display: block;
+	left: 12.5cm;
+	top: 1.5cm;
+	width: 7.7cm;
 	height: 8cm;
-	font-size: 0.25cm;
+	font-size: 0.35cm;
 	font-family: 돋움;
-	margin-top: 0.85cm;
-	margin-left: 12.2cm;
 }
 
  div.rmk > h2 {
@@ -270,30 +271,39 @@ div.notice {
  div.rmk > p {
 	position: relative;
 	text-align: left;
-	padding: 0.05cm 0.05cm;
+	padding: 0.1cm 0.1cm;
  }
 
  .summary {
 	padding: 0.1cm 0.1cm;
  }
 
+  div.giro {
+	position: absolute;
+	left: 5.8cm;
+	top: 0.07cm;
+	width: 14.8cm;
+	height: 8.8cm;
+	font-size: 0.4cm;
+	font-family: 돋움;
+ }
+
  #totalAmount {
-	position: relative;
-	left: 9.6cm;
-	top: 1.65cm;
+	position: absolute;
+	left: 9.8cm;
+	top: 1.5cm;
 	width: 4.6cm;
 	height: 0.65cm;
 	font-size: 0.4cm;
 	font-family: OCR-B-1;
 	text-align: right;
 	padding: 0.1cm;
-	text-align: right;
  }
 
  #elecPayNo {
-	position: relative;
-	left: 7.4cm;
-	top: 4.0cm;
+	position: absolute;
+	left: 7.8cm;
+	top: 4.4cm;
 	width: 6.8cm;
 	height: 0.8cm;
 	font-size: 0.4cm;
@@ -303,47 +313,46 @@ div.notice {
  }
 
  .girocode {
-	position: relative;
-	left: 0.8cm;
-	top: 2cm;
+	position: absolute;
+	left: 0.7cm;
+	top: 3.2cm;
 	width: 13.2cm;
 	height: 0.4cm;
 	font-size: 0.4cm;
-	font-family: OCR-B-10 BT;
+	font-family: OCR-B-1;
  }
 
  #girono {
 	display: inline;
-	position: relative;
-	left: 0.2cm;
+	position: absolute;
+	left: 0.8cm;
  }
 
  #cstmrrefcode {
 	display: inline;
-	position: relative;
-	/* left: 1cm; */
-	margin-left: 0.8cm;
+	position: absolute;
+	left: 3.7cm;
  }
 
  #giroamount {
 	display: inline;
-	position: relative;
-	/* left: 0.3cm; */
-	margin-left: 0.8cm;
+	position: absolute;
+	left: 9.6cm;
+	width: 2.6cm;
+	text-align: right;
  }
 
  #girocc {
 	display: inline;
-	position: relative;
-	/* left: 12.5cm; */
-	margin-left: 0.4cm;
+	position: absolute;
+	left: 12.5cm;
  }
 
  .giroDetail {
-	position: relative;
-	left: 2.55cm;
-	top: 3.8cm;
-	width: 11.8cm;
+	position: absolute;
+	left: 2.85cm;
+	top: 5.4cm;
+	width: 11.9cm;
 	height: 1.3cm;
 	font-size: 0.35cm;
  }
@@ -396,7 +405,7 @@ div.notice {
  #noticermk {
 	position: absolute;
 	left: 1.2cm;
-	top: 8.25cm;
+	top: 8cm;
 	width: 11.9cm;
 	height: 0.4cm;
 	font-size: 0.3cm;
@@ -409,9 +418,8 @@ div.notice {
 	left: 20px;
 	top: 10px;
 	display:block;
-	z-index: 9999;
+	z-index: 999;
 }
-
 
 @page {
     size: A4;
@@ -428,184 +436,104 @@ div.notice {
 
 	.page {
 	    width: 21cm;
-	    min-height: 28.7mm;
+	    height: 28.7cm;
+	    padding: 0cm;
 	    margin: 0cm auto;
-	    /*border: 1px #D3D3D3 solid;
-	    border-radius: 5px;*/
-	    background: white;
-	    -webkit-background-size: cover; /* For WebKit*/
-	    -moz-background-size: cover;    /* Mozilla*/
-	    -o-background-size: cover;      /* Opera*/
-	    background-size: cover;         /* Generic*/
-	    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+	    background: none;
+	    page-break-after: always;
 	}
 
-	.printSubpage {
-		padding: 0.27cm;
-		/* border: 5px red solid; */
-		height: 256mm;
+	.subpage {
+	     height: 287mm;
 	}
 
-	div.postPage {
-		position: relative;
-		padding: 1.7cm;
-		height: 10.3cm;
+	.subpage1 {
+		height: 9.7cm;
 	}
 
-	div.receipPage {
-		position: relative;
-		padding: 0cm;
-		height: 9cm;
-		display: block;
+	.subpage2 {
+		height: 9.8cm;
 	}
 
-	 div.giro {
-		position: relative;
-		left: 5.8cm;
-		/* top: 19.55cm; */
-		width: 14.8cm;
-		height: 8.8cm;
-		font-size: 0.4cm;
-		font-family: 돋움;
-	 }
+	.subpage3 {
+		height: 8.9cm;
+	}
 
 	div.sender {
-		position: relative;
-		display: block;
-		/* left: 2cm; */
-		/* top: 2.6cm; */
-		width: 10cm;
-		height: 2.8cm;
-		font-size: 0.35cm;
-		font-family: 돋움;
+		left: 2cm;
+		top: 2.5cm;
 	}
 
 	#senderAddress {
-		display: block;
-		position: relative;
 		padding: 0.2cm
 	}
 
 	#senderPostcode {
-		display: block;
-		position: relative;
-		padding: 0.2cm
-	}
-
-	div.letterMsg {
-		position: relative;
-		display: block;
-		left: 6cm;
-		/* top: 4.4cm; */
-		width: 5.1cm;
-		height: 0.7cm;
-		border: 0.06cm black solid;
-		font-size: 0.4cm;
-		font-family: 돋움;
-		text-align: center;
-		vertical-align: middle;
-		padding: 0.1cm;
+		padding: 0.8cm
 	}
 
 	div.receiver {
-		position: relative;
-		display: block;
-		/* left: 8cm;
-		top: 1.2cm; */
-		width: 16cm;
-		height: 3.4cm;
-		font-size: 0.35cm;
-		font-family: 돋움;
-		text-align: right;
-		right: 0cm;
-		bottom: 0cm;
+		left: 8cm;
+		top: 6cm;
 	}
 
 	#companyName {
-		font-family: 돋움;
-		font-size: 0.4cm;
-		margin-right: 2cm;
+		left: 0cm;
+		top: 0cm;
 	}
 
 	#ceoName {
+		left: 8cm;
 		top: 0cm;
-		/* width: 8cm; */
-		/* height: 1.4cm; */
-		text-align: right;
-		font-family: 돋움;
-		font-size: 0.4cm;
 	}
 
 	#recAddress {
-		text-align: right;
-		margin-top: 0.6cm;
+		left: 0cm;
+		top: 0.6cm;
 	}
 
 	#recPostcode {
-		text-align: right;
-		margin-top: 0.6cm;
+		left: 0cm;
+		top: 1.4cm;
+	}
+
+	div.letterMsg {
+		left: 8.35cm;
+		top: 4.4cm;
 	}
 
 	div.notice {
-		position: absolute;
-		/* display: inline-block; */
-		/* left: 0.35cm; */
-		/* top: 1.3cm; */
-		width: 4.8cm;
-		height: 8cm;
-		font-size: 0.35cm;
-		font-family: 돋움;
-		float: left;
+		left: 0.4cm;
+		top: 0.5cm;
+		width: 4.9cm;
+		height: 9cm;
 	}
 
 	 div.notice > h2 {
-		position: relative;
-		text-align: center;
-		width: 4.75cm;
-		padding: 0.1cm;
-		border: 1px black solid;
+		width: 4.9cm;
 	 }
 
 	 div.notice > p {
 	 	position: relative;
 	 	text-align: left;
 		padding: 0.2cm 0.1cm;
-		font-size: 0.31cm;
 	 }
 
 	 .bold {
 	 	font-weight: bold;
 	 }
 
-	 div.receipDetail {
-		position: absolute;
-		display: inline-block;
-		left: 0.2cm;
-		/* top: 1.3cm; */
-		width: 5.2cm;
-		height: 8cm;
-		font-size: 0.35cm;
-		font-family: 돋움;
-		/* clear: both; */
-		margin-left: 6.85cm;
-		margin-top: 1.85cm;
-	 }
-
 	 div.feeAmount {
-		/* position: relative; */
-		/* left: 7.35cm; */
-		/* top: 12.0cm; */
-		width: 4.4cm;
-		height: 0.46cm;
-		font-size: 0.4cm;
-		font-family: 돋움;
-		text-align: right;
+		left: 7.25cm;
+		top: 2.25cm;
 	 }
 
 	 div.feeDetail {
-		position: relative;
-		top: 0.3cm;
-		width: 4.2cm;
+		left: 8.6cm;
+		top: 3cm;
+		width: 3.3cm;
+		height: 4.8cm;
+		padding: 0.1cm;
 	 }
 
 	 div.feeDetail > ul {
@@ -616,109 +544,66 @@ div.notice {
 	 div.feeDetail > ul > li {
 		display: block;
 		padding-bottom: 0.15cm;
+		white-space: nowrap;
 		height: 0.5cm;
 	 }
 
 	 div.rmk {
-		position: absolute;
-		display: inline-block;
-		/* left: 12.45cm; */
-		/* top: 11.3cm; */
-		width: 7.85cm;
-		height: 8cm;
-		font-size: 0.25cm;
-		font-family: 돋움;
-		margin-top: 1cm;
-		margin-left: 12cm;
+		left: 12.4cm;
 	}
-
-	 div.rmk > h2 {
-		position: relative;
-		text-align: center;
-		width: 100%;
-		padding: 0.1cm;
-		border: 1px black solid;
-	 }
-
-	 div.rmk > p {
-		position: relative;
-		text-align: left;
-		padding: 0.05cm 0.05cm;
-	 }
 
 	 .summary {
 		padding: 0.1cm 0.1cm;
 	 }
 
+	  div.giro {
+		left: 5.8cm;
+		top: 0.07cm;
+		width: 14.8cm;
+		height: 8.8cm;
+	 }
+
 	 #totalAmount {
-		position: relative;
-		left: 9.1cm;
-		top: 1.8cm;
-		width: 4.6cm;
-		height: 0.65cm;
-		font-size: 0.4cm;
-		font-family: OCR-B-1;
-		text-align: right;
-		padding: 0.1cm;
-		text-align: right;
+		left: 9.8cm;
+		top: 1.35cm;
 	 }
 
 	 #elecPayNo {
-		position: relative;
-		left: 7.4cm;
-		top: 4.0cm;
-		width: 6.8cm;
-		height: 0.8cm;
-		font-size: 0.4cm;
-		font-family: OCR-B-1;
-		text-align: left;
-		padding: 0.15cm;
+		top: 4.2cm;
 	 }
 
 	 .girocode {
-		position: relative;
-		left: 0.8cm;
-		top: 2cm;
-		width: 13.2cm;
-		height: 0.4cm;
-		font-size: 0.4cm;
-		font-family: OCR-B-1;
+		position: absolute;
+		left: 0.55cm;
+		top: 3.05cm;
 	 }
 
 	 #girono {
 		display: inline;
-		position: relative;
-		left: 0.2cm;
+		position: absolute;
+		left: 0.8cm;
 	 }
 
 	 #cstmrrefcode {
 		display: inline;
-		position: relative;
-		/* left: 1cm; */
-		margin-left: 0.8cm;
+		position: absolute;
+		left: 4cm;
 	 }
 
 	 #giroamount {
 		display: inline;
-		position: relative;
-		/* left: 0.3cm; */
-		margin-left: 0.8cm;
+		position: absolute;
+		left: 9.3cm;
 	 }
 
 	 #girocc {
 		display: inline;
-		position: relative;
-		/* left: 12.5cm; */
-		margin-left: 0.4cm;
+		position: absolute;
+		left: 12.5cm;
 	 }
 
 	 .giroDetail {
-		position: relative;
-		left: 2.45cm;
-		top: 3.8cm;
-		width: 11.8cm;
-		height: 1.3cm;
-		font-size: 0.35cm;
+		top: 5.2cm;
 	 }
 
 	 #girobizrno {
@@ -768,8 +653,8 @@ div.notice {
 
 	 #noticermk {
 		position: absolute;
-		left: 1.2cm;
-		top: 8.25cm;
+		left: 1.4cm;
+		top: 7.8cm;
 		width: 11.9cm;
 		height: 0.4cm;
 		font-size: 0.3cm;
@@ -895,23 +780,24 @@ div.notice {
        		요청자 : 항만운영팀 조현성
        		내용 : 본사/사업소 주소 표기시 선택하여 적용되도록 개선
        		처리 : 본사/사업소 선택 select 컴포넌트 추가
-         -->
+         
         <select id="sPrtAtCode" style="position:fixed; left: 20px; top: 120px; width: 120px; z-index: 999;" class="notprint">
 			<option value="001" >여수</option>
 			<option value="002" selected="selected">광양</option>
 		</select>
+		-->
 
 
-        	<div class="postPage">
+        	<div class="subpage1">
 				<div class="sender">
 					<div id="senderAddress">
-						전라남도 광양시 항만대로 465 월드마린센터 13층
+						전라남도 광양시 항만대로 465 월드마린센터 11층 물류단지부
 					</div>
 					<div id="senderPostcode">
 						57771
 					</div>
-					<div class="letterMsg">고 지 서  재 중</div>
 				</div>
+				<div class="letterMsg">고 지 서  재 중</div>
 				<div class="receiver">
 					<div id="companyName">
 						<c:out value="${master.agentName}"/>
@@ -927,7 +813,7 @@ div.notice {
 					</div>
 				</div>
         	</div>
-        	<div class="receipPage">
+        	<div class="subpage2">
  	        	<div class="notice">
 	        		<h2>안내말씀</h2>
 	        		<p>* 전자 세금계산서는 LogisBill을 통하여 E-Mail로 발급됩니다.</p>
@@ -935,19 +821,17 @@ div.notice {
 	        		<p>* 전자납부이용은 고지서를 발부 받으신 당일 19시 이후부터 인터넷 뱅킹 등을 이용하여 납부하실 수 있습니다.</p>
 	        		<p class="bold">* 금융기관에서는 온라인 수납처리 바랍니다.</p>
 	       		</div>
-	       		<div class="receipDetail">
-		       		<div class="feeAmount"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${master.billAmnt}" /></div>
-		      		<div class="feeDetail">
-		      			<ul>
-		      				<li class="cstmrRefNo"><c:out value="${fn:substring(master.cstmrRefCode, 0,6)}"/>&nbsp;<c:out value="${fn:substring(master.cstmrRefCode, 6,10)}"/>&nbsp;<c:out value="${fn:substring(master.cstmrRefCode, 10,17)}"/></li>
-		      				<li class="chrgeKndNm"><c:out value="${master.chrgeKndNm}"/></li>
-		      				<li class="entrpsNm"><c:out value="${master.agentName}"/></li>
-		      				<li class="entrpsNm"><c:out value="${master.rprsntvNm}"/></li>
-		      				<li class="nticDate"><c:out value="${master.nticDt}"/></li>
-		      				<li class="payTmlmt"><c:out value="${master.dueDate}"/></li>
-		      				<li class="bizrNo"><c:out value="${fn:substring(master.bzRgstId, 0,3)}"/>-**-*****</li>
-		   				</ul>
-		      		</div>
+	       		<div class="feeAmount"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${master.billAmnt}" /></div>
+	      		<div class="feeDetail">
+	      			<ul>
+	      				<li class="cstmrRefNo"><c:out value="${fn:substring(master.cstmrRefCode, 0,6)}"/>&nbsp;<c:out value="${fn:substring(master.cstmrRefCode, 6,10)}"/>&nbsp;<c:out value="${fn:substring(master.cstmrRefCode, 10,17)}"/></li>
+	      				<li class="chrgeKndNm"><c:out value="${master.chrgeKndNm}"/></li>
+	      				<li class="entrpsNm"><c:out value="${master.agentName}"/></li>
+	      				<li class="entrpsNm"><c:out value="${master.rprsntvNm}"/></li>
+	      				<li class="nticDate"><c:out value="${master.nticDt}"/></li>
+	      				<li class="payTmlmt"><c:out value="${master.dueDate}"/></li>
+	      				<li class="bizrNo"><c:out value="${fn:substring(master.bzRgstId, 0,3)}"/>-**-*****</li>
+	   				</ul>
 	       		</div>
 	      		<div class="rmk">
 	      			<h2>부과내역</h2>
@@ -1033,24 +917,25 @@ div.notice {
 	      				</c:if>
 	      		</div>
         	</div>
-
-			<div class="giro">
-	       		<div id="totalAmount"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${master.billAmnt}" /></div>
-	       		<div id="elecPayNo"><c:out value="${master.elecPayNo}"/></div>
-	       		<div class="girocode">
-	       			<div id="girono">&lt;${master.giroNo}+</div>
-		       		<div id="cstmrrefcode">+<c:out value="${master.cstmrRefCode}"/>+</div>
-		       		<div id="giroamount">+<c:out value="${master.elecNticAmt}"/>&lt;</div>
-		       		<div id="girocc">&lt;11&lt;</div>
-	       		</div>
-	       		<div class="giroDetail">
-		       		<div id="girobizrno"><c:out value="${fn:substring(master.bzRgstId, 0,3)}"/>-**-*****</div>
-      				<div id="nticno"><c:out value="${master.prtAtCode}"/>-<c:out value="${master.feeTp}"/>-<c:out value="${master.fiscalYr}"/>-<c:out value="${master.billNo}"/></div>
-      				<div id="nticDate"><c:out value="${master.billDt}"/></div>
-      				<div id="payTmlmt"><c:out value="${master.dueDate}"/></div>
-      				<div id="girormk"><c:out value="${master.chrgeKndNm}"/> 사용료</div>
-	       		</div>
-	       		<div id="noticermk">납기가 지난 고지서는 납부할 수 없으며, 금융기관에서는 온라인 수납처리 바랍니다.</div>
+        	<div class="subpage3">
+				<div class="giro">
+		       		<div id="totalAmount"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${master.billAmnt}" /></div>
+		       		<div id="elecPayNo"><c:out value="${master.elecPayNo}"/></div>
+		       		<div class="girocode">
+		       			<div id="girono">&lt;${master.giroNo}+</div>
+			       		<div id="cstmrrefcode">+<c:out value="${master.cstmrRefCode}"/>+</div>
+			       		<div id="giroamount">+<c:out value="${master.elecNticAmt}"/>&lt;</div>
+			       		<div id="girocc">&lt;11&lt;</div>
+		       		</div>
+		       		<div class="giroDetail">
+			       		<div id="girobizrno"><c:out value="${fn:substring(master.bzRgstId, 0,3)}"/>-**-*****</div>
+	      				<div id="nticno"><c:out value="${master.prtAtCode}"/>-<c:out value="${master.feeTp}"/>-<c:out value="${master.fiscalYr}"/>-<c:out value="${master.billNo}"/></div>
+	      				<div id="nticDate"><c:out value="${master.billDt}"/></div>
+	      				<div id="payTmlmt"><c:out value="${master.dueDate}"/></div>
+	      				<div id="girormk"><c:out value="${master.chrgeKndNm}"/> 사용료</div>
+		       		</div>
+		       		<div id="noticermk">납기가 지난 고지서는 납부할 수 없으며, 금융기관에서는 온라인 수납처리 바랍니다.</div>
+				</div>
 			</div>
         </div>
     </div>
