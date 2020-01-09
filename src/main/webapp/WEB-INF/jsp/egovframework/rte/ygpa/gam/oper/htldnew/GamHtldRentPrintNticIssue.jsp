@@ -84,15 +84,15 @@
 
 .subpage2 {
 	position: relative;
-	left: 0cm;
+	left: -1mm;
 	top: 0cm;
 	height: 9.8cm;
 }
 
 .subpage3 {
 	position: relative;
-	left: 0cm;
-	top: 0cm;
+	left: -1mm;
+	top: -0.5mm;
 	height: 8.9cm;
 }
 
@@ -452,10 +452,13 @@ div.notice {
 	}
 
 	.subpage2 {
+		left: -1mm;
 		height: 9.8cm;
 	}
 
 	.subpage3 {
+		left: -1mm;
+		top: -0.5mm;
 		height: 8.9cm;
 	}
 
@@ -709,11 +712,11 @@ div.notice {
 			          {name : 'chrgeKndCd', value: '<c:out value="${master.chrgeKndCd}"/>'},
 			          {name : 'nticDt', value: '<c:out value="${master.nticDt}"/>'},
 			          ];
-			var leftPadding = ""+(2.7+Number($('#leftPrintPadding').val()||0))/10;
-			var topPadding = ""+(2.7+Number($('#topPrintPadding').val()||0))/10;
+			var leftPadding = ""+(Number($('#leftPrintPadding').val()||0))/10;
+			var topPadding = ""+(Number($('#topPrintPadding').val()||0))/10;
 			$('.subpage').css('padding-left', leftPadding+"cm");
 			$('.subpage').css('padding-top', topPadding+"cm");
-/* 			
+ 			
 			$.ajax({
 				url: '<c:url value="/oper/htldnew/printProcessHtldNticIssue.do"/>',
 				type: 'POST',
@@ -724,17 +727,18 @@ div.notice {
 				}).done(function(data) {
 	                if(data.resultCode=='0') {
 	        			window.print();
-	        			$('.subpage').css('padding-left', "0.27cm");
-	        			$('.subpage').css('padding-top', "0.27cm");
+	        			$('.subpage').css('padding-left', "0cm");
+	        			$('.subpage').css('padding-top', "0cm");
 	                }
 	                else alert(data.resultMsg);
 			});
- */			
+/* 			
 			window.print();
-			$('.subpage').css('padding-left', "0.27cm");
-			$('.subpage').css('padding-top', "0.27cm");
-		});	
-
+			$('.subpage').css('padding-left', "0cm");
+			$('.subpage').css('padding-top', "0cm");
+ */
+		});
+		
 		/*
 	 		일시 : 2018.06.07
 			요청자 : 항만운영팀 조현성
@@ -791,7 +795,7 @@ div.notice {
         	<div class="subpage1">
 				<div class="sender">
 					<div id="senderAddress">
-						전라남도 광양시 항만대로 465 월드마린센터 11층 물류단지부
+						전남 광양시 항만대로 465 월드마린센터 11층 물류단지부
 					</div>
 					<div id="senderPostcode">
 						57771
@@ -809,7 +813,7 @@ div.notice {
 						<c:out value="${master.adres}"/>
 					</div>
 					<div id="recPostcode">
-						<c:out value="${fn:substring(master.zip, 0, 3)}"/>-<c:out value="${fn:substring(master.zip, 3, 6)}"/>
+						<c:out value="${fn:substring(master.zip, 0, 3)}"/><c:out value="${fn:substring(master.zip, 3, 6)}"/>
 					</div>
 				</div>
         	</div>
