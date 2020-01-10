@@ -129,8 +129,8 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 			String rentArSeNm = (item.get("rentArSeNm") != null) ? (String)item.get("rentArSeNm") : "";
 			String rentArStr = (item.get("rentArStr") != null) ? (String)item.get("rentArStr") : "";
 			String applcRntfeeStr = (item.get("applcRntfeeStr") != null) ? (String)item.get("applcRntfeeStr") : "";
-			BigDecimal nticVat = (item.get("nticVat") != null) ? (BigDecimal)item.get("nticVat") : new BigDecimal(0);
-			BigDecimal nticPayAmt = (item.get("nticPayAmt") != null) ? (BigDecimal)item.get("nticPayAmt") : new BigDecimal(0);
+			BigDecimal nticVat = (item.get("vat") != null) ? (BigDecimal)item.get("vat") : new BigDecimal(0);
+			BigDecimal nticPayAmt = (item.get("payAmt") != null) ? (BigDecimal)item.get("payAmt") : new BigDecimal(0);
 
 			BigDecimal rntFee = new BigDecimal(0),  payinstIntr = new BigDecimal(0), supAmt = new BigDecimal(0),  vat = new BigDecimal(0),  payAmt = new BigDecimal(0);
 
