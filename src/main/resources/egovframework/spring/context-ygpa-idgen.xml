@@ -256,6 +256,17 @@
 		<property name="tableName"	value="FENDER_FILE"/>
 	</bean>
 
+	<!-- 도로 점검 파일 gamRoadFileIdGnrService -->
+	<bean name="gamRoadFileIdGnrService"
+		class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrService"
+		destroy-method="destroy">
+		<property name="dataSource" ref="egov.dataSource" />
+		<property name="strategy" ref="fenderAttFileStrategy" />
+		<property name="blockSize" 	value="10"/>
+		<property name="table"	   	value="ASSETS_INFO_IDS_F"/>
+		<property name="tableName"	value="ROAD_FILE"/>
+	</bean>
+	
 	<bean name="fenderAttFileStrategy"
 		class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">
 		<property name="prefix" value="FD_" />
