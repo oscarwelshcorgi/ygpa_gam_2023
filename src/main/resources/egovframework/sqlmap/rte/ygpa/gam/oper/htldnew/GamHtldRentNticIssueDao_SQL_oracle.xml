@@ -286,7 +286,7 @@
 		) VALUES (
 			'622', GAM_GET_HTLD_FEE_TP(#chrgeKndCd#), #accnutYear#, #nticNo#, #chrgeKndCd#, #entrpsCd#, #entrpsNm#,
 			(SELECT BIZRNO FROM ENTRPS_INFO_F WHERE ENTRPSCD=#entrpsCd#), (SELECT SSN FROM ENTRPS_INFO_F WHERE ENTRPSCD=#entrpsCd#),
-			TO_DATE(#nticDt#, 'YYYY-MM-DD'), TO_DATE(#payTmlmt#, 'YYYY-MM-DD'), 'N', TO_NUMBER(#payAmt#), 0, 0, 0, '0',
+			TO_DATE(#nticDt#, 'YYYY-MM-DD'), TO_DATE(#payTmlmt#, 'YYYY-MM-DD'), 'N', TO_NUMBER(#supAmt#), 0, 0, 0, '0',
 			#updUsr#, SYSDATE, TO_DATE(#nticDt#, 'YYYY-MM-DD'), '2', TO_NUMBER(#vat#), TO_DATE(#nticBeginDt#, 'YYYY-MM-DD'),  TO_DATE(#nticEndDt#, 'YYYY-MM-DD'), 
 			#deptCd#, #userName#
 		)
