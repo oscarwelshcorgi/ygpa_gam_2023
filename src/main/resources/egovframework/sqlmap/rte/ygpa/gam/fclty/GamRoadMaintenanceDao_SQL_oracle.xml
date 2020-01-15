@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<!-- SQL MAP 정의 -->
+<sqlMap namespace="ygpa.gam.fclty">
+	<!-- TYPE ALIAS 정의 -->
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+
+	<typeAlias alias="gamRoadMaintenanceVO" type="egovframework.rte.ygpa.gam.fclty.service.GamRoadMaintenanceVO" />
+
+	<!-- RESULT MAP 정의 -->
+<!-- 	<resultMap id="gamInfoCommFcltySpecInqireSumMap" class="GamInfoCommFcltySpecInqireVO">
+		<result property="totalCount" column="TOTAL_COUNT" columnIndex="1"/>
+		<result property="sumQy" column="SUM_QY" columnIndex="2"/>
+		<result property="sumAcqAmt" column="SUM_ACQ_AMT" columnIndex="3"/>
+	</resultMap>
+ -->
+
+	<select id="gamRoadMaintenanceDao.selectRoadMaintenanceList" parameterClass="gamRoadMaintenanceVO" resultClass="egovMap">
+		SELECT T.*
+			FROM (
+				SELECT  ROWNUM RNUM, S.*, S.CNTRWK_BEGIN||'~'||S.CNTRWK_END AS CNTRWK_DT
+					FROM (
+						SELECT 	FCLTS_MNG_GROUP_NO
+								, G.FCLTS_MNG_GROUP_NM
+								, GAM_GET_FCLTS_GBN_NM(G.FCLTS_GBN) AS FCLTS_GBN_NM
+								, GAM_GETCODENAME('GAM019',G.PRT_AT_CODE) AS PRT_AT_CODE_NM
+								, G.LOC
+								, F.YEAR
+								, F.SN
+								, F.OPERTN_MBY
+								, GAM_GETCODENAME('GAM075',F.OPERTN_MBY) AS OPERTN_MBY_NM
+								, F.CNTRWK_NM
+								, TO_CHAR(F.CNTRWK_BEGIN, 'YYYY-MM-DD') AS CNTRWK_BEGIN
+								, TO_CHAR(F.CNTRWK_END, 'YYYY-MM-DD') AS CNTRWK_END
+								, F.CNSTRTR
+								, F.BSNS_RSPNBER
+								, F.CNTRWK_CT
+								, F.PHOTO
+								, F.COMPET_INSPCT_WTNNC
+								, UPDDE
+						  FROM FENDER_MAINTENANCE F
+						  INNER JOIN FCLTS_MNG_GROUP_F G
+						   USING (FCLTS_MNG_GROUP_NO)
+							WHERE 1 = 1
+							<isNotEmpty property="sYear">
+								AND F.YEAR = #sYear#
+							</isNotEmpty>
+							<isNotEmpty property="sFcltsGbn">
+								AND G.FCLTS_GBN = #sFcltsGbn#
+							</isNotEmpty>
+							<isNotEmpty property="sFcltsMngGroupNm">
+								AND G.FCLTS_MNG_GROUP_NM like '%'||#sFcltsMngGroupNm#||'%'
+							</isNotEmpty>
+							<isNotEmpty property="sCntrwkBegin">
+								<![CDATA[
+					         		AND CNTRWK_END > TO_DATE(#sCntrwkBegin#, 'YYYY-MM-DD')
+					         	]]>
+							</isNotEmpty>
+							<isNotEmpty property="sCntrwkEnd">
+						         <![CDATA[
+						         	AND CNTRWK_END < TO_DATE(#sCntrwkEnd#, 'YYYY-MM-DD')+1
+						         ]]>
+							</isNotEmpty>
+							ORDER BY PRT_AT_CODE DESC
+				) S
+		) T
+		<![CDATA[
+		WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
+		]]>
+	</select>
+
+	<select id="gamRoadMaintenanceDao.selectRoadMaintenanceDetailList" parameterClass="gamRoadMaintenanceVO" resultClass="egovMap">
+		SELECT ROWNUM RNUM, S.*
+		  FROM(
+			SELECT T2.FCLTS_MNG_NO
+					, T1.PRT_FCLTY_NM AS PRT_FCLTY_NM
+					,T2.STRCT_FMT AS STRCT_FMT
+					,LTRIM(TO_CHAR(NVL(T2.BERTH,0),'99,990')) AS BERTH
+					,T1.PRT_FCLTY_STNDRD AS PRT_FCLTY_STNDRD
+					,T1.PRT_FCLTY_UNIT AS PRT_FCLTY_UNIT
+					,T1.PRT_PRT_FCLTY_CNT AS PRT_PRT_FCLTY_CNT
+					,T2.FENDER_KND_CD AS FENDER_KND_CD
+					,T2.FENDER_PMNT_ITV AS FENDER_PMNT_ITV
+					,T2.FENDER_FMT AS FENDER_FMT
+					,DECODE(T3.FCLTS_MNG_NO,NULL,'','TRUE') CHK_ROLE
+					,T3.REMARK
+			  FROM GIS_PRT_FCLTY_CD_F T1
+			  INNER JOIN CVL_ENG_FCLTY_SPEC_F T2 ON (T1.FCLTS_MNG_NO=T2.FCLTS_MNG_NO AND 	T1.PRT_FCLTY_SE = 'C' AND T1.GIS_PRT_FCLTY_CD = 'C1' AND T1.FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#)
+			  LEFT OUTER JOIN FENDER_MAINTENANCE_LIST T3 ON (T2.FCLTS_MNG_NO=T3.FCLTS_MNG_NO
+													   <isNotEmpty property="sFcltsMngGroupNo">
+				  											AND T3.FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
+													   </isNotEmpty>
+													   <isNotEmpty property="sYear">
+													   <isNotEmpty property="sSn">
+				  											AND YEAR = #sYear#
+				  											AND SN = #sSn#
+													   </isNotEmpty>
+													   </isNotEmpty>
+				  											)
+
+			ORDER BY GIS_PRT_FCLTY_SEQ
+			) S
+
+	</select>
+
+	<insert id="gamRoadMaintenanceDao.gamInsertRoadMaintenance" >
+		<selectKey keyProperty="sn" resultClass="java.lang.String">
+        	SELECT NVL(MAX(SN),0)+1
+        	  FROM FENDER_MAINTENANCE
+        	 WHERE YEAR= #year#
+        	   AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+  		</selectKey>
+
+
+		INSERT INTO FENDER_MAINTENANCE(
+										 YEAR
+										, SN
+										, FCLTS_MNG_GROUP_NO
+										, OPERTN_MBY
+										, CNTRWK_NM
+										, CNTRWK_BEGIN
+										, CNTRWK_END
+										, CNSTRTR
+										, BSNS_RSPNBER
+										, CNTRWK_CT
+										, PHOTO
+										, COMPET_INSPCT_WTNNC
+										, REGISTER
+										, RGSDE
+					)
+				VALUES(
+						 #year#
+						, #sn#
+						, #fcltsMngGroupNo#
+						, #opertnMby#
+						, #cntrwkNm#
+						, TO_DATE(#cntrwkBegin#, 'YYYY-MM-DD')
+						, TO_DATE(#cntrwkEnd#, 'YYYY-MM-DD')
+						, #cnstrtr#
+						, #bsnsRspnber#
+						, #cntrwkCt#
+						, #photo#
+						, #competInspctWtnnc#
+						, #register#
+						, sysdate
+				)
+
+	</insert>
+
+	<update id="gamRoadMaintenanceDao.gamUpdateRoadMaintenance" >
+		UPDATE FENDER_MAINTENANCE SET
+										 OPERTN_MBY = #opertnMby#
+										, CNTRWK_NM = #cntrwkNm#
+										, CNTRWK_BEGIN = TO_DATE(#cntrwkBegin#, 'YYYY-MM-DD')
+										, CNTRWK_END = TO_DATE(#cntrwkEnd#, 'YYYY-MM-DD')
+										, CNSTRTR = #cnstrtr#
+										, BSNS_RSPNBER = #bsnsRspnber#
+										, CNTRWK_CT = #cntrwkCt#
+										, PHOTO = #photo#
+										, COMPET_INSPCT_WTNNC = #competInspctWtnnc#
+										, UPDUSR = #updusr#
+										, UPDDE = sysdate
+		 WHERE YEAR = #year#
+		   AND SN = #sn#
+		   AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+
+	</update>
+
+	<delete id="gamRoadMaintenanceDao.gamDeleteRoadMaintenance" parameterClass="gamRoadMaintenanceVO">
+		DELETE FROM FENDER_MAINTENANCE
+		 WHERE YEAR = #year#
+		   AND SN = #sn#
+		   AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+	</delete>
+
+	<delete id="gamRoadMaintenanceDao.gamDeleteRoadMaintenanceDetail" parameterClass="gamRoadMaintenanceVO">
+		DELETE FROM FENDER_MAINTENANCE_LIST
+		 WHERE YEAR = #year#
+		   AND SN = #sn#
+		   AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+	</delete>
+
+	<insert id="gamRoadMaintenanceDao.gamInsertRoadMaintenanceDetail" >
+		insert into FENDER_MAINTENANCE_LIST( YEAR
+											, SN
+											, FCLTS_MNG_GROUP_NO
+											, FCLTS_MNG_NO
+											, REGISTER
+											, RGSDE
+											, REMARK
+											)
+		values(
+				  #year#
+				, #sn#
+				, #fcltsMngGroupNo#
+				, #fcltsMngNo#
+				, #register#
+				, sysdate
+				, #remark#
+
+		)
+
+	</insert>
+
+	<select id="gamRoadMaintenanceDao.selectRoadMaintenanceDetailPrint" parameterClass="gamRoadMaintenanceVO" resultClass="egovMap">
+		SELECT ROWNUM RNUM, S.*
+		  FROM(
+			SELECT T2.FCLTS_MNG_NO
+					,T1.PRT_FCLTY_NM AS PRT_FCLTY_NM
+					,T2.STRCT_FMT AS STRCT_FMT
+					,LTRIM(TO_CHAR(NVL(T2.BERTH,0),'99,990')) AS BERTH
+					,T1.PRT_FCLTY_STNDRD AS PRT_FCLTY_STNDRD
+					,T1.PRT_FCLTY_UNIT AS PRT_FCLTY_UNIT
+					,T1.PRT_PRT_FCLTY_CNT AS PRT_PRT_FCLTY_CNT
+					,T2.FENDER_KND_CD AS FENDER_KND_CD
+					,T2.FENDER_PMNT_ITV AS FENDER_PMNT_ITV
+					,T2.FENDER_FMT AS FENDER_FMT
+					,DECODE(T3.FCLTS_MNG_NO,NULL,'','TRUE') CHK_ROLE
+					,T3.REMARK
+			  FROM GIS_PRT_FCLTY_CD_F T1
+			  INNER JOIN CVL_ENG_FCLTY_SPEC_F T2 ON (T1.FCLTS_MNG_NO=T2.FCLTS_MNG_NO AND 	T1.PRT_FCLTY_SE = 'C' AND T1.GIS_PRT_FCLTY_CD = 'C1' AND T1.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#)
+			  LEFT OUTER JOIN FENDER_MAINTENANCE_LIST T3 ON (T2.FCLTS_MNG_NO=T3.FCLTS_MNG_NO)
+			 WHERE 1=1
+			   AND YEAR = #year#
+			   AND SN = #sn#
+			ORDER BY GIS_PRT_FCLTY_SEQ
+			) S
+
+	</select>
+
+
+</sqlMap>

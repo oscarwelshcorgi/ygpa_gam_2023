@@ -224,6 +224,13 @@
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/fclty/GamFenderDurabilityDao_SQL_oracle.xml" />
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/fclty/GamFenderPopupInqireDao_SQL_oracle.xml" />
 	
+<!-- 임항도로 교통사고 현황/ 정기점검/ 유지보수 -->
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/fclty/GamRoadSttusInqireDao_SQL_oracle.xml" />
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/fclty/GamRoadInspectionDao_SQL_oracle.xml" />
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/fclty/GamRoadMaintenanceDao_SQL_oracle.xml" />
+	
+	
+	
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/fcltyMng/GamFcltyMaintMngDao_SQL_oracle.xml" />
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/fcltyMng/GamFcltyQcwWrtMngDao_SQL_oracle.xml" />
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/fcltyMng/GamFcltyRepairMngDao_SQL_oracle.xml" />
