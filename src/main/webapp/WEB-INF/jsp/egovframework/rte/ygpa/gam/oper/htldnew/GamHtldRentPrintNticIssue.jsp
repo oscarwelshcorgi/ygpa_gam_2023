@@ -825,7 +825,7 @@ div.notice {
 	        		<p>* 전자납부이용은 고지서를 발부 받으신 당일 19시 이후부터 인터넷 뱅킹 등을 이용하여 납부하실 수 있습니다.</p>
 	        		<p class="bold">* 금융기관에서는 온라인 수납처리 바랍니다.</p>
 	       		</div>
-	       		<div class="feeAmount"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${master.billAmnt}" /></div>
+	       		<div class="feeAmount"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${master.supAmt+master.vat}" /></div>
 	      		<div class="feeDetail">
 	      			<ul>
 	      				<li class="cstmrRefNo"><c:out value="${fn:substring(master.cstmrRefCode, 0,6)}"/>&nbsp;<c:out value="${fn:substring(master.cstmrRefCode, 6,10)}"/>&nbsp;<c:out value="${fn:substring(master.cstmrRefCode, 10,17)}"/></li>
@@ -846,7 +846,7 @@ div.notice {
 		      			<c:if test="${ master.arrrgNo ne '00'}">
 		      				<p>연체료 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${master.arrrgAmt}" /> 원</p>
 		      			</c:if>
-		      			<p>합계 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${master.billAmnt}" /> 원</p>
+		      			<p>합계 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${master.supAmt+master.vat}" /> 원</p>
 	      			<h2>산출근거</h2>
 		      			<p> * 사용기간 : <c:out value="${master.nticPdFrom}"/> ~ <c:out value="${master.nticPdTo}"/> </p>
 		      			<p> * 공급가액 산출근거
@@ -923,7 +923,7 @@ div.notice {
         	</div>
         	<div class="subpage3">
 				<div class="giro">
-		       		<div id="totalAmount"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${master.billAmnt}" /></div>
+		       		<div id="totalAmount"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${master.supAmt+master.vat}" /></div>
 		       		<div id="elecPayNo"><c:out value="${master.elecPayNo}"/></div>
 		       		<div class="girocode">
 		       			<div id="girono">&lt;${master.giroNo}+</div>
