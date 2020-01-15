@@ -18,7 +18,7 @@ import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.ygpa.gam.fclty.service.GamRoadMaintenanceService;
 import egovframework.rte.ygpa.gam.fclty.service.GamRoadMaintenanceVO;
-import egovframework.rte.ygpa.gam.fclty.service.GamRoadSttusInqireVO;
+import egovframework.rte.ygpa.gam.fclty.service.GamRoadIncidentMngVO;
 
 /**
 *

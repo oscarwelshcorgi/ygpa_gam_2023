@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 import egovframework.rte.ygpa.gam.fclty.service.GamRoadMngGroupVO;
-import egovframework.rte.ygpa.gam.fclty.service.GamRoadSttusInqireVO;
+import egovframework.rte.ygpa.gam.fclty.service.GamRoadIncidentMngVO;
 
 /**
 *
@@ -27,26 +27,15 @@ import egovframework.rte.ygpa.gam.fclty.service.GamRoadSttusInqireVO;
 * </pre>
 */
 
-@Repository("gamRoadSttusInqireDao")
-public class GamRoadSttusInqireDao extends YGPAAbstractDAO {
+@Repository("gamRoadIncidentMngDao")
+public class GamRoadIncidentMngDao extends YGPAAbstractDAO {
 
 	/**
 	 * @param searchVO
 	 * @return
 	 */
-	public List selectRoadMngGroupList(GamRoadMngGroupVO searchVO) {
+	public List selectRoadIncidentMngList(GamRoadMngGroupVO searchVO) {
 		// TODO Auto-generated method stub
-		return list("gamRoadSttusInqireDao.selectRoadMngGroupList", searchVO);
+		return list("GamRoadIncidentMngDao.selectRoadIncidentMngList", searchVO);
 	}
-
-	/**
-	 * @param searchVO
-	 * @return
-	 */
-	public List selectRoadSttusInqireList(GamRoadSttusInqireVO searchVO) {
-		// TODO Auto-generated method stub
-		return list("gamRoadSttusInqireDao.selectRoadSttusInqireList", searchVO);
-	}
-
-
 }

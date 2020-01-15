@@ -23,10 +23,9 @@ import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
-import egovframework.rte.ygpa.gam.code.service.GamGisAssetCodeDefaultVO;
 import egovframework.rte.ygpa.gam.fclty.service.GamRoadMngGroupVO;
-import egovframework.rte.ygpa.gam.fclty.service.GamRoadSttusInqireService;
-import egovframework.rte.ygpa.gam.fclty.service.GamRoadSttusInqireVO;
+import egovframework.rte.ygpa.gam.fclty.service.GamRoadIncidentMngService;
+import egovframework.rte.ygpa.gam.fclty.service.GamRoadIncidentMngVO;
 
 /**
 *
@@ -45,7 +44,7 @@ import egovframework.rte.ygpa.gam.fclty.service.GamRoadSttusInqireVO;
 */
 
 @Controller
-public class GamRoadSttusInqireController {
+public class GamRoadIncidentMngController {
 
 	/** Validator */
 	@Autowired
@@ -59,10 +58,10 @@ public class GamRoadSttusInqireController {
 	@Resource(name="egovMessageSource")
 	EgovMessageSource egovMessageSource;
 
-	@Resource(name = "gamRoadSttusInqireService")
-	private GamRoadSttusInqireService gamRoadSttusInqireService;
+	@Resource(name = "gamRoadIncidentMngService")
+	private GamRoadIncidentMngService gamRoadIncidentMngService;
 
-	@RequestMapping(value="/fclty/gamRoadSttusInqire.do")
+	@RequestMapping(value="/fclty/gamRoadIncidentMng.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
 
 		//List fcltsClCdList = gamCvlEngFcltySpecMngService.selectFcltsClCdList();
@@ -70,20 +69,20 @@ public class GamRoadSttusInqireController {
 		//model.addAttribute("fcltsClCdList", fcltsClCdList);
 		model.addAttribute("windowId", windowId);
 
-		return "/ygpa/gam/fclty/GamRoadSttusInqire";
+		return "/ygpa/gam/fclty/GamRoadIncidentMng";
 
 	}
 
 
 	/**
-	 * 방충재 그룹 시설 조회
+	 * 임항도로 사고 관리 조회
 	 * @param searchVO
 	 * @return map
 	 * @throws Exception
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value="/fclty/gamRoadMngGroupList.do")
-	public @ResponseBody Map gamRoadMngGroupList(GamRoadMngGroupVO searchVO)throws Exception {
+	@RequestMapping(value="/fclty/gamRoadIncidentMngList.do")
+	public @ResponseBody Map gamRoadIncidentMngList(GamRoadMngGroupVO searchVO)throws Exception {
 
 		Map map = new HashMap();
 
@@ -106,79 +105,15 @@ public class GamRoadSttusInqireController {
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
 		/** List Data */
-		List gamRoadMngGroupList = gamRoadSttusInqireService.selectRoadMngGroupList(searchVO);
+		List roadIncidentMngList = gamRoadIncidentMngService.selectRoadIncidentMngList(searchVO);
 
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
 
 		map.put("resultCode", 0);			// return ok
-    	map.put("resultList", gamRoadMngGroupList);
+    	map.put("resultList", roadIncidentMngList);
     	map.put("searchOption", searchVO);
 
     	return map;
-    }
-
-	/**
-	 * 방충재 시설 조회
-	 * @param searchVO
-	 * @return map
-	 * @throws Exception
-	 */	
-	@RequestMapping(value="/fclty/gamRoadSttusInqireList.do")
-	@ResponseBody Map<String, Object> gamRoadSttusInqireList(GamRoadSttusInqireVO searchVO) throws Exception {
-
-		Map map = new HashMap();
-
-    	// 0. Spring Security 사용자권한 처리
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return map;
-    	}
-    	// 내역 조회
-
-		/** List Data */
-		List roadSttusInqireList = gamRoadSttusInqireService.selectRoadSttusInqireList(searchVO);
-
-		map.put("resultCode", 0);			// return ok
-    	map.put("resultList", roadSttusInqireList);
-
-    	return map;
-
-	}
-
-	/**
-	 * 방충재 시설 출력
-	 * @param searchOpt
-	 * @return String
-	 * @throws Exception
-	 */	
-
-    @RequestMapping(value="/fclty/roadSttusInqirePrint.do")
-    public String gamRoadSttusInqirePrint(@RequestParam Map<String, Object> searchOpt, ModelMap model) throws Exception {
-    	Map map = new HashMap();
-
-    	GamRoadMngGroupVO roadMng;
-    	GamRoadSttusInqireVO searchVO = new GamRoadSttusInqireVO();
-		ObjectMapper mapper = new ObjectMapper();
-
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return "ygpa/gam/code/GamAssetCodeListPrint";
-    	}
-
-    	roadMng = mapper.convertValue(searchOpt, GamRoadMngGroupVO.class);
-    	searchVO.setsFcltsMngGroupNo(roadMng.getFcltsMngGroupNo());
-
-		List roadSttusInqireList = gamRoadSttusInqireService.selectRoadSttusInqireList(searchVO);
-
-    	model.addAttribute("resultCode", 0);	// return ok
-    	model.addAttribute("roadMng", roadMng);
-    	model.addAttribute("roadMngSttusInqireList", roadSttusInqireList);
-
-    	return "ygpa/gam/fclty/GamRoadSttusInqirePrint";
     }
 
 }

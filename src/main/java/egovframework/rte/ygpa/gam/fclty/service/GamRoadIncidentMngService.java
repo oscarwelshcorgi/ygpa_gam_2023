@@ -21,17 +21,13 @@ import java.util.List;
 * </pre>
 */
 
-public interface GamRoadSttusInqireService {
+public interface GamRoadIncidentMngService {
 	/**
 	 * @param searchVO
 	 * @return
 	 */
-	List selectRoadMngGroupList(GamRoadMngGroupVO searchVO) throws Exception;
+	List selectRoadIncidentMngList(GamRoadMngGroupVO searchVO) throws Exception;
 
-	/**
-	 * @param searchVO
-	 * @return
-	 */
-	List selectRoadSttusInqireList(GamRoadSttusInqireVO searchVO) throws Exception;
+
 
 }
