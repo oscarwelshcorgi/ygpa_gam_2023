@@ -656,7 +656,7 @@ var module_instance = new GamFenderMaintenanceModule();
 		<div id="mainTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
 			<!-- 211. TAB 정의 -->
 			<ul>
-				<li><a href="#listTab" class="emdTab">방중재 유지보수 목록</a></li>
+				<li><a href="#listTab" class="emdTab">방충재 유지보수 목록</a></li>
 				<li><a href="#detailTab" class="emdTab">방충재 유지보수 상세</a></li>
 			</ul>
 			<!-- 212. TAB 1 AREA (LIST) -->

@@ -96,7 +96,7 @@ var module_instance = new GamFenderPopupInqireModule();
     <div class="emdPanel fillHeight">
         <div id="assetRentFeeListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
             <ul>
-                <li><a href="#tabs1" class="emdTab">방중재정보현황알림</a></li>
+                <li><a href="#tabs1" class="emdTab">방충재정보현황알림</a></li>
             </ul>
             <div id="tabs1" class="emdTabPage" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
                 <div class="emdControlPanel">
