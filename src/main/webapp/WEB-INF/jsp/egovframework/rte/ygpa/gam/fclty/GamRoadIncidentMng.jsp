@@ -40,7 +40,7 @@ GamFenderSttusInqireModule.prototype.loadComplete = function() {
 
 	this.$("#mainGrid").flexigrid({
 		module : this,
-		url : '/fclty/gamFenderMngGroupList.do',
+		url : '/fclty/gamRoadIncidentMngList.do',
 		dataType : "json",
 		colModel : [
 					{display:"항구분",				name:"prtAtCodeNm",				width:60,		sortable:true,	align:"center"},

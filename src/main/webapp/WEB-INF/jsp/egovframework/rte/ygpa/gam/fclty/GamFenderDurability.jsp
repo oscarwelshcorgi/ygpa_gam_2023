@@ -198,7 +198,7 @@ var module_instance = new GamFenderDurabilityModule();
 		<div id="mainTab" class="emdTabPanel fillHeight" >
 			<!-- 211. TAB 정의 -->
 			<ul>
-				<li><a href="#listTab" class="emdTab">방중재 내구연한 목록</a></li>
+				<li><a href="#listTab" class="emdTab">방충재 내구연한 목록</a></li>
 			</ul>
 			<!-- 212. TAB 1 AREA (LIST) -->
 			<div id="listTab" class="emdTabPage fillHeight" style="overflow:hidden;" >

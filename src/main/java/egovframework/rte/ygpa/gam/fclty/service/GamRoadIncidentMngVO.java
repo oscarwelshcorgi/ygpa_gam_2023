@@ -25,7 +25,7 @@ import egovframework.com.cmm.ComDefaultVO;
  */
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class GamRoadSttusInqireVO extends ComDefaultVO {
+public class GamRoadIncidentMngVO extends ComDefaultVO {
 
 	private static final long serialVersionUID = 1L;
 

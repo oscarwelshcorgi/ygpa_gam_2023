@@ -275,7 +275,7 @@ var module_instance = new GamFenderSttusInqireModule();
 		<div id="mainTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
 			<!-- 211. TAB 정의 -->
 			<ul>
-				<li><a href="#listTab" class="emdTab">방중재 현황 목록</a></li>
+				<li><a href="#listTab" class="emdTab">방충재 현황 목록</a></li>
 				<li><a href="#detailTab" class="emdTab">방충재 현황 상세</a></li>
 			</ul>
 			<!-- 212. TAB 1 AREA (LIST) -->
