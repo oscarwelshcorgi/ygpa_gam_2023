@@ -35,5 +35,8 @@
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/popup/PopupMachFcltySttusDao_SQL.xml" />
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/popup/PopupAtchDirFileDao_SQL.xml" />
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/popup/PopupQcMngAtchFileViewDao_SQL.xml" />
+	
+	<!-- 도로 관리 그룹 팝업 -->	
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/popup/PopupRoadMngGroupDao_SQL.xml" />
 
 </sqlMapConfig>
