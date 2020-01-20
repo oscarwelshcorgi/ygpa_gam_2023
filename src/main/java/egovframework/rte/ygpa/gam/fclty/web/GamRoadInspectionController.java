@@ -579,7 +579,7 @@ public class GamRoadInspectionController {
 		return fileId;
 	}
 
-	@RequestMapping(value="/fclty/gamDeRoadnderInspection.do")
+	@RequestMapping(value="/fclty/gamDeleteRoadInspection.do")
 	@ResponseBody Map<String, Object> gamDeleteCvlEngFcltySpecMng(GamRoadInspectionVO deleteVO) throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();

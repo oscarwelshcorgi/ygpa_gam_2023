@@ -37,28 +37,28 @@
 %>
 function GamFenderInspectionModule() {}
 
-GamFenderInspectionModule.prototype = new EmdModule(1300, 880);
+GamFenderInspectionModule.prototype = new EmdModule(1300, 800);
 
 GamFenderInspectionModule.prototype.loadComplete = function() {
 // 그리드 설정
 	this.$("#mainGrid").flexigrid({
 		module : this,
-		url : '/fclty/gamFenderInspectionList.do',
+		url : '/fclty/gamRoadInspectionList.do',
 		dataType : "json",
 		colModel : [
-					{display:"항구분",				name:"prtAtCodeNm",				width:60,		sortable:true,	align:"center"},
-					{display:"연도",					name:"year",					width:60,		sortable:true,	align:"center"},
-					{display:"종별",					name:"fcltsGbnNm",				width:60,		sortable:true,	align:"center"},
-					{display:"관리 그룹 명",			name:"fcltsMngGroupNm",			width:150,		sortable:true,	align:"left"},
-					{display:"종별",					name:"fcltsGbnNm",				width:80,		sortable:true,	align:"center"},
+					{display:"항구분",				name:"prtAtCodeNm",				width:80,		sortable:true,	align:"center"},
+					/* {display:"연도",					name:"year",					width:60,		sortable:true,	align:"center"},
+					{display:"종별",					name:"fcltsGbnNm",				width:60,		sortable:true,	align:"center"}, */
+					{display:"관리 그룹 명",			name:"fcltsMngGroupNm",			width:220,		sortable:true,	align:"center"},
+					/* {display:"종별",					name:"fcltsGbnNm",				width:80,		sortable:true,	align:"center"},
 					{display:"규격",					name:"prtFcltyStndrd",			width:150,		sortable:true,	align:"center"},
-					{display:"수량",					name:"prtPrtFcltyCnt",			width:60,		sortable:true,	align:"right",	displayFormat: 'number'},
-					{display:"구분",					name:"fcltsSeNm",				width:80,		sortable:true,	align:"center"},
-					{display:"종류",					name:"fcltsKndNm",				width:80,		sortable:true,	align:"center"},
-					{display:"공사 일자",				name:"cnstDt",					width:80,		sortable:true,	align:"center"},
-					{display:"준공 일자",				name:"bldDt",					width:80,		sortable:true,	align:"center"},
-					{display:"운영사",				name:"owner",					width:110,		sortable:true,	align:"left"},
-					{display:"위치",					name:"loc",						width:200,		sortable:true,	align:"left"}
+					{display:"수량",					name:"prtPrtFcltyCnt",			width:60,		sortable:true,	align:"right",	displayFormat: 'number'}, */
+					{display:"구분",					name:"fcltsSeNm",				width:120,		sortable:true,	align:"center"},
+					/* {display:"종류",					name:"fcltsKndNm",				width:80,		sortable:true,	align:"center"}, */
+					{display:"공사 일자",				name:"cnstBeginDt",					width:150,		sortable:true,	align:"center"},
+					{display:"준공 일자",				name:"bldDt",					width:150,		sortable:true,	align:"center"},
+					{display:"운영사",				name:"owner",					width:220,		sortable:true,	align:"center"},
+					{display:"위치",					name:"loc",						width:320,		sortable:true,	align:"center"}
 					],
 		showTableToggleBtn : false,
 		height : 'auto'
@@ -70,16 +70,15 @@ GamFenderInspectionModule.prototype.loadComplete = function() {
 
  */
 
-	this.$("#fenderInspectionListOne").flexigrid({
+	this.$("#roadInspectionListOne").flexigrid({
 		module: this,
-		url: '/fclty/gamFenderInspectionDetailList.do',
+		url: '/fclty/gamRoadInspectionDetailList.do',
 		dataType: "json",
 		colModel : [
 			{display:"선택", 				name:"chkRole",				width:40, 		sortable:false,		align:"center", 	displayFormat:"checkbox"},
 			{display:"항만시설 명",			name:"prtFcltyNm",			width:200,		sortable:false,		align:"left"},
 			{display:"상태/평가",	 		name:"remark",					width:150,		sortable:false,		align:"left",	displayFormat: 'input'},
-			{display:"규격",				name:"prtFcltyStndrd",		width:150,		sortable:false,		align:"left"},
-			{display:"구조 형식",	 		name:"strctFmt",			width:150,		sortable:false,		align:"left"}
+			{display:"위치",				name:"locHw",		width:150,		sortable:false,		align:"left",	displayFormat: 'input'}
 			],
 		height: "360",
 		preProcess: function(module, data) {
@@ -90,16 +89,15 @@ GamFenderInspectionModule.prototype.loadComplete = function() {
 		}
 	});
 
-	this.$("#fenderInspectionListTwo").flexigrid({
+	this.$("#roadInspectionListTwo").flexigrid({
 		module: this,
-		url: '/fclty/gamFenderInspectionDetailList.do',
+		url: '/fclty/gamRoadInspectionDetailList.do',
 		dataType: "json",
 		colModel : [
 			{display:"선택", 				name:"chkRole",				width:40, 		sortable:false,		align:"center", 	displayFormat:"checkbox"},
 			{display:"항만시설 명",			name:"prtFcltyNm",			width:200,		sortable:false,		align:"left"},
 			{display:"상태/평가",	 		name:"remark",					width:150,		sortable:false,		align:"left",	displayFormat: 'input'},
-			{display:"규격",				name:"prtFcltyStndrd",		width:150,		sortable:false,		align:"left"},
-			{display:"구조 형식",	 		name:"strctFmt",			width:150,		sortable:false,		align:"left"}
+			{display:"위치",	 		name:"locHw",			width:150,		sortable:false,		align:"left",	displayFormat: 'input'}
 			],
 		height: "360",
 		preProcess: function(module, data) {
@@ -110,16 +108,15 @@ GamFenderInspectionModule.prototype.loadComplete = function() {
 		}
 	});
 
-	this.$("#fenderInspectionListThree").flexigrid({
+	this.$("#roadInspectionListThree").flexigrid({
 		module: this,
-		url: '/fclty/gamFenderInspectionDetailList.do',
+		url: '/fclty/gamRoadInspectionDetailList.do',
 		dataType: "json",
 		colModel : [
 			{display:"선택", 				name:"chkRole",				width:40, 		sortable:false,		align:"center", 	displayFormat:"checkbox"},
 			{display:"항만시설 명",			name:"prtFcltyNm",			width:200,		sortable:false,		align:"left"},
 			{display:"상태/평가",	 		name:"remark",					width:150,		sortable:false,		align:"left",	displayFormat: 'input'},
-			{display:"규격",				name:"prtFcltyStndrd",		width:150,		sortable:false,		align:"left"},
-			{display:"구조 형식",	 		name:"strctFmt",			width:150,		sortable:false,		align:"left"}
+			{display:"위치",	 		name:"locHw",			width:150,		sortable:false,		align:"left",	displayFormat: 'input'}
 			],
 		height: "360",
 		preProcess: function(module, data) {
@@ -145,13 +142,13 @@ GamFenderInspectionModule.prototype.loadComplete = function() {
 		module.$("#mainTab").tabs("option", {active: 1});
 	});
 
-	this.$("#fenderInspectionListOne").on('onItemCheckboxClick', function(event, module, row, rid, cInd) {
+	this.$("#roadInspectionListOne").on('onItemCheckboxClick', function(event, module, row, rid, cInd) {
 //		console.log("check One");
 	});
-	this.$("#fenderInspectionListTwo").on('onItemCheckboxClick', function(event, module, row, rid, cInd) {
+	this.$("#roadInspectionListTwo").on('onItemCheckboxClick', function(event, module, row, rid, cInd) {
 //		console.log("check Tow");
 	});
-	this.$("#fenderInspectionListThree").on('onItemCheckboxClick', function(event, module, row, rid, cInd) {
+	this.$("#roadInspectionListThree").on('onItemCheckboxClick', function(event, module, row, rid, cInd) {
 //		console.log("check Three");
 	});
 
@@ -463,9 +460,9 @@ GamFenderInspectionModule.prototype.onTabChange = function(newTabId, oldTabId) {
 				this.makeFormValues('#detailForm', {});
 				this.makeDivValues('#detailForm', {});
 
-				this.$('#fenderInspectionListOne').flexEmptyData();
-				this.$('#fenderInspectionListTwo').flexEmptyData();
-				this.$('#fenderInspectionListThree').flexEmptyData();
+				this.$('#roadInspectionListOne').flexEmptyData();
+				this.$('#roadInspectionListTwo').flexEmptyData();
+				this.$('#roadInspectionListThree').flexEmptyData();
 
 				this.$('ul.photoList').empty();
 				this.$('ul.attList').empty();
@@ -484,9 +481,9 @@ GamFenderInspectionModule.prototype.onTabChange = function(newTabId, oldTabId) {
 				this.makeFormValues('#detailForm', {});
 				this.makeDivValues('#detailForm', {});
 
-				this.$('#fenderInspectionListOne').flexEmptyData();
-				this.$('#fenderInspectionListTwo').flexEmptyData();
-				this.$('#fenderInspectionListThree').flexEmptyData();
+				this.$('#roadInspectionListOne').flexEmptyData();
+				this.$('#roadInspectionListTwo').flexEmptyData();
+				this.$('#roadInspectionListThree').flexEmptyData();
 
 				this.$('#popupSpecFcltsMngGroupNo').disable({disableClass:"ui-state-disabled"});
 			}
@@ -524,7 +521,7 @@ GamFenderInspectionModule.prototype.onButtonClick = function(buttonId) {
 		// 시설물 관리 그룹 선택 버튼 클릭
 		case 'popupSpecFcltsMngGroupNo':
             var searchOpts = {'sYear':this.$("#year").val()};
-			this.doExecuteDialog(buttonId, "시설물 관리 그룹 선택", '/popup/showFenderMngGroup.do', searchOpts);
+			this.doExecuteDialog(buttonId, "시설물 관리 그룹 선택", '/popup/showRoadMngGroup.do', searchOpts);
 
 			break;
 	}
@@ -547,22 +544,22 @@ GamFenderInspectionModule.prototype.onClosePopup = function(popupId, msg, value)
 				this.$('#fcltsMngGroupNo').val(value.fcltsMngGroupNo);
 				this.$('#fcltsMngGroupNm').val(value.fcltsMngGroupNm);
 				this.$('#loc').val(value.loc);
-				this.$('#fcltsGbn').val(value.fcltsGbn);
+				this.$('#cnstrctAmt').val(value.cnstrctAmt);
 				this.$('#cnstDt').val(value.cnstDt);
 				this.$('#bldDt').val(value.bldDt);
 				this.$('#owner').val(value.owner);
 				this.$('#cnstrtr').val(value.cnstrtr);
 				this.$('#prtFcltyStndrd').val(value.prtFcltyStndrd);
-				this.$('#prtPrtFcltyCnt').val(value.prtPrtFcltyCnt);
+				this.$('#flawEndDt').val(value.flawEndDt);
 
 				var searchOpt=[];
 				searchOpt[searchOpt.length] = {name : "sFcltsMngGroupNo",	value : value.fcltsMngGroupNo };
 				searchOpt[searchOpt.length] = {name : "sYear",	value : '1111' };
 				searchOpt[searchOpt.length] = {name : "sSn",	value : '0' };
 				searchOpt[searchOpt.length] = {name : "sSe",	value : '0' };
-				this.$('#fenderInspectionListOne').flexOptions({params:searchOpt}).flexReload();
-				this.$('#fenderInspectionListTwo').flexOptions({params:searchOpt}).flexReload();
-				this.$('#fenderInspectionListThree').flexOptions({params:searchOpt}).flexReload();
+				this.$('#roadInspectionListOne').flexOptions({params:searchOpt}).flexReload();
+				this.$('#roadInspectionListTwo').flexOptions({params:searchOpt}).flexReload();
+				this.$('#roadInspectionListThree').flexOptions({params:searchOpt}).flexReload();
 
 			}
 			break;
@@ -619,7 +616,7 @@ GamFenderInspectionModule.prototype.loadDetail = function(tabId) {
 
 		this.$('ul.photoList').empty();		// remove photo list
 		this.$('ul.attList').empty();		// remove photo list
-		this.doAction('/fclty/gamFenderInspectionFileList.do', row[0], function(module, result) {
+		this.doAction('/fclty/gamRoadInspectionFileList.do', row[0], function(module, result) {
 			console.log(result);
 			var html='';
 			var result1=result.resultPhotoOne;
@@ -753,9 +750,9 @@ GamFenderInspectionModule.prototype.loadDetail = function(tabId) {
 		searchOpt3[searchOpt3.length] = {name : "sSn",	value : _sSn };
 		searchOpt3[searchOpt3.length] = {name : "sSe",	value : "3" };
 
-		this.$('#fenderInspectionListOne').flexOptions({params:searchOpt1}).flexReload();
-		this.$('#fenderInspectionListTwo').flexOptions({params:searchOpt2}).flexReload();
-		this.$('#fenderInspectionListThree').flexOptions({params:searchOpt3}).flexReload();
+		this.$('#roadInspectionListOne').flexOptions({params:searchOpt1}).flexReload();
+		this.$('#roadInspectionListTwo').flexOptions({params:searchOpt2}).flexReload();
+		this.$('#roadInspectionListThree').flexOptions({params:searchOpt3}).flexReload();
 
 	}
 
@@ -794,9 +791,9 @@ GamFenderInspectionModule.prototype.saveData = function() {
 	var inputVO = [];
 	var detailForm = this.makeFormArgs("#detailForm",'object');
 
-	this.$('#fenderInspectionListOne')[0].dgrid.selectRow(0);
-	this.$('#fenderInspectionListTwo')[0].dgrid.selectRow(0);
-	this.$('#fenderInspectionListThree')[0].dgrid.selectRow(0);
+	this.$('#roadInspectionListOne')[0].dgrid.selectRow(0);
+	this.$('#roadInspectionListTwo')[0].dgrid.selectRow(0);
+	this.$('#roadInspectionListThree')[0].dgrid.selectRow(0);
 
 	detailForm["delPhotoOne"]=JSON.stringify(this._delPhotoOneList);
 	detailForm["delPhotoTwo"]=JSON.stringify(this._delPhotoTwoList);
@@ -808,9 +805,9 @@ GamFenderInspectionModule.prototype.saveData = function() {
 	detailForm["delChckTableThree"]=JSON.stringify(this._delChkTbl3List);
 
 	inputVO[inputVO.length] = {name: 'detailForm', value :JSON.stringify(detailForm) };
- 	inputVO[inputVO.length] = {name: 'fenderInspectionListOne', value :JSON.stringify(this.$('#fenderInspectionListOne').selectFilterData([{col: 'chkRole', filter: true}])) };
- 	inputVO[inputVO.length] = {name: 'fenderInspectionListTwo', value :JSON.stringify(this.$('#fenderInspectionListTwo').selectFilterData([{col: 'chkRole', filter: true}])) };
- 	inputVO[inputVO.length] = {name: 'fenderInspectionListThree', value :JSON.stringify(this.$('#fenderInspectionListThree').selectFilterData([{col: 'chkRole', filter: true}])) };
+ 	inputVO[inputVO.length] = {name: 'roadInspectionListOne', value :JSON.stringify(this.$('#roadInspectionListOne').selectFilterData([{col: 'chkRole', filter: true}])) };
+ 	inputVO[inputVO.length] = {name: 'roadInspectionListTwo', value :JSON.stringify(this.$('#roadInspectionListTwo').selectFilterData([{col: 'chkRole', filter: true}])) };
+ 	inputVO[inputVO.length] = {name: 'roadInspectionListThree', value :JSON.stringify(this.$('#roadInspectionListThree').selectFilterData([{col: 'chkRole', filter: true}])) };
 
 	for(var k in inputVO) {
 		formData.append(inputVO[k].name, inputVO[k].value);
@@ -858,10 +855,10 @@ GamFenderInspectionModule.prototype.saveData = function() {
  */
 	var url = '';
 	if (module._mainmode == "insert") { // 추가 버튼 눌렀을때 insert로 변경됨
-		url = EMD.context_root+ '/fclty/gamInsertFenderInspection.do';
+		url = EMD.context_root+ '/fclty/gamInsertRoadInspection.do';
 	}
 	else {
-		url = EMD.context_root+ '/fclty/gamUpdateFenderInspection.do';
+		url = EMD.context_root+ '/fclty/gamUpdateRoadInspection.do';
 	}
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", url,
@@ -894,7 +891,7 @@ GamFenderInspectionModule.prototype.deleteData = function() {
 	if (confirm("삭제하시겠습니까?")) {
 		//var deleteVO = row[0];
 		var deleteVO = this.makeFormArgs("#detailForm");
-		this.doAction('/fclty/gamDeleteFenderInspection.do', deleteVO, function(module, result) {
+		this.doAction('/fclty/gamDeleteRoadInspection.do', deleteVO, function(module, result) {
 			if (result.resultCode == "0") {
 				module._mainKeyValue = '';
 				module.loadData();
@@ -966,8 +963,8 @@ var module_instance = new GamFenderInspectionModule();
 		<div id="mainTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
 			<!-- 211. TAB 정의 -->
 			<ul>
-				<li><a href="#listTab" class="emdTab">방중재 정기점검 목록</a></li>
-				<li><a href="#detailTab" class="emdTab">방충재 정기점검 상세</a></li>
+				<li><a href="#listTab" class="emdTab">임항도로 정기점검 목록</a></li>
+				<li><a href="#detailTab" class="emdTab">임항도로 정기점검 상세</a></li>
 			</ul>
 			<!-- 212. TAB 1 AREA (LIST) -->
 			<div id="listTab" class="emdTabPage fillHeight" style="overflow:hidden;" >
@@ -1023,15 +1020,16 @@ var module_instance = new GamFenderInspectionModule();
 								<td  style="height:18px;">
 									<input type="text" id="loc" data-column-id="loc" size="35" disabled="disabled" />
 								</td>
-								<th style="height:18px;">시　설　물　　종　별</th>
+								<th style="height:18px;">공　　　 사 　　　비</th>
 								<td >
-									<select id="fcltsGbn" data-column-id="fcltsGbn" >
+									<input type="text" id="cnstrctAmt" data-column-id="cnstrctAmt" size="35" disabled="disabled" />
+									<!-- <select id="fcltsGbn" data-column-id="fcltsGbn" >
 										<option value="" selected>선택</option>
 										<option value="1">1종</option>
 										<option value="2">2종</option>
 										<option value="3">1종/2종</option>
 										<option value="9">기타</option>
-									</select>
+									</select> -->
 								</td>
 							</tr>
 							<tr>
@@ -1055,13 +1053,13 @@ var module_instance = new GamFenderInspectionModule();
 								</td>
 							</tr>
 							<tr>
-								<th style="height:18px;">규　　　　  　　　 격</th>
+								<th style="height:18px;">사업책임자(현장대리인)</th>
 								<td style="height:18px;">
-									<input type="text" id="prtFcltyStndrd" data-column-id="prtFcltyStndrd" size="35" disabled="disabled" />
+									<input type="text" id="bsnsRspnber" data-column-id="bsnsRspnber" size="35" disabled="disabled" />
 								</td>
-								<th style="height:18px;">수　　　　  　　　 량</th>
+								<th style="height:18px;">하　　자　　기　　간</th>
 								<td >
-									<input type="text" id="prtPrtFcltyCnt" data-column-id="prtPrtFcltyCnt" class="ygpaNumber" size="10" disabled="disabled" />
+									<input type="text" id="flawEndDt" data-column-id="flawEndDt" class="emdcal" size="25" disabled="disabled" />
 								</td>
 							</tr>
 						</table>
@@ -1178,15 +1176,15 @@ var module_instance = new GamFenderInspectionModule();
 
 
 							<tr>
-								<th style="height:18px;">방충재 목록</th>
+								<th style="height:18px;">도로 목록</th>
 								<td >
-									<table id="fenderInspectionListOne" style="display:none;" class="fillHeight"></table>
+									<table id="roadInspectionListOne" style="display:none;" class="fillHeight"></table>
 								</td>
 								<td >
-									<table id="fenderInspectionListTwo" style="display:none;" class="fillHeight"></table>
+									<table id="roadInspectionListTwo" style="display:none;" class="fillHeight"></table>
 								</td>
 								<td >
-									<table id="fenderInspectionListThree" style="display:none;" class="fillHeight"></table>
+									<table id="roadInspectionListThree" style="display:none;" class="fillHeight"></table>
 								</td>
 							</tr>
 
@@ -1194,7 +1192,7 @@ var module_instance = new GamFenderInspectionModule();
 
 						</table>
 						<div style="vertical-align: bottom; text-align: right;">
-							<button data-role="printPage" data-search-option="detailForm" data-url="/fclty/fenderInspectionPrint.do">인쇄</button>
+							<button data-role="printPage" data-search-option="detailForm" data-url="/fclty/roadInspectionPrint.do">인쇄</button>
 							<!-- data-search-option="detailForm" 의 경우 detailForm 폼안의  data-column-id에 정의된 이름으로 파라메터를 생성함.  -->
 							<button id="btnSave">저장</button>
 							<button id="btnDelete1">삭제</button>
