@@ -10,7 +10,6 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
-import egovframework.rte.ygpa.gam.fclty.service.GamRoadMngGroupVO;
 import egovframework.rte.ygpa.gam.fclty.service.GamRoadIncidentMngService;
 import egovframework.rte.ygpa.gam.fclty.service.GamRoadIncidentMngVO;
 
@@ -40,12 +39,20 @@ public class GamRoadIncidentMngServiceImpl extends AbstractServiceImpl implement
 	 * @see egovframework.rte.ygpa.gam.fclty.service.GamRoadIncidentMngService#selectFcltyMaintIncidentMngList(egovframework.rte.ygpa.gam.fclty.service.GamRoadMngGroupVO)
 	 */
 	@Override
-	public List selectRoadIncidentMngList(GamRoadMngGroupVO searchVO) throws Exception {
+	public List selectRoadIncidentMngList(GamRoadIncidentMngVO searchVO) throws Exception {
 		// TODO Auto-generated method stub
 
 		return gamRoadIncidentMngDao.selectRoadIncidentMngList(searchVO);
 	}
-
-
-
+	
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.fclty.service.GamRoadIncidentMngService#selectFcltyMaintIncidentMngList(egovframework.rte.ygpa.gam.fclty.service.GamRoadMngGroupVO)
+	 */
+	@Override
+	public List selectRoadIncidentMngDetailList(GamRoadIncidentMngVO searchVO) throws Exception {
+		// TODO Auto-generated method stub
+		
+		return gamRoadIncidentMngDao.selectRoadIncidentMngDetailList(searchVO);
+	}
+	
 }

@@ -26,8 +26,12 @@ public interface GamRoadIncidentMngService {
 	 * @param searchVO
 	 * @return
 	 */
-	List selectRoadIncidentMngList(GamRoadMngGroupVO searchVO) throws Exception;
+	List selectRoadIncidentMngList(GamRoadIncidentMngVO searchVO) throws Exception;
 
-
+	/**
+	 * @param searchVO
+	 * @return
+	 */
+	List selectRoadIncidentMngDetailList(GamRoadIncidentMngVO searchVO) throws Exception;
 
 }
