@@ -43,21 +43,22 @@ GamFenderMaintenanceModule.prototype.loadComplete = function() {
 // 그리드 설정
 	this.$("#mainGrid").flexigrid({
 		module : this,
-		url : '/fclty/gamFenderMaintenanceList.do',
+		url : '/fclty/gamRoadMaintenanceList.do',
 		dataType : "json",
 		colModel : [
 					{display:"항구분",		name:"prtAtCodeNm",				width:60,		sortable:true,	align:"center"},
-					{display:"연도",			name:"year",					width:60,		sortable:true,	align:"center"},
-					{display:"종별",			name:"fcltsGbnNm",				width:60,		sortable:true,	align:"center"},
+					/* {display:"연도",			name:"year",					width:60,		sortable:true,	align:"center"},
+					{display:"종별",			name:"fcltsGbnNm",				width:60,		sortable:true,	align:"center"}, */
 					{display:"관리 그룹 명",	name:"fcltsMngGroupNm",			width:150,		sortable:true,	align:"left"},
-					{display:"위치",			name:"loc",						width:200,		sortable:true,	align:"left"},
-
-					{display:"시행주체",		name:"opertnMbyNm",				width:200,		sortable:true,	align:"left"},
+					/* {display:"위치",			name:"loc",						width:200,		sortable:true,	align:"left"},
+					{display:"시행주체",		name:"opertnMbyNm",				width:200,		sortable:true,	align:"left"}, */
 					{display:"공사명칭",		name:"cntrwkNm",				width:200,		sortable:true,	align:"left"},
-					{display:"공사기간",		name:"cntrwkDt",				width:200,		sortable:true,	align:"left"},
-					{display:"공사자",		name:"cnstrtr",					width:200,		sortable:true,	align:"left"},
-					{display:"사업책임자",		name:"bsnsRspnber",				width:200,		sortable:true,	align:"left"},
-					{display:"공사금액",		name:"cntrwkCt",				width:200,		sortable:true,	align:"right",	displayFormat: 'number'}
+					{display:"보수공사일자",		name:"cntrwkDt",				width:200,		sortable:true,	align:"left"},
+					{display:"준공일자",		name:"bldDt",				width:200,		sortable:true,	align:"left"},
+					{display:"시공사",		name:"cnstrtr",					width:200,		sortable:true,	align:"left"},
+					{display:"공사금액",		name:"cntrwkCt",				width:200,		sortable:true,	align:"right",	displayFormat: 'number'},
+					{display:"하자기간",		name:"flawEndTerm",				width:200,		sortable:true,	align:"left"},
+					{display:"사업책임자",		name:"bsnsRspnber",				width:200,		sortable:true,	align:"left"}
 					],
 		showTableToggleBtn : false,
 		height : 'auto'
@@ -65,18 +66,17 @@ GamFenderMaintenanceModule.prototype.loadComplete = function() {
 
 	this.$("#mntnRprObjFcltsF").flexigrid({
 		module: this,
-		url: '/fclty/gamFenderMaintenanceDetailList.do',
+		url: '/fclty/gamRoadMaintenanceDetailList.do',
 		dataType: "json",
 		colModel : [
 			{display:"선택", 				name:"chkRole",				width:40, 		sortable:false,		align:"center", 	displayFormat:"checkbox"},
-			{display:"항만시설 명",			name:"prtFcltyNm",			width:200,		sortable:false,		align:"left"},
-			{display:"상태/평가",	 		name:"remark",					width:150,		sortable:false,		align:"left",	displayFormat: 'input'},
-			{display:"규격",				name:"prtFcltyStndrd",		width:150,		sortable:false,		align:"left"},
+			{display:"보수위치",			name:"prtFcltyNm",			width:200,		sortable:false,		align:"center"},
+			{display:"보수내용",	 		name:"remark",					width:150,		sortable:false,		align:"center",	displayFormat: 'input'},
+			{display:"보수상태",				name:"prtFcltyStndrd",		width:150,		sortable:false,		align:"center"},
 /* 			{display:"단위",	 			name:"prtFcltyUnit",			width:40,		sortable:false,		align:"left"},
 			{display:"수량",	 			name:"prtPrtFcltyCnt",			width:40,		sortable:false,		align:"right",	displayFormat: 'number'},
-*/
 			{display:"구조 형식",	 		name:"strctFmt",			width:150,		sortable:false,		align:"left"}
-/* 			{display:"선석",				name:"berth",					width:40,		sortable:false,		align:"left"},
+ 			{display:"선석",				name:"berth",					width:40,		sortable:false,		align:"left"},
 			{display:"방충재 종류",		 	name:"fenderKndCd",				width:100,		sortable:false,		align:"left"},
 			{display:"방충재 배치 간격",		name:"fenderPmntItv",			width:120,		sortable:false,		align:"left"},
 			{display:"방충재 형식",		 	name:"fenderFmt",				width:150,		sortable:false,		align:"left"}
@@ -289,7 +289,7 @@ GamFenderMaintenanceModule.prototype.onButtonClick = function(buttonId) {
 			break;
 		// 시설물 관리 그룹 선택 버튼 클릭
 		case 'popupSpecFcltsMngGroupNo':
-			this.doExecuteDialog(buttonId, "시설물 관리 그룹 선택", '/popup/showFenderMngGroup.do', null);
+			this.doExecuteDialog(buttonId, "시설물 관리 그룹 선택", '/popup/showRoadMngGroup.do', null);
 
 			break;
 	}
@@ -381,7 +381,7 @@ GamFenderMaintenanceModule.prototype.loadDetail = function(tabId) {
 
 		this.$('ul.photoList').empty();		// remove photo list
 		this.$('ul.attList').empty();		// remove photo list
-		this.doAction('/fclty/gamFenderMaintenanceFileList.do', row[0], function(module, result) {
+		this.doAction('/fclty/gamRoadMaintenanceFileList.do', row[0], function(module, result) {
 			var html='';
 			var result1=result.resultPhoto;
 			if(result1!=null) {
@@ -540,10 +540,10 @@ GamFenderMaintenanceModule.prototype.saveData = function() {
 	var module=this;
 	var url = '';
 	if (module._mainmode == "insert") { // 추가 버튼 눌렀을때 insert로 변경됨
-		url = EMD.context_root+ '/fclty/gamInsertFenderMaintenance.do';
+		url = EMD.context_root+ '/fclty/gamInsertRoadMaintenance.do';
 	}
 	else {
-		url = EMD.context_root+ '/fclty/gamUpdateFenderMaintenance.do';
+		url = EMD.context_root+ '/fclty/gamUpdateRoadMaintenance.do';
 	}
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true);
@@ -576,7 +576,7 @@ GamFenderMaintenanceModule.prototype.deleteData = function() {
 	if (confirm("삭제하시겠습니까?")) {
 		//var deleteVO = row[0];
 		var deleteVO = this.makeFormArgs("#detailForm");
-		this.doAction('/fclty/gamDeleteFenderMaintenance.do', deleteVO, function(module, result) {
+		this.doAction('/fclty/gamDeleteRoadMaintenance.do', deleteVO, function(module, result) {
 			if (result.resultCode == "0") {
 				module.loadData();
 			}
@@ -656,8 +656,8 @@ var module_instance = new GamFenderMaintenanceModule();
 		<div id="mainTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
 			<!-- 211. TAB 정의 -->
 			<ul>
-				<li><a href="#listTab" class="emdTab">방중재 유지보수 목록</a></li>
-				<li><a href="#detailTab" class="emdTab">방충재 유지보수 상세</a></li>
+				<li><a href="#listTab" class="emdTab">임항도로 유지보수 목록</a></li>
+				<li><a href="#detailTab" class="emdTab">임항도로 유지보수 상세</a></li>
 			</ul>
 			<!-- 212. TAB 1 AREA (LIST) -->
 			<div id="listTab" class="emdTabPage fillHeight" style="overflow:hidden;" >
@@ -684,7 +684,7 @@ var module_instance = new GamFenderMaintenanceModule();
 								<td colspan="2" style="width:40%; vertical-align: top;">
 									<table class="detailPanel" style="width:100%;">
 										<tr>
-											<th style="width:20%; height:18px;">시설물　관리 그룹　명</th>
+											<th style="width:20%; height:18px;">도　　　　로　　　　명</th>
 											<td  >
 												<input type="hidden" id="fcltsMngGroupNo" data-column-id="fcltsMngGroupNo"/>
 												<input type="text" id="fcltsMngGroupNm" data-column-id="fcltsMngGroupNm" size="35" disabled="disabled" />
@@ -692,61 +692,47 @@ var module_instance = new GamFenderMaintenanceModule();
 											</td>
 										</tr>
 										<tr>
-											<th style="width:20%; height:18px;">위　　　　　　　　치</th>
+											<th style="width:20%; height:18px;">보　　수　　위　　치</th>
 											<td  >
 												<input type="text" id="loc" data-column-id="loc" size="35" disabled="disabled" />
 											</td>
 										</tr>
 										<tr>
-											<th style="width:20%; height:18px;">항　　　　구　　　　분</th>
+											<th style="width:20%; height:18px;">보　　수　　주　　체</th>
 											<td  >
 												<input type="text" id="prtAtCodeNm" data-column-id="prtAtCodeNm" size="35" disabled="disabled" />
 											</td>
 										</tr>
 										<tr>
-											<th style="width:20%; height:18px;">시　설　물　　종　별</th>
-											<td  >
-												<input type="text" id="fcltsGbnNm" data-column-id="fcltsGbnNm" size="35" disabled="disabled" />
-											</td>
-										</tr>
-
-
-										<tr>
-											<th style="width:20%; height:18px;">연　　　　　　　　도</th>
-											<td style="width:20%; height:18px;" >
-												<select id="year" class="year">
-													<option value="">선택</option>
-												</select>
-											</td>
-										</tr>
-										<tr>
-											<th style="width:20%; height:18px;" >시　　행　　주　　제</th>
-											<td>
-<!-- 												<input id="opertnMby" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM075"/> -->
-												<input id="opertnMby" class="ygpaCmmnCd" data-code-id="GAM075"/>
-											</td>
-										</tr>
-										<tr>
-											<th style="width:20%; height:18px;" >공　　사　　명　　칭</th>
+											<th style="width:20%; height:18px;">공　　　　사　　　　명</th>
 											<td>
 												<input type="text" id="cntrwkNm" data-column-id="cntrwkNm" size="35" />
 											</td>
 										</tr>
+
+
 										<tr>
-											<th style="width:20%; height:18px;" >공　　사　　기　　간</th>
+											<th style="width:20%; height:18px;">공　　사　　기　　간</th>
 											<td>
 												<input type="text" id="cntrwkBegin" size="11" class="emdcal" />~
 												<input type="text" id="cntrwkEnd" size="11" class="emdcal" />
 											</td>
 										</tr>
 										<tr>
-											<th style="width:20%; height:18px;" >시　　　　공　　　　자</th>
+											<th style="width:20%; height:18px;" >공　　사　　내　　용</th>
+											<td>
+<!-- 												<input id="opertnMby" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM075"/> -->
+												<input type="text" id="remark" data-column-id="remark" size="35"/>
+											</td>
+										</tr>
+										<tr>
+											<th style="width:20%; height:18px;" >시　　　　공　　　　사</th>
 											<td>
 												<input type="text" id="cnstrtr" data-column-id="cnstrtr" size="35" />
 											</td>
 										</tr>
 										<tr>
-											<th style="width:20%; height:18px;" >사　업　책　　임　자</th>
+											<th style="width:20%; height:18px;" >사　업	　책　임　자</th>
 											<td>
 												<input type="text" id="bsnsRspnber" data-column-id="bsnsRspnber" size="35" />
 											</td>
@@ -755,6 +741,13 @@ var module_instance = new GamFenderMaintenanceModule();
 											<th style="width:20%; height:18px;" >공　　　　사　　　　비</th>
 											<td>
 												<input type="text" id="cntrwkCt" class="ygpaNumber" data-column-id="cntrwkCt" size="35" />
+											</td>
+										</tr>
+										<tr>
+											<th style="width:20%; height:18px;" >하　　자　　기　　간</th>
+											<td>
+												<input type="text" id="bldDt" size="11" class="emdcal" />~
+												<input type="text" id="flawEndDt" size="11" class="emdcal" />
 											</td>
 										</tr>
 										<tr>

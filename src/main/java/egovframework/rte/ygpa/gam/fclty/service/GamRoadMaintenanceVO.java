@@ -37,49 +37,54 @@ public class GamRoadMaintenanceVO extends ComDefaultVO {
 	private String sFcltsMngGroupNm;
 	private String sCntrwkBegin;
 	private String sCntrwkEnd;
-	
-	/** 항구분 */ 
+
+	/** 항구분 */
 	private String prtAtCodeNm ;
-	/** 종별 */ 
+	/** 종별 */
 	private String fcltsGbnNm;
-	/** 관리 그룹 명 */ 
+	/** 관리 그룹 명 */
 	private String fcltsMngGroupNm ;
-	/** 위치 */ 
+	/** 위치 */
 	private String loc;
-	
-	
-	/** 연도(PK) */ 
+
+
+	/** 연도(PK) */
 	private String year;
-	/** 순번(PK) */ 
+	/** 순번(PK) */
 	private String sn;
-	/** 시설물 관리 그룹 번호(PK)(FK) */ 
+	/** 시설물 관리 그룹 번호(PK)(FK) */
 	private String fcltsMngGroupNo;
-	/** 시행주체 */ 
+	/** 시행주체 */
 	private String opertnMby;
-	/** 공사명칭 */ 
+	/** 공사명칭 */
 	private String cntrwkNm;
-	/** 공사시작 */ 
+	/** 공사시작 */
 	private String cntrwkBegin;
-	/** 공사종료 */ 
+	/** 공사종료 */
 	private String cntrwkEnd;
-	/** 시공자 */ 
+	/** 시공자 */
 	private String cnstrtr;
-	/** 사업책임자 */ 
+	/** 사업책임자 */
 	private String bsnsRspnber;
-	/** 공사비 */ 
+	/** 공사비 */
 	private String cntrwkCt;
-	/** 사진 */ 
+	/** 사진 */
 	private String photo;
-	/** 준공검사조서 */ 
+	/** 준공검사조서 */
 	private String competInspctWtnnc;
-	/** 등록자 */ 
+	/** 등록자 */
 	private String register;
-	/** 등록일 */ 
+	/** 등록일 */
 	private String rgsde;
-	/** 수정자 */ 
+	/** 수정자 */
 	private String updusr;
-	/** 수정일 */ 
+	/** 수정일 */
 	private String updde;
+	/** 하자기간 */
+	private String flawEndTerm;
+	/** 준공일자 */
+	private String bldDt;
+
 	/**
 	 * @return the year
 	 */
@@ -404,5 +409,28 @@ public class GamRoadMaintenanceVO extends ComDefaultVO {
 	public void setsCntrwkEnd(String sCntrwkEnd) {
 		this.sCntrwkEnd = sCntrwkEnd;
 	}
-
+	/**
+	 * @return the flawEndTerm
+	 */
+	public String getFlawEndTerm() {
+		return flawEndTerm;
+	}
+	/**
+	 * @param flawEndTerm the flawEndTerm to set
+	 */
+	public void setFlawEndTerm(String flawEndTerm) {
+		this.flawEndTerm = flawEndTerm;
+	}
+	/**
+	 * @return the bldDt
+	 */
+	public String getBldDt() {
+		return bldDt;
+	}
+	/**
+	 * @param bldDt the bldDt to set
+	 */
+	public void setBldDt(String bldDt) {
+		this.bldDt = bldDt;
+	}
 }

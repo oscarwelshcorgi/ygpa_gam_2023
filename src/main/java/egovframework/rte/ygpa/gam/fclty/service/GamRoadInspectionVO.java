@@ -102,6 +102,14 @@ public class GamRoadInspectionVO extends ComDefaultVO {
 	private String updusr;
 	/** 수정일 */
 	private String updde;
+	/** 하자만료일자 */
+	private String flawEndDt;
+	/** 시공금액 */
+	private String cnstrctAmt;
+	/** 공사시작일자 */
+	private String cnstBeginDt;
+	/** 사업책임자 */
+	private String bsnsRspnber;
 
 	private String[] delPhotoOne;
 	private String[] delPhotoTwo;
@@ -627,6 +635,52 @@ public class GamRoadInspectionVO extends ComDefaultVO {
 	public void setSn(String sn) {
 		this.sn = sn;
 	}
-
-
+	/**
+	 * @return the flawEndDt
+	 */
+	public String getFlawEndDt() {
+		return flawEndDt;
+	}
+	/**
+	 * @param flawEndDt the flawEndDt to set
+	 */
+	public void setFlawEndDt(String flawEndDt) {
+		this.flawEndDt = flawEndDt;
+	}
+	/**
+	 * @return the cnstrctAmt
+	 */
+	public String getCnstrctAmt() {
+		return cnstrctAmt;
+	}
+	/**
+	 * @param cnstrctAmt the cnstrctAmt to set
+	 */
+	public void setCnstrctAmt(String cnstrctAmt) {
+		this.cnstrctAmt = cnstrctAmt;
+	}
+	/**
+	 * @return the cnstBeginDt
+	 */
+	public String getCnstBeginDt() {
+		return cnstBeginDt;
+	}
+	/**
+	 * @param cnstBeginDt the cnstBeginDt to set
+	 */
+	public void setCnstBeginDt(String cnstBeginDt) {
+		this.cnstBeginDt = cnstBeginDt;
+	}
+	/**
+	 * @return the bsnsRspnber
+	 */
+	public String getBsnsRspnber() {
+		return bsnsRspnber;
+	}
+	/**
+	 * @param bsnsRspnber the bsnsRspnber to set
+	 */
+	public void setBsnsRspnber(String bsnsRspnber) {
+		this.bsnsRspnber = bsnsRspnber;
+	}
 }

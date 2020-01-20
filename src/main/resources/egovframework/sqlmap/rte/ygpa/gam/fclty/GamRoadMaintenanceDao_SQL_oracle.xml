@@ -39,7 +39,10 @@
 								, F.PHOTO
 								, F.COMPET_INSPCT_WTNNC
 								, UPDDE
-						  FROM FENDER_MAINTENANCE F
+								, TO_CHAR(G.BLD_DT, 'YYYY-MM-DD')||'~'|| TO_CHAR(G.FLAW_END_DT, 'YYYY-MM-DD')AS FLAW_END_TERM
+								, G.BLD_DT
+
+						  FROM ROAD_MAINTENANCE F
 						  INNER JOIN FCLTS_MNG_GROUP_F G
 						   USING (FCLTS_MNG_GROUP_NO)
 							WHERE 1 = 1
@@ -86,8 +89,8 @@
 					,DECODE(T3.FCLTS_MNG_NO,NULL,'','TRUE') CHK_ROLE
 					,T3.REMARK
 			  FROM GIS_PRT_FCLTY_CD_F T1
-			  INNER JOIN CVL_ENG_FCLTY_SPEC_F T2 ON (T1.FCLTS_MNG_NO=T2.FCLTS_MNG_NO AND 	T1.PRT_FCLTY_SE = 'C' AND T1.GIS_PRT_FCLTY_CD = 'C1' AND T1.FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#)
-			  LEFT OUTER JOIN FENDER_MAINTENANCE_LIST T3 ON (T2.FCLTS_MNG_NO=T3.FCLTS_MNG_NO
+			  INNER JOIN CVL_ENG_FCLTY_SPEC_F T2 ON (T1.FCLTS_MNG_NO=T2.FCLTS_MNG_NO AND 	T1.PRT_FCLTY_SE = 'C' AND T1.GIS_PRT_FCLTY_CD = 'CR' AND T1.FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#)
+			  LEFT OUTER JOIN ROAD_MAINTENANCE_LIST T3 ON (T2.FCLTS_MNG_NO=T3.FCLTS_MNG_NO
 													   <isNotEmpty property="sFcltsMngGroupNo">
 				  											AND T3.FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
 													   </isNotEmpty>
@@ -107,13 +110,13 @@
 	<insert id="gamRoadMaintenanceDao.gamInsertRoadMaintenance" >
 		<selectKey keyProperty="sn" resultClass="java.lang.String">
         	SELECT NVL(MAX(SN),0)+1
-        	  FROM FENDER_MAINTENANCE
+        	  FROM ROAD_MAINTENANCE
         	 WHERE YEAR= #year#
         	   AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
   		</selectKey>
 
 
-		INSERT INTO FENDER_MAINTENANCE(
+		INSERT INTO ROAD_MAINTENANCE(
 										 YEAR
 										, SN
 										, FCLTS_MNG_GROUP_NO
@@ -149,7 +152,7 @@
 	</insert>
 
 	<update id="gamRoadMaintenanceDao.gamUpdateRoadMaintenance" >
-		UPDATE FENDER_MAINTENANCE SET
+		UPDATE ROAD_MAINTENANCE SET
 										 OPERTN_MBY = #opertnMby#
 										, CNTRWK_NM = #cntrwkNm#
 										, CNTRWK_BEGIN = TO_DATE(#cntrwkBegin#, 'YYYY-MM-DD')
@@ -168,21 +171,21 @@
 	</update>
 
 	<delete id="gamRoadMaintenanceDao.gamDeleteRoadMaintenance" parameterClass="gamRoadMaintenanceVO">
-		DELETE FROM FENDER_MAINTENANCE
+		DELETE FROM ROAD_MAINTENANCE
 		 WHERE YEAR = #year#
 		   AND SN = #sn#
 		   AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
 	</delete>
 
 	<delete id="gamRoadMaintenanceDao.gamDeleteRoadMaintenanceDetail" parameterClass="gamRoadMaintenanceVO">
-		DELETE FROM FENDER_MAINTENANCE_LIST
+		DELETE FROM ROAD_MAINTENANCE_LIST
 		 WHERE YEAR = #year#
 		   AND SN = #sn#
 		   AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
 	</delete>
 
 	<insert id="gamRoadMaintenanceDao.gamInsertRoadMaintenanceDetail" >
-		insert into FENDER_MAINTENANCE_LIST( YEAR
+		insert into ROAD_MAINTENANCE_LIST( YEAR
 											, SN
 											, FCLTS_MNG_GROUP_NO
 											, FCLTS_MNG_NO
@@ -219,8 +222,8 @@
 					,DECODE(T3.FCLTS_MNG_NO,NULL,'','TRUE') CHK_ROLE
 					,T3.REMARK
 			  FROM GIS_PRT_FCLTY_CD_F T1
-			  INNER JOIN CVL_ENG_FCLTY_SPEC_F T2 ON (T1.FCLTS_MNG_NO=T2.FCLTS_MNG_NO AND 	T1.PRT_FCLTY_SE = 'C' AND T1.GIS_PRT_FCLTY_CD = 'C1' AND T1.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#)
-			  LEFT OUTER JOIN FENDER_MAINTENANCE_LIST T3 ON (T2.FCLTS_MNG_NO=T3.FCLTS_MNG_NO)
+			  INNER JOIN CVL_ENG_FCLTY_SPEC_F T2 ON (T1.FCLTS_MNG_NO=T2.FCLTS_MNG_NO AND 	T1.PRT_FCLTY_SE = 'C' AND T1.GIS_PRT_FCLTY_CD = 'CR' AND T1.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#)
+			  LEFT OUTER JOIN ROAD_MAINTENANCE_LIST T3 ON (T2.FCLTS_MNG_NO=T3.FCLTS_MNG_NO)
 			 WHERE 1=1
 			   AND YEAR = #year#
 			   AND SN = #sn#

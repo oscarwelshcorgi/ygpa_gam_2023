@@ -45,7 +45,7 @@ GamPopupFcltsMngGroupModule.prototype.loadComplete = function() {
 	this.$("#grdInfoList").on("onItemDoubleClick", function(event, module, row, grid, param) {
 		module.closeDialog("ok", row);
 	});
-	
+
 	this.loadData();
 };
 
@@ -100,7 +100,7 @@ var popup_instance = new GamPopupFcltsMngGroupModule();
 				</tbody>
 			</table>
 		</form>
-		
+
 		<div class="emdPanel fillHeight">
 	        <table id="grdInfoList" style="display: none" class="fillHeight"></table>
 	        <div class="emdControlPanel">
