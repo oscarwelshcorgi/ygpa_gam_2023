@@ -290,7 +290,7 @@ GamFenderMaintenanceModule.prototype.onButtonClick = function(buttonId) {
 			break;
 		// 시설물 관리 그룹 선택 버튼 클릭
 		case 'popupSpecFcltsMngGroupNo':
-			this.doExecuteDialog(buttonId, "시설물 관리 그룹 선택", '/popup/showFenderMngGroup.do', null);
+			this.doExecuteDialog(buttonId, "시설물 관리 그룹 선택", '/popup/showRoadMngGroup.do', null);
 
 			break;
 	}
@@ -309,7 +309,7 @@ GamFenderMaintenanceModule.prototype.onButtonClick = function(buttonId) {
 GamFenderMaintenanceModule.prototype.onClosePopup = function(popupId, msg, value) {
 	console.log("onClosePopup");
 	switch (popupId) {
-		case 'popupSpecFcltsMngGroupNo':	// 버튼 parameter 값을 사용=> this.doExecuteDialog(buttonId, "시설물 관리 그룹 선택", '/popup/showFenderMngGroup.do', searchOpts);
+		case 'popupSpecFcltsMngGroupNo':	// 버튼 parameter 값을 사용=> this.doExecuteDialog(buttonId, "시설물 관리 그룹 선택", '/popup/showRoadMngGroup.do', searchOpts);
 			if (msg == 'ok') {
 				this.$('#fcltsMngGroupNo').val(value.fcltsMngGroupNo);
 				this.$('#fcltsMngGroupNm').val(value.fcltsMngGroupNm);

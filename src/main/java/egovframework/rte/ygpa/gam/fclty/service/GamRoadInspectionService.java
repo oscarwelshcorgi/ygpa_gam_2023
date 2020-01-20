@@ -28,7 +28,7 @@ public interface GamRoadInspectionService {
 	 * @param searchVO
 	 * @return
 	 */
-	List selectRoadInspectionList(GamRoadIncidentMngVO searchVO) throws Exception;
+	List selectRoadInspectionList(GamRoadInspectionVO searchVO) throws Exception;
 
 	/**
 	 * @param inputVO
@@ -43,19 +43,19 @@ public interface GamRoadInspectionService {
 	/**
 	 * @param deleteVO
 	 */
-	void deleteRoadInspection(GamRoadIncidentMngVO deleteVO) throws Exception;
+	void deleteRoadInspection(GamRoadInspectionVO deleteVO) throws Exception;
 
 	/**
 	 * @param searchVO
 	 * @return
 	 */
-	List selectRoadMngGroupList(GamRoadIncidentMngVO searchVO) throws Exception;
+	List selectRoadMngGroupList(GamRoadInspectionVO searchVO) throws Exception;
 
 	/**
 	 * @param searchVO
 	 * @return
 	 */
-	List selectRoadInspectionDetailList(GamRoadIncidentMngVO searchVO) throws Exception;
+	List selectRoadInspectionDetailList(GamRoadInspectionVO searchVO) throws Exception;
 
 
 }

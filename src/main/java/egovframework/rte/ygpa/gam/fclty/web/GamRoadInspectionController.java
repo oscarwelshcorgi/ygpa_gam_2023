@@ -666,38 +666,6 @@ public class GamRoadInspectionController {
     }
 
 
-	/**
-	 * 관리그룹 팝업
-	 * @param searchOpt
-	 * @return String
-	 * @throws Exception
-	 */
-	@RequestMapping(value="/popup/showRoadMngGroup.do")
-    String showRoadMngGroupList(GamRoadInspectionVO searchOpt, ModelMap model) throws Exception {
-		model.addAttribute("searchOpt", searchOpt);
-    	return "/ygpa/gam/popup/GamPopupRoadMngGroup";
-    }
-
-	/**
-	 * 관리그룹 팝업 조회
-	 * @param searchOpt
-	 * @return Map
-	 * @throws Exception
-	 */
-    @RequestMapping(value="/popup/selectRoadMngGroupList.do")
-	@ResponseBody Map selectRoadMngGroupList(GamRoadInspectionVO searchVO) throws Exception {
-		int totalCnt;
-    	Map map = new HashMap();
-
-		List resultList = gamRoadInspectionService.selectRoadMngGroupList(searchVO);
-
-    	map.put("resultCode", 0);	// return ok
-    	map.put("resultList", resultList);
-    	map.put("searchOption", searchVO);
-
-    	return map;
-    }
-
     // 파일 처리 (자산 임대 공통 - 리퀘스트 패스만 변경 하여 사용)
     @RequestMapping(value="/fclty/uploadRoadAttachFile.do", method=RequestMethod.POST)
     public @ResponseBody Map uploadFile(HttpServletRequest request) throws Exception {
