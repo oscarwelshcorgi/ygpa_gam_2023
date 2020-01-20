@@ -46,4 +46,5 @@ public class GamRoadIncidentMngDao extends YGPAAbstractDAO {
 		// TODO Auto-generated method stub
 		return list("GamRoadIncidentMngDao.selectRoadIncidentMngDetailList", searchVO);
 	}
+
 }

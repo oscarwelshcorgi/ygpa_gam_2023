@@ -63,5 +63,8 @@
 		  LEFT OUTER JOIN GIS_PRT_FCLTY_CD_F T2 ON (T1.FCLTS_MNG_NO=T2.FCLTS_MNG_NO)
 		 WHERE 1=1  
 	</select>
+	
+	
+	
 
 </sqlMap>

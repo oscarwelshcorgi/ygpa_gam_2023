@@ -54,5 +54,7 @@ public class GamRoadIncidentMngServiceImpl extends AbstractServiceImpl implement
 		
 		return gamRoadIncidentMngDao.selectRoadIncidentMngDetailList(searchVO);
 	}
+
+
 	
 }

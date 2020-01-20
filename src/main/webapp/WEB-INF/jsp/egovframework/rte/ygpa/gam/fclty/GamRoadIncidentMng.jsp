@@ -107,7 +107,7 @@ GamFenderMaintenanceModule.prototype.loadComplete = function() {
 	
  	this.$("#roadIncidentList").on('onItemSelected', function(event, module, row, grid, param) {
 		console.log("roadIncidentList onItemSelected");
-
+		module._mainmode = "modify";
 		module.makeFormValues('#detailForm', row);
 /* 		for(var key in row){
 			module.$('#'+key).val(row[key]);
@@ -234,8 +234,7 @@ GamFenderMaintenanceModule.prototype.onTabChange = function(newTabId, oldTabId) 
 				this.loadDetail(oldTabId);
 				this.$('#popupSpecFcltsMngGroupNo').disable({disableClass:"ui-state-disabled"});
 				this.$("#year").disable();
-
-
+/* 
 			} else if (this._mainmode == "insert") { // 탭 1번 추가 때
 				this.makeFormValues('#detailForm', {});
 				this.makeDivValues('#detailForm', {});
@@ -251,7 +250,7 @@ GamFenderMaintenanceModule.prototype.onTabChange = function(newTabId, oldTabId) 
 				var toYear = toDate.getFullYear();
 				this.$("#year").enable();
 				this.$('#year').val(toYear);
-
+ */
 				//기본 데이터 설정
 				// this.addData();
 			} else {
@@ -278,7 +277,7 @@ GamFenderMaintenanceModule.prototype.onButtonClick = function(buttonId) {
 	switch (buttonId) {
 		case 'btnAdd':
 			this._mainmode = 'insert';
-			this.$("#mainTab").tabs("option", {active: 1});
+			this.insertData();
 			break;
 		case 'btnSave':
 			this.saveData();
@@ -377,8 +376,6 @@ GamFenderMaintenanceModule.prototype.loadDetail = function(tabId) {
 //		this.makeFormValues('#detailForm', row[0]);	// row[0] 번째 데이터를 detailForm에 넣기(자동으로 id 매칭하여 넣어 줌)
 //		this.$('#sFcltsMngGroupNo').val(this._mainKeyValue);
 
-
-
 		this.$('ul.photoList').empty();		// remove photo list
 		this.$('ul.attList').empty();		// remove photo list
 		this.doAction('/fclty/gamRoadIncidentMngFileList.do', row[0], function(module, result) {
@@ -436,9 +433,10 @@ GamFenderMaintenanceModule.prototype.loadDetail = function(tabId) {
 //		var searchOpt = {name:"fcltsMngGroupNo", value : this._mainKeyValue};
 		this.$('#roadIncidentList').flexOptions({params:searchOpt}).flexReload();
 		
-		var dRow = this.$('#roadIncidentList').selectedRows();
+		//var dRow = this.$('#roadIncidentList').selectedRows();
+		var dRow = this.$('#roadIncidentList').select(this.$('#roadIncidentList').first());
 		this.makeFormValues('#detailForm', dRow[0]);
-
+		
 	}
 }
 
@@ -546,6 +544,34 @@ GamFenderMaintenanceModule.prototype.saveData = function() {
 
 	xhr.send(formData);
 }
+
+
+<%
+/**
+ * @FUNCTION NAME : insertData
+ * @DESCRIPTION   : 항목을 추가한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFenderMaintenanceModule.prototype.insertData = function() {
+	console.log("deleteData");
+	
+	this.makeFormValues('#detailForm', {});
+	this.makeDivValues('#detailForm', {});
+	this.$('#roadIncidentList').flexEmptyData();
+
+	this.$('ul.photoList').empty();		// remove photo list
+	this.$('ul.attList').empty();		// remove photo list
+
+	this.$('#popupSpecFcltsMngGroupNo').enable();
+	this.$('#popupSpecFcltsMngGroupNo').removeClass("ui-state-disabled");
+
+	var toDate = new Date();
+	var toYear = toDate.getFullYear();
+	this.$("#year").enable();
+	this.$('#year').val(toYear);
+}
+
 
 <%
 /**

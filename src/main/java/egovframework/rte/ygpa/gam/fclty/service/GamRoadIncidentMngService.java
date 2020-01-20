@@ -34,4 +34,6 @@ public interface GamRoadIncidentMngService {
 	 */
 	List selectRoadIncidentMngDetailList(GamRoadIncidentMngVO searchVO) throws Exception;
 
+
+
 }

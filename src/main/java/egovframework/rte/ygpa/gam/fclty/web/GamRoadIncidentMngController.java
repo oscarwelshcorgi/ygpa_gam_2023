@@ -23,9 +23,9 @@ import egovframework.com.cmm.service.FileVO;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
-import egovframework.rte.ygpa.gam.fclty.service.GamFenderMaintenanceVO;
 import egovframework.rte.ygpa.gam.fclty.service.GamRoadIncidentMngService;
 import egovframework.rte.ygpa.gam.fclty.service.GamRoadIncidentMngVO;
+import egovframework.rte.ygpa.gam.fclty.service.GamRoadMaintenanceVO;
 
 /**
 *
@@ -161,7 +161,7 @@ public class GamRoadIncidentMngController {
     }
 	
 	@RequestMapping(value="/fclty/gamRoadIncidentMngFileList.do")
-	@ResponseBody Map<String, Object> gamFenderMaintenanceFileList(GamFenderMaintenanceVO searchVO) throws Exception {
+	@ResponseBody Map<String, Object> gamRoadMaintenanceFileList(GamRoadMaintenanceVO searchVO) throws Exception {
 
 		Map map = new HashMap();
 
@@ -186,5 +186,7 @@ public class GamRoadIncidentMngController {
 		return map;
 
 	}
+	
+
 }
 
