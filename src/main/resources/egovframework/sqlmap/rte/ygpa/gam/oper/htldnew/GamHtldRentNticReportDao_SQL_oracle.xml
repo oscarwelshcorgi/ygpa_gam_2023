@@ -37,7 +37,7 @@
 		      ,R.FISCAL_YR
 		      ,R.FEE_TP
 		      ,R.BILL_NO
-		      ,R.BILL_AMNT
+		      ,N.SUP_AMT+N.VAT AS BILL_AMNT
 		      ,N.SUP_AMT
 		      ,N.VAT
 		      ,N.RM
