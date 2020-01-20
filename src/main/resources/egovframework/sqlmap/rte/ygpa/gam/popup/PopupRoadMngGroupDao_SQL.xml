@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ygpa.gam.popup">
+
+    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    
+
+    <select id="gamPopupRoadMngGroupDao.selectRoadMngGroupList" resultClass="egovMap">
+		SELECT ROWNUM RNUM, S.*, to_char( (SELECT WM_CONCAT(DISTINCT PRT_FCLTY_STNDRD) FROM GIS_PRT_FCLTY_CD_F T1 WHERE T1.GIS_PRT_FCLTY_CD='C1' AND T1.FCLTS_MNG_GROUP_NO = S.FCLTS_MNG_GROUP_NO ) ) AS PRT_FCLTY_STNDRD
+				, to_char( (SELECT WM_CONCAT(COUNT(*)) FROM GIS_PRT_FCLTY_CD_F T1 WHERE T1.GIS_PRT_FCLTY_CD='C1' AND T1.FCLTS_MNG_GROUP_NO = S.FCLTS_MNG_GROUP_NO GROUP BY T1.PRT_FCLTY_STNDRD) ) AS PRT_PRT_FCLTY_CNT
+		  FROM (
+				SELECT
+						A.FCLTS_MNG_GROUP_NO
+						, A.FCLTS_MNG_GROUP_NM
+						,  A.FCLTS_GBN
+						, CASE A.FCLTS_GBN WHEN '1' THEN  '1종'
+						                WHEN '2' THEN  '2종'
+						                WHEN '3' THEN  '1종/2종'
+						                WHEN '9' THEN  '기타'
+						                ELSE '기타'
+						  END AS FCLTS_GBN_NM
+						,GAM_GET_FCLTS_SE_NM(A.FCLTS_SE) AS FCLTS_SE_NM
+						,GAM_GET_FCLTS_KND_NM(A.FCLTS_KND) AS FCLTS_KND_NM
+						,TO_CHAR(A.BLD_DT,'YYYY-MM-DD') AS BLD_DT
+						, TO_CHAR(A.CNST_BEGIN_DT,'YYYY-MM-DD')||'~'||TO_CHAR(A.CNST_END_DT,'YYYY-MM-DD') AS CNST_DT
+						, A.OWNER
+						, A.CNSTRTR
+						, A.LOC
+				  FROM FCLTS_MNG_GROUP_F A
+				  LEFT OUTER JOIN FENDER_INSPECTION B
+				  ON(A.FCLTS_MNG_GROUP_NO = B.FCLTS_MNG_GROUP_NO
+				  AND B.YEAR = #sYear#
+		  )
+		 WHERE CVL_ENG_FCLTY_USE_YN = 'Y'
+		   AND B.FCLTS_MNG_GROUP_NO IS NULL
+			AND A.FCLTS_MNG_GROUP_NM like '%'||'임항도로'||'%'
+		   ) S
+    </select>
+    
+</sqlMap>
