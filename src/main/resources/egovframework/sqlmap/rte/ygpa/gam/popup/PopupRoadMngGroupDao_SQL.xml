@@ -2,11 +2,10 @@
 <!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
 
 <sqlMap namespace="ygpa.gam.popup">
-
     <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="gamRoadIncidentMngVO" type="egovframework.rte.ygpa.gam.fclty.service.GamRoadIncidentMngVO"/>
     
-
     <select id="gamPopupRoadMngGroupDao.selectRoadMngGroupList" resultClass="egovMap">
 		SELECT ROWNUM RNUM, S.*, to_char( (SELECT WM_CONCAT(DISTINCT PRT_FCLTY_STNDRD) FROM GIS_PRT_FCLTY_CD_F T1 WHERE T1.GIS_PRT_FCLTY_CD='C1' AND T1.FCLTS_MNG_GROUP_NO = S.FCLTS_MNG_GROUP_NO ) ) AS PRT_FCLTY_STNDRD
 				, to_char( (SELECT WM_CONCAT(COUNT(*)) FROM GIS_PRT_FCLTY_CD_F T1 WHERE T1.GIS_PRT_FCLTY_CD='C1' AND T1.FCLTS_MNG_GROUP_NO = S.FCLTS_MNG_GROUP_NO GROUP BY T1.PRT_FCLTY_STNDRD) ) AS PRT_PRT_FCLTY_CNT
@@ -37,5 +36,20 @@
 			AND A.FCLTS_MNG_GROUP_NM like '%'||'임항도로'||'%'
 		   ) S
     </select>
+    
+	<select id="gamPopupRoadMngGroupDao.selectRoadNoList" parameterClass="gamRoadIncidentMngVO" resultClass="egovMap" >
+	
+		SELECT T1.PRT_FCLTY_NM,
+				T3.FCLTS_MNG_NO,
+				T3.LOC
+		  FROM GIS_PRT_FCLTY_CD_F T1
+		  LEFT OUTER JOIN FCLTS_MNG_GROUP_F T2 ON (T1.FCLTS_MNG_GROUP_NO=T2.FCLTS_MNG_GROUP_NO)
+		  LEFT OUTER JOIN CVL_ENG_FCLTY_SPEC_F T3 ON (T1.FCLTS_MNG_NO=T3.FCLTS_MNG_NO)
+		 WHERE 1=1
+		   AND T1.PRT_FCLTY_SE = 'C'
+		   AND T2.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+    </select>
+    
+    
     
 </sqlMap>

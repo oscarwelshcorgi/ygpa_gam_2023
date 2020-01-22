@@ -5,21 +5,12 @@
 	<!-- TYPE ALIAS 정의 -->
 	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
 	<typeAlias alias="hashMap" type="java.util.HashMap"/>
-
 	<typeAlias alias="gamRoadIncidentMngVO" type="egovframework.rte.ygpa.gam.fclty.service.GamRoadIncidentMngVO" />
-
-	<!-- RESULT MAP 정의 -->
-<!-- 	<resultMap id="gamInfoCommFcltySpecInqireSumMap" class="GamInfoCommFcltySpecInqireVO">
-		<result property="totalCount" column="TOTAL_COUNT" columnIndex="1"/>
-		<result property="sumQy" column="SUM_QY" columnIndex="2"/>
-		<result property="sumAcqAmt" column="SUM_ACQ_AMT" columnIndex="3"/>
-	</resultMap>
- -->
 
 	<select id="GamRoadIncidentMngDao.selectRoadIncidentMngList" parameterClass="gamRoadIncidentMngVO" resultClass="egovMap">
 		SELECT ROWNUM RNUM, S.*
 		  FROM(
-				SELECT T2.GIS_PRT_FCLTY_CD
+				SELECT DISTINCT T2.GIS_PRT_FCLTY_CD
 				        ,T2.PRT_FCLTY_NM
 				        ,T2.PRT_PRT_FCLTY_MNGER
 				        ,GAM_GETCODENAME('GAM070',T2.GIS_PRT_FCLTY_CD) AS GIS_PRT_FCLTY_CD_NM
@@ -28,21 +19,24 @@
 				        ,T3.LOC AS PRT_LOC
 				        ,T4.OWNER
 				        ,T1.YEAR
-				        ,T1.SN
 				        ,T1.FCLTS_MNG_GROUP_NO
 				        ,T1.FCLTS_MNG_NO
-				        ,T1.TRAFFIC_ACCIDENT
-				        ,T1.DEAD
-				        ,T1.SLANDER
-				        ,T1.SLIGHT_MISHAP
-				        ,T1.LOC
-				        ,T1.PHOTO
-				        
+				        			        
 				  FROM ROAD_INCIDENT T1
 				    INNER JOIN GIS_PRT_FCLTY_CD_F T2 ON(T1.fclts_mng_no = T2.fclts_mng_no)
 				    LEFT OUTER JOIN CVL_ENG_FCLTY_SPEC_F T3 ON (T2.FCLTS_MNG_NO=T3.FCLTS_MNG_NO)
 				    LEFT OUTER JOIN FCLTS_MNG_GROUP_F T4 ON (T1.FCLTS_MNG_GROUP_NO=T4.FCLTS_MNG_GROUP_NO)
 				 WHERE 1=1
+				<isNotEmpty property="sDtFrom">
+					<![CDATA[
+						AND T1.TA_DT >= to_date(#sDtFrom#,'yyyy-mm-dd')
+					]]>
+				</isNotEmpty>
+				<isNotEmpty property="sDtTo">
+					<![CDATA[
+						AND T1.TA_DT <= to_date(#sDtTo#,'yyyy-mm-dd')
+					]]>
+				</isNotEmpty>
 				) S
 	</select>
 
@@ -53,6 +47,7 @@
 				,GAM_GET_FCLTS_MNG_GROUP_NM(T1.FCLTS_MNG_GROUP_NO) AS FCLTS_MNG_GROUP_NM
 				,T1.FCLTS_MNG_NO
                 ,T2.PRT_FCLTY_NM AS FCLTS_MNG_NM
+                ,TO_CHAR(T1.TA_DT, 'YYYY-MM-DD') AS TA_DT
 				,T1.TRAFFIC_ACCIDENT
 				,T1.DEAD
 				,T1.SLANDER
@@ -62,9 +57,70 @@
 		  FROM ROAD_INCIDENT T1
 		  LEFT OUTER JOIN GIS_PRT_FCLTY_CD_F T2 ON (T1.FCLTS_MNG_NO=T2.FCLTS_MNG_NO)
 		 WHERE 1=1  
+		   AND T1.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+		   AND T1.FCLTS_MNG_NO = #fcltsMngNo#
 	</select>
 	
-	
+	<insert id="GamRoadIncidentMngDao.gamInsertRoadIncident" >
+		<selectKey keyProperty="sn" resultClass="java.lang.String">
+			SELECT NVL(MAX(SN),0)+1
+			  FROM ROAD_INCIDENT
+			 WHERE YEAR = #year#
+			   AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+			   AND FCLTS_MNG_NO  = #fcltsMngNo#
+  		</selectKey>
+  		
+  		INSERT INTO ROAD_INCIDENT (YEAR,
+									SN,
+									FCLTS_MNG_GROUP_NO,
+									FCLTS_MNG_NO,
+									TA_DT,
+									TRAFFIC_ACCIDENT,
+									DEAD,
+									SLANDER,
+									SLIGHT_MISHAP,
+									LOC,
+									PHOTO,
+									REGISTER,
+									RGSDE,
+									UPDUSR,
+									UPDDE
+									)
+		VALUES(#year#,
+				#sn#,
+				#fcltsMngGroupNo#,
+				#fcltsMngNo#,
+				to_date(#taDt#,'yyyy-mm-dd'),
+				#trafficAccident#,
+				#dead#,
+				#slander#,
+				#slightMishap#,
+				#loc#,
+				#photo#,
+				#register#,
+				sysdate,
+				#register#,
+				sysdate
+				)
+	</insert>
 	
 
+	<update id="GamRoadIncidentMngDao.gamUpdateRoadIncident" >
+		UPDATE ROAD_INCIDENT SET TA_DT = #taDt#,
+								TRAFFIC_ACCIDENT = #trafficAccident#,
+								DEAD = #dead#,
+								SLANDER = #slander#,
+								SLIGHT_MISHAP = #slightMishap#,
+								LOC = #loc#,
+								PHOTO = #photo#,
+								UPDUSR = #updusr#,
+								UPDDE = sysdate
+		 WHERE YEAR = #year#
+		   AND SN = #sn#
+		   AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+		   AND FCLTS_MNG_NO  = #fcltsMngNo#
+
+	</update>
+	
+	
 </sqlMap>

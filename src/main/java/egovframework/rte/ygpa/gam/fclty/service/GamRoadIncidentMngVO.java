@@ -118,16 +118,12 @@ public class GamRoadIncidentMngVO extends ComDefaultVO {
 	private	String updtDt;					// 수정일시
 	private	String prtFcltyLoc;				// 항만 시설 소재지
 	private	String fcltySpecExistYn;		// 시설제원 존재 여부
-	private	String sFcltsMngNo;				// 검색 시설물 관리 번호
-	private	String sLoc;					// 검색 위치
-	private	String sFcltsClCd;				// 검색 시설물 분류 코드
-	private	String sPrtFcltyNm;				// 검색 항만시설 명
-	private	String sPrtAtCode;				// 검색 항구분
-	private	String sFcltsMngGroupNo;		// 검색 시설물 관리 그룹 번호
-	private	String sGisPrtFcltyCd;			// GIS 항만 시설 코드
-	private	String totalCount;				// 조회 자료 수
-	private	String sumYardAr;				// 야적장 면적 합계
-	private	String sumBerth;				// 선석 합계
+	
+	private	String sYear;				// 검색 년도
+	private	String sDtFrom;				// 검색 시작일
+	private	String sDtTo;				// 검색 종료일
+	private	String sFcltsMngNo;				// 시설물 관리 번호
+	private	String sFcltsMngGroupNo;			// 시설물 관리 그룹 번호
 
 	/**
 	 * @return the gisPrtFcltyCd
@@ -1198,6 +1194,42 @@ public class GamRoadIncidentMngVO extends ComDefaultVO {
 		this.fcltySpecExistYn = fcltySpecExistYn;
 	}
 	/**
+	 * @return the sYear
+	 */
+	public String getsYear() {
+		return sYear;
+	}
+	/**
+	 * @param sYear the sYear to set
+	 */
+	public void setsYear(String sYear) {
+		this.sYear = sYear;
+	}
+	/**
+	 * @return the sDtFrom
+	 */
+	public String getsDtFrom() {
+		return sDtFrom;
+	}
+	/**
+	 * @param sDtFrom the sDtFrom to set
+	 */
+	public void setsDtFrom(String sDtFrom) {
+		this.sDtFrom = sDtFrom;
+	}
+	/**
+	 * @return the sDtTo
+	 */
+	public String getsDtTo() {
+		return sDtTo;
+	}
+	/**
+	 * @param sDtTo the sDtTo to set
+	 */
+	public void setsDtTo(String sDtTo) {
+		this.sDtTo = sDtTo;
+	}
+	/**
 	 * @return the sFcltsMngNo
 	 */
 	public String getsFcltsMngNo() {
@@ -1208,54 +1240,6 @@ public class GamRoadIncidentMngVO extends ComDefaultVO {
 	 */
 	public void setsFcltsMngNo(String sFcltsMngNo) {
 		this.sFcltsMngNo = sFcltsMngNo;
-	}
-	/**
-	 * @return the sLoc
-	 */
-	public String getsLoc() {
-		return sLoc;
-	}
-	/**
-	 * @param sLoc the sLoc to set
-	 */
-	public void setsLoc(String sLoc) {
-		this.sLoc = sLoc;
-	}
-	/**
-	 * @return the sFcltsClCd
-	 */
-	public String getsFcltsClCd() {
-		return sFcltsClCd;
-	}
-	/**
-	 * @param sFcltsClCd the sFcltsClCd to set
-	 */
-	public void setsFcltsClCd(String sFcltsClCd) {
-		this.sFcltsClCd = sFcltsClCd;
-	}
-	/**
-	 * @return the sPrtFcltyNm
-	 */
-	public String getsPrtFcltyNm() {
-		return sPrtFcltyNm;
-	}
-	/**
-	 * @param sPrtFcltyNm the sPrtFcltyNm to set
-	 */
-	public void setsPrtFcltyNm(String sPrtFcltyNm) {
-		this.sPrtFcltyNm = sPrtFcltyNm;
-	}
-	/**
-	 * @return the sPrtAtCode
-	 */
-	public String getsPrtAtCode() {
-		return sPrtAtCode;
-	}
-	/**
-	 * @param sPrtAtCode the sPrtAtCode to set
-	 */
-	public void setsPrtAtCode(String sPrtAtCode) {
-		this.sPrtAtCode = sPrtAtCode;
 	}
 	/**
 	 * @return the sFcltsMngGroupNo
@@ -1269,53 +1253,5 @@ public class GamRoadIncidentMngVO extends ComDefaultVO {
 	public void setsFcltsMngGroupNo(String sFcltsMngGroupNo) {
 		this.sFcltsMngGroupNo = sFcltsMngGroupNo;
 	}
-	/**
-	 * @return the sGisPrtFcltyCd
-	 */
-	public String getsGisPrtFcltyCd() {
-		return sGisPrtFcltyCd;
-	}
-	/**
-	 * @param sGisPrtFcltyCd the sGisPrtFcltyCd to set
-	 */
-	public void setsGisPrtFcltyCd(String sGisPrtFcltyCd) {
-		this.sGisPrtFcltyCd = sGisPrtFcltyCd;
-	}
-	/**
-	 * @return the totalCount
-	 */
-	public String getTotalCount() {
-		return totalCount;
-	}
-	/**
-	 * @param totalCount the totalCount to set
-	 */
-	public void setTotalCount(String totalCount) {
-		this.totalCount = totalCount;
-	}
-	/**
-	 * @return the sumYardAr
-	 */
-	public String getSumYardAr() {
-		return sumYardAr;
-	}
-	/**
-	 * @param sumYardAr the sumYardAr to set
-	 */
-	public void setSumYardAr(String sumYardAr) {
-		this.sumYardAr = sumYardAr;
-	}
-	/**
-	 * @return the sumBerth
-	 */
-	public String getSumBerth() {
-		return sumBerth;
-	}
-	/**
-	 * @param sumBerth the sumBerth to set
-	 */
-	public void setSumBerth(String sumBerth) {
-		this.sumBerth = sumBerth;
-	}
-
+	
 }

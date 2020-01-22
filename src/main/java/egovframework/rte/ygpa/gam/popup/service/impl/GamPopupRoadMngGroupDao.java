@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
+import egovframework.rte.ygpa.gam.fclty.service.GamRoadIncidentMngVO;
 
 /**
  * @Class Name : GamPopupEntrpsInfoDao.java
@@ -27,6 +28,14 @@ public class GamPopupRoadMngGroupDao extends YGPAAbstractDAO {
 	public List selectRoadMngGroupList() {
 		// TODO Auto-generated method stub
 		return list("gamPopupRoadMngGroupDao.selectRoadMngGroupList", "");
+	}
+
+	/**
+	 * @return
+	 */
+	public List selectRoadNoList(GamRoadIncidentMngVO gamRoadIncidentMngVO) {
+		// TODO Auto-generated method stub
+		return list("gamPopupRoadMngGroupDao.selectRoadNoList", gamRoadIncidentMngVO);
 	}
 	
 

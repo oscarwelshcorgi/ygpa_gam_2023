@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
+import egovframework.rte.ygpa.gam.fclty.service.GamRoadIncidentMngVO;
 import egovframework.rte.ygpa.gam.popup.service.GamPopupRoadMngGroupService;
 
 /**
@@ -35,6 +36,15 @@ public class GamPopupRoadMngGroupServiceImpl extends AbstractServiceImpl impleme
 	public List selectRoadMngGroupList() throws Exception {
 		// TODO Auto-generated method stub
 		return gamPopupRoadMngGroupDao.selectRoadMngGroupList();
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.popup.service.GamPopupRoadMngGroupService#selectRoadNoList()
+	 */
+	@Override
+	public List selectRoadNoList(GamRoadIncidentMngVO gamRoadIncidentMngVO) throws Exception {
+		// TODO Auto-generated method stub
+		return gamPopupRoadMngGroupDao.selectRoadNoList(gamRoadIncidentMngVO);
 	}
 
 	

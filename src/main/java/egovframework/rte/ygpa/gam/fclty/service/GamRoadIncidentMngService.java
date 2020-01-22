@@ -4,6 +4,7 @@
 package egovframework.rte.ygpa.gam.fclty.service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
 *
@@ -34,6 +35,14 @@ public interface GamRoadIncidentMngService {
 	 */
 	List selectRoadIncidentMngDetailList(GamRoadIncidentMngVO searchVO) throws Exception;
 
+	/**
+	 * @param insertRoadIncident
+	 */
+	void gamInsertRoadIncident(Map insertRoadIncident) throws Exception;
 
+	/**
+	 * @param insertRoadIncident
+	 */
+	void gamUpdateRoadIncident(Map insertRoadIncident) throws Exception;
 
 }

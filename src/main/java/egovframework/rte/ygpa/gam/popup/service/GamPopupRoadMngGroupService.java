@@ -5,6 +5,8 @@ package egovframework.rte.ygpa.gam.popup.service;
 
 import java.util.List;
 
+import egovframework.rte.ygpa.gam.fclty.service.GamRoadIncidentMngVO;
+
 /**
  * 
  * @author HNJ
@@ -28,6 +30,11 @@ public interface GamPopupRoadMngGroupService {
 	 * @return
 	 */
 	List selectRoadMngGroupList() throws Exception;
+
+	/**
+	 * @return
+	 */
+	List selectRoadNoList(GamRoadIncidentMngVO gamRoadIncidentMngVO) throws Exception;
 	
 
 }

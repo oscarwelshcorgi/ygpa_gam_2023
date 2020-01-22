@@ -4,6 +4,7 @@
 package egovframework.rte.ygpa.gam.fclty.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
@@ -33,7 +34,7 @@ public class GamRoadIncidentMngDao extends YGPAAbstractDAO {
 	 * @param searchVO
 	 * @return
 	 */
-	public List selectRoadIncidentMngList(GamRoadIncidentMngVO searchVO) {
+	public List selectRoadIncidentMngList(GamRoadIncidentMngVO searchVO) throws Exception {
 		// TODO Auto-generated method stub
 		return list("GamRoadIncidentMngDao.selectRoadIncidentMngList", searchVO);
 	}
@@ -42,9 +43,25 @@ public class GamRoadIncidentMngDao extends YGPAAbstractDAO {
 	 * @param searchVO
 	 * @return
 	 */
-	public List selectRoadIncidentMngDetailList(GamRoadIncidentMngVO searchVO) {
+	public List selectRoadIncidentMngDetailList(GamRoadIncidentMngVO searchVO) throws Exception{
 		// TODO Auto-generated method stub
 		return list("GamRoadIncidentMngDao.selectRoadIncidentMngDetailList", searchVO);
+	}
+
+	/**
+	 * @param insertRoadIncident
+	 */
+	public void gamInsertRoadIncident(Map insertRoadIncident) throws Exception{
+		// TODO Auto-generated method stub
+		insert("GamRoadIncidentMngDao.gamInsertRoadIncident", insertRoadIncident);
+	}
+
+	/**
+	 * @param insertRoadIncident
+	 */
+	public void gamUpdateRoadIncident(Map insertRoadIncident) throws Exception{
+		// TODO Auto-generated method stub
+		insert("GamRoadIncidentMngDao.gamUpdateRoadIncident", insertRoadIncident);
 	}
 
 }
