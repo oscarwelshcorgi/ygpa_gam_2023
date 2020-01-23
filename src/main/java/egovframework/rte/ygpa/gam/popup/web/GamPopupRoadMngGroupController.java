@@ -15,6 +15,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springmodules.validation.commons.DefaultBeanValidator;
@@ -22,6 +23,7 @@ import org.springmodules.validation.commons.DefaultBeanValidator;
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.service.EgovCmmUseService;
 import egovframework.rte.fdl.property.EgovPropertyService;
+import egovframework.rte.ygpa.gam.fclty.service.GamRoadIncidentMngVO;
 import egovframework.rte.ygpa.gam.popup.service.GamPopupRoadMngGroupService;
 
 /**
@@ -72,7 +74,7 @@ public class GamPopupRoadMngGroupController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/popup/showRoadMngGroup.do")
-    String showRoadMngGroupList(ModelMap model) throws Exception {
+    String showRoadMngGroup(ModelMap model) throws Exception {
     	return "/ygpa/gam/popup/GamPopupRoadMngGroup";
     }
 
@@ -88,6 +90,36 @@ public class GamPopupRoadMngGroupController {
     	Map map = new HashMap();
 
 		List resultList = gamPopupRoadMngGroupService.selectRoadMngGroupList();
+
+    	map.put("resultCode", 0);	// return ok
+    	map.put("resultList", resultList);
+
+    	return map;
+    }
+    
+	/**
+	 * 시설물 팝업
+	 * @param searchOpt
+	 * @return String
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/popup/showFcltsNo.do")
+    String showFcltsNo(@ModelAttribute("gamRoadIncidentMngVO") GamRoadIncidentMngVO gamRoadIncidentMngVO, ModelMap model) throws Exception {
+    	return "/ygpa/gam/popup/GamPopupRoadNo";
+    }
+
+	/**
+	 * 관리그룹 팝업 조회
+	 * @param searchOpt
+	 * @return Map
+	 * @throws Exception
+	 */
+    @RequestMapping(value="/popup/selectFcltsNoList.do")
+	@ResponseBody Map selectFcltsNoList(GamRoadIncidentMngVO gamRoadIncidentMngVO) throws Exception {
+		int totalCnt;
+    	Map map = new HashMap();
+
+		List resultList = gamPopupRoadMngGroupService.selectRoadNoList(gamRoadIncidentMngVO);
 
     	map.put("resultCode", 0);	// return ok
     	map.put("resultList", resultList);
