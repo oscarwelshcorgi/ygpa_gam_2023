@@ -112,9 +112,6 @@
     <relation key="FKCGroup_hK49U4wpEem4x9y4e23j8A">
       <value foreignKeyColumnGroup="FKCGroup_hK49U4wpEem4x9y4e23j8A"/>
     </relation>
-    <relation key="FKCGroup_TaazPoxVEem4x9y4e23j8A">
-      <value foreignKeyColumnGroup="FKCGroup_TaazPoxVEem4x9y4e23j8A" identifying="true"/>
-    </relation>
     <relation key="FKCGroup_Pw30TZL2EemBP-z5j5D7Tg">
       <value foreignKeyColumnGroup="FKCGroup_Pw30TZL2EemBP-z5j5D7Tg" identifying="true"/>
     </relation>
@@ -135,6 +132,9 @@
     </relation>
     <relation key="FKCGroup_y9j-cLjoEem1MJ7OJYLAvg">
       <value foreignKeyColumnGroup="FKCGroup_y9j-cLjoEem1MJ7OJYLAvg" identifying="true"/>
+    </relation>
+    <relation key="FKCGroup_TaazPoxVEem4x9y4e23j8A">
+      <value foreignKeyColumnGroup="FKCGroup_TaazPoxVEem4x9y4e23j8A" identifying="true"/>
     </relation>
   </relationManager>
   <configuration termFilePath="/ygam/db/public.xdic">
@@ -32694,13 +32694,13 @@
           </storageAttributes>
         </physicalProperties>
         <columns UUID="Column_hK49XYwpEem4x9y4e23j8A" logicalName="연도" physicalName="YEAR" domain="Domain__1ZNYowCEemAzNHIVp5C9g">
-          <memberships UUID="MEntry_hK49XowpEem4x9y4e23j8A" key="PKCGroup_hK49eYwpEem4x9y4e23j8A">
+          <memberships UUID="MEntry_eqY5EDwiEeqfR96AqRMmng" key="PKCGroup_hK49eYwpEem4x9y4e23j8A">
             <value xsi:type="e:PrimaryKeyMembership" UUID="PKMembership_hK49X4wpEem4x9y4e23j8A" group="PKCGroup_hK49eYwpEem4x9y4e23j8A" entryIndex="1"/>
           </memberships>
         </columns>
         <columns UUID="Column_NelmELjpEem1MJ7OJYLAvg" logicalName="순번" physicalName="SN" domain="Domain_TZ7DsIxVEem4x9y4e23j8A" dataType="number(3)">
           <memberships UUID="MEntry_NeopYLjpEem1MJ7OJYLAvg" key="PKCGroup_hK49eYwpEem4x9y4e23j8A">
-            <value xsi:type="e:PrimaryKeyMembership" UUID="PKMembership_NeopYbjpEem1MJ7OJYLAvg" group="PKCGroup_hK49eYwpEem4x9y4e23j8A" entryIndex="1"/>
+            <value xsi:type="e:PrimaryKeyMembership" UUID="PKMembership_NeopYbjpEem1MJ7OJYLAvg" group="PKCGroup_hK49eYwpEem4x9y4e23j8A" entryIndex="2"/>
           </memberships>
         </columns>
         <columns UUID="Column_Pw30SJL2EemBP-z5j5D7Tg" logicalName="시설물 관리 그룹 번호" physicalName="FCLTS_MNG_GROUP_NO" derivedPhysicalName="true" derivedLogicalName="true" dataType="VARCHAR2(14)">
@@ -32708,7 +32708,7 @@
             <value xsi:type="e:ColumnReference" UUID="CReference_Pw30SpL2EemBP-z5j5D7Tg" group="FKCGroup_Pw30TZL2EemBP-z5j5D7Tg" parentColumn="Column__d-An4dnEemHa8-_wEPkhQ"/>
           </memberships>
           <memberships UUID="MEntry_Pw30S5L2EemBP-z5j5D7Tg" key="PKCGroup_hK49eYwpEem4x9y4e23j8A">
-            <value xsi:type="e:PrimaryKeyMembership" UUID="PKMembership_Pw30TJL2EemBP-z5j5D7Tg" group="PKCGroup_hK49eYwpEem4x9y4e23j8A" entryIndex="0"/>
+            <value xsi:type="e:PrimaryKeyMembership" UUID="PKMembership_Pw30TJL2EemBP-z5j5D7Tg" group="PKCGroup_hK49eYwpEem4x9y4e23j8A" entryIndex="1"/>
           </memberships>
         </columns>
         <columns UUID="Column_fwkLgJNAEem5Q9W1HBEZYA" logicalName="시설물 종별" physicalName="FCLTS_GBN" comment="시설물 종별" dataType="VARCHAR2(1)" notNull="FALSE"/>
@@ -32755,17 +32755,12 @@
           </foreignKeyConstraint>
         </columnGroups>
       </tables>
-      <tables UUID="Table_qyTU2oxUEem4x9y4e23j8A" logicalName="임항도로 유지보수" physicalName="FENDER_MAINTENANCE">
+      <tables UUID="Table_qyTU2oxUEem4x9y4e23j8A" logicalName="임항도로 유지보수" physicalName="ROAD_MAINTENANCE">
         <physicalProperties xsi:type="o10g:TableProperties" UUID="TProperties_Taay-IxVEem4x9y4e23j8A">
           <storageAttributes UUID="PSAttributes_Taay-YxVEem4x9y4e23j8A">
             <storage UUID="SDetail_Taay-oxVEem4x9y4e23j8A"/>
           </storageAttributes>
         </physicalProperties>
-        <columns UUID="Column_Taay-4xVEem4x9y4e23j8A" logicalName="연도" physicalName="YEAR" domain="Domain__1ZNYowCEemAzNHIVp5C9g">
-          <memberships UUID="MEntry_Taay_IxVEem4x9y4e23j8A" key="PKCGroup_TaazGIxVEem4x9y4e23j8A">
-            <value xsi:type="e:PrimaryKeyMembership" UUID="PKMembership_Taay_YxVEem4x9y4e23j8A" group="PKCGroup_TaazGIxVEem4x9y4e23j8A" entryIndex="1"/>
-          </memberships>
-        </columns>
         <columns UUID="Column_Taay_oxVEem4x9y4e23j8A" logicalName="순번" physicalName="SN" domain="Domain_TZ7DsIxVEem4x9y4e23j8A">
           <memberships UUID="MEntry_Taay_4xVEem4x9y4e23j8A" key="PKCGroup_TaazGIxVEem4x9y4e23j8A">
             <value xsi:type="e:PrimaryKeyMembership" UUID="PKMembership_TaazAIxVEem4x9y4e23j8A" group="PKCGroup_TaazGIxVEem4x9y4e23j8A" entryIndex="2"/>
@@ -32793,36 +32788,28 @@
         <columns UUID="Column_TaazFYxVEem4x9y4e23j8A" logicalName="등록일" physicalName="RGSDE" domain="Domain__1ZNaIwCEemAzNHIVp5C9g"/>
         <columns UUID="Column_TaazFoxVEem4x9y4e23j8A" logicalName="수정자" physicalName="UPDUSR" domain="Domain_-htDA4wlEem4x9y4e23j8A"/>
         <columns UUID="Column_TaazF4xVEem4x9y4e23j8A" logicalName="수정일" physicalName="UPDDE" domain="Domain__1ZNaIwCEemAzNHIVp5C9g"/>
-        <columnGroups xsi:type="e:PrimaryKeyColumnGroup" UUID="PKCGroup_TaazGIxVEem4x9y4e23j8A" logicalName="임항도로 유지보수 기본키" physicalName="PK_FENDER_MAINTENANCE" derivedPhysicalName="true" derivedLogicalName="true">
+        <columnGroups xsi:type="e:PrimaryKeyColumnGroup" UUID="PKCGroup_TaazGIxVEem4x9y4e23j8A" logicalName="임항도로 유지보수 기본키" physicalName="PK_ROAD_MAINTENANCE" derivedPhysicalName="true" derivedLogicalName="true">
           <physicalProperties xsi:type="o10g:IndexProperties" UUID="IProperties_TJXIAJbxEem5OoApVYKfVg">
             <storageAttributes UUID="PSAttributes_TJXIAZbxEem5OoApVYKfVg">
               <storage UUID="SDetail_TJXIApbxEem5OoApVYKfVg"/>
             </storageAttributes>
           </physicalProperties>
-          <primaryKeyConstraint UUID="PKConstraint_TaazGYxVEem4x9y4e23j8A" logicalName="임항도로 유지보수 기본키" physicalName="PK_FENDER_MAINTENANCE" derivedPhysicalName="true" derivedLogicalName="true">
+          <primaryKeyConstraint UUID="PKConstraint_TaazGYxVEem4x9y4e23j8A" logicalName="임항도로 유지보수 기본키" physicalName="PK_ROAD_MAINTENANCE" derivedPhysicalName="true" derivedLogicalName="true">
             <physicalProperties xsi:type="o10g:PrimaryKeyConstraintProperties" UUID="PKCProperties_TJXIA5bxEem5OoApVYKfVg"/>
           </primaryKeyConstraint>
         </columnGroups>
-        <columnGroups xsi:type="e:ForeignKeyColumnGroup" UUID="FKCGroup_Pw30WJL2EemBP-z5j5D7Tg" logicalName="시설물 관리 그룹 -> 임항도로 유지보수" physicalName="FK_FCLTS_MNG_GROUP_F_TO_FENDER_MAINTENANCE" derivedPhysicalName="true" derivedLogicalName="true" parentColumnGroup="PKCGroup__d-A14dnEemHa8-_wEPkhQ">
-          <foreignKeyConstraint UUID="FKConstraint_Pw30WZL2EemBP-z5j5D7Tg" logicalName="시설물 관리 그룹 -> 임항도로 유지보수" physicalName="FK_FCLTS_MNG_GROUP_F_TO_FENDER_MAINTENANCE" derivedPhysicalName="true" derivedLogicalName="true">
+        <columnGroups xsi:type="e:ForeignKeyColumnGroup" UUID="FKCGroup_Pw30WJL2EemBP-z5j5D7Tg" logicalName="시설물 관리 그룹 -> 임항도로 유지보수" physicalName="FK_FCLTS_MNG_GROUP_F_TO_ROAD_MAINTENANCE" derivedPhysicalName="true" derivedLogicalName="true" parentColumnGroup="PKCGroup__d-A14dnEemHa8-_wEPkhQ">
+          <foreignKeyConstraint UUID="FKConstraint_Pw30WZL2EemBP-z5j5D7Tg" logicalName="시설물 관리 그룹 -> 임항도로 유지보수" physicalName="FK_FCLTS_MNG_GROUP_F_TO_ROAD_MAINTENANCE" derivedPhysicalName="true" derivedLogicalName="true">
             <physicalProperties xsi:type="o10g:ForeignKeyConstraintProperties" UUID="FKCProperties_TJXIBJbxEem5OoApVYKfVg"/>
           </foreignKeyConstraint>
         </columnGroups>
       </tables>
-      <tables UUID="Table_TaazH4xVEem4x9y4e23j8A" logicalName="임항도로 유지보수 리스트" physicalName="FENDER_MAINTENANCE_LIST">
+      <tables UUID="Table_TaazH4xVEem4x9y4e23j8A" logicalName="임항도로 유지보수 리스트" physicalName="ROAD_MAINTENANCE_LIST">
         <physicalProperties xsi:type="o10g:TableProperties" UUID="TProperties_TaazIYxVEem4x9y4e23j8A">
           <storageAttributes UUID="PSAttributes_TaazIoxVEem4x9y4e23j8A">
             <storage UUID="SDetail_TaazI4xVEem4x9y4e23j8A"/>
           </storageAttributes>
         </physicalProperties>
-        <columns UUID="Column_TaazJIxVEem4x9y4e23j8A" logicalName="연도" physicalName="YEAR" derivedPhysicalName="true" derivedLogicalName="true" domain="Domain__1ZNYowCEemAzNHIVp5C9g">
-          <memberships UUID="MEntry_TaazJYxVEem4x9y4e23j8A" key="FKCGroup_TaazPoxVEem4x9y4e23j8A">
-            <value xsi:type="e:ColumnReference" UUID="CReference_TaazJoxVEem4x9y4e23j8A" group="FKCGroup_TaazPoxVEem4x9y4e23j8A" entryIndex="1" parentColumn="Column_Taay-4xVEem4x9y4e23j8A"/>
-          </memberships>
-          <memberships UUID="MEntry_TaazJ4xVEem4x9y4e23j8A" key="PKCGroup_TaazQIxVEem4x9y4e23j8A">
-            <value xsi:type="e:PrimaryKeyMembership" UUID="PKMembership_TaazKIxVEem4x9y4e23j8A" group="PKCGroup_TaazQIxVEem4x9y4e23j8A" entryIndex="0"/>
-          </memberships>
-        </columns>
         <columns UUID="Column_TaazKYxVEem4x9y4e23j8A" logicalName="순번" physicalName="SN" derivedPhysicalName="true" derivedLogicalName="true" domain="Domain_TZ7DsIxVEem4x9y4e23j8A">
           <memberships UUID="MEntry_TaazKoxVEem4x9y4e23j8A" key="FKCGroup_TaazPoxVEem4x9y4e23j8A">
             <value xsi:type="e:ColumnReference" UUID="CReference_TaazK4xVEem4x9y4e23j8A" group="FKCGroup_TaazPoxVEem4x9y4e23j8A" entryIndex="2" parentColumn="Column_Taay_oxVEem4x9y4e23j8A"/>
@@ -32833,7 +32820,7 @@
         </columns>
         <columns UUID="Column_Pw4bVJL2EemBP-z5j5D7Tg" logicalName="시설물 관리 그룹 번호" physicalName="FCLTS_MNG_GROUP_NO" derivedPhysicalName="true" derivedLogicalName="true" dataType="VARCHAR2(14)">
           <memberships UUID="MEntry_Pw4bVZL2EemBP-z5j5D7Tg" key="FKCGroup_TaazPoxVEem4x9y4e23j8A">
-            <value xsi:type="e:ColumnReference" UUID="CReference_Pw4bVpL2EemBP-z5j5D7Tg" group="FKCGroup_TaazPoxVEem4x9y4e23j8A" parentColumn="Column_Pw30U5L2EemBP-z5j5D7Tg"/>
+            <value xsi:type="e:ColumnReference" UUID="CReference_Pw4bVpL2EemBP-z5j5D7Tg" group="FKCGroup_TaazPoxVEem4x9y4e23j8A" entryIndex="1" parentColumn="Column_Pw30U5L2EemBP-z5j5D7Tg"/>
           </memberships>
           <memberships UUID="MEntry_Pw4bV5L2EemBP-z5j5D7Tg" key="PKCGroup_TaazQIxVEem4x9y4e23j8A">
             <value xsi:type="e:PrimaryKeyMembership" UUID="PKMembership_Pw4bWJL2EemBP-z5j5D7Tg" group="PKCGroup_TaazQIxVEem4x9y4e23j8A" entryIndex="1"/>
@@ -32844,29 +32831,29 @@
             <value xsi:type="e:ColumnReference" UUID="CReference_KaB2kqO5EemOoquHOaphnQ" group="FKCGroup_KaB2k6O5EemOoquHOaphnQ" parentColumn="Column__d97ZYdnEemHa8-_wEPkhQ"/>
           </memberships>
           <memberships UUID="MEntry_pCVywLmpEem1MJ7OJYLAvg" key="PKCGroup_TaazQIxVEem4x9y4e23j8A">
-            <value xsi:type="e:PrimaryKeyMembership" UUID="PKMembership_pCVywbmpEem1MJ7OJYLAvg" group="PKCGroup_TaazQIxVEem4x9y4e23j8A" entryIndex="2"/>
+            <value xsi:type="e:PrimaryKeyMembership" UUID="PKMembership_pCVywbmpEem1MJ7OJYLAvg" group="PKCGroup_TaazQIxVEem4x9y4e23j8A" entryIndex="3"/>
           </memberships>
         </columns>
         <columns UUID="Column_BOzF0LmhEem1MJ7OJYLAvg" logicalName="비고" physicalName="remark" dataType="varchar2(100)"/>
         <columns UUID="Column_Pw4bXJL2EemBP-z5j5D7Tg" logicalName="등록자" physicalName="REGISTER" domain="Domain_-htDA4wlEem4x9y4e23j8A"/>
         <columns UUID="Column_Pw4bXZL2EemBP-z5j5D7Tg" logicalName="등록일" physicalName="RGSDE" domain="Domain__1ZNaIwCEemAzNHIVp5C9g"/>
-        <columnGroups xsi:type="e:ForeignKeyColumnGroup" UUID="FKCGroup_TaazPoxVEem4x9y4e23j8A" logicalName="임항도로 유지보수 -> 임항도로 유지보수 리스트" physicalName="FK_FENDER_MAINTENANCE_TO_FENDER_MAINTENANCE_LIST" derivedPhysicalName="true" derivedLogicalName="true" parentColumnGroup="PKCGroup_TaazGIxVEem4x9y4e23j8A">
-          <foreignKeyConstraint UUID="FKConstraint_TaazP4xVEem4x9y4e23j8A" logicalName="임항도로 유지보수 -> 임항도로 유지보수 리스트" physicalName="FK_FENDER_MAINTENANCE_TO_FENDER_MAINTENANCE_LIST" derivedPhysicalName="true" derivedLogicalName="true">
+        <columnGroups xsi:type="e:ForeignKeyColumnGroup" UUID="FKCGroup_TaazPoxVEem4x9y4e23j8A" logicalName="임항도로 유지보수 -> 임항도로 유지보수 리스트" physicalName="FK_ROAD_MAINTENANCE_TO_ROAD_MAINTENANCE_LIST" derivedPhysicalName="true" derivedLogicalName="true" parentColumnGroup="PKCGroup_TaazGIxVEem4x9y4e23j8A">
+          <foreignKeyConstraint UUID="FKConstraint_TaazP4xVEem4x9y4e23j8A" logicalName="임항도로 유지보수 -> 임항도로 유지보수 리스트" physicalName="FK_ROAD_MAINTENANCE_TO_ROAD_MAINTENANCE_LIST" derivedPhysicalName="true" derivedLogicalName="true">
             <physicalProperties xsi:type="o10g:ForeignKeyConstraintProperties" UUID="FKCProperties_TJXICpbxEem5OoApVYKfVg"/>
           </foreignKeyConstraint>
         </columnGroups>
-        <columnGroups xsi:type="e:PrimaryKeyColumnGroup" UUID="PKCGroup_TaazQIxVEem4x9y4e23j8A" logicalName="임항도로 유지보수 리스트 기본키" physicalName="PK_FENDER_MAINTENANCE_LIST" derivedPhysicalName="true" derivedLogicalName="true">
+        <columnGroups xsi:type="e:PrimaryKeyColumnGroup" UUID="PKCGroup_TaazQIxVEem4x9y4e23j8A" logicalName="임항도로 유지보수 리스트 기본키" physicalName="PK_ROAD_MAINTENANCE_LIST" derivedPhysicalName="true" derivedLogicalName="true">
           <physicalProperties xsi:type="o10g:IndexProperties" UUID="IProperties_TJXIC5bxEem5OoApVYKfVg">
             <storageAttributes UUID="PSAttributes_TJXIDJbxEem5OoApVYKfVg">
               <storage UUID="SDetail_TJXIDZbxEem5OoApVYKfVg"/>
             </storageAttributes>
           </physicalProperties>
-          <primaryKeyConstraint UUID="PKConstraint_TaazQYxVEem4x9y4e23j8A" logicalName="임항도로 유지보수 리스트 기본키" physicalName="PK_FENDER_MAINTENANCE_LIST" derivedPhysicalName="true" derivedLogicalName="true">
+          <primaryKeyConstraint UUID="PKConstraint_TaazQYxVEem4x9y4e23j8A" logicalName="임항도로 유지보수 리스트 기본키" physicalName="PK_ROAD_MAINTENANCE_LIST" derivedPhysicalName="true" derivedLogicalName="true">
             <physicalProperties xsi:type="o10g:PrimaryKeyConstraintProperties" UUID="PKCProperties_TJXIDpbxEem5OoApVYKfVg"/>
           </primaryKeyConstraint>
         </columnGroups>
-        <columnGroups xsi:type="e:ForeignKeyColumnGroup" UUID="FKCGroup_KaB2k6O5EemOoquHOaphnQ" logicalName="토목 시설 제원 -> 임항도로 유지보수 리스트" physicalName="FK_CVL_ENG_FCLTY_SPEC_F_TO_FENDER_MAINTENANCE_LIST" derivedPhysicalName="true" derivedLogicalName="true" parentColumnGroup="PKCGroup__d971YdnEemHa8-_wEPkhQ">
-          <foreignKeyConstraint UUID="FKConstraint_KaB2lKO5EemOoquHOaphnQ" logicalName="토목 시설 제원 -> 임항도로 유지보수 리스트" physicalName="FK_CVL_ENG_FCLTY_SPEC_F_TO_FENDER_MAINTENANCE_LIST" derivedPhysicalName="true" derivedLogicalName="true">
+        <columnGroups xsi:type="e:ForeignKeyColumnGroup" UUID="FKCGroup_KaB2k6O5EemOoquHOaphnQ" logicalName="토목 시설 제원 -> 임항도로 유지보수 리스트" physicalName="FK_CVL_ENG_FCLTY_SPEC_F_TO_ROAD_MAINTENANCE_LIST" derivedPhysicalName="true" derivedLogicalName="true" parentColumnGroup="PKCGroup__d971YdnEemHa8-_wEPkhQ">
+          <foreignKeyConstraint UUID="FKConstraint_KaB2lKO5EemOoquHOaphnQ" logicalName="토목 시설 제원 -> 임항도로 유지보수 리스트" physicalName="FK_CVL_ENG_FCLTY_SPEC_F_TO_ROAD_MAINTENANCE_LIST" derivedPhysicalName="true" derivedLogicalName="true">
             <physicalProperties xsi:type="o10g:ForeignKeyConstraintProperties" UUID="FKCProperties_hsgNoLmpEem1MJ7OJYLAvg"/>
           </foreignKeyConstraint>
         </columnGroups>
@@ -33138,32 +33125,32 @@
           </storageAttributes>
         </physicalProperties>
         <columns UUID="Column_y9klgLjoEem1MJ7OJYLAvg" logicalName="연도" physicalName="YEAR" derivedPhysicalName="true" derivedLogicalName="true" domain="Domain__1ZNYowCEemAzNHIVp5C9g">
-          <memberships UUID="MEntry_y9klgbjoEem1MJ7OJYLAvg" key="FKCGroup_y9j-cLjoEem1MJ7OJYLAvg">
-            <value xsi:type="e:ColumnReference" UUID="CReference_y9klgrjoEem1MJ7OJYLAvg" group="FKCGroup_y9j-cLjoEem1MJ7OJYLAvg" parentColumn="Column_hK49XYwpEem4x9y4e23j8A"/>
+          <memberships UUID="MEntry_eqY5ETwiEeqfR96AqRMmng" key="PKCGroup_y9peALjoEem1MJ7OJYLAvg">
+            <value xsi:type="e:PrimaryKeyMembership" UUID="PKMembership_y-P68bjoEem1MJ7OJYLAvg" group="PKCGroup_y9peALjoEem1MJ7OJYLAvg" entryIndex="3"/>
           </memberships>
-          <memberships UUID="MEntry_y-P68LjoEem1MJ7OJYLAvg" key="PKCGroup_y9peALjoEem1MJ7OJYLAvg">
-            <value xsi:type="e:PrimaryKeyMembership" UUID="PKMembership_y-P68bjoEem1MJ7OJYLAvg" group="PKCGroup_y9peALjoEem1MJ7OJYLAvg" entryIndex="0"/>
+          <memberships UUID="MEntry_eqY5EjwiEeqfR96AqRMmng" key="FKCGroup_y9j-cLjoEem1MJ7OJYLAvg">
+            <value xsi:type="e:ColumnReference" UUID="CReference_y9klgrjoEem1MJ7OJYLAvg" group="FKCGroup_y9j-cLjoEem1MJ7OJYLAvg" entryIndex="1" parentColumn="Column_hK49XYwpEem4x9y4e23j8A"/>
           </memberships>
         </columns>
         <columns UUID="Column_NeopYrjpEem1MJ7OJYLAvg" logicalName="순번" physicalName="SN" derivedPhysicalName="true" derivedLogicalName="true" dataType="number(3)">
           <memberships UUID="MEntry_NeopY7jpEem1MJ7OJYLAvg" key="FKCGroup_y9j-cLjoEem1MJ7OJYLAvg">
-            <value xsi:type="e:ColumnReference" UUID="CReference_NeopZLjpEem1MJ7OJYLAvg" group="FKCGroup_y9j-cLjoEem1MJ7OJYLAvg" parentColumn="Column_NelmELjpEem1MJ7OJYLAvg"/>
+            <value xsi:type="e:ColumnReference" UUID="CReference_NeopZLjpEem1MJ7OJYLAvg" group="FKCGroup_y9j-cLjoEem1MJ7OJYLAvg" entryIndex="1" parentColumn="Column_NelmELjpEem1MJ7OJYLAvg"/>
           </memberships>
           <memberships UUID="MEntry_NesTwLjpEem1MJ7OJYLAvg" key="PKCGroup_y9peALjoEem1MJ7OJYLAvg">
-            <value xsi:type="e:PrimaryKeyMembership" UUID="PKMembership_NesTwbjpEem1MJ7OJYLAvg" group="PKCGroup_y9peALjoEem1MJ7OJYLAvg" entryIndex="1"/>
+            <value xsi:type="e:PrimaryKeyMembership" UUID="PKMembership_NesTwbjpEem1MJ7OJYLAvg" group="PKCGroup_y9peALjoEem1MJ7OJYLAvg" entryIndex="2"/>
           </memberships>
         </columns>
         <columns UUID="Column_rxaBELmpEem1MJ7OJYLAvg" logicalName="구분" physicalName="SE" dataType="char(1)">
           <memberships UUID="MEntry_uvI9gLmpEem1MJ7OJYLAvg" key="PKCGroup_y9peALjoEem1MJ7OJYLAvg">
-            <value xsi:type="e:PrimaryKeyMembership" UUID="PKMembership_uvI9gbmpEem1MJ7OJYLAvg" group="PKCGroup_y9peALjoEem1MJ7OJYLAvg" entryIndex="3"/>
+            <value xsi:type="e:PrimaryKeyMembership" UUID="PKMembership_uvI9gbmpEem1MJ7OJYLAvg" group="PKCGroup_y9peALjoEem1MJ7OJYLAvg" entryIndex="4"/>
           </memberships>
         </columns>
         <columns UUID="Column_y-mgQLjoEem1MJ7OJYLAvg" logicalName="시설물 관리 그룹 번호" physicalName="FCLTS_MNG_GROUP_NO" derivedPhysicalName="true" derivedLogicalName="true" dataType="VARCHAR2(14)">
           <memberships UUID="MEntry_y-mgQbjoEem1MJ7OJYLAvg" key="FKCGroup_y9j-cLjoEem1MJ7OJYLAvg">
-            <value xsi:type="e:ColumnReference" UUID="CReference_y-mgQrjoEem1MJ7OJYLAvg" group="FKCGroup_y9j-cLjoEem1MJ7OJYLAvg" parentColumn="Column_Pw30SJL2EemBP-z5j5D7Tg"/>
+            <value xsi:type="e:ColumnReference" UUID="CReference_y-mgQrjoEem1MJ7OJYLAvg" group="FKCGroup_y9j-cLjoEem1MJ7OJYLAvg" entryIndex="2" parentColumn="Column_Pw30SJL2EemBP-z5j5D7Tg"/>
           </memberships>
           <memberships UUID="MEntry_y-pjkLjoEem1MJ7OJYLAvg" key="PKCGroup_y9peALjoEem1MJ7OJYLAvg">
-            <value xsi:type="e:PrimaryKeyMembership" UUID="PKMembership_y-pjkbjoEem1MJ7OJYLAvg" group="PKCGroup_y9peALjoEem1MJ7OJYLAvg" entryIndex="0"/>
+            <value xsi:type="e:PrimaryKeyMembership" UUID="PKMembership_y-pjkbjoEem1MJ7OJYLAvg" group="PKCGroup_y9peALjoEem1MJ7OJYLAvg" entryIndex="1"/>
           </memberships>
         </columns>
         <columns UUID="Column_x1h_YLjoEem1MJ7OJYLAvg" logicalName="시설물 관리 번호" physicalName="FCLTS_MNG_NO" derivedPhysicalName="true" derivedLogicalName="true" dataType="VARCHAR2(20)">
@@ -33171,7 +33158,7 @@
             <value xsi:type="e:ColumnReference" UUID="CReference_x1h_YrjoEem1MJ7OJYLAvg" group="FKCGroup_x1hYULjoEem1MJ7OJYLAvg" parentColumn="Column__d97ZYdnEemHa8-_wEPkhQ"/>
           </memberships>
           <memberships UUID="MEntry_d0mvALmpEem1MJ7OJYLAvg" key="PKCGroup_y9peALjoEem1MJ7OJYLAvg">
-            <value xsi:type="e:PrimaryKeyMembership" UUID="PKMembership_d0mvAbmpEem1MJ7OJYLAvg" group="PKCGroup_y9peALjoEem1MJ7OJYLAvg" entryIndex="2"/>
+            <value xsi:type="e:PrimaryKeyMembership" UUID="PKMembership_d0mvAbmpEem1MJ7OJYLAvg" group="PKCGroup_y9peALjoEem1MJ7OJYLAvg" entryIndex="3"/>
           </memberships>
         </columns>
         <columns UUID="Column_Hl5K1rmhEem1MJ7OJYLAvg" logicalName="비고" physicalName="remark" dataType="varchar2(100)"/>

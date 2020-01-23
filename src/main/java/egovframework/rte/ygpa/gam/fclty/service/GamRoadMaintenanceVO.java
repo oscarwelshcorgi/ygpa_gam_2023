@@ -82,8 +82,18 @@ public class GamRoadMaintenanceVO extends ComDefaultVO {
 	private String updde;
 	/** 하자기간 */
 	private String flawEndTerm;
+	/**하자만료일자*/
+	private String flawEndDt;
 	/** 준공일자 */
 	private String bldDt;
+	/** 보수위치 */
+	private String repairLoc;
+	/** 보수내용 */
+	private String repairCn;
+	/** 보수상태 */
+	private String repairSttus;
+	/**공사내용*/
+	private String cntrwkCn;
 
 	/**
 	 * @return the year
@@ -422,6 +432,18 @@ public class GamRoadMaintenanceVO extends ComDefaultVO {
 		this.flawEndTerm = flawEndTerm;
 	}
 	/**
+	 * @return the flawEndDt
+	 */
+	public String getFlawEndDt() {
+		return flawEndDt;
+	}
+	/**
+	 * @param flawEndDt the flawEndDt to set
+	 */
+	public void setFlawEndDt(String flawEndDt) {
+		this.flawEndDt = flawEndDt;
+	}
+	/**
 	 * @return the bldDt
 	 */
 	public String getBldDt() {
@@ -432,5 +454,53 @@ public class GamRoadMaintenanceVO extends ComDefaultVO {
 	 */
 	public void setBldDt(String bldDt) {
 		this.bldDt = bldDt;
+	}
+	/**
+	 * @return the repairLoc
+	 */
+	public String getRepairLoc() {
+		return repairLoc;
+	}
+	/**
+	 * @param repairLoc the repairLoc to set
+	 */
+	public void setRepairLoc(String repairLoc) {
+		this.repairLoc = repairLoc;
+	}
+	/**
+	 * @return the repairCn
+	 */
+	public String getRepairCn() {
+		return repairCn;
+	}
+	/**
+	 * @param repairCn the repairCn to set
+	 */
+	public void setRepairCn(String repairCn) {
+		this.repairCn = repairCn;
+	}
+	/**
+	 * @return the repairSttus
+	 */
+	public String getRepairSttus() {
+		return repairSttus;
+	}
+	/**
+	 * @param repairSttus the repairSttus to set
+	 */
+	public void setRepairSttus(String repairSttus) {
+		this.repairSttus = repairSttus;
+	}
+	/**
+	 * @return the cntrwkCn
+	 */
+	public String getCntrwkCn() {
+		return cntrwkCn;
+	}
+	/**
+	 * @param cntrwkCn the cntrwkCn to set
+	 */
+	public void setCntrwkCn(String cntrwkCn) {
+		this.cntrwkCn = cntrwkCn;
 	}
 }

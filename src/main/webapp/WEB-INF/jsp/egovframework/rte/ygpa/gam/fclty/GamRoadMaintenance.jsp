@@ -49,15 +49,15 @@ GamFenderMaintenanceModule.prototype.loadComplete = function() {
 					{display:"항구분",		name:"prtAtCodeNm",				width:60,		sortable:true,	align:"center"},
 					/* {display:"연도",			name:"year",					width:60,		sortable:true,	align:"center"},
 					{display:"종별",			name:"fcltsGbnNm",				width:60,		sortable:true,	align:"center"}, */
-					{display:"관리 그룹 명",	name:"fcltsMngGroupNm",			width:150,		sortable:true,	align:"left"},
+					{display:"관리 그룹 명",	name:"fcltsMngGroupNm",			width:150,		sortable:true,	align:"center"},
 					/* {display:"위치",			name:"loc",						width:200,		sortable:true,	align:"left"},
 					{display:"시행주체",		name:"opertnMbyNm",				width:200,		sortable:true,	align:"left"}, */
-					{display:"공사명칭",		name:"cntrwkNm",				width:200,		sortable:true,	align:"left"},
-					{display:"보수공사일자",		name:"cntrwkDt",				width:200,		sortable:true,	align:"left"},
-					{display:"준공일자",		name:"bldDt",				width:200,		sortable:true,	align:"left"},
-					{display:"시공사",		name:"cnstrtr",					width:200,		sortable:true,	align:"left"},
-					{display:"공사금액",		name:"cntrwkCt",				width:200,		sortable:true,	align:"right",	displayFormat: 'number'},
-					{display:"하자기간",		name:"flawEndTerm",				width:200,		sortable:true,	align:"left"},
+					{display:"공사명칭",		name:"cntrwkNm",				width:150,		sortable:true,	align:"center"},
+					{display:"보수공사일자",		name:"cntrwkBegin",				width:100,		sortable:true,	align:"center"},
+					{display:"보수공사 준공일자",		name:"cntrwkEnd",				width:100,		sortable:true,	align:"center"},
+					{display:"시공사",		name:"cnstrtr",					width:100,		sortable:true,	align:"center"},
+					{display:"공사금액",		name:"cntrwkCt",				width:130,		sortable:true,	align:"right",	displayFormat: 'number'},
+					{display:"하자기간",		name:"flawEndTerm",				width:200,		sortable:true,	align:"center"},
 					{display:"사업책임자",		name:"bsnsRspnber",				width:200,		sortable:true,	align:"left"}
 					],
 		showTableToggleBtn : false,
@@ -70,9 +70,10 @@ GamFenderMaintenanceModule.prototype.loadComplete = function() {
 		dataType: "json",
 		colModel : [
 			{display:"선택", 				name:"chkRole",				width:40, 		sortable:false,		align:"center", 	displayFormat:"checkbox"},
-			{display:"보수위치",			name:"prtFcltyNm",			width:200,		sortable:false,		align:"center"},
-			{display:"보수내용",	 		name:"remark",					width:150,		sortable:false,		align:"center",	displayFormat: 'input'},
-			{display:"보수상태",				name:"prtFcltyStndrd",		width:150,		sortable:false,		align:"center"},
+			{display:"시설명",			name:"prtFcltyNm",			width:200,		sortable:false,		align:"center"},
+			{display:"보수위치",			name:"repairLoc",			width:200,		sortable:false,		align:"center", displayFormat: 'input'},
+			{display:"보수내용",	 		name:"repairCn",			width:150,		sortable:false,		align:"center",	displayFormat: 'input'},
+			{display:"보수상태",			name:"repairSttus",			width:150,		sortable:false,		align:"center", displayFormat: 'input'},
 /* 			{display:"단위",	 			name:"prtFcltyUnit",			width:40,		sortable:false,		align:"left"},
 			{display:"수량",	 			name:"prtPrtFcltyCnt",			width:40,		sortable:false,		align:"right",	displayFormat: 'number'},
 			{display:"구조 형식",	 		name:"strctFmt",			width:150,		sortable:false,		align:"left"}
@@ -685,7 +686,7 @@ var module_instance = new GamFenderMaintenanceModule();
 									<table class="detailPanel" style="width:100%;">
 										<tr>
 											<th style="width:20%; height:18px;">도　　　　로　　　　명</th>
-											<td  >
+											<td>
 												<input type="hidden" id="fcltsMngGroupNo" data-column-id="fcltsMngGroupNo"/>
 												<input type="text" id="fcltsMngGroupNm" data-column-id="fcltsMngGroupNm" size="35" disabled="disabled" />
 												<button id="popupSpecFcltsMngGroupNo" class="popupButton">선택</button>
@@ -700,7 +701,7 @@ var module_instance = new GamFenderMaintenanceModule();
 										<tr>
 											<th style="width:20%; height:18px;">보　　수　　주　　체</th>
 											<td  >
-												<input type="text" id="prtAtCodeNm" data-column-id="prtAtCodeNm" size="35" disabled="disabled" />
+												<input type="text" id="owner" data-column-id="owner" size="35" disabled="disabled" />
 											</td>
 										</tr>
 										<tr>
@@ -722,7 +723,7 @@ var module_instance = new GamFenderMaintenanceModule();
 											<th style="width:20%; height:18px;" >공　　사　　내　　용</th>
 											<td>
 <!-- 												<input id="opertnMby" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM075"/> -->
-												<input type="text" id="remark" data-column-id="remark" size="35"/>
+												<input type="text" id="cntrwkCn" data-column-id="cntrwkCn" size="35"/>
 											</td>
 										</tr>
 										<tr>
