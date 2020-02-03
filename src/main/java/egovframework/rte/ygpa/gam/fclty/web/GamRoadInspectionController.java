@@ -131,7 +131,7 @@ public class GamRoadInspectionController {
 	}
 
 	/**
-	 * 방충재 시설 조회
+	 * 임항도로 시설 조회
 	 * @param searchVO
 	 * @return map
 	 * @throws Exception
@@ -606,7 +606,7 @@ public class GamRoadInspectionController {
 
 
 	/**
-	 * 방충재 정기점검 출력
+	 * 임항도로 정기점검 출력
 	 * @param searchOpt
 	 * @return String
 	 * @throws Exception

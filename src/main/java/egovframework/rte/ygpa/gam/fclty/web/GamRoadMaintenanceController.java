@@ -99,7 +99,7 @@ public class GamRoadMaintenanceController {
 
 
 	/**
-	 * 방충재 그룹 시설 조회
+	 * 임항도로 그룹 시설 조회
 	 * @param searchVO
 	 * @return map
 	 * @throws Exception
@@ -174,7 +174,7 @@ public class GamRoadMaintenanceController {
 	}
 
 	/**
-	 * 방충재 시설 조회
+	 * 임항도로 시설 조회
 	 * @param searchVO
 	 * @return map
 	 * @throws Exception
@@ -468,7 +468,7 @@ public class GamRoadMaintenanceController {
 
 
 	/**
-	 * 방충재 유지보수 출력
+	 * 임항도로 유지보수 출력
 	 * @param searchOpt
 	 * @return String
 	 * @throws Exception
