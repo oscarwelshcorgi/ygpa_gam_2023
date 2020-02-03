@@ -76,7 +76,14 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
         		this.nticPdDate = this.nticPdFrom+ '~'+ this.nticPdTo;
         		this.grUsagePd = this.grUsagePdFrom+ '~'+ this.grUsagePdTo;
         		this.nhtIsueYnStr = this.nhtIsueYn=="Y"?"고지":"";
-        		this.nhtPrintYnStr = this.nhtPrintYn=="Y"?"출력":"";
+
+        		if(this.nhtIsueYn=="Y" && this.nticAmt == 0){
+        			this.nhtPrintYnStr = "면제"
+        		}
+        		else{
+	        		this.nhtPrintYnStr = this.nhtPrintYn=="Y"?"출력":"";
+        		}
+
         		this.saveNm = this.save== "Y" ? "상계" : "";
         	});
 
@@ -88,6 +95,14 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
 
     this.$("#assetRentFeeList").on('onItemSelected', function(event, module, row, grid, param) {
     	module._modifyFee=false;
+    	if(row.nticAmt>0){
+	    	module.$('#btnNticIssuePrint').show();
+	    	module.$('#btnNticIssuePrint2').show();
+    	}
+    	else{
+	    	module.$('#btnNticIssuePrint').hide();
+	    	module.$('#btnNticIssuePrint2').hide();
+    	}
     });
 
     this.$("#assetRentFeeList").on('onItemDoubleClick', function(event, module, row, grid, param) {
@@ -122,7 +137,7 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
 		event.data.module.changeFee();
     });
 
-/* 이자 수동 변경 추가*/    
+/* 이자 수동 변경 추가*/
    	var this_ = this;
     this.$('#intrAmnt').on("keyup", {module: this}, function(event) {
     	this_._intrAmntCheck=true;
@@ -162,7 +177,7 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
 
 		this.$('#sUsagePdFrom').val(EMD.util.getDate(today));
 		this.$('#sUsagePdTo').val(EMD.util.getDate());
-    	
+
         var searchOpt=this.makeFormArgs('#gamAssetRentFeeSearchForm');
         this.$('#assetRentFeeList').flexOptions({params:searchOpt}).flexReload();
     }
@@ -245,7 +260,7 @@ GamAssetRentFeeMngtModule.prototype.changeVat = function() {
 납부 이자율 변경(월,일 체크)
 --%>
 GamAssetRentFeeMngtModule.prototype.changeInterest = function() {
-	
+
 	var intrAmnt=0;
 	var payinstIntrrate=this.$('#payinstIntrrate').val()/100||0;
 	var bal=this.instBal; //나머지
@@ -256,7 +271,7 @@ GamAssetRentFeeMngtModule.prototype.changeInterest = function() {
 	var ydays = (eod.getTime() - sod.getTime()) / 1000 / 60 / 60 / 24;
 	var ndFromDt = new Date(ndFrom[0], ndFrom[1], ndFrom[2]);
 	var ndToDt = new Date(ndTo[0], ndTo[1], ndTo[2]);
-	
+
 	if(this._intrAmntCheck != true){
 		if(this.$('#monthIntrAmnt').attr('checked')=="checked") {
 			var start = ndFrom[1];
@@ -277,7 +292,7 @@ GamAssetRentFeeMngtModule.prototype.changeInterest = function() {
 		intrAmnt=Math.floor(intrAmnt);
 		this.$('#intrAmnt').val($.number(intrAmnt));
 	}
-	
+
 	this.changeFee();
 	this._intrAmntCheck = false;
 };
@@ -484,7 +499,7 @@ GamAssetRentFeeMngtModule.prototype.cancelSave = function() {
                 if( confirm("선택한 건을 고지 하시겠습니까?") ) {
 /* 고지 최소금액 3000원 수정 */
                 	var fee = this.$('#fee').val().replace(/,/g, "")*1;
-                	if(fee < 3000){
+                	if(fee > 0 && fee < 3000){
                 		alert("최소금액 3,000원으로 청구됩니다.");
                 		this.$('#fee').val(3000);
                 		this.changeFee();
@@ -591,12 +606,12 @@ GamAssetRentFeeMngtModule.prototype.cancelSave = function() {
             	return;
             }
         	break;
-        
-/* 산정조서 다운로드 추가 
+
+/* 산정조서 다운로드 추가
  * jckim
- * 2019.07.08 
+ * 2019.07.08
  */
-        case 'btnReportHwp':	
+        case 'btnReportHwp':
             if(this.$('#assetRentFeeList').selectedRowCount()>0) {
                 this._rows = this.$('#assetRentFeeList').selectedRows()[0];
                 if( this._rows['save'] == 'Y' ) {
@@ -608,15 +623,15 @@ GamAssetRentFeeMngtModule.prototype.cancelSave = function() {
                 	alert("해당 건은 아직 고지되지 않았습니다.");
                 	return;
                 }
-                
+
                 this.doExecuteDialog('popupRentFeeReportHwp', '산정조서 근거', '/oper/gnrl/popupRentFeeReportHwp.do', null);
-                
+
             } else {
             	alert("다운로드할 목록에서 선택하십시오.");
             	return;
             }
         	break;
-        	
+
         case 'btnTaxPrint':	// 계산서 출력
         case 'btnTaxPrint2':	// 계산서 출력
             if(this.$('#assetRentFeeList').selectedRowCount()>0) {
@@ -861,7 +876,7 @@ GamAssetRentFeeMngtModule.prototype.onClosePopup = function(popupId, msg, value)
  	       this._rows.check4 = value.check4
  	       this._rows.check5 = value.check5
  	       this._rows.other = value.other
- 	       
+
 	   		$.fileDownload(EMD.context_root+'/oper/gnrl/rentFeeReportHwp.do', {data:this._rows, httpMethod:"POST"});
      	}
     	break;
