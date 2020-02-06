@@ -75,13 +75,14 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
         	$.each(data.resultList, function() {
         		this.nticPdDate = this.nticPdFrom+ '~'+ this.nticPdTo;
         		this.grUsagePd = this.grUsagePdFrom+ '~'+ this.grUsagePdTo;
-        		this.nhtIsueYnStr = this.nhtIsueYn=="Y"?"고지":"";
 
-        		if(this.nhtIsueYn=="Y" && this.nticAmt == 0){
-        			this.nhtPrintYnStr = "면제"
+        		if(this.nticAmt == 0){
+        			this.nhtIsueYnStr = "면제";
+        			this.nhtPrintYnStr = "면제";
         		}
         		else{
 	        		this.nhtPrintYnStr = this.nhtPrintYn=="Y"?"출력":"";
+	        		this.nhtIsueYnStr = this.nhtIsueYn=="Y"?"고지":"";
         		}
 
         		this.saveNm = this.save== "Y" ? "상계" : "";
@@ -96,10 +97,14 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
     this.$("#assetRentFeeList").on('onItemSelected', function(event, module, row, grid, param) {
     	module._modifyFee=false;
     	if(row.nticAmt>0){
+	    	module.$('#btnExecNticIssue').show();
+	    	module.$('#btnExecNticIssue2').show();
 	    	module.$('#btnNticIssuePrint').show();
 	    	module.$('#btnNticIssuePrint2').show();
     	}
     	else{
+	    	module.$('#btnExecNticIssue').hide();
+	    	module.$('#btnExecNticIssue2').hide();
 	    	module.$('#btnNticIssuePrint').hide();
 	    	module.$('#btnNticIssuePrint2').hide();
     	}
