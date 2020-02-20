@@ -91,7 +91,7 @@
 		    AND FEE_TP        = N.FEE_TP
 		    ) ELEC_PAY_NO,
 		    DECODE(N.PRT_AT_CODE, '622', '6374594', '6374604') GIRO_NO,
-		    P2MGR.sf_makedigit@YGPA_P2MGR(N.BILL_AMNT, 'AMT') ELEC_NTIC_AMT,
+		    P2MGR.sf_makedigit@YGPA_P2MGR(N.BILL_AMNT+N.SUP_AMT+N.VAT, 'AMT') ELEC_NTIC_AMT,	    
 		    N.*
 		  FROM  
 		  (
