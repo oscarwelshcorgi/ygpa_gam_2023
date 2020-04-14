@@ -96,7 +96,6 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 	@SuppressWarnings("unchecked")
 	protected List<EgovMap>getVirtualHtldRentFeeList(List<EgovMap> feeList, GamHtldRentMngtMainVO vo) throws Exception {
 		List<EgovMap> resultList = new ArrayList<EgovMap>();
-
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		LocalDate histDt = new LocalDate(dateFormat.parse(vo.getHistDt()));
 		String cofixIntr = gamHtldRentMngtMainDao.selectCofixIntrrate(vo);
@@ -142,7 +141,11 @@ public class GamHtldRentMngtMainServiceImpl extends AbstractServiceImpl implemen
 			if(("0".equals(rntfeeSe)) && ("N".equals(nticYn))) {
 				//일반고지자료이면서 고지가 되지 않은 가상의 자료
 				rntFee = getRentFee(histDt, paySe, priceSe, rentAr, applcRntfee, detailPdBegin, detailPdEnd, aseRntfee, aseApplcBegin, aseApplcEnd);
-
+				if(item.get("rntfee").equals(rntFee)){
+					rntFee = getRentFee(histDt, paySe, priceSe, rentAr, applcRntfee, detailPdBegin, detailPdEnd, aseRntfee, aseApplcBegin, aseApplcEnd);
+				}else{
+					rntFee = (item.get("rntfee") != null) ? (BigDecimal)item.get("rntfee") : new BigDecimal(0);
+				}
 				if("4".equals(paySe)) {
 					payinstIntr = getRentFeeInstIntr(rntFee, cofixIntr, histDt, detailPdEnd);
 				}
