@@ -163,7 +163,9 @@ public class EgovUserManageServiceImpl extends AbstractServiceImpl implements Eg
 			userManageDAO.updatePassword(userManageVO);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
+			log.debug(e.getMessage());
+			// 2020.04.24 보안점검 후속조치
 		}
 	}
 
