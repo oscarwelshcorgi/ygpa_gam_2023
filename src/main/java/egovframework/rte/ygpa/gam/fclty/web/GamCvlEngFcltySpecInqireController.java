@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package egovframework.rte.ygpa.gam.fclty.web;
 
@@ -34,14 +34,14 @@ import egovframework.rte.ygpa.gam.fclty.service.GamFcltsAtchFileMngVO;
 import egovframework.rte.ygpa.gam.fclty.service.GamMntnRprDtlsVO;
 
 /**
- * 
+ *
  * @author LFIT
  * @since 2015. 3. 9.
  * @version 1.0
  * @see
  * <pre>
  * << 개정이력(Modification Information) >>
- *   
+ *
  *   수정일 		 수정자		 수정내용
  *  -------		--------	---------------------------
  *  2015. 3. 9.		LFIT		최초 생성
@@ -76,7 +76,7 @@ public class GamCvlEngFcltySpecInqireController {
 		return "/ygpa/gam/fclty/GamCvlEngFcltySpecInqire";
 
 	}
-	
+
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fclty/gamSelectCvlEngFcltySpecInqireList.do", method=RequestMethod.POST)
 	@ResponseBody Map gamSelectCvlEngFcltySpecInqireList(GamCvlEngFcltySpecInqireVO searchVO) throws Exception {
@@ -136,7 +136,7 @@ public class GamCvlEngFcltySpecInqireController {
 		return map;
 
 	}
-	
+
 	/**
 	 *	첨부파일 목록
 	 */
@@ -170,7 +170,7 @@ public class GamCvlEngFcltySpecInqireController {
 		return map;
 
 	}
-	
+
 	/**
 	 *	refreshDirData
 	 */
@@ -200,7 +200,7 @@ public class GamCvlEngFcltySpecInqireController {
 		return map;
 
 	}
-	
+
 	/**
 	 *	refreshFileData
 	 */
@@ -223,7 +223,8 @@ public class GamCvlEngFcltySpecInqireController {
 			map.put("result", result);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.select"));
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			//2020.04.24 보안검사 후속조치
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.select"));
 		}
@@ -231,7 +232,7 @@ public class GamCvlEngFcltySpecInqireController {
 		return map;
 
 	}
-	
+
 	/**
 	 *	시설물 관리 그룹 번호
 	 */
@@ -257,7 +258,7 @@ public class GamCvlEngFcltySpecInqireController {
 		return map;
 
 	}
-	
+
 	/**
 	 *	엑셀다운로드
 	 */
@@ -295,11 +296,11 @@ public class GamCvlEngFcltySpecInqireController {
 		return new ModelAndView("gridExcelView", "gridResultMap", map);
 
 	}
-	
+
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fclty/gamSelectCvlEngFcltySpecInqireMntnRprDtlsList.do", method=RequestMethod.POST)
 	@ResponseBody Map gamSelectCvlEngFcltySpecInqireMntnRprDtlsList(GamMntnRprDtlsVO searchVO) throws Exception {
-	
+
 		Map map = new HashMap();
 
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -308,7 +309,7 @@ public class GamCvlEngFcltySpecInqireController {
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
 			return map;
 		}
-		
+
 		PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
 		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
@@ -322,7 +323,7 @@ public class GamCvlEngFcltySpecInqireController {
 
 		map.put("resultCode", 0);
 		map.put("resultList", resultList);
-		
+
 		return map;
 	}
 }

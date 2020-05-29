@@ -74,11 +74,11 @@ public class GamRoadIncidentMngController {
 	/** EgovMessageSource */
 	@Resource(name="egovMessageSource")
 	EgovMessageSource egovMessageSource;
-	
-	
+
+
     @Resource(name = "EgovFileMngService")
     private EgovFileMngService fileService;
-    
+
     @Resource(name="gamRoadFileIdGnrService")
     EgovTableIdGnrService gamRoadFileIdGnrService;
 
@@ -86,7 +86,7 @@ public class GamRoadIncidentMngController {
 	private GamRoadIncidentMngService gamRoadIncidentMngService;
 
 	protected static final Log LOG = LogFactory.getLog(GamRoadIncidentMngController.class);
-	
+
 	@RequestMapping(value="/fclty/gamRoadIncidentMng.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
 
@@ -174,22 +174,22 @@ public class GamRoadIncidentMngController {
 
 		/** List Data */
 		List roadIncidentMngList = gamRoadIncidentMngService.selectRoadIncidentMngDetailList(searchVO);
-		
+
 		map.put("resultCode", 0);			// return ok
     	map.put("resultList", roadIncidentMngList);
     	map.put("searchOption", searchVO);
 
     	return map;
     }
-	
-	
+
+
 	@RequestMapping(value="/fclty/gamInsertRoadIncidentMng.do")
 	@ResponseBody Map<String, Object> gamInsertRoadIncidentMng(final HttpServletRequest request, @RequestParam Map inputVO, Model model) throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		ObjectMapper mapper = new ObjectMapper();
 		Map insertRoadIncident = new HashMap();
-		
+
     	//List<HashMap<String,String>> insertObjList=null;
 
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -229,7 +229,8 @@ public class GamRoadIncidentMngController {
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			//2020.04.24 보안검사 후속조치
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
 		}
@@ -289,16 +290,17 @@ public class GamRoadIncidentMngController {
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			//2020.04.24 보안검사 후속조치
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
 		}
 		return map;
 	}
-	
-	
-	
-	
+
+
+
+
 	private String insertUpdateFile(final Map<String, MultipartFile> files, String fileKeyPrefix, String fileId, String[] delFileSn) throws Exception {
 		/*
 		 * process files
@@ -391,8 +393,8 @@ public class GamRoadIncidentMngController {
 			}
 		}
 		return fileId;
-	}	
-	
+	}
+
 	@RequestMapping(value="/fclty/gamRoadIncidentMngFileList.do")
 	@ResponseBody Map<String, Object> gamRoadMaintenanceFileList(GamRoadMaintenanceVO searchVO) throws Exception {
 
@@ -419,7 +421,7 @@ public class GamRoadIncidentMngController {
 		return map;
 
 	}
-	
+
 
 }
 
