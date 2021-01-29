@@ -56,9 +56,11 @@ public class YGProperties {
 		}finally{
 			try {
 				if (fis != null) fis.close();
-			} catch (Exception ex) {
+			} catch (IOException i) {
 
-			}
+			} catch (Exception e){
+				
+			} 
 
 		}
 		return value;
@@ -87,9 +89,11 @@ public class YGProperties {
 		}finally{
 			try {
 				if (fis != null) fis.close();
-			} catch (Exception ex) {
+			} catch (IOException i) {
 
-			}
+			} catch (Exception e){
+				
+			} 
 		}
 	}
 
@@ -139,6 +143,8 @@ public class YGProperties {
 		} finally {
 			try {
 				if (fis != null) fis.close();
+			} catch(IOException i){ 
+			
 			} catch (Exception e) {
 				LOGGER.error("file close error : "+ e.getMessage());
 			}

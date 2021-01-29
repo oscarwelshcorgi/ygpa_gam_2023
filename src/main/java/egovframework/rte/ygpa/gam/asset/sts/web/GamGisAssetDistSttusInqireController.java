@@ -1,5 +1,6 @@
 package egovframework.rte.ygpa.gam.asset.sts.web;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -149,8 +150,9 @@ public class GamGisAssetDistSttusInqireController {
 
 	    		model.addAttribute("assetCodeInfo", assetCodeInfo);
 				model.addAttribute("distList", distList);
-
 				model.addAttribute("resultCode", 0);
+			} catch(IOException e){
+				
 			}
 			catch(Exception e) {
 				model.addAttribute("resultCode", -1);

@@ -4,6 +4,7 @@
 package egovframework.rte.ygpa.gam.code.web;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.net.HttpURLConnection;
@@ -179,6 +180,8 @@ public class GamBjdOlnlpMngtController {
     	}
 		try {
 			gamBjdOlnlpMngtService.applyOlnlpData();
+		} catch(IOException e){
+			
 		}
 		catch(Exception e) {
 	        map.put("resultCode", 1);

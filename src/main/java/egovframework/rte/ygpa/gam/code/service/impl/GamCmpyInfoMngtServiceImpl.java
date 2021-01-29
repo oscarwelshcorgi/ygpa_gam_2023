@@ -3,6 +3,7 @@
  */
 package egovframework.rte.ygpa.gam.code.service.impl;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -132,6 +133,8 @@ public class GamCmpyInfoMngtServiceImpl extends AbstractServiceImpl implements G
     				insertCmpyCharger(insertList.get(i));
     			}
     		}
+    	} catch(IOException e) {
+    		
     	}catch(Exception e) { log.warn("an error found"); }
 	}
 
@@ -186,7 +189,9 @@ public class GamCmpyInfoMngtServiceImpl extends AbstractServiceImpl implements G
 					deleteCmpyCharger(deleteList.get(i));
 				}
 			}
-		}catch(Exception e) { log.warn("an error found"); }
+		} catch(IOException e){
+		} catch(Exception e) { log.warn("an error found"); }
+		
 	}
 
 

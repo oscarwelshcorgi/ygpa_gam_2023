@@ -3,6 +3,8 @@
  */
 package egovframework.rte.ygpa.gam.code.web;
 
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -235,7 +237,7 @@ public class GamAssetCodeMngtController {
 
     		insertVO.put("updUsr", loginVo.getId());
         	result=gamGisAssetCodeMngtService.updateAssetCode(insertVO);
-    	}
+    	} 
     	catch(Exception e) {
         	map.put("resultCode", -1);	// return ok
         	map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
@@ -263,6 +265,8 @@ public class GamAssetCodeMngtController {
 
     	try {
         	gamGisAssetCodeMngtService.deleteAssetCode(insertVO);
+    	} catch(ParseException e){
+    		
     	}
     	catch(Exception e) {
         	map.put("resultCode", -1);	// return ok
@@ -296,6 +300,8 @@ public class GamAssetCodeMngtController {
 
 
         	gamGisAssetCodeMngtService.deleteAssetCodes(deleteList);
+    	} catch(ParseException e){
+    		
     	}
     	catch(Exception e) {
         	map.put("resultCode", -1);	// return ok
@@ -404,6 +410,8 @@ public class GamAssetCodeMngtController {
 
 			map.put("resultCode", "0");
 			map.put("result", list);
+		} catch(ParseException e){
+			
 		}
 		catch(Exception e) {
 			map.put("resultCode", "-1");

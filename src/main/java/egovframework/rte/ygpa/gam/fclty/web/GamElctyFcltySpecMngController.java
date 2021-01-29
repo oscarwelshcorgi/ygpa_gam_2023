@@ -3,6 +3,7 @@
  */
 package egovframework.rte.ygpa.gam.fclty.web;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -152,6 +153,8 @@ public class GamElctyFcltySpecMngController {
 
     	try {
         	result = gamElctyFcltySpecMngService.selectElctyFcltySpecMngDetail(searchVO);
+    	} catch(IOException e){
+    		
     	}
     	catch(Exception e) {
             map.put("resultCode", 2);
@@ -204,7 +207,9 @@ public class GamElctyFcltySpecMngController {
     		map.put("fcltsMngNo", fcltyManageVO.get("fcltsMngNo"));
     		map.put("gisPrtFcltySeq", fcltyManageVO.get("gisPrtFcltySeq"));
             map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
-		} catch (Exception e) {
+		} catch(IOException e) {
+			
+		}catch (Exception e) {
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
 		}
@@ -271,7 +276,9 @@ public class GamElctyFcltySpecMngController {
     		
     		map.put("resultCode", 0);			// return ok
             map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
-		} catch (Exception e) {
+		} catch(IOException e) {
+			
+		}catch (Exception e) {
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
 		}
@@ -303,7 +310,9 @@ public class GamElctyFcltySpecMngController {
     		
     		map.put("resultCode", 0);			// return ok
             map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
-		} catch (Exception e) {
+		} catch(IOException e) {
+			
+		}catch (Exception e) {
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
 		}

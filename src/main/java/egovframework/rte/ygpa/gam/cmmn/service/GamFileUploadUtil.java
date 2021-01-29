@@ -194,21 +194,27 @@ public class GamFileUploadUtil {
 			if (bStream != null) {
 				try {
 					bStream.close();
-				} catch (Exception ignore) {
+				} catch(IOException e){
+					
+				}catch (Exception ignore) {
 					LOG.debug("IGNORE: " + ignore.getMessage());
 				}
 			}
 			if (in != null) {
 				try {
 					in.close();
-				} catch (Exception ignore) {
+				} catch(IOException e){
+					
+				}catch (Exception ignore) {
 					LOG.debug("IGNORE: " + ignore.getMessage());
 				}
 			}
 			if (fis != null) {
 				try {
 					fis.close();
-				} catch (Exception ignore) {
+				} catch(IOException e){
+					
+				}catch (Exception ignore) {
 					LOG.debug("IGNORE: " + ignore.getMessage());
 				}
 			}
@@ -255,6 +261,8 @@ public class GamFileUploadUtil {
 				FileCopyUtils.copy(in, response.getOutputStream());
 				response.getOutputStream().flush();
 				response.getOutputStream().close();
+			} catch(IOException e){
+				
 			}
 			catch(Exception e) {
 				LOG.error("download file error : "+e.getMessage());

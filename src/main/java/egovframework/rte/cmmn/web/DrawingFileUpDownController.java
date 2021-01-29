@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -226,10 +227,12 @@ public class DrawingFileUpDownController {
 				FileCopyUtils.copy(in, response.getOutputStream());
 				response.getOutputStream().flush();
 				response.getOutputStream().close();
+			} catch (IOException i){
+				
 			}
 			catch(Exception e) {
 				LOG.error("drawing download error : "+e.getMessage());
-			}
+			} 
 			finally {
 				if(in!=null) in.close();
 			}

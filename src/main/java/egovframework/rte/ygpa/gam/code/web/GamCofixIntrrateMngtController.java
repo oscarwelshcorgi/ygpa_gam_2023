@@ -3,6 +3,7 @@
  */
 package egovframework.rte.ygpa.gam.code.web;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -145,6 +146,8 @@ public class GamCofixIntrrateMngtController {
 
 	     	 map.put("resultCode", 0);
 	         map.put("resultMsg", egovMessageSource.getMessage("gam.asset.proc"));
+    	} catch(IOException e) {
+    		
     	}
     	catch(Exception e) {
 	     	 map.put("resultCode", 1);

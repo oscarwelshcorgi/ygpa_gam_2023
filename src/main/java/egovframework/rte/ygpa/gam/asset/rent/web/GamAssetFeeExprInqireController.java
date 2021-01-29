@@ -1,5 +1,6 @@
 package egovframework.rte.ygpa.gam.asset.rent.web;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -522,7 +523,9 @@ public class GamAssetFeeExprInqireController {
     			gamAssetFeeExprInqireService.updateAssetFeeExprInqireQuaycd(quaycdVO);
     		}
 
-    	} catch(Exception e) { log.warn("an error found"); }
+    	} catch(IOException e){
+    		
+    	}catch(Exception e) { log.warn("an error found"); }
     	log.debug("insert list : "+insertList.size());
     	log.debug("updateList list : "+updateList.size());
     	log.debug("deleteList list : "+deleteList.size());

@@ -206,6 +206,8 @@ public class GenericFileUpDownloadController {
 				FileCopyUtils.copy(in, response.getOutputStream());
 				response.getOutputStream().flush();
 				response.getOutputStream().close();
+			} catch(IOException i) {
+				
 			}
 			catch(Exception e) {
 				LOG.error("download file error : "+e.getMessage());
@@ -305,7 +307,10 @@ public class GenericFileUpDownloadController {
 			if (bStream != null) {
 				try {
 					bStream.close();
-				} catch (Exception ignore) {
+				} catch(IOException i) {
+					
+				}
+				catch (Exception ignore) {
 					//System.out.println("IGNORE: " + ignore);
 					LOG.debug("IGNORE: " + ignore.getMessage());
 				}
@@ -313,14 +318,18 @@ public class GenericFileUpDownloadController {
 			if (in != null) {
 				try {
 					in.close();
+				} catch(IOException i) {
+					
 				} catch (Exception ignore) {
 					//System.out.println("IGNORE: " + ignore);
 					LOG.debug("IGNORE: " + ignore.getMessage());
-				}
+				} 
 			}
 			if (fis != null) {
 				try {
 					fis.close();
+				} catch(IOException i) {
+					
 				} catch (Exception ignore) {
 					//System.out.println("IGNORE: " + ignore);
 					LOG.debug("IGNORE: " + ignore.getMessage());

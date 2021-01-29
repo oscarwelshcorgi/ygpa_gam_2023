@@ -3,6 +3,7 @@
  */
 package egovframework.rte.ygpa.gam.fclty.web;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -222,7 +223,9 @@ public class GamCivilFcltyMngtController {
 
     		map.put("resultCode", 0);			// return ok
             map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
-		} catch (Exception e) {
+		} catch(IOException e) {
+			
+		}catch (Exception e) {
 			// TODO: handle exception
 
 			map.put("resultCode", 1);
@@ -254,6 +257,8 @@ public class GamCivilFcltyMngtController {
 
     	try {
         	result = gamCivilFcltyMngtService.CivilfcltyMngSelectView(fcltyManageVO);
+    	} catch(IOException e) {
+    		
     	}
     	catch(Exception e) {
             map.put("resultCode", 2);
@@ -295,7 +300,9 @@ public class GamCivilFcltyMngtController {
     		gamCivilFcltyMngtService.updateCivilFclty(fcltyMngtList);
     		map.put("resultCode", 0);			// return ok
     		map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
-		} catch (Exception e) {
+		} catch(IOException e) {
+			
+		}catch (Exception e) {
 			// TODO: handle exception
 
 			map.put("resultCode", 1);
@@ -332,7 +339,9 @@ public class GamCivilFcltyMngtController {
             map.put("resultCode", 0);
             map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
 
-		} catch (Exception e) {
+		} catch(IOException e) {
+			
+		}catch (Exception e) {
 			// TODO: handle exception
 
 			map.put("resultCode", 1);

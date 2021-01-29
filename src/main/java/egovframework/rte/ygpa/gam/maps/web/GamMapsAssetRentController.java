@@ -3,6 +3,7 @@
  */
 package egovframework.rte.ygpa.gam.maps.web;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -116,6 +117,8 @@ public class GamMapsAssetRentController {
 
 				model.addAttribute("auth", auth);
 				model.addAttribute("resultCode", 0);
+			} catch(IOException e) {
+				
 			}
 			catch(Exception e) {
 				model.addAttribute("resultCode", -1);

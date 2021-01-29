@@ -1,5 +1,6 @@
 package egovframework.rte.ygpa.gam.asset.sts.web;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -172,6 +173,8 @@ public class GamGisAssetSttusInqireController {
 				model.addAttribute("deprctnList", deprctnList);
 
 				model.addAttribute("resultCode", 0);
+			} catch(IOException e){
+				
 			}
 			catch(Exception e) {
 				model.addAttribute("resultCode", -1);
@@ -262,6 +265,8 @@ public class GamGisAssetSttusInqireController {
 				model.addAttribute("referDate", (String)searchVO.get("referDate"));
 
 				model.addAttribute("resultCode", 0);
+			} catch(IOException e){
+				
 			}
 			catch(Exception e) {
 				model.addAttribute("resultCode", -1);
@@ -353,6 +358,8 @@ public class GamGisAssetSttusInqireController {
 				model.addAttribute("sGrUsagePdTo", (String)searchVO.get("sGrUsagePdTo"));
 
 				model.addAttribute("resultCode", 0);
+			} catch(IOException e){
+				
 			}
 			catch(Exception e) {
 				model.addAttribute("resultCode", -1);

@@ -1,5 +1,6 @@
 package egovframework.rte.ygpa.gam.asset.web;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -186,6 +187,8 @@ public class GamAssetDisUseMngtController {
 	        gamAssetDisUseMngtVO.setUpdUsr(loginVO.getId());
 
 	        gamAssetDisUseMngtService.updateAssetDisUse(gamAssetDisUseMngtVO);
+    	} catch(IOException e){
+    		
     	}
     	catch(Exception e) {
         	map.put("resultCode", -1);	// return ok

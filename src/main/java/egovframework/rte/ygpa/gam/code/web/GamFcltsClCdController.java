@@ -3,6 +3,7 @@
  */
 package egovframework.rte.ygpa.gam.code.web;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -211,7 +212,9 @@ public class GamFcltsClCdController {
 	    	
 	    	map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
 	        map.put("resultCode", 0);
-    	} catch (Exception e) {
+    	} catch(IOException e) {
+    		
+    	}catch (Exception e) {
 			// TODO: handle exception
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
@@ -251,6 +254,8 @@ public class GamFcltsClCdController {
 	    	
 	    	map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
 	        map.put("resultCode", 0);
+    	} catch(IOException e){
+    		
     	} catch (Exception e) {
 			// TODO: handle exception
 			map.put("resultCode", 1);
@@ -292,7 +297,9 @@ public class GamFcltsClCdController {
 
 	    	map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
 	        map.put("resultCode", 0);
-    	} catch (Exception e) {
+    	} catch(IOException e){
+    		
+    	}catch (Exception e) {
 			// TODO: handle exception
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));

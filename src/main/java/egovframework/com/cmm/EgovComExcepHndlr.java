@@ -1,5 +1,7 @@
 package egovframework.com.cmm;
 
+import java.io.IOException;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -41,6 +43,8 @@ public class EgovComExcepHndlr implements ExceptionHandler {
 	    //e.printStackTrace();
 		log.fatal(packageName, ex);// 2011.10.10 보안점검 후속조치
 	    //throw new RuntimeException(ex);	
+	} finally {
+		
 	}
     }
 }

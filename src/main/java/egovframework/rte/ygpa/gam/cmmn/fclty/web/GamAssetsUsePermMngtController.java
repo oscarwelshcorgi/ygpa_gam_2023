@@ -3,6 +3,7 @@
  */
 package egovframework.rte.ygpa.gam.cmmn.fclty.web;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -71,6 +72,8 @@ public class GamAssetsUsePermMngtController {
 
     	try {
     		gamAssetsUsePermMngtService.insertBillCreateAdit(levreqestAdit);
+    	} catch(IOException e){
+    		
     	}
     	catch(Exception e) {
             map.put("resultCode", -1);
@@ -99,6 +102,8 @@ public class GamAssetsUsePermMngtController {
 
     	try {
     		gamAssetsUsePermMngtService.deleteBillAdit(levReqest);
+    	} catch(IOException e){
+    		
     	}
     	catch(Exception e) {
             map.put("resultCode", -1);

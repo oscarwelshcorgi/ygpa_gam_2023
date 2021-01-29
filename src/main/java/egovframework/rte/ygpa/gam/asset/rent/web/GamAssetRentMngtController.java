@@ -1,5 +1,6 @@
 package egovframework.rte.ygpa.gam.asset.rent.web;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -603,9 +604,10 @@ public class GamAssetRentMngtController {
     		resultCode = 0;
         	resultMsg  = egovMessageSource.getMessage("success.common.merge");
 
-    	} catch (Exception e) {
-
-
+    	} catch(IOException e){
+    		
+    	}
+    	catch (Exception e) {
     		resultCode = 1;
     		resultMsg  = egovMessageSource.getMessage("fail.common.msg");
     	}
@@ -732,7 +734,9 @@ public class GamAssetRentMngtController {
 	    		resultCode = 1; // return fail
 	    		resultMsg  = egovMessageSource.getMessage("gam.asset.rent.reject");
 	    	}
-        } catch(Exception e) {
+        } catch(IOException e){
+        	
+        }catch(Exception e) {
 
 
     		resultCode = 1;
@@ -846,8 +850,9 @@ public class GamAssetRentMngtController {
 	    		resultCode = 1; // return fail
 	    		resultMsg  = egovMessageSource.getMessage("gam.asset.rent.err.delete");
 	    	}
-        } catch(Exception e) {
-
+        } catch(IOException e){
+        	
+        }catch(Exception e) {
 
     		resultCode = 1;
     		resultMsg  = egovMessageSource.getMessage("fail.common.msg");
@@ -1463,6 +1468,8 @@ public class GamAssetRentMngtController {
 
 			map.put("resultCode", "0");
 			map.put("result", list);
+		} catch(IOException e){
+			
 		}
 		catch(Exception e) {
 			map.put("resultCode", "-1");

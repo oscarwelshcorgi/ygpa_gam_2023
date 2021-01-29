@@ -3,6 +3,7 @@
  */
 package egovframework.rte.ygpa.gam.maps.web;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -235,6 +236,8 @@ public class GamMapsAssetCodeMngtController {
 					}
 				}
 				model.addAttribute("resultCode", 0);
+			} catch(IOException e) {
+				
 			}
 			catch(Exception e) {
 				model.addAttribute("resultCode", -1);
@@ -307,6 +310,8 @@ public class GamMapsAssetCodeMngtController {
 					model.addAttribute("lnmSub", lnmSub);
 				}
 				model.addAttribute("resultCode", 0);
+			} catch(IOException e) {
+				
 			}
 			catch(Exception e) {
 				model.addAttribute("resultCode", -1);

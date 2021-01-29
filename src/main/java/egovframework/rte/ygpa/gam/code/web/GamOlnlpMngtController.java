@@ -245,7 +245,9 @@ public class GamOlnlpMngtController {
 				gamOlnlpMngtService.insertOlnlpMngt(olnlpVO);
 				map.put("resultCode", 0);
 				map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
-			} catch (Exception e) {
+			} catch(IOException e){
+				
+			}catch (Exception e) {
 				// TODO: handle exception
 
 				map.put("resultCode", 1);
@@ -290,7 +292,9 @@ public class GamOlnlpMngtController {
 				gamOlnlpMngtService.updateOlnlpMngt(olnlpVO);
 				map.put("resultCode", 0);
 				map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
-			} catch (Exception e) {
+			} catch(IOException e) {
+				
+			}catch (Exception e) {
 				// TODO: handle exception
 
 				map.put("resultCode", 1);
@@ -326,9 +330,10 @@ public class GamOlnlpMngtController {
 	        map.put("resultCode", 0);
 	        map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
 
-		} catch (Exception e) {
+		} catch(IOException e) {
+			
+		}catch (Exception e) {
 			// TODO: handle exception
-
 	        map.put("resultCode", 1);
 	        map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
 		}

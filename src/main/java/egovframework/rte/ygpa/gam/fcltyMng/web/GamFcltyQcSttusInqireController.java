@@ -3,6 +3,7 @@
  */
 package egovframework.rte.ygpa.gam.fcltyMng.web;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -186,6 +187,8 @@ public class GamFcltyQcSttusInqireController {
             map.put("resultCode", 0);
             map.put("detailData", detailData);
             map.put("atchFileList", atchFileList);
+    	} catch(IOException e) {
+    		
     	}
     	catch(Exception e) {
             map.put("resultCode", 1);

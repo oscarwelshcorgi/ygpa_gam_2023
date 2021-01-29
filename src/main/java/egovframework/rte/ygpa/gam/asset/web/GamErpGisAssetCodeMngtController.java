@@ -1,5 +1,6 @@
 package egovframework.rte.ygpa.gam.asset.web;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -317,6 +318,8 @@ public class GamErpGisAssetCodeMngtController {
 			mergeMap.put("regUsr", loginVo.getId());
 
 			gamErpGisAssetCodeMngtService.mergeErpGisAssetCodeMngt(mergeMap);
+		} catch(IOException i){
+			
 		}
     	catch(Exception e) {
         	map.put("resultCode", -1);	// return ok
@@ -382,6 +385,8 @@ public class GamErpGisAssetCodeMngtController {
 			mergeMap.put("updUsr", loginVo.getId());
 			mergeMap.put("regUsr", loginVo.getId());
 			gamErpGisAssetCodeMngtService.mergeErpGisAssetPhotoMngt(mergeMap);
+		} catch(IOException e){
+			
 		}
     	catch(Exception e) {
         	map.put("resultCode", -1);	// return ok
@@ -479,6 +484,8 @@ public class GamErpGisAssetCodeMngtController {
 			mergeMap.put("updUsr", loginVo.getId());
 			mergeMap.put("regUsr", loginVo.getId());
 			gamErpGisAssetCodeMngtService.mergeErpGisAssetPhotoMngt(mergeMap);
+		} catch(IOException e){
+			
 		}
     	catch(Exception e) {
         	map.put("resultCode", -1);	// return ok

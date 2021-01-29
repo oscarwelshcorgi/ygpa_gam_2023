@@ -1,5 +1,6 @@
 package egovframework.rte.ygpa.gam.asset.rent.web;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -797,6 +798,8 @@ public class GamAssetRentFeeMngtController {
 
 	     	map.put("resultCode", resultCode);
 	        map.put("resultMsg", resultMsg);
+    	} catch(IOException e){
+    		
     	}
     	catch(Exception e) {
 	        map.put("resultCode", -1);
@@ -849,6 +852,8 @@ public class GamAssetRentFeeMngtController {
 
 	        resultCode = 0;
 	 		resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.
+    	} catch(IOException e){
+    		
     	}
     	catch(Exception e) {
 	        resultCode = -1;
@@ -908,6 +913,8 @@ public class GamAssetRentFeeMngtController {
 	    		gamAssetRentFeeMngtService.updateAssetRentFeeMngtListDetail(gamAssetRentFeeMngtVO);
 		         resultCode = 0;
 		 		 resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.
+	    	} catch(IOException e) {
+	    		
 	    	}
 	    	catch(Exception e) {
 		         resultCode = 0;
@@ -1085,6 +1092,8 @@ public class GamAssetRentFeeMngtController {
 	    		gamNticRequestMngtService.updateNticPrintState(map);
 		         resultCode = 0;
 		 		 resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.
+	    	} catch(IOException e){
+	    		
 	    	}
 	    	catch(Exception e) {
 		         resultCode = 0;
@@ -1134,6 +1143,8 @@ public class GamAssetRentFeeMngtController {
 	    		gamNticRequestMngtService.updateNticPrintState2(map);
 		         resultCode = 0;
 		 		 resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.
+	    	} catch(IOException e){
+	    		
 	    	}
 	    	catch(Exception e) {
 		         resultCode = 0;

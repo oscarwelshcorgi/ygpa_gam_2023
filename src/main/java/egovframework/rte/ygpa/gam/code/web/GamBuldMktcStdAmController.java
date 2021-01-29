@@ -1,5 +1,6 @@
 package egovframework.rte.ygpa.gam.code.web;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -145,6 +146,8 @@ public class GamBuldMktcStdAmController{
 
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
+		} catch(IOException e){
+			
 		} catch (Exception e) {
 			//e.printStackTrace();
 			//2020.04.24 보안검사 후속조치
@@ -180,6 +183,8 @@ public class GamBuldMktcStdAmController{
 
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
+		} catch(IOException e) {
+			
 		} catch (Exception e) {
 			//e.printStackTrace();
 			//2020.04.24 보안검사 후속조치
@@ -211,6 +216,8 @@ public class GamBuldMktcStdAmController{
 
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
+		} catch(IOException e){
+			
 		} catch (Exception e) {
 			//e.printStackTrace();
 			//2020.04.24 보안검사 후속조치

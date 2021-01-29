@@ -3,6 +3,7 @@
  */
 package egovframework.rte.ygpa.gam.fclty.web;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -183,6 +184,8 @@ public class GamCivilFcltySpecInqireController {
 
     	try {
     		result = gamCivilFcltySpecInqireService.selectCivilFcltySpecInqireDetail(searchVO);
+        } catch(IOException e){
+        	
         }
 
     	catch(Exception e) {

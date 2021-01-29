@@ -239,6 +239,8 @@ public class PrtFcltyPhotoUpDownController {
 				FileCopyUtils.copy(in, response.getOutputStream());
 				response.getOutputStream().flush();
 				response.getOutputStream().close();
+			} catch (IOException i){
+				
 			}
 			catch(Exception e) {
 				LOG.error("port facility file download error : "+e.getMessage());
@@ -338,7 +340,9 @@ public class PrtFcltyPhotoUpDownController {
 			if (bStream != null) {
 				try {
 					bStream.close();
+				} catch(IOException i) {
 				} catch (Exception ignore) {
+				
 					//System.out.println("IGNORE: " + ignore);
 					LOG.debug("IGNORE: " + ignore.getMessage());
 				}
@@ -346,6 +350,7 @@ public class PrtFcltyPhotoUpDownController {
 			if (in != null) {
 				try {
 					in.close();
+				}  catch(IOException i) {
 				} catch (Exception ignore) {
 					//System.out.println("IGNORE: " + ignore);
 					LOG.debug("IGNORE: " + ignore.getMessage());
@@ -354,7 +359,9 @@ public class PrtFcltyPhotoUpDownController {
 			if (fis != null) {
 				try {
 					fis.close();
+				} catch(IOException i){
 				} catch (Exception ignore) {
+				
 					//System.out.println("IGNORE: " + ignore);
 					LOG.debug("IGNORE: " + ignore.getMessage());
 				}
