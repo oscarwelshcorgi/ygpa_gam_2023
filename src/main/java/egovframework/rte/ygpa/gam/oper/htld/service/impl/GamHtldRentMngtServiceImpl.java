@@ -1,6 +1,5 @@
 package egovframework.rte.ygpa.gam.oper.htld.service.impl;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
@@ -863,9 +862,8 @@ public class GamHtldRentMngtServiceImpl extends AbstractServiceImpl implements G
 	    	}
 	    	try {
 	    		insertHtldRentLevReqest(master, detailList);
-	    	} catch (IOException e) {
-	    		
-	    	} catch(Exception e) {
+	    	}
+	    	catch(Exception e) {
 	    		log.warn("배후단지 임대정보 " + master.getMngYear() + "-"+master.getMngNo()+"-"+master.getMngCnt()+"의 사용료를 생성 할 수 없습니다. ( ex: "+e.getMessage()+" )");
 	    	}
     	}

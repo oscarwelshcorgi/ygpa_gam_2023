@@ -1,6 +1,5 @@
 package egovframework.rte.ygpa.gam.oper.gnrltest.web;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -582,8 +581,6 @@ public class GamTestPrtFcltyRentMngtController {
     		resultCode = 0;
         	resultMsg  = egovMessageSource.getMessage("success.common.merge");
 
-    	} catch (IOException i) {
-    		
     	} catch (Exception e) {
 
 
@@ -713,8 +710,6 @@ public class GamTestPrtFcltyRentMngtController {
 	    		resultCode = 1; // return fail
 	    		resultMsg  = egovMessageSource.getMessage("gam.asset.rent.reject");
 	    	}
-        } catch (IOException i) {
-        	
         } catch(Exception e) {
 
 
@@ -829,10 +824,7 @@ public class GamTestPrtFcltyRentMngtController {
 	    		resultCode = 1; // return fail
 	    		resultMsg  = egovMessageSource.getMessage("gam.asset.rent.err.delete");
 	    	}
-        } catch (IOException i) {
-        	
-        }
-        catch(Exception e) {
+        } catch(Exception e) {
 
 
     		resultCode = 1;

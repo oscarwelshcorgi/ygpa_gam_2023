@@ -80,7 +80,7 @@ public class GamFcltyRepairMngController {
 
     @Resource(name="basicService")
     EgovTableIdGnrService basicService;
-
+     
 	/**
      * 하자보수내역 관리화면호출
      * @param windowId
@@ -321,32 +321,26 @@ public class GamFcltyRepairMngController {
 			/*sNewSeq = basicService.getNextStringId();
 			gamFcltyRepairMngVO.setAtchFileSeq(sNewSeq.replace("*", ""));
 			sNewSeq = gamFcltyRepairMngVO.getAtchFileSeq();*/
-
+			
 			sNewSeq = gamFcltyRepairMngService.selectFcltyRepairMngAtchFileNewSeq(gamFcltyRepairMngVO);
 			gamFcltyRepairMngVO.setAtchFileSeq(sNewSeq);
-
+			
 			gamFcltyRepairMngVO.setRegUsr((String)user.getId());
 			gamFcltyRepairMngService.insertFcltyRepairMngAtchFile(gamFcltyRepairMngVO);
-
+			
 			map.put("atchFileSeq", sNewSeq);
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
-<<<<<<< HEAD
 		} catch(IOException e) {
 			
 		}catch (Exception e) {
 			e.printStackTrace();
-=======
-		} catch (Exception e) {
-			//e.printStackTrace();
-			//2020.04.24 보안검사 후속조치
->>>>>>> refs/remotes/origin/master
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
 		}
 		return map;
 	}
-
+	
 	@RequestMapping(value="/fcltyMng/selectFcltyRepairMngAtchFileSeq.do")
 	@ResponseBody Map<String, Object> selectFcltyRepairMngAtchFileSeq(GamFcltyRepairMngVO gamFcltyRepairMngVO) throws Exception {
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
@@ -359,22 +353,16 @@ public class GamFcltyRepairMngController {
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
 			return map;
 		}
-
+		
 		try {
 			sNewSeq = gamFcltyRepairMngService.selectFcltyRepairMngAtchFileNewSeq(gamFcltyRepairMngVO);
 			map.put("atchFileSeq", sNewSeq);
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
-<<<<<<< HEAD
 		} catch(IOException e) {
 			
 		}catch (Exception e) {
 			e.printStackTrace();
-=======
-		} catch (Exception e) {
-			//e.printStackTrace();
-			//2020.04.24 보안검사 후속조치
->>>>>>> refs/remotes/origin/master
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
 		}
@@ -399,24 +387,18 @@ public class GamFcltyRepairMngController {
 
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
-<<<<<<< HEAD
 		} catch(IOException e) {
 			
 		}catch (Exception e) {
 			e.printStackTrace();
-=======
-		} catch (Exception e) {
-			//e.printStackTrace();
-			//2020.04.24 보안검사 후속조치
->>>>>>> refs/remotes/origin/master
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
 		}
 
 		return map;
 
-	}
-
+	}	
+	
 	/**
 	 * 하자보수내역 수정
 	 * @param Map
@@ -554,7 +536,7 @@ public class GamFcltyRepairMngController {
 
       	return map;
     }
-
+	
 	/**
 	 * 하자보수내역 삭제
 	 * @param Map
@@ -708,24 +690,24 @@ public class GamFcltyRepairMngController {
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return "ygpa/gam/fcltyMng/GamFcltyRepairCheckReportHwp";
     	}
-
+ 
 		reportList = mapper.readValue((String)fcltyRepairCheckReportOpt.get("downList"),
     		    new TypeReference<List<HashMap<String,String>>>(){});
-
+   	
     	String hwpML = gamFcltyRepairMngService.selectFcltyRepairCheckReportListHWPML(reportList);
-
+    	
 		model.addAttribute("resultCode", 0);
 		model.addAttribute("resultMsg", "");
 		model.addAttribute("hwpML", hwpML);
-
+    	
 		if(fcltyRepairCheckReportOpt.get("filename") != null) {
 			model.addAttribute("isHwp", true);
 			model.addAttribute("filename", fcltyRepairCheckReportOpt.get("filename"));
     	}
-
+	
 		return "ygpa/gam/fcltyMng/GamFcltyRepairCheckReportHwp";
     }
-
+	
     /**
      * 하자검사조서 한글파일 문서 출력
      *
@@ -746,21 +728,21 @@ public class GamFcltyRepairMngController {
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return "/ygpa/gam/fcltyMng/GamFcltyRepairCheckReportHwp";
     	}
-
+    	
     	String hwpML = gamFcltyRepairMngService.selectFcltyRepairCheckReportHWPML(searchVO);
-
+    	
 		model.addAttribute("resultCode", 0);
 		model.addAttribute("resultMsg", "");
 		model.addAttribute("hwpML", hwpML);
-
+	
 		if(fcltyRepairCheckReportOpt.get("filename") != null) {
 			model.addAttribute("isHwp", true);
 			model.addAttribute("filename", fcltyRepairCheckReportOpt.get("filename"));
     	}
-
+    	
 		return "ygpa/gam/fcltyMng/GamFcltyRepairCheckReportHwp";
     }
-
+	
 /*
 	@RequestMapping(value="/fcltyMng/selectFcltyRepairCheckReportHwp2.do")
 	String selectFcltyRepairCheckReportHwp2(@RequestParam Map<String, Object> fcltyRepairCheckReportOpt ,GamFcltyRepairMngVO searchVO, ModelMap model) throws Exception {

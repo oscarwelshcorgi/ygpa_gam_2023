@@ -1,5 +1,5 @@
 /**
- *
+ * 
  */
 package egovframework.rte.ygpa.gam.fclty.web;
 
@@ -35,14 +35,14 @@ import egovframework.rte.ygpa.gam.fclty.service.GamMachFcltySpecMngVO;
 import egovframework.rte.ygpa.gam.fclty.service.GamMntnRprDtlsVO;
 
 /**
- *
+ * 
  * @author LFIT
  * @since 2015. 3. 10.
  * @version 1.0
  * @see
  * <pre>
  * << 개정이력(Modification Information) >>
- *
+ *   
  *   수정일 		 수정자		 수정내용
  *  -------		--------	---------------------------
  *  2015. 3. 10.		LFIT		최초 생성
@@ -77,7 +77,7 @@ public class GamMachFcltySpecInqireController {
 		return "/ygpa/gam/fclty/GamMachFcltySpecInqire";
 
 	}
-
+	
 	/**
 	 *	목록조회
 	 */
@@ -140,7 +140,7 @@ public class GamMachFcltySpecInqireController {
 		return map;
 
 	}
-
+	
 	/**
 	 *	디렉토리 목록
 	 */
@@ -165,7 +165,7 @@ public class GamMachFcltySpecInqireController {
 		return map;
 
 	}
-
+	
 	/**
 	 *	첨부파일 목록
 	 */
@@ -199,7 +199,7 @@ public class GamMachFcltySpecInqireController {
 		return map;
 
 	}
-
+	
 	/**
 	 *	refreshDirData
 	 */
@@ -231,7 +231,7 @@ public class GamMachFcltySpecInqireController {
 		return map;
 
 	}
-
+	
 	/**
 	 *	refreshFileData
 	 */
@@ -253,16 +253,10 @@ public class GamMachFcltySpecInqireController {
 			map.put("resultCode", 0);
 			map.put("result", result);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.select"));
-<<<<<<< HEAD
 		} catch(IOException e) {
 			
 		}catch (Exception e) {
 			e.printStackTrace();
-=======
-		} catch (Exception e) {
-			//e.printStackTrace();
-			//2020.04.24 보안검사 후속조치
->>>>>>> refs/remotes/origin/master
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.select"));
 		}
@@ -270,7 +264,7 @@ public class GamMachFcltySpecInqireController {
 		return map;
 
 	}
-
+	
 	/**
 	 *	시설물 관리 그룹 번호
 	 */
@@ -296,7 +290,7 @@ public class GamMachFcltySpecInqireController {
 		return map;
 
 	}
-
+	
 	/**
 	 *	엑셀다운로드
 	 */

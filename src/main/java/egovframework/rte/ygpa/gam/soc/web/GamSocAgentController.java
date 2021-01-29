@@ -3,7 +3,6 @@
  */
 package egovframework.rte.ygpa.gam.soc.web;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -211,8 +210,6 @@ public class GamSocAgentController {
     		}
     		map.put("resultCode", 0);			// return ok
     		map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
-		} catch(IOException i){
-			
 		} catch (Exception e) {
 			// TODO: handle exception
 
@@ -278,8 +275,6 @@ public class GamSocAgentController {
     		}
     		map.put("resultCode", 0);			// return ok
     		map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
-		} catch(IOException i){
-			
 		} catch (Exception e) {
 			// TODO: handle exception
 
@@ -321,8 +316,6 @@ public class GamSocAgentController {
     		
     		map.put("resultCode", 0);			// return ok
     		map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
-		} catch(IOException i){
-			
 		} catch (Exception e) {
 			// TODO: handle exception
 

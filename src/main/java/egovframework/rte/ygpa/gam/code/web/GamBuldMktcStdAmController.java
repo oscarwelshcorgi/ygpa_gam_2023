@@ -45,8 +45,8 @@ import egovframework.rte.ygpa.gam.code.service.GamBuldMktcStdAmVO;
  */
 @Controller
 public class GamBuldMktcStdAmController{
-
-
+	
+	
 	/** EgovPropertyService */
     @Resource(name = "propertiesService")
     protected EgovPropertyService propertiesService;
@@ -57,10 +57,10 @@ public class GamBuldMktcStdAmController{
 	/** EgovMessageSource */
     @Resource(name="egovMessageSource")
     EgovMessageSource egovMessageSource;
-
+    
 	@Resource(name = "gamBuldMktcStdAmManageService")
     private GamBuldMktcStdAmManageService gamBuldMktcStdAmManageService;
-
+	
 	/**
 	 * 화면 호출
 	 * @param windowId
@@ -74,7 +74,7 @@ public class GamBuldMktcStdAmController{
     	model.addAttribute("windowId", windowId);
     	return "/ygpa/gam/code/GamBuldMktcStdAm";
    }
-
+    
     /**
 	 * 건물시가표준액 목록을 조회한다.
 	 * @param searchVO
@@ -91,7 +91,7 @@ public class GamBuldMktcStdAmController{
        		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
            	return map;
    }
-
+  
 /*       	// 내역 조회
        	*//** pageing *//*
     	PaginationInfo paginationInfo = new PaginationInfo();
@@ -101,15 +101,15 @@ public class GamBuldMktcStdAmController{
 
 		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
-		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());       	
        	  	*/
-
+       	
        	List<?> BuldMktcStdAmList = gamBuldMktcStdAmManageService.selectBuldMktcStdAmList(searchVO);
 		int totCnt = gamBuldMktcStdAmManageService.selectBuldMktcStdAmListTotCnt(searchVO);
 
            /*paginationInfo.setTotalRecordCount(totCnt);
            searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());*/
-
+				        
    		map.put("resultCode", 0);			// return ok
    		map.put("totalCount", totCnt);
        	map.put("resultList", BuldMktcStdAmList);
@@ -117,8 +117,8 @@ public class GamBuldMktcStdAmController{
 
    		return map;
    	}
-
-
+   
+  
    /**
     * 건축물시가표준액상세항목을 등록한다.
     * @param inputVO
@@ -126,11 +126,11 @@ public class GamBuldMktcStdAmController{
     */
    @RequestMapping(value="/code/gamBuldMktcStdAmInsertList.do")
    @ResponseBody Map<String, Object> insertBuldMktcStdAm( GamBuldMktcStdAmVO inputVO, Model model) throws Exception {
-
+   
 	   Map<String, Object> map = new HashMap<String, Object>();
-
+   	
 	   Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-
+	  
 	   if(!isAuthenticated) {
         map.put("resultCode", 1);
 		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
@@ -139,7 +139,7 @@ public class GamBuldMktcStdAmController{
 
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		inputVO.setRegister(user.getId());
-
+		
 		try {
 			//inputVO.setAdres(user.getId());
 			gamBuldMktcStdAmManageService.insertBuldMktcStdAmList(inputVO);
@@ -148,15 +148,15 @@ public class GamBuldMktcStdAmController{
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
 		} catch(IOException e){
 			
-		} catch (Exception e) {
-			//e.printStackTrace();
-			//2020.04.24 보안검사 후속조치
+		}
+		catch (Exception e) {
+			e.printStackTrace();
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
 		}
 		return map;
 	}
-
+   
    /**
     * 건축물시가표준액상세항목을 수정한다.
     * @param inputVO
@@ -164,36 +164,35 @@ public class GamBuldMktcStdAmController{
     */
    @RequestMapping(value="/code/gamBuldMktcStdAmUpdateList.do")
    @ResponseBody Map<String, Object> updateBuldMktcStdAmList(GamBuldMktcStdAmVO inputVO) throws Exception {
-
+	   
 	   Map<String, Object> map = new HashMap<String, Object>();
-
+	   
 	   	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
 		if(!isAuthenticated) {
 	        map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
 	    	return map;
 		}
-
+		
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		inputVO.setUpdusr(user.getId());
-
+		
 		try {
 			//inputVO.setRegister(user.getId());
 			gamBuldMktcStdAmManageService.updateBuldMktcStdAmList(inputVO);
-
+			
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
 		} catch(IOException e) {
 			
-		} catch (Exception e) {
-			//e.printStackTrace();
-			//2020.04.24 보안검사 후속조치
+		}catch (Exception e) {
+			e.printStackTrace();
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
 		}
 		return map;
 	}
-
+   
    /**
     * 건축물시가표준액상세항목을 삭제한다.
     * @param deleteVO
@@ -201,26 +200,25 @@ public class GamBuldMktcStdAmController{
     */
    @RequestMapping(value="/code/gamBuldMktcStdAmDeleteList.do")
 	@ResponseBody Map<String, Object> deleteBuldMktcStdAm(GamBuldMktcStdAmVO deleteVO) throws Exception {
-
+		
 		Map<String, Object> map = new HashMap<String, Object>();
-
+		
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
 		if (!isAuthenticated) {
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
 			return map;
 		}
-
+		
 		try {
 			gamBuldMktcStdAmManageService.deleteBuldMktcStdAm (deleteVO);
-
+			
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
 		} catch(IOException e){
 			
-		} catch (Exception e) {
-			//e.printStackTrace();
-			//2020.04.24 보안검사 후속조치
+		}catch (Exception e) {
+			e.printStackTrace();
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
 		}

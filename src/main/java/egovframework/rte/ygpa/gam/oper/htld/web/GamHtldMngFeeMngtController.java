@@ -1,6 +1,5 @@
 package egovframework.rte.ygpa.gam.oper.htld.web;
 
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.Format;
 import java.text.SimpleDateFormat;
@@ -882,9 +881,8 @@ public class GamHtldMngFeeMngtController {
 
 	     	map.put("resultCode", resultCode);
 	        map.put("resultMsg", resultMsg);
-    	} catch (IOException i) {
-    		
-    	} catch(Exception e) {
+    	}
+    	catch(Exception e) {
 	        map.put("resultCode", -1);
     		map.put("resultMsg", egovMessageSource.getMessage("fail.nticIssue.msg"));
         	return map;
@@ -935,9 +933,8 @@ public class GamHtldMngFeeMngtController {
 
 	        resultCode = 0;
 	 		resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.
-    	} catch (IOException i) {
-    		
-    	} catch(Exception e) {
+    	}
+    	catch(Exception e) {
 	        resultCode = -1;
 	 		resultMsg  = egovMessageSource.getMessage("fail.cancelNticIssue.msg");
     	}
@@ -970,9 +967,8 @@ public class GamHtldMngFeeMngtController {
     		gamHtldMngFeeMngtService.updateNticPrintState(vo);
 	         resultCode = 0;
 	 		 resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.
-    	} catch (IOException i) {
-    		
-    	} catch(Exception e) {
+    	}
+    	catch(Exception e) {
 	         resultCode = 0;
 	 		 resultMsg  = egovMessageSource.getMessage("fail.common.update"); //정상적으로 처리되었습니다.
     	}
@@ -1083,9 +1079,8 @@ public class GamHtldMngFeeMngtController {
 
 	         resultCode = 0;
 	 		 resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.
-    	} catch (IOException i) {
-    		
-    	} catch(Exception e) {
+    	}
+    	catch(Exception e) {
 	         resultCode = 0;
 	 		 resultMsg  = egovMessageSource.getMessage("fail.common.update"); //정상적으로 처리되었습니다.
     	}

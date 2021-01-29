@@ -172,8 +172,6 @@ public class GamGasUsageSttusMngController {
 			map.put("resultCode", 0);
 			map.put("result", result);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.select"));
-		} catch (IOException i) {
-			
 		} catch (Exception e) {
 			// TODO: handle exception
 
@@ -281,8 +279,6 @@ public class GamGasUsageSttusMngController {
 
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
-		} catch (IOException i) {
-			
 		} catch (Exception e) {
 			// TODO: handle exception
 
@@ -313,8 +309,6 @@ public class GamGasUsageSttusMngController {
 
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
-		} catch (IOException i) {
-			
 		} catch (Exception e) {
 			// TODO: handle exception
 
@@ -343,8 +337,6 @@ public class GamGasUsageSttusMngController {
 
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
-		} catch (IOException i) {
-			
 		} catch (Exception e) {
 			// TODO: handle exception
 

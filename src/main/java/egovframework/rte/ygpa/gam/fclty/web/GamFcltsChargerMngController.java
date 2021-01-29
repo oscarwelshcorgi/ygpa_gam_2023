@@ -123,16 +123,10 @@ public class GamFcltsChargerMngController {
 
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
-<<<<<<< HEAD
 		} catch(IOException e) {
 			
 		}catch (Exception e) {
 			e.printStackTrace();
-=======
-		} catch (Exception e) {
-			//e.printStackTrace();
-			//2020.04.24 보안검사 후속조치
->>>>>>> refs/remotes/origin/master
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
 		}
@@ -160,16 +154,10 @@ public class GamFcltsChargerMngController {
 
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
-<<<<<<< HEAD
 		} catch(IOException e) {
 			
 		}catch (Exception e) {
 			e.printStackTrace();
-=======
-		} catch (Exception e) {
-			//e.printStackTrace();
-			//2020.04.24 보안검사 후속조치
->>>>>>> refs/remotes/origin/master
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
 		}
@@ -195,16 +183,10 @@ public class GamFcltsChargerMngController {
 
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
-<<<<<<< HEAD
 		} catch(IOException e) {
 			
 		}catch (Exception e) {
 			e.printStackTrace();
-=======
-		} catch (Exception e) {
-			//e.printStackTrace();
-			//2020.04.24 보안검사 후속조치
->>>>>>> refs/remotes/origin/master
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
 		}
@@ -231,16 +213,10 @@ public class GamFcltsChargerMngController {
 			map.put("resultCode", 0);
 			map.put("result", result);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.select"));
-<<<<<<< HEAD
 		} catch(IOException e) {
 			
 		}catch (Exception e) {
 			e.printStackTrace();
-=======
-		} catch (Exception e) {
-			//e.printStackTrace();
-			//2020.04.24 보안검사 후속조치
->>>>>>> refs/remotes/origin/master
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.select"));
 		}

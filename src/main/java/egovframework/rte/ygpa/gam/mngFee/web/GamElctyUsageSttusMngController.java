@@ -35,7 +35,6 @@ import org.springmodules.validation.commons.DefaultBeanValidator;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.corba.se.impl.protocol.giopmsgheaders.IORAddressingInfo;
 
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
@@ -171,8 +170,6 @@ public class GamElctyUsageSttusMngController {
 			map.put("resultCode", 0);
 			map.put("result", result);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.select"));
-		} catch (IOException i) {
-			
 		} catch (Exception e) {
 
 			map.put("resultCode", 1);
@@ -300,8 +297,6 @@ public class GamElctyUsageSttusMngController {
 
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
-		} catch (IOException i) {
-			
 		} catch (Exception e) {
 
 			map.put("resultCode", 1);
@@ -331,8 +326,6 @@ public class GamElctyUsageSttusMngController {
 
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
-		} catch (IOException i) {
-			
 		} catch (Exception e) {
 
 			map.put("resultCode", 1);
@@ -360,8 +353,6 @@ public class GamElctyUsageSttusMngController {
 
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
-		} catch (IOException i) {
-			
 		} catch (Exception e) {
 
 			map.put("resultCode", 1);
@@ -391,8 +382,6 @@ public class GamElctyUsageSttusMngController {
 
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
-		} catch (IOException i) {
-			
 		} catch (Exception e) {
 
 			map.put("resultCode", 1);

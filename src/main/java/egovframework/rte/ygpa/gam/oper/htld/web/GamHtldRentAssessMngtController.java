@@ -1,6 +1,5 @@
 package egovframework.rte.ygpa.gam.oper.htld.web;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -319,8 +318,6 @@ public class GamHtldRentAssessMngtController {
         try {
 	        gamHtldRentMngtService.deleteHtldRentMngt(gamHtldRentMngtVO);
 	        resultMsg = egovMessageSource.getMessage("success.common.delete");
-        } catch (IOException i) {
-        	
         } catch(Exception e) {
     		resultCode = 1;
     		resultMsg  = egovMessageSource.getMessage("fail.common.msg");
