@@ -291,6 +291,8 @@ public class GamCarRefuelSttusMngController {
 
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
+		} catch (IOException i) {
+			
 		} catch (Exception e) {
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));

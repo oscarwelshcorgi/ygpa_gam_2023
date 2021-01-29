@@ -1,5 +1,6 @@
 package egovframework.rte.ygpa.gam.oper.train.web;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -619,7 +620,10 @@ public @ResponseBody Map selectRentDetailInfo(GamTrainPortRentMngtVO searchVO) t
     		resultCode = 0;
         	resultMsg  = egovMessageSource.getMessage("success.common.merge");
 
-    	} catch (Exception e) {
+    	} catch (IOException i) {
+    		
+    	}
+    	catch (Exception e) {
 
 
     		resultCode = 1;
@@ -748,6 +752,8 @@ public @ResponseBody Map selectRentDetailInfo(GamTrainPortRentMngtVO searchVO) t
 	    		resultCode = 1; // return fail
 	    		resultMsg  = egovMessageSource.getMessage("gam.asset.rent.reject");
 	    	}
+        } catch (IOException i) {
+        	
         } catch(Exception e) {
 
 
@@ -862,6 +868,8 @@ public @ResponseBody Map selectRentDetailInfo(GamTrainPortRentMngtVO searchVO) t
 	    		resultCode = 1; // return fail
 	    		resultMsg  = egovMessageSource.getMessage("gam.asset.rent.err.delete");
 	    	}
+        } catch (IOException i) {
+        	
         } catch(Exception e) {
 
 
@@ -1440,8 +1448,9 @@ public @ResponseBody Map selectRentDetailInfo(GamTrainPortRentMngtVO searchVO) t
 
 			map.put("resultCode", "0");
 			map.put("result", list);
-		}
-		catch(Exception e) {
+		} catch (IOException i) {
+			
+		} catch(Exception e) {
 			map.put("resultCode", "-1");
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.upload"));
 		}

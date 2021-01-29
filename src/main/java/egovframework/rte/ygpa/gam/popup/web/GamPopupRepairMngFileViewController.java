@@ -3,6 +3,7 @@
  */
 package egovframework.rte.ygpa.gam.popup.web;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -86,6 +87,8 @@ public class GamPopupRepairMngFileViewController {
 			map.put("resultCode", 0);
 			map.put("result", result);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.select"));
+		} catch (IOException i){
+			
 		} catch (Exception e) {
 			//e.printStackTrace();
 			//2020.04.24 보안검사 후속조치
@@ -119,6 +122,8 @@ public class GamPopupRepairMngFileViewController {
 
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
+		} catch (IOException i) {
+			
 		} catch (Exception e) {
 			//e.printStackTrace();
 			//2020.04.24 보안검사 후속조치

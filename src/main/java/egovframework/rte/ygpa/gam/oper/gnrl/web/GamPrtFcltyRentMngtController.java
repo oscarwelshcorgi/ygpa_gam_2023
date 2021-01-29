@@ -1,5 +1,6 @@
 package egovframework.rte.ygpa.gam.oper.gnrl.web;
 
+import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.List;
@@ -578,6 +579,8 @@ public class GamPrtFcltyRentMngtController {
     		resultCode = 0;
         	resultMsg  = egovMessageSource.getMessage("success.common.merge");
 
+    	} catch (IOException i) {
+    		
     	} catch (Exception e) {
 
 
@@ -707,7 +710,10 @@ public class GamPrtFcltyRentMngtController {
 	    		resultCode = 1; // return fail
 	    		resultMsg  = egovMessageSource.getMessage("gam.asset.rent.reject");
 	    	}
-        } catch(Exception e) {
+        } catch (IOException i) {
+        	
+        }
+        catch(Exception e) {
 
 
     		resultCode = 1;
@@ -821,9 +827,10 @@ public class GamPrtFcltyRentMngtController {
 	    		resultCode = 1; // return fail
 	    		resultMsg  = egovMessageSource.getMessage("gam.asset.rent.err.delete");
 	    	}
+        } catch (IOException i) {
+        	
         } catch(Exception e) {
-
-
+        	
     		resultCode = 1;
     		resultMsg  = egovMessageSource.getMessage("fail.common.msg");
         }
@@ -1554,8 +1561,9 @@ public class GamPrtFcltyRentMngtController {
 
 			map.put("resultCode", "0");
 			map.put("result", list);
-		}
-		catch(Exception e) {
+		} catch (IOException i) {
+			
+		} catch(Exception e) {
 			map.put("resultCode", "-1");
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.upload"));
 		}
@@ -1599,8 +1607,9 @@ public class GamPrtFcltyRentMngtController {
 
       	try {
       		map = gamAssetsUsePermMngtService.gamPrmisnProceedingCancel(gamPrtFcltyRentMngtVO);
-      	}
-      	catch(Exception e) {
+      	} catch (IOException i) {
+      		
+      	} catch(Exception e) {
       		map.put("resultCode", 2);
       		map.put("resultMsg", egovMessageSource.getMessage("gam.asset.rent.err.exceptional"));
       	}

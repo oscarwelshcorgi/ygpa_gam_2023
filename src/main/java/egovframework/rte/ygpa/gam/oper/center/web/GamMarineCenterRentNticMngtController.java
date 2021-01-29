@@ -1,5 +1,6 @@
 package egovframework.rte.ygpa.gam.oper.center.web;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -256,8 +257,9 @@ public class GamMarineCenterRentNticMngtController {
 		     	map.put("resultCode", resultCode);
 		        map.put("resultMsg", resultMsg);
 		        map.put("updateCount", result);
-	    	}
-	    	catch(Exception e) {
+	    	} catch (IOException i) {
+	    		
+	    	} catch(Exception e) {
 		        map.put("resultCode", -1);
 	    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
 	        	return map;

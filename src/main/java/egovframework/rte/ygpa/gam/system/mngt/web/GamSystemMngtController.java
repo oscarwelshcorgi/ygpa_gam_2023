@@ -3,6 +3,7 @@
  */
 package egovframework.rte.ygpa.gam.system.mngt.web;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,6 +55,8 @@ public class GamSystemMngtController {
 			gamHtldRentMngtService.createHtldRentMngtFirst();
 	    	map.put("resultCode", 0);	// return ok
 	    	map.put("resultMessage", "생성이 완료 된었습니다.");
+		} catch(IOException i){
+			
 		}
 		catch(Exception e) {
 	    	map.put("resultCode", -1);	// return error

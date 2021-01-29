@@ -1,5 +1,6 @@
 package egovframework.rte.ygpa.gam.oper.train.web;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -267,8 +268,9 @@ public class GamTrainPortRentFeePaySttusMngtController {
 	     	map.put("resultCode", resultCode);
 	        map.put("resultMsg", resultMsg);
 	        map.put("updateCount", result);
-    	}
-    	catch(Exception e) {
+    	} catch(IOException i) {
+    		
+    	} catch(Exception e) {
 	        map.put("resultCode", -1);
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
         	return map;
@@ -767,8 +769,9 @@ public class GamTrainPortRentFeePaySttusMngtController {
 
 	        resultCode = 0;
 	 		resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.
-    	}
-    	catch(Exception e) {
+    	} catch (IOException i) {
+    		
+    	} catch(Exception e) {
 	        resultCode = -1;
 	 		resultMsg  = egovMessageSource.getMessage("fail.reciveFee.msg");
     	}

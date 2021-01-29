@@ -3,6 +3,7 @@
  */
 package egovframework.rte.ygpa.gam.oper.htldnew.web;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -219,6 +220,8 @@ public class GamHtldRentNticHistController {
     		gamHtldRentNticHistService.cancelSourceNticIssue(searchVO);
 	        map.put("resultCode", 0);
     		map.put("resultMsg", egovMessageSource.getMessage("gam.asset.proc"));    		
+    	} catch (IOException i) {
+    		
     	} catch(Exception e) {
     		map.put("resultCode", 1);
     		map.put("resultMsg", e.getMessage());    		
@@ -251,6 +254,8 @@ public class GamHtldRentNticHistController {
     		gamHtldRentNticHistService.cancelArrrgNticIssue(searchVO);
 	        map.put("resultCode", 0);
     		map.put("resultMsg", egovMessageSource.getMessage("success.common.unpaid"));    		
+    	} catch (IOException i) {
+    		
     	} catch(Exception e) {
     		map.put("resultCode", 1);
     		map.put("resultMsg", e.getMessage());    		
