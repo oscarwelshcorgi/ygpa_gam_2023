@@ -1,5 +1,6 @@
 package egovframework.rte.ygpa.gam.oper.train.web;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -797,6 +798,8 @@ public class GamTrainPortRentFeeMngtController {
 
 	     	map.put("resultCode", resultCode);
 	        map.put("resultMsg", resultMsg);
+    	} catch (IOException i) {
+    		
     	}
     	catch(Exception e) {
 	        map.put("resultCode", -1);
@@ -849,8 +852,9 @@ public class GamTrainPortRentFeeMngtController {
 
 	        resultCode = 0;
 	 		resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.
-    	}
-    	catch(Exception e) {
+    	} catch (IOException i) {
+    		
+    	} catch(Exception e) {
 	        resultCode = -1;
 	 		resultMsg  = egovMessageSource.getMessage("fail.cancelNticIssue.msg");
     	}
@@ -908,8 +912,9 @@ public class GamTrainPortRentFeeMngtController {
 	    		gamTrainPortRentFeeMngtService.updateAssetRentFeeMngtListDetail(gamTrainPortRentFeeMngtVO);
 		         resultCode = 0;
 		 		 resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.
-	    	}
-	    	catch(Exception e) {
+	    	} catch (IOException i){
+	    		
+	    	} catch(Exception e) {
 		         resultCode = 0;
 		 		 resultMsg  = egovMessageSource.getMessage("fail.common.update"); //정상적으로 처리되었습니다.
 	    	}
@@ -1085,8 +1090,9 @@ public class GamTrainPortRentFeeMngtController {
 	    		gamNticRequestMngtService.updateNticPrintState(map);
 		         resultCode = 0;
 		 		 resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.
-	    	}
-	    	catch(Exception e) {
+	    	} catch (IOException i){
+	    		
+	    	} catch (Exception e) {
 		         resultCode = 0;
 		 		 resultMsg  = egovMessageSource.getMessage("fail.common.update"); // 오류 발생
 	    	}
@@ -1134,6 +1140,8 @@ public class GamTrainPortRentFeeMngtController {
 	    		gamNticRequestMngtService.updateNticPrintState2(map);
 		         resultCode = 0;
 		 		 resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.
+	    	} catch (IOException i) {
+	    		
 	    	}
 	    	catch(Exception e) {
 		         resultCode = 0;

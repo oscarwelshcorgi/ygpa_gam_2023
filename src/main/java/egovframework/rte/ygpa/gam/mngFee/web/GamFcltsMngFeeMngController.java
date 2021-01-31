@@ -3,6 +3,7 @@
  */
 package egovframework.rte.ygpa.gam.mngFee.web;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -153,6 +154,8 @@ public class GamFcltsMngFeeMngController {
 			map.put("resultCode", 0);
 			map.put("result", result);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.select"));
+		} catch (IOException i) {
+			
 		} catch (Exception e) {
 
 			map.put("resultCode", 1);
@@ -330,6 +333,8 @@ public class GamFcltsMngFeeMngController {
 
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
+		} catch (IOException i) {
+			
 		} catch (Exception e) {
 
 			map.put("resultCode", 1);
@@ -359,6 +364,8 @@ public class GamFcltsMngFeeMngController {
 
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
+		} catch (IOException i) {
+			 
 		} catch (Exception e) {
 
 			map.put("resultCode", 1);
@@ -386,6 +393,8 @@ public class GamFcltsMngFeeMngController {
 
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
+		} catch (IOException i) {
+			
 		} catch (Exception e) {
 
 			map.put("resultCode", 1);
@@ -417,6 +426,8 @@ public class GamFcltsMngFeeMngController {
 
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
+		} catch (IOException i) {
+			
 		} catch (Exception e) {
 
 			map.put("resultCode", 1);
@@ -447,6 +458,8 @@ public class GamFcltsMngFeeMngController {
 
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
+		} catch (IOException i) {
+			
 		} catch (Exception e) {
 
 			map.put("resultCode", 1);
@@ -474,6 +487,8 @@ public class GamFcltsMngFeeMngController {
 
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
+		} catch (IOException i) {
+			
 		} catch (Exception e) {
 
 			map.put("resultCode", 1);
@@ -505,6 +520,8 @@ public class GamFcltsMngFeeMngController {
 
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
+		} catch (IOException i) {
+			
 		} catch (Exception e) {
 
 			map.put("resultCode", 1);
@@ -536,6 +553,8 @@ public class GamFcltsMngFeeMngController {
 
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
+		} catch (IOException i) {
+			
 		} catch (Exception e) {
 
 			map.put("resultCode", 1);
@@ -590,6 +609,8 @@ public class GamFcltsMngFeeMngController {
     		gamFcltsMngFeeMngService.updateFcltsMngFeeMngNticIssuePrintYn(printVo);
 			resultCode = 0;
 			resultMsg = egovMessageSource.getMessage("success.common.update");
+		} catch (IOException i) {
+			
 		} catch(Exception e) {
 			resultCode = 1;
 			resultMsg = egovMessageSource.getMessage("fail.common.update");
@@ -623,6 +644,8 @@ public class GamFcltsMngFeeMngController {
 
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
+		} catch (IOException i) {
+			
 		} catch (Exception e) {
 
 			map.put("resultCode", 1);

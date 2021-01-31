@@ -3,6 +3,7 @@
  */
 package egovframework.rte.ygpa.gam.popup.web;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -84,8 +85,11 @@ public class GamPopupMachFcltySttusController {
 			map.put("resultCode", 0);
 			map.put("result", result);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.select"));
+		} catch (IOException i){
+			
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			//2020.04.24 보안검사 후속조치
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.select"));
 		}
@@ -113,8 +117,11 @@ public class GamPopupMachFcltySttusController {
 
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
+		} catch (IOException i){
+			
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			//2020.04.24 보안검사 후속조치
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
 		}
@@ -142,8 +149,11 @@ public class GamPopupMachFcltySttusController {
 
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
+		} catch(IOException i){
+			
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			//2020.04.24 보안검사 후속조치
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
 		}
@@ -170,8 +180,11 @@ public class GamPopupMachFcltySttusController {
 
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
+		} catch (IOException i) {
+			
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			//2020.04.24 보안검사 후속조치
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
 		}

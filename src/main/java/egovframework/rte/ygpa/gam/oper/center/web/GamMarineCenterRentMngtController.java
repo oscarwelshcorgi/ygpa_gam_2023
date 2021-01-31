@@ -1,5 +1,6 @@
 package egovframework.rte.ygpa.gam.oper.center.web;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -552,6 +553,8 @@ public class GamMarineCenterRentMngtController {
     		resultCode = 0;
         	resultMsg  = egovMessageSource.getMessage("success.common.merge");
 
+    	} catch (IOException i) {
+    		
     	} catch (Exception e) {
 
 

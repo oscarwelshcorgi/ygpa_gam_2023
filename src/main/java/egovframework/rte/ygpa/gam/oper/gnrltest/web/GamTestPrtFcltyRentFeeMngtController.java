@@ -1,5 +1,6 @@
 package egovframework.rte.ygpa.gam.oper.gnrltest.web;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -779,6 +780,8 @@ public class GamTestPrtFcltyRentFeeMngtController {
 
      	 	map.put("resultCode", 0);
      	 	map.put("resultMsg", egovMessageSource.getMessage("gam.asset.proc"));
+    	} catch (IOException i) {
+    		
     	}
     	catch(Exception e) {
 	        map.put("resultCode", 1);
@@ -818,8 +821,9 @@ public class GamTestPrtFcltyRentFeeMngtController {
 
      	 	map.put("resultCode", 0);
      	 	map.put("resultMsg", egovMessageSource.getMessage("gam.asset.proc"));
-    	}
-    	catch(Exception e) {
+    	} catch (IOException i) {
+    		
+    	} catch(Exception e) {
 	        map.put("resultCode", 1);
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
     	}
@@ -886,8 +890,9 @@ public class GamTestPrtFcltyRentFeeMngtController {
 
 	     	map.put("resultCode", resultCode);
 	        map.put("resultMsg", resultMsg);
-    	}
-    	catch(Exception e) {
+    	} catch (IOException i) {
+    		
+    	} catch(Exception e) {
 	        map.put("resultCode", -1);
     		map.put("resultMsg", egovMessageSource.getMessage("fail.nticIssue.msg"));
         	return map;
@@ -938,8 +943,9 @@ public class GamTestPrtFcltyRentFeeMngtController {
 
 	        resultCode = 0;
 	 		resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.
-    	}
-    	catch(Exception e) {
+    	} catch (IOException i) {
+    		
+    	} catch(Exception e) {
 	        resultCode = -1;
 	 		resultMsg  = egovMessageSource.getMessage("fail.cancelNticIssue.msg");
     	}
@@ -997,8 +1003,9 @@ public class GamTestPrtFcltyRentFeeMngtController {
 	    		gamTestPrtFcltyRentFeeMngtService.updateAssetRentFeeMngtListDetail(gamTestPrtFcltyRentFeeMngtVO);
 		         resultCode = 0;
 		 		 resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.
-	    	}
-	    	catch(Exception e) {
+	    	} catch (IOException i) {
+	    		
+	    	} catch(Exception e) {
 		         resultCode = 0;
 		 		 resultMsg  = egovMessageSource.getMessage("fail.common.update"); //정상적으로 처리되었습니다.
 	    	}
@@ -1182,8 +1189,9 @@ public class GamTestPrtFcltyRentFeeMngtController {
 	    		gamTestNticRequestMngtService.updateNticPrintState(map);
 		         resultCode = 0;
 		 		 resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.
-	    	}
-	    	catch(Exception e) {
+	    	} catch (IOException i) {
+	    		
+	    	} catch(Exception e) {
 		         resultCode = 0;
 		 		 resultMsg  = egovMessageSource.getMessage("fail.common.update"); // 오류 발생
 	    	}
@@ -1231,8 +1239,9 @@ public class GamTestPrtFcltyRentFeeMngtController {
 	    		gamTestNticRequestMngtService.updateNticPrintState2(map);
 		         resultCode = 0;
 		 		 resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.
-	    	}
-	    	catch(Exception e) {
+	    	} catch (IOException i) {
+	    		
+	    	} catch(Exception e) {
 		         resultCode = 0;
 		 		 resultMsg  = egovMessageSource.getMessage("fail.common.update"); // 오류 발생
 	    	}

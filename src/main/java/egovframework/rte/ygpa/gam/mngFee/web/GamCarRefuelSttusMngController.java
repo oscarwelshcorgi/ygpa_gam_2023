@@ -170,9 +170,7 @@ public class GamCarRefuelSttusMngController {
 			map.put("resultCode", 0);
 			map.put("result", result);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.select"));
-		} catch(IOException e) {
-			
-		}catch (Exception e) {
+		} catch (Exception e) {
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.select"));
 		}
@@ -237,9 +235,7 @@ public class GamCarRefuelSttusMngController {
 
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
-		} catch(IOException e) {
-			
-		}catch (Exception e) {
+		} catch (Exception e) {
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
 		}
@@ -267,9 +263,7 @@ public class GamCarRefuelSttusMngController {
 
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
-		} catch(IOException e) {
-			
-		}catch (Exception e) {
+		} catch (Exception e) {
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
 		}
@@ -297,6 +291,8 @@ public class GamCarRefuelSttusMngController {
 
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
+		} catch (IOException i) {
+			
 		} catch (Exception e) {
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));

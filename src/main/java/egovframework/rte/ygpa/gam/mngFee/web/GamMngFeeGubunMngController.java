@@ -3,6 +3,7 @@
  */
 package egovframework.rte.ygpa.gam.mngFee.web;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +24,7 @@ import org.springmodules.validation.commons.DefaultBeanValidator;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.corba.se.impl.protocol.giopmsgheaders.IORAddressingInfo;
 
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
@@ -132,6 +134,8 @@ public class GamMngFeeGubunMngController {
 			map.put("resultCode", 0);
 			map.put("result", result);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.select"));
+		} catch (IOException i) {
+			
 		} catch (Exception e) {
 			// TODO: handle exception
 
@@ -196,6 +200,8 @@ public class GamMngFeeGubunMngController {
 
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
+		} catch (IOException i) {
+			
 		} catch (Exception e) {
 			// TODO: handle exception
 
@@ -226,6 +232,8 @@ public class GamMngFeeGubunMngController {
 
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
+		} catch (IOException i) {
+			
 		} catch (Exception e) {
 			// TODO: handle exception
 
@@ -254,6 +262,8 @@ public class GamMngFeeGubunMngController {
 
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
+		} catch (IOException i) {
+			
 		} catch (Exception e) {
 			// TODO: handle exception
 
@@ -283,6 +293,8 @@ public class GamMngFeeGubunMngController {
 			map.put("checkSeCnt", checkSeCnt);
 			map.put("checkSe", checkSe);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.select"));
+		} catch (IOException i) {
+			
 		} catch (Exception e) {
 			// TODO: handle exception
 

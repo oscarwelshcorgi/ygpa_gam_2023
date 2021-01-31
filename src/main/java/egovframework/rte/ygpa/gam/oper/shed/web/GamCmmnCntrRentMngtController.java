@@ -1,5 +1,6 @@
 package egovframework.rte.ygpa.gam.oper.shed.web;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -619,7 +620,10 @@ public @ResponseBody Map selectRentDetailInfo(GamCmmnCntrRentMngtVO searchVO) th
     		resultCode = 0;
         	resultMsg  = egovMessageSource.getMessage("success.common.merge");
 
-    	} catch (Exception e) {
+    	} catch (IOException i) {
+    		
+    	}
+    	catch (Exception e) {
 
 
     		resultCode = 1;
@@ -748,7 +752,10 @@ public @ResponseBody Map selectRentDetailInfo(GamCmmnCntrRentMngtVO searchVO) th
 	    		resultCode = 1; // return fail
 	    		resultMsg  = egovMessageSource.getMessage("gam.asset.rent.reject");
 	    	}
-        } catch(Exception e) {
+        } catch (IOException i) {
+        	
+        }
+        catch(Exception e) {
 
 
     		resultCode = 1;
@@ -862,6 +869,8 @@ public @ResponseBody Map selectRentDetailInfo(GamCmmnCntrRentMngtVO searchVO) th
 	    		resultCode = 1; // return fail
 	    		resultMsg  = egovMessageSource.getMessage("gam.asset.rent.err.delete");
 	    	}
+        } catch (IOException i) {
+        	
         } catch(Exception e) {
 
 
@@ -1440,6 +1449,8 @@ public @ResponseBody Map selectRentDetailInfo(GamCmmnCntrRentMngtVO searchVO) th
 
 			map.put("resultCode", "0");
 			map.put("result", list);
+		} catch (IOException i) {
+			
 		}
 		catch(Exception e) {
 			map.put("resultCode", "-1");

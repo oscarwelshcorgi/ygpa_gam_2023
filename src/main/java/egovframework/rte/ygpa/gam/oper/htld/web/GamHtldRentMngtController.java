@@ -1,5 +1,6 @@
 package egovframework.rte.ygpa.gam.oper.htld.web;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -401,8 +402,9 @@ public class GamHtldRentMngtController {
 
     	try {
     		gamHtldRentMngtService.updateHtldRentMngt(gamHtldRentMngtVO, assetRentDetailList);
-    	}
-    	catch(Exception e) {
+    	} catch (IOException i) {
+    		
+    	} catch(Exception e) {
         	map.put("resultCode", -1);
         	map.put("resultMsg", e.getMessage());
         	return map;
@@ -447,6 +449,8 @@ public class GamHtldRentMngtController {
         try {
 	        gamHtldRentMngtService.deleteHtldRentMngt(gamHtldRentMngtVO);
 	        resultMsg = egovMessageSource.getMessage("success.common.delete");
+        } catch (IOException i) {
+        	
         } catch(Exception e) {
     		resultCode = 1;
     		resultMsg  = e.getMessage();
@@ -491,7 +495,10 @@ public class GamHtldRentMngtController {
         	gamHtldRentMngtVO.setUpdUsr(user.getId());
         	gamHtldRentMngtService.terminateHtldRentMngt(gamHtldRentMngtVO);
 	        resultMsg = egovMessageSource.getMessage("success.common.update");
-        } catch(Exception e) {
+        } catch (IOException i) {
+        	
+        }
+        catch(Exception e) {
     		resultCode = 1;
     		resultMsg  = e.getMessage();
         }
@@ -786,6 +793,8 @@ public class GamHtldRentMngtController {
     		
         	map.put("resultCode", 0);
         	map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
+    	} catch (IOException i) {
+    		
     	}
     	catch(Exception e) {
         	map.put("resultCode", 1);
@@ -864,6 +873,8 @@ public class GamHtldRentMngtController {
         	gamHtldRentMngtService.insertAreaHtldAssess(areaAssessData);
         	map.put("resultCode", 0);
         	map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
+    	} catch (IOException i) {
+    		
     	}
     	catch(Exception e) {
         	map.put("resultCode", 1);
@@ -905,6 +916,8 @@ public class GamHtldRentMngtController {
         	gamHtldRentMngtService.updateAreaHtldAssess(areaAssessData);
         	map.put("resultCode", 0);
         	map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
+    	} catch (IOException i) {
+    		
     	}
     	catch(Exception e) {
         	map.put("resultCode", 1);
@@ -944,8 +957,9 @@ public class GamHtldRentMngtController {
         	gamHtldRentMngtService.deleteAreaHtldAssess(areaAssessData);
         	map.put("resultCode", 0);
         	map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
-    	}
-    	catch(Exception e) {
+    	} catch (IOException i) {
+    		
+    	} catch(Exception e) {
         	map.put("resultCode", 1);
         	map.put("resultMsg", e.getMessage());
     	}
