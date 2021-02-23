@@ -268,9 +268,15 @@ public class EgovMberManageController {
             @ModelAttribute("searchVO") UserDefaultVO userSearchVO,
             Model model
             )throws Exception {
+    	try{
         mberManageService.deleteMber(checkedIdForDel);
         //Exception 없이 진행시 삭제성공메시지
         model.addAttribute("resultMsg", "success.common.delete");
+    	}catch(NullPointerException npe){
+    		log.debug(npe.getMessage());
+    	}catch(Exception e){
+    		log.debug(e.getMessage());
+    	}
         return "forward:/uss/umt/EgovMberManage.do";
     }
     

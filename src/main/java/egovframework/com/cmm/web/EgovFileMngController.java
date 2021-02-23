@@ -129,13 +129,12 @@ public class EgovFileMngController {
 	if ("".equals(request.getContextPath()) || "/".equals(request.getContextPath())) {
 	    return "forward:" + returnUrl;
 	}
-	
+	if(returnUrl != null){
 	if (returnUrl.startsWith(request.getContextPath())) {
 	    return "forward:" + returnUrl.substring(returnUrl.indexOf("/", 1));
-	} else {
-	    return "forward:" + returnUrl;
-	}
-	////------------------------------------------
+	} else { return "forward:" + returnUrl;}
+	}//null check if
+	return "forward:" + returnUrl;
     }
 
     /**

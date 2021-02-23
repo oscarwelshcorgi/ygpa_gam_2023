@@ -285,10 +285,16 @@ public class EgovUserManageController {
             @RequestParam("checkedIdForDel") String checkedIdForDel ,
             @ModelAttribute("searchVO") UserDefaultVO userSearchVO, Model model)
             throws Exception {
+    	try{
     	//log.debug("jjycon_delete-->"+checkedIdForDel);
         userManageService.deleteUser(checkedIdForDel);
         //Exception 없이 진행시 등록성공메시지
         model.addAttribute("resultMsg", "success.common.delete");
+    	}catch(NullPointerException npe){
+    		log.debug(npe.getMessage());
+    	}catch(Exception e) {
+    		log.debug(e.getMessage());
+    	}
         return "forward:/uss/umt/EgovUserManage.do";
     }
 

@@ -212,7 +212,8 @@ public class EgovGroupManageController {
 			                      @ModelAttribute("groupManage") GroupManage groupManage, 
 	                               SessionStatus status, 
 	                               Model model) throws Exception {
-    	String [] strGroupIds = groupIds.split(";");
+		String [] strGroupIds = null;
+		if(groupIds != null) strGroupIds = groupIds.split(";");
     	for(int i=0; i<strGroupIds.length;i++) {
     		groupManage.setGroupId(strGroupIds[i]);
     		egovGroupManageService.deleteGroup(groupManage);

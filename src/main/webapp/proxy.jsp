@@ -34,7 +34,8 @@ public static void proxy_post(HttpServletRequest request, HttpServletResponse re
     while ((line = rd.readLine()) != null) {
     	params.append(line);
     }
-
+    
+	urlStr = urlStr.replaceAll("\\.", "").replaceAll("/","").replaceAll("\\\\","");
     URL url = new URL(urlStr);
 	URLConnection connection = url.openConnection();
 	HttpURLConnection huc = (HttpURLConnection)connection;

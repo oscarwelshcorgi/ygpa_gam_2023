@@ -229,7 +229,7 @@ public class GamCmmnCodeClMngtController {
         	return map;
     	}
 
-		if (cmd.equals("")) {
+		if (cmd.equals("") || cmd.equals(null) ) {
     		CmmnClCode vo = cmmnClCodeManageService.selectCmmnClCodeDetail(cmmnClCode);
     		map.put("cmmnClCode", vo);
 

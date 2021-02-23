@@ -245,7 +245,7 @@ public class GamHtldRentAssessMngtController {
     public @ResponseBody Map updateHtldRentMngt(
     		@RequestParam Map<String, Object> assetRent)
            throws Exception {
-
+    	
     	GamHtldRentMngtVO gamHtldRentMngtVO;
     	Map map = new HashMap();
         String resultMsg = "";
@@ -253,6 +253,7 @@ public class GamHtldRentAssessMngtController {
         ObjectMapper mapper = new ObjectMapper();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	try{
     	if(!isAuthenticated) {
 	        map.put("resultCode", 1);
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
@@ -285,7 +286,11 @@ public class GamHtldRentAssessMngtController {
 
     	map.put("resultCode", resultCode);
     	map.put("resultMsg", resultMsg);
-
+    	
+    	}catch(Exception e){
+    		map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+    	}
 		return map;
     }
 

@@ -73,7 +73,7 @@ public class GamPopupAtchDirFileController {
 
 		Map map = new HashMap();
 		List resultList;
-
+		try{
 		PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
 		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
@@ -90,11 +90,13 @@ public class GamPopupAtchDirFileController {
 		}
 
 		searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
-
 		map.put("resultCode", 0);
 		map.put("resultList", resultList);
 		map.put("searchOption", searchVO);
-
+		}catch(Exception e){
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail"));
+		}
 		return map;
 	}
 

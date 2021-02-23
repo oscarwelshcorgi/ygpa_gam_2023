@@ -161,7 +161,8 @@ public class GamHtldRentMngtMainController {
 	        map.put("resultCode", 0);
     		map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
     	} catch (IOException i) {
-    		
+    		map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
     	} catch(Exception e) {
 	        map.put("resultCode", 1);
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));

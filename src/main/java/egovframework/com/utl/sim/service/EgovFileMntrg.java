@@ -24,8 +24,12 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 
-public class EgovFileMntrg extends Thread {
+import org.apache.log4j.Logger;
 
+
+
+public class EgovFileMntrg extends Thread {
+	static final Logger logger = Logger.getLogger(EgovFileMntrg.class);
     /**
      * <p>
      * 해당 파일의 변경 유무를 체크하기 위한 Default 초의 stati final 변수, 기본 적용은 값은 60초
@@ -81,6 +85,7 @@ public class EgovFileMntrg extends Thread {
         file = new File(filename);
         // 1. 최초생성시 현재 디렉토리의 하위정보를 ArrayList에 보관한다. 보관정보 ==>  절대경로 + "," + 최종수정일시 + "," + 사이즈
         File [] fList = file.listFiles();
+        if(fList.length > 0 ){
         for(int i = 0; i<fList.length; i++ ){
             realOriginalList.add(fList[i].getAbsolutePath() + "$"
             		+ getLastModifiedTime(fList[i]) + "$"
@@ -88,6 +93,7 @@ public class EgovFileMntrg extends Thread {
             writeLog("ORI_"+fList[i].getAbsolutePath() + "$"
             		+ getLastModifiedTime(fList[i]) + "$"
             		+ ((fList[i].length()/1024)>0?(fList[i].length()/1024):1) + "KB");
+        }
         }
         originalList = new ArrayList(realOriginalList);
         writeLog("START");
@@ -137,10 +143,12 @@ public class EgovFileMntrg extends Thread {
             file = new File(filename);
         	// 현재정보를 ArrayList에 담는다.
             File[] fList = file.listFiles();
+            if(fList.length > 0 ){
             for(int i = 0; i<fList.length; i++ ){
                 currentList.add(fList[i].getAbsolutePath() + "$"
                 		+ getLastModifiedTime(fList[i]) + "$"
                 		+ ((fList[i].length()/1024)>0?(fList[i].length()/1024):1) + "KB");
+            }
             }
             /*
             for(int i = 0; i<originalList.size(); i++ ){
@@ -200,8 +208,9 @@ public class EgovFileMntrg extends Thread {
         } catch (Exception e) {
             //interrupted = true; // there is no point in continuing
             //e.printStackTrace();
-            System.out.println(e);	// 2011.10.10 보안점검 후속조치
-            //return;
+            //System.out.println(e);	// 2011.10.10 보안점검 후속조치
+            logger.info(e.getMessage());
+        	//return;
         }
 
         if (changedList.size()>0) {
@@ -277,28 +286,32 @@ public class EgovFileMntrg extends Thread {
 			result = true;
 		}catch(Exception e){
 			//e.printStackTrace();
-            System.out.println(e);	// 2011.10.10 보안점검 후속조치
-     // 2011.10.10 보안점검 후속조치
+            //System.out.println(e);	// 2011.10.10 보안점검 후속조치
+			logger.info(e.getMessage());
+			// 2011.10.10 보안점검 후속조치
 		}finally {
 		    if (br != null) {
 				try {
 				    br.close();
 				} catch (Exception ignore) {
-				    System.out.println("IGNORE: " + ignore);
+				    //System.out.println("IGNORE: " + ignore);
+					logger.info(ignore.getMessage());
 				}
 			    }
 			    if (bWriter != null) {
 				try {
 				    bWriter.close();
 				} catch (Exception ignore) {
-				    System.out.println("IGNORE: " + ignore);
+				    //System.out.println("IGNORE: " + ignore);
+					logger.info(ignore.getMessage());
 				}
 			    }
 			    if (fWriter != null) {
 				try {
 				    fWriter.close();
 				} catch (Exception ignore) {
-				    System.out.println("IGNORE: " + ignore);
+				    //System.out.println("IGNORE: " + ignore);
+					logger.info(ignore.getMessage());
 				}
 			    }
 			}
@@ -343,8 +356,10 @@ public class EgovFileMntrg extends Thread {
 			}
 		}catch(Exception e){
 			//e.printStackTrace();
-            System.out.println(e);	// 2011.10.10 보안점검 후속조치
+            //System.out.println(e);	// 2011.10.10 보안점검 후속조치
+			logger.info(e.getMessage());
 		}
+		
 		finally{	// 2011.10.21 보안점검 후속조치
 			if (br != null){
 				try {

@@ -175,7 +175,8 @@ public class EgovMenuCreateManageController {
 					.getMessage("fail.common.login"));
 			return "egovframework/com/uat/uia/EgovLoginUsr";
 		}
-		String[] insertMenuNo = checkedMenuNoForInsert.split(",");
+		String[] insertMenuNo = null;
+	 if(checkedMenuNoForInsert != null) insertMenuNo = checkedMenuNoForInsert.split(",");
 		if (insertMenuNo == null || (insertMenuNo.length == 0)) {
 			resultMsg = egovMessageSource.getMessage("fail.common.insert");
 		} else {
@@ -231,10 +232,12 @@ public class EgovMenuCreateManageController {
 			@ModelAttribute("menuSiteMapVO") MenuSiteMapVO menuSiteMapVO,
 			@RequestParam("valueHtml") String valueHtml, ModelMap model)
 			throws Exception {
+		try{
 		boolean chkCreat = false;
 		String resultMsg = "";
 		// 0. Spring Security 사용자권한 처리
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		
 		if (!isAuthenticated) {
 			model.addAttribute("message", egovMessageSource
 					.getMessage("fail.common.login"));
@@ -255,8 +258,7 @@ public class EgovMenuCreateManageController {
 		 * "/product/jeus/webhome/was_com/egovframework-com-1_0/egovframework-com-1_0_war___"
 		 * ); }
 		 */
-		chkCreat = menuCreateManageService.creatSiteMap(menuSiteMapVO,
-				valueHtml);
+		chkCreat = menuCreateManageService.creatSiteMap(menuSiteMapVO,valueHtml);
 		if (!chkCreat) {
 			resultMsg = egovMessageSource.getMessage("fail.common.insert");
 		} else {
@@ -267,6 +269,9 @@ public class EgovMenuCreateManageController {
 		model.addAttribute("list_menulist", list_menulist);
 		model.addAttribute("resultVO", menuSiteMapVO);
 		model.addAttribute("resultMsg", resultMsg);
+		}catch(Exception e){
+			log.info(e.getMessage());
+		}
 		return "egovframework/com/sym/mnu/mcm/EgovMenuCreatSiteMap";
 	}
 

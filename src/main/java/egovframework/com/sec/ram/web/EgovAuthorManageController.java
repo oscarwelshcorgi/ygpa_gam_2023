@@ -216,8 +216,8 @@ public class EgovAuthorManageController {
     		                       @ModelAttribute("authorManage") AuthorManage authorManage, 
     		                        SessionStatus status,
     		                        Model model) throws Exception {
-
-    	String [] strAuthorCodes = authorCodes.split(";");
+    	String [] strAuthorCodes = null;
+    	if(authorCodes != null) strAuthorCodes = authorCodes.split(";");
     	for(int i=0; i<strAuthorCodes.length;i++) {
     		authorManage.setAuthorCode(strAuthorCodes[i]);
     		egovAuthorManageService.deleteAuthor(authorManage);

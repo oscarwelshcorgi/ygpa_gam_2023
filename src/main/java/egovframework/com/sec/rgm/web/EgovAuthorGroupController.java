@@ -123,12 +123,17 @@ public class EgovAuthorGroupController {
 			                        @ModelAttribute("authorGroup") AuthorGroup authorGroup,
 			                         SessionStatus status,
 			                         ModelMap model) throws Exception {
-		
-    	String [] strUserIds = userIds.split(";");
-    	String [] strAuthorCodes = authorCodes.split(";");
-    	String [] strRegYns = regYns.split(";");
-    	String [] strMberTyCodes = mberTyCodes.split(";");// 2011.08.04 수정 부분
-    	
+		String [] strUserIds = null;
+    	String [] strAuthorCodes = null;
+    	String [] strRegYns = null;
+    	String [] strMberTyCodes = null;
+		if(userIds != null && authorCodes != null && regYns != null && mberTyCodes != null){
+			strUserIds = userIds.split(";");
+			strAuthorCodes = authorCodes.split(";");
+			strRegYns = regYns.split(";");
+			strMberTyCodes = mberTyCodes.split(";");// 2011.08.04 수정 부분
+		}
+	if(strUserIds != null && strRegYns!= null ){
     	for(int i=0; i<strUserIds.length;i++) {
     		authorGroup.setUniqId(strUserIds[i]);
     		authorGroup.setAuthorCode(strAuthorCodes[i]);
@@ -138,7 +143,7 @@ public class EgovAuthorGroupController {
     		else 
     		    egovAuthorGroupService.updateAuthorGroup(authorGroup);
     	}
-
+		}
         status.setComplete();
         model.addAttribute("message", egovMessageSource.getMessage("success.common.insert"));		
 		return "forward:/sec/rgm/EgovAuthorGroupList.do";
@@ -156,8 +161,8 @@ public class EgovAuthorGroupController {
                                     @ModelAttribute("authorGroup") AuthorGroup authorGroup,
                                      SessionStatus status,
                                      ModelMap model) throws Exception {
-		
-    	String [] strUserIds = userIds.split(";");
+		String [] strUserIds = null;
+		if(userIds != null) strUserIds = userIds.split(";");
     	for(int i=0; i<strUserIds.length;i++) {
     		authorGroup.setUniqId(strUserIds[i]);
     		egovAuthorGroupService.deleteAuthorGroup(authorGroup);

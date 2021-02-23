@@ -84,7 +84,7 @@ public class GamCmmnCodeDetailMngtController {
 
     	CmmnClCodeVO searchClCodeVO;
 		searchClCodeVO = new CmmnClCodeVO();
-		searchClCodeVO.setRecordCountPerPage(999999);
+		searchClCodeVO.setRecordCountPerPage(999999);	
 		searchClCodeVO.setFirstIndex(0);
 		searchClCodeVO.setSearchCondition("CodeList");
         List CmmnClCodeList = (List)cmmnClCodeManageService.selectCmmnClCodeList(searchClCodeVO);

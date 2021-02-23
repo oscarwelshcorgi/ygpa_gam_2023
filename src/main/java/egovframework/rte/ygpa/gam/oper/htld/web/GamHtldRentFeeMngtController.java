@@ -448,8 +448,9 @@ public class GamHtldRentFeeMngtController {
 
         LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
-        System.out.println("############ prtAtCodes => " + prtAtCodes);
+        //System.out.println("############ prtAtCodes => " + prtAtCodes);
 
+        try{
         String [] arrNticCnts = nticCnts.split(";");
      	String [] arrPrtAtCodes = prtAtCodes.split(";");
      	String [] arrMngYears = mngYears.split(";");
@@ -468,7 +469,7 @@ public class GamHtldRentFeeMngtController {
      		gamHtldRentFeeMngtVO.setRegUsr(loginVO.getId());
      		gamHtldRentFeeMngtVO.setUpdUsr(loginVO.getId());
 
-     		System.out.println("############################# 고지의뢰 CALL!! START ");
+     		//System.out.println("############################# 고지의뢰 CALL!! START ");
 
      		paramMap.put("nticCnt", gamHtldRentFeeMngtVO.getNticCnt());
      		paramMap.put("prtAtCode", gamHtldRentFeeMngtVO.getPrtAtCode());
@@ -486,7 +487,11 @@ public class GamHtldRentFeeMngtController {
 
      	map.put("resultCode", resultCode);
         map.put("resultMsg", resultMsg);
-
+        }catch(NullPointerException npe){
+        	log.info(npe.getMessage());
+        }catch(Exception e){
+        	log.info(e.getMessage());
+        }
  		return map;
      }
 
@@ -599,8 +604,9 @@ public class GamHtldRentFeeMngtController {
 
         LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
-        System.out.println("############ prtAtCodes => " + prtAtCodes);
+        //System.out.println("############ prtAtCodes => " + prtAtCodes);
 
+        try{
         String [] arrNticCnts = nticCnts.split(";");
      	String [] arrPrtAtCodes = prtAtCodes.split(";");
      	String [] arrMngYears = mngYears.split(";");
@@ -619,7 +625,7 @@ public class GamHtldRentFeeMngtController {
      		gamHtldRentFeeMngtVO.setRegUsr(loginVO.getId());
      		gamHtldRentFeeMngtVO.setUpdUsr(loginVO.getId());
 
-     		System.out.println("############################# 고지취소 CALL!! START ");
+     		//System.out.println("############################# 고지취소 CALL!! START ");
             //gamHtldRentFeeMngtService.insertAnlrveLev(gamHtldRentFeeMngtInfo);
      		paramMap.put("nticCnt", gamHtldRentFeeMngtVO.getNticCnt());
      		paramMap.put("prtAtCode", gamHtldRentFeeMngtVO.getPrtAtCode());
@@ -637,7 +643,11 @@ public class GamHtldRentFeeMngtController {
 
      	map.put("resultCode", resultCode);
         map.put("resultMsg", resultMsg);
-
+        }catch(NullPointerException npe){
+        	log.info(npe.getMessage());
+        }catch(Exception e){
+        	log.info(e.getMessage());
+        }
  		return map;
      }
 

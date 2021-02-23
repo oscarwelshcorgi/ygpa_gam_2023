@@ -169,7 +169,8 @@ public class GamAuthorGrpMngController {
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
-    	String [] strEsntlIds = esntlIds.split(";");
+    	String [] strEsntlIds = null;
+    	if(esntlIds != null) strEsntlIds = esntlIds.split(";");
     	for(int i=0; i<strEsntlIds.length;i++) {
     		authorGroup.setUniqId(strEsntlIds[i]);
     		egovAuthorGroupService.deleteAuthorGroup(authorGroup);

@@ -177,6 +177,7 @@ public class GamFcltyQcHwpReport  extends GamFcltyQcHwpBaseReport implements Gam
 			sb.append("				</CELL>\n");
 			sb.append("				<CELL BorderFill=\"3\" ColAddr=\"2\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\""+cellHeight+"\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"7143\">\n");
 			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+			if(qcResultItemList.size()>0){
 			for(EgovMap qcResultItem : qcResultItemList) {
 				String upperCd = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemUpperCd") : "";
 				if(qcItemUpperCd.equals(upperCd)) {
@@ -184,6 +185,7 @@ public class GamFcltyQcHwpReport  extends GamFcltyQcHwpBaseReport implements Gam
 					sb.append("						<P ParaShape=\"20\" Style=\"0\"><TEXT CharShape=\"5\"><CHAR>" + getResultItemSymbol(inspResultChk) + "</CHAR></TEXT></P>\n");
 				}
 			}
+		}
 			sb.append("					</PARALIST>\n");
 			sb.append("				</CELL>\n");
 			sb.append("				<CELL BorderFill=\"3\" ColAddr=\"3\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"0\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"7143\">\n");
@@ -312,6 +314,7 @@ public class GamFcltyQcHwpReport  extends GamFcltyQcHwpBaseReport implements Gam
 			sb.append("				<CELL BorderFill=\"6\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"0\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"24896\">\n");
 			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
 			int cellHeight = 0;
+			if(qcResultItemList.size()>0){
 			for(EgovMap qcResultItem : qcResultItemList) {
 				String upperCd = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemUpperCd") : "";
 				if(qcItemUpperCd.equals(upperCd)) {
@@ -320,16 +323,19 @@ public class GamFcltyQcHwpReport  extends GamFcltyQcHwpBaseReport implements Gam
 					cellHeight += 1939;
 				}
 			}
+		}
 			sb.append("					</PARALIST>\n");
 			sb.append("				</CELL>\n");
 			sb.append("				<CELL BorderFill=\"6\" ColAddr=\"2\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\""+cellHeight+"\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"8703\">\n");
 			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+			if(qcResultItemList.size()>0){
 			for(EgovMap qcResultItem : qcResultItemList) {
 				String upperCd = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemUpperCd") : "";
 				if(qcItemUpperCd.equals(upperCd)) {
 					String inspResultChk = (qcResultItem.get("inspResultChk") != null) ? (String) qcResultItem.get("inspResultChk") : "";
 					sb.append("						<P ParaShape=\"29\" Style=\"0\"><TEXT CharShape=\"11\"><CHAR>" + getResultItemSymbol(inspResultChk) + "</CHAR></TEXT><TEXT CharShape=\"11\"/></P>\n");
 				}
+			}
 			}
 			sb.append("					</PARALIST>\n");
 			sb.append("				</CELL>\n");
@@ -448,6 +454,7 @@ public class GamFcltyQcHwpReport  extends GamFcltyQcHwpBaseReport implements Gam
 		sb.append("				<CELL BorderFill=\"7\" ColAddr=\"3\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"true\" Height=\"2529\" Protect=\"false\" RowAddr=\"1\" RowSpan=\"1\" Width=\"6149\"><PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\"><P ParaShape=\"32\" Style=\"0\"><TEXT CharShape=\"13\"><CHAR>비 고</CHAR></TEXT></P></PARALIST></CELL>\n");
 		sb.append("			</ROW>\n");
 		int rowAddr = 2;
+		
 		for(int i=0; i<qcItemUpperList.size(); i++) {
 			HashMap<String, String> upperItem = qcItemUpperList.get(i);
 			String qcItemUpperCd = upperItem.get("qcItemUpperCd");
@@ -460,6 +467,7 @@ public class GamFcltyQcHwpReport  extends GamFcltyQcHwpBaseReport implements Gam
 			sb.append("				<CELL BorderFill=\"6\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"0\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"24896\">\n");
 			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
 			int cellHeight = 1454*2;
+			if(qcResultItemList.size()>0){
 			for(EgovMap qcResultItem : qcResultItemList) {
 				String upperCd = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemUpperCd") : "";
 				if(qcItemUpperCd.equals(upperCd)) {
@@ -467,6 +475,7 @@ public class GamFcltyQcHwpReport  extends GamFcltyQcHwpBaseReport implements Gam
 					sb.append("						<P ParaShape=\"24\" Style=\"0\"><TEXT CharShape=\"13\"><CHAR>"+qcItemNm+"</CHAR></TEXT></P>\n");
 					cellHeight += 1454;
 				}
+			}
 			}			
 			sb.append("					</PARALIST>\n");
 			sb.append("				</CELL>\n");
@@ -691,6 +700,7 @@ public class GamFcltyQcHwpReport  extends GamFcltyQcHwpBaseReport implements Gam
 		sb.append("				<CELL BorderFill=\"9\" ColAddr=\"2\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"true\" Height=\"4584\" Protect=\"false\" RowAddr=\"0\" RowSpan=\"1\" Width=\"18647\"><PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\"><P ParaShape=\"34\" Style=\"0\"><TEXT CharShape=\"16\"><CHAR>점  검  내  용</CHAR></TEXT></P></PARALIST></CELL>\n");
 		sb.append("			</ROW>\n");
 		int rowAddr = 1;
+		
 		for(int i=0; i<qcItemUpperList.size(); i++) {
 			HashMap<String, String> upperItem = qcItemUpperList.get(i);
 			String qcItemUpperCd = upperItem.get("qcItemUpperCd");
@@ -704,6 +714,7 @@ public class GamFcltyQcHwpReport  extends GamFcltyQcHwpBaseReport implements Gam
 			sb.append("				<CELL BorderFill=\"3\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"0\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"20349\">\n");
 			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
 			int cellHeight = 0;
+			if(qcResultItemList.size()>0){
 			for(EgovMap qcResultItem : qcResultItemList) {
 				String upperCd = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemUpperCd") : "";
 				if(qcItemUpperCd.equals(upperCd)) {
@@ -711,6 +722,7 @@ public class GamFcltyQcHwpReport  extends GamFcltyQcHwpBaseReport implements Gam
 					sb.append("						<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"17\"><CHAR>ㅇ "+qcItemNm+"</CHAR></TEXT></P>\n");
 					cellHeight += 2238;
 				}
+			}
 			}
 			sb.append("					</PARALIST>\n");
 			sb.append("				</CELL>\n");
@@ -786,6 +798,7 @@ public class GamFcltyQcHwpReport  extends GamFcltyQcHwpBaseReport implements Gam
 			sb.append("				<CELL BorderFill=\"3\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"0\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"25040\">\n");
 			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
 			int cellHeight = 0;
+			if(qcResultItemList.size()>0){
 			for(EgovMap qcResultItem : qcResultItemList) {
 				String upperCd = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemUpperCd") : "";
 				if(qcItemUpperCd.equals(upperCd)) {
@@ -793,7 +806,8 @@ public class GamFcltyQcHwpReport  extends GamFcltyQcHwpBaseReport implements Gam
 					sb.append("						<P ParaShape=\"16\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>○ "+qcItemNm+"</CHAR></TEXT></P>\n");
 					cellHeight += 2243;
 				}
-			}			
+			}	
+			}
 			sb.append("					</PARALIST>\n");
 			sb.append("				</CELL>\n");
 			sb.append("				<CELL BorderFill=\"3\" ColAddr=\"2\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\""+cellHeight+"\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"9131\">\n");
@@ -967,6 +981,7 @@ public class GamFcltyQcHwpReport  extends GamFcltyQcHwpBaseReport implements Gam
 					sb.append("				<CELL BorderFill=\""+borderFill[1]+"\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"0\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"24200\">\n");
 					sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
 					int cellHeight = 0;
+					if(qcResultItemList.size()>0){
 					for(EgovMap qcResultItem : qcResultItemList) {
 						String upperCd = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemUpperCd") : "";
 						if(qcItemUpperCd.equals(upperCd)) {
@@ -974,6 +989,7 @@ public class GamFcltyQcHwpReport  extends GamFcltyQcHwpBaseReport implements Gam
 							sb.append("						<P ParaShape=\"17\" Style=\"0\"><TEXT CharShape=\"20\"><CHAR>○ "+qcItemNm+"</CHAR></TEXT></P>\n");
 							cellHeight += 2034;
 						}
+					}
 					}			
 					sb.append("					</PARALIST>\n");
 					sb.append("				</CELL>\n");

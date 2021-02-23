@@ -24,6 +24,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
+import org.apache.log4j.Logger;
+
 import egovframework.com.cmm.service.EgovProperties;
 import egovframework.com.cmm.service.Globals;
 
@@ -47,6 +49,7 @@ public class EgovSysInfo {
 
 		String strlist = EgovProperties.getProperty(Globals.SERVER_CONF_PATH, "SERVER_LIST");
 		String [] list = strlist.split("\\$");
+		
 
 		Vector server_list = new Vector();
 
@@ -54,7 +57,6 @@ public class EgovSysInfo {
 		String version = "";
 		String port = "";
 		String status = "";
-
 		for (int i = 0; i < list.length; i++) {
 			Map map = new HashMap();
 			name = list[i];
@@ -866,9 +868,10 @@ public class EgovSysInfo {
                 while (b_out.ready()){
                 	// 결과문자가 있으면 생성자가 있다는 의미
                     tmpLine = b_out.readLine();
-
+                    if(tmpLine.length() > 0 ){
                     if (tmpLine.length() <= MAX_STR_LEN) {
                         resultTxtList.add(tmpLine);
+                    }
                     }
                 }
                 b_out.close();

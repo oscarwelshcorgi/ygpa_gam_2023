@@ -61,12 +61,14 @@ public class EgovNetInfo {
 		        while (b_out.ready()){
 		        	//도스명령어 실행시 결과는 3번째 라인부터 출력됨..
 		        	tmp = b_out.readLine();
+		        	if(tmp.length() > 0 ){
 		        	if (tmp.length() <= MAX_STR_LEN) {
 			            if(i > 1){
 			            	hostStr += tmp + "\n";
 			            }
 			            i++;
 		        	}
+		        }
 		        }
 		        b_out.close();
 		        // 시스템 로그 출력

@@ -26,6 +26,8 @@ import java.io.InputStreamReader;
 import java.security.MessageDigest;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.log4j.Logger;
+
 
 public class EgovFileScrty {
 
@@ -33,7 +35,7 @@ public class EgovFileScrty {
     static final char FILE_SEPARATOR = File.separatorChar;
 
     static final int BUFFER_SIZE = 1024;
-
+    static final Logger logger = Logger.getLogger(EgovFileScrty.class);
     /**
      * 파일을 암호화하는 기능
      *
@@ -81,7 +83,8 @@ public class EgovFileScrty {
 		       } catch (Exception ignore) {
 			   // no-op
 		           //ignore.printStackTrace();
-				   System.out.println("IGNORE: " + ignore);	// 보안점검 후속조치
+				   //System.out.println("IGNORE: " + ignore);	// 보안점검 후속조치
+		    	   logger.info(ignore.getMessage());
 		       }
 		   }
 		   if (output != null) {
@@ -90,7 +93,8 @@ public class EgovFileScrty {
 		       } catch (Exception ignore) {
 			   // no-op
 		           //ignore.printStackTrace();
-		           System.out.println("IGNORE: " + ignore);	// 보안점검 후속조치
+		           //System.out.println("IGNORE: " + ignore);	// 보안점검 후속조치
+		    	   logger.info(ignore.getMessage());
 		       }
 		   }
 		}
@@ -143,7 +147,8 @@ public class EgovFileScrty {
 		       } catch (Exception ignore) {
 			   // no-op
 		           //ignore.printStackTrace();
-				   System.out.println("IGNORE: " + ignore); // 보안점검 후속조치
+				   //System.out.println("IGNORE: " + ignore); // 보안점검 후속조치
+		    	   logger.info(ignore.getMessage());
 		       }
 		   }
 		   if (output != null) {
@@ -152,7 +157,8 @@ public class EgovFileScrty {
 		       } catch (Exception ignore) {
 			   // no-op
 		    	   //ignore.printStackTrace();
-				   System.out.println("IGNORE: " + ignore); // 보안점검 후속조치
+				   //System.out.println("IGNORE: " + ignore); // 보안점검 후속조치
+		    	   logger.info(ignore.getMessage());
 		       }
 		   }
 		}

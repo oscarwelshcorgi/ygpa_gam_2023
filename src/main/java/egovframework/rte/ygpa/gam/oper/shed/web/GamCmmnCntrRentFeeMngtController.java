@@ -353,8 +353,9 @@ public class GamCmmnCntrRentFeeMngtController {
 
         LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
-        System.out.println("############ prtAtCodes => " + prtAtCodes);
+        //System.out.println("############ prtAtCodes => " + prtAtCodes);
 
+        try{
         String [] arrNticCnts = nticCnts.split(";");
      	String [] arrPrtAtCodes = prtAtCodes.split(";");
      	String [] arrMngYears = mngYears.split(";");
@@ -373,14 +374,14 @@ public class GamCmmnCntrRentFeeMngtController {
      		gamCmmnCntrRentFeeMngtVO.setRegUsr(loginVO.getId());
      		gamCmmnCntrRentFeeMngtVO.setUpdUsr(loginVO.getId());
 
-     		System.out.println("############################# 고지의뢰 CALL!! START ");
+     		//System.out.println("############################# 고지의뢰 CALL!! START ");
 
      		paramMap.put("nticCnt", gamCmmnCntrRentFeeMngtVO.getNticCnt());
      		paramMap.put("prtAtCode", gamCmmnCntrRentFeeMngtVO.getPrtAtCode());
      		paramMap.put("mngYear", gamCmmnCntrRentFeeMngtVO.getMngYear());
      		paramMap.put("mngNo", gamCmmnCntrRentFeeMngtVO.getMngNo());
      		paramMap.put("mngCnt", gamCmmnCntrRentFeeMngtVO.getMngCnt());
-            System.out.println("##################################### paramMap => " + paramMap);
+            //System.out.println("##################################### paramMap => " + paramMap);
 
             //이곳에 고지의뢰 서비스콜!! 삽입할것!!
             //gamCmmnCntrRentFeeMngtService.insertAnlrveLev(gamCmmnCntrRentFeeMngtInfo);
@@ -391,7 +392,11 @@ public class GamCmmnCntrRentFeeMngtController {
 
      	map.put("resultCode", resultCode);
         map.put("resultMsg", resultMsg);
-
+        }catch(NullPointerException npe){
+        	log.info(npe.getMessage());
+        }catch(Exception e){
+        	log.info(e.getMessage());
+        }
  		return map;
      }
 
@@ -506,6 +511,7 @@ public class GamCmmnCntrRentFeeMngtController {
 
         System.out.println("############ prtAtCodes => " + prtAtCodes);
 
+        try{
         String [] arrNticCnts = nticCnts.split(";");
      	String [] arrPrtAtCodes = prtAtCodes.split(";");
      	String [] arrMngYears = mngYears.split(";");
@@ -542,7 +548,9 @@ public class GamCmmnCntrRentFeeMngtController {
 
      	map.put("resultCode", resultCode);
         map.put("resultMsg", resultMsg);
-
+        }catch(Exception e){
+        	
+        }
  		return map;
      }
 

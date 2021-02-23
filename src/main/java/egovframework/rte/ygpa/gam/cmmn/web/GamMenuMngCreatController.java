@@ -182,8 +182,8 @@ public class GamMenuMngCreatController {
         	map.put("resultMsg", resultMsg);	// return error message
         	return map;
     	}
-    	
-		String[] insertMenuNo = checkedMenuNoForInsert.split(",");
+    	String[] insertMenuNo = null; 
+		if(checkedMenuNoForInsert != null) insertMenuNo = checkedMenuNoForInsert.split(",");
 		
 		if(insertMenuNo == null || (insertMenuNo.length == 0)){
 			resultMsg = egovMessageSource.getMessage("fail.common.insert");

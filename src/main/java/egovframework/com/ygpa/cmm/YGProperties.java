@@ -51,6 +51,8 @@ public class YGProperties {
 			LOGGER.error("File not found Error : "+ e.getMessage());
 		}catch(IOException e){
 			LOGGER.error("I/O Error : "+ e.getMessage());
+		}catch(NullPointerException e){
+			LOGGER.error("NullPoint Error : "+ e.getMessage());
 		}catch(Exception e){
 			LOGGER.error("Unexpected Error : "+ e.getMessage());
 		}finally{

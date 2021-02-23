@@ -91,12 +91,13 @@ public class EgovLoginLogController {
 	public String selectLoginLog(@ModelAttribute("searchVO") LoginLog loginLog,
 			@RequestParam("logId") String logId,
 			ModelMap model) throws Exception{
-
-		loginLog.setLogId(logId.trim());
+		
+		if(loginLog != null ) loginLog.setLogId(logId.trim());
 
 		LoginLog vo = loginLogService.selectLoginLog(loginLog);
 		model.addAttribute("result", vo);
 		return "egovframework/com/sym/log/clg/EgovLoginLogInqire";
+		
 	}
 
 }

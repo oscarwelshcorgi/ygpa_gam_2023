@@ -11,6 +11,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.eclipse.jetty.util.log.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -210,7 +211,7 @@ public class GamPopupZipManageController {
 		Map<String, Object> map = new HashMap<String, Object>();
 
 		map.put("searchList", searchVO.getSearchList());
-
+		try{
 		String sCmd = commandMap.get("cmd") == null ? "" : (String)commandMap.get("cmd");
     	if (sCmd.equals("")) {
     		return map;
@@ -267,7 +268,9 @@ public class GamPopupZipManageController {
 //
 //			}
 //		}
-
+		}catch(Exception e){
+			Log.info(e.getMessage());
+		}
         return map;
 	}
 

@@ -179,10 +179,12 @@ public class  EgovInsttCodeRecptnServiceImpl extends AbstractServiceImpl impleme
 		    	in = null;
 			    // 연계파일 수신이 완료되면  listFile:=rcvListFullName 파일을 recvOldFileDir 로 이동한다.
 			    recvOldFile = new File(rcvOldDir + listFile.getName());
+			   if(listFile.exists()){
 				if (listFile.isFile()) {
 					if (recvOldFile.getParentFile().isDirectory()) {
 						listFile.renameTo(recvOldFile);
 					}
+				}
 				} else {
 					// 진행종료
 					processException("recvList filename or rcvold path is not valid!!!");
@@ -207,6 +209,7 @@ public class  EgovInsttCodeRecptnServiceImpl extends AbstractServiceImpl impleme
 		int fileCount=0;
 
 		do {
+		  if(recvFileList.length > 0){
 			if(recvFileList[fileCount].getName().indexOf(".rec") > -1) {
 				dataFile = new File(recvFileList[fileCount].getPath());
 
@@ -214,7 +217,7 @@ public class  EgovInsttCodeRecptnServiceImpl extends AbstractServiceImpl impleme
 				fileCount++;
 				continue;
 			}
-
+		  }
 			buf += "\n\n++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
 
 			String readData = null;
@@ -363,10 +366,12 @@ public class  EgovInsttCodeRecptnServiceImpl extends AbstractServiceImpl impleme
 
 				    // 연계파일 수신이 완료되면  dataFile 파일을 recvOldFileDir 로 이동한다.
 				    recvOldFile = new File(rcvOldDir + dataFile.getName());
+				   if(dataFile.exists()){
 					if (dataFile.isFile()) {
 						if (recvOldFile.getParentFile().isDirectory()) {
 							dataFile.renameTo(recvOldFile);
 						}
+					}
 					} else {
 						// 진행종료
 						processException("dataFile filename or rcvold path is not valid!!!");

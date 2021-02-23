@@ -52,7 +52,7 @@ public class EgovProperties{
 //    + ".." + System.getProperty("file.separator") + ".." + System.getProperty("file.separator");
 
 
-    public static final String RELATIVE_PATH_PREFIX = EgovProperties.class.getResource("").getPath().substring(0, EgovProperties.class.getResource("").getPath().lastIndexOf("com"));
+    public static final String RELATIVE_PATH_PREFIX  = EgovProperties.class.getResource("").getPath().substring(0, EgovProperties.class.getResource("").getPath().lastIndexOf("com"));
 
     public static final String GLOBALS_PROPERTIES_FILE
     = RELATIVE_PATH_PREFIX + "egovProps" + System.getProperty("file.separator") + "globals.properties";
@@ -73,9 +73,11 @@ public class EgovProperties{
 		try{
 			Properties props = new Properties();
 			fis = new FileInputStream(EgovWebUtil.filePathBlackList(GLOBALS_PROPERTIES_FILE));
+			if(props != null){
 			props.load(new java.io.BufferedInputStream(fis));
 			value = props.getProperty(keyName).trim();
 			value = RELATIVE_PATH_PREFIX + "egovProps" + System.getProperty("file.separator") + value;
+			}
 		}catch(FileNotFoundException fne){
 			debug(fne);
 		}catch(IOException ioe){
@@ -108,9 +110,11 @@ public class EgovProperties{
 		FileInputStream fis = null;
 		try{
 			Properties props = new Properties();
+			if(props != null){
 			fis = new FileInputStream(EgovWebUtil.filePathBlackList(GLOBALS_PROPERTIES_FILE));
 			props.load(new java.io.BufferedInputStream(fis));
 			value = props.getProperty(keyName).trim();
+			}
 		}catch(FileNotFoundException fne){
 			debug(fne);
 		}catch(IOException ioe){

@@ -893,7 +893,9 @@ HTMLArea.prototype.generate = function () {
 		window.onunload = function() {
 			editor._textArea.value = editor.getHTML();
 		};
-	} catch(e) {};
+	} catch(e) {
+		console.error(e);	
+	};
 
 	// creates & appends the toolbar
 	this._createToolbar();
@@ -1054,7 +1056,9 @@ HTMLArea.prototype.setMode = function(mode) {
 			// disable design mode before changing innerHTML
 			try {
 				this._doc.designMode = "off";
-			} catch(e) {};
+			} catch(e) {
+				console.error(e);
+			};
 		}
 		if (!this.config.fullPage)
 			this._doc.body.innerHTML = this.getHTML();
@@ -1066,7 +1070,9 @@ HTMLArea.prototype.setMode = function(mode) {
 			// we need to refresh that info for Moz-1.3a
 			try {
 				this._doc.designMode = "on";
-			} catch(e) {};
+			} catch(e) {
+				console.error(e);
+			};
 		}
 		if (this.config.statusBar) {
 			this._statusBar.innerHTML = '';
@@ -1507,6 +1513,7 @@ HTMLArea.prototype.updateToolbar = function(noStatus) {
 					fontStyle = doc.queryCommandState("italic") ? "italic" : "normal";
 				}} catch (e) {
 					// alert(e + "\n\n" + cmd);
+					console.error(e);
 				}
 			}
 			break;
@@ -1523,7 +1530,9 @@ HTMLArea.prototype.updateToolbar = function(noStatus) {
 			cmd = cmd.replace(/(un)?orderedlist/i, "insert$1orderedlist");
 			try {
 				btn.state("active", (!text && doc.queryCommandState(cmd)));
-			} catch (e) {}
+			} catch (e) {
+				console.error(e);
+			}
 		}
 	}
 	// take undo snapshots
@@ -1767,7 +1776,9 @@ HTMLArea.prototype._createLink = function(link) {
 						a = range.startContainer.parentNode;
 				}
 			}
-		} catch(e) {}
+		} catch(e) {
+			console.error(e);
+			}
 		else {
 			var href = param.f_href.trim();
 			editor.selectNodeContents(a);
@@ -2085,7 +2096,9 @@ HTMLArea.prototype.execCommand = function(cmdID, UI, param) {
 	var editor = this;	// for nested functions
 	this.focusEditor();
 	cmdID = cmdID.toLowerCase();
-	if (HTMLArea.is_gecko) try { this._doc.execCommand('useCSS', false, true); } catch (e) {};
+	if (HTMLArea.is_gecko) try { this._doc.execCommand('useCSS', false, true); } catch (e) {
+		console.error(e);
+	};
 	switch (cmdID) {
 	    case "htmlmode" : this.setMode(); break;
 	    case "hilitecolor":

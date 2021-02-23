@@ -219,7 +219,9 @@ public class  EgovAdministCodeRecptnServiceImpl extends AbstractServiceImpl impl
 					//throw new Exception("recvList filename or rcvold path is not valid!!!");
 				}
 		    }
-		} catch(Exception e){
+		}catch(NullPointerException Npe){
+			log.error("Exception:  "  +  Npe.getClass().getName());
+    	}catch(Exception e){
 			log.error("Exception:  "  +  e.getClass().getName());
 			log.error("Exception  Message:  "  +  e.getMessage());
 	    }
@@ -239,24 +241,24 @@ public class  EgovAdministCodeRecptnServiceImpl extends AbstractServiceImpl impl
 		// 수신디렉토리의 모든 연계파일을 확인하여 연계정보를 처리한다.
 		String buf = "";
 //		String buf2[] = null;
-
+		
 		File recvFileDir    = new File(rcvDir);
 		File recvFileList[] = recvFileDir.listFiles();
-
 		int fileCount=0;
-
+		
 		do {
+		   if(recvFileList.length > 0 ){
 			if(recvFileList[fileCount].getName().indexOf(".rec") > -1) {
 				dataFile = new File(recvFileList[fileCount].getPath());
 			} else {
 				fileCount++;
 				continue;
 			}
-
+		   
 			buf += "\n\n++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
-
+		   }
 			String readData = null;
-
+		   
 			try{
 			    if(dataFile.exists()){
 
@@ -391,10 +393,12 @@ public class  EgovAdministCodeRecptnServiceImpl extends AbstractServiceImpl impl
 
 				    // 연계파일 수신이 완료되면  dataFile 파일을 recvOldFileDir 로 이동한다.
 				    recvOldFile = new File(rcvOldDir + dataFile.getName());
+				   if(dataFile.exists()){
 					if (dataFile.isFile()) {
 						if (recvOldFile.getParentFile().isDirectory()) {
 							dataFile.renameTo(recvOldFile);
 						}
+					}
 					} else {
 						// 진행종료
 						processException("dataFile filename or rcvold path is not valid!!!");

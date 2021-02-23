@@ -396,14 +396,17 @@ public class GamHtldRentMngtController {
 	    	deleteList = mapper.readValue((String)assetRent.get("_dList"), TypeFactory.defaultInstance().constructCollectionType(List.class,
 	    			GamHtldRentMngtDetailVO.class));
 		*/
+    	try {
     	if(assetRent.containsKey("assetRentDetailList"))
 	    	assetRentDetailList = mapper.readValue((String)assetRent.get("assetRentDetailList"), TypeFactory.defaultInstance().constructCollectionType(List.class,
 	    			GamHtldRentMngtDetailVO.class));
 
-    	try {
+    	
     		gamHtldRentMngtService.updateHtldRentMngt(gamHtldRentMngtVO, assetRentDetailList);
     	} catch (IOException i) {
-    		
+    		map.put("resultCode", -1);
+        	map.put("resultMsg", i.getMessage());
+        	
     	} catch(Exception e) {
         	map.put("resultCode", -1);
         	map.put("resultMsg", e.getMessage());

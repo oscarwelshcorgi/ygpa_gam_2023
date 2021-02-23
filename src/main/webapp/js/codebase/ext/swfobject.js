@@ -68,7 +68,10 @@ var swfobject = function() {
 					}
 				}
 			}
-			catch(e) {}
+			catch(e) {
+				console.error(e);
+			}
+			
 		}
 		return { w3:w3cdom, pv:playerVersion, wk:webkit, ie:ie, win:windows, mac:mac };
 	}(),
@@ -510,7 +513,9 @@ var swfobject = function() {
 		try {
 			el = doc.getElementById(id);
 		}
-		catch (e) {}
+		catch (e) {
+			console.error(e);
+		}
 		return el;
 	}
 	

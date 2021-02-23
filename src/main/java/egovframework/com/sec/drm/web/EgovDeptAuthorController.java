@@ -123,11 +123,14 @@ public class EgovDeptAuthorController {
 			                       @ModelAttribute("deptAuthor") DeptAuthor deptAuthor,
 			                         SessionStatus status,
 			                         ModelMap model) throws Exception {
-		
-    	String [] strUserIds = userIds.split(";");
-    	String [] strAuthorCodes = authorCodes.split(";");
-    	String [] strRegYns = regYns.split(";");
-    	
+		String [] strUserIds = null;
+    	String [] strAuthorCodes = null;
+    	String [] strRegYns = null;
+		if(userIds != null && authorCodes != null && regYns != null){
+    	strUserIds = userIds.split(";");
+    	strAuthorCodes = authorCodes.split(";");
+    	strRegYns = regYns.split(";");
+		}
     	for(int i=0; i<strUserIds.length;i++) {
     		deptAuthor.setUniqId(strUserIds[i]);
     		deptAuthor.setAuthorCode(strAuthorCodes[i]);
@@ -136,7 +139,7 @@ public class EgovDeptAuthorController {
     		else 
     			egovDeptAuthorService.updateDeptAuthor(deptAuthor);
     	}
-
+		
         status.setComplete();
         model.addAttribute("message", egovMessageSource.getMessage("success.common.insert"));		
 		return "forward:/sec/drm/EgovDeptAuthorList.do";
@@ -154,8 +157,10 @@ public class EgovDeptAuthorController {
 			                        @ModelAttribute("deptAuthor") DeptAuthor deptAuthor,
                                      SessionStatus status,
                                      ModelMap model) throws Exception {
+		String [] strUserIds = null;
 		
-    	String [] strUserIds = userIds.split(";");
+		if(userIds != null ) strUserIds = userIds.split(";");
+
     	for(int i=0; i<strUserIds.length;i++) {
     		deptAuthor.setUniqId(strUserIds[i]);
     		egovDeptAuthorService.deleteDeptAuthor(deptAuthor);

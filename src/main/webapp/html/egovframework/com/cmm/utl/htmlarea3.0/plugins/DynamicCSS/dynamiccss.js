@@ -48,6 +48,7 @@ DynamicCSS.parseStyleSheet=function(editor){
                 }
                 catch(e){
                     //alert(e);
+                	console.error(e);
                 }
             }
             // IE
@@ -65,6 +66,7 @@ DynamicCSS.parseStyleSheet=function(editor){
                 }
                 catch(e){
                     //alert(e);
+                	console.error(e);
                 }
             }
         }

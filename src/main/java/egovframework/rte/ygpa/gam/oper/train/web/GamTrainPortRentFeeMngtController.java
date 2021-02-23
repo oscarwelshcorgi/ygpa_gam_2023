@@ -354,6 +354,7 @@ public class GamTrainPortRentFeeMngtController {
 
         System.out.println("############ prtAtCodes => " + prtAtCodes);
 
+        try{
         String [] arrNticCnts = nticCnts.split(";");
      	String [] arrPrtAtCodes = prtAtCodes.split(";");
      	String [] arrMngYears = mngYears.split(";");
@@ -390,7 +391,11 @@ public class GamTrainPortRentFeeMngtController {
 
      	map.put("resultCode", resultCode);
         map.put("resultMsg", resultMsg);
-
+        }catch(NullPointerException npe){
+        	log.info(npe.getMessage());
+        }catch(Exception e){
+        	log.info(e.getMessage());
+        }
  		return map;
      }
 
@@ -505,6 +510,7 @@ public class GamTrainPortRentFeeMngtController {
 
         System.out.println("############ prtAtCodes => " + prtAtCodes);
 
+        try{
         String [] arrNticCnts = nticCnts.split(";");
      	String [] arrPrtAtCodes = prtAtCodes.split(";");
      	String [] arrMngYears = mngYears.split(";");
@@ -523,14 +529,14 @@ public class GamTrainPortRentFeeMngtController {
      		gamTrainPortRentFeeMngtVO.setRegUsr(loginVO.getId());
      		gamTrainPortRentFeeMngtVO.setUpdUsr(loginVO.getId());
 
-     		System.out.println("############################# 고지취소 CALL!! START ");
+     		//System.out.println("############################# 고지취소 CALL!! START ");
             //gamTrainPortRentFeeMngtService.insertAnlrveLev(gamTrainPortRentFeeMngtInfo);
      		paramMap.put("nticCnt", gamTrainPortRentFeeMngtVO.getNticCnt());
      		paramMap.put("prtAtCode", gamTrainPortRentFeeMngtVO.getPrtAtCode());
      		paramMap.put("mngYear", gamTrainPortRentFeeMngtVO.getMngYear());
      		paramMap.put("mngNo", gamTrainPortRentFeeMngtVO.getMngNo());
      		paramMap.put("mngCnt", gamTrainPortRentFeeMngtVO.getMngCnt());
-            System.out.println("##################################### paramMap => " + paramMap);
+            //System.out.println("##################################### paramMap => " + paramMap);
 
             //이곳에 고지취소 서비스콜!! 삽입할것!!
             //gamTrainPortRentFeeMngtService.insertAnlrveLev(gamTrainPortRentFeeMngtInfo);
@@ -541,7 +547,11 @@ public class GamTrainPortRentFeeMngtController {
 
      	map.put("resultCode", resultCode);
         map.put("resultMsg", resultMsg);
-
+        }catch(NullPointerException npe){
+        	log.info(npe.getMessage());
+        }catch(Exception e){
+        	log.info(e.getMessage());
+        }
  		return map;
      }
 

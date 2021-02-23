@@ -265,7 +265,8 @@ public class EgovRoleManageController {
 			                     @ModelAttribute("roleManage") RoleManage roleManage, 
 	                              SessionStatus status, 
 	                              Model model) throws Exception {
-    	String [] strRoleCodes = roleCodes.split(";");
+		String [] strRoleCodes = null;
+		if(roleCodes != null) strRoleCodes = roleCodes.split(";");
     	for(int i=0; i<strRoleCodes.length;i++) {
     		roleManage.setRoleCode(strRoleCodes[i]);
     		egovRoleManageService.deleteRole(roleManage);

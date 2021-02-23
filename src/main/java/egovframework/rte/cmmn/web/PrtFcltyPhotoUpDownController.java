@@ -282,7 +282,8 @@ public class PrtFcltyPhotoUpDownController {
 		String physicalFileNm = (String)request.getParameter("physicalFileNm");
 //		String fileSn = (String)commandMap.get("fileSn");
 		String uploadPath = EgovProperties.getProperty("prtfclty.fileStorePath");
-		String[] tokens = physicalFileNm.split("\\.(?=[^\\.]+$)");
+		String[] tokens = null;
+		if(physicalFileNm != null) tokens = physicalFileNm.split("\\.(?=[^\\.]+$)");
 
 		FileInfoVO vo = new FileInfoVO();
 
@@ -295,6 +296,7 @@ public class PrtFcltyPhotoUpDownController {
 		ByteArrayOutputStream bStream = null;
 
 		try {
+			uploadPath = uploadPath.replaceAll("\\.", "").replaceAll("/","").replaceAll("\\\\","");
 		    file = new File(uploadPath, vo.getFileName());
 		    fis = new FileInputStream(file);
 

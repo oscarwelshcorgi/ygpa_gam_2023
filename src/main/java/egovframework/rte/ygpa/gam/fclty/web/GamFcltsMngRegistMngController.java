@@ -10,6 +10,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -52,7 +53,8 @@ import egovframework.rte.ygpa.gam.fclty.service.GamFcltsMngRegistMngVO;
 
 @Controller
 public class GamFcltsMngRegistMngController {
-
+	/** Logger */
+	static final Logger logger = Logger.getLogger(GamFcltsMngRegistMngController.class);
 	/** Validator */
 	@Autowired
 	private DefaultBeanValidator beanValidator;
@@ -133,7 +135,8 @@ public class GamFcltsMngRegistMngController {
 		} catch(IOException e) {
 			
 		}catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			logger.info(e.getMessage());
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
 		}
@@ -164,7 +167,8 @@ public class GamFcltsMngRegistMngController {
 		} catch(IOException e) {
 			
 		}catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			logger.info(e.getMessage());
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
 		}
@@ -193,7 +197,8 @@ public class GamFcltsMngRegistMngController {
 		} catch(IOException e) {
 			
 		}catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			logger.info(e.getMessage());
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
 		}
@@ -223,7 +228,8 @@ public class GamFcltsMngRegistMngController {
 		} catch(IOException e) {
 			
 		}catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			logger.info(e.getMessage());
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.select"));
 		}

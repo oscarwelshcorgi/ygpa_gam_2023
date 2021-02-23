@@ -360,6 +360,7 @@ public class GamTestPrtFcltyRentFeeMngtController {
 
         System.out.println("############ prtAtCodes => " + prtAtCodes);
 
+        try{
         String [] arrNticCnts = nticCnts.split(";");
      	String [] arrPrtAtCodes = prtAtCodes.split(";");
      	String [] arrMngYears = mngYears.split(";");
@@ -378,14 +379,14 @@ public class GamTestPrtFcltyRentFeeMngtController {
      		gamTestPrtFcltyRentFeeMngtVO.setRegUsr(loginVO.getId());
      		gamTestPrtFcltyRentFeeMngtVO.setUpdUsr(loginVO.getId());
 
-     		System.out.println("############################# 고지의뢰 CALL!! START ");
+     		//System.out.println("############################# 고지의뢰 CALL!! START ");
 
      		paramMap.put("nticCnt", gamTestPrtFcltyRentFeeMngtVO.getNticCnt());
      		paramMap.put("prtAtCode", gamTestPrtFcltyRentFeeMngtVO.getPrtAtCode());
      		paramMap.put("mngYear", gamTestPrtFcltyRentFeeMngtVO.getMngYear());
      		paramMap.put("mngNo", gamTestPrtFcltyRentFeeMngtVO.getMngNo());
      		paramMap.put("mngCnt", gamTestPrtFcltyRentFeeMngtVO.getMngCnt());
-            System.out.println("##################################### paramMap => " + paramMap);
+            //System.out.println("##################################### paramMap => " + paramMap);
 
             //이곳에 고지의뢰 서비스콜!! 삽입할것!!
             //gamTestPrtFcltyRentFeeMngtService.insertAnlrveLev(gamTestPrtFcltyRentFeeMngtInfo);
@@ -396,7 +397,11 @@ public class GamTestPrtFcltyRentFeeMngtController {
 
      	map.put("resultCode", resultCode);
         map.put("resultMsg", resultMsg);
-
+        }catch(NullPointerException npe){
+        	log.info(npe.getMessage());
+        }catch(Exception e){
+        	log.info(e.getMessage());
+        }
  		return map;
      }
 
@@ -511,6 +516,7 @@ public class GamTestPrtFcltyRentFeeMngtController {
 
         System.out.println("############ prtAtCodes => " + prtAtCodes);
 
+        try{
         String [] arrNticCnts = nticCnts.split(";");
      	String [] arrPrtAtCodes = prtAtCodes.split(";");
      	String [] arrMngYears = mngYears.split(";");
@@ -529,14 +535,14 @@ public class GamTestPrtFcltyRentFeeMngtController {
      		gamTestPrtFcltyRentFeeMngtVO.setRegUsr(loginVO.getId());
      		gamTestPrtFcltyRentFeeMngtVO.setUpdUsr(loginVO.getId());
 
-     		System.out.println("############################# 고지취소 CALL!! START ");
+     		//System.out.println("############################# 고지취소 CALL!! START ");
             //gamTestPrtFcltyRentFeeMngtService.insertAnlrveLev(gamTestPrtFcltyRentFeeMngtInfo);
      		paramMap.put("nticCnt", gamTestPrtFcltyRentFeeMngtVO.getNticCnt());
      		paramMap.put("prtAtCode", gamTestPrtFcltyRentFeeMngtVO.getPrtAtCode());
      		paramMap.put("mngYear", gamTestPrtFcltyRentFeeMngtVO.getMngYear());
      		paramMap.put("mngNo", gamTestPrtFcltyRentFeeMngtVO.getMngNo());
      		paramMap.put("mngCnt", gamTestPrtFcltyRentFeeMngtVO.getMngCnt());
-            System.out.println("##################################### paramMap => " + paramMap);
+            //System.out.println("##################################### paramMap => " + paramMap);
 
             //이곳에 고지취소 서비스콜!! 삽입할것!!
             //gamTestPrtFcltyRentFeeMngtService.insertAnlrveLev(gamTestPrtFcltyRentFeeMngtInfo);
@@ -547,7 +553,11 @@ public class GamTestPrtFcltyRentFeeMngtController {
 
      	map.put("resultCode", resultCode);
         map.put("resultMsg", resultMsg);
-
+        }catch(NullPointerException npe){
+        	log.info(npe.getMessage());
+        }catch(Exception e){
+        	log.info(e.getMessage());
+        }
  		return map;
      }
 

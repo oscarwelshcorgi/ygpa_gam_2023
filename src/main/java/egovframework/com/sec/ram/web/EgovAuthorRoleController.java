@@ -109,10 +109,13 @@ public class EgovAuthorRoleController {
 			                       @ModelAttribute("authorRoleManage") AuthorRoleManage authorRoleManage,
 			                         SessionStatus status,
 			                         ModelMap model) throws Exception {
-		
-    	String [] strRoleCodes = roleCodes.split(";");
-    	String [] strRegYns = regYns.split(";");
+		String [] strRoleCodes = null; 
+    	String [] strRegYns = null;
     	
+    	if(authorCode != null && roleCodes != null){
+    	strRoleCodes = roleCodes.split(";");
+    	strRegYns = regYns.split(";");
+    	}
     	authorRoleManage.setRoleCode(authorCode);
     	
     	for(int i=0; i<strRoleCodes.length;i++) {

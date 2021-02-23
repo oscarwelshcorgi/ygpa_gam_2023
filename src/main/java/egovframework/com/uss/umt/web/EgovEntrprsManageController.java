@@ -235,10 +235,17 @@ public class EgovEntrprsManageController {
             Model model
             )throws Exception {
     	//log.debug("jjycon_delete-->"+checkedIdForDel);
+    	try{
         entrprsManageService.deleteEntrprsmber(checkedIdForDel);
         //Exception 없이 진행시 삭제성공메시지
         model.addAttribute("resultMsg", "success.common.delete");
-        return "forward:/uss/umt/EgovEntrprsMberManage.do";
+        
+    	}catch(NullPointerException npe){
+    		log.debug("delete_failed-->"+npe.getMessage());
+    	}catch(Exception e){
+    		log.debug("delete_failde-->"+e.getMessage());
+    	}
+    	return "forward:/uss/umt/EgovEntrprsMberManage.do";
     }
     
     /**

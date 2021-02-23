@@ -136,8 +136,8 @@ public class EgovBkmkMenuManageController {
             //    model.addAttribute("message", egovMessageSource.getMessage("fail.common.login"));
             return "egovframework/com/uat/uia/EgovLoginUsr";
         }
-               
-        String [] temp = checkMenuIds.split(",");
+        String [] temp = null;
+        if(checkMenuIds != null) temp = checkMenuIds.split(",");
         
         for(int i =0; i < temp.length; i++){
             BkmkMenuManage bkmk = new BkmkMenuManage();

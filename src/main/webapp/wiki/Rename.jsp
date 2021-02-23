@@ -67,9 +67,9 @@
             {
                 trail.removeItem( renameFrom );
                 session.setAttribute( BreadcrumbsTag.BREADCRUMBTRAIL_KEY, trail );
+            }catch(Exception e){
+            	log.info("Page successfully renamed to '"+renamedTo+"'");	
             }
-
-            log.info("Page successfully renamed to '"+renamedTo+"'");
 
             response.sendRedirect( wikiContext.getURL( WikiContext.VIEW, renamedTo ) );
             return;

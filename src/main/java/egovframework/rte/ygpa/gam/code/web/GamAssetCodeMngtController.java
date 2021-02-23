@@ -238,7 +238,7 @@ public class GamAssetCodeMngtController {
     		insertVO.put("updUsr", loginVo.getId());
         	result=gamGisAssetCodeMngtService.updateAssetCode(insertVO);
     	} 
-    	catch(Exception e) {
+    	catch(NullPointerException e) {
         	map.put("resultCode", -1);	// return ok
         	map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
 

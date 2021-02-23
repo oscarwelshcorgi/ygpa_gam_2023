@@ -41,6 +41,8 @@ import egovframework.com.cmm.EgovWebUtil;
  * @see
  */
 public class EgovFormBasedFileUtil {
+	static final Logger logger = Logger.getLogger(EgovFormBasedFileUtil.class);
+	
     /** Buffer size */
     public static final int BUFFER_SIZE = 8192;
 
@@ -296,14 +298,16 @@ public class EgovFormBasedFileUtil {
 			try {
 			    outs.close();
 			} catch (Exception ignore) {
-			    System.out.println("IGNORE: " + ignore);
+			    //System.out.println("IGNORE: " + ignore);
+				logger.info(ignore.getMessage());
 			}
 		    }
 		    if (fin != null) {
 			try {
 			    fin.close();
 			} catch (Exception ignore) {
-			    System.out.println("IGNORE: " + ignore);
+			    //System.out.println("IGNORE: " + ignore);
+				logger.info(ignore.getMessage());
 			}
 		    }
 		}

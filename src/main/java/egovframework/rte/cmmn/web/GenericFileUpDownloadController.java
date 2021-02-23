@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.apache.poi.ss.formula.functions.Replace;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
@@ -25,6 +26,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+
+import com.sun.org.apache.regexp.internal.recompile;
 
 import egovframework.com.cmm.service.EgovProperties;
 import egovframework.rte.fdl.idgnr.EgovIdGnrService;
@@ -57,11 +60,11 @@ public class GenericFileUpDownloadController {
 				}
 			}
 		}
+		filePath = filePath.replaceAll("\\.", "").replaceAll("/","").replaceAll("\\\\","");
 		String uploadPath = EgovProperties.getProperty("Globals.fileStorePath")+filePath;
 		List<GamFileServiceVo> list = GamFileUploadUtil.uploadFiles(request, uploadPath, egovFileIdGnrService);
 
 		map.put("result", list);
-
 		return map;
 //		Map map = new HashMap();
 //		final long startTime = System.nanoTime();
@@ -146,6 +149,7 @@ public class GenericFileUpDownloadController {
 				}
 			}
 		}
+		filePath = filePath.replaceAll("\\.", "").replaceAll("/","").replaceAll("\\\\","");
 		String uploadPath = EgovProperties.getProperty("Globals.fileStorePath")+filePath;
 		List<GamFileServiceVo> list = GamFileUploadUtil.uploadFiles(request, uploadPath, egovFileIdGnrService);
 
@@ -262,9 +266,9 @@ public class GenericFileUpDownloadController {
 		ByteArrayOutputStream bStream = null;
 
 		try {
+			uploadPath = uploadPath.replaceAll("\\.", "").replaceAll("/","").replaceAll("\\\\","");
 		    file = new File(uploadPath, vo.getFileName());
 		    fis = new FileInputStream(file);
-
 		    in = new BufferedInputStream(fis);
 		    bStream = new ByteArrayOutputStream();
 

@@ -189,8 +189,8 @@ public class EgovDeptManageController {
 			                           @ModelAttribute("deptManageVO") DeptManageVO deptManageVO, 
 			                            SessionStatus status, 
 			                            ModelMap model) throws Exception {
-    	
-    	String [] strDeptManages = deptManages.split(";");
+    	String [] strDeptManages = null;
+    	if(deptManages != null) strDeptManages = deptManages.split(";");
     	for(int i=0; i<strDeptManages.length;i++) {
     		deptManageVO.setOrgnztId(strDeptManages[i]);
     		egovDeptManageService.deleteDeptManage(deptManageVO);

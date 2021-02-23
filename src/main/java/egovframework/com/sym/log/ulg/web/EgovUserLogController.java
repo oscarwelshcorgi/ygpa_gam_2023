@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import javax.annotation.Resource;
 
+import org.eclipse.jetty.util.log.Log;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -94,7 +95,7 @@ public class EgovUserLogController {
 			@RequestParam("srvcNm") String srvcNm,
 			@RequestParam("methodNm") String methodNm,
 			ModelMap model) throws Exception{
-
+		try{
 		userLog.setOccrrncDe(occrrncDe.trim());
 		userLog.setRqesterId(rqesterId.trim());
 		userLog.setSrvcNm(srvcNm.trim());
@@ -102,6 +103,10 @@ public class EgovUserLogController {
 
 		UserLog vo = userLogService.selectUserLog(userLog);
 		model.addAttribute("result", vo);
+		}catch(Exception e){
+			
+			Log.info(e.getMessage());
+		}
 		return "egovframework/com/sym/log/ulg/EgovUserLogInqire";
 	}
 

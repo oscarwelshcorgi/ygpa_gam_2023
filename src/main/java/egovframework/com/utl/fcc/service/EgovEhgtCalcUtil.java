@@ -27,6 +27,8 @@ import java.net.URL;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.parser.ParserDelegator;
 
+import twitter4j.internal.logging.Logger;
+
 public class EgovEhgtCalcUtil {
 
 	// 환율....
@@ -122,7 +124,8 @@ private class CallbackHandler extends HTMLEditorKit.ParserCallback	{
 }
 
 	public static	String  getEhgtCalc(String srcType, long srcAmount, String cnvrType) throws Exception {
-
+		
+		Logger logger = Logger.getLogger(EgovEhgtCalcUtil.class);
         String  rtnStr = null;
 
         String[] eghtStdrRt = null;				// Html에서 파싱한 환율매매기준율을 저장하기 위한 문자열배열
@@ -156,8 +159,9 @@ private class CallbackHandler extends HTMLEditorKit.ParserCallback	{
 		}	catch	(Exception e) {
 
 		    //e.printStackTrace();
-		    System.out.println(e);	// 2011.10.10 보안점검 후속조치
-
+		    //System.out.println(e);	// 2011.10.10 보안점검 후속조치
+			logger.info(e.getMessage());
+			
 		}
 
 		if	(eghtStdrRt == null || (eghtStdrRt.length ==0))
@@ -240,8 +244,8 @@ private class CallbackHandler extends HTMLEditorKit.ParserCallback	{
 		}	catch	(Exception e) {
 
 		    //e.printStackTrace();
-		    System.out.println(e);	// 2011.10.10 보안점검 후속조치
-
+		    //System.out.println(e);	// 2011.10.10 보안점검 후속조치
+			logger.info(e.getMessage());
 		}
 
 
@@ -337,7 +341,8 @@ private class CallbackHandler extends HTMLEditorKit.ParserCallback	{
 		}	catch	(Exception e) {
 
 		    //e.printStackTrace();
-		    System.out.println(e);	// 2011.10.10 보안점검 후속조치
+		    //System.out.println(e);	// 2011.10.10 보안점검 후속조치
+			logger.info(e.getMessage());
 		}
 
 		rtnStr = sCnvrAmount + "  " + cnvrStr;

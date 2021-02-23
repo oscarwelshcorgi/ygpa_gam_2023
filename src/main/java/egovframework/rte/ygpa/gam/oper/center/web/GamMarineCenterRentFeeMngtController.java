@@ -349,8 +349,8 @@ public class GamMarineCenterRentFeeMngtController {
 
         LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
-        System.out.println("############ prtAtCodes => " + prtAtCodes);
-
+        /*System.out.println("############ prtAtCodes => " + prtAtCodes);*/
+        try{
         String [] arrNticCnts = nticCnts.split(";");
      	String [] arrPrtAtCodes = prtAtCodes.split(";");
      	String [] arrMngYears = mngYears.split(";");
@@ -387,8 +387,13 @@ public class GamMarineCenterRentFeeMngtController {
 
      	map.put("resultCode", resultCode);
         map.put("resultMsg", resultMsg);
-
- 		return map;
+        
+        }catch(NullPointerException npe){
+        	log.info(npe.getMessage());
+        }catch(Exception e){
+        	log.info(e.getMessage());
+        }
+        return map;
      }
 
     /**
@@ -500,8 +505,8 @@ public class GamMarineCenterRentFeeMngtController {
 
     	LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
-        System.out.println("############ prtAtCodes => " + prtAtCodes);
-
+        //System.out.println("############ prtAtCodes => " + prtAtCodes);
+        try{
         String [] arrNticCnts = nticCnts.split(";");
      	String [] arrPrtAtCodes = prtAtCodes.split(";");
      	String [] arrMngYears = mngYears.split(";");
@@ -538,7 +543,11 @@ public class GamMarineCenterRentFeeMngtController {
 
      	map.put("resultCode", resultCode);
         map.put("resultMsg", resultMsg);
-
+        }catch(NullPointerException npe){
+        	log.info(npe.getMessage());
+        }catch(Exception e){
+        	log.info(e.getMessage());
+        }
  		return map;
      }
 

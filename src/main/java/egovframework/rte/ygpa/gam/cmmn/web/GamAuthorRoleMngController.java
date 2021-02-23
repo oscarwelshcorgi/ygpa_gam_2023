@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.eclipse.jetty.util.log.Log;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -121,7 +122,7 @@ public class GamAuthorRoleMngController {
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
-
+    	try{
     	String [] strRoleCodes = roleCodes.split(";");
     	String [] strRegYns = regYns.split(";");
 
@@ -142,6 +143,11 @@ public class GamAuthorRoleMngController {
 
     	map.put("resultCode", 0);
         map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
+    	}catch(NullPointerException npe){
+    		Log.info(npe.getMessage());
+    	}catch(Exception e){
+    		Log.info(e.getMessage());
+    	}
 		return map;
 	}
 }

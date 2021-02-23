@@ -216,11 +216,12 @@ public class GamGroupMngController {
 
     	GroupManage gm = new GroupManage();
 //    	List list = (ArrayList)deleteList.get("delList");
+       if(delList.length > 0 ){
     	for(int i=0; i<delList.length; i++) {
     		gm.setGroupId((String)delList[i]);
     		egovGroupManageService.deleteGroup(gm);
     	}
-
+       }
 		map.put("resultCode", 0);
       	map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
 		return map;

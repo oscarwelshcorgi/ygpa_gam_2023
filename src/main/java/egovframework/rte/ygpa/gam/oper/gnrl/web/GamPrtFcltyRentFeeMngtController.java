@@ -357,8 +357,8 @@ public class GamPrtFcltyRentFeeMngtController {
 
         LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
-        System.out.println("############ prtAtCodes => " + prtAtCodes);
-
+        //System.out.println("############ prtAtCodes => " + prtAtCodes);
+        try{
         String [] arrNticCnts = nticCnts.split(";");
      	String [] arrPrtAtCodes = prtAtCodes.split(";");
      	String [] arrMngYears = mngYears.split(";");
@@ -395,7 +395,11 @@ public class GamPrtFcltyRentFeeMngtController {
 
      	map.put("resultCode", resultCode);
         map.put("resultMsg", resultMsg);
-
+        }catch(NullPointerException npe){
+        	log.info(npe.getMessage());
+        }catch(Exception e){
+        	log.info(e.getMessage());
+        }
  		return map;
      }
 
@@ -510,6 +514,7 @@ public class GamPrtFcltyRentFeeMngtController {
 
         System.out.println("############ prtAtCodes => " + prtAtCodes);
 
+        try{
         String [] arrNticCnts = nticCnts.split(";");
      	String [] arrPrtAtCodes = prtAtCodes.split(";");
      	String [] arrMngYears = mngYears.split(";");
@@ -528,14 +533,14 @@ public class GamPrtFcltyRentFeeMngtController {
      		gamPrtFcltyRentFeeMngtVO.setRegUsr(loginVO.getId());
      		gamPrtFcltyRentFeeMngtVO.setUpdUsr(loginVO.getId());
 
-     		System.out.println("############################# 고지취소 CALL!! START ");
+     		//System.out.println("############################# 고지취소 CALL!! START ");
             //gamPrtFcltyRentFeeMngtService.insertAnlrveLev(gamPrtFcltyRentFeeMngtInfo);
      		paramMap.put("nticCnt", gamPrtFcltyRentFeeMngtVO.getNticCnt());
      		paramMap.put("prtAtCode", gamPrtFcltyRentFeeMngtVO.getPrtAtCode());
      		paramMap.put("mngYear", gamPrtFcltyRentFeeMngtVO.getMngYear());
      		paramMap.put("mngNo", gamPrtFcltyRentFeeMngtVO.getMngNo());
      		paramMap.put("mngCnt", gamPrtFcltyRentFeeMngtVO.getMngCnt());
-            System.out.println("##################################### paramMap => " + paramMap);
+            //System.out.println("##################################### paramMap => " + paramMap);
 
             //이곳에 고지취소 서비스콜!! 삽입할것!!
             //gamPrtFcltyRentFeeMngtService.insertAnlrveLev(gamPrtFcltyRentFeeMngtInfo);
@@ -546,7 +551,11 @@ public class GamPrtFcltyRentFeeMngtController {
 
      	map.put("resultCode", resultCode);
         map.put("resultMsg", resultMsg);
-
+        }catch(NullPointerException npe){
+        	log.info(npe.getMessage());
+        }catch(Exception e){
+        	log.info(e.getMessage());
+        }
  		return map;
      }
 
