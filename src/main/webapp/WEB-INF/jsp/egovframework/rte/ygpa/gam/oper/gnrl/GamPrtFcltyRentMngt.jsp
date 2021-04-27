@@ -871,7 +871,7 @@ GamAssetRentMngtModule.prototype.calcNationAssetLaw = function() {
 
         var monfee = olnlp*applcTariff/12;
 
-        if( exemptSe == '1' ) {        // 일부면제
+        if( exemptSe == '1' ||  exemptSe == '2' ) {        // 일부면제
               if( exemptPdFrom == '' ) {
                   return;
               }
@@ -882,7 +882,7 @@ GamAssetRentMngtModule.prototype.calcNationAssetLaw = function() {
 
         if( exemptSe == '0' ) {               // 면제없음.
             rdcxptFee = 0;
-        } else if( exemptSe == '1' ) {   // 일부면제
+        } else if( exemptSe == '1' ||  exemptSe == '2' ) {   // 일부면제
         	var dtFr = EMD.util.strToDate(exemptPdFrom);
         	var dtTo = EMD.util.strToDate(exemptPdTo);
 
@@ -985,12 +985,12 @@ GamAssetRentMngtModule.prototype.calcNationAssetLaw = function() {
         rdcxptFee = Math.ceil(rdcxptFee/10)*10;
 
         this.$('#fee').val($.number(calFee));
-        this.$('#rdcxptFee').val($.number(rdcxptFee));
+//         this.$('#rdcxptFee').val($.number(rdcxptFee));
     } else {
         var applcTariff = Number(this.$('#applcTariff').val().replace(/,/g, ''));
 		if(applcTariff!=0) {
 	    	this.$('#fee').val('');
-	        this.$('#rdcxptFee').val('');
+//	        this.$('#rdcxptFee').val('');
 		}
     }
 
@@ -1155,12 +1155,12 @@ GamAssetRentMngtModule.prototype.calcTradePortLaw = function() {
         rdcxptFee = Math.round(rdcxptFee/10)*10;
 
         this.$('#fee').val($.number(calFee));
-        this.$('#rdcxptFee').val($.number(rdcxptFee));
+//         this.$('#rdcxptFee').val($.number(rdcxptFee));
     } else {
         applcTariff = Number(this.$('#applcTariff').val().replace(/,/g, ''));
 		if(applcTariff!=0) {
 	    	this.$('#fee').val('');
-	        this.$('#rdcxptFee').val('');
+//	        this.$('#rdcxptFee').val('');
 		}
     }
 };
