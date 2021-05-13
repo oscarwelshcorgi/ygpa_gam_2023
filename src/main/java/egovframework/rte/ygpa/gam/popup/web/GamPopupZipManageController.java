@@ -3,6 +3,7 @@
  */
 package egovframework.rte.ygpa.gam.popup.web;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -268,6 +269,8 @@ public class GamPopupZipManageController {
 //
 //			}
 //		}
+		}catch(IOException i){
+			Log.info(i.getMessage());
 		}catch(Exception e){
 			Log.info(e.getMessage());
 		}

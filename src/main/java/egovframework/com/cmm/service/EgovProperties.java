@@ -87,7 +87,10 @@ public class EgovProperties{
 		}finally{
 			try {
 				if (fis != null) fis.close();
-			} catch (Exception ex) {
+			} catch (IOException e) {
+				Logger.getLogger(EgovProperties.class).debug("IGNORED: " + e.getMessage());
+			}
+			catch (Exception ex) {
 				//ex.printStackTrace();
 				//System.out.println("IGNORE: " + ex);	// 2011.10.10 보안점검 후속조치
 				Logger.getLogger(EgovProperties.class).debug("IGNORED: " + ex.getMessage());
@@ -124,7 +127,10 @@ public class EgovProperties{
 		}finally{
 			try {
 				if (fis != null) fis.close();
-			} catch (Exception ex) {
+			} catch(IOException e) {
+				Logger.getLogger(EgovProperties.class).debug("IGNORED: " + e.getMessage());
+			}
+			catch (Exception ex) {
 				//ex.printStackTrace();
 				//System.out.println("IGNORE: " + ex);	// 2011.10.10 보안점검 후속조치
 				Logger.getLogger(EgovProperties.class).debug("IGNORED: " + ex.getMessage());
@@ -158,7 +164,10 @@ public class EgovProperties{
 		}finally{
 			try {
 				if (fis != null) fis.close();
-			} catch (Exception ex) {
+			} catch (IOException e) {
+				debug(e);
+			}
+			catch (Exception ex) {
 			    //ex.printStackTrace();
 			    debug(ex);	// 2011.10.10 보안점검 후속조치
 			}
@@ -189,6 +198,8 @@ public class EgovProperties{
 		}finally{
 			try {
 				if (fis != null) fis.close();
+			} catch (IOException e) {
+				Logger.getLogger(EgovProperties.class).debug("IGNORED: " + e.getMessage());
 			} catch (Exception ex) {
 				//ex.printStackTrace();
 				//System.out.println("IGNORE: " + ex);	// 2011.10.10 보안점검 후속조치
@@ -231,12 +242,16 @@ public class EgovProperties{
 					}
 				}
 			}
+		} catch (IOException e) {
+			debug(e);
 		} catch (Exception ex){
 			//ex.printStackTrace();
 			debug(ex);	// 2011.10.10 보안점검 후속조치
 		} finally {
 			try {
 				if (fis != null) fis.close();
+			} catch (IOException e) {
+				Logger.getLogger(EgovProperties.class).debug("IGNORED: " + e.getMessage());
 			} catch (Exception ex) {
 				//ex.printStackTrace();
 				//System.out.println("IGNORE: " + ex);	// 2011.10.10 보안점검 후속조치

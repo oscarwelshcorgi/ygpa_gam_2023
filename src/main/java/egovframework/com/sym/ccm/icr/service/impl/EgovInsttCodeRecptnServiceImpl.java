@@ -3,6 +3,7 @@ package egovframework.com.sym.ccm.icr.service.impl;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -112,6 +113,9 @@ public class  EgovInsttCodeRecptnServiceImpl extends AbstractServiceImpl impleme
 			}
 			br.close();
 			is.close();
+		} catch (IOException i) {
+			 log.error("Exception:  "  +  i.getClass().getName());  
+			 log.error("Exception  Message:  "  +  i.getMessage());
 		} catch(Exception e) {
 			 log.error("Exception:  "  +  e.getClass().getName());  
 			 log.error("Exception  Message:  "  +  e.getMessage());
@@ -167,6 +171,9 @@ public class  EgovInsttCodeRecptnServiceImpl extends AbstractServiceImpl impleme
 				    			}
 				    			br.close();
 				    			is.close();
+							} catch (IOException i) { 
+								 log.error("Exception:  "  +  i.getClass().getName());  
+								 log.error("Exception  Message:  "  +  i.getMessage());
 							} catch(Exception e) {
 			 log.error("Exception:  "  +  e.getClass().getName());  
 			 log.error("Exception  Message:  "  +  e.getMessage());
@@ -191,6 +198,9 @@ public class  EgovInsttCodeRecptnServiceImpl extends AbstractServiceImpl impleme
 					//throw new Exception("recvList filename or rcvold path is not valid!!!");
 				}
 		    }
+		} catch (IOException i) {
+			log.error("Exception:  "  +  i.getClass().getName());  
+			 log.error("Exception  Message:  "  +  i.getMessage());
 		} catch(Exception e){
 			 log.error("Exception:  "  +  e.getClass().getName());  
 			 log.error("Exception  Message:  "  +  e.getMessage());
@@ -378,7 +388,11 @@ public class  EgovInsttCodeRecptnServiceImpl extends AbstractServiceImpl impleme
 						//throw new Exception("dataFile filename or rcvold path is not valid!!!");
 					}
 			    }
-			} catch(Exception e){
+			} catch (IOException i) {
+				log.error("Exception:  "  +  i.getClass().getName());  
+				log.error("Exception  Message:  "  +  i.getMessage());
+			}
+			catch(Exception e){
 			 log.error("Exception:  "  +  e.getClass().getName());  
 			 log.error("Exception  Message:  "  +  e.getMessage());
 			} finally {	// 2011.10.21 보안점검 후속조치

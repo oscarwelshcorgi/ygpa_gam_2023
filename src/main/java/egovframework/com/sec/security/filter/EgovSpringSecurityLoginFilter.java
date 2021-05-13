@@ -116,7 +116,9 @@ private FilterConfig config;
 						
 					}
 					
-				}catch(Exception ex){
+				} catch(IOException e) {
+					LOG.debug("Local authentication Fail : " + e.getMessage());
+				} catch(Exception ex){
 					//DB인증 예외가 발생할 경우 로그를 남기고 로컬인증을 시키지 않고 그대로 진행함.
 					LOG.debug("Local authentication Fail : " + ex.getMessage());
 				}
@@ -186,6 +188,12 @@ private FilterConfig config;
 							
 						}
 	
+					} catch (IOException e) {
+						LOG.error("Login Exception : " + e.getCause(), e);
+						httpRequest.setAttribute("message", egovMessageSource.getMessage("fail.common.login"));
+						RequestDispatcher dispatcher = httpRequest.getRequestDispatcher(loginURL);
+						dispatcher.forward(httpRequest, httpResponse);
+						chain.doFilter(request, response);
 					} catch (Exception ex) {
 						//ex.printStackTrace();	// 2012.11 KISA 보안조치
 						//DB인증 예외가 발생할 경우 로그인 화면으로 redirect 시킴

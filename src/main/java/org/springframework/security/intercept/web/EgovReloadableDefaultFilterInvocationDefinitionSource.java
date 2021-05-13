@@ -1,5 +1,6 @@
 package org.springframework.security.intercept.web;
 
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Locale;
@@ -102,6 +103,10 @@ public class EgovReloadableDefaultFilterInvocationDefinitionSource extends Defau
                     .info("Secured Url Resources - Role Mappings reloaded at Runtime!");
             }
 
+        } catch (IOException i) {
+        	logger.error(getMessageSource().getMessage(
+                    "error.security.runtime.error",
+                    new Object[] {"Reload RequestMap" }, Locale.getDefault()), i);
         } catch (Exception e) {
             logger.error(getMessageSource().getMessage(
                 "error.security.runtime.error",

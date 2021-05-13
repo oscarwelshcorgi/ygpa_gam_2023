@@ -77,6 +77,8 @@ public class EgovEhgtCalcUtil {
 
    		 	con.disconnect();
 
+   	 	}	catch (IOException i) {
+   	 	throw new RuntimeException(i);
    	 	} 	catch (Exception e) {
    		    //e.printStackTrace();
    		    throw new RuntimeException(e);
@@ -156,7 +158,7 @@ private class CallbackHandler extends HTMLEditorKit.ParserCallback	{
 
         	eghtStdrRt = EgovStringUtil.split(sb.toString(),"/");
 
-		}	catch	(Exception e) {
+        }	catch	(Exception e) {
 
 		    //e.printStackTrace();
 		    //System.out.println(e);	// 2011.10.10 보안점검 후속조치
@@ -241,7 +243,7 @@ private class CallbackHandler extends HTMLEditorKit.ParserCallback	{
         		}
         	}
 
-		}	catch	(Exception e) {
+        }	catch	(Exception e) {
 
 		    //e.printStackTrace();
 		    //System.out.println(e);	// 2011.10.10 보안점검 후속조치
@@ -337,7 +339,6 @@ private class CallbackHandler extends HTMLEditorKit.ParserCallback	{
 					sCnvrAmount = bSrcAmount.divide(bCnvrStdrRt, 2, 4).toString();
                 	break;
 			}
-
 		}	catch	(Exception e) {
 
 		    //e.printStackTrace();

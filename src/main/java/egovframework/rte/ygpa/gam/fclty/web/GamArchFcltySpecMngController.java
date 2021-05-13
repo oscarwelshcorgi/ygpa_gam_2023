@@ -136,6 +136,10 @@ public class GamArchFcltySpecMngController {
 
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
+		} catch (IOException i) {
+			i.printStackTrace();
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
 		} catch (Exception e) {
 			e.printStackTrace();
 			map.put("resultCode", 1);
@@ -165,6 +169,10 @@ public class GamArchFcltySpecMngController {
 
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
+		} catch (IOException i) {
+			i.printStackTrace();
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
 		} catch (Exception e) {
 			e.printStackTrace();
 			map.put("resultCode", 1);
@@ -192,6 +200,10 @@ public class GamArchFcltySpecMngController {
 
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
+		} catch (IOException i) {	
+			i.printStackTrace();
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
 		} catch (Exception e) {
 			e.printStackTrace();
 			map.put("resultCode", 1);
@@ -220,6 +232,10 @@ public class GamArchFcltySpecMngController {
 			map.put("resultCode", 0);
 			map.put("result", result);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.select"));
+		} catch (IOException i) {
+			i.printStackTrace();
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.select"));
 		} catch (Exception e) {
 			e.printStackTrace();
 			map.put("resultCode", 1);
@@ -399,6 +415,9 @@ public class GamArchFcltySpecMngController {
 			map.put("resultCode", 0);
 			map.put("result", result);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.select"));
+		} catch (IOException i) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.select"));
 		} catch (Exception e) {
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.select"));
@@ -431,6 +450,9 @@ public class GamArchFcltySpecMngController {
 
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
+		} catch (IOException i) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
 		} catch (Exception e) {
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));

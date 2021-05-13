@@ -1,5 +1,6 @@
 package egovframework.com.uss.umt.service.impl;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -161,6 +162,8 @@ public class EgovUserManageServiceImpl extends AbstractServiceImpl implements Eg
 
 			userManageVO.setPassword(pass);
 			userManageDAO.updatePassword(userManageVO);
+		} catch (IOException i) {
+			log.debug(i.getMessage());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			//e.printStackTrace();

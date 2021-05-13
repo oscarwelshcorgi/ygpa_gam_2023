@@ -3,6 +3,7 @@ package egovframework.com.sym.ccm.acr.service.impl;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
@@ -111,6 +112,9 @@ public class  EgovAdministCodeRecptnServiceImpl extends AbstractServiceImpl impl
 			while (tmp != null) {
 				temp += tmp;
 			}
+		} catch (IOException i) {
+			log.error("Exception:  "  +  i.getClass().getName());
+			log.error("Exception  Message:  "  +  i.getMessage());
 		} catch(Exception e) {
 			log.error("Exception:  "  +  e.getClass().getName());
 			log.error("Exception  Message:  "  +  e.getMessage());
@@ -118,6 +122,9 @@ public class  EgovAdministCodeRecptnServiceImpl extends AbstractServiceImpl impl
 		    if (br != null) {
 				try {
 				    br.close();
+				} catch (IOException e) {
+					LOG.error("Exception:  "  +  e.getClass().getName());
+					LOG.error("Exception  Message:  "  +  e.getMessage());
 				} catch (Exception ignore) {
 					LOG.error("Exception:  "  +  ignore.getClass().getName());
 					LOG.error("Exception  Message:  "  +  ignore.getMessage());
@@ -126,6 +133,9 @@ public class  EgovAdministCodeRecptnServiceImpl extends AbstractServiceImpl impl
 			    if (is != null) {
 				try {
 				    is.close();
+				} catch (IOException e) {
+					LOG.error("Exception:  "  +  e.getClass().getName());
+					LOG.error("Exception  Message:  "  +  e.getMessage());
 				} catch (Exception ignore) {
 					LOG.error("Exception:  "  +  ignore.getClass().getName());
 					LOG.error("Exception  Message:  "  +  ignore.getMessage());
@@ -179,6 +189,9 @@ public class  EgovAdministCodeRecptnServiceImpl extends AbstractServiceImpl impl
 			    			}
 			    			br.close();
 			    			is.close();
+						} catch (IOException i) { 
+							log.error("Exception:  "  +  i.getClass().getName());
+							log.error("Exception  Message:  "  +  i.getMessage());
 						} catch(Exception e) {
 							log.error("Exception:  "  +  e.getClass().getName());
 							log.error("Exception  Message:  "  +  e.getMessage());
@@ -186,6 +199,9 @@ public class  EgovAdministCodeRecptnServiceImpl extends AbstractServiceImpl impl
 						    if (br != null) {
 								try {
 								    br.close();
+								} catch (IOException e) {
+									LOG.error("Exception:  "  +  e.getClass().getName());
+									LOG.error("Exception  Message:  "  +  e.getMessage());
 								} catch (Exception ignore) {
 									LOG.error("Exception:  "  +  ignore.getClass().getName());
 									LOG.error("Exception  Message:  "  +  ignore.getMessage());
@@ -194,6 +210,9 @@ public class  EgovAdministCodeRecptnServiceImpl extends AbstractServiceImpl impl
 							    if (is != null) {
 								try {
 								    is.close();
+								} catch (IOException e) {
+									LOG.error("Exception:  "  +  e.getClass().getName());
+									LOG.error("Exception  Message:  "  +  e.getMessage());
 								} catch (Exception ignore) {
 									LOG.error("Exception:  "  +  ignore.getClass().getName());
 									LOG.error("Exception  Message:  "  +  ignore.getMessage());
@@ -405,6 +424,9 @@ public class  EgovAdministCodeRecptnServiceImpl extends AbstractServiceImpl impl
 						//throw new Exception("dataFile filename or rcvold path is not valid!!!");
 					}
 			    }
+			} catch (IOException i) { 
+				LOG.error("Exception:  "  +  i.getClass().getName());
+				LOG.error("Exception  Message:  "  +  i.getMessage());
 			} catch(Exception e){	// 2011.10.21 보안점검 후속조치
 				LOG.error("Exception:  "  +  e.getClass().getName());
 				LOG.error("Exception  Message:  "  +  e.getMessage());

@@ -162,6 +162,8 @@ public class EgovSocketClient
 
                 totalReadByteNum += reReadByteNum;
             }
+        } catch (IOException i) {
+        	throw i;
         } catch (Exception e) {
             throw e;
         }

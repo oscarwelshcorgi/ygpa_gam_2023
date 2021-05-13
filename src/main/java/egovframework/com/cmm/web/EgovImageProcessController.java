@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -120,6 +121,8 @@ public class EgovImageProcessController extends HttpServlet {
 			if (bStream != null) {
 				try {
 					bStream.close();
+				} catch (IOException e) {
+					LOG.debug("IGNORE: " + e.getMessage());
 				} catch (Exception ignore) {
 					//System.out.println("IGNORE: " + ignore);
 					LOG.debug("IGNORE: " + ignore.getMessage());
@@ -128,6 +131,8 @@ public class EgovImageProcessController extends HttpServlet {
 			if (in != null) {
 				try {
 					in.close();
+				} catch (IOException e) {
+					LOG.debug("IGNORE: " + e.getMessage());
 				} catch (Exception ignore) {
 					//System.out.println("IGNORE: " + ignore);
 					LOG.debug("IGNORE: " + ignore.getMessage());
@@ -136,6 +141,8 @@ public class EgovImageProcessController extends HttpServlet {
 			if (fis != null) {
 				try {
 					fis.close();
+				} catch (IOException e) {
+					LOG.debug("IGNORE: " + e.getMessage());
 				} catch (Exception ignore) {
 					//System.out.println("IGNORE: " + ignore);
 					LOG.debug("IGNORE: " + ignore.getMessage());

@@ -1456,6 +1456,10 @@ public class GamTestPrtFcltyRentMngtController {
 			map.put("resultCode", "0");
 			map.put("result", list);
 		}
+		catch(IOException i) {
+			map.put("resultCode", "-1");
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.upload"));
+		}
 		catch(Exception e) {
 			map.put("resultCode", "-1");
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.upload"));
