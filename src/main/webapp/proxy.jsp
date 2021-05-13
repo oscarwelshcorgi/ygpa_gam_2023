@@ -7,6 +7,10 @@ public static void proxy_get(HttpServletRequest request, HttpServletResponse res
 
 	}
 	URL url = new URL(urlStr+params);
+	if(url != null){
+		url = url.replaceAll("\\r", "");
+		url = url.replaceAll("\\n", "");
+	}
 	URLConnection connection = url.openConnection();
 	HttpURLConnection huc = (HttpURLConnection)connection;
 	huc.setRequestMethod("GET");
