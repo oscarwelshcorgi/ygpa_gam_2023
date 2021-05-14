@@ -262,7 +262,7 @@ public class GamFileUploadUtil {
 				response.getOutputStream().flush();
 				response.getOutputStream().close();
 			} catch(IOException e){
-				
+				Logger.getLogger(EgovProperties.class).debug("IGNORED: " + e.getMessage());
 			}
 			catch(Exception e) {
 				LOG.error("download file error : "+e.getMessage());

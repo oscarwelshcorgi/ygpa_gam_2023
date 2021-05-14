@@ -10,11 +10,13 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import egovframework.com.cmm.service.EgovProperties;
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.ygpa.gam.code.service.GamCmpyInfoMngtService;
 import egovframework.rte.ygpa.gam.code.service.GamEntrpsChargerFVO;
@@ -134,7 +136,7 @@ public class GamCmpyInfoMngtServiceImpl extends AbstractServiceImpl implements G
     			}
     		}
     	} catch(IOException e) {
-    		
+    		Logger.getLogger(EgovProperties.class).debug("IGNORED: " + e.getMessage());
     	}catch(Exception e) { log.warn("an error found"); }
 	}
 
@@ -190,6 +192,7 @@ public class GamCmpyInfoMngtServiceImpl extends AbstractServiceImpl implements G
 				}
 			}
 		} catch(IOException e){
+			Logger.getLogger(EgovProperties.class).debug("IGNORED: " + e.getMessage());
 		} catch(Exception e) { log.warn("an error found"); }
 		
 	}

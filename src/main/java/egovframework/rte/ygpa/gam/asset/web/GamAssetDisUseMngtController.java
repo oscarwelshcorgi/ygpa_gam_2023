@@ -20,10 +20,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
+import com.sun.istack.internal.logging.Logger;
+
 import egovframework.com.cmm.ComDefaultCodeVO;
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.service.EgovCmmUseService;
+import egovframework.com.cmm.service.EgovProperties;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
@@ -188,7 +191,7 @@ public class GamAssetDisUseMngtController {
 
 	        gamAssetDisUseMngtService.updateAssetDisUse(gamAssetDisUseMngtVO);
     	} catch(IOException e){
-    		
+    		((Log) Logger.getLogger(EgovProperties.class)).debug("IGNORED: " + e.getMessage());
     	}
     	catch(Exception e) {
         	map.put("resultCode", -1);	// return ok
