@@ -56,7 +56,15 @@
             if( body.indexOf("Pass") != -1 )
             {
                 session.setAttribute("captcha","ok");
-                response.sendRedirect( wikiContext.getURL(WikiContext.EDIT, request.getParameter("page") ) );
+                
+                String url = wikiContext.getURL(WikiContext.EDIT, request.getParameter("page") );
+                
+                if(uri != null){
+            		url = url.replaceAll("\\r", "");
+            		url = url.replaceAll("\\n", "");
+                }
+                
+                response.sendRedirect(url);
                 return;
             }
         }

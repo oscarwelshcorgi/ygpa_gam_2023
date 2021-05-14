@@ -321,7 +321,8 @@ public class PrtFcltyPhotoUpDownController {
 			} else {
 			    LOG.debug("Image fileType is null.");
 			}
-
+			
+			type = type.replaceAll("[\\r\\n]", "");
 			response.setHeader("Content-Type", type);
 			response.setContentLength(bStream.size());
 
