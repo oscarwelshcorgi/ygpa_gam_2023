@@ -10,6 +10,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -137,7 +138,10 @@ public class GamArchFcltySpecMngController {
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			Logger log = Logger.getLogger(this.getClass());
+			log.error("--error--");
+			
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
 		}
@@ -166,7 +170,10 @@ public class GamArchFcltySpecMngController {
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			Logger log = Logger.getLogger(this.getClass());
+			log.error("--error--");
+			
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
 		}
@@ -193,7 +200,10 @@ public class GamArchFcltySpecMngController {
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			Logger log = Logger.getLogger(this.getClass());
+			log.error("--error--");
+			
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
 		}
@@ -221,7 +231,10 @@ public class GamArchFcltySpecMngController {
 			map.put("result", result);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.select"));
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			Logger log = Logger.getLogger(this.getClass());
+			log.error("--error--");
+			
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.select"));
 		}
@@ -600,7 +613,10 @@ public class GamArchFcltySpecMngController {
 		} catch(IOException e) {
 			
 		}catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			Logger log = Logger.getLogger(this.getClass());
+			log.error("--error--");
+			
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
 		}
@@ -631,7 +647,10 @@ public class GamArchFcltySpecMngController {
 		} catch(IOException e) {
 			
 		}catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			Logger log = Logger.getLogger(this.getClass());
+			log.error("--error--");
+			
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
 		}
@@ -660,7 +679,10 @@ public class GamArchFcltySpecMngController {
 		} catch(IOException e) {
 			
 		}catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			Logger log = Logger.getLogger(this.getClass());
+			log.error("--error--");
+			
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
 		}
@@ -690,7 +712,10 @@ public class GamArchFcltySpecMngController {
 		} catch(IOException e) {
 			
 		}catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			Logger log = Logger.getLogger(this.getClass());
+			log.error("--error--");
+			
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
 		}
@@ -720,7 +745,10 @@ public class GamArchFcltySpecMngController {
 		} catch(IOException e) {
 			
 		}catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			Logger log = Logger.getLogger(this.getClass());
+			log.error("--error--");
+			
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.select"));
 		}
