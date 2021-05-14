@@ -5,6 +5,7 @@ package egovframework.rte.ygpa.gam.fcltyMng.service.impl;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,6 +17,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import egovframework.com.cmm.service.EgovProperties;
@@ -551,11 +553,19 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 		
 		/**파일을  BASE64엔코딩 문자열로 변환시킨다 */
 		protected String fileToBase64(String fileName) throws Exception {
-			FileInputStream fis = new FileInputStream(fileName);
-			long fileSize = fis.getChannel().size();
-			byte[] fileData = new byte[(int) fileSize];
-			fis.read(fileData);
-			fis.close();
+			FileInputStream fis = null; 
+			long fileSize = 0;
+			byte[] fileData = null;
+			try {
+				fis = new FileInputStream(fileName);
+				fileSize = fis.getChannel().size();
+				fileData = new byte[(int) fileSize];
+			} catch(IOException e) {
+				Logger.getLogger(EgovProperties.class).debug("IGNORED: " + e.getMessage());
+			} finally {
+				fis.read(fileData);
+				fis.close();
+			}
 			return new String(Base64.encodeBase64(fileData));
 		}
 		

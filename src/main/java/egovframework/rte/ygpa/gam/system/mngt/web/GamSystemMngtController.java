@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import egovframework.com.cmm.service.EgovProperties;
 import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentDefaultVO;
 import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentMngtService;
 
@@ -56,7 +58,7 @@ public class GamSystemMngtController {
 	    	map.put("resultCode", 0);	// return ok
 	    	map.put("resultMessage", "생성이 완료 된었습니다.");
 		} catch(IOException i){
-			
+			Logger.getLogger(EgovProperties.class).debug("IGNORED: " + i.getMessage());
 		}
 		catch(Exception e) {
 	    	map.put("resultCode", -1);	// return error
