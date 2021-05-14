@@ -15,6 +15,7 @@
  */
 package egovframework.com.sec.security.securedobject.impl;
 
+import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 
@@ -106,6 +107,14 @@ public class SecuredObjectServiceImpl implements ISecuredObjectService, Applicat
     public LinkedHashMap getRolesAndUrl() throws Exception {
         try {
             return securedObjectDAO.getRolesAndUrl();
+        } catch (IOException i) {
+        	ISecuredObjectService.LOGGER.error(getMessageSource().getMessage("error.security.runtime.error", 
+                    														new Object[] {"Roles and Url" }, Locale.getDefault()), i);
+        	if (i instanceof Exception) {
+        		throw (Exception) i;
+        	} else {
+        		throw i;
+        	}
         } catch (Exception e) {
             ISecuredObjectService.LOGGER.error(getMessageSource().getMessage("error.security.runtime.error", 
             		                                                         new Object[] {"Roles and Url" }, Locale.getDefault()), e);
@@ -125,6 +134,10 @@ public class SecuredObjectServiceImpl implements ISecuredObjectService, Applicat
     public LinkedHashMap getRolesAndMethod() throws Exception {
         try {
             return securedObjectDAO.getRolesAndMethod();
+        } catch (IOException i) {
+        	ISecuredObjectService.LOGGER.error(getMessageSource().getMessage(
+                    "error.security.runtime.error",
+                    new Object[] {"Roles and Method" }, Locale.getDefault()), i);
         } catch (Exception e) {
             ISecuredObjectService.LOGGER.error(getMessageSource().getMessage(
                 "error.security.runtime.error",
@@ -135,6 +148,7 @@ public class SecuredObjectServiceImpl implements ISecuredObjectService, Applicat
                 throw e;
             }
         }
+		return null;
     }
 
 	/**
@@ -145,6 +159,15 @@ public class SecuredObjectServiceImpl implements ISecuredObjectService, Applicat
     public LinkedHashMap getRolesAndPointcut() throws Exception {
         try {
             return securedObjectDAO.getRolesAndPointcut();
+        } catch (IOException i) {
+        	ISecuredObjectService.LOGGER.error(getMessageSource().getMessage(
+                    "error.security.runtime.error",
+                    new Object[] {"Roles and Pointcut" }, Locale.getDefault()), i);
+                if (i instanceof Exception) {
+                    throw (Exception) i;
+                } else {
+                	throw i;
+                }
         } catch (Exception e) {
             ISecuredObjectService.LOGGER.error(getMessageSource().getMessage(
                 "error.security.runtime.error",
@@ -166,6 +189,16 @@ public class SecuredObjectServiceImpl implements ISecuredObjectService, Applicat
             throws Exception {
         try {
             return securedObjectDAO.getRegexMatchedRequestMapping(url);
+        } catch (IOException i) { 
+        	ISecuredObjectService.LOGGER.error(getMessageSource().getMessage(
+                    "error.security.runtime.error",
+                    new Object[] {"MatchedRequestMapping : " + url },
+                    Locale.getDefault()), i);
+                if (i instanceof Exception) {
+                    throw (Exception) i;
+                } else {
+                	throw i;
+                }
         } catch (Exception e) {
             ISecuredObjectService.LOGGER.error(getMessageSource().getMessage(
                 "error.security.runtime.error",
@@ -187,6 +220,15 @@ public class SecuredObjectServiceImpl implements ISecuredObjectService, Applicat
     public String getHierarchicalRoles() throws Exception {
         try {
             return securedObjectDAO.getHierarchicalRoles();
+        } catch (IOException i) {
+        	ISecuredObjectService.LOGGER.error(getMessageSource().getMessage(
+                    "error.security.runtime.error",
+                    new Object[] {"Hierarchical Roles" }, Locale.getDefault()), i);
+                if (i instanceof Exception) {
+                    throw (Exception) i;
+                } else {
+                	throw i;
+                }
         } catch (Exception e) {
             ISecuredObjectService.LOGGER.error(getMessageSource().getMessage(
                 "error.security.runtime.error",

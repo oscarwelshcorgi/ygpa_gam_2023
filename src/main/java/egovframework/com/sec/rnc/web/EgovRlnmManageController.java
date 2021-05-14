@@ -1,5 +1,6 @@
 package egovframework.com.sec.rnc.web;
 
+import java.io.IOException;
 import java.net.URLDecoder;
 import java.util.Map;
 
@@ -70,7 +71,11 @@ public class EgovRlnmManageController {
         		(String)commandMap.get("ihidnum"), 
         		(String)commandMap.get("realname"),
         		(String)commandMap.get("sbscrbTy"));
-        }catch(Exception e){
+        } catch(IOException i) {
+        	log.error("Exception:  "  +  i.getClass().getName());  
+        	log.error("Exception  Message:  "  +  i.getMessage());
+        }
+        catch(Exception e){
         	log.error("Exception:  "  +  e.getClass().getName());  
         	log.error("Exception  Message:  "  +  e.getMessage());
         }finally{

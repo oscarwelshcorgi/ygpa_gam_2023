@@ -1,5 +1,7 @@
 package egovframework.com.sym.log.lgm.service;
 
+import java.io.IOException;
+
 import javax.annotation.Resource;
 
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -46,7 +48,10 @@ public class EgovSysLogAspect {
 
 			Object retValue = joinPoint.proceed();
 			return retValue;
-		} catch (Throwable e) {
+		} catch (IOException i) {
+			throw i;
+		}
+		catch (Throwable e) {
 			throw e;
 		} finally {
 			stopWatch.stop();
@@ -97,6 +102,8 @@ public class EgovSysLogAspect {
 
 			Object retValue = joinPoint.proceed();
 			return retValue;
+		} catch (IOException i) {
+			throw i;
 		} catch (Throwable e) {
 			throw e;
 		} finally {
@@ -148,6 +155,8 @@ public class EgovSysLogAspect {
 
 			Object retValue = joinPoint.proceed();
 			return retValue;
+		} catch (IOException i) {
+			throw i;
 		} catch (Throwable e) {
 			throw e;
 		} finally {
@@ -199,6 +208,8 @@ public class EgovSysLogAspect {
 
 			Object retValue = joinPoint.proceed();
 			return retValue;
+		} catch (IOException i) {
+			throw i;
 		} catch (Throwable e) {
 			throw e;
 		} finally {

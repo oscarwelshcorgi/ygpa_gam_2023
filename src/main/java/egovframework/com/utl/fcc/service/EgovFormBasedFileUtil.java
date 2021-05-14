@@ -229,6 +229,8 @@ public class EgovFormBasedFileUtil {
 			if (outs != null) {
 				try {	// 2012.11 KISA 보안조치
 					outs.close();
+				} catch (IOException e) {
+					
 				} catch (Exception ignore) {	
 					// no-op
 				}
@@ -237,6 +239,8 @@ public class EgovFormBasedFileUtil {
 			if (fin != null) {
 				try {	// 2012.11 KISA 보안조치
 					fin.close();
+				} catch (IOException e) {
+					
 				} catch (Exception ignore) {
 					// no-op
 				}
@@ -297,6 +301,8 @@ public class EgovFormBasedFileUtil {
 	    if (outs != null) {
 			try {
 			    outs.close();
+			} catch (IOException e) {
+				logger.info(e.getMessage());
 			} catch (Exception ignore) {
 			    //System.out.println("IGNORE: " + ignore);
 				logger.info(ignore.getMessage());
@@ -305,6 +311,8 @@ public class EgovFormBasedFileUtil {
 		    if (fin != null) {
 			try {
 			    fin.close();
+			} catch (IOException e) {
+				logger.info(e.getMessage());
 			} catch (Exception ignore) {
 			    //System.out.println("IGNORE: " + ignore);
 				logger.info(ignore.getMessage());

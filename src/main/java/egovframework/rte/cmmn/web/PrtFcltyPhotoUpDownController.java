@@ -240,7 +240,7 @@ public class PrtFcltyPhotoUpDownController {
 				response.getOutputStream().flush();
 				response.getOutputStream().close();
 			} catch (IOException i){
-				
+				Logger.getLogger(EgovProperties.class).debug("IGNORED: " + i.getMessage());
 			}
 			catch(Exception e) {
 				LOG.error("port facility file download error : "+e.getMessage());

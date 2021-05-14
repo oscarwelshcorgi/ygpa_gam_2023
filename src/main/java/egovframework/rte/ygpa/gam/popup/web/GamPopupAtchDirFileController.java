@@ -3,6 +3,7 @@
  */
 package egovframework.rte.ygpa.gam.popup.web;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -93,6 +94,9 @@ public class GamPopupAtchDirFileController {
 		map.put("resultCode", 0);
 		map.put("resultList", resultList);
 		map.put("searchOption", searchVO);
+		}catch(IOException i){
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail"));
 		}catch(Exception e){
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail"));

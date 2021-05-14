@@ -1,5 +1,6 @@
 package egovframework.com.sym.mnu.mcm.web;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -269,6 +270,8 @@ public class EgovMenuCreateManageController {
 		model.addAttribute("list_menulist", list_menulist);
 		model.addAttribute("resultVO", menuSiteMapVO);
 		model.addAttribute("resultMsg", resultMsg);
+		}catch(IOException i) {
+			log.info(i.getMessage());
 		}catch(Exception e){
 			log.info(e.getMessage());
 		}

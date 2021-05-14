@@ -23,10 +23,12 @@ import org.springmodules.validation.commons.DefaultBeanValidator;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.istack.internal.logging.Logger;
 
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.service.EgovCmmUseService;
+import egovframework.com.cmm.service.EgovProperties;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
@@ -267,7 +269,7 @@ public class GamAssetRentFeePayDtlsMngtController {
 	        map.put("resultMsg", resultMsg);
 	        map.put("updateCount", result);
     	} catch(IOException e) {
-    		
+    		((Log) Logger.getLogger(EgovProperties.class)).debug("IGNORED: " + e.getMessage());
     	}
     	catch(Exception e) {
 	        map.put("resultCode", -1);
@@ -770,7 +772,7 @@ public class GamAssetRentFeePayDtlsMngtController {
 	        resultCode = 0;
 	 		resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.
     	} catch(IOException e){
-    		
+    		((Log) Logger.getLogger(EgovProperties.class)).debug("IGNORED: " + e.getMessage());
     	} 
     	catch(Exception e) {
 	        resultCode = -1;

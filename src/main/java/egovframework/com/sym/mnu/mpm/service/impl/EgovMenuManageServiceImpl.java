@@ -1,6 +1,7 @@
 package egovframework.com.sym.mnu.mpm.service.impl;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
@@ -389,7 +390,9 @@ public class EgovMenuManageServiceImpl extends AbstractServiceImpl implements Eg
             else{
             	return requestValue = "93"; // 엑셀 시트갯수 오류
             }
-
+	    }catch(IOException i) {
+	    	log.error("Exception:  "  +  i.getClass().getName());
+        	log.error("Exception  Message:  "  +  i.getMessage());
         }catch(Exception e){
         	log.error("Exception:  "  +  e.getClass().getName());
         	log.error("Exception  Message:  "  +  e.getMessage());
@@ -443,6 +446,9 @@ public class EgovMenuManageServiceImpl extends AbstractServiceImpl implements Eg
             }else{
             	success = false;
             }
+		}catch(IOException i) {
+			log.error("Exception:  "  +  i.getClass().getName());
+			log.error("Exception  Message:  "  +  i.getMessage());
 		}catch(Exception e){
 			log.error("Exception:  "  +  e.getClass().getName());
 			log.error("Exception  Message:  "  +  e.getMessage());
@@ -510,6 +516,9 @@ public class EgovMenuManageServiceImpl extends AbstractServiceImpl implements Eg
             }else{
             	success = false;
             }
+		}catch(IOException i) {
+			log.error("Exception:  "  +  i.getClass().getName());
+			log.error("Exception  Message:  "  +  i.getMessage());
 		}catch(Exception e){
 			log.error("Exception:  "  +  e.getClass().getName());
 			log.error("Exception  Message:  "  +  e.getMessage());

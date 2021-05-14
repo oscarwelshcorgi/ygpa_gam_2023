@@ -1,5 +1,7 @@
 package egovframework.com.sec.rnc.service.impl;
 
+import java.io.IOException;
+
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
@@ -52,7 +54,7 @@ public class EgovRlnmManageServiceImpl extends AbstractServiceImpl implements Eg
         	//String str = "99|1311000011|홍길동|6303201063614";
 	        byte[] lm_bResult1 = lm_oSocketClient.execute(str);
 	        result = new String(lm_bResult1);
-        }catch(Exception e){
+       } catch(Exception e){
         	LOG.error("Exception:  "  +  e.getClass().getName());  
         	LOG.error("Exception  Message:  "  +  e.getMessage());
         }

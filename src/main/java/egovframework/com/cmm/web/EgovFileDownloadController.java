@@ -163,6 +163,8 @@ public class EgovFileDownloadController {
 
 		    FileCopyUtils.copy(in, out);
 		    out.flush();
+		} catch (IOException e) {
+			LOG.debug("IGNORED: " + e.getMessage());
 		} catch (Exception ex) {
 		    //ex.printStackTrace();
 		    // 다음 Exception 무시 처리
@@ -172,7 +174,9 @@ public class EgovFileDownloadController {
 		    if (in != null) {
 			try {
 			    in.close();
-			} catch (Exception ignore) {
+			} catch (IOException e) {
+				 LOG.debug("IGNORED: " + e.getMessage());
+		    } catch (Exception ignore) {
 			    // no-op
 			    LOG.debug("IGNORED: " + ignore.getMessage());
 			}
@@ -180,6 +184,8 @@ public class EgovFileDownloadController {
 		    if (out != null) {
 			try {
 			    out.close();
+			} catch (IOException e) {
+				 LOG.debug("IGNORED: " + e.getMessage());
 			} catch (Exception ignore) {
 			    // no-op
 			    LOG.debug("IGNORED: " + ignore.getMessage());

@@ -90,6 +90,9 @@ public class EgovSSOLoginFilter implements Filter{
 					//sso 인증 완료 여부를 세션에 저장
 					session.setAttribute("isRemotelyAuthenticated", "true");
 		
+				} catch(IOException e) {
+					session.setAttribute("isRemotelyAuthenticated", "fail");
+					LOG.debug("SSO Authentication fail : " + e.getMessage());
 				} catch (Exception ex) {		
 					session.setAttribute("isRemotelyAuthenticated", "fail");
 					LOG.debug("SSO Authentication fail : " + ex.getMessage());
@@ -139,6 +142,8 @@ public class EgovSSOLoginFilter implements Filter{
 						LOG.debug("Local authentication by sso is failed");
 					}
 		
+				}catch(IOException e) {
+					LOG.debug("Local authentication by sso is failed : " + e.getMessage());
 				}catch(Exception ex){
 					//DB인증 예외가 발생할 경우 로그를 남기고 로컬인증을 시키지 않고 그대로 진행함.
 					LOG.debug("Local authentication by sso is failed : " + ex.getMessage());

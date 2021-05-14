@@ -26,6 +26,7 @@ import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,6 +42,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
+import egovframework.com.cmm.service.EgovProperties;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.ygpa.gam.code.service.GamBjdOlnlpLinkVO;
 import egovframework.rte.ygpa.gam.code.service.GamBjdOlnlpMngtService;
@@ -181,7 +183,7 @@ public class GamBjdOlnlpMngtController {
 		try {
 			gamBjdOlnlpMngtService.applyOlnlpData();
 		} catch(IOException e){
-			
+			Logger.getLogger(EgovProperties.class).debug("IGNORED: " + e.getMessage());
 		}
 		catch(Exception e) {
 	        map.put("resultCode", 1);
