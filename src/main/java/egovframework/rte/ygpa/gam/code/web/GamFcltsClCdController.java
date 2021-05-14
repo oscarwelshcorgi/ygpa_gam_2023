@@ -10,6 +10,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -20,6 +21,7 @@ import org.springmodules.validation.commons.DefaultBeanValidator;
 
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
+import egovframework.com.cmm.service.EgovProperties;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
@@ -213,7 +215,7 @@ public class GamFcltsClCdController {
 	    	map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
 	        map.put("resultCode", 0);
     	} catch(IOException e) {
-    		
+    		Logger.getLogger(EgovProperties.class).debug("IGNORED: " + e.getMessage());
     	}catch (Exception e) {
 			// TODO: handle exception
 			map.put("resultCode", 1);
@@ -255,7 +257,7 @@ public class GamFcltsClCdController {
 	    	map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
 	        map.put("resultCode", 0);
     	} catch(IOException e){
-    		
+    		Logger.getLogger(EgovProperties.class).debug("IGNORED: " + e.getMessage());
     	} catch (Exception e) {
 			// TODO: handle exception
 			map.put("resultCode", 1);
@@ -298,7 +300,7 @@ public class GamFcltsClCdController {
 	    	map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
 	        map.put("resultCode", 0);
     	} catch(IOException e){
-    		
+    		Logger.getLogger(EgovProperties.class).debug("IGNORED: " + e.getMessage());
     	}catch (Exception e) {
 			// TODO: handle exception
 			map.put("resultCode", 1);

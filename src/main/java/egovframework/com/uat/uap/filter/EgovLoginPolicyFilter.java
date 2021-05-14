@@ -107,6 +107,10 @@ public class EgovLoginPolicyFilter implements Filter {
 				((HttpServletResponse) response).sendRedirect(httpRequest.getContextPath() + "/uat/uia/egovLoginUsr.do");
 			}
 
+		} catch (IOException i) {
+			logger.error("Exception:  "  +  i.getClass().getName());  
+			logger.error("Exception  Message:  "  +  i.getMessage());
+			((HttpServletResponse) response).sendRedirect(httpRequest.getContextPath() + "/uat/uia/egovLoginUsr.do?login_error=1");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			logger.error("Exception:  "  +  e.getClass().getName());  

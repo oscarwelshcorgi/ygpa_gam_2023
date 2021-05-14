@@ -14,6 +14,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -266,7 +267,7 @@ public class GamAssetCodeMngtController {
     	try {
         	gamGisAssetCodeMngtService.deleteAssetCode(insertVO);
     	} catch(ParseException e){
-    		
+    		Logger.getLogger(EgovProperties.class).debug("IGNORED: " + e.getMessage());
     	}
     	catch(Exception e) {
         	map.put("resultCode", -1);	// return ok
@@ -301,7 +302,7 @@ public class GamAssetCodeMngtController {
 
         	gamGisAssetCodeMngtService.deleteAssetCodes(deleteList);
     	} catch(ParseException e){
-    		
+    		Logger.getLogger(EgovProperties.class).debug("IGNORED: " + e.getMessage());
     	}
     	catch(Exception e) {
         	map.put("resultCode", -1);	// return ok
@@ -411,7 +412,7 @@ public class GamAssetCodeMngtController {
 			map.put("resultCode", "0");
 			map.put("result", list);
 		} catch(ParseException e){
-			
+			Logger.getLogger(EgovProperties.class).debug("IGNORED: " + e.getMessage());
 		}
 		catch(Exception e) {
 			map.put("resultCode", "-1");

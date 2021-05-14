@@ -1,5 +1,6 @@
 package egovframework.com.sym.log.ulg.web;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 import javax.annotation.Resource;
@@ -103,6 +104,8 @@ public class EgovUserLogController {
 
 		UserLog vo = userLogService.selectUserLog(userLog);
 		model.addAttribute("result", vo);
+		}catch (IOException i) {
+			Log.info(i.getMessage());
 		}catch(Exception e){
 			
 			Log.info(e.getMessage());

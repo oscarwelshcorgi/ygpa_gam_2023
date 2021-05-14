@@ -214,6 +214,9 @@ public class EgovMenuCreateManageServiceImpl extends AbstractServiceImpl impleme
 			if (out !=null) {
 				try {
 					out.close();
+				} catch (IOException e) {
+					log.error("Exception:  "  +  e.getClass().getName());
+					log.error("Exception  Message:  "  +  e.getMessage());
 				} catch(Exception ignore) {
 					log.error("Exception:  "  +  ignore.getClass().getName());
 					log.error("Exception  Message:  "  +  ignore.getMessage());

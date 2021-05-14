@@ -24,9 +24,11 @@ import org.springframework.web.servlet.ModelAndView;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.istack.internal.logging.Logger;
 
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
+import egovframework.com.cmm.service.EgovProperties;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.com.sym.ccm.cca.service.CmmnCodeVO;
 import egovframework.com.sym.ccm.cca.service.EgovCcmCmmnCodeManageService;
@@ -319,7 +321,7 @@ public class GamErpGisAssetCodeMngtController {
 
 			gamErpGisAssetCodeMngtService.mergeErpGisAssetCodeMngt(mergeMap);
 		} catch(IOException i){
-			
+			((Log) Logger.getLogger(EgovProperties.class)).debug("IGNORED: " + i.getMessage());
 		}
     	catch(Exception e) {
         	map.put("resultCode", -1);	// return ok
@@ -386,7 +388,7 @@ public class GamErpGisAssetCodeMngtController {
 			mergeMap.put("regUsr", loginVo.getId());
 			gamErpGisAssetCodeMngtService.mergeErpGisAssetPhotoMngt(mergeMap);
 		} catch(IOException e){
-			
+			((Log) Logger.getLogger(EgovProperties.class)).debug("IGNORED: " + e.getMessage());
 		}
     	catch(Exception e) {
         	map.put("resultCode", -1);	// return ok
@@ -485,7 +487,7 @@ public class GamErpGisAssetCodeMngtController {
 			mergeMap.put("regUsr", loginVo.getId());
 			gamErpGisAssetCodeMngtService.mergeErpGisAssetPhotoMngt(mergeMap);
 		} catch(IOException e){
-			
+			((Log) Logger.getLogger(EgovProperties.class)).debug("IGNORED: " + e.getMessage());
 		}
     	catch(Exception e) {
         	map.put("resultCode", -1);	// return ok

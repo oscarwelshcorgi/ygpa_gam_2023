@@ -10,6 +10,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import egovframework.com.cmm.ComDefaultCodeVO;
 import egovframework.com.cmm.EgovMessageSource;
+import egovframework.com.cmm.service.EgovProperties;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamTestAssetsUsePermMngtService;
@@ -73,7 +75,7 @@ public class GamTestAssetsUsePermMngtController {
     	try {
     		gamTestAssetsUsePermMngtService.insertBillCreateAdit(levreqestAdit);
     	} catch(IOException e){
-    		
+    		Logger.getLogger(EgovProperties.class).debug("IGNORED: " + e.getMessage());
     	}
     	catch(Exception e) {
             map.put("resultCode", -1);

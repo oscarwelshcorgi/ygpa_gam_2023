@@ -26,6 +26,7 @@ import org.springmodules.validation.commons.DefaultBeanValidator;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
+import com.sun.istack.internal.logging.Logger;
 
 import egovframework.com.cmm.ComDefaultCodeVO;
 import egovframework.com.cmm.EgovMessageSource;
@@ -287,6 +288,9 @@ public class GamHtldRentAssessMngtController {
     	map.put("resultCode", resultCode);
     	map.put("resultMsg", resultMsg);
     	
+    	}catch(IOException i){
+    		map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
     	}catch(Exception e){
     		map.put("resultCode", 1);
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));

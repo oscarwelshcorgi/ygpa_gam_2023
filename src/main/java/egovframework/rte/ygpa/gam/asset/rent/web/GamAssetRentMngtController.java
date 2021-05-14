@@ -26,6 +26,7 @@ import org.springmodules.validation.commons.DefaultBeanValidator;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.istack.internal.logging.Logger;
 
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
@@ -605,7 +606,7 @@ public class GamAssetRentMngtController {
         	resultMsg  = egovMessageSource.getMessage("success.common.merge");
 
     	} catch(IOException e){
-    		
+    		((Log) Logger.getLogger(EgovProperties.class)).debug("IGNORED: " + e.getMessage());
     	}
     	catch (Exception e) {
     		resultCode = 1;
@@ -735,7 +736,7 @@ public class GamAssetRentMngtController {
 	    		resultMsg  = egovMessageSource.getMessage("gam.asset.rent.reject");
 	    	}
         } catch(IOException e){
-        	
+        	((Log) Logger.getLogger(EgovProperties.class)).debug("IGNORED: " + e.getMessage());
         }catch(Exception e) {
 
 
@@ -851,7 +852,7 @@ public class GamAssetRentMngtController {
 	    		resultMsg  = egovMessageSource.getMessage("gam.asset.rent.err.delete");
 	    	}
         } catch(IOException e){
-        	
+        	((Log) Logger.getLogger(EgovProperties.class)).debug("IGNORED: " + e.getMessage());
         }catch(Exception e) {
 
     		resultCode = 1;
@@ -1469,7 +1470,7 @@ public class GamAssetRentMngtController {
 			map.put("resultCode", "0");
 			map.put("result", list);
 		} catch(IOException e){
-			
+			((Log) Logger.getLogger(EgovProperties.class)).debug("IGNORED: " + e.getMessage());
 		}
 		catch(Exception e) {
 			map.put("resultCode", "-1");

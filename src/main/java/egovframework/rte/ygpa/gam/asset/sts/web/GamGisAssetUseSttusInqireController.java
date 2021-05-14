@@ -18,8 +18,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
+import com.sun.istack.internal.logging.Logger;
+
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
+import egovframework.com.cmm.service.EgovProperties;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
@@ -142,7 +145,7 @@ public class GamGisAssetUseSttusInqireController {
 
 				model.addAttribute("resultCode", 0);
 			} catch(IOException e){
-				
+				((Log) Logger.getLogger(EgovProperties.class)).debug("IGNORED: " + e.getMessage());
 			}
 			catch(Exception e) {
 				model.addAttribute("resultCode", -1);
