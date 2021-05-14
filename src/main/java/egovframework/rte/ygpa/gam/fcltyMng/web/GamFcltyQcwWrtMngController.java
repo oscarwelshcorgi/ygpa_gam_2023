@@ -12,6 +12,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -893,7 +894,10 @@ public class GamFcltyQcwWrtMngController {
 		} catch(IOException e) {
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			Logger log = Logger.getLogger(this.getClass());
+			log.error("--error--");
+
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
 		}
@@ -924,7 +928,10 @@ public class GamFcltyQcwWrtMngController {
 		} catch(IOException e) {
 			
 		}catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			Logger log = Logger.getLogger(this.getClass());
+			log.error("--error--");
+
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
 		}
@@ -953,7 +960,10 @@ public class GamFcltyQcwWrtMngController {
 		} catch(IOException e) {
 			
 		}catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			Logger log = Logger.getLogger(this.getClass());
+			log.error("--error--");
+
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
 		}
@@ -983,7 +993,10 @@ public class GamFcltyQcwWrtMngController {
 		} catch(IOException e) {
 			
 		}catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			Logger log = Logger.getLogger(this.getClass());
+			log.error("--error--");
+
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
 		}
@@ -1014,7 +1027,10 @@ public class GamFcltyQcwWrtMngController {
 		} catch(IOException e) {
 			
 		}catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			Logger log = Logger.getLogger(this.getClass());
+			log.error("--error--");
+
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.select"));
 		}
