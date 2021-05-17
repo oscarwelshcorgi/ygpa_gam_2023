@@ -32,6 +32,7 @@ import egovframework.com.cmm.ComDefaultCodeVO;
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.service.EgovCmmUseService;
+import egovframework.com.cmm.service.EgovProperties;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.cmmn.exception.EgovBizException;
 import egovframework.rte.fdl.property.EgovPropertyService;
@@ -329,7 +330,7 @@ public class GamHtldRentAssessMngtController {
 	        gamHtldRentMngtService.deleteHtldRentMngt(gamHtldRentMngtVO);
 	        resultMsg = egovMessageSource.getMessage("success.common.delete");
         } catch (IOException i) {
-        	
+        	((Log) Logger.getLogger(EgovProperties.class)).debug("IGNORED: " + i.getMessage());
         } catch(Exception e) {
     		resultCode = 1;
     		resultMsg  = egovMessageSource.getMessage("fail.common.msg");

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -580,10 +581,8 @@ public class GamPrtFcltyRentMngtController {
         	resultMsg  = egovMessageSource.getMessage("success.common.merge");
 
     	} catch (IOException i) {
-    		
+    		Logger.getLogger(EgovProperties.class).debug("IGNORED: " + i.getMessage());
     	} catch (Exception e) {
-
-
     		resultCode = 1;
     		resultMsg  = egovMessageSource.getMessage("fail.common.msg");
     	}
@@ -711,11 +710,9 @@ public class GamPrtFcltyRentMngtController {
 	    		resultMsg  = egovMessageSource.getMessage("gam.asset.rent.reject");
 	    	}
         } catch (IOException i) {
-        	
+        	Logger.getLogger(EgovProperties.class).debug("IGNORED: " + i.getMessage());
         }
         catch(Exception e) {
-
-
     		resultCode = 1;
     		resultMsg  = egovMessageSource.getMessage("fail.common.msg");
         }
@@ -828,9 +825,8 @@ public class GamPrtFcltyRentMngtController {
 	    		resultMsg  = egovMessageSource.getMessage("gam.asset.rent.err.delete");
 	    	}
         } catch (IOException i) {
-        	
+        	Logger.getLogger(EgovProperties.class).debug("IGNORED: " + i.getMessage());
         } catch(Exception e) {
-        	
     		resultCode = 1;
     		resultMsg  = egovMessageSource.getMessage("fail.common.msg");
         }
@@ -1562,7 +1558,7 @@ public class GamPrtFcltyRentMngtController {
 			map.put("resultCode", "0");
 			map.put("result", list);
 		} catch (IOException i) {
-			
+			Logger.getLogger(EgovProperties.class).debug("IGNORED: " + i.getMessage());
 		} catch(Exception e) {
 			map.put("resultCode", "-1");
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.upload"));
@@ -1608,7 +1604,7 @@ public class GamPrtFcltyRentMngtController {
       	try {
       		map = gamAssetsUsePermMngtService.gamPrmisnProceedingCancel(gamPrtFcltyRentMngtVO);
       	} catch (IOException i) {
-      		
+      		Logger.getLogger(EgovProperties.class).debug("IGNORED: " + i.getMessage());
       	} catch(Exception e) {
       		map.put("resultCode", 2);
       		map.put("resultMsg", egovMessageSource.getMessage("gam.asset.rent.err.exceptional"));

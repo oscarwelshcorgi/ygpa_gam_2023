@@ -13,6 +13,7 @@ import javax.annotation.Resource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 import org.joda.time.LocalDate;
 import org.joda.time.Months;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import egovframework.com.cmm.ComDefaultVO;
 import egovframework.com.cmm.LoginVO;
+import egovframework.com.cmm.service.EgovProperties;
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldAssessVO;
@@ -864,7 +866,7 @@ public class GamHtldRentMngtServiceImpl extends AbstractServiceImpl implements G
 	    	try {
 	    		insertHtldRentLevReqest(master, detailList);
 	    	} catch (IOException e) {
-	    		
+	    		Logger.getLogger(EgovProperties.class).debug("IGNORED: " + e.getMessage());
 	    	} catch(Exception e) {
 	    		log.warn("배후단지 임대정보 " + master.getMngYear() + "-"+master.getMngNo()+"-"+master.getMngCnt()+"의 사용료를 생성 할 수 없습니다. ( ex: "+e.getMessage()+" )");
 	    	}
