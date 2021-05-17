@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -267,7 +268,7 @@ public class GamRoadMaintenanceController {
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
 		} catch(IOException e) {
-			
+			Logger.getLogger(EgovProperties.class).debug("IGNORED: " + e.getMessage());
 		}catch (Exception e) {
 			e.printStackTrace();
 			map.put("resultCode", 1);
@@ -342,7 +343,7 @@ public class GamRoadMaintenanceController {
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
 		} catch(IOException e) {
-			
+			Logger.getLogger(EgovProperties.class).debug("IGNORED: " + e.getMessage());
 		}catch (Exception e) {
 			e.printStackTrace();
 			map.put("resultCode", 1);
@@ -464,7 +465,7 @@ public class GamRoadMaintenanceController {
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
 		} catch(IOException e) {
-			
+			Logger.getLogger(EgovProperties.class).debug("IGNORED: " + e.getMessage());
 		}catch (Exception e) {
 			e.printStackTrace();
 			map.put("resultCode", 1);

@@ -12,6 +12,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -293,7 +294,7 @@ public class GamFcltyMaintMngController {
             map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
 
 		} catch(IOException e) {
-			
+			Logger.getLogger(EgovProperties.class).debug("IGNORED: " + e.getMessage());
 		}catch (Exception e) {
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
@@ -348,7 +349,7 @@ public class GamFcltyMaintMngController {
             map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
 
 		} catch(IOException e) {
-			
+			Logger.getLogger(EgovProperties.class).debug("IGNORED: " + e.getMessage());
 		}catch (Exception e) {
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
@@ -387,7 +388,7 @@ public class GamFcltyMaintMngController {
             map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
 
 		} catch(IOException e) {
-			
+			Logger.getLogger(EgovProperties.class).debug("IGNORED: " + e.getMessage());
 		}catch (Exception e) {
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
@@ -488,7 +489,7 @@ public class GamFcltyMaintMngController {
 			map.put("result", result);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.select"));
 		} catch(IOException e) {
-			
+			Logger.getLogger(EgovProperties.class).debug("IGNORED: " + e.getMessage());
 		}catch (Exception e) {
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.select"));
@@ -522,7 +523,7 @@ public class GamFcltyMaintMngController {
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
 		} catch(IOException e) {
-			
+			Logger.getLogger(EgovProperties.class).debug("IGNORED: " + e.getMessage());
 		}catch (Exception e) {
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
@@ -552,7 +553,7 @@ public class GamFcltyMaintMngController {
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
 		} catch(IOException e) {
-			
+			Logger.getLogger(EgovProperties.class).debug("IGNORED: " + e.getMessage());
 		} catch (Exception e) {
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
@@ -580,7 +581,7 @@ public class GamFcltyMaintMngController {
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
 		} catch(IOException e) {
-			
+			Logger.getLogger(EgovProperties.class).debug("IGNORED: " + e.getMessage());
 		}catch (Exception e) {
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
@@ -690,7 +691,7 @@ public class GamFcltyMaintMngController {
 			map.put("atchFileNo", sNewNo);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
 		} catch(IOException e) {
-			
+			Logger.getLogger(EgovProperties.class).debug("IGNORED: " + e.getMessage());
 		}catch (Exception e) {
 			e.printStackTrace();
 			map.put("resultCode", 1);
@@ -721,7 +722,7 @@ public class GamFcltyMaintMngController {
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
 		} catch(IOException e) {
-			
+			Logger.getLogger(EgovProperties.class).debug("IGNORED: " + e.getMessage());
 		}catch (Exception e) {
 			e.printStackTrace();
 			map.put("resultCode", 1);
@@ -750,7 +751,7 @@ public class GamFcltyMaintMngController {
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
 		} catch(IOException e) {
-			
+			Logger.getLogger(EgovProperties.class).debug("IGNORED: " + e.getMessage());
 		}catch (Exception e) {
 			e.printStackTrace();
 			map.put("resultCode", 1);
@@ -780,7 +781,7 @@ public class GamFcltyMaintMngController {
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
 		} catch(IOException e) {
-			
+			Logger.getLogger(EgovProperties.class).debug("IGNORED: " + e.getMessage());
 		}catch (Exception e) {
 			e.printStackTrace();
 			map.put("resultCode", 1);
@@ -810,7 +811,7 @@ public class GamFcltyMaintMngController {
 			map.put("result", result);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.select"));
 		} catch(IOException e) {
-			
+			Logger.getLogger(EgovProperties.class).debug("IGNORED: " + e.getMessage());
 		}catch (Exception e) {
 			e.printStackTrace();
 			map.put("resultCode", 1);

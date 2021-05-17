@@ -10,6 +10,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
 import egovframework.com.cmm.EgovMessageSource;
+import egovframework.com.cmm.service.EgovProperties;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
@@ -139,7 +141,7 @@ public class GamFcltyQcHistInqireController {
             map.put("resultCode", 0);
             map.put("result", result);
     	} catch(IOException e) {
-    		
+    		Logger.getLogger(EgovProperties.class).debug("IGNORED: " + e.getMessage());
     	}
     	catch(Exception e) {
             map.put("resultCode", 1);

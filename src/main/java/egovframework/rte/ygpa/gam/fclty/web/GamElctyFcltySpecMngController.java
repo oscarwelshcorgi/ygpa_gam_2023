@@ -279,7 +279,7 @@ public class GamElctyFcltySpecMngController {
     		map.put("resultCode", 0);			// return ok
             map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
 		} catch(IOException e) {
-			
+			Logger.getLogger(EgovProperties.class).debug("IGNORED: " + e.getMessage());
 		}catch (Exception e) {
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
@@ -313,7 +313,7 @@ public class GamElctyFcltySpecMngController {
     		map.put("resultCode", 0);			// return ok
             map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
 		} catch(IOException e) {
-			
+			Logger.getLogger(EgovProperties.class).debug("IGNORED: " + e.getMessage());
 		}catch (Exception e) {
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
