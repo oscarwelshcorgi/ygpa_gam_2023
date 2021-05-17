@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springmodules.validation.commons.DefaultBeanValidator;
+import org.apache.log4j.Logger;
 
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
@@ -152,7 +153,10 @@ public class GamBuldMktcStdAmController{
 			Logger.getLogger(EgovProperties.class).debug("IGNORED: " + e.getMessage());
 		}
 		catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			Logger log = Logger.getLogger(this.getClass());
+			log.error("--error--");
+			
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
 		}
@@ -188,7 +192,10 @@ public class GamBuldMktcStdAmController{
 		} catch(IOException e) {
 			Logger.getLogger(EgovProperties.class).debug("IGNORED: " + e.getMessage());
 		}catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			Logger log = Logger.getLogger(this.getClass());
+			log.error("--error--");
+			
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
 		}
@@ -220,7 +227,10 @@ public class GamBuldMktcStdAmController{
 		} catch(IOException e){
 			Logger.getLogger(EgovProperties.class).debug("IGNORED: " + e.getMessage());
 		}catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			Logger log = Logger.getLogger(this.getClass());
+			log.error("--error--");
+			
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
 		}

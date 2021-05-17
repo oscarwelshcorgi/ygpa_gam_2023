@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -621,7 +622,7 @@ public @ResponseBody Map selectRentDetailInfo(GamCmmnCntrRentMngtVO searchVO) th
         	resultMsg  = egovMessageSource.getMessage("success.common.merge");
 
     	} catch (IOException i) {
-    		
+    		 Logger.getLogger(EgovProperties.class).debug("IGNORED: " + i.getMessage());
     	}
     	catch (Exception e) {
 
@@ -753,7 +754,7 @@ public @ResponseBody Map selectRentDetailInfo(GamCmmnCntrRentMngtVO searchVO) th
 	    		resultMsg  = egovMessageSource.getMessage("gam.asset.rent.reject");
 	    	}
         } catch (IOException i) {
-        	
+        	Logger.getLogger(EgovProperties.class).debug("IGNORED: " + i.getMessage());
         }
         catch(Exception e) {
 
@@ -870,7 +871,7 @@ public @ResponseBody Map selectRentDetailInfo(GamCmmnCntrRentMngtVO searchVO) th
 	    		resultMsg  = egovMessageSource.getMessage("gam.asset.rent.err.delete");
 	    	}
         } catch (IOException i) {
-        	
+        	Logger.getLogger(EgovProperties.class).debug("IGNORED: " + i.getMessage());
         } catch(Exception e) {
 
 
@@ -1450,7 +1451,7 @@ public @ResponseBody Map selectRentDetailInfo(GamCmmnCntrRentMngtVO searchVO) th
 			map.put("resultCode", "0");
 			map.put("result", list);
 		} catch (IOException i) {
-			
+			 Logger.getLogger(EgovProperties.class).debug("IGNORED: " + i.getMessage());
 		}
 		catch(Exception e) {
 			map.put("resultCode", "-1");

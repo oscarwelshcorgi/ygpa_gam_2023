@@ -267,8 +267,7 @@ public class GenericFileUpDownloadController {
 
 		try {
 			uploadPath = uploadPath.replaceAll("\\.", "").replaceAll("/","").replaceAll("\\\\","");
-		    file = new File(uploadPath, vo.getFileName());
-		    fis = new FileInputStream(file);
+		    fis = new FileInputStream(uploadPath + vo.getFileName());
 		    in = new BufferedInputStream(fis);
 		    bStream = new ByteArrayOutputStream();
 

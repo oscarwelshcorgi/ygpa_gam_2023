@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -583,10 +584,8 @@ public class GamTestPrtFcltyRentMngtController {
         	resultMsg  = egovMessageSource.getMessage("success.common.merge");
 
     	} catch (IOException i) {
-    		
+    		Logger.getLogger(EgovProperties.class).debug("IGNORED: " + i.getMessage());
     	} catch (Exception e) {
-
-
     		resultCode = 1;
     		resultMsg  = egovMessageSource.getMessage("fail.common.msg");
     	}
@@ -714,10 +713,8 @@ public class GamTestPrtFcltyRentMngtController {
 	    		resultMsg  = egovMessageSource.getMessage("gam.asset.rent.reject");
 	    	}
         } catch (IOException i) {
-        	
+        	Logger.getLogger(EgovProperties.class).debug("IGNORED: " + i.getMessage());
         } catch(Exception e) {
-
-
     		resultCode = 1;
     		resultMsg  = egovMessageSource.getMessage("fail.common.msg");
         }
@@ -830,11 +827,9 @@ public class GamTestPrtFcltyRentMngtController {
 	    		resultMsg  = egovMessageSource.getMessage("gam.asset.rent.err.delete");
 	    	}
         } catch (IOException i) {
-        	
+        	Logger.getLogger(EgovProperties.class).debug("IGNORED: " + i.getMessage());
         }
         catch(Exception e) {
-
-
     		resultCode = 1;
     		resultMsg  = egovMessageSource.getMessage("fail.common.msg");
         }

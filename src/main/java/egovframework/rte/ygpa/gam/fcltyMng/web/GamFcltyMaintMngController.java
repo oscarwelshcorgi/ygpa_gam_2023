@@ -693,7 +693,10 @@ public class GamFcltyMaintMngController {
 		} catch(IOException e) {
 			Logger.getLogger(EgovProperties.class).debug("IGNORED: " + e.getMessage());
 		}catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			Logger log = Logger.getLogger(this.getClass());
+			log.error("--error--");
+
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
 		}
@@ -724,7 +727,10 @@ public class GamFcltyMaintMngController {
 		} catch(IOException e) {
 			Logger.getLogger(EgovProperties.class).debug("IGNORED: " + e.getMessage());
 		}catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			Logger log = Logger.getLogger(this.getClass());
+			log.error("--error--");
+
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
 		}
@@ -753,7 +759,10 @@ public class GamFcltyMaintMngController {
 		} catch(IOException e) {
 			Logger.getLogger(EgovProperties.class).debug("IGNORED: " + e.getMessage());
 		}catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			Logger log = Logger.getLogger(this.getClass());
+			log.error("--error--");
+
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
 		}
@@ -783,7 +792,10 @@ public class GamFcltyMaintMngController {
 		} catch(IOException e) {
 			Logger.getLogger(EgovProperties.class).debug("IGNORED: " + e.getMessage());
 		}catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			Logger log = Logger.getLogger(this.getClass());
+			log.error("--error--");
+
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
 		}
@@ -813,7 +825,10 @@ public class GamFcltyMaintMngController {
 		} catch(IOException e) {
 			Logger.getLogger(EgovProperties.class).debug("IGNORED: " + e.getMessage());
 		}catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			Logger log = Logger.getLogger(this.getClass());
+			log.error("--error--");
+
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.select"));
 		}
