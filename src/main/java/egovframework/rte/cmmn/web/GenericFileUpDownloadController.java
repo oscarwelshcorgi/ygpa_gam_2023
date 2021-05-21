@@ -253,8 +253,10 @@ public class GenericFileUpDownloadController {
 		String physicalFileNm = (String)request.getParameter("physicalFileNm");
 //		String fileSn = (String)commandMap.get("fileSn");
 		String uploadPath = EgovProperties.getProperty("Globals.fileStorePath");
-		String[] tokens = physicalFileNm.split("\\.(?=[^\\.]+$)");
-
+		if(physicalFileNm != null) {
+			String[] tokens = physicalFileNm.split("\\.(?=[^\\.]+$)");
+		}
+		
 		FileInfoVO vo = new FileInfoVO();
 
 		vo.setFileName(physicalFileNm);
