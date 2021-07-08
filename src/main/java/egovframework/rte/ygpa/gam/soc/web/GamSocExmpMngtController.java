@@ -111,6 +111,9 @@ public class GamSocExmpMngtController {
     		result = gamSocExmpMngtService.selectSocExmpMngtDetail(gamSocExmpMngtVO);
 			map.put("resultCode", 0);
 			map.put("resultVO", result);
+    	} catch(NullPointerException n){
+    		map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.select.NullpointException"));
     	} catch(Exception e) {
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.select"));
@@ -153,6 +156,9 @@ public class GamSocExmpMngtController {
     		gamSocExmpMngtService.insertSocExmpMngtDetail(insertMap);
     		map.put("resultCode", 0);
     		map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
+    	} catch(NullPointerException n){
+    		map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert.NullpointException"));
     	}
     	catch(Exception e) {
     		map.put("resultCode", 1);
@@ -177,6 +183,9 @@ public class GamSocExmpMngtController {
     		gamSocExmpMngtService.updateSocExmpMngtDetail(updateMap);
     		map.put("resultCode", 0);
     		map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
+    	} catch(NullPointerException n){
+    		map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.update.NullpointException"));
     	}
 		catch(Exception e) {
     		map.put("resultCode", 1);
@@ -200,6 +209,9 @@ public class GamSocExmpMngtController {
     		gamSocExmpMngtService.deleteSocExmpMngtDetail(deleteMap);
     		map.put("resultCode", 0);
     		map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
+    	} catch(NullPointerException n){
+    		map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete.NullpointException"));
     	}
 		catch(Exception e) {
     		map.put("resultCode", 1);

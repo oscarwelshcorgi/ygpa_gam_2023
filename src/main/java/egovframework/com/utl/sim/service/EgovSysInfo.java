@@ -136,7 +136,8 @@ public class EgovSysInfo {
 	        }
 
 	        b_out.close();
-
+		}catch (NullPointerException n){
+			throw new RuntimeException(n);
 		}catch (Exception ex){
 		    //ex.printStackTrace();
 		    throw new RuntimeException(ex);	// 2011.10.10 보안점검 후속조치
@@ -173,7 +174,8 @@ public class EgovSysInfo {
         	    }
 	        }
 	        b_out.close();
-
+		}catch (NullPointerException n){
+			throw new RuntimeException(n);
 		}catch (Exception ex){
 			//ex.printStackTrace();
 		    throw new RuntimeException(ex);	// 2011.10.10 보안점검 후속조치
@@ -224,7 +226,8 @@ public class EgovSysInfo {
 	        }
 
 	        b_out.close();
-
+		}catch (NullPointerException n){
+			throw new RuntimeException(n);
 		}catch (Exception ex){
 			//ex.printStackTrace();
 		    throw new RuntimeException(ex);	// 2011.10.10 보안점검 후속조치
@@ -275,7 +278,8 @@ public class EgovSysInfo {
 	        }
 
 	        b_out.close();
-
+		}catch (NullPointerException n){
+			throw new RuntimeException(n);
 		}catch (Exception ex){
 			//ex.printStackTrace();
 		    throw new RuntimeException(ex);	// 2011.10.10 보안점검 후속조치
@@ -326,7 +330,8 @@ public class EgovSysInfo {
 	        }
 
 	        b_out.close();
-
+		}catch (NullPointerException n){
+			throw new RuntimeException(n);
 		}catch (Exception ex){
 			//ex.printStackTrace();
 		    throw new RuntimeException(ex);	// 2011.10.10 보안점검 후속조치
@@ -377,7 +382,8 @@ public class EgovSysInfo {
 	        }
 
 	        b_out.close();
-
+		}catch (NullPointerException n){
+			throw new RuntimeException(n);
 		}catch (Exception ex){
 			//ex.printStackTrace();
 		    throw new RuntimeException(ex);	// 2011.10.10 보안점검 후속조치
@@ -424,7 +430,8 @@ public class EgovSysInfo {
 	        //}
 
 	        b_out.close();
-
+		}catch (NullPointerException n){
+			throw new RuntimeException(n);
 		}catch (Exception ex){
 			//ex.printStackTrace();
 		    throw new RuntimeException(ex);	// 2011.10.10 보안점검 후속조치
@@ -473,7 +480,8 @@ public class EgovSysInfo {
 	        //}
 
 	        b_out.close();
-
+		}catch (NullPointerException n){
+			throw new RuntimeException(n);
 		}catch (Exception ex){
 			//ex.printStackTrace();
 		    throw new RuntimeException(ex);	// 2011.10.10 보안점검 후속조치
@@ -522,7 +530,8 @@ public class EgovSysInfo {
 	       //}
 
 	        b_out.close();
-
+		}catch (NullPointerException n){
+			throw new RuntimeException(n);
 		}catch (Exception ex){
 			//ex.printStackTrace();
 		    throw new RuntimeException(ex);	// 2011.10.10 보안점검 후속조치
@@ -571,7 +580,8 @@ public class EgovSysInfo {
 	      //}
 
 	        b_out.close();
-
+		}catch (NullPointerException n){
+			throw new RuntimeException(n);
 		}catch (Exception ex){
 			//ex.printStackTrace();
 		    throw new RuntimeException(ex);	// 2011.10.10 보안점검 후속조치
@@ -687,7 +697,8 @@ public class EgovSysInfo {
 	        }
 
 	        b_out.close();
-
+		}catch (NullPointerException n){
+			throw new RuntimeException(n);
 		}catch(Exception ex){
 			//ex.printStackTrace();
 		    throw new RuntimeException(ex);	// 2011.10.10 보안점검 후속조치
@@ -739,7 +750,8 @@ public class EgovSysInfo {
 	        }
 
 	        b_out.close();
-
+		}catch (NullPointerException n){
+			throw new RuntimeException(n);
 		}catch(Exception ex){
 			//ex.printStackTrace();
 		    throw new RuntimeException(ex);	// 2011.10.10 보안점검 후속조치
@@ -785,6 +797,8 @@ public class EgovSysInfo {
     	String [] command ={""}; // 인자 없음
     	try{
     	    result = executeProgram("getDiskAttrb",command);
+		}catch (NullPointerException n){
+			throw new RuntimeException(n);
     	}catch (Exception e){
     		//e.printStackTrace();
 		    throw new RuntimeException(e);	// 2011.10.10 보안점검 후속조치
@@ -805,6 +819,8 @@ public class EgovSysInfo {
     	String [] command ={""}; // 인자 없음
     	try{
     	    result = executeProgram("getDiskCpcty",command);
+		}catch (NullPointerException n){
+			throw new RuntimeException(n);
     	}catch (Exception e){
     		//e.printStackTrace();
 		    throw new RuntimeException(e);	// 2011.10.10 보안점검 후속조치
@@ -825,6 +841,8 @@ public class EgovSysInfo {
     	String [] command ={"", diskName}; // 인자 없음
     	try{
     	    result = executeProgram("getDiskExst",command);
+		}catch (NullPointerException n){
+			throw new RuntimeException(n);
     	}catch (Exception e){
     		//e.printStackTrace();
 		    throw new RuntimeException(e);	// 2011.10.10 보안점검 후속조치
@@ -876,6 +894,8 @@ public class EgovSysInfo {
                 }
                 b_out.close();
             }
+		}catch (NullPointerException n){
+			throw new RuntimeException(n);
         } catch (Exception ex){
         	//ex.printStackTrace();
 		    throw new RuntimeException(ex);	// 2011.10.10 보안점검 후속조치
@@ -939,6 +959,8 @@ public class EgovSysInfo {
 
 				input.close();
 			}
+		}catch (NullPointerException n){
+			throw new RuntimeException(n);
 		}
 		catch (Exception err) {
 			//err.printStackTrace();
@@ -1016,6 +1038,8 @@ public class EgovSysInfo {
 			}    //else{
 			    	//log.debug("UNIX....procId...");
 			    //}
+		}catch (NullPointerException n){
+			throw new RuntimeException(n);
 		}
 		catch (Exception err) {
 			//err.printStackTrace();

@@ -220,11 +220,12 @@ public class GamPopupZipManageController {
 
 		String uploadPath = EgovProperties.getProperty("global.fileStorePath")+"_temp_zip.xls";
 		List<GamFileServiceVo> list = GamFileUploadUtil.uploadFiles(request, uploadPath, null);
-
-		if(list.size()==0) {
-			map.put("resultCode", "0");
-//			map.put("resultMsg", egovMessageSource.getMessage("fail.common.upload"));
-			return map;
+		if(list != null){
+			if(list.size()==0) {
+				map.put("resultCode", "0");
+	//			map.put("resultMsg", egovMessageSource.getMessage("fail.common.upload"));
+				return map;
+			}
 		}
 //    	final MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
 //		final Map<String, MultipartFile> files = multiRequest.getFileMap();

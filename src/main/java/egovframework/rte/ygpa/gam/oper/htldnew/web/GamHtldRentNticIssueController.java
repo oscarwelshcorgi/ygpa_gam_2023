@@ -147,7 +147,9 @@ public class GamHtldRentNticIssueController {
     	}
     	
     	try {
-        	gamHtldRentNticIssueService.execNticIssue(nticInfo, rntfeeList, loginVO);
+        	if(nticData != null){
+        		gamHtldRentNticIssueService.execNticIssue(nticInfo, rntfeeList, loginVO);
+        	}
 	        map.put("resultCode", 0);
     		map.put("resultMsg", egovMessageSource.getMessage("gam.asset.proc")); 		
     	} catch (IOException i) {

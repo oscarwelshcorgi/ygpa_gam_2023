@@ -550,6 +550,8 @@ public class GamCmmnCntrRentFeeMngtController {
 
      	map.put("resultCode", resultCode);
         map.put("resultMsg", resultMsg);
+        }catch(NullPointerException n){
+        	Logger.getLogger(EgovProperties.class).debug("EXCEPTION : " + n.getMessage());
         }catch(Exception e){
         	Logger.getLogger(EgovProperties.class).debug("EXCEPTION : " + e.getMessage());
         }

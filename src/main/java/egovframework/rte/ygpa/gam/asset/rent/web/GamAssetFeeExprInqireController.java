@@ -510,17 +510,20 @@ public class GamAssetFeeExprInqireController {
     			//부두코드 가져오기
     			GamAssetFeeExprInqireVO quaycdVO = new GamAssetFeeExprInqireVO();
     			quaycdVO = gamAssetFeeExprInqireService.selectAssetFeeExprInqireDetailQuaycd(updRentVO);
-
-    			//부두코드 업데이트
-    			if( quaycdVO == null || quaycdVO.getQuayCd() == null || "".equals(quaycdVO.getQuayCd()) ) {
-    				quaycdVO = new GamAssetFeeExprInqireVO();
-    				quaycdVO.setPrtAtCode(paramVO.getPrtAtCode());
-    				quaycdVO.setMngYear(paramVO.getMngYear());
-    				quaycdVO.setMngNo(paramVO.getMngNo());
-    				quaycdVO.setMaxMngCnt(paramVO.getMngCnt());
+    			
+    			if(paramVO != null){
+	    			//부두코드 업데이트
+	    			if( quaycdVO == null || quaycdVO.getQuayCd() == null || "".equals(quaycdVO.getQuayCd()) ) {
+	    				quaycdVO = new GamAssetFeeExprInqireVO();
+	    				quaycdVO.setPrtAtCode(paramVO.getPrtAtCode());
+	    				quaycdVO.setMngYear(paramVO.getMngYear());
+	    				quaycdVO.setMngNo(paramVO.getMngNo());
+	    				quaycdVO.setMaxMngCnt(paramVO.getMngCnt());
+	    			}
+	    			if(quaycdVO != null){
+	    				gamAssetFeeExprInqireService.updateAssetFeeExprInqireQuaycd(quaycdVO);
+	    			}
     			}
-
-    			gamAssetFeeExprInqireService.updateAssetFeeExprInqireQuaycd(quaycdVO);
     		}
 
     	} catch(IOException i){

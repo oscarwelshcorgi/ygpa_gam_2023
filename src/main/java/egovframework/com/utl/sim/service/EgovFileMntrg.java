@@ -204,7 +204,8 @@ public class EgovFileMntrg extends Thread {
                 isSame = false; // 초기화
                 isNew  = true;  // 초기화
             }
-
+        } catch (NullPointerException n){
+        	logger.info(n.getMessage());
         } catch (Exception e) {
             //interrupted = true; // there is no point in continuing
             //e.printStackTrace();
@@ -284,6 +285,8 @@ public class EgovFileMntrg extends Thread {
 	        	}
 	        }
 			result = true;
+		} catch(NullPointerException n){
+			logger.info(n.getMessage());
 		}catch(Exception e){
 			//e.printStackTrace();
             //System.out.println(e);	// 2011.10.10 보안점검 후속조치
@@ -293,6 +296,8 @@ public class EgovFileMntrg extends Thread {
 		    if (br != null) {
 				try {
 				    br.close();
+				} catch (NullPointerException n){
+					logger.info(n.getMessage());
 				} catch (Exception ignore) {
 				    //System.out.println("IGNORE: " + ignore);
 					logger.info(ignore.getMessage());
@@ -301,6 +306,8 @@ public class EgovFileMntrg extends Thread {
 			    if (bWriter != null) {
 				try {
 				    bWriter.close();
+				} catch (NullPointerException n){
+					logger.info(n.getMessage());
 				} catch (Exception ignore) {
 				    //System.out.println("IGNORE: " + ignore);
 					logger.info(ignore.getMessage());
@@ -309,6 +316,8 @@ public class EgovFileMntrg extends Thread {
 			    if (fWriter != null) {
 				try {
 				    fWriter.close();
+				} catch(NullPointerException n) {
+					logger.info(n.getMessage());
 				} catch (Exception ignore) {
 				    //System.out.println("IGNORE: " + ignore);
 					logger.info(ignore.getMessage());
@@ -354,6 +363,8 @@ public class EgovFileMntrg extends Thread {
 				//로그파일이 없는 경우(삭제된 경우)도 종료한다.
 				isEnd = true;
 			}
+		} catch (NullPointerException n){
+			logger.info(n.getMessage());
 		}catch(Exception e){
 			//e.printStackTrace();
             //System.out.println(e);	// 2011.10.10 보안점검 후속조치

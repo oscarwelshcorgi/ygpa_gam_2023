@@ -151,7 +151,11 @@ public class GamHtldRentCtrtController {
     	}
     	
     	try {
-    		gamHtldRentCtrtService.insertHtldRentCtrt(rentData, rentDetailList, loginVO.getId());
+    		if(rentData != null){
+    			if(rentDetailList != null){
+    				gamHtldRentCtrtService.insertHtldRentCtrt(rentData, rentDetailList, loginVO.getId());
+    			}
+    		}
 	        map.put("resultCode", 0);
     		map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));    		
     	} catch (IOException i) {
@@ -200,7 +204,11 @@ public class GamHtldRentCtrtController {
     	}
  	
     	try {
-    		gamHtldRentCtrtService.updateHtldRentCtrt(rentData, rentDetailList, loginVO.getId());
+    		if(rentData != null){
+    			if(rentDetailList != null){
+    				gamHtldRentCtrtService.updateHtldRentCtrt(rentData, rentDetailList, loginVO.getId());
+    			}
+    		}
 	        map.put("resultCode", 0);
     		map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));    		
     	} catch (IOException i) {

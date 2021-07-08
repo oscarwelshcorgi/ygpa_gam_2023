@@ -141,8 +141,13 @@ public class GamCofixIntrrateMngtController {
 //    	    		vo.setUpdUsr(loginVo.getId());
 //    	    	}
         	}
-
-        	gamCofixIntrrateMngtService.mergeCofixIntrrate(createList, updateList, deleteList);
+        	if(createList != null){
+        		if(updateList != null){
+        			if(deleteList != null){
+        				gamCofixIntrrateMngtService.mergeCofixIntrrate(createList, updateList, deleteList);
+        			}
+        		}
+        	}
 
 	     	 map.put("resultCode", 0);
 	         map.put("resultMsg", egovMessageSource.getMessage("gam.asset.proc"));

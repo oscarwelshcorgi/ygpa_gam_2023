@@ -105,7 +105,8 @@ public class GamTestAssetsUsePermMngtController {
     	try {
     		gamTestAssetsUsePermMngtService.deleteBillAdit(levReqest);
     	} catch(IOException e){
-    		
+    		map.put("resultCode", -1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete.IOExeption"));
     	}
     	catch(Exception e) {
             map.put("resultCode", -1);
