@@ -353,8 +353,8 @@ public class GamAssetRentFeeMngtController {
     	}
 
         LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-
-        //System.out.println("############ prtAtCodes => " + prtAtCodes);
+        
+        
         try{
         String [] arrNticCnts = nticCnts.split(";");
      	String [] arrPrtAtCodes = prtAtCodes.split(";");

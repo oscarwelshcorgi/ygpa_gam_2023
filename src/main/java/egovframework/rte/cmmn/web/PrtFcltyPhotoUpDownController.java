@@ -68,9 +68,11 @@ public class PrtFcltyPhotoUpDownController {
 		/*
 		 * validate text input
 		 */
+		if(request.getParameter("type") != null) {
 		Assert.state(request.getParameter("type").equals("genericFileMulti"),
 				"type != genericFileMulti");
-
+		}
+		
 		/*
 		 * extract files
 		 */
@@ -145,9 +147,10 @@ public class PrtFcltyPhotoUpDownController {
 		/*
 		 * validate text input
 		 */
+		if(request.getParameter("type") != null) {
 		Assert.state(request.getParameter("type").equals("genericFileMulti"),
 				"type != genericFileMulti");
-
+		}
 		/*
 		 * extract files
 		 */
