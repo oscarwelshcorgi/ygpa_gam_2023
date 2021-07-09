@@ -242,7 +242,7 @@ public class GamCmmnCodeMngtController {
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
-
+    if( cmmnCode != null) {
 		if (cmd.equals("") || cmd.equals(null)) {
     		CmmnCode vo = cmmnCodeManageService.selectCmmnCodeDetail(cmmnCode);
     		map.put("cmmnCode", vo);
@@ -260,7 +260,7 @@ public class GamCmmnCodeMngtController {
         		map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
         		return map;
     		}
-
+    	}
 
     		try {
     			cmmnCode.setLastUpdusrId(user.getId());

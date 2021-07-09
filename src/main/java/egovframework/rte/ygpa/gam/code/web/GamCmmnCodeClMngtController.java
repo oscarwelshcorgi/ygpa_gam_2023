@@ -231,14 +231,14 @@ public class GamCmmnCodeClMngtController {
         	return map;
     	}
 
-		if (cmd.equals("") || cmd.equals(null) ) {
+		if (cmd.equals("") || cmd.equals(null) && bindingResult != null) {
     		CmmnClCode vo = cmmnClCodeManageService.selectCmmnClCodeDetail(cmmnClCode);
     		map.put("cmmnClCode", vo);
 
     		map.put("resultCode", 1);
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
     		return map;
-    	} else if (cmd.equals("modify")) {
+    	} else if (cmd.equals("modify") && bindingResult != null) {
             beanValidator.validate(cmmnClCode, bindingResult);
 
     		if (bindingResult.hasErrors()){

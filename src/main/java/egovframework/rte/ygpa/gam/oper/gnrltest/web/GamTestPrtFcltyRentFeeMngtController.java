@@ -363,13 +363,20 @@ public class GamTestPrtFcltyRentFeeMngtController {
         System.out.println("############ prtAtCodes => " + prtAtCodes);
 
         try{
-        String [] arrNticCnts = nticCnts.split(";");
-     	String [] arrPrtAtCodes = prtAtCodes.split(";");
-     	String [] arrMngYears = mngYears.split(";");
-     	String [] arrMngNos = mngNos.split(";");
-     	String [] arrMngCnts = mngCnts.split(";");
-     	String [] arrNticnos = nticnos.split(";");
-     	String [] arrAccnutYears = accnutYears.split(";");
+            String [] arrNticCnts = null;
+            if(nticCnts != null) arrNticCnts = nticCnts.split(";");
+         	String [] arrPrtAtCodes = null;
+         	if(prtAtCodes != null) arrPrtAtCodes = prtAtCodes.split(";");
+         	String [] arrMngYears = null;
+         	if(mngYears != null) arrMngYears = mngYears.split(";");
+         	String [] arrMngNos = null;
+         	if(mngNos != null) arrMngNos = mngNos.split(";");
+         	String [] arrMngCnts = null;
+         	if(mngCnts != null) arrMngCnts = mngCnts.split(";");
+         	String [] arrNticnos = null;
+         	if(nticnos != null) arrNticnos = nticnos.split(";");
+         	String [] arrAccnutYears = null;
+         	if(accnutYears != null) arrAccnutYears = accnutYears.split(";");
 
      	//세입징수 등록
      	for(int i=0; i<arrNticCnts.length;i++) {
@@ -519,13 +526,20 @@ public class GamTestPrtFcltyRentFeeMngtController {
         System.out.println("############ prtAtCodes => " + prtAtCodes);
 
         try{
-        String [] arrNticCnts = nticCnts.split(";");
-     	String [] arrPrtAtCodes = prtAtCodes.split(";");
-     	String [] arrMngYears = mngYears.split(";");
-     	String [] arrMngNos = mngNos.split(";");
-     	String [] arrMngCnts = mngCnts.split(";");
-     	String [] arrNticnos = nticnos.split(";");
-     	String [] arrAccnutYears = accnutYears.split(";");
+            String [] arrNticCnts = null;
+            if(nticCnts != null) arrNticCnts = nticCnts.split(";");
+         	String [] arrPrtAtCodes = null;
+         	if(prtAtCodes != null) arrPrtAtCodes = prtAtCodes.split(";");
+         	String [] arrMngYears = null;
+         	if(mngYears != null) arrMngYears = mngYears.split(";");
+         	String [] arrMngNos = null;
+         	if(mngNos != null) arrMngNos = mngNos.split(";");
+         	String [] arrMngCnts = null;
+         	if(mngCnts != null) arrMngCnts = mngCnts.split(";");
+         	String [] arrNticnos = null;
+         	if(nticnos != null) arrNticnos = nticnos.split(";");
+         	String [] arrAccnutYears = null;
+         	if(accnutYears != null) arrAccnutYears = accnutYears.split(";");
 
      	//세입징수 등록
      	for(int i=0; i<arrNticCnts.length;i++) {

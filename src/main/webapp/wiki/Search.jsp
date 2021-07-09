@@ -105,7 +105,7 @@
                 
                 String url = wikiContext.getViewURL( wikiPage.getName() );
                 
-                response.sendRedirect( url );
+//                 response.sendRedirect( url );
                 
                 return;
             }

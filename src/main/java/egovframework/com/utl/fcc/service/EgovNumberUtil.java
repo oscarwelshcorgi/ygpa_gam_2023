@@ -23,6 +23,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import javax.management.RuntimeErrorException;
+
 public class EgovNumberUtil {
 
     /**
@@ -45,6 +47,8 @@ public class EgovNumberUtil {
 		// 종료숫자내에서 랜덤 숫자를 발생시킨다.
 		randomNum = rnd.nextInt(endNum + 1);
 	    } while (randomNum < startNum); // 랜덤 숫자가 시작숫자보다 작을경우 다시 랜덤숫자를 발생시킨다.
+	} catch (NullPointerException n) {
+		throw new RuntimeException(n);
 	} catch (Exception e) {
 	    //e.printStackTrace();
 	    throw new RuntimeException(e);	// 2011.10.10 보안점검 후속조치
@@ -88,6 +92,8 @@ public class EgovNumberUtil {
 
 	try {
 	    rtnStr = String.valueOf(srcNumber);
+	} catch (NullPointerException n) {
+		throw new RuntimeException(n);
 	} catch (Exception e) {
 	    //e.printStackTrace();
 	    throw new RuntimeException(e);
@@ -165,7 +171,8 @@ public class EgovNumberUtil {
 		    return false;
 		}
 	    }
-	
+	} catch(NullPointerException n) {
+		throw new RuntimeException(n);
 	} catch (Exception e) {
 	    //e.printStackTrace();
 	    throw new RuntimeException(e);
@@ -206,6 +213,8 @@ public class EgovNumberUtil {
 		rtnStr.append(preStr).append(object); // 변환대상위치 숫자에 변환할 숫자를 붙여준다.
 	    }
 	    rtnStr.append(nextStr); // 변환대상 숫자 이후 숫자를 붙여준다.
+	} catch (NullPointerException n) {
+		throw new RuntimeException(n);
 	} catch (Exception e) {
 	    //e.printStackTrace();
 	    throw new RuntimeException(e);

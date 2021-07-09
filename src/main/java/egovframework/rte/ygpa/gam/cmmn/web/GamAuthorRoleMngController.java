@@ -123,8 +123,10 @@ public class GamAuthorRoleMngController {
         	return map;
     	}
     	try{
-    	String [] strRoleCodes = roleCodes.split(";");
-    	String [] strRegYns = regYns.split(";");
+    	String [] strRoleCodes = null;
+    	if(roleCodes != null) strRoleCodes = roleCodes.split(";");
+    	String [] strRegYns = null;
+    	if(regYns != null) strRegYns = regYns.split(";");
 
 
     	authorRoleManage.setRoleCode(authorCode);
@@ -132,12 +134,13 @@ public class GamAuthorRoleMngController {
     	for(int i=0; i<strRoleCodes.length;i++) {
     		authorRoleManage.setRoleCode(strRoleCodes[i]);
     		authorRoleManage.setRegYn(strRegYns[i]);
-
+    		if(strRoleCodes != null) {
     		if(strRegYns[i].equals("Y")){
     			egovAuthorRoleManageService.deleteAuthorRole(authorRoleManage);//2011.09.07
     			egovAuthorRoleManageService.insertAuthorRole(authorRoleManage);
     		}else {
     			egovAuthorRoleManageService.deleteAuthorRole(authorRoleManage);
+    			}
     		}
     	}
 

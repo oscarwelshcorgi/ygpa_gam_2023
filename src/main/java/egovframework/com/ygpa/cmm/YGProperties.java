@@ -46,8 +46,10 @@ public class YGProperties {
 			Properties props = new Properties();
 			fis  = new FileInputStream(GLOBALS_PROPERTIES_FILE);
 			props.load(new java.io.BufferedInputStream(fis));
-			if(props != null) {
-				value = props.getProperty(keyName).trim();
+			if(fis != null) {
+				if(props != null) {
+					value = props.getProperty(keyName).trim();
+				}
 			}
 		}catch(FileNotFoundException e){
 			LOGGER.error("File not found Error : "+ e.getMessage());

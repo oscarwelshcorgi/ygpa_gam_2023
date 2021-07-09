@@ -312,7 +312,7 @@ public class GamUserMngController {
 
     	checkId =  new String(checkId.getBytes("ISO-8859-1"), "UTF-8");
 
-    	if (checkId==null || checkId.equals("")){
+    	if (checkId==null || checkId.equals("") && isAuthenticated != null){
     		map.put("resultCode", 1);
 			map.put("resultMsg", "입력한 아이디가 존재하지 않습니다.");
     	}
