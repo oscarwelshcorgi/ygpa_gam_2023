@@ -10,8 +10,6 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import org.apache.log4j.Logger;
-
 import com.ibm.icu.util.ChineseCalendar;
 import com.sun.star.io.IOException;
 
@@ -244,8 +242,6 @@ public class EgovDateUtil {
                 return true;
             else
                 return false;
-        } catch (NullPointerException n) {
-        	return false;
         } catch (Exception e) {
             return false;
         }
@@ -282,8 +278,6 @@ public class EgovDateUtil {
                 simpledateformat.setTimeZone(TimeZone.getTimeZone(strTimeZone));
             }
             simpledateformat = new SimpleDateFormat(_toDateFormat, Locale.getDefault());
-        } catch(NullPointerException n) {
-        	throw new RuntimeException(n);
         }
         catch(Exception exception) {
     	    //exception.printStackTrace();

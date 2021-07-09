@@ -39,8 +39,6 @@ public class EgovComExcepHndlr implements ExceptionHandler {
 	    //mailSender. send(ex, packageName);
 	    //log.debug(" sending a alert mail  is completed ");
 	    log.error(packageName, ex);
-	} catch (NullPointerException n) {
-		log.error(packageName, ex);
 	} catch (Exception e) {
 	    //e.printStackTrace();
 		log.fatal(packageName, ex);// 2011.10.10 보안점검 후속조치

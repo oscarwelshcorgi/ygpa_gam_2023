@@ -288,7 +288,8 @@ public class GamMngFeeGubunMngController {
 			map.put("checkSe", checkSe);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.select"));
 		} catch (IOException i) {
-			
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.select"));
 		} catch (Exception e) {
 			// TODO: handle exception
 

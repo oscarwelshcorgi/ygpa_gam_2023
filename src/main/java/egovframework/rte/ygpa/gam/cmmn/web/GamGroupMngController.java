@@ -216,7 +216,7 @@ public class GamGroupMngController {
 
     	GroupManage gm = new GroupManage();
 //    	List list = (ArrayList)deleteList.get("delList");
-       if(delList.length > 0 && gm !=null ){
+       if(delList.length > 0 ){
     	for(int i=0; i<delList.length; i++) {
     		gm.setGroupId((String)delList[i]);
     		egovGroupManageService.deleteGroup(gm);

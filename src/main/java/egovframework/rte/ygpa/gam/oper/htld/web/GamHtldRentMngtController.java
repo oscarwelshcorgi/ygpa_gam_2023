@@ -402,9 +402,9 @@ public class GamHtldRentMngtController {
     	if(assetRent.containsKey("assetRentDetailList"))
 	    	assetRentDetailList = mapper.readValue((String)assetRent.get("assetRentDetailList"), TypeFactory.defaultInstance().constructCollectionType(List.class,
 	    			GamHtldRentMngtDetailVO.class));
-
-    	
-    		gamHtldRentMngtService.updateHtldRentMngt(gamHtldRentMngtVO, assetRentDetailList);
+    		if(assetRentDetailList != null){
+    			gamHtldRentMngtService.updateHtldRentMngt(gamHtldRentMngtVO, assetRentDetailList);
+    		}
     	} catch (IOException i) {
     		map.put("resultCode", -1);
         	map.put("resultMsg", i.getMessage());

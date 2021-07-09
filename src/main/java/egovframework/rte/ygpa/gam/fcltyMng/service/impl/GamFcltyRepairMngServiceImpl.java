@@ -407,7 +407,13 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 		
 			if(report != null) {
 				//하자검사조서 처리
-				result.append(reportHWP.getXmlFcltyRepairCheckReportBody(imageIndexes, chargers, report));
+				if(imageIndexes != null){
+					if(chargers != null){
+						if(report != null){
+							result.append(reportHWP.getXmlFcltyRepairCheckReportBody(imageIndexes, chargers, report));
+						}
+					}
+				}
 				String flawEnnc = (String) report.get("flawEnnc");
 				if(flawEnnc != null) {
 					if(flawEnnc.equals("Y")) {
@@ -517,7 +523,13 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 		
 		if(report != null) {
 			//하자검사조서 처리
-			result.append(reportHWP.getXmlFcltyRepairCheckReportBody(imageIndexes, chargers, report));
+			if(imageIndexes != null){
+				if(chargers != null){
+					if(report != null){
+						result.append(reportHWP.getXmlFcltyRepairCheckReportBody(imageIndexes, chargers, report));
+					}
+				}
+			}
 			String flawEnnc = (String) report.get("flawEnnc");
 			if(flawEnnc != null) {
 				if(flawEnnc.equals("Y")) {

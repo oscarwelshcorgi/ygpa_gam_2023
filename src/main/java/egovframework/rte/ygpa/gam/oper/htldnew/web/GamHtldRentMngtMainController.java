@@ -122,7 +122,7 @@ public class GamHtldRentMngtMainController {
     	map.put("resultCode", 0);
     	map.put("resultList", resultList);
     	map.put("cofixIntrrate", cofixIntrrate);
-
+    	
     	return map;
 	}
 
@@ -159,7 +159,11 @@ public class GamHtldRentMngtMainController {
     	}
 
     	try {
-    		gamHtldRentMngtMainService.updateHtldRntfee(feeInsertList, feeUpdateList, loginVO.getId());
+    		if(feeInsertList != null){
+    			if(feeUpdateList != null){
+    				gamHtldRentMngtMainService.updateHtldRntfee(feeInsertList, feeUpdateList, loginVO.getId());
+    			}
+    		}
 	        map.put("resultCode", 0);
     		map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
     	} catch (IOException i) {
@@ -267,9 +271,13 @@ public class GamHtldRentMngtMainController {
         	if(intrrateList.containsKey("_dList")) {
         		deleteList = mapper.readValue((String)intrrateList.get("_dList"), TypeFactory.defaultInstance().constructCollectionType(List.class,GamHtldQuGtqyVO.class));
         	}
-
-        	gamHtldRentMngtMainService.updateHtldQuGtqyList(createList, updateList, deleteList);
-
+        	if(createList != null){
+        		if(updateList != null){
+        			if(deleteList != null){
+        				gamHtldRentMngtMainService.updateHtldQuGtqyList(createList, updateList, deleteList);
+        			}
+        		}
+        	}
 	     	 map.put("resultCode", 0);
 	         map.put("resultMsg", egovMessageSource.getMessage("gam.asset.proc"));
     	}

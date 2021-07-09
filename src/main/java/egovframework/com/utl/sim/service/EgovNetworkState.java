@@ -76,6 +76,8 @@ public class EgovNetworkState
 				//log.debug("getMyMACAddress IP : " + localIP);
 				mac = getNetWorkInfo("MAC");
 			}
+		} catch (NullPointerException n){
+			throw new RuntimeException(n);
 		} catch (Exception e) {
 		    //e.printStackTrace();
 		    throw new RuntimeException(e);	// 2011.10.10 보안점검 후속조치
@@ -137,6 +139,8 @@ public class EgovNetworkState
 				//log.debug("getMyPortScan 6");
 				input.close();
 			}
+		} catch (NullPointerException n){
+			throw new RuntimeException(n);
 		} catch (Exception e) {
 		    //e.printStackTrace();
 		    throw new RuntimeException(e);	// 2011.10.10 보안점검 후속조치
@@ -163,7 +167,8 @@ public class EgovNetworkState
 			
 			InetAddress InetA = InetAddress.getLocalHost ();
 			addrIP = InetA.getHostAddress();
-			
+		} catch (NullPointerException n){
+			throw new RuntimeException(n);
 		} catch ( Exception ex ) {
 		    //ex.printStackTrace();
 		    throw new RuntimeException(ex);	// 2011.10.10 보안점검 후속조치
@@ -191,7 +196,8 @@ public class EgovNetworkState
 		
 		try {
 			status = InetAddress.getByName(requestIP).isReachable(3000);
-
+		} catch (NullPointerException n){
+			throw new RuntimeException(n);
 		} catch ( Exception ex ) {
 		    //ex.printStackTrace();
 		    throw new RuntimeException(ex);	// 2011.10.10 보안점검 후속조치
@@ -248,6 +254,8 @@ public class EgovNetworkState
               }
 	        }
 	        b_out.close();
+		}catch(NullPointerException n){
+			throw new RuntimeException(n);
 		}catch (Exception ex){
 		    //ex.printStackTrace();
 		    throw new RuntimeException(ex);	// 2011.10.10 보안점검 후속조치

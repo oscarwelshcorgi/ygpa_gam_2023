@@ -123,7 +123,7 @@
         String viewUrl = ( "UserPreferences".equals( redirectPage ) ) ? "Wiki.jsp" : wiki.getViewURL( redirectPage );
 
         log.info( "Redirecting user to " + viewUrl );
-//         response.sendRedirect( viewUrl );
+        response.sendRedirect( viewUrl );
         return;
     }
     if( "clearAssertedName".equals(request.getParameter("action")) )

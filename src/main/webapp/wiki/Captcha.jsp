@@ -64,7 +64,7 @@
             		url = url.replaceAll("\\n", "");
                 }
                 
-//                 response.sendRedirect(url);
+                response.sendRedirect(url);
                 return;
             }
         }

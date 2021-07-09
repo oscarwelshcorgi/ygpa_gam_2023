@@ -505,7 +505,8 @@ public class EgovStringUtil {
 	    }
 
 	    strNew = strTxt.toString();
-
+	} catch (NullPointerException n) {
+		return null;
 	} catch (Exception ex) {
 	    return null;
 	}
@@ -755,6 +756,8 @@ public class EgovStringUtil {
 
 	    // 랜덤 숫자를 문자로 변환 후 스트링으로 다시 변환
 	    randomStr = (char)randomInt + "";
+	} catch (NullPointerException n){
+		throw new RuntimeException(n);
 	} catch (Exception e) {
 	    //e.printStackTrace();
 	    throw new RuntimeException(e);	// 2011.10.10 보안점검 후속조치
@@ -832,7 +835,8 @@ public class EgovStringUtil {
 	    }
 
 	    rtnStr = strTxt.toString();
-
+	} catch (NullPointerException n){
+		throw new RuntimeException(n);
 	} catch (Exception e) {
 	    //e.printStackTrace();
 	    throw new RuntimeException(e);	// 2011.10.10 보안점검 후속조치
@@ -861,6 +865,8 @@ public class EgovStringUtil {
 	    Timestamp ts = new Timestamp(System.currentTimeMillis());
 
 	    rtnStr = sdfCurrent.format(ts.getTime());
+	} catch (NullPointerException n){
+		throw new RuntimeException(n);
 	} catch (Exception e) {
 	    //e.printStackTrace();
 	    throw new RuntimeException(e);	// 2011.10.10 보안점검 후속조치
@@ -889,6 +895,9 @@ public class EgovStringUtil {
 			tmpString = tmpString.replaceAll("&nbsp;", " ");
 			tmpString = tmpString.replaceAll("&apos;", "\'");
 			tmpString = tmpString.replaceAll("&quot;", "\"");
+		}
+		catch (NullPointerException n){
+		throw new RuntimeException(n);
 		}
 		catch (Exception ex)
 		{

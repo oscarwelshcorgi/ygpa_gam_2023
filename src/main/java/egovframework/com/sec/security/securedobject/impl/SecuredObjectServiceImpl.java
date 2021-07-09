@@ -85,8 +85,6 @@ public class SecuredObjectServiceImpl implements ISecuredObjectService, Applicat
     public void afterPropertiesSet() throws Exception {
         try {
         	ISecuredObjectService.LOGGER.info("ISecuredObjectService afterPropertiesSet() log.");
-        } catch (NullPointerException n) {
-        	LOGGER.info("nullpoingexception : " + n);
         } catch (Exception e) {
             if (e instanceof Exception) {
                 throw (Exception) e;

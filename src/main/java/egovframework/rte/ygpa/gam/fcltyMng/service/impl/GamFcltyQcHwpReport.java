@@ -165,6 +165,7 @@ public class GamFcltyQcHwpReport  extends GamFcltyQcHwpBaseReport implements Gam
 			sb.append("				<CELL BorderFill=\"3\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"0\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"30720\">\n");
 			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
 			int cellHeight = 0;
+			if(qcResultItemList != null){
 			for(EgovMap qcResultItem : qcResultItemList) {
 				String upperCd = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemUpperCd") : "";
 				if(qcItemUpperCd.equals(upperCd)) {
@@ -173,19 +174,22 @@ public class GamFcltyQcHwpReport  extends GamFcltyQcHwpBaseReport implements Gam
 					cellHeight += 1610;
 				}
 			}
+			}
 			sb.append("					</PARALIST>\n");
 			sb.append("				</CELL>\n");
 			sb.append("				<CELL BorderFill=\"3\" ColAddr=\"2\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\""+cellHeight+"\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"7143\">\n");
 			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+			if(qcResultItemList != null){
 			if(qcResultItemList.size()>0){
-			for(EgovMap qcResultItem : qcResultItemList) {
-				String upperCd = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemUpperCd") : "";
-				if(qcItemUpperCd.equals(upperCd)) {
-					String inspResultChk = (qcResultItem.get("inspResultChk") != null) ? (String) qcResultItem.get("inspResultChk") : "";
-					sb.append("						<P ParaShape=\"20\" Style=\"0\"><TEXT CharShape=\"5\"><CHAR>" + getResultItemSymbol(inspResultChk) + "</CHAR></TEXT></P>\n");
+				for(EgovMap qcResultItem : qcResultItemList) {
+					String upperCd = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemUpperCd") : "";
+					if(qcItemUpperCd.equals(upperCd)) {
+						String inspResultChk = (qcResultItem.get("inspResultChk") != null) ? (String) qcResultItem.get("inspResultChk") : "";
+						sb.append("						<P ParaShape=\"20\" Style=\"0\"><TEXT CharShape=\"5\"><CHAR>" + getResultItemSymbol(inspResultChk) + "</CHAR></TEXT></P>\n");
+					}
 				}
 			}
-		}
+			}
 			sb.append("					</PARALIST>\n");
 			sb.append("				</CELL>\n");
 			sb.append("				<CELL BorderFill=\"3\" ColAddr=\"3\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"0\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"7143\">\n");
@@ -314,28 +318,32 @@ public class GamFcltyQcHwpReport  extends GamFcltyQcHwpBaseReport implements Gam
 			sb.append("				<CELL BorderFill=\"6\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"0\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"24896\">\n");
 			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
 			int cellHeight = 0;
-			if(qcResultItemList.size()>0){
-			for(EgovMap qcResultItem : qcResultItemList) {
-				String upperCd = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemUpperCd") : "";
-				if(qcItemUpperCd.equals(upperCd)) {
-					String qcItemNm = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemNm") : "";
-					sb.append("						<P ParaShape=\"24\" Style=\"0\"><TEXT CharShape=\"13\"><CHAR>" + qcItemNm +"</CHAR></TEXT></P>\n");
-					cellHeight += 1939;
+			if(qcResultItemList != null){
+				if(qcResultItemList.size()>0){
+				for(EgovMap qcResultItem : qcResultItemList) {
+					String upperCd = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemUpperCd") : "";
+					if(qcItemUpperCd.equals(upperCd)) {
+						String qcItemNm = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemNm") : "";
+						sb.append("						<P ParaShape=\"24\" Style=\"0\"><TEXT CharShape=\"13\"><CHAR>" + qcItemNm +"</CHAR></TEXT></P>\n");
+						cellHeight += 1939;
+					}
+				}
 				}
 			}
-		}
 			sb.append("					</PARALIST>\n");
 			sb.append("				</CELL>\n");
 			sb.append("				<CELL BorderFill=\"6\" ColAddr=\"2\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\""+cellHeight+"\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"8703\">\n");
 			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-			if(qcResultItemList.size()>0){
-			for(EgovMap qcResultItem : qcResultItemList) {
-				String upperCd = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemUpperCd") : "";
-				if(qcItemUpperCd.equals(upperCd)) {
-					String inspResultChk = (qcResultItem.get("inspResultChk") != null) ? (String) qcResultItem.get("inspResultChk") : "";
-					sb.append("						<P ParaShape=\"29\" Style=\"0\"><TEXT CharShape=\"11\"><CHAR>" + getResultItemSymbol(inspResultChk) + "</CHAR></TEXT><TEXT CharShape=\"11\"/></P>\n");
+			if(qcResultItemList != null){
+				if(qcResultItemList.size()>0){
+				for(EgovMap qcResultItem : qcResultItemList) {
+					String upperCd = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemUpperCd") : "";
+					if(qcItemUpperCd.equals(upperCd)) {
+						String inspResultChk = (qcResultItem.get("inspResultChk") != null) ? (String) qcResultItem.get("inspResultChk") : "";
+						sb.append("						<P ParaShape=\"29\" Style=\"0\"><TEXT CharShape=\"11\"><CHAR>" + getResultItemSymbol(inspResultChk) + "</CHAR></TEXT><TEXT CharShape=\"11\"/></P>\n");
+					}
 				}
-			}
+				}
 			}
 			sb.append("					</PARALIST>\n");
 			sb.append("				</CELL>\n");
@@ -467,25 +475,29 @@ public class GamFcltyQcHwpReport  extends GamFcltyQcHwpBaseReport implements Gam
 			sb.append("				<CELL BorderFill=\"6\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"0\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"24896\">\n");
 			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
 			int cellHeight = 1454*2;
-			if(qcResultItemList.size()>0){
-			for(EgovMap qcResultItem : qcResultItemList) {
-				String upperCd = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemUpperCd") : "";
-				if(qcItemUpperCd.equals(upperCd)) {
-					String qcItemNm = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemNm") : "";
-					sb.append("						<P ParaShape=\"24\" Style=\"0\"><TEXT CharShape=\"13\"><CHAR>"+qcItemNm+"</CHAR></TEXT></P>\n");
-					cellHeight += 1454;
+			if(qcResultItemList != null){
+				if(qcResultItemList.size()>0){
+				for(EgovMap qcResultItem : qcResultItemList) {
+					String upperCd = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemUpperCd") : "";
+					if(qcItemUpperCd.equals(upperCd)) {
+						String qcItemNm = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemNm") : "";
+						sb.append("						<P ParaShape=\"24\" Style=\"0\"><TEXT CharShape=\"13\"><CHAR>"+qcItemNm+"</CHAR></TEXT></P>\n");
+						cellHeight += 1454;
+					}
 				}
+				}			
 			}
-			}			
 			sb.append("					</PARALIST>\n");
 			sb.append("				</CELL>\n");
 			sb.append("				<CELL BorderFill=\"6\" ColAddr=\"2\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\""+cellHeight+"\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"8703\">\n");
 			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-			for(EgovMap qcResultItem : qcResultItemList) {
-				String upperCd = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemUpperCd") : "";
-				if(qcItemUpperCd.equals(upperCd)) {
-					String inspResultChk = (qcResultItem.get("inspResultChk") != null) ? (String) qcResultItem.get("inspResultChk") : "";
-					sb.append("						<P ParaShape=\"32\" Style=\"0\"><TEXT CharShape=\"13\"><CHAR>" + getResultItemSymbol(inspResultChk) + "</CHAR></TEXT></P>\n");
+			if(qcResultItemList != null){
+				for(EgovMap qcResultItem : qcResultItemList) {
+					String upperCd = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemUpperCd") : "";
+					if(qcItemUpperCd.equals(upperCd)) {
+						String inspResultChk = (qcResultItem.get("inspResultChk") != null) ? (String) qcResultItem.get("inspResultChk") : "";
+						sb.append("						<P ParaShape=\"32\" Style=\"0\"><TEXT CharShape=\"13\"><CHAR>" + getResultItemSymbol(inspResultChk) + "</CHAR></TEXT></P>\n");
+					}
 				}
 			}
 			sb.append("					</PARALIST>\n");
@@ -714,25 +726,29 @@ public class GamFcltyQcHwpReport  extends GamFcltyQcHwpBaseReport implements Gam
 			sb.append("				<CELL BorderFill=\"3\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"0\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"20349\">\n");
 			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
 			int cellHeight = 0;
-			if(qcResultItemList.size()>0){
-			for(EgovMap qcResultItem : qcResultItemList) {
-				String upperCd = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemUpperCd") : "";
-				if(qcItemUpperCd.equals(upperCd)) {
-					String qcItemNm = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemNm") : "";
-					sb.append("						<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"17\"><CHAR>ㅇ "+qcItemNm+"</CHAR></TEXT></P>\n");
-					cellHeight += 2238;
+			if(qcResultItemList != null){
+				if(qcResultItemList.size()>0){
+				for(EgovMap qcResultItem : qcResultItemList) {
+					String upperCd = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemUpperCd") : "";
+					if(qcItemUpperCd.equals(upperCd)) {
+						String qcItemNm = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemNm") : "";
+						sb.append("						<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"17\"><CHAR>ㅇ "+qcItemNm+"</CHAR></TEXT></P>\n");
+						cellHeight += 2238;
+					}
 				}
-			}
+				}
 			}
 			sb.append("					</PARALIST>\n");
 			sb.append("				</CELL>\n");
 			sb.append("				<CELL BorderFill=\"3\" ColAddr=\"2\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\""+cellHeight+"\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"18647\">\n");
 			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-			for(EgovMap qcResultItem : qcResultItemList) {
-				String upperCd = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemUpperCd") : "";
-				if(qcItemUpperCd.equals(upperCd)) {
-					String inspResultCn = (qcResultItem.get("inspResultCn") != null) ? (String) qcResultItem.get("inspResultCn") : "";
-					sb.append("						<P ParaShape=\"1\" Style=\"0\"><TEXT CharShape=\"17\"><CHAR>"+inspResultCn+"</CHAR></TEXT></P>\n");
+			if(qcResultItemList != null){
+				for(EgovMap qcResultItem : qcResultItemList) {
+					String upperCd = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemUpperCd") : "";
+					if(qcItemUpperCd.equals(upperCd)) {
+						String inspResultCn = (qcResultItem.get("inspResultCn") != null) ? (String) qcResultItem.get("inspResultCn") : "";
+						sb.append("						<P ParaShape=\"1\" Style=\"0\"><TEXT CharShape=\"17\"><CHAR>"+inspResultCn+"</CHAR></TEXT></P>\n");
+					}
 				}
 			}
 			sb.append("					</PARALIST>\n");
@@ -798,25 +814,29 @@ public class GamFcltyQcHwpReport  extends GamFcltyQcHwpBaseReport implements Gam
 			sb.append("				<CELL BorderFill=\"3\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"0\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"25040\">\n");
 			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
 			int cellHeight = 0;
-			if(qcResultItemList.size()>0){
-			for(EgovMap qcResultItem : qcResultItemList) {
-				String upperCd = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemUpperCd") : "";
-				if(qcItemUpperCd.equals(upperCd)) {
-					String qcItemNm = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemNm") : "";
-					sb.append("						<P ParaShape=\"16\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>○ "+qcItemNm+"</CHAR></TEXT></P>\n");
-					cellHeight += 2243;
+			if(qcResultItemList != null){
+				if(qcResultItemList.size()>0){
+					for(EgovMap qcResultItem : qcResultItemList) {
+						String upperCd = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemUpperCd") : "";
+						if(qcItemUpperCd.equals(upperCd)) {
+							String qcItemNm = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemNm") : "";
+							sb.append("						<P ParaShape=\"16\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>○ "+qcItemNm+"</CHAR></TEXT></P>\n");
+							cellHeight += 2243;
+						}
+					}	
 				}
-			}	
 			}
 			sb.append("					</PARALIST>\n");
 			sb.append("				</CELL>\n");
 			sb.append("				<CELL BorderFill=\"3\" ColAddr=\"2\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\""+cellHeight+"\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"9131\">\n");
 			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-			for(EgovMap qcResultItem : qcResultItemList) {
-				String upperCd = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemUpperCd") : "";
-				if(qcItemUpperCd.equals(upperCd)) {
-					String inspResultChk = (qcResultItem.get("inspResultChk") != null) ? (String) qcResultItem.get("inspResultChk") : "";
-					sb.append("						<P ParaShape=\"23\" Style=\"0\"><TEXT CharShape=\"5\"><CHAR>" + getResultItemSymbol(inspResultChk) + "</CHAR></TEXT></P>\n");
+			if(qcResultItemList != null){
+				for(EgovMap qcResultItem : qcResultItemList) {
+					String upperCd = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemUpperCd") : "";
+					if(qcItemUpperCd.equals(upperCd)) {
+						String inspResultChk = (qcResultItem.get("inspResultChk") != null) ? (String) qcResultItem.get("inspResultChk") : "";
+						sb.append("						<P ParaShape=\"23\" Style=\"0\"><TEXT CharShape=\"5\"><CHAR>" + getResultItemSymbol(inspResultChk) + "</CHAR></TEXT></P>\n");
+					}
 				}
 			}
 			sb.append("					</PARALIST>\n");
@@ -981,25 +1001,29 @@ public class GamFcltyQcHwpReport  extends GamFcltyQcHwpBaseReport implements Gam
 					sb.append("				<CELL BorderFill=\""+borderFill[1]+"\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"0\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"24200\">\n");
 					sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
 					int cellHeight = 0;
-					if(qcResultItemList.size()>0){
-					for(EgovMap qcResultItem : qcResultItemList) {
-						String upperCd = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemUpperCd") : "";
-						if(qcItemUpperCd.equals(upperCd)) {
-							String qcItemNm = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemNm") : "";
-							sb.append("						<P ParaShape=\"17\" Style=\"0\"><TEXT CharShape=\"20\"><CHAR>○ "+qcItemNm+"</CHAR></TEXT></P>\n");
-							cellHeight += 2034;
-						}
+					if(qcResultItemList != null){
+						if(qcResultItemList.size()>0){
+							for(EgovMap qcResultItem : qcResultItemList) {
+								String upperCd = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemUpperCd") : "";
+								if(qcItemUpperCd.equals(upperCd)) {
+									String qcItemNm = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemNm") : "";
+									sb.append("						<P ParaShape=\"17\" Style=\"0\"><TEXT CharShape=\"20\"><CHAR>○ "+qcItemNm+"</CHAR></TEXT></P>\n");
+									cellHeight += 2034;
+								}
+							}
+						}			
 					}
-					}			
 					sb.append("					</PARALIST>\n");
 					sb.append("				</CELL>\n");
 					sb.append("				<CELL BorderFill=\""+borderFill[2]+"\" ColAddr=\"2\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\""+cellHeight+"\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"7413\">\n");
 					sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-					for(EgovMap qcResultItem : qcResultItemList) {
-						String upperCd = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemUpperCd") : "";
-						if(qcItemUpperCd.equals(upperCd)) {
-							String inspResultChk = (qcResultItem.get("inspResultChk") != null) ? (String) qcResultItem.get("inspResultChk") : "";
-							sb.append("						<P ParaShape=\"29\" Style=\"0\"><TEXT CharShape=\"5\"><CHAR>" + getResultItemSymbol(inspResultChk) + "</CHAR></TEXT></P>\n");
+					if(qcResultItemList != null){
+						for(EgovMap qcResultItem : qcResultItemList) {
+							String upperCd = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemUpperCd") : "";
+							if(qcItemUpperCd.equals(upperCd)) {
+								String inspResultChk = (qcResultItem.get("inspResultChk") != null) ? (String) qcResultItem.get("inspResultChk") : "";
+								sb.append("						<P ParaShape=\"29\" Style=\"0\"><TEXT CharShape=\"5\"><CHAR>" + getResultItemSymbol(inspResultChk) + "</CHAR></TEXT></P>\n");
+							}
 						}
 					}
 					sb.append("					</PARALIST>\n");
@@ -1040,14 +1064,16 @@ public class GamFcltyQcHwpReport  extends GamFcltyQcHwpBaseReport implements Gam
 					sb.append("				<CELL BorderFill=\""+borderFill[1]+"\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"0\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"24200\">\n");
 					sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
 					int cellHeight = 0;
-					for(EgovMap qcResultItem : qcResultItemList) {
-						String upperCd = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemUpperCd") : "";
-						if(qcItemUpperCd.equals(upperCd)) {
-							String qcItemNm = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemNm") : "";
-							sb.append("						<P ParaShape=\"17\" Style=\"0\"><TEXT CharShape=\"20\"><CHAR>○ "+qcItemNm+"</CHAR></TEXT></P>\n");
-							cellHeight += 2034;
-						}
-					}			
+					if(qcResultItemList != null){
+						for(EgovMap qcResultItem : qcResultItemList) {
+							String upperCd = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemUpperCd") : "";
+							if(qcItemUpperCd.equals(upperCd)) {
+								String qcItemNm = (qcResultItem.get("qcItemUpperCd") != null) ? (String)qcResultItem.get("qcItemNm") : "";
+								sb.append("						<P ParaShape=\"17\" Style=\"0\"><TEXT CharShape=\"20\"><CHAR>○ "+qcItemNm+"</CHAR></TEXT></P>\n");
+								cellHeight += 2034;
+							}
+						}			
+					}
 					sb.append("					</PARALIST>\n");
 					sb.append("				</CELL>\n");
 					sb.append("				<CELL BorderFill=\""+borderFill[2]+"\" ColAddr=\"2\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\""+cellHeight+"\" Protect=\"false\" RowAddr=\""+rowAddr+"\" RowSpan=\"1\" Width=\"7413\">\n");
@@ -1296,7 +1322,11 @@ public class GamFcltyQcHwpReport  extends GamFcltyQcHwpBaseReport implements Gam
 		
 		List<HashMap<String, String>> qcItemUpperList = getQcUpperItemList(qcResultItemList);
 		
-		List<HashMap<String, String>> printItemList = getFloatingPierPrintList(qcItemUpperList, qcResultItemList);
+		if(qcItemUpperList != null){
+			if(qcResultItemList != null){
+				List<HashMap<String, String>> printItemList = getFloatingPierPrintList(qcItemUpperList, qcResultItemList);
+			}
+		}
 						
 		String pageBreak = (bodyIndex == 0) ? "false" : "true";		
 		String fcltsMngGroupNm = (String) qcDetailData.get("fcltsMngGroupNm");

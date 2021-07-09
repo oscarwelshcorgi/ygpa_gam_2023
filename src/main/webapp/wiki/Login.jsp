@@ -95,7 +95,7 @@
         if ( wikiSession.getMessages( "profile" ).length == 0 )
         {
             String redirectPage = request.getParameter( "redirect" );
-//             response.sendRedirect( wiki.getViewURL(redirectPage) );
+            response.sendRedirect( wiki.getViewURL(redirectPage) );
             return;
         }
     }
@@ -187,7 +187,7 @@
 
         // Redirect!
         log.info( "Redirecting user to " + viewUrl );
-//         response.sendRedirect( viewUrl );
+        response.sendRedirect( viewUrl );
         return;
     }
 

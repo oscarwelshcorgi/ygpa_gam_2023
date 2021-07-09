@@ -224,11 +224,11 @@ public class GamRoleMngController {
     	}
 
 //    	List list = (ArrayList)deleteList.get("delList");
-    	if(delList.length > 0 && roleManage != null){
+    	if(delList.length > 0 ){
     	for(int i=0; i<delList.length; i++) {
     		roleManage.setRoleCode(delList[i]);
     		egovRoleManageService.deleteRole(roleManage);
-    		}
+    	}
     	}
 		map.put("resultCode", 0);
       	map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));

@@ -73,6 +73,8 @@ public class EgovFileScrty {
 			}
 			result = true;
 		    }
+		} catch (NullPointerException n){
+			throw new RuntimeException(n);
 		} catch (Exception ex) {
 		    //ex.printStackTrace();
 		    throw new RuntimeException(ex);	// 2011.10.10 보안점검 후속조치
@@ -80,6 +82,8 @@ public class EgovFileScrty {
 		   if (input != null) {
 		       try {
 			   input.close();
+		       } catch(NullPointerException n){
+		    	   logger.info(n.getMessage());
 		       } catch (Exception ignore) {
 			   // no-op
 		           //ignore.printStackTrace();
@@ -90,6 +94,8 @@ public class EgovFileScrty {
 		   if (output != null) {
 		       try {
 			   output.close();
+		       } catch (NullPointerException n){
+		    	   logger.info(n.getMessage());
 		       } catch (Exception ignore) {
 			   // no-op
 		           //ignore.printStackTrace();
@@ -137,6 +143,8 @@ public class EgovFileScrty {
 	
 			result = true;
 		    }
+		} catch (NullPointerException n){
+			throw new RuntimeException(n);
 		} catch (Exception ex) {
 		    //ex.printStackTrace();
 		    throw new RuntimeException(ex);	// 보안점검 후속조치
@@ -144,6 +152,8 @@ public class EgovFileScrty {
 		   if (input != null) {
 		       try {
 			   input.close();
+		       } catch (NullPointerException n){
+		    	   logger.info(n.getMessage());
 		       } catch (Exception ignore) {
 			   // no-op
 		           //ignore.printStackTrace();

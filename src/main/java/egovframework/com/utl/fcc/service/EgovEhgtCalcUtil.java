@@ -157,9 +157,7 @@ private class CallbackHandler extends HTMLEditorKit.ParserCallback	{
         	    }
 
         	eghtStdrRt = EgovStringUtil.split(sb.toString(),"/");
-        } catch (NullPointerException n) {
-        	logger.info(n.getMessage());
-        
+
         }	catch	(Exception e) {
 
 		    //e.printStackTrace();
@@ -244,9 +242,7 @@ private class CallbackHandler extends HTMLEditorKit.ParserCallback	{
         				break;
         		}
         	}
-        	
-        } catch(NullPointerException n) {
-        	logger.info(n.getMessage());
+
         }	catch	(Exception e) {
 
 		    //e.printStackTrace();
@@ -343,8 +339,6 @@ private class CallbackHandler extends HTMLEditorKit.ParserCallback	{
 					sCnvrAmount = bSrcAmount.divide(bCnvrStdrRt, 2, 4).toString();
                 	break;
 			}
-		} catch(NullPointerException n) {
-			logger.info(n.getMessage());
 		}	catch	(Exception e) {
 
 		    //e.printStackTrace();

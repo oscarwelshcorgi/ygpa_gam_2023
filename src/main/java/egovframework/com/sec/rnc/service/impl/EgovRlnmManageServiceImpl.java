@@ -54,8 +54,6 @@ public class EgovRlnmManageServiceImpl extends AbstractServiceImpl implements Eg
         	//String str = "99|1311000011|홍길동|6303201063614";
 	        byte[] lm_bResult1 = lm_oSocketClient.execute(str);
 	        result = new String(lm_bResult1);
-        } catch(NullPointerException n) {
-        	LOG.error("Exception:  "  +  n.getClass().getName()); 
        } catch(Exception e){
         	LOG.error("Exception:  "  +  e.getClass().getName());  
         	LOG.error("Exception  Message:  "  +  e.getMessage());
@@ -82,8 +80,6 @@ public class EgovRlnmManageServiceImpl extends AbstractServiceImpl implements Eg
         	 * 
         	 */
         	result = "result message";
-        } catch(NullPointerException n) {
-        	LOG.error("Exception:  "  +  n.getClass().getName()); 
         }catch(Exception e){
         	LOG.error("Exception:  "  +  e.getClass().getName());  
         	LOG.error("Exception  Message:  "  +  e.getMessage());
