@@ -1322,9 +1322,11 @@ public class GamFcltyQcHwpReport  extends GamFcltyQcHwpBaseReport implements Gam
 		
 		List<HashMap<String, String>> qcItemUpperList = getQcUpperItemList(qcResultItemList);
 		
+		List<HashMap<String, String>> printItemList = null;
+		
 		if(qcItemUpperList != null){
 			if(qcResultItemList != null){
-				List<HashMap<String, String>> printItemList = getFloatingPierPrintList(qcItemUpperList, qcResultItemList);
+				printItemList = getFloatingPierPrintList(qcItemUpperList, qcResultItemList);
 			}
 		}
 						
@@ -1382,7 +1384,7 @@ public class GamFcltyQcHwpReport  extends GamFcltyQcHwpBaseReport implements Gam
 		sb.append("				</CELL>\n");
 		sb.append("				<CELL BorderFill=\"3\" ColAddr=\"2\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"10248\" Protect=\"false\" RowAddr=\"2\" RowSpan=\"1\" Width=\"2788\">\n");
 		sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-		if(printItemList.size()>0) {
+		if(printItemList != null && printItemList.size()>0) {
 			for(HashMap<String, String> item : printItemList) {
 				String itemUpperCd = item.get("qcItemUpperCd");
 				String inspResultChk = getFloatingPierInspResultChk(printItemList, itemUpperCd, "2-1");
@@ -1395,7 +1397,7 @@ public class GamFcltyQcHwpReport  extends GamFcltyQcHwpBaseReport implements Gam
 		sb.append("				</CELL>\n");
 		sb.append("				<CELL BorderFill=\"3\" ColAddr=\"3\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"10248\" Protect=\"false\" RowAddr=\"2\" RowSpan=\"1\" Width=\"2788\">\n");
 		sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-		if(printItemList.size()>0) {
+		if(printItemList != null && printItemList.size()>0) {
 			for(HashMap<String, String> item : printItemList) {
 				String itemUpperCd = item.get("qcItemUpperCd");
 				String inspResultChk = getFloatingPierInspResultChk(printItemList, itemUpperCd, "4");
@@ -1408,7 +1410,7 @@ public class GamFcltyQcHwpReport  extends GamFcltyQcHwpBaseReport implements Gam
 		sb.append("				</CELL>\n");
 		sb.append("				<CELL BorderFill=\"3\" ColAddr=\"4\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"10248\" Protect=\"false\" RowAddr=\"2\" RowSpan=\"1\" Width=\"2788\">\n");
 		sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-		if(printItemList.size()>0) {
+		if(printItemList != null && printItemList.size()>0) {
 			for(HashMap<String, String> item : printItemList) {
 				String itemUpperCd = item.get("qcItemUpperCd");
 				String inspResultChk = getFloatingPierInspResultChk(printItemList, itemUpperCd, "5");
@@ -1421,7 +1423,7 @@ public class GamFcltyQcHwpReport  extends GamFcltyQcHwpBaseReport implements Gam
 		sb.append("				</CELL>\n");
 		sb.append("				<CELL BorderFill=\"3\" ColAddr=\"5\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"10248\" Protect=\"false\" RowAddr=\"2\" RowSpan=\"1\" Width=\"2788\">\n");
 		sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-		if(printItemList.size()>0) {
+		if(printItemList != null && printItemList.size()>0) {
 			for(HashMap<String, String> item : printItemList) {
 				String itemUpperCd = item.get("qcItemUpperCd");
 				String inspResultChk = getFloatingPierInspResultChk(printItemList, itemUpperCd, "10");
@@ -1434,7 +1436,7 @@ public class GamFcltyQcHwpReport  extends GamFcltyQcHwpBaseReport implements Gam
 		sb.append("				</CELL>\n");
 		sb.append("				<CELL BorderFill=\"3\" ColAddr=\"6\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"10248\" Protect=\"false\" RowAddr=\"2\" RowSpan=\"1\" Width=\"2790\">\n");
 		sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-		if(printItemList.size()>0) {
+		if(printItemList != null && printItemList.size()>0) {
 			for(HashMap<String, String> item : printItemList) {
 				String itemUpperCd = item.get("qcItemUpperCd");
 				String inspResultChk = getFloatingPierInspResultChk(printItemList, itemUpperCd, "11");

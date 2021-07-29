@@ -251,75 +251,129 @@
 
 	<!-- 연체고지 등록 전 고지테이블에서 연체고지테이블에서 연체정보 데이터 가져오기 -->
 	<select id="gamHtldRentArrrgNticIssueDao.selectArrrgInfo_S" parameterClass="gamHtldRentArrrgNticInfoVO" resultClass="egovMap">
+		          <![CDATA[
 		SELECT
-			D.ACCNUT_YEAR,
-			D.RNTFEE_NTIC_NO,
-			D.NTIC_SEQ,
-			D.NTIC_NO,
-			TO_CHAR(D.NTIC_PD_FROM, 'YYYY-MM-DD') NTIC_PD_FROM,
-			TO_CHAR(D.NTIC_PD_TO, 'YYYY-MM-DD') NTIC_PD_TO,
-			TO_CHAR(D.NTIC_DT, 'YYYY-MM-DD') NTIC_DT,
-			TO_CHAR(D.PAY_TMLMT, 'YYYY-MM-DD') PAY_TMLMT,
-		    D.RNTFEE,
-		    D.PAYINST_INTR,
-		    D.SUP_AMT,
-		    D.VAT,
-		    D.PAY_AMT,
-			D.RCIV_SE,
-			D.RCIV_DT,
-			D.NHT_PRT_YN,
-			#entrpsCd# ENTRPS_CD,
-			#arrrgAmt# DLY_BILL_AMNT,
-			#arrrgAmt# DBILL_AMNT,
-			#newPayTmlmt# DLY_DUE_DT,
-			(
-				SELECT lpad(nvl(MAX(DLY_SER_NO), 0)+1, 2, '0') FROM UNPAID_F
-					WHERE PRT_AT_CODE= '622'
-					AND FISCAL_YR=D.ACCNUT_YEAR
-					AND WORK_CODE=GAM_GET_HTLD_ARRRG_CHRGE_KND(D.CHRGE_KND_CD)
-					AND FEE_TP=GAM_GET_HTLD_FEE_TP(GAM_GET_HTLD_ARRRG_CHRGE_KND(D.CHRGE_KND_CD))
-					AND BILL_NO=D.NTIC_NO
-			) DLY_SER_NO,
-			TO_CHAR(
-				NVL(
+			A.ACCNUT_YEAR,
+			A.RNTFEE_NTIC_NO,
+			A.NTIC_SEQ,
+			A.NTIC_NO,
+			A.NTIC_PD_FROM,
+			A.NTIC_PD_TO,
+			A.NTIC_DT,
+			A.PAY_TMLMT,
+		    A.RNTFEE,
+		    A.PAYINST_INTR,
+		    A.SUP_AMT,
+		    A.VAT,
+		    A.PAY_AMT,
+			A.RCIV_SE,
+			A.RCIV_DT,
+			A.NHT_PRT_YN,
+			A.ENTRPS_CD,
+			A.DLY_BILL_AMNT,
+			CASE WHEN A.DLY_SER_NO='01' THEN 
+						  A.DLY_BILL_AMNT
+						 ELSE TO_CHAR(TO_NUMBER(A.DLY_BILL_AMNT) - (
+                            SELECT
+                                   SUM(DBILL_AMNT)
+                            FROM
+                                   UNPAID_F N
+                            WHERE
+                                   N.PRT_AT_CODE   = A.PRT_AT_CODE
+                                   AND N.FEE_TP    =A.FEE_TP
+                                   AND N.FISCAL_YR =A.ACCNUT_YEAR
+                                   AND N.BILL_NO   =A.NTIC_NO
+                                   AND N.DLY_SER_NO<A.DLY_SER_NO
+                     ))
+			  END DBILL_AMNT,
+			A.DLY_DUE_DT,
+			A.DLY_SER_NO,
+			A.PRV_DUE_DT,
+			A.PRV_BILL_DT,
+			A.PAY_SE,
+			A.REG_USR,
+			A.REGIST_DT,
+			A.ARRRG_TARIFF,
+			A.ARRRG_PAY_DATES,
+			A.DLY_BILL_DT,
+			A.DLY_BILL_RSN,
+			A.DEPT_CD,
+			A.USER_NAME,
+			A.EMPL_NO
+		FROM (
+			SELECT
+				D.ACCNUT_YEAR,
+				D.RNTFEE_NTIC_NO,
+				D.NTIC_SEQ,
+				D.NTIC_NO,
+				TO_CHAR(D.NTIC_PD_FROM, 'YYYY-MM-DD') NTIC_PD_FROM,
+				TO_CHAR(D.NTIC_PD_TO, 'YYYY-MM-DD') NTIC_PD_TO,
+				TO_CHAR(D.NTIC_DT, 'YYYY-MM-DD') NTIC_DT,
+				TO_CHAR(D.PAY_TMLMT, 'YYYY-MM-DD') PAY_TMLMT,
+			    D.RNTFEE,
+			    D.PAYINST_INTR,
+			    D.SUP_AMT,
+			    D.VAT,
+			    D.PAY_AMT,
+				D.RCIV_SE,
+				D.RCIV_DT,
+				D.NHT_PRT_YN,
+				#entrpsCd# ENTRPS_CD,
+				#arrrgAmt# DLY_BILL_AMNT,
+				#arrrgAmt# DBILL_AMNT,
+				#newPayTmlmt# DLY_DUE_DT,
+				'622' PRT_AT_CODE,
+				GAM_GET_HTLD_FEE_TP(GAM_GET_HTLD_ARRRG_CHRGE_KND(D.CHRGE_KND_CD)) FEE_TP,
 				(
-					SELECT U.PRV_DUE_DT FROM UNPAID_F U
-						WHERE U.PRT_AT_CODE='622'
-						AND U.FISCAL_YR=D.ACCNUT_YEAR
-						AND U.WORK_CODE=GAM_GET_HTLD_ARRRG_CHRGE_KND(D.CHRGE_KND_CD)
-						AND U.FEE_TP=GAM_GET_HTLD_FEE_TP(GAM_GET_HTLD_ARRRG_CHRGE_KND(D.CHRGE_KND_CD))
-						AND U.BILL_NO=D.NTIC_NO
-						AND U.DLY_SER_NO = DLY_SER_NO
-						AND ROWNUM = 1
-				), D.PAY_TMLMT ),
-			'YYYY-MM-DD') PRV_DUE_DT,
-			TO_CHAR(
-				NVL(
-				(
-					SELECT U.DLY_BILL_DT FROM UNPAID_F U
-						WHERE U.PRT_AT_CODE='622'
-						AND U.FISCAL_YR=D.ACCNUT_YEAR
-						AND U.WORK_CODE=GAM_GET_HTLD_ARRRG_CHRGE_KND(D.CHRGE_KND_CD)
-						AND U.FEE_TP=GAM_GET_HTLD_FEE_TP(GAM_GET_HTLD_ARRRG_CHRGE_KND(D.CHRGE_KND_CD))
-						AND U.BILL_NO=D.NTIC_NO
-						AND U.DLY_SER_NO = DLY_SER_NO
-						AND ROWNUM = 1
-				), D.NTIC_DT ),
-			'YYYY-MM-DD') PRV_BILL_DT,
-			D.PAY_SE,
-			#regUsr# REG_USR,
-			SYSDATE REGIST_DT,
-			#arrrgTariff# ARRRG_TARIFF,
-			TRUNC(SYSDATE-D.PAY_TMLMT) ARRRG_PAY_DATES,
-			#dlyBillDt# DLY_BILL_DT,
-			#dlyBillRsn# DLY_BILL_RSN,
-			#deptCd# DEPT_CD,
-			#userName# USER_NAME,
-			#emplNo# EMPL_NO
-		FROM HTLD_NTIC_DTLS_F D
-		WHERE D.ACCNUT_YEAR = #accnutYear#
-			AND D.RNTFEE_NTIC_NO = #rntfeeNticNo#
-			AND D.NTIC_SEQ = #nticSeq#
+					SELECT lpad(nvl(MAX(DLY_SER_NO), 0)+1, 2, '0') FROM UNPAID_F
+						WHERE PRT_AT_CODE= '622'
+						AND FISCAL_YR=D.ACCNUT_YEAR
+						AND WORK_CODE=GAM_GET_HTLD_ARRRG_CHRGE_KND(D.CHRGE_KND_CD)
+						AND FEE_TP=GAM_GET_HTLD_FEE_TP(GAM_GET_HTLD_ARRRG_CHRGE_KND(D.CHRGE_KND_CD))
+						AND BILL_NO=D.NTIC_NO
+				) DLY_SER_NO,
+				TO_CHAR(
+					NVL(
+					(
+						SELECT U.PRV_DUE_DT FROM UNPAID_F U
+							WHERE U.PRT_AT_CODE='622'
+							AND U.FISCAL_YR=D.ACCNUT_YEAR
+							AND U.WORK_CODE=GAM_GET_HTLD_ARRRG_CHRGE_KND(D.CHRGE_KND_CD)
+							AND U.FEE_TP=GAM_GET_HTLD_FEE_TP(GAM_GET_HTLD_ARRRG_CHRGE_KND(D.CHRGE_KND_CD))
+							AND U.BILL_NO=D.NTIC_NO
+							AND U.DLY_SER_NO = DLY_SER_NO
+							AND ROWNUM = 1
+					), D.PAY_TMLMT ),
+				'YYYY-MM-DD') PRV_DUE_DT,
+				TO_CHAR(
+					NVL(
+					(
+						SELECT U.DLY_BILL_DT FROM UNPAID_F U
+							WHERE U.PRT_AT_CODE='622'
+							AND U.FISCAL_YR=D.ACCNUT_YEAR
+							AND U.WORK_CODE=GAM_GET_HTLD_ARRRG_CHRGE_KND(D.CHRGE_KND_CD)
+							AND U.FEE_TP=GAM_GET_HTLD_FEE_TP(GAM_GET_HTLD_ARRRG_CHRGE_KND(D.CHRGE_KND_CD))
+							AND U.BILL_NO=D.NTIC_NO
+							AND U.DLY_SER_NO = DLY_SER_NO
+							AND ROWNUM = 1
+					), D.NTIC_DT ),
+				'YYYY-MM-DD') PRV_BILL_DT,
+				D.PAY_SE,
+				#regUsr# REG_USR,
+				SYSDATE REGIST_DT,
+				#arrrgTariff# ARRRG_TARIFF,
+				TRUNC(SYSDATE-D.PAY_TMLMT) ARRRG_PAY_DATES,
+				#dlyBillDt# DLY_BILL_DT,
+				#dlyBillRsn# DLY_BILL_RSN,
+				#deptCd# DEPT_CD,
+				#userName# USER_NAME,
+				#emplNo# EMPL_NO
+			FROM HTLD_NTIC_DTLS_F D
+			WHERE D.ACCNUT_YEAR = #accnutYear#
+				AND D.RNTFEE_NTIC_NO = #rntfeeNticNo#
+				AND D.NTIC_SEQ = #nticSeq#
+				) A
+				]]>
 	</select>
 
 	<!-- UNPAID_F에 연체정보 등록 -->
@@ -336,7 +390,7 @@
       		SELECT
         		'622', GAM_GET_HTLD_FEE_TP(GAM_GET_HTLD_ARRRG_CHRGE_KND(D.CHRGE_KND_CD)), GAM_GET_HTLD_ARRRG_CHRGE_KND(D.CHRGE_KND_CD), D.ACCNUT_YEAR, D.NTIC_NO,
         		#dlySerNo#, TO_NUMBER(#dlyBillAmnt#), TO_DATE(#dlyBillDt#, 'YYYY-MM-DD'), TO_DATE(#dlyDueDt#, 'YYYY-MM-DD'), 'N', '1',
-      			TO_DATE(#nticDt#, 'YYYY-MM-DD'), TO_NUMBER(#dlyBillAmnt#), TO_NUMBER(#arrrgTariff#), #applyPayDates#,
+      			TO_DATE(#nticDt#, 'YYYY-MM-DD'), TO_NUMBER(#dbillAmnt#), TO_NUMBER(#arrrgTariff#), #applyPayDates#,
       			GAM_GETENTRPSNM(#entrpsCd#, '2'),
       			#dlyBillRsn#, #regUsr#, SYSDATE,
       			#entrpsCd#, '194', 'N', 'N', TO_DATE(#nticPdFrom#, 'YYYY-MM-DD'), TO_DATE(#nticPdTo#, 'YYYY-MM-DD'),
