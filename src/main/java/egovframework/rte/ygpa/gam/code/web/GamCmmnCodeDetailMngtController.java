@@ -247,7 +247,7 @@ public class GamCmmnCodeDetailMngtController {
         	return map;
     	}
 
-    	if(cmd.equals("modify")){
+    	if(cmd.equals("modify") || cmd != null){
 
             beanValidator.validate(cmmnDetailCode, bindingResult);
     		if (bindingResult.hasErrors()){

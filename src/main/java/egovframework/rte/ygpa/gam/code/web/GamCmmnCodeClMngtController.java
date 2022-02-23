@@ -238,7 +238,7 @@ public class GamCmmnCodeClMngtController {
     		map.put("resultCode", 1);
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
     		return map;
-    	} else if (cmd.equals("modify")) {
+    	} else if (cmd.equals("modify") || cmd != null) {
             beanValidator.validate(cmmnClCode, bindingResult);
 
     		if (bindingResult.hasErrors()){
@@ -265,10 +265,8 @@ public class GamCmmnCodeClMngtController {
     	    	map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
 			}
 
-	    	return map;
-    	} else {
-    		return map;
-    	}
+	    	
+    	}return map;
     }
 
     /**

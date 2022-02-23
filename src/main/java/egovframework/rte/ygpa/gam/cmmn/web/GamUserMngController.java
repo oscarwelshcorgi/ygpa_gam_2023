@@ -318,11 +318,11 @@ public class GamUserMngController {
     	}
 
         int usedCnt = userManageService.checkIdDplct(checkId);
-
+        if (checkId != null) {
         map.put("resultCode", 0);
         map.put("usedCnt", usedCnt);
         map.put("checkId", checkId);
-
+        }
         return map;
     }
 
