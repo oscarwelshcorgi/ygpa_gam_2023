@@ -356,14 +356,37 @@ public class GamCntnrQuayRentFeeMngtController {
 
         //System.out.println("############ prtAtCodes => " + prtAtCodes);
         try{
-        String [] arrNticCnts = nticCnts.split(";");
-     	String [] arrPrtAtCodes = prtAtCodes.split(";");
-     	String [] arrMngYears = mngYears.split(";");
-     	String [] arrMngNos = mngNos.split(";");
-     	String [] arrMngCnts = mngCnts.split(";");
-     	String [] arrNticnos = nticnos.split(";");
-     	String [] arrAccnutYears = accnutYears.split(";");
+            String [] arrNticCnts = null;
+         	String [] arrPrtAtCodes = null;
+         	String [] arrMngYears = null;
+         	String [] arrMngNos = null;
+         	String [] arrMngCnts = null;
+         	String [] arrNticnos = null;
+         	String [] arrAccnutYears = null;
 
+         	if(nticCnts.split(";") != null) {
+         		arrNticCnts = nticCnts.split(";");
+         	}
+         	if(prtAtCodes.split(";") != null) {
+         		arrPrtAtCodes = prtAtCodes.split(";");
+         	}
+         	if(mngYears.split(";") != null) {
+         		arrMngYears = mngYears.split(";");
+         	}
+         	if(mngNos.split(";") != null) {
+         		arrMngNos = mngNos.split(";");
+         	}
+         	if(mngCnts.split(";") != null) {
+         		arrMngCnts = mngCnts.split(";");
+         	}
+         	if(nticnos.split(";") != null) {
+         		arrNticnos = nticnos.split(";");
+         	}
+         	if(accnutYears.split(";") != null) {
+         		arrAccnutYears = accnutYears.split(";");
+         	}
+         	
+         	
      	//세입징수 등록
      	for(int i=0; i<arrNticCnts.length;i++) {
      		gamCntnrQuayRentFeeMngtVO.setNticCnt(arrNticCnts[i]);
@@ -510,15 +533,38 @@ public class GamCntnrQuayRentFeeMngtController {
         LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
         System.out.println("############ prtAtCodes => " + prtAtCodes);
-
-        String [] arrNticCnts = nticCnts.split(";");
-     	String [] arrPrtAtCodes = prtAtCodes.split(";");
-     	String [] arrMngYears = mngYears.split(";");
-     	String [] arrMngNos = mngNos.split(";");
-     	String [] arrMngCnts = mngCnts.split(";");
-     	String [] arrNticnos = nticnos.split(";");
-     	String [] arrAccnutYears = accnutYears.split(";");
-
+        
+        String [] arrNticCnts = null;
+     	String [] arrPrtAtCodes = null;
+     	String [] arrMngYears = null;
+     	String [] arrMngNos = null;
+     	String [] arrMngCnts = null;
+     	String [] arrNticnos = null;
+     	String [] arrAccnutYears = null;
+        
+     	if(nticCnts.split(";") != null) {
+     		arrNticCnts = nticCnts.split(";");
+     	}
+     	if(prtAtCodes.split(";") != null) {
+     		arrPrtAtCodes = prtAtCodes.split(";");
+     	}
+     	if(mngYears.split(";") != null) {
+     		arrMngYears = mngYears.split(";");
+     	}
+     	if(mngNos.split(";") != null) {
+     		arrMngNos = mngNos.split(";");
+     	}
+     	if(mngCnts.split(";") != null) {
+     		arrMngCnts =  mngCnts.split(";");
+     	}
+     	if(nticnos.split(";") != null) {
+     		arrNticnos = nticnos.split(";");
+     	}
+     	if(accnutYears.split(";") != null) {
+     		arrAccnutYears = accnutYears.split(";");
+     	}
+        
+     	
      	//세입징수 등록
      	for(int i=0; i<arrNticCnts.length;i++) {
      		gamCntnrQuayRentFeeMngtVO.setNticCnt(arrNticCnts[i]);
