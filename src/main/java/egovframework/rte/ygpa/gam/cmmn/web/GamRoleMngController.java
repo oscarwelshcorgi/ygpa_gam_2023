@@ -224,7 +224,7 @@ public class GamRoleMngController {
     	}
 
 //    	List list = (ArrayList)deleteList.get("delList");
-    	if(delList.length > 0 ){
+    	if(delList.length > 0 && delList != null){
     	for(int i=0; i<delList.length; i++) {
     		roleManage.setRoleCode(delList[i]);
     		egovRoleManageService.deleteRole(roleManage);

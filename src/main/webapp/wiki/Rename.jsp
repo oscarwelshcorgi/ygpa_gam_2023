@@ -58,7 +58,7 @@
     WikiSession wikiSession = wikiContext.getWikiSession();
     try
     {
-        if (renameTo.length() > 0)
+        if (renameTo !=null && renameTo.length() > 0)
         {
             String renamedTo = wiki.renamePage(wikiContext, renameFrom, renameTo, changeReferences);
 

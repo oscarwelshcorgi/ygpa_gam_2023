@@ -598,7 +598,7 @@ public class GamCmmnCntrRentFeeMngtController {
         }catch(Exception e){
         	Logger.getLogger(EgovProperties.class).debug("EXCEPTION : " + e.getMessage());
         }
- 		return map;
+        return map;
      }
 
     /**
