@@ -147,6 +147,9 @@ public class GamHtldRentNticIssueController {
     	}
     	
     	try {
+    		
+    		nticData = null;
+    		
         	if(nticData != null){
         		gamHtldRentNticIssueService.execNticIssue(nticInfo, rntfeeList, loginVO);
         	}
