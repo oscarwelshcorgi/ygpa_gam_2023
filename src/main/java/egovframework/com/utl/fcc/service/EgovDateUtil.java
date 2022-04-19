@@ -242,7 +242,7 @@ public class EgovDateUtil {
                 return true;
             else
                 return false;
-        } catch (Exception e) {
+        } catch (ParseException e) {
             return false;
         }
     }
@@ -278,10 +278,8 @@ public class EgovDateUtil {
                 simpledateformat.setTimeZone(TimeZone.getTimeZone(strTimeZone));
             }
             simpledateformat = new SimpleDateFormat(_toDateFormat, Locale.getDefault());
-        }
-        catch(Exception exception) {
-    	    //exception.printStackTrace();
-    	    throw new RuntimeException(exception);	// 2011.10.10 보안점검 후속조치
+        }catch(ParseException exception) {
+    	    throw new RuntimeException(exception);
         }
         return simpledateformat.format(date);
 

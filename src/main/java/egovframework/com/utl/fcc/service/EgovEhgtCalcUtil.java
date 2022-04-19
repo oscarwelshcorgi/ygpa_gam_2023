@@ -145,32 +145,24 @@ private class CallbackHandler extends HTMLEditorKit.ParserCallback	{
         String	srcTypeCnvr  = srcType.toUpperCase();
         String	cnvrTypeCnvr = cnvrType.toUpperCase();
 
-        try		{
 
-        	EgovEhgtCalcUtil parser = new EgovEhgtCalcUtil();
+        EgovEhgtCalcUtil parser = new EgovEhgtCalcUtil();
 
-        	parser.readHtmlParsing("http://community.fxkeb.com/fxportal/jsp/RS/DEPLOY_EXRATE/4176_0.html");
+        parser.readHtmlParsing("http://community.fxkeb.com/fxportal/jsp/RS/DEPLOY_EXRATE/4176_0.html");
 
-        	// 2011.10.10 보안점검 후속조치
-        	if (sb == null) {
-        		throw new RuntimeException("StringBuffer is null!!");
-        	    }
+        // 2011.10.10 보안점검 후속조치
+        if (sb == null) {
+        	throw new RuntimeException("StringBuffer is null!!");
+        }
 
-        	eghtStdrRt = EgovStringUtil.split(sb.toString(),"/");
+        eghtStdrRt = EgovStringUtil.split(sb.toString(),"/");
 
-        }	catch	(Exception e) {
-
-		    //e.printStackTrace();
-		    //System.out.println(e);	// 2011.10.10 보안점검 후속조치
-			logger.info(e.getMessage());
-			
-		}
 
 		if	(eghtStdrRt == null || (eghtStdrRt.length ==0))
 			throw new java.lang.Exception("String Split Error!");
 
-        char	srcChr  = srcTypeCnvr.charAt(0);
-        char	cnvrChr = cnvrTypeCnvr.charAt(0);
+        char srcChr  = srcTypeCnvr.charAt(0);
+        char cnvrChr = cnvrTypeCnvr.charAt(0);
 
         // 원래 환율기준 정의
         switch (srcChr) {
@@ -221,8 +213,6 @@ private class CallbackHandler extends HTMLEditorKit.ParserCallback	{
         }
 
 
-        try		{
-
         	// 변환하고자 하는 국가의 환율매매기준율 추출...
         	for (int i = 0; i < eghtStdrRt.length; i++)	{
 
@@ -243,13 +233,6 @@ private class CallbackHandler extends HTMLEditorKit.ParserCallback	{
         		}
         	}
 
-        }	catch	(Exception e) {
-
-		    //e.printStackTrace();
-		    //System.out.println(e);	// 2011.10.10 보안점검 후속조치
-			logger.info(e.getMessage());
-		}
-
 
         // 정확한 계산을 위한 BigDecimal 형태로 구현.
 		BigDecimal bSrcAmount	= new BigDecimal(String.valueOf(srcAmount));	// 변환하고자 하는 금액
@@ -258,8 +241,6 @@ private class CallbackHandler extends HTMLEditorKit.ParserCallback	{
 		BigDecimal bStdr 		= new BigDecimal("100");						// 변환 매매 비율
 
 
-
-		try		{
 
 			// 원래 매매기준율 및 변환매매기준율 기준으로 환율금액 계산
 			switch (srcChr) {
@@ -339,17 +320,10 @@ private class CallbackHandler extends HTMLEditorKit.ParserCallback	{
 					sCnvrAmount = bSrcAmount.divide(bCnvrStdrRt, 2, 4).toString();
                 	break;
 			}
-		}	catch	(Exception e) {
 
-		    //e.printStackTrace();
-		    //System.out.println(e);	// 2011.10.10 보안점검 후속조치
-			logger.info(e.getMessage());
+			rtnStr = sCnvrAmount + "  " + cnvrStr;
+       
+			return	rtnStr;
 		}
-
-		rtnStr = sCnvrAmount + "  " + cnvrStr;
-
-        return	rtnStr;
-	}
-
 
 }

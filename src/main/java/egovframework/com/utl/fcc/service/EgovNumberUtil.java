@@ -37,7 +37,6 @@ public class EgovNumberUtil {
     public static int getRandomNum(int startNum, int endNum) {
 	int randomNum = 0;
 
-	try {
 	    // 랜덤 객체 생성
 	    SecureRandom rnd = new SecureRandom();
 
@@ -45,10 +44,6 @@ public class EgovNumberUtil {
 		// 종료숫자내에서 랜덤 숫자를 발생시킨다.
 		randomNum = rnd.nextInt(endNum + 1);
 	    } while (randomNum < startNum); // 랜덤 숫자가 시작숫자보다 작을경우 다시 랜덤숫자를 발생시킨다.
-	} catch (Exception e) {
-	    //e.printStackTrace();
-	    throw new RuntimeException(e);	// 2011.10.10 보안점검 후속조치
-	}
 
 	return randomNum;
     }
@@ -86,12 +81,7 @@ public class EgovNumberUtil {
     public static String getNumToStrCnvr(int srcNumber) {
 	String rtnStr = null;
 
-	try {
-	    rtnStr = String.valueOf(srcNumber);
-	} catch (Exception e) {
-	    //e.printStackTrace();
-	    throw new RuntimeException(e);
-	}
+	rtnStr = String.valueOf(srcNumber);
 
 	return rtnStr;
     }
@@ -155,7 +145,6 @@ public class EgovNumberUtil {
 
 	int checkStrLt = checkStr.length();
 
-	try {
 	    for (i = 0; i < checkStrLt; i++) {
 
 		// 아스키코드값( '0'-> 48, '9' -> 57)
@@ -165,11 +154,6 @@ public class EgovNumberUtil {
 		    return false;
 		}
 	    }
-	
-	} catch (Exception e) {
-	    //e.printStackTrace();
-	    throw new RuntimeException(e);
-	}
 
 	return true;
     }
@@ -196,7 +180,6 @@ public class EgovNumberUtil {
 	String preStr = "";
 	String nextStr = source;
 
-	try {
 
 	    // 원본숫자에서 변환대상숫자의 위치를  찾는다.
 	    while (source.indexOf(subject) >= 0) {
@@ -206,10 +189,6 @@ public class EgovNumberUtil {
 		rtnStr.append(preStr).append(object); // 변환대상위치 숫자에 변환할 숫자를 붙여준다.
 	    }
 	    rtnStr.append(nextStr); // 변환대상 숫자 이후 숫자를 붙여준다.
-	} catch (Exception e) {
-	    //e.printStackTrace();
-	    throw new RuntimeException(e);
-	}
 
 	return Integer.parseInt(rtnStr.toString());
     }
