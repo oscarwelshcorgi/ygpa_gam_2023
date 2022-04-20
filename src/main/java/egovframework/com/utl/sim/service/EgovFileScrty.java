@@ -25,6 +25,9 @@ import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.security.MessageDigest;
 
+import egovframework.com.cmm.util.EgovResourceCloseHelper;
+
+
 import org.apache.commons.codec.binary.Base64;
 import org.apache.log4j.Logger;
 
@@ -143,35 +146,10 @@ public class EgovFileScrty {
 	
 			result = true;
 		    }
-		} catch (NullPointerException n){
-			throw new RuntimeException(n);
-		} catch (Exception ex) {
-		    //ex.printStackTrace();
-		    throw new RuntimeException(ex);	// 보안점검 후속조치
 		} finally {
-		   if (input != null) {
-		       try {
-			   input.close();
-		       } catch (NullPointerException n){
-		    	   logger.info(n.getMessage());
-		       } catch (Exception ignore) {
-			   // no-op
-		           //ignore.printStackTrace();
-				   //System.out.println("IGNORE: " + ignore); // 보안점검 후속조치
-		    	   logger.info(ignore.getMessage());
-		       }
-		   }
-		   if (output != null) {
-		       try {
-			   output.close();
-		       } catch (Exception ignore) {
-			   // no-op
-		    	   //ignore.printStackTrace();
-				   //System.out.println("IGNORE: " + ignore); // 보안점검 후속조치
-		    	   logger.info(ignore.getMessage());
-		       }
-		   }
+			EgovResourceCloseHelper.close(input, output);
 		}
+		
 		return result;
     }
 

@@ -22,9 +22,11 @@ import org.apache.commons.fileupload.FileItemIterator;
 import org.apache.commons.fileupload.FileItemStream;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.fileupload.util.Streams;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import egovframework.com.cmm.EgovWebUtil;
+import egovframework.com.cmm.util.EgovResourceCloseHelper;
 
 /**
  * @Class Name  : EgovFormBasedFileUtil.java
@@ -41,12 +43,13 @@ import egovframework.com.cmm.EgovWebUtil;
  * @see
  */
 public class EgovFormBasedFileUtil {
-	static final Logger logger = Logger.getLogger(EgovFormBasedFileUtil.class);
-	
     /** Buffer size */
     public static final int BUFFER_SIZE = 8192;
 
     public static final String SEPERATOR = File.separator;
+    
+	private static final Logger LOGGER = LoggerFactory.getLogger(EgovFormBasedFileUtil.class);
+
 
     /**
      * 오늘 날짜 문자열 취득.
@@ -84,12 +87,22 @@ public class EgovFormBasedFileUtil {
      * @param file File
      * @throws IOException
      */
-    public static long saveFile(InputStream is, File file) throws IOException {
-	// 디렉토리 생성
-	if (! file.getParentFile().exists()) {
-	    file.getParentFile().mkdirs();
-	}
-
+	public static long saveFile(InputStream is, File file) throws IOException {
+		//KISA 보안약점 조치 (2018-10-29, 윤창원)
+		if (file.getParentFile() == null) {
+			LOGGER.debug("file.getParentFile() is null");
+			throw new RuntimeException("file.getParentFile() is null");
+		}
+		
+		// 디렉토리 생성
+		if (!file.getParentFile().exists()) {
+			//2017.03.03 	조성원 	시큐어코딩(ES)-부적절한 예외 처리[CWE-253, CWE-440, CWE-754]
+			if(file.getParentFile().mkdirs()){
+				LOGGER.debug("[file.mkdirs] file : Directory Creation Success");
+			}else{				
+				LOGGER.error("[file.mkdirs] file : Directory Creation Fail");
+			}
+		}
 	OutputStream os = null;
 	long size = 0L;
 
@@ -104,10 +117,8 @@ public class EgovFormBasedFileUtil {
 		os.write(buffer, 0, bytesRead);
 	    }
 	} finally {
-	    if (os != null) {
-		os.close();
+		EgovResourceCloseHelper.close(os);
 	    }
-	}
 
 	return size;
     }
@@ -121,6 +132,7 @@ public class EgovFormBasedFileUtil {
      * @return
      * @throws Exception
      */
+	/*
     public static List<EgovFormBasedFileVo> uploadFiles(HttpServletRequest request, String where, long maxFileSize) throws Exception {
 	List<EgovFormBasedFileVo> list = new ArrayList<EgovFormBasedFileVo>();
 
@@ -180,6 +192,7 @@ public class EgovFormBasedFileUtil {
 
 	return list;
     }
+    */
 
     /**
      * 파일을 Download 처리한다.
@@ -298,26 +311,7 @@ public class EgovFormBasedFileUtil {
 	    }
 // 2011.10.10 보안점검 후속조치
 	} finally {
-	    if (outs != null) {
-			try {
-			    outs.close();
-			} catch (IOException e) {
-				logger.info(e.getMessage());
-			} catch (Exception ignore) {
-			    //System.out.println("IGNORE: " + ignore);
-				logger.info(ignore.getMessage());
-			}
-		    }
-		    if (fin != null) {
-			try {
-			    fin.close();
-			} catch (IOException e) {
-				logger.info(e.getMessage());
-			} catch (Exception ignore) {
-			    //System.out.println("IGNORE: " + ignore);
-				logger.info(ignore.getMessage());
-			}
-		    }
+		EgovResourceCloseHelper.close(outs, fin);
 		}
     }
 }
