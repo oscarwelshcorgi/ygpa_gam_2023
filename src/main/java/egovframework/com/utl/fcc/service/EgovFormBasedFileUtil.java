@@ -99,7 +99,7 @@ public class EgovFormBasedFileUtil {
 			//2017.03.03 	조성원 	시큐어코딩(ES)-부적절한 예외 처리[CWE-253, CWE-440, CWE-754]
 			if(file.getParentFile().mkdirs()){
 				LOGGER.debug("[file.mkdirs] file : Directory Creation Success");
-			}else{				
+			}else{			
 				LOGGER.error("[file.mkdirs] file : Directory Creation Fail");
 			}
 		}

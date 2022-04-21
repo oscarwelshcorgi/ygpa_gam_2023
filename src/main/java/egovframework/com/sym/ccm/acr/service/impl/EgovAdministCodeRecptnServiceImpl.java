@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.service.EgovProperties;
+import egovframework.com.cmm.util.EgovResourceCloseHelper;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.com.cmm.web.EgovMultipartResolver;
 import egovframework.com.sym.ccm.acr.service.AdministCodeRecptn;
@@ -25,6 +26,9 @@ import egovframework.com.sym.ccm.acr.service.AdministCodeRecptnVO;
 import egovframework.com.sym.ccm.acr.service.EgovAdministCodeRecptnService;
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.fdl.idgnr.EgovIdGnrService;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 
@@ -53,6 +57,9 @@ public class  EgovAdministCodeRecptnServiceImpl extends AbstractServiceImpl impl
     /** log */
     protected static final Log LOG = LogFactory.getLog(EgovMultipartResolver.class);
 
+	/** log */
+	private static final Logger LOGGER = LoggerFactory.getLogger(EgovAdministCodeRecptnServiceImpl.class);
+    
     @Resource(name="AdministCodeRecptnDAO")
     private AdministCodeRecptnDAO administCodeRecptnDAO;
 
@@ -284,20 +291,24 @@ public class  EgovAdministCodeRecptnServiceImpl extends AbstractServiceImpl impl
 					fin  = new FileInputStream(dataFile);
 					sin  = new InputStreamReader(fin);
 					in   = new BufferedReader(sin);
-					readData = in.readLine();
-				    while ( readData != null ) {
-
-				    	AdministCodeRecptn administCodeRecptn = new AdministCodeRecptn();
-
-						String tokenData[]	= readData.split("	", 12);
-						int tokenLength     = tokenData.length;
-
-						String strTmp = null;
-						for ( int i = 0; i < tokenLength; i++ ) {
-							strTmp       = tokenData[i].trim();
-							tokenData[i] = strTmp;
+					
+					while (true) {
+						readData = in.readLine();
+						if (readData == null) {
+							break;
 						}
 
+						AdministCodeRecptn administCodeRecptn = new AdministCodeRecptn();
+
+						String tokenData[] = readData.split("	", 12);
+						int tokenLength = tokenData.length;
+
+						String strTmp = null;
+						for (int i = 0; i < tokenLength; i++) {
+							strTmp = tokenData[i].trim();
+							tokenData[i] = strTmp;
+						}
+						
 						buf += "\n\n++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
 						buf += "tokenLength"+Integer.toString(tokenLength);
 
@@ -410,36 +421,30 @@ public class  EgovAdministCodeRecptnServiceImpl extends AbstractServiceImpl impl
 				    in.close();
 				    in = null;
 
-				    // 연계파일 수신이 완료되면  dataFile 파일을 recvOldFileDir 로 이동한다.
-				    recvOldFile = new File(rcvOldDir + dataFile.getName());
-				   if(dataFile.exists()){
+					// 연계파일 수신이 완료되면  dataFile 파일을 recvOldFileDir 로 이동한다.
+					recvOldFile = new File(rcvOldDir + dataFile.getName());
 					if (dataFile.isFile()) {
-						if (recvOldFile.getParentFile().isDirectory()) {
-							dataFile.renameTo(recvOldFile);
+						if (recvOldFile.getParentFile() != null) {//KISA 보안약점 조치 (2018-10-29, 윤창원)
+							if (recvOldFile.getParentFile().isDirectory()) {
+								dataFile.renameTo(recvOldFile);
+							}
 						}
-					}
 					} else {
 						// 진행종료
 						processException("dataFile filename or rcvold path is not valid!!!");
 						//throw new Exception("dataFile filename or rcvold path is not valid!!!");
 					}
-			    }
-			} catch (IOException i) { 
-				LOG.error("Exception:  "  +  i.getClass().getName());
-				LOG.error("Exception  Message:  "  +  i.getMessage());
-			} catch(Exception e){	// 2011.10.21 보안점검 후속조치
-				LOG.error("Exception:  "  +  e.getClass().getName());
-				LOG.error("Exception  Message:  "  +  e.getMessage());
-			} finally{ // 2011.11.01 보안점검 후속조치
-				if(in !=null) {
-					in.close();
 				}
+			} catch (IOException e) {
+				LOGGER.error("IO Exception", e);
+			} finally {
+				EgovResourceCloseHelper.close(in);
+
 				fileCount++;
 			}
 
-		} while(fileCount < recvFileList.length);
-
-	}
+		} while (fileCount < recvFileList.length);
+    }
 
 	/**
 	 * 법정동코드 상세내역을 조회한다.

@@ -23,8 +23,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.List;
+
 
 import org.apache.log4j.Logger;
+
+import egovframework.com.cmm.util.EgovBasicLogger;
+import egovframework.com.cmm.util.EgovResourceCloseHelper;
+
 
 
 
@@ -63,11 +69,11 @@ public class EgovFileMntrg extends Thread {
     long lastModif = 0;
     boolean warnedAlready = false;
     boolean interrupted = false;
-    ArrayList realOriginalList = new ArrayList(); // 최초의 원본리스트
-    ArrayList originalList = new ArrayList();     // 직전리스트는 주기적으로 직전목록정보로 갱신된다.
-    ArrayList currentList  = new ArrayList();     // 직전리스트와 비교할 현시점 리스트
-    ArrayList changedList  = new ArrayList();     // 직전리스트와 비교한 시점에 발생된 변경리스트
-    ArrayList totalChangedList = new ArrayList(); // 최초리스트와 비교한 변경 리스트
+	List<String> realOriginalList = new ArrayList<String>(); 		// 최초의 원본리스트
+	List<String> originalList = new ArrayList<String>();     // 직전리스트는 주기적으로 직전목록정보로 갱신된다.
+	List<String> currentList  = new ArrayList<String>();     // 직전리스트와 비교할 현시점 리스트
+	List<String> changedList  = new ArrayList<String>();     // 직전리스트와 비교한 시점에 발생된 변경리스트
+	List<String> totalChangedList = new ArrayList<String>(); // 최초리스트와 비교한 변경 리스트
                                                   // totalChangedList는 필요시 checkAndConfigure함수 내에서 주석해제후 사용(부하량을 고려하여 사용)
     int cnt = 0;
 
@@ -85,22 +91,21 @@ public class EgovFileMntrg extends Thread {
         file = new File(filename);
         // 1. 최초생성시 현재 디렉토리의 하위정보를 ArrayList에 보관한다. 보관정보 ==>  절대경로 + "," + 최종수정일시 + "," + 사이즈
         File [] fList = file.listFiles();
-        if(fList.length > 0 ){
-        for(int i = 0; i<fList.length; i++ ){
-            realOriginalList.add(fList[i].getAbsolutePath() + "$"
-            		+ getLastModifiedTime(fList[i]) + "$"
-            		+ ((fList[i].length()/1024)>0?(fList[i].length()/1024):1) + "KB");
-            writeLog("ORI_"+fList[i].getAbsolutePath() + "$"
-            		+ getLastModifiedTime(fList[i]) + "$"
-            		+ ((fList[i].length()/1024)>0?(fList[i].length()/1024):1) + "KB");
+        if(fList == null) {
+        	fList = new File[0];
         }
-        }
-        originalList = new ArrayList(realOriginalList);
-        writeLog("START");
-        setDaemon(true);
-        checkAndConfigure();
-        //log.debug("EgovFileMntrg end");
-    }
+		for (int i = 0; i < fList.length; i++) {
+			realOriginalList.add(fList[i].getAbsolutePath() + "$" + getLastModifiedTime(fList[i]) + "$" + ((fList[i].length() / 1024) > 0 ? (fList[i].length() / 1024) : 1) + "KB");
+			writeLog("ORI_" + fList[i].getAbsolutePath() + "$" + getLastModifiedTime(fList[i]) + "$" + ((fList[i].length() / 1024) > 0 ? (fList[i].length() / 1024) : 1) + "KB");
+		}
+		
+		originalList = new ArrayList<String>(realOriginalList);
+		writeLog("START");
+		setDaemon(true);
+		checkAndConfigure();
+		//log.debug("EgovFileMntrg end");
+	}
+
 
     /**
      * <p>
@@ -119,13 +124,13 @@ public class EgovFileMntrg extends Thread {
      * </p>
      */
     //abstract protected void doOnChange();
-    protected void doOnChange(ArrayList changedList){
+    protected void doOnChange(List<String> changedList){
     	//log.debug("doOnChange() start");
     	for(int i = 0; i<changedList.size(); i++ ){
     		writeLog((String)changedList.get(i));
         }
     	changedList.clear();                         //직전리스트와 비교해서 변경된 내역은 로그처리한 후 초기화한다.
-    	originalList = new ArrayList(currentList);   //현재리스트가 직전리스트가 된다.(새로 생성해야 함!)
+    	originalList = new ArrayList<String>(currentList);   //현재리스트가 직전리스트가 된다.(새로 생성해야 함!)
         cnt++;
 
         //log.debug("doOnChange() end");
@@ -204,27 +209,26 @@ public class EgovFileMntrg extends Thread {
                 isSame = false; // 초기화
                 isNew  = true;  // 초기화
             }
-        } catch (NullPointerException n){
-        	logger.info(n.getMessage());
-        } catch (Exception e) {
-            //interrupted = true; // there is no point in continuing
-            //e.printStackTrace();
-            //System.out.println(e);	// 2011.10.10 보안점검 후속조치
-            logger.info(e.getMessage());
-        	//return;
-        }
+		} catch (NullPointerException e) {
+			EgovBasicLogger.debug("NullPointerException", e);
+			
+		} catch (RuntimeException e) {
+			//interrupted = true; // there is no point in continuing
 
-        if (changedList.size()>0) {
-        	//log.debug("change occur , changed file check count:"+cnt+ " , changed file count:"+changedList.size());
-        	doOnChange(changedList);
-        }
+			EgovBasicLogger.debug("Checking error", e);
+		}
 
-        if (isEnd()){
-        	//log.debug("Thread Process END !!! (CNT :"+cnt+")");
-            interrupted = true;
-        }
-        //log.debug("checkAndConfigure end"+changedList.size());
-    }
+		if (changedList.size() > 0) {
+			//log.debug("change occur , changed file check count:"+cnt+ " , changed file count:"+changedList.size());
+			doOnChange(changedList);
+		}
+
+		if (isEnd()) {
+			//log.debug("Thread Process END !!! (CNT :"+cnt+")");
+			interrupted = true;
+		}
+		//log.debug("checkAndConfigure end"+changedList.size());
+	}
 
     /**
      * <p>
