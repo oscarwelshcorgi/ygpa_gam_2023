@@ -114,10 +114,10 @@ public class  EgovInsttCodeRecptnServiceImpl extends AbstractServiceImpl impleme
 			br.close();
 			is.close();
 		} catch (IOException i) {
-			 log.error("Exception:  "  +  i.getClass().getName());  
+			 log.error("Exception:  "  +  i.getClass().getName());
 			 log.error("Exception  Message:  "  +  i.getMessage());
 		} catch(Exception e) {
-			 log.error("Exception:  "  +  e.getClass().getName());  
+			 log.error("Exception:  "  +  e.getClass().getName());
 			 log.error("Exception  Message:  "  +  e.getMessage());
 		}
 
@@ -171,11 +171,11 @@ public class  EgovInsttCodeRecptnServiceImpl extends AbstractServiceImpl impleme
 				    			}
 				    			br.close();
 				    			is.close();
-							} catch (IOException i) { 
-								 log.error("Exception:  "  +  i.getClass().getName());  
+							} catch (IOException i) {
+								 log.error("Exception:  "  +  i.getClass().getName());
 								 log.error("Exception  Message:  "  +  i.getMessage());
 							} catch(Exception e) {
-			 log.error("Exception:  "  +  e.getClass().getName());  
+			 log.error("Exception:  "  +  e.getClass().getName());
 			 log.error("Exception  Message:  "  +  e.getMessage());
 							}
 						}
@@ -199,10 +199,10 @@ public class  EgovInsttCodeRecptnServiceImpl extends AbstractServiceImpl impleme
 				}
 		    }
 		} catch (IOException i) {
-			log.error("Exception:  "  +  i.getClass().getName());  
+			log.error("Exception:  "  +  i.getClass().getName());
 			 log.error("Exception  Message:  "  +  i.getMessage());
 		} catch(Exception e){
-			 log.error("Exception:  "  +  e.getClass().getName());  
+			 log.error("Exception:  "  +  e.getClass().getName());
 			 log.error("Exception  Message:  "  +  e.getMessage());
 	    } finally {	// 2011.10.07 에러시 자원반환할 수 있도록 추가
 	    	if (in !=null) { in.close(); }
@@ -232,168 +232,171 @@ public class  EgovInsttCodeRecptnServiceImpl extends AbstractServiceImpl impleme
 
 			String readData = null;
 
+
 			try{
-			    if(dataFile.exists()){
+				if(dataFile != null){
+				    if(dataFile.exists()){
 
-					fin  = new FileInputStream(dataFile);
-					sin  = new InputStreamReader(fin);
-					in   = new BufferedReader(sin);
-					readData = in.readLine();
-				    while ( readData != null ) {
+						fin  = new FileInputStream(dataFile);
+						sin  = new InputStreamReader(fin);
+						in   = new BufferedReader(sin);
+						readData = in.readLine();
+					    while ( readData != null ) {
 
-				    	InsttCodeRecptn insttCodeRecptn = new InsttCodeRecptn();
+					    	InsttCodeRecptn insttCodeRecptn = new InsttCodeRecptn();
 
-						String tokenData[]	= readData.split("	", 25);
-						int tokenLength     = tokenData.length;
+							String tokenData[]	= readData.split("	", 25);
+							int tokenLength     = tokenData.length;
 
-						String strTmp = null;
-						for ( int i = 0; i < tokenLength; i++ ) {
-							strTmp       = tokenData[i].trim();
-							tokenData[i] = strTmp;
-						}
-
-						if (tokenLength >= 25) {
-							// 마지막 문자 ';' 제거
-							tokenData[tokenLength-1] = tokenData[tokenLength-1].replace(";", "").trim();
-
-							// 서열설정 3자리 숫자로 맞춤
-							if(tokenData[ 8].length() == 1) {
-								tokenData[ 8] = "00" + tokenData[ 8];
-							} else
-							if(tokenData[ 8].length() == 2) {
-								tokenData[ 8] = "0" + tokenData[ 8];
-							}
-
-							// 숫자형 변환 전 처리
-							tokenData[24] = (tokenData[24] == null || "".equals(tokenData[24])) ? "0" : tokenData[24];
-
-							buf += "\n"
-								+  "[ F]" + dataFile.getName()  // 파일명
-								+  "\n";
-
-							// 명령 변경구분코드로 변환
-							strTmp = "INS".equals(tokenData[0]) ? "01"
-								:  ( "UPD".equals(tokenData[0]) ? "02"
-								:  ( "DEL".equals(tokenData[0]) ? "03"
-								:    ""
-								));
-
-							// 실제 연계 항목 Mapping 작업
-							insttCodeRecptn.setChangeSeCode     (strTmp       );                         // 명령                              :: 변경구분코드
-							insttCodeRecptn.setOccrrDe          (tokenData[ 1]);                         // 날짜                              :: 발생일자
-							insttCodeRecptn.setEtcCode          (tokenData[ 2]);                         // 2자리코드 <적용:기타코드>         :: 기타코드
-							insttCodeRecptn.setInsttCode        (tokenData[ 3]);                         // 기관코드                          :: 기관코드
-							insttCodeRecptn.setAllInsttNm       (tokenData[ 4]);                         // 기관명(전체)                      :: 전체기관명
-							insttCodeRecptn.setLowestInsttNm    (tokenData[ 5]);                         // 기관명(최하위)                    :: 최하위기관명
-							insttCodeRecptn.setInsttAbrvNm      (tokenData[ 6]);                         // 기관명(약어)                      :: 기관약칭명
-							insttCodeRecptn.setOdr              (tokenData[ 7]);                         // 차수                              :: 차수
-							insttCodeRecptn.setOrd              (tokenData[ 8]);                         // 서열                              :: 서열
-							insttCodeRecptn.setInsttOdr         (tokenData[ 9]);                         // 소속기관차수                      :: 기관차수
-							insttCodeRecptn.setUpperInsttCode   (tokenData[10]);                         // 차상위기관코드                    :: 상위기관코드
-							insttCodeRecptn.setBestInsttCode    (tokenData[11]);                         // 최상위기관코드                    :: 최상위기관코드
-							insttCodeRecptn.setReprsntInsttCode (tokenData[12]);                         // 대표기관코드                      :: 대표기관코드
-							insttCodeRecptn.setInsttTyLclas     (tokenData[13]);                         // 기관유형(대)                      :: 기관유형대분류
-							insttCodeRecptn.setInsttTyMclas     (tokenData[14]);                         // 기관유형(중)                      :: 기관유형중분류
-							insttCodeRecptn.setInsttTySclas     (tokenData[15]);                         // 기관유형(소)                      :: 기관유형소분류
-							insttCodeRecptn.setTelno            (tokenData[16]);                         // 전화번호                          :: 전화번호
-							insttCodeRecptn.setFxnum            (tokenData[17]);                         // 팩스번호                          :: 팩스번호
-							insttCodeRecptn.setCreatDe          (tokenData[18]);                         // 생성일자                          :: 생성일자
-							insttCodeRecptn.setAblDe            (tokenData[19]);                         // 폐지일자                          :: 폐지일자
-							insttCodeRecptn.setAblEnnc          (tokenData[20]);                         // 폐지구분                          :: 폐지유무
-							insttCodeRecptn.setChangede         (tokenData[21]);                         // 변경일자                          :: 변경일자
-							insttCodeRecptn.setChangeTime       (tokenData[22]);                         // 변경시간                          :: 변경시간
-							insttCodeRecptn.setBsisDe           (tokenData[23]);                         // 기초날짜                          :: 기초일자
-							insttCodeRecptn.setSortOrdr         (Integer.parseInt(tokenData[24]));       // 트리순서(트리서열) <적용:정렬순서>:: 정렬순서
-
-                            // 작업일자
-                            if(insttCodeRecptn.getOccrrDe().equals("") || insttCodeRecptn.getOccrrDe() == null) {
-                            	insttCodeRecptn.setOccrrDe(strdate.substring(0, 8));
-                            }
-
-                            // 작업일련번호 확인 Generation
-                	    	int iOpertSn = idgenService.getNextIntegerId();
-                	    	insttCodeRecptn.setOpertSn(iOpertSn);
-
-							buf += "\n-all--------------\n";
-
+							String strTmp = null;
 							for ( int i = 0; i < tokenLength; i++ ) {
-								buf += "SPLIT [" + Integer.toString(tokenData[i].length())+ "]>>>>>> " + Integer.toString(i) + "	: [" + tokenData[i] + "]\n";
+								strTmp       = tokenData[i].trim();
+								tokenData[i] = strTmp;
 							}
 
-						} else {
+							if (tokenLength >= 25) {
+								// 마지막 문자 ';' 제거
+								tokenData[tokenLength-1] = tokenData[tokenLength-1].replace(";", "").trim();
 
+								// 서열설정 3자리 숫자로 맞춤
+								if(tokenData[ 8].length() == 1) {
+									tokenData[ 8] = "00" + tokenData[ 8];
+								} else
+								if(tokenData[ 8].length() == 2) {
+									tokenData[ 8] = "0" + tokenData[ 8];
+								}
+
+								// 숫자형 변환 전 처리
+								tokenData[24] = (tokenData[24] == null || "".equals(tokenData[24])) ? "0" : tokenData[24];
+
+								buf += "\n"
+									+  "[ F]" + dataFile.getName()  // 파일명
+									+  "\n";
+
+								// 명령 변경구분코드로 변환
+								strTmp = "INS".equals(tokenData[0]) ? "01"
+									:  ( "UPD".equals(tokenData[0]) ? "02"
+									:  ( "DEL".equals(tokenData[0]) ? "03"
+									:    ""
+									));
+
+								// 실제 연계 항목 Mapping 작업
+								insttCodeRecptn.setChangeSeCode     (strTmp       );                         // 명령                              :: 변경구분코드
+								insttCodeRecptn.setOccrrDe          (tokenData[ 1]);                         // 날짜                              :: 발생일자
+								insttCodeRecptn.setEtcCode          (tokenData[ 2]);                         // 2자리코드 <적용:기타코드>         :: 기타코드
+								insttCodeRecptn.setInsttCode        (tokenData[ 3]);                         // 기관코드                          :: 기관코드
+								insttCodeRecptn.setAllInsttNm       (tokenData[ 4]);                         // 기관명(전체)                      :: 전체기관명
+								insttCodeRecptn.setLowestInsttNm    (tokenData[ 5]);                         // 기관명(최하위)                    :: 최하위기관명
+								insttCodeRecptn.setInsttAbrvNm      (tokenData[ 6]);                         // 기관명(약어)                      :: 기관약칭명
+								insttCodeRecptn.setOdr              (tokenData[ 7]);                         // 차수                              :: 차수
+								insttCodeRecptn.setOrd              (tokenData[ 8]);                         // 서열                              :: 서열
+								insttCodeRecptn.setInsttOdr         (tokenData[ 9]);                         // 소속기관차수                      :: 기관차수
+								insttCodeRecptn.setUpperInsttCode   (tokenData[10]);                         // 차상위기관코드                    :: 상위기관코드
+								insttCodeRecptn.setBestInsttCode    (tokenData[11]);                         // 최상위기관코드                    :: 최상위기관코드
+								insttCodeRecptn.setReprsntInsttCode (tokenData[12]);                         // 대표기관코드                      :: 대표기관코드
+								insttCodeRecptn.setInsttTyLclas     (tokenData[13]);                         // 기관유형(대)                      :: 기관유형대분류
+								insttCodeRecptn.setInsttTyMclas     (tokenData[14]);                         // 기관유형(중)                      :: 기관유형중분류
+								insttCodeRecptn.setInsttTySclas     (tokenData[15]);                         // 기관유형(소)                      :: 기관유형소분류
+								insttCodeRecptn.setTelno            (tokenData[16]);                         // 전화번호                          :: 전화번호
+								insttCodeRecptn.setFxnum            (tokenData[17]);                         // 팩스번호                          :: 팩스번호
+								insttCodeRecptn.setCreatDe          (tokenData[18]);                         // 생성일자                          :: 생성일자
+								insttCodeRecptn.setAblDe            (tokenData[19]);                         // 폐지일자                          :: 폐지일자
+								insttCodeRecptn.setAblEnnc          (tokenData[20]);                         // 폐지구분                          :: 폐지유무
+								insttCodeRecptn.setChangede         (tokenData[21]);                         // 변경일자                          :: 변경일자
+								insttCodeRecptn.setChangeTime       (tokenData[22]);                         // 변경시간                          :: 변경시간
+								insttCodeRecptn.setBsisDe           (tokenData[23]);                         // 기초날짜                          :: 기초일자
+								insttCodeRecptn.setSortOrdr         (Integer.parseInt(tokenData[24]));       // 트리순서(트리서열) <적용:정렬순서>:: 정렬순서
+
+	                            // 작업일자
+	                            if(insttCodeRecptn.getOccrrDe().equals("") || insttCodeRecptn.getOccrrDe() == null) {
+	                            	insttCodeRecptn.setOccrrDe(strdate.substring(0, 8));
+	                            }
+
+	                            // 작업일련번호 확인 Generation
+	                	    	int iOpertSn = idgenService.getNextIntegerId();
+	                	    	insttCodeRecptn.setOpertSn(iOpertSn);
+
+								buf += "\n-all--------------\n";
+
+								for ( int i = 0; i < tokenLength; i++ ) {
+									buf += "SPLIT [" + Integer.toString(tokenData[i].length())+ "]>>>>>> " + Integer.toString(i) + "	: [" + tokenData[i] + "]\n";
+								}
+
+							} else {
+
+								LOG.debug("\n\n*****************************************************************");
+								LOG.debug(buf);
+								LOG.debug("\n\n*****************************************************************");
+								LOG.debug(readData);
+
+								continue;
+							}
+							LOG.debug("\n\n*****************************************************************");
 							LOG.debug("\n\n*****************************************************************");
 							LOG.debug(buf);
-							LOG.debug("\n\n*****************************************************************");
-							LOG.debug(readData);
 
-							continue;
+							buf += "\n---------------\n";
+
+							// 로그인VO에서  사용자 정보 가져오기
+					    	LoginVO	loginVO = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+					    	String	uniqId = loginVO.getUniqId();
+					    	insttCodeRecptn.setFrstRegisterId(uniqId);
+					    	insttCodeRecptn.setLastUpdusrId(uniqId);
+
+					    	// changeSeCode 변경구분코드
+					    	// '01' 기관생성
+					    	// '02' 기관변경
+					    	// '03' 기관말소
+
+					    	// processSe 처리구분
+					    	// '00' 수신처리
+					    	// '01' 처리완료
+					    	// '11' 생성오류
+					    	// '12' 변경오류
+					    	// '13' 말소오류
+
+							// 작업구분 - 수신
+							insttCodeRecptn.setProcessSe("00");
+					    	insttCodeRecptnDAO.insertInsttCodeRecptn(insttCodeRecptn);
+
+							// 작업구분 - 처리
+							insttCodeRecptn.setProcessSe("01");
+					    	if("01".equals(insttCodeRecptn.getChangeSeCode())) {
+					    		// 기관생성
+						    	insttCodeRecptnDAO.insertInsttCode(insttCodeRecptn);
+					    	} else if("02".equals(insttCodeRecptn.getChangeSeCode())) {
+					    		// 기관변경
+					        	insttCodeRecptnDAO.updateInsttCode(insttCodeRecptn);
+					    	} else if("03".equals(insttCodeRecptn.getChangeSeCode())) {
+					    		// 기관말소
+					    		insttCodeRecptnDAO.deleteInsttCode(insttCodeRecptn);
+					    	}
+					    	readData = in.readLine();//2011.09.05
+					    }
+					    in.close();
+					    in = null;
+
+					    // 연계파일 수신이 완료되면  dataFile 파일을 recvOldFileDir 로 이동한다.
+					    recvOldFile = new File(rcvOldDir + dataFile.getName());
+					   if(dataFile.exists()){
+						if (dataFile.isFile()) {
+							if (recvOldFile.getParentFile().isDirectory()) {
+								dataFile.renameTo(recvOldFile);
+							}
 						}
-						LOG.debug("\n\n*****************************************************************");
-						LOG.debug("\n\n*****************************************************************");
-						LOG.debug(buf);
-
-						buf += "\n---------------\n";
-
-						// 로그인VO에서  사용자 정보 가져오기
-				    	LoginVO	loginVO = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-				    	String	uniqId = loginVO.getUniqId();
-				    	insttCodeRecptn.setFrstRegisterId(uniqId);
-				    	insttCodeRecptn.setLastUpdusrId(uniqId);
-
-				    	// changeSeCode 변경구분코드
-				    	// '01' 기관생성
-				    	// '02' 기관변경
-				    	// '03' 기관말소
-
-				    	// processSe 처리구분
-				    	// '00' 수신처리
-				    	// '01' 처리완료
-				    	// '11' 생성오류
-				    	// '12' 변경오류
-				    	// '13' 말소오류
-
-						// 작업구분 - 수신
-						insttCodeRecptn.setProcessSe("00");
-				    	insttCodeRecptnDAO.insertInsttCodeRecptn(insttCodeRecptn);
-
-						// 작업구분 - 처리
-						insttCodeRecptn.setProcessSe("01");
-				    	if("01".equals(insttCodeRecptn.getChangeSeCode())) {
-				    		// 기관생성
-					    	insttCodeRecptnDAO.insertInsttCode(insttCodeRecptn);
-				    	} else if("02".equals(insttCodeRecptn.getChangeSeCode())) {
-				    		// 기관변경
-				        	insttCodeRecptnDAO.updateInsttCode(insttCodeRecptn);
-				    	} else if("03".equals(insttCodeRecptn.getChangeSeCode())) {
-				    		// 기관말소
-				    		insttCodeRecptnDAO.deleteInsttCode(insttCodeRecptn);
-				    	}
-				    	readData = in.readLine();//2011.09.05
+						} else {
+							// 진행종료
+							processException("dataFile filename or rcvold path is not valid!!!");
+							//throw new Exception("dataFile filename or rcvold path is not valid!!!");
+						}
 				    }
-				    in.close();
-				    in = null;
-
-				    // 연계파일 수신이 완료되면  dataFile 파일을 recvOldFileDir 로 이동한다.
-				    recvOldFile = new File(rcvOldDir + dataFile.getName());
-				   if(dataFile.exists()){
-					if (dataFile.isFile()) {
-						if (recvOldFile.getParentFile().isDirectory()) {
-							dataFile.renameTo(recvOldFile);
-						}
-					}
-					} else {
-						// 진행종료
-						processException("dataFile filename or rcvold path is not valid!!!");
-						//throw new Exception("dataFile filename or rcvold path is not valid!!!");
-					}
-			    }
+				}
 			} catch (IOException i) {
-				log.error("Exception:  "  +  i.getClass().getName());  
+				log.error("Exception:  "  +  i.getClass().getName());
 				log.error("Exception  Message:  "  +  i.getMessage());
 			}
 			catch(Exception e){
-			 log.error("Exception:  "  +  e.getClass().getName());  
+			 log.error("Exception:  "  +  e.getClass().getName());
 			 log.error("Exception  Message:  "  +  e.getMessage());
 			} finally {	// 2011.10.21 보안점검 후속조치
 				if (fin != null) { fin.close();}

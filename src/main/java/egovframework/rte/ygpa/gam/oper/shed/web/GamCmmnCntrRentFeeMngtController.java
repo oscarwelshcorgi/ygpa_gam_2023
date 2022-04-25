@@ -365,7 +365,7 @@ public class GamCmmnCntrRentFeeMngtController {
          	String [] arrMngCnts = null;
          	String [] arrNticnos = null;
          	String [] arrAccnutYears = null;
-         	
+
         	if(nticCnts.split(";") != null) {
         		arrNticCnts = nticCnts.split(";");
          	}
@@ -595,7 +595,10 @@ public class GamCmmnCntrRentFeeMngtController {
 
      	map.put("resultCode", resultCode);
         map.put("resultMsg", resultMsg);
-        }catch(Exception e){
+        } catch(NullPointerException n) {
+        	Logger.getLogger(EgovProperties.class).debug("NULLPOINTEXCEPTION : " + n.getMessage());
+        }
+        catch(Exception e){
         	Logger.getLogger(EgovProperties.class).debug("EXCEPTION : " + e.getMessage());
         }
         return map;

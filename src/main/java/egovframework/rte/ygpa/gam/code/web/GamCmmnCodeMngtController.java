@@ -277,7 +277,7 @@ public class GamCmmnCodeMngtController {
     	    	map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
 			}
 
-	        
+
     	}
 		return map;
     }

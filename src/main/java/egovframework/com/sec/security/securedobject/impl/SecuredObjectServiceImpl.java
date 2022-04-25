@@ -32,7 +32,7 @@ import egovframework.com.sec.security.securedobject.ISecuredObjectService;
  * Enabling applications to approach the data of
  * secured object resources from DataBase which is
  * refered to initial data of Spring Security.
- * 
+ *
  * @author ByungHun Woo
  * @since 2009.06.01
  * @version 1.0
@@ -40,7 +40,7 @@ import egovframework.com.sec.security.securedobject.ISecuredObjectService;
  *
  * <pre>
  * << 개정이력(Modification Information) >>
- *   
+ *
  *   수정일      수정자           수정내용
  *  -------    -------------    ----------------------
  *   2009.03.10  ByungHun Woo    최초 생성
@@ -69,7 +69,7 @@ public class SecuredObjectServiceImpl implements ISecuredObjectService, Applicat
     protected MessageSource getMessageSource() {
         return messageSource;
     }
-    
+
     /**
      * setSecuredObjectDAO
      * @param securedObjectDAO SecuredObjectDAO
@@ -85,7 +85,10 @@ public class SecuredObjectServiceImpl implements ISecuredObjectService, Applicat
     public void afterPropertiesSet() throws Exception {
         try {
         	ISecuredObjectService.LOGGER.info("ISecuredObjectService afterPropertiesSet() log.");
-        } catch (Exception e) {
+        }catch(NullPointerException n) {
+        	ISecuredObjectService.LOGGER.info("ISecuredObjectService afterPropertiesSet() NullPointException log.");
+        }
+        catch (Exception e) {
             if (e instanceof Exception) {
                 throw (Exception) e;
             } else {
@@ -98,7 +101,7 @@ public class SecuredObjectServiceImpl implements ISecuredObjectService, Applicat
             }
         }
     }
-    
+
 	/**
 	 * url 형식의 role 권한 획득
 	 * @return LinkedHashMap
@@ -108,7 +111,7 @@ public class SecuredObjectServiceImpl implements ISecuredObjectService, Applicat
         try {
             return securedObjectDAO.getRolesAndUrl();
         } catch (IOException i) {
-        	ISecuredObjectService.LOGGER.error(getMessageSource().getMessage("error.security.runtime.error", 
+        	ISecuredObjectService.LOGGER.error(getMessageSource().getMessage("error.security.runtime.error",
                     														new Object[] {"Roles and Url" }, Locale.getDefault()), i);
         	if (i instanceof Exception) {
         		throw (Exception) i;
@@ -116,7 +119,7 @@ public class SecuredObjectServiceImpl implements ISecuredObjectService, Applicat
         		throw i;
         	}
         } catch (Exception e) {
-            ISecuredObjectService.LOGGER.error(getMessageSource().getMessage("error.security.runtime.error", 
+            ISecuredObjectService.LOGGER.error(getMessageSource().getMessage("error.security.runtime.error",
             		                                                         new Object[] {"Roles and Url" }, Locale.getDefault()), e);
             if (e instanceof Exception) {
                 throw (Exception) e;
@@ -125,7 +128,7 @@ public class SecuredObjectServiceImpl implements ISecuredObjectService, Applicat
             }
         }
     }
-    
+
 	/**
 	 * method 형식의 role 권한 획득
 	 * @return LinkedHashMap
@@ -184,12 +187,12 @@ public class SecuredObjectServiceImpl implements ISecuredObjectService, Applicat
 	 * getMatchedRequestMapping
 	 * @return ConfigAttributeDefinition
 	 * @exception Exception
-	 */    
+	 */
     public ConfigAttributeDefinition getMatchedRequestMapping(String url)
             throws Exception {
         try {
             return securedObjectDAO.getRegexMatchedRequestMapping(url);
-        } catch (IOException i) { 
+        } catch (IOException i) {
         	ISecuredObjectService.LOGGER.error(getMessageSource().getMessage(
                     "error.security.runtime.error",
                     new Object[] {"MatchedRequestMapping : " + url },
@@ -216,7 +219,7 @@ public class SecuredObjectServiceImpl implements ISecuredObjectService, Applicat
 	 * role 의 계층(Hierarchy) 관계를 조회
 	 * @return String
 	 * @exception Exception
-	 */   
+	 */
     public String getHierarchicalRoles() throws Exception {
         try {
             return securedObjectDAO.getHierarchicalRoles();

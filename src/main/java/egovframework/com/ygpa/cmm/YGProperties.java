@@ -47,7 +47,10 @@ public class YGProperties {
 			fis  = new FileInputStream(GLOBALS_PROPERTIES_FILE);
 			props.load(new java.io.BufferedInputStream(fis));
 			if(props != null) {
-				value = props.getProperty(keyName).trim();
+				value = null;
+				if(value == null){
+					value = props.getProperty(keyName).trim();
+				}
 			}
 		}catch(FileNotFoundException e){
 			LOGGER.error("File not found Error : "+ e.getMessage());
@@ -63,8 +66,8 @@ public class YGProperties {
 			} catch (IOException i) {
 
 			} catch (Exception e){
-				
-			} 
+
+			}
 
 		}
 		return value;
@@ -96,8 +99,8 @@ public class YGProperties {
 			} catch (IOException i) {
 
 			} catch (Exception e){
-				
-			} 
+
+			}
 		}
 	}
 
@@ -147,8 +150,8 @@ public class YGProperties {
 		} finally {
 			try {
 				if (fis != null) fis.close();
-			} catch(IOException i){ 
-			
+			} catch(IOException i){
+
 			} catch (Exception e) {
 				LOGGER.error("file close error : "+ e.getMessage());
 			}

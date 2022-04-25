@@ -16,6 +16,7 @@
  */
 package egovframework.com.utl.sim.service;
 
+import java.awt.List;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
@@ -48,8 +49,9 @@ public class EgovSysInfo {
 	public static Vector getPrductList() throws Exception {
 
 		String strlist = EgovProperties.getProperty(Globals.SERVER_CONF_PATH, "SERVER_LIST");
-		String [] list = strlist.split("\\$");
-		
+		String [] list = null;
+		list = strlist.split("\\$");
+
 
 		Vector server_list = new Vector();
 
@@ -60,8 +62,14 @@ public class EgovSysInfo {
 		for (int i = 0; i < list.length; i++) {
 			Map map = new HashMap();
 			name = list[i];
-			version = getPrductVersion(list[i]);
-			port = getPrductPort(list[i]);
+			version = null;
+			if(version == null){
+				getPrductVersion(list[i]);
+			}
+			port = null;
+			if(port == null){
+				getPrductPort(list[i]);
+			}
 			status = getPrductStatus(port);
 			map.put("name", name);
 			map.put("version", version);
@@ -885,11 +893,14 @@ public class EgovSysInfo {
                 b_out = new BufferedReader(new InputStreamReader(p.getInputStream()));
                 while (b_out.ready()){
                 	// 결과문자가 있으면 생성자가 있다는 의미
-                    tmpLine = b_out.readLine();
-                    if(tmpLine.length() > 0 ){
-                    if (tmpLine.length() <= MAX_STR_LEN) {
-                        resultTxtList.add(tmpLine);
-                    }
+                    tmpLine = null;
+                    if(tmpLine == null) {
+                    	tmpLine = b_out.readLine();
+	                    if(tmpLine.length() > 0 ){
+		                    if (tmpLine.length() <= MAX_STR_LEN) {
+		                        resultTxtList.add(tmpLine);
+		                    }
+	                    }
                     }
                 }
                 b_out.close();

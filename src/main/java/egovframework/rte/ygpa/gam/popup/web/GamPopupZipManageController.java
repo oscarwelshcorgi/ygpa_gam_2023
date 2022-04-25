@@ -219,7 +219,8 @@ public class GamPopupZipManageController {
     	}
 
 		String uploadPath = EgovProperties.getProperty("global.fileStorePath")+"_temp_zip.xls";
-		List<GamFileServiceVo> list = GamFileUploadUtil.uploadFiles(request, uploadPath, null);
+		List<GamFileServiceVo> list = new ArrayList<GamFileServiceVo>();
+		list = GamFileUploadUtil.uploadFiles(request, uploadPath, null);
 		if(list != null){
 			if(list.size()==0) {
 				map.put("resultCode", "0");
