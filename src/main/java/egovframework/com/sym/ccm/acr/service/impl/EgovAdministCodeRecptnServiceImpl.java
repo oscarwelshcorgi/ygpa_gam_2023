@@ -236,7 +236,7 @@ public class  EgovAdministCodeRecptnServiceImpl extends AbstractServiceImpl impl
 			    // 연계파일 수신이 완료되면  listFile:=rcvListFullName 파일을 recvOldFileDir 로 이동한다.
 			    recvOldFile = new File(rcvOldDir + listFile.getName());
 				if (listFile.isFile()) {
-					if (recvOldFile.getParentFile().isDirectory()) {
+					if (recvOldFile.getParentFile().isDirectory() && recvOldFile.getParentFile() != null) {
 						listFile.renameTo(recvOldFile);
 					}
 				} else {
@@ -269,13 +269,17 @@ public class  EgovAdministCodeRecptnServiceImpl extends AbstractServiceImpl impl
 //		String buf2[] = null;
 		
 		File recvFileDir    = new File(rcvDir);
-		File recvFileList[] = recvFileDir.listFiles();
+		File recvFileList[] = null;
+		if(recvFileDir.listFiles() != null) {
+			recvFileList = recvFileDir.listFiles();
+		}
 		int fileCount=0;
 		
 		do {
-		   if(recvFileList.length > 0 ){
-			if(recvFileList[fileCount].getName().indexOf(".rec") > -1) {
+		   if(recvFileList.length > 0 && recvFileList != null){
+			if(recvFileList[fileCount].getName().indexOf(".rec") > -1 && recvFileList[fileCount].getName() !=null) {
 				dataFile = new File(recvFileList[fileCount].getPath());
+				
 			} else {
 				fileCount++;
 				continue;
@@ -284,9 +288,9 @@ public class  EgovAdministCodeRecptnServiceImpl extends AbstractServiceImpl impl
 			buf += "\n\n++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
 		   }
 			String readData = null;
-		   
+			
 			try{
-			    if(dataFile.exists()){
+			    if(dataFile.exists() && dataFile != null){
 
 					fin  = new FileInputStream(dataFile);
 					sin  = new InputStreamReader(fin);
@@ -423,9 +427,9 @@ public class  EgovAdministCodeRecptnServiceImpl extends AbstractServiceImpl impl
 
 					// 연계파일 수신이 완료되면  dataFile 파일을 recvOldFileDir 로 이동한다.
 					recvOldFile = new File(rcvOldDir + dataFile.getName());
-					if (dataFile.isFile()) {
+					if (dataFile.isFile() && dataFile != null) {
 						if (recvOldFile.getParentFile() != null) {//KISA 보안약점 조치 (2018-10-29, 윤창원)
-							if (recvOldFile.getParentFile().isDirectory()) {
+							if (recvOldFile.getParentFile().isDirectory() && recvOldFile != null ) {
 								dataFile.renameTo(recvOldFile);
 							}
 						}

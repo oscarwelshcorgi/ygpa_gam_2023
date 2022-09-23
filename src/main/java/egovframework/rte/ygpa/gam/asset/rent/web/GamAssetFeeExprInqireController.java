@@ -510,10 +510,10 @@ public class GamAssetFeeExprInqireController {
     			//부두코드 가져오기
     			GamAssetFeeExprInqireVO quaycdVO = new GamAssetFeeExprInqireVO();
     			quaycdVO = gamAssetFeeExprInqireService.selectAssetFeeExprInqireDetailQuaycd(updRentVO);
-
+    			
     			if(paramVO != null){
 	    			//부두코드 업데이트
-	    			if( quaycdVO == null || quaycdVO.getQuayCd() == null || "".equals(quaycdVO.getQuayCd()) ) {
+	    			if( quaycdVO == null || quaycdVO.getQuayCd() == null && "".equals(quaycdVO.getQuayCd()) ) {
 	    				quaycdVO = new GamAssetFeeExprInqireVO();
 	    				quaycdVO.setPrtAtCode(paramVO.getPrtAtCode());
 	    				quaycdVO.setMngYear(paramVO.getMngYear());

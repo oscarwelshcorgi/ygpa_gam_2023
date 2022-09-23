@@ -97,10 +97,14 @@ public class EgovUserLogController {
 			@RequestParam("methodNm") String methodNm,
 			ModelMap model) throws Exception{
 		try{
-		userLog.setOccrrncDe(occrrncDe.trim());
-		userLog.setRqesterId(rqesterId.trim());
-		userLog.setSrvcNm(srvcNm.trim());
-		userLog.setMethodNm(methodNm.trim());
+		if(userLog != null && occrrncDe != null)
+			userLog.setOccrrncDe(occrrncDe.trim());
+		if(userLog != null && rqesterId != null)
+			userLog.setRqesterId(rqesterId.trim());
+		if (userLog != null && srvcNm != null)
+			userLog.setSrvcNm(srvcNm.trim());
+		if(userLog != null && methodNm!= null)
+			userLog.setMethodNm(methodNm.trim());
 
 		UserLog vo = userLogService.selectUserLog(userLog);
 		model.addAttribute("result", vo);

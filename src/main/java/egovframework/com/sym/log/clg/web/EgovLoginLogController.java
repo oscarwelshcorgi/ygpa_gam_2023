@@ -92,8 +92,9 @@ public class EgovLoginLogController {
 			@RequestParam("logId") String logId,
 			ModelMap model) throws Exception{
 		
-		if(loginLog != null ) loginLog.setLogId(logId.trim());
-
+		if(loginLog != null && logId != null) loginLog.setLogId(logId.trim());
+		
+		
 		LoginLog vo = loginLogService.selectLoginLog(loginLog);
 		model.addAttribute("result", vo);
 		return "egovframework/com/sym/log/clg/EgovLoginLogInqire";

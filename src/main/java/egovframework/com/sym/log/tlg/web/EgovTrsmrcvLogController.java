@@ -100,7 +100,8 @@ public class EgovTrsmrcvLogController {
 	public String selectTrsmrcvLog(@ModelAttribute("searchVO") TrsmrcvLog trsmrcvLog, 
 			@RequestParam("requstId") String requstId,
 			ModelMap model) throws Exception{
-		if(trsmrcvLog != null) trsmrcvLog.setRequstId(requstId.trim());
+		
+		if(trsmrcvLog != null && requstId != null) trsmrcvLog.setRequstId(requstId.trim());
 		
 		TrsmrcvLog vo = trsmrcvLogService.selectTrsmrcvLog(trsmrcvLog);
 		model.addAttribute("result", vo);

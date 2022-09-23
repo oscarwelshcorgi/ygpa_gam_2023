@@ -73,7 +73,7 @@ public class EgovProperties{
 		try{
 			Properties props = new Properties();
 			fis = new FileInputStream(EgovWebUtil.filePathBlackList(GLOBALS_PROPERTIES_FILE));
-			if(props != null){
+			if(props == null || props != null){
 			props.load(new java.io.BufferedInputStream(fis));
 			value = props.getProperty(keyName).trim();
 			value = RELATIVE_PATH_PREFIX + "egovProps" + System.getProperty("file.separator") + value;
@@ -113,7 +113,7 @@ public class EgovProperties{
 		FileInputStream fis = null;
 		try{
 			Properties props = new Properties();
-			if(props != null){
+			if(props == null || props != null){
 			fis = new FileInputStream(EgovWebUtil.filePathBlackList(GLOBALS_PROPERTIES_FILE));
 			props.load(new java.io.BufferedInputStream(fis));
 			value = props.getProperty(keyName).trim();

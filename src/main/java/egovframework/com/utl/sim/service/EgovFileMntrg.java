@@ -148,7 +148,7 @@ public class EgovFileMntrg extends Thread {
             file = new File(filename);
         	// 현재정보를 ArrayList에 담는다.
             File[] fList = file.listFiles();
-            if(fList.length > 0 ){
+            if(fList.length > 0 && fList != null){
             for(int i = 0; i<fList.length; i++ ){
                 currentList.add(fList[i].getAbsolutePath() + "$"
                 		+ getLastModifiedTime(fList[i]) + "$"

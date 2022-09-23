@@ -91,7 +91,7 @@ public class EgovWebLogController {
 	public String selectWebLog(@ModelAttribute("searchVO") WebLog webLog, 
 			@RequestParam("requstId") String requstId,
 			ModelMap model) throws Exception{
-		if(webLog != null) webLog.setRequstId(requstId.trim());
+		if(webLog != null && requstId != null) webLog.setRequstId(requstId.trim());
 		
 		WebLog vo = webLogService.selectWebLog(webLog);
 		model.addAttribute("result", vo);

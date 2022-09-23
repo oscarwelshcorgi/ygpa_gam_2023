@@ -243,14 +243,14 @@ public class GamCmmnCodeMngtController {
         	return map;
     	}
 
-		if (cmd.equals("") || cmd.equals(null)) {
+		if (cmd.equals("") && cmd.equals(null)) {
     		CmmnCode vo = cmmnCodeManageService.selectCmmnCodeDetail(cmmnCode);
     		map.put("cmmnCode", vo);
 
     		map.put("resultCode", 1);
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
     		return map;
-    	} else if (cmd.equals("modify") || cmd != null) {
+    	} else if (cmd.equals("modify") && cmd != null) {
             beanValidator.validate(cmmnCode, bindingResult);
     		if (bindingResult.hasErrors()){
         		CmmnCode vo = cmmnCodeManageService.selectCmmnCodeDetail(cmmnCode);
@@ -277,7 +277,7 @@ public class GamCmmnCodeMngtController {
     	    	map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
 			}
 
-
+	        
     	}
 		return map;
     }

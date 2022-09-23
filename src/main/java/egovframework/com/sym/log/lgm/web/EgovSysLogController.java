@@ -93,7 +93,7 @@ public class EgovSysLogController {
 			@RequestParam("requstId") String requstId,
 			ModelMap model) throws Exception{
 
-		sysLog.setRequstId(requstId.trim());
+		if(sysLog != null && requstId != null) sysLog.setRequstId(requstId.trim());
 
 		SysLog vo = sysLogService.selectSysLog(sysLog);
 		model.addAttribute("result", vo);

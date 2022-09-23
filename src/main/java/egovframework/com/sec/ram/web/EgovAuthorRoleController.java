@@ -112,16 +112,24 @@ public class EgovAuthorRoleController {
 		String [] strRoleCodes = null; 
     	String [] strRegYns = null;
     	
+    	if(roleCodes.split(";") != null) {
+    		strRoleCodes = roleCodes.split(";");
+    	}
+    	if(regYns.split(";") != null) {
+    		strRegYns = regYns.split(";");
+    	}
+    	
     	if(authorCode != null && roleCodes != null){
     	strRoleCodes = roleCodes.split(";");
     	strRegYns = regYns.split(";");
     	}
+
     	authorRoleManage.setRoleCode(authorCode);
     	
     	for(int i=0; i<strRoleCodes.length;i++) {
     		authorRoleManage.setRoleCode(strRoleCodes[i]);
     		authorRoleManage.setRegYn(strRegYns[i]);
-    		if(strRegYns[i].equals("Y")){
+    		if(strRegYns[i].equals("Y") || strRegYns[i] == null){
     			egovAuthorRoleManageService.deleteAuthorRole(authorRoleManage);//2011.09.07
     			egovAuthorRoleManageService.insertAuthorRole(authorRoleManage);
     		}else {

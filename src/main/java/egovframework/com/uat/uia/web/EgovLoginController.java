@@ -151,7 +151,7 @@ public class EgovLoginController {
 
     	String ssoKey = request.getParameter("k");
 
-    	if(ssoKey.equals("lfitAdmin")) {
+    	if(ssoKey.equals("lfitAdmin") && ssoKey != null) {
     		loginVO.setEmplNo("11045");
     	}else {
     		loginVO.setEmplNo(loginService.gwInfo(ssoKey));
