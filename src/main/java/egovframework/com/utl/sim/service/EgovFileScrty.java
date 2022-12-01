@@ -210,7 +210,7 @@ public class EgovFileScrty {
      * @return String result 암호화된 비밀번호
      * @exception Exception
      */
-    public static String encryptPassword(String data) throws Exception {
+    public static String encryptPassword(String data, String salt) throws Exception {
 
 		if (data == null) {
 		    return "";
@@ -218,9 +218,12 @@ public class EgovFileScrty {
 	
 		byte[] plainText = null; // 평문
 		byte[] hashValue = null; // 해쉬값
+		
 		plainText = data.getBytes();
-	
+		
 		MessageDigest md = MessageDigest.getInstance("SHA-256");
+		
+		md.update((data+salt).getBytes());
 		hashValue = md.digest(plainText);
 	
 		/*

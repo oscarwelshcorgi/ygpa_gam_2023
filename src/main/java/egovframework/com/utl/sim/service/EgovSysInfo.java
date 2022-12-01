@@ -83,8 +83,11 @@ public class EgovSysInfo {
 	 * @exception Exception
 	*/
 	public static String getPrductVersion(String server) throws Exception {
-
+		
 		String version = EgovProperties.getProperty(Globals.SERVER_CONF_PATH, server.toUpperCase() + ".VERSION");
+		if(version != null) {
+			return version;
+		}
 		return version;
 	}
 
@@ -95,10 +98,13 @@ public class EgovSysInfo {
 	 * @exception Exception
 	*/
 	public static String getPrductPort(String server) throws Exception {
-
+		
 		String port = EgovProperties.getProperty(Globals.SERVER_CONF_PATH, server.toUpperCase() + ".PORT");
+		if(port != null) {
+			return port;
+		}
 		return port;
-	}
+		}
 
 	/**
 	 * 시스템에 존재하는 서버의 실행상태 정보를 조회하는 기능
@@ -889,8 +895,8 @@ public class EgovSysInfo {
                 while (b_out.ready()){
                 	// 결과문자가 있으면 생성자가 있다는 의미
                     tmpLine = b_out.readLine();
-                    if(tmpLine.length() > 0 ){
-                    if (tmpLine.length() <= MAX_STR_LEN) {
+                    if(tmpLine.length() > 0 && tmpLine != null){
+                    if (tmpLine.length() <= MAX_STR_LEN && tmpLine != null) {
                         resultTxtList.add(tmpLine);
                     }
                     }

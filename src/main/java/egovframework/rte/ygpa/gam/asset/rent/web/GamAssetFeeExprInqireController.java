@@ -513,16 +513,17 @@ public class GamAssetFeeExprInqireController {
     			
     			if(paramVO != null){
 	    			//부두코드 업데이트
-	    			if( quaycdVO == null || quaycdVO.getQuayCd() == null && "".equals(quaycdVO.getQuayCd()) ) {
-	    				quaycdVO = new GamAssetFeeExprInqireVO();
+    				if(quaycdVO != null) {
+    					gamAssetFeeExprInqireService.updateAssetFeeExprInqireQuaycd(quaycdVO);
+    				} else {
+    					quaycdVO = new GamAssetFeeExprInqireVO();
 	    				quaycdVO.setPrtAtCode(paramVO.getPrtAtCode());
 	    				quaycdVO.setMngYear(paramVO.getMngYear());
 	    				quaycdVO.setMngNo(paramVO.getMngNo());
 	    				quaycdVO.setMaxMngCnt(paramVO.getMngCnt());
-	    			}
-	    			if(quaycdVO != null){
+	    				
 	    				gamAssetFeeExprInqireService.updateAssetFeeExprInqireQuaycd(quaycdVO);
-	    			}
+    				}
     			}
     		}
 

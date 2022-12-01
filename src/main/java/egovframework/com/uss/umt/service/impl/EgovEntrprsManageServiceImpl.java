@@ -96,20 +96,22 @@ public class EgovEntrprsManageServiceImpl extends AbstractServiceImpl implements
 	 */
     public void deleteEntrprsmber(String checkedIdForDel)  {
         //log.debug("jjyser_delete-->"+checkedIdForDel);
+    	if (checkedIdForDel != null) {
         String [] delId = checkedIdForDel.split(",");
-        for (int i=0; i<delId.length ; i++){
-            String [] id = delId[i].split(":");
-            //log.debug("id[0]:"+id[0]);
-            if (id[0].equals("USR03")){
-                //업무사용자(직원)삭제
-                userManageDAO.deleteUser(id[1]);                
-            }else if(id[0].equals("USR01")){
-                //일반회원삭제
-                mberManageDAO.deleteMber(id[1]);
-            }else if(id[0].equals("USR02")){
-                //기업회원삭제
-                entrprsManageDAO.deleteEntrprsmber(id[1]);
-            }
+        	for (int i=0; i<delId.length ; i++){
+        		String [] id = delId[i].split(":");
+        		//log.debug("id[0]:"+id[0]);
+        		if (id[0].equals("USR03")){
+        			//업무사용자(직원)삭제
+        			userManageDAO.deleteUser(id[1]);                
+        		}else if(id[0].equals("USR01")){
+        			//일반회원삭제
+        			mberManageDAO.deleteMber(id[1]);
+        		}else if(id[0].equals("USR02")){
+        			//기업회원삭제
+        			entrprsManageDAO.deleteEntrprsmber(id[1]);
+        		}
+        	}
         }
     }
 

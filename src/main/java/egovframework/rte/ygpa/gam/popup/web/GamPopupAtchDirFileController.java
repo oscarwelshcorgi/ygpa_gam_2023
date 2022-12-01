@@ -89,11 +89,13 @@ public class GamPopupAtchDirFileController {
 		} else {
 			resultList = gamPopupAtchDirFileService.selectAtchDirList(searchVO);
 		}
-
+		
+		if ("".equals(searchVO.getsSearchSe()) || searchVO == null) {
 		searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
 		map.put("resultCode", 0);
 		map.put("resultList", resultList);
 		map.put("searchOption", searchVO);
+		}
 		}catch(IOException i){
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail"));

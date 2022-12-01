@@ -48,8 +48,10 @@ public class YGProperties {
 			props.load(new java.io.BufferedInputStream(fis));
 			if(props != null) {
 				value = null;
-				if(value == null){
-					value = props.getProperty(keyName).trim();
+				if(value == null || value != null){
+					if(keyName == null || keyName != null) {
+						value = props.getProperty(keyName).trim();
+					}
 				}
 			}
 		}catch(FileNotFoundException e){

@@ -72,7 +72,7 @@ public static void proxy_post(HttpServletRequest request, HttpServletResponse re
 		else
 			proxy_post(request, response);
 	}
-	catch (Exception e) {
+	catch (IOException e) {
 		log("getOutputStream!!!!!");
 		response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		response.setContentType("text/plain");

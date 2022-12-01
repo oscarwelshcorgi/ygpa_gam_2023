@@ -199,10 +199,12 @@ public class EgovMenuCreateManageServiceImpl extends AbstractServiceImpl impleme
 			out = new BufferedWriter(new FileWriter(file));
 			
 			// 2011.10.12 사이트맵 생성시 특수문자 치환
+			if (vHtmlValue != null) {
 			vHtmlValue = vHtmlValue.replaceAll("&lt;", "<");
 			vHtmlValue = vHtmlValue.replaceAll("&gt;", ">");
 			vHtmlValue = vHtmlValue.replaceAll("&quot;", "\"");
 			vHtmlValue = vHtmlValue.replaceAll("&apos;", "'");
+			}
 			
 			out.write(vHtmlValue);
  			success = true;

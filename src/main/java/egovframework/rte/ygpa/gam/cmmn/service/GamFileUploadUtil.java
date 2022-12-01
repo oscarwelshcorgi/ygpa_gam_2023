@@ -110,9 +110,11 @@ public class GamFileUploadUtil {
 						|| "tif".equalsIgnoreCase(tokens[1])
 						|| "tiff".equalsIgnoreCase(tokens[1]) ) {
 					GamFileServiceVo fileInfoVO = new GamFileServiceVo();
-					fileInfoVO.setPhyscalFileNm(egovFileIdGnrService.getNextStringId()+"."+tokens[1]);
-					fileInfoVO.setLogicalFileNm(file.getOriginalFilename());
-					fileInfoVO.setSize(file.getSize());
+					if(fileInfoVO != null) {
+						fileInfoVO.setPhyscalFileNm(egovFileIdGnrService.getNextStringId()+"."+tokens[1]);
+						fileInfoVO.setLogicalFileNm(file.getOriginalFilename());
+						fileInfoVO.setSize(file.getSize());
+					}
 					filePath = uploadPath + fileInfoVO.getPhyscalFileNm();
 					file.transferTo(new File(filePath));
 

@@ -538,20 +538,21 @@ public class GamMarineCenterRentMngtController {
     			GamMarineCenterRentMngtVO quaycdVO = new GamMarineCenterRentMngtVO();
     			quaycdVO = gamMarineCenterRentMngtService.selectMarineCenterRentDetailQuaycd(updRentVO);
 
+
     			//부두코드 업데이트
-    			if(quaycdVO != null){
+    			if(quaycdVO !=null) {
     				gamMarineCenterRentMngtService.updateMarineCenterRentQuaycd(quaycdVO);
-    			}else if( quaycdVO == null || quaycdVO.getQuayCd() == null || "".equals(quaycdVO.getQuayCd()) ) {
+    			}else {
     				quaycdVO = new GamMarineCenterRentMngtVO();
-    				if(paramVO != null){
+    				if(paramVO != null) {
     					quaycdVO.setPrtAtCode(paramVO.getPrtAtCode());
     					quaycdVO.setMngYear(paramVO.getMngYear());
     					quaycdVO.setMngNo(paramVO.getMngNo());
     					quaycdVO.setMaxMngCnt(paramVO.getMngCnt());
+	
     				}
     			}
     			
-
     		}
 
     		resultCode = 0;

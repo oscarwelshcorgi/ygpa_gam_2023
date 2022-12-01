@@ -75,7 +75,9 @@ public class EgovProperties{
 			fis = new FileInputStream(EgovWebUtil.filePathBlackList(GLOBALS_PROPERTIES_FILE));
 			if(props == null || props != null){
 			props.load(new java.io.BufferedInputStream(fis));
+			if (value != null) {
 			value = props.getProperty(keyName).trim();
+			}
 			value = RELATIVE_PATH_PREFIX + "egovProps" + System.getProperty("file.separator") + value;
 			}
 		}catch(FileNotFoundException fne){
